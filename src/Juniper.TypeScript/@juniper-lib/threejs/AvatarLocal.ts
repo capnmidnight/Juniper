@@ -267,19 +267,7 @@ export class AvatarLocal
     }
 
     private setMode(evt: EventSystemEvent<string>) {
-        if (evt.pointer.type === "mouse") {
-            if (this.evtSys.mouse.isPointerLocked) {
-                this.controlMode = CameraControlMode.MouseFPS;
-            }
-            else if (evt.pointer.draggedHit) {
-                this.controlMode = CameraControlMode.MouseScreenEdge;
-            }
-            else {
-                this.controlMode = CameraControlMode.MouseDrag;
-            }
-        }
-        else if (evt.pointer.type === "touch"
-            || evt.pointer.type === "pen") {
+        if (evt.pointer.type === "touch" || evt.pointer.type === "pen") {
             this.controlMode = CameraControlMode.Touch;
         }
         else if (evt.pointer.type === "gamepad") {
@@ -288,8 +276,17 @@ export class AvatarLocal
         else if (evt.pointer.type === "hand") {
             this.controlMode = CameraControlMode.MotionControllerStick;
         }
-        else {
+        else if (evt.pointer.type !== "mouse") {
             this.controlMode = CameraControlMode.None;
+        }
+        else if (this.evtSys.mouse.isPointerLocked) {
+            this.controlMode = CameraControlMode.MouseFPS;
+        }
+        else if (evt.pointer.draggedHit) {
+            this.controlMode = CameraControlMode.MouseScreenEdge;
+        }
+        else {
+            this.controlMode = CameraControlMode.MouseDrag;
         }
     }
 
@@ -392,11 +389,64 @@ export class AvatarLocal
         else if (this.controlMode !== CameraControlMode.None) {
             const startPitch = this.pitch;
             const startHeading = this.heading;
-            const dQuat = this.orientationDelta(this.controlMode, this.disableVertical, dt);
-            this.rotateView(
-                dQuat,
-                this.minimumX,
-                this.maximumX);
+
+            if (this.controlMode === CameraControlMode.MotionControllerStick) {
+                motion.copy(nextFlick);
+                nextFlick.set(0, 0, 0);
+            }
+            else if (this.controlMode === CameraControlMode.MouseScreenEdge) {
+                motion.set(
+                    this.scaleRadialComponent(this.u, this.speedX, this.accelerationX),
+                    this.scaleRadialComponent(-this.v, this.speedY, this.accelerationY),
+                    0);
+            }
+            else {
+                const sensitivity = this.controlMode === CameraControlMode.MouseDrag
+                    ? MOUSE_SENSITIVITY_SCALE
+                    : this.controlMode === CameraControlMode.Touch
+                        ? TOUCH_SENSITIVITY_SCALE
+                        : this.controlMode === CameraControlMode.Gamepad
+                            ? GAMEPAD_SENSITIVITY_SCALE
+                            : assertNever(this.controlMode);
+                motion.set(
+                    -sensitivity * this.du,
+                    sensitivity * this.dv,
+                    0);
+            }
+
+            if (this.controlMode === CameraControlMode.MouseDrag
+                || this.controlMode === CameraControlMode.Touch) {
+                const factor = Math.pow(0.95, 100 * dt);
+                this.du = truncate(factor * this.du);
+                this.dv = truncate(factor * this.dv);
+            }
+
+            if (this.disableVertical) {
+                motion.x = 0;
+            }
+            else if (this.invertVertical) {
+                motion.x *= -1;
+            }
+
+            if (this.disableHorizontal) {
+                motion.y = 0;
+            }
+            else if (this.invertHorizontal) {
+                motion.y *= -1;
+            }
+
+            if (this.controlMode !== CameraControlMode.MotionControllerStick) {
+                motion.multiplyScalar(dt);
+            }
+
+            E.set(motion.y, motion.x, 0, "YXZ");
+            deltaQuat.setFromEuler(E);
+            this.viewEuler.setFromQuaternion(deltaQuat, "YXZ");
+            let { x, y } = this.viewEuler;
+
+            this.setHeading(this.heading + y);
+            this.setPitch(this.pitch + x, this.minimumX, this.maximumX);
+            this.setRoll(0);
 
             if (this.evtSys) {
                 const viewChanged = startPitch !== this.pitch
@@ -440,13 +490,9 @@ export class AvatarLocal
         this.dispatchEvent(userMovedEvt);
     }
 
-    private rotateView(dQuat: THREE.Quaternion, minX = -Math.PI, maxX = Math.PI) {
-        this.viewEuler.setFromQuaternion(dQuat, "YXZ");
-        let { x, y } = this.viewEuler;
-
-        this.setHeading(this.heading + y);
-        this.setPitch(this.pitch + x, minX, maxX);
-        this.setRoll(0);
+    private scaleRadialComponent(n: number, dn: number, ddn: number) {
+        const absN = Math.abs(n);
+        return Math.sign(n) * Math.pow(Math.max(0, absN - this.edgeFactor) / (1 - this.edgeFactor), ddn) * dn;
     }
 
     private updateOrientation() {
@@ -504,91 +550,6 @@ export class AvatarLocal
         for (const follower of this.followers) {
             follower.reset(this.height, this.worldPos, this.worldHeading);
         }
-    }
-
-    private orientationDelta(mode: CameraControlMode, disableVertical: boolean, dt: number) {
-        var move = this.pointerMovement(mode);
-
-        if (this.controlMode === CameraControlMode.MouseDrag
-            || this.controlMode === CameraControlMode.Touch) {
-            const factor = Math.pow(0.95, 100 * dt);
-            this.du = truncate(factor * this.du);
-            this.dv = truncate(factor * this.dv);
-        }
-
-        if (disableVertical) {
-            move.x = 0;
-        }
-        else if (this.invertVertical) {
-            move.x *= -1;
-        }
-
-        if (this.disableHorizontal) {
-            move.y = 0;
-        }
-        else if (this.invertHorizontal) {
-            move.y *= -1;
-        }
-
-        if (mode !== CameraControlMode.MotionControllerStick) {
-            move.multiplyScalar(dt);
-        }
-
-        E.set(move.y, move.x, 0, "YXZ");
-        deltaQuat.setFromEuler(E);
-
-        return deltaQuat;
-    }
-
-    private pointerMovement(mode: CameraControlMode): THREE.Vector3 {
-        switch (mode) {
-            case CameraControlMode.MouseDrag:
-                return this.getAxialMovement(MOUSE_SENSITIVITY_SCALE);
-
-            case CameraControlMode.Touch:
-                return this.getAxialMovement(TOUCH_SENSITIVITY_SCALE);
-
-            case CameraControlMode.Gamepad:
-                return this.getAxialMovement(GAMEPAD_SENSITIVITY_SCALE);
-
-            case CameraControlMode.MouseScreenEdge:
-                return this.getRadiusMovement();
-
-            case CameraControlMode.MotionControllerStick:
-                motion.copy(nextFlick);
-                nextFlick.set(0, 0, 0);
-                return motion;
-
-            case CameraControlMode.MouseFPS:
-            case CameraControlMode.None:
-            case CameraControlMode.MagicWindow:
-                return motion.set(0, 0, 0);
-
-            default: assertNever(mode);
-        }
-    }
-
-    private getAxialMovement(sense: number): THREE.Vector3 {
-        motion.set(
-            -sense * this.du,
-            sense * this.dv,
-            0);
-
-        return motion;
-    }
-
-    private getRadiusMovement() {
-        motion.set(
-            this.scaleRadialComponent(this.u, this.speedX, this.accelerationX),
-            this.scaleRadialComponent(-this.v, this.speedY, this.accelerationY),
-            0);
-
-        return motion;
-    }
-
-    private scaleRadialComponent(n: number, dn: number, ddn: number) {
-        const absN = Math.abs(n);
-        return Math.sign(n) * Math.pow(Math.max(0, absN - this.edgeFactor) / (1 - this.edgeFactor), ddn) * dn;
     }
 
     private deviceOrientation: DeviceOrientationEvent = null;

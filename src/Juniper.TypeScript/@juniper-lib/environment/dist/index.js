@@ -8378,11 +8378,11 @@ var Animator = class {
 
 // ../graphics2d/animation/tween.ts
 function bump(t2, k) {
-  var a = t2 * Math.PI;
+  const a = t2 * Math.PI;
   return 0.5 * (1 - Math.cos(a)) - k * Math.sin(2 * a);
 }
 function jump(t2, k) {
-  var a = (t2 - 0.5) * Math.PI;
+  const a = (t2 - 0.5) * Math.PI;
   return t2 * t2 + k * Math.cos(a);
 }
 
@@ -11579,22 +11579,20 @@ var AvatarLocal = class extends TypedEventBase {
     }
   }
   setMode(evt) {
-    if (evt.pointer.type === "mouse") {
-      if (this.evtSys.mouse.isPointerLocked) {
-        this.controlMode = "mousefirstperson" /* MouseFPS */;
-      } else if (evt.pointer.draggedHit) {
-        this.controlMode = "mouseedge" /* MouseScreenEdge */;
-      } else {
-        this.controlMode = "mousedrag" /* MouseDrag */;
-      }
-    } else if (evt.pointer.type === "touch" || evt.pointer.type === "pen") {
+    if (evt.pointer.type === "touch" || evt.pointer.type === "pen") {
       this.controlMode = "touchswipe" /* Touch */;
     } else if (evt.pointer.type === "gamepad") {
       this.controlMode = "gamepad" /* Gamepad */;
     } else if (evt.pointer.type === "hand") {
       this.controlMode = "motioncontroller" /* MotionControllerStick */;
-    } else {
+    } else if (evt.pointer.type !== "mouse") {
       this.controlMode = "none" /* None */;
+    } else if (this.evtSys.mouse.isPointerLocked) {
+      this.controlMode = "mousefirstperson" /* MouseFPS */;
+    } else if (evt.pointer.draggedHit) {
+      this.controlMode = "mouseedge" /* MouseScreenEdge */;
+    } else {
+      this.controlMode = "mousedrag" /* MouseDrag */;
     }
   }
   checkMode(mode, evt) {
@@ -11668,8 +11666,40 @@ var AvatarLocal = class extends TypedEventBase {
     } else if (this.controlMode !== "none" /* None */) {
       const startPitch = this.pitch;
       const startHeading = this.heading;
-      const dQuat2 = this.orientationDelta(this.controlMode, this.disableVertical, dt);
-      this.rotateView(dQuat2, this.minimumX, this.maximumX);
+      if (this.controlMode === "motioncontroller" /* MotionControllerStick */) {
+        motion.copy(nextFlick);
+        nextFlick.set(0, 0, 0);
+      } else if (this.controlMode === "mouseedge" /* MouseScreenEdge */) {
+        motion.set(this.scaleRadialComponent(this.u, this.speedX, this.accelerationX), this.scaleRadialComponent(-this.v, this.speedY, this.accelerationY), 0);
+      } else {
+        const sensitivity = this.controlMode === "mousedrag" /* MouseDrag */ ? MOUSE_SENSITIVITY_SCALE : this.controlMode === "touchswipe" /* Touch */ ? TOUCH_SENSITIVITY_SCALE : this.controlMode === "gamepad" /* Gamepad */ ? GAMEPAD_SENSITIVITY_SCALE : assertNever(this.controlMode);
+        motion.set(-sensitivity * this.du, sensitivity * this.dv, 0);
+      }
+      if (this.controlMode === "mousedrag" /* MouseDrag */ || this.controlMode === "touchswipe" /* Touch */) {
+        const factor = Math.pow(0.95, 100 * dt);
+        this.du = truncate(factor * this.du);
+        this.dv = truncate(factor * this.dv);
+      }
+      if (this.disableVertical) {
+        motion.x = 0;
+      } else if (this.invertVertical) {
+        motion.x *= -1;
+      }
+      if (this.disableHorizontal) {
+        motion.y = 0;
+      } else if (this.invertHorizontal) {
+        motion.y *= -1;
+      }
+      if (this.controlMode !== "motioncontroller" /* MotionControllerStick */) {
+        motion.multiplyScalar(dt);
+      }
+      E.set(motion.y, motion.x, 0, "YXZ");
+      deltaQuat.setFromEuler(E);
+      this.viewEuler.setFromQuaternion(deltaQuat, "YXZ");
+      let { x, y } = this.viewEuler;
+      this.setHeading(this.heading + y);
+      this.setPitch(this.pitch + x, this.minimumX, this.maximumX);
+      this.setRoll(0);
       if (this.evtSys) {
         const viewChanged = startPitch !== this.pitch || startHeading !== this.heading;
         if (viewChanged && this.controlMode === "mouseedge" /* MouseScreenEdge */) {
@@ -11698,12 +11728,9 @@ var AvatarLocal = class extends TypedEventBase {
     userMovedEvt.set(P3.x, P3.y, P3.z, F.x, F.y, F.z, U.x, U.y, U.z, this.height);
     this.dispatchEvent(userMovedEvt);
   }
-  rotateView(dQuat2, minX = -Math.PI, maxX = Math.PI) {
-    this.viewEuler.setFromQuaternion(dQuat2, "YXZ");
-    let { x, y } = this.viewEuler;
-    this.setHeading(this.heading + y);
-    this.setPitch(this.pitch + x, minX, maxX);
-    this.setRoll(0);
+  scaleRadialComponent(n2, dn, ddn) {
+    const absN = Math.abs(n2);
+    return Math.sign(n2) * Math.pow(Math.max(0, absN - this.edgeFactor) / (1 - this.edgeFactor), ddn) * dn;
   }
   updateOrientation() {
     const cam = resolveCamera(this.renderer, this.camera);
@@ -11735,64 +11762,6 @@ var AvatarLocal = class extends TypedEventBase {
     for (const follower of this.followers) {
       follower.reset(this.height, this.worldPos, this.worldHeading);
     }
-  }
-  orientationDelta(mode, disableVertical, dt) {
-    var move = this.pointerMovement(mode);
-    if (this.controlMode === "mousedrag" /* MouseDrag */ || this.controlMode === "touchswipe" /* Touch */) {
-      const factor = Math.pow(0.95, 100 * dt);
-      this.du = truncate(factor * this.du);
-      this.dv = truncate(factor * this.dv);
-    }
-    if (disableVertical) {
-      move.x = 0;
-    } else if (this.invertVertical) {
-      move.x *= -1;
-    }
-    if (this.disableHorizontal) {
-      move.y = 0;
-    } else if (this.invertHorizontal) {
-      move.y *= -1;
-    }
-    if (mode !== "motioncontroller" /* MotionControllerStick */) {
-      move.multiplyScalar(dt);
-    }
-    E.set(move.y, move.x, 0, "YXZ");
-    deltaQuat.setFromEuler(E);
-    return deltaQuat;
-  }
-  pointerMovement(mode) {
-    switch (mode) {
-      case "mousedrag" /* MouseDrag */:
-        return this.getAxialMovement(MOUSE_SENSITIVITY_SCALE);
-      case "touchswipe" /* Touch */:
-        return this.getAxialMovement(TOUCH_SENSITIVITY_SCALE);
-      case "gamepad" /* Gamepad */:
-        return this.getAxialMovement(GAMEPAD_SENSITIVITY_SCALE);
-      case "mouseedge" /* MouseScreenEdge */:
-        return this.getRadiusMovement();
-      case "motioncontroller" /* MotionControllerStick */:
-        motion.copy(nextFlick);
-        nextFlick.set(0, 0, 0);
-        return motion;
-      case "mousefirstperson" /* MouseFPS */:
-      case "none" /* None */:
-      case "magicwindow" /* MagicWindow */:
-        return motion.set(0, 0, 0);
-      default:
-        assertNever(mode);
-    }
-  }
-  getAxialMovement(sense) {
-    motion.set(-sense * this.du, sense * this.dv, 0);
-    return motion;
-  }
-  getRadiusMovement() {
-    motion.set(this.scaleRadialComponent(this.u, this.speedX, this.accelerationX), this.scaleRadialComponent(-this.v, this.speedY, this.accelerationY), 0);
-    return motion;
-  }
-  scaleRadialComponent(n2, dn, ddn) {
-    const absN = Math.abs(n2);
-    return Math.sign(n2) * Math.pow(Math.max(0, absN - this.edgeFactor) / (1 - this.edgeFactor), ddn) * dn;
   }
   async getPermission() {
     if (!("DeviceOrientationEvent" in globalThis)) {
