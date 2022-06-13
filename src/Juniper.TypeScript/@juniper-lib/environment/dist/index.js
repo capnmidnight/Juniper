@@ -15404,7 +15404,6 @@ var BasePointer = class {
       const oldName = this.cursor && this.cursor.object && this.cursor.object.name || "cursor";
       const oldParent = oldCursor && oldCursor.object && oldCursor.object.parent;
       if (oldParent) {
-        objGraph;
         oldParent.remove(oldCursor.object);
       }
       if (newCursor) {

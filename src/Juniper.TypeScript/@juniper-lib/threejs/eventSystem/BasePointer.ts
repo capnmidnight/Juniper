@@ -4,7 +4,6 @@ import { PointerName } from "@juniper-lib/event-system/PointerName";
 import { PointerState } from "@juniper-lib/event-system/PointerState";
 import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
 import { isNullOrUndefined } from "@juniper-lib/tslib";
-import { objGraph } from "../objects";
 import type { BaseCursor } from "./BaseCursor";
 import { CursorXRMouse } from "./CursorXRMouse";
 import type { EventSystem } from "./EventSystem";
@@ -77,7 +76,6 @@ export abstract class BasePointer
             const oldName = this.cursor && this.cursor.object && this.cursor.object.name || "cursor";
             const oldParent = oldCursor && oldCursor.object && oldCursor.object.parent;
             if (oldParent) {
-                objGraph
                 oldParent.remove(oldCursor.object);
             }
 
