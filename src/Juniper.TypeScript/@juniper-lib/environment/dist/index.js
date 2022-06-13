@@ -6963,18 +6963,18 @@ var DeviceManager = class extends TypedEventBase {
     super();
     this.element = element;
     this.needsVideoDevice = needsVideoDevice;
+    this._hasAudioPermission = false;
+    this._hasVideoPermission = false;
+    this._currentStream = null;
     this.ready = this.start();
     Object.seal(this);
   }
-  _hasAudioPermission = false;
   get hasAudioPermission() {
     return this._hasAudioPermission;
   }
-  _hasVideoPermission = false;
   get hasVideoPermission() {
     return this._hasVideoPermission;
   }
-  _currentStream = null;
   get currentStream() {
     return this._currentStream;
   }
@@ -6988,7 +6988,6 @@ var DeviceManager = class extends TypedEventBase {
       this._currentStream = v;
     }
   }
-  ready;
   async start() {
     if (canChangeAudioOutput) {
       const device = await this.getPreferredAudioOutput();
@@ -7472,8 +7471,9 @@ var AudioElementSource = class extends BaseAudioSource {
     }
     return "playing";
   }
-  play() {
-    return this.audio.play();
+  async play() {
+    await audioReady(this.audioCtx);
+    await this.audio.play();
   }
   async playThrough() {
     const endTask = once(this, "stopped");
@@ -8184,8 +8184,9 @@ var AudioPlayer = class extends BaseAudioSource {
     }
     return "playing";
   }
-  play() {
-    return this.element.play();
+  async play() {
+    await audioReady(this.audioCtx);
+    await this.element.play();
   }
   async playThrough() {
     const endTask = once(this, "stopped");
