@@ -42,7 +42,7 @@ function correctHit(hit: THREE.Intersection, pointer: IPointer) {
 export class EventSystem extends TypedEventBase<EventSystemEvents> {
     private readonly raycaster = new THREE.Raycaster();
 
-    private readonly mouse: PointerMouse;
+    public readonly mouse: PointerMouse;
     private readonly pen: PointerPen;
     private readonly touches: PointerMultiTouch;
     readonly hands = new Array<PointerHand>();

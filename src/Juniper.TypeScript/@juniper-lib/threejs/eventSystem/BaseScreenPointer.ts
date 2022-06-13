@@ -1,7 +1,6 @@
 import { PointerName } from "@juniper-lib/event-system/PointerName";
 import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
 import {
-    clamp,
     project,
     unproject
 } from "@juniper-lib/tslib";
@@ -69,11 +68,8 @@ export abstract class BaseScreenPointer extends BasePointer {
 
             if (evt.type === "pointermove") {
                 if (document.pointerLockElement) {
-                    const { x, y } = this.state;
-                    this.state.x = clamp(this.lastState.x + this.state.dx, 0, this.element.clientWidth);
-                    this.state.y = clamp(this.lastState.y + this.state.dy, 0, this.element.clientHeight);
-                    this.state.dx = this.state.x - x;
-                    this.state.dy = this.state.y - y;
+                    this.state.x = this.lastState.x + this.state.dx;
+                    this.state.y = this.lastState.y + this.state.dy;
                 }
                 else {
                     this.state.dx = this.state.x - this.lastState.x;

@@ -268,7 +268,10 @@ export class AvatarLocal
 
     private setMode(evt: EventSystemEvent<string>) {
         if (evt.pointer.type === "mouse") {
-            if (evt.pointer.draggedHit) {
+            if (this.evtSys.mouse.isPointerLocked) {
+                this.controlMode = CameraControlMode.MouseFPS;
+            }
+            else if (evt.pointer.draggedHit) {
                 this.controlMode = CameraControlMode.MouseScreenEdge;
             }
             else {
@@ -300,6 +303,7 @@ export class AvatarLocal
         const button = this.requiredMouseButton.get(mode);
         if (isNullOrUndefined(button)) {
             return mode === CameraControlMode.MouseScreenEdge
+                || mode === CameraControlMode.MouseFPS
                 || mode === CameraControlMode.Touch
                 || mode === CameraControlMode.Gamepad;
         }
@@ -377,6 +381,13 @@ export class AvatarLocal
                     .multiply(Q3) // camera looks out the back of the device, not the top
                     .multiply(Q2); // adjust for screen orientation
             }
+        }
+        else if (this.controlMode === CameraControlMode.MouseFPS) {
+            this.setHeading(this.heading - this.du * 5);
+            this.setPitch(this.pitch + this.dv * 5, this.minimumX, this.maximumX);
+            this.setRoll(0);
+            this.du *= 0.5;
+            this.dv *= 0.5;
         }
         else if (this.controlMode !== CameraControlMode.None) {
             const startPitch = this.pitch;
@@ -534,9 +545,6 @@ export class AvatarLocal
             case CameraControlMode.MouseDrag:
                 return this.getAxialMovement(MOUSE_SENSITIVITY_SCALE);
 
-            case CameraControlMode.MouseFPS:
-                return this.getAxialMovement(MOUSE_SENSITIVITY_SCALE);
-
             case CameraControlMode.Touch:
                 return this.getAxialMovement(TOUCH_SENSITIVITY_SCALE);
 
@@ -551,6 +559,7 @@ export class AvatarLocal
                 nextFlick.set(0, 0, 0);
                 return motion;
 
+            case CameraControlMode.MouseFPS:
             case CameraControlMode.None:
             case CameraControlMode.MagicWindow:
                 return motion.set(0, 0, 0);

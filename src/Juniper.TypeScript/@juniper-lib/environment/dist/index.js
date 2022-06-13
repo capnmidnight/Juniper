@@ -6963,18 +6963,18 @@ var DeviceManager = class extends TypedEventBase {
     super();
     this.element = element;
     this.needsVideoDevice = needsVideoDevice;
-    this._hasAudioPermission = false;
-    this._hasVideoPermission = false;
-    this._currentStream = null;
     this.ready = this.start();
     Object.seal(this);
   }
+  _hasAudioPermission = false;
   get hasAudioPermission() {
     return this._hasAudioPermission;
   }
+  _hasVideoPermission = false;
   get hasVideoPermission() {
     return this._hasVideoPermission;
   }
+  _currentStream = null;
   get currentStream() {
     return this._currentStream;
   }
@@ -6988,6 +6988,7 @@ var DeviceManager = class extends TypedEventBase {
       this._currentStream = v;
     }
   }
+  ready;
   async start() {
     if (canChangeAudioOutput) {
       const device = await this.getPreferredAudioOutput();
@@ -11579,7 +11580,9 @@ var AvatarLocal = class extends TypedEventBase {
   }
   setMode(evt) {
     if (evt.pointer.type === "mouse") {
-      if (evt.pointer.draggedHit) {
+      if (this.evtSys.mouse.isPointerLocked) {
+        this.controlMode = "mousefirstperson" /* MouseFPS */;
+      } else if (evt.pointer.draggedHit) {
         this.controlMode = "mouseedge" /* MouseScreenEdge */;
       } else {
         this.controlMode = "mousedrag" /* MouseDrag */;
@@ -11600,7 +11603,7 @@ var AvatarLocal = class extends TypedEventBase {
   gestureSatisfied(mode, evt) {
     const button = this.requiredMouseButton.get(mode);
     if (isNullOrUndefined(button)) {
-      return mode === "mouseedge" /* MouseScreenEdge */ || mode === "touchswipe" /* Touch */ || mode === "gamepad" /* Gamepad */;
+      return mode === "mouseedge" /* MouseScreenEdge */ || mode === "mousefirstperson" /* MouseFPS */ || mode === "touchswipe" /* Touch */ || mode === "gamepad" /* Gamepad */;
     } else {
       return evt.pointer.state.buttons === button;
     }
@@ -11656,6 +11659,12 @@ var AvatarLocal = class extends TypedEventBase {
         Q2.setFromAxisAngle(B2, -orient);
         this.deviceQ.setFromEuler(E).multiply(Q3).multiply(Q2);
       }
+    } else if (this.controlMode === "mousefirstperson" /* MouseFPS */) {
+      this.setHeading(this.heading - this.du * 5);
+      this.setPitch(this.pitch + this.dv * 5, this.minimumX, this.maximumX);
+      this.setRoll(0);
+      this.du *= 0.5;
+      this.dv *= 0.5;
     } else if (this.controlMode !== "none" /* None */) {
       const startPitch = this.pitch;
       const startHeading = this.heading;
@@ -11755,8 +11764,6 @@ var AvatarLocal = class extends TypedEventBase {
     switch (mode) {
       case "mousedrag" /* MouseDrag */:
         return this.getAxialMovement(MOUSE_SENSITIVITY_SCALE);
-      case "mousefirstperson" /* MouseFPS */:
-        return this.getAxialMovement(MOUSE_SENSITIVITY_SCALE);
       case "touchswipe" /* Touch */:
         return this.getAxialMovement(TOUCH_SENSITIVITY_SCALE);
       case "gamepad" /* Gamepad */:
@@ -11767,6 +11774,7 @@ var AvatarLocal = class extends TypedEventBase {
         motion.copy(nextFlick);
         nextFlick.set(0, 0, 0);
         return motion;
+      case "mousefirstperson" /* MouseFPS */:
       case "none" /* None */:
       case "magicwindow" /* MagicWindow */:
         return motion.set(0, 0, 0);
@@ -16091,11 +16099,8 @@ var BaseScreenPointer = class extends BasePointer {
       this.lastStateUpdate(() => this.state.read(evt));
       if (evt.type === "pointermove") {
         if (document.pointerLockElement) {
-          const { x, y } = this.state;
-          this.state.x = clamp(this.lastState.x + this.state.dx, 0, this.element.clientWidth);
-          this.state.y = clamp(this.lastState.y + this.state.dy, 0, this.element.clientHeight);
-          this.state.dx = this.state.x - x;
-          this.state.dy = this.state.y - y;
+          this.state.x = this.lastState.x + this.state.dx;
+          this.state.y = this.lastState.y + this.state.dy;
         } else {
           this.state.dx = this.state.x - this.lastState.x;
           this.state.dy = this.state.y - this.lastState.y;
@@ -16158,7 +16163,7 @@ var PointerMouse = class extends BaseScreenPointer {
     this.element.addEventListener("pointerup", unPrep);
     this.element.addEventListener("pointercancel", unPrep);
     this.allowPointerLock = false;
-    this.element.addEventListener("click", () => {
+    this.element.addEventListener("pointerdown", () => {
       if (this.allowPointerLock && !this.isPointerLocked) {
         this.lockPointer();
       }

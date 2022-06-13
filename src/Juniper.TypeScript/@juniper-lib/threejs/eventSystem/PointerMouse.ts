@@ -43,7 +43,7 @@ export class PointerMouse extends BaseScreenPointer {
 
         this.allowPointerLock = false;
 
-        this.element.addEventListener("click", () => {
+        this.element.addEventListener("pointerdown", () => {
             if (this.allowPointerLock
                 && !this.isPointerLocked) {
                 this.lockPointer();
