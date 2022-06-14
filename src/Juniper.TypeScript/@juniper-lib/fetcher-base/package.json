@@ -3,14 +3,17 @@
   "name": "@juniper-lib/fetcher-base",
   "private": true,
   "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/indexdb": "*",
     "@juniper-lib/mediatypes": "*",
-    "@juniper-lib/tslib": "*"
+    "@juniper-lib/tslib": "*",
+    "@juniper-types/indexdb": "*",
+    "@types/offscreencanvas": "2019.7.0"
   },
   "devDependencies": {
-    "@juniper-types/indexdb": "*",
-    "@types/offscreencanvas": "2019.7.0",
     "typescript": "4.7.3"
   }
 }

@@ -98,9 +98,13 @@ namespace Juniper.TSBuild
                     {
                         await build.OpenPackageJsonsAsync();
                     }
+                    else if (opts.TypeCheck)
+                    {
+                        await build.TypeCheckAsync();
+                    }
                     else if (!opts.Finished || opts.Build)
                     {
-                        await build.CheckAsync();
+                        await build.BuildAsync();
                     }
                 }
                 catch (Exception exp)
@@ -527,12 +531,31 @@ namespace Juniper.TSBuild
                 )));
         }
 
+        private async Task TypeCheckAsync()
+        {
+            await WithCommandTree(commands =>
+                commands.AddCommands(TryMake(
+                    NPMProjects,
+                    dir =>
+                    {
+                        if (dir == projectDir)
+                        {
+                            return new ShellCommand(dir, "npm", "run", "check");
+                        }
+                        else
+                        {
+                            return new ShellCommand(dir, "npm", "run", "check", "--workspaces", "--if-present");
+                        }
+                    }
+                )));
+        }
+
         private CopyCommand[] GetDependecies() =>
             dependencies
                 .Select(kv => new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2))
                 .ToArray();
 
-        private async Task CheckAsync()
+        private async Task BuildAsync()
         {
             var copyCommands = GetDependecies();
 
@@ -618,7 +641,7 @@ namespace Juniper.TSBuild
                 "watch"
             };
 
-            if(dir != projectDir)
+            if (dir != projectDir)
             {
                 args.Add("-w");
                 args.Add(string.Join("/", dir.Parent?.Name, dir.Name));

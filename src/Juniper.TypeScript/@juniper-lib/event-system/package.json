@@ -5,6 +5,9 @@
   "type": "module",
   "description": "Types used in my WebXR event system",
   "main": "index.ts",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/tslib": "*"
   },

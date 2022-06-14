@@ -3,6 +3,9 @@
   "name": "@juniper-lib/threejs",
   "private": true,
   "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/graphics2d": "*",
     "@juniper-lib/audio": "*",
@@ -15,15 +18,14 @@
     "@juniper-lib/video": "*",
     "@juniper-lib/webrtc": "*",
     "@juniper-lib/widgets": "*",
+    "@juniper-types/dom-types": "*",
+    "@types/offscreencanvas": "2019.7.0",
+    "@types/three": "0.141.0",
+    "@types/webxr": "0.4.0",
     "three": "0.141.0",
     "webxr-polyfill": "2.0.3"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "*",
-    "@juniper-types/extra-types": "*",
-    "@types/offscreencanvas": "2019.7.0",
-    "@types/three": "0.141.0",
-    "@types/webxr": "0.4.0",
     "typescript": "4.7.3"
   }
 }

@@ -3,17 +3,19 @@
   "name": "@juniper-lib/video",
   "private": true,
   "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/audio": "*",
     "@juniper-lib/dom": "*",
     "@juniper-lib/fetcher": "*",
     "@juniper-lib/mediatypes": "*",
     "@juniper-lib/tslib": "*",
+    "@juniper-types/dom-types": "*",
     "gl-matrix": "3.4.3"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "*",
-    "@juniper-types/extra-types": "*",
     "typescript": "4.7.3"
   }
 }

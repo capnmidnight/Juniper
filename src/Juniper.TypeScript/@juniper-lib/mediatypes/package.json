@@ -5,6 +5,9 @@
   "type": "module",
   "description": "A library of media types",
   "main": "index.ts",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/tslib": "*"
   },

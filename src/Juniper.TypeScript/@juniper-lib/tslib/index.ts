@@ -1,3 +1,5 @@
+/// <reference types="extra-types" />
+
 export * from "./collections";
 export * from "./events";
 export * from "./Exception";

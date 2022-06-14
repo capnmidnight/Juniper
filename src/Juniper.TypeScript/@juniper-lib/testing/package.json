@@ -3,14 +3,16 @@
   "name": "@juniper-lib/testing",
   "private": true,
   "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/dom": "*",
     "@juniper-lib/tslib": "*",
+    "@types/offscreencanvas": "2019.7.0",
     "gl-matrix": "3.4.3"
   },
   "devDependencies": {
-    "@juniper-types/extra-types": "*",
-    "@types/offscreencanvas": "2019.7.0",
     "typescript": "4.7.3"
   }
 }

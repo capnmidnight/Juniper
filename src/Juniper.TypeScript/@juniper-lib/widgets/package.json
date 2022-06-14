@@ -4,14 +4,17 @@
   "version": "1.0.0",
   "type": "module",
   "description": "DOM Widgets",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/dom": "*",
     "@juniper-lib/emoji": "*",
-    "@juniper-lib/tslib": "*"
+    "@juniper-lib/tslib": "*",
+    "@juniper-types/dom-types": "*",
+    "@types/offscreencanvas": "2019.7.0"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "*",
-    "@types/offscreencanvas": "2019.7.0",
     "typescript": "4.7.3"
   },
   "repository": {

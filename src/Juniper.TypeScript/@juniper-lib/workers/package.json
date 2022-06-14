@@ -3,6 +3,9 @@
   "name": "@juniper-lib/workers",
   "private": true,
   "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/tslib": "*"
   },

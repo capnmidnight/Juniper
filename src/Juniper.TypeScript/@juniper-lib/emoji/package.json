@@ -5,6 +5,9 @@
   "type": "module",
   "description": "A collection of all the UTF-8 Emoji code points that I could find",
   "main": "index.ts",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "devDependencies": {
     "typescript": "4.7.3"
   },

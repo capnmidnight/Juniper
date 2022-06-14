@@ -3,6 +3,9 @@
   "private": false,
   "version": "1.1.0",
   "description": "Extra DOM-related types that aren't likely to end up in DefinitelyTyped",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "devDependencies": {
     "typescript": "4.7.3"
   },

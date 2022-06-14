@@ -3,6 +3,9 @@
   "name": "@juniper-lib/tests",
   "private": true,
   "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/dom": "*",
     "@juniper-lib/fetcher": "*",
@@ -10,13 +13,12 @@
     "@juniper-lib/mediatypes": "*",
     "@juniper-lib/testing": "*",
     "@juniper-lib/tslib": "*",
+    "@juniper-types/dom-types": "*",
+    "@juniper-types/indexdb": "*",
+    "@types/offscreencanvas": "2019.7.0",
     "gl-matrix": "3.4.3"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "*",
-    "@juniper-types/extra-types": "*",
-    "@juniper-types/indexdb": "*",
-    "@types/offscreencanvas": "2019.7.0",
     "typescript": "4.7.3"
   }
 }

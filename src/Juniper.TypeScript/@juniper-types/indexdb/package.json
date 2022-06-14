@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "description": "Convenient type stuff for working with IndexDB",
   "types": "./index.d.ts",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "devDependencies": {
     "typescript": "4.7.3"
   },

@@ -43,6 +43,7 @@ namespace Juniper.TSBuild
         public bool DeletePackageLockJsons => flags.Contains(nameof(DeletePackageLockJsons));
         public bool DeleteTSBuildInfos => flags.Contains(nameof(DeleteTSBuildInfos));
         public bool OpenPackageJsons => flags.Contains(nameof(OpenPackageJsons));
+        public bool TypeCheck => flags.Contains(nameof(TypeCheck));
         public bool Build
         {
             get => flags.Contains(nameof(Build));
@@ -58,6 +59,7 @@ namespace Juniper.TSBuild
             var commands = new[]
             {
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
+                new Command(null, "Type Check", FlagSetter(nameof(TypeCheck))),
                 new Command(null, "Build", FlagSetter(nameof(Build))),
                 new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
                 new Command(null, "Delete package-lock.json", FlagSetter(nameof(DeletePackageLockJsons))),

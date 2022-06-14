@@ -5,6 +5,9 @@
   "type": "module",
   "description": "Useful records of Bluetooth Low Energy objects",
   "main": "index.ts",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/tslib": "*"
   },

@@ -3,16 +3,19 @@
   "name": "@juniper-lib/webrtc",
   "private": true,
   "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "@juniper-lib/audio": "*",
     "@juniper-lib/dom": "*",
     "@juniper-lib/event-system": "*",
     "@juniper-lib/tslib": "*",
-    "@microsoft/signalr": "6.0.5",
+    "@juniper-types/dom-types": "*",
+    "@microsoft/signalr": "6.0.6",
     "webrtc-adapter": "8.1.1"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "*",
     "typescript": "4.7.3"
   }
 }
