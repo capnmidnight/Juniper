@@ -75,8 +75,6 @@ export class Environment
         return this._currentRoom;
     }
 
-    readonly DEBUG: boolean;
-
     constructor(canvas: CanvasTypes,
         fetcher: IFetcher,
         dialogFontFamily: string,
@@ -84,7 +82,7 @@ export class Environment
         defaultAvatarHeight: number,
         enableFullResolution: boolean,
         options?: Partial<EnvironmentOptions>) {
-        super(canvas, fetcher, defaultAvatarHeight, enableFullResolution);
+        super(canvas, fetcher, defaultAvatarHeight, enableFullResolution, options && options.DEBUG);
 
         this.compassImage = new CanvasImageMesh(this, "Horizon", new ArtificialHorizon());
         this.compassImage.mesh.renderOrder = 5;
@@ -94,7 +92,6 @@ export class Environment
 
         options = options || {};
         const JS_EXT = options.JS_EXT || ".js";
-        this.DEBUG = options.DEBUG || false;
 
         this.apps = new ApplicationLoader(this, JS_EXT);
         this.apps.addEventListener("apploading", (evt) => {

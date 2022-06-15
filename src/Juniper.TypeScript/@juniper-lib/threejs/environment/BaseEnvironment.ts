@@ -101,7 +101,7 @@ export class BaseEnvironment<Events = void>
 
     enableSpectator = false;
 
-    constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, enableFullResolution: boolean) {
+    constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, enableFullResolution: boolean, public DEBUG: boolean) {
         super();
 
         if (isHTMLCanvas(canvas)) {
