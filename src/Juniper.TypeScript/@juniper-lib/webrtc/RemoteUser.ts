@@ -1,5 +1,5 @@
-import { PointerName } from "@juniper-lib/event-system/PointerName";
 import { arrayClear, arrayRemove, arrayScan, IDisposable, isArrayBuffer, Task, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { UserLeftEvent, UserPointerEvent, UserPosedEvent } from "./ConferenceEvents";
 
 class Locker<T> {

@@ -1,8 +1,8 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
-import { FlickEvent } from "@juniper-lib/event-system/FlickEvent";
-import { ObjectMovedEvent } from "@juniper-lib/event-system/ObjectMovedEvent";
-import { PointerEventTypes } from "@juniper-lib/event-system/PointerEventTypes";
-import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
+import { FlickEvent } from "@juniper-lib/threejs/eventSystem/FlickEvent";
+import { ObjectMovedEvent } from "@juniper-lib/threejs/eventSystem/ObjectMovedEvent";
+import { PointerEventTypes, SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
+import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
 import { arrayClear, arrayScan, assertNever, isDefined, TypedEventBase } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
@@ -127,7 +127,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
         this.touches.enabled = enableScreenPointers;
     }
 
-    checkPointer(pointer: IPointer, eventType: PointerEventTypes) {
+    checkPointer(pointer: IPointer, eventType: SourcePointerEventTypes) {
         pointer.isActive = true;
 
         this.fireRay(pointer);

@@ -1,4 +1,4 @@
-import { PointerName } from "@juniper-lib/event-system/PointerName";
+import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { BaseScreenPointer } from "./BaseScreenPointer";
 import type { EventSystem } from "./EventSystem";
 

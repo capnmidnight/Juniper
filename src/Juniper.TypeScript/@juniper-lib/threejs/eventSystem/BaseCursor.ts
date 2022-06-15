@@ -1,5 +1,5 @@
-import { MouseButtons } from "@juniper-lib/event-system/MouseButton";
-import type { PointerState } from "@juniper-lib/event-system/PointerState";
+import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
+import type { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
 import { ErsatzObject } from "../objects";
 import { isClickable, isDisabled, isDraggable } from "./InteractiveObject3D";
 

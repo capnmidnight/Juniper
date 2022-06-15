@@ -1,4 +1,4 @@
-import { PointerEventTypes } from "@juniper-lib/event-system/PointerEventTypes";
+import { PointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { TypedEvent } from "@juniper-lib/tslib";
 import type { IPointer } from "./IPointer";
 import { resolveObj } from "./resolveObj";

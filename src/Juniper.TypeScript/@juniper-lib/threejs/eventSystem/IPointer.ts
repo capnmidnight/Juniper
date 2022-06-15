@@ -1,6 +1,6 @@
-import { PointerName } from "@juniper-lib/event-system/PointerName";
-import { PointerState } from "@juniper-lib/event-system/PointerState";
-import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
+import { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
+import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
+import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { BaseCursor } from "./BaseCursor";
 
 export type PointerType = "mouse"

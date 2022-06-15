@@ -1,9 +1,9 @@
-import { MouseButtons } from "@juniper-lib/event-system/MouseButton";
-import { PointerEventTypes } from "@juniper-lib/event-system/PointerEventTypes";
-import { PointerName } from "@juniper-lib/event-system/PointerName";
-import { PointerState } from "@juniper-lib/event-system/PointerState";
-import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
+import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
+import { SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
+import { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
+import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
 import { isNullOrUndefined } from "@juniper-lib/tslib";
+import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import type { BaseCursor } from "./BaseCursor";
 import { CursorXRMouse } from "./CursorXRMouse";
 import type { EventSystem } from "./EventSystem";
@@ -120,7 +120,7 @@ export abstract class BasePointer
 
     recheck(): void { }
 
-    protected setEventState(type: PointerEventTypes): void {
+    protected setEventState(type: SourcePointerEventTypes): void {
         this.evtSys.checkPointer(this, type);
     }
 

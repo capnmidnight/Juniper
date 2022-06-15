@@ -1,11 +1,11 @@
-import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { connect } from "@juniper-lib/audio/nodes";
 import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { star } from "@juniper-lib/emoji";
-import { PointerName } from "@juniper-lib/event-system/PointerName";
+import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import type { IDisposable } from "@juniper-lib/tslib";
+import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { UserPointerEvent, UserPosedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";

@@ -13,6 +13,6 @@ export * from "./singleton";
 export * from "./strings";
 export * from "./timers";
 export * from "./typeChecks";
-export * from "./URLBuilder";
 export * from "./units";
+export * from "./URLBuilder";
 export * from "./using";

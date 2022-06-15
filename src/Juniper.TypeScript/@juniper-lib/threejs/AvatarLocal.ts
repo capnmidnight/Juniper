@@ -1,7 +1,7 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
-import { AvatarMovedEvent } from "@juniper-lib/event-system/AvatarMovedEvent";
-import { MouseButtons } from "@juniper-lib/event-system/MouseButton";
-import { PointerEventTypes } from "@juniper-lib/event-system/PointerEventTypes";
+import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
+import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
+import { PointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isMobile, isMobileVR, isNullOrUndefined, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading, getLookPitch } from "./animation/lookAngles";

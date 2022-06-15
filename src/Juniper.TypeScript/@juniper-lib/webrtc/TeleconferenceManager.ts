@@ -1,8 +1,8 @@
 import type { AudioManager } from "@juniper-lib/audio/AudioManager";
 import type { DeviceManagerAudioInputChangedEvent } from "@juniper-lib/audio/DeviceManager";
 import { MediaStreamSource, removeVertex } from "@juniper-lib/audio/nodes";
-import { PointerName } from "@juniper-lib/event-system/PointerName";
 import { assertNever, IDisposable, singleton, TypedEventBase } from "@juniper-lib/tslib";
+import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import {
     HttpTransportType,
     HubConnection,

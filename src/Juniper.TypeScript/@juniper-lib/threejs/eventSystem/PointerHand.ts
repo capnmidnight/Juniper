@@ -1,6 +1,5 @@
-import { MouseButtons } from "@juniper-lib/event-system/MouseButton";
-import { PointerName } from "@juniper-lib/event-system/PointerName";
-import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
+import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
+import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
 import {
     isChrome,
     isDefined,
@@ -8,6 +7,7 @@ import {
     isNullOrUndefined,
     isOculusBrowser, PriorityMap
 } from "@juniper-lib/tslib";
+import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { EventedGamepad, GamepadAxisMaxedEvent } from "@juniper-lib/widgets/EventedGamepad";
 import { XRControllerModelFactory } from "../examples/webxr/XRControllerModelFactory";
 import { XRHandModelFactory } from "../examples/webxr/XRHandModelFactory";

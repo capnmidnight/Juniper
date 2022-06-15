@@ -9,7 +9,6 @@
   "dependencies": {
     "@juniper-lib/audio": "*",
     "@juniper-lib/dom": "*",
-    "@juniper-lib/event-system": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-types/dom-types": "*",
     "@microsoft/signalr": "6.0.6",
