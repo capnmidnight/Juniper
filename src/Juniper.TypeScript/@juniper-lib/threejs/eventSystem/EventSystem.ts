@@ -266,10 +266,6 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                 }
                 break;
 
-            case "enter": case "exit":
-                console.log(pointer, eventType);
-                break;
-
             default:
                 assertNever(eventType);
         }
