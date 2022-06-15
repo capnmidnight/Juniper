@@ -364,14 +364,6 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
         }
     }
 
-    recheckPointers() {
-        for (const pointer of this.pointers) {
-            if (pointer.needsUpdate) {
-                pointer.recheck();
-            }
-        }
-    }
-
     isPressed(button: VirtualButtons): boolean {
         for (const pointer of this.pointers) {
             if (pointer.isPressed(button)) {

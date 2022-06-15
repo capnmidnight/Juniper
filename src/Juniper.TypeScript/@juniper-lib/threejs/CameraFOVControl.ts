@@ -15,8 +15,7 @@ export class CameraControl {
 
     onMove(evt: EventSystemEvent<"move">) {
         if (evt.pointer.enabled
-            && evt.pointer.canMoveView
-            && evt.pointer.state.dz !== 0) {
+            && evt.pointer.canMoveView) {
             this.dz = evt.pointer.state.dz;
         }
     }

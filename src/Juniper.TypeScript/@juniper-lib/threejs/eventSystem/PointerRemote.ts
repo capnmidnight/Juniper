@@ -84,6 +84,8 @@ export class PointerRemote
     private readonly pTarget = new THREE.Vector3();
     private readonly qTarget = new THREE.Quaternion().identity();
 
+    protected onUpdate(): void { }
+
     animate(dt: number) {
         this.object.position.lerp(this.pTarget, dt * 0.01);
         this.object.quaternion.slerp(this.qTarget, dt * 0.01);

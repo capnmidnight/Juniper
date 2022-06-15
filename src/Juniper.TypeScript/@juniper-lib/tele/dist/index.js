@@ -1888,6 +1888,99 @@ var SetIntervalTimer = class extends BaseTimer {
   }
 };
 
+// ../tslib/collections/mapInvert.ts
+function mapInvert(map) {
+  const mapOut = /* @__PURE__ */ new Map();
+  for (const [key, value] of map) {
+    mapOut.set(value, key);
+  }
+  return mapOut;
+}
+
+// ../tslib/units/fileSize.ts
+var base2Labels = /* @__PURE__ */ new Map([
+  [1, "KiB"],
+  [2, "MiB"],
+  [3, "GiB"],
+  [4, "TiB"]
+]);
+var base10Labels = /* @__PURE__ */ new Map([
+  [1, "KB"],
+  [2, "MB"],
+  [3, "GB"],
+  [4, "TB"]
+]);
+var base2Sizes = mapInvert(base2Labels);
+var base10Sizes = mapInvert(base10Labels);
+
+// ../tslib/units/length.ts
+var MICROMETERS_PER_MILLIMETER = 1e3;
+var MILLIMETERS_PER_CENTIMETER = 10;
+var CENTIMETERS_PER_INCH = 2.54;
+var CENTIMETERS_PER_METER = 100;
+var INCHES_PER_HAND = 4;
+var HANDS_PER_FOOT = 3;
+var FEET_PER_YARD = 3;
+var FEET_PER_ROD = 16.5;
+var METERS_PER_KILOMETER = 1e3;
+var RODS_PER_FURLONG = 40;
+var FURLONGS_PER_MILE = 8;
+var MICROMETERS_PER_CENTIMETER = MICROMETERS_PER_MILLIMETER * MILLIMETERS_PER_CENTIMETER;
+var MICROMETERS_PER_INCH = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
+var MICROMETERS_PER_HAND = MICROMETERS_PER_INCH * INCHES_PER_HAND;
+var MICROMETERS_PER_FOOT = MICROMETERS_PER_HAND * HANDS_PER_FOOT;
+var MICROMETERS_PER_YARD = MICROMETERS_PER_FOOT * FEET_PER_YARD;
+var MICROMETERS_PER_METER = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
+var MICROMETERS_PER_ROD = MICROMETERS_PER_FOOT * FEET_PER_ROD;
+var MICROMETERS_PER_FURLONG = MICROMETERS_PER_ROD * RODS_PER_FURLONG;
+var MICROMETERS_PER_KILOMETER = MICROMETERS_PER_METER * METERS_PER_KILOMETER;
+var MICROMETERS_PER_MILE = MICROMETERS_PER_FURLONG * FURLONGS_PER_MILE;
+var MILLIMETERS_PER_INCH = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
+var MILLIMETERS_PER_HAND = MILLIMETERS_PER_INCH * INCHES_PER_HAND;
+var MILLIMETERS_PER_FOOT = MILLIMETERS_PER_HAND * HANDS_PER_FOOT;
+var MILLIMETERS_PER_YARD = MILLIMETERS_PER_FOOT * FEET_PER_YARD;
+var MILLIMETERS_PER_METER = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
+var MILLIMETERS_PER_ROD = MILLIMETERS_PER_FOOT * FEET_PER_ROD;
+var MILLIMETERS_PER_FURLONG = MILLIMETERS_PER_ROD * RODS_PER_FURLONG;
+var MILLIMETERS_PER_KILOMETER = MILLIMETERS_PER_METER * METERS_PER_KILOMETER;
+var MILLIMETERS_PER_MILE = MILLIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
+var CENTIMETERS_PER_HAND = CENTIMETERS_PER_INCH * INCHES_PER_HAND;
+var CENTIMETERS_PER_FOOT = CENTIMETERS_PER_HAND * HANDS_PER_FOOT;
+var CENTIMETERS_PER_YARD = CENTIMETERS_PER_FOOT * FEET_PER_YARD;
+var CENTIMETERS_PER_ROD = CENTIMETERS_PER_FOOT * FEET_PER_ROD;
+var CENTIMETERS_PER_FURLONG = CENTIMETERS_PER_ROD * RODS_PER_FURLONG;
+var CENTIMETERS_PER_KILOMETER = CENTIMETERS_PER_METER * METERS_PER_KILOMETER;
+var CENTIMETERS_PER_MILE = CENTIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
+var INCHES_PER_FOOT = INCHES_PER_HAND * HANDS_PER_FOOT;
+var INCHES_PER_YARD = INCHES_PER_FOOT * FEET_PER_YARD;
+var INCHES_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_INCH;
+var INCHES_PER_ROD = INCHES_PER_FOOT * FEET_PER_ROD;
+var INCHES_PER_FURLONG = INCHES_PER_ROD * RODS_PER_FURLONG;
+var INCHES_PER_KILOMETER = INCHES_PER_METER * METERS_PER_KILOMETER;
+var INCHES_PER_MILE = INCHES_PER_FURLONG * FURLONGS_PER_MILE;
+var HANDS_PER_YARD = HANDS_PER_FOOT * FEET_PER_YARD;
+var HANDS_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_HAND;
+var HANDS_PER_ROD = HANDS_PER_FOOT * FEET_PER_ROD;
+var HANDS_PER_FURLONG = HANDS_PER_ROD * RODS_PER_FURLONG;
+var HANDS_PER_KILOMETER = HANDS_PER_METER * METERS_PER_KILOMETER;
+var HANDS_PER_MILE = HANDS_PER_FURLONG * FURLONGS_PER_MILE;
+var FEET_PER_METER = INCHES_PER_METER / INCHES_PER_FOOT;
+var FEET_PER_FURLONG = FEET_PER_ROD * RODS_PER_FURLONG;
+var FEET_PER_KILOMETER = FEET_PER_METER * METERS_PER_KILOMETER;
+var FEET_PER_MILE = FEET_PER_FURLONG * FURLONGS_PER_MILE;
+var YARDS_PER_METER = INCHES_PER_METER / INCHES_PER_YARD;
+var YARDS_PER_ROD = FEET_PER_ROD / FEET_PER_YARD;
+var YARDS_PER_FURLONG = YARDS_PER_ROD * RODS_PER_FURLONG;
+var YARDS_PER_KILOMETER = YARDS_PER_METER * METERS_PER_KILOMETER;
+var YARDS_PER_MILE = YARDS_PER_FURLONG * FURLONGS_PER_MILE;
+var METERS_PER_ROD = FEET_PER_ROD / FEET_PER_METER;
+var METERS_PER_FURLONG = METERS_PER_ROD * RODS_PER_FURLONG;
+var METERS_PER_MILE = METERS_PER_FURLONG * FURLONGS_PER_MILE;
+var RODS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_ROD;
+var RODS_PER_MILE = RODS_PER_FURLONG * FURLONGS_PER_MILE;
+var FURLONGS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_FURLONG;
+var KILOMETERS_PER_MILE = FURLONGS_PER_MILE / FURLONGS_PER_KILOMETER;
+
 // ../tslib/URLBuilder.ts
 function parsePort(portString) {
   if (isDefined(portString) && portString.length > 0) {
@@ -2069,99 +2162,6 @@ var URLBuilder = class {
     return this.toString();
   }
 };
-
-// ../tslib/collections/mapInvert.ts
-function mapInvert(map) {
-  const mapOut = /* @__PURE__ */ new Map();
-  for (const [key, value] of map) {
-    mapOut.set(value, key);
-  }
-  return mapOut;
-}
-
-// ../tslib/units/fileSize.ts
-var base2Labels = /* @__PURE__ */ new Map([
-  [1, "KiB"],
-  [2, "MiB"],
-  [3, "GiB"],
-  [4, "TiB"]
-]);
-var base10Labels = /* @__PURE__ */ new Map([
-  [1, "KB"],
-  [2, "MB"],
-  [3, "GB"],
-  [4, "TB"]
-]);
-var base2Sizes = mapInvert(base2Labels);
-var base10Sizes = mapInvert(base10Labels);
-
-// ../tslib/units/length.ts
-var MICROMETERS_PER_MILLIMETER = 1e3;
-var MILLIMETERS_PER_CENTIMETER = 10;
-var CENTIMETERS_PER_INCH = 2.54;
-var CENTIMETERS_PER_METER = 100;
-var INCHES_PER_HAND = 4;
-var HANDS_PER_FOOT = 3;
-var FEET_PER_YARD = 3;
-var FEET_PER_ROD = 16.5;
-var METERS_PER_KILOMETER = 1e3;
-var RODS_PER_FURLONG = 40;
-var FURLONGS_PER_MILE = 8;
-var MICROMETERS_PER_CENTIMETER = MICROMETERS_PER_MILLIMETER * MILLIMETERS_PER_CENTIMETER;
-var MICROMETERS_PER_INCH = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
-var MICROMETERS_PER_HAND = MICROMETERS_PER_INCH * INCHES_PER_HAND;
-var MICROMETERS_PER_FOOT = MICROMETERS_PER_HAND * HANDS_PER_FOOT;
-var MICROMETERS_PER_YARD = MICROMETERS_PER_FOOT * FEET_PER_YARD;
-var MICROMETERS_PER_METER = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
-var MICROMETERS_PER_ROD = MICROMETERS_PER_FOOT * FEET_PER_ROD;
-var MICROMETERS_PER_FURLONG = MICROMETERS_PER_ROD * RODS_PER_FURLONG;
-var MICROMETERS_PER_KILOMETER = MICROMETERS_PER_METER * METERS_PER_KILOMETER;
-var MICROMETERS_PER_MILE = MICROMETERS_PER_FURLONG * FURLONGS_PER_MILE;
-var MILLIMETERS_PER_INCH = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
-var MILLIMETERS_PER_HAND = MILLIMETERS_PER_INCH * INCHES_PER_HAND;
-var MILLIMETERS_PER_FOOT = MILLIMETERS_PER_HAND * HANDS_PER_FOOT;
-var MILLIMETERS_PER_YARD = MILLIMETERS_PER_FOOT * FEET_PER_YARD;
-var MILLIMETERS_PER_METER = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
-var MILLIMETERS_PER_ROD = MILLIMETERS_PER_FOOT * FEET_PER_ROD;
-var MILLIMETERS_PER_FURLONG = MILLIMETERS_PER_ROD * RODS_PER_FURLONG;
-var MILLIMETERS_PER_KILOMETER = MILLIMETERS_PER_METER * METERS_PER_KILOMETER;
-var MILLIMETERS_PER_MILE = MILLIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
-var CENTIMETERS_PER_HAND = CENTIMETERS_PER_INCH * INCHES_PER_HAND;
-var CENTIMETERS_PER_FOOT = CENTIMETERS_PER_HAND * HANDS_PER_FOOT;
-var CENTIMETERS_PER_YARD = CENTIMETERS_PER_FOOT * FEET_PER_YARD;
-var CENTIMETERS_PER_ROD = CENTIMETERS_PER_FOOT * FEET_PER_ROD;
-var CENTIMETERS_PER_FURLONG = CENTIMETERS_PER_ROD * RODS_PER_FURLONG;
-var CENTIMETERS_PER_KILOMETER = CENTIMETERS_PER_METER * METERS_PER_KILOMETER;
-var CENTIMETERS_PER_MILE = CENTIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
-var INCHES_PER_FOOT = INCHES_PER_HAND * HANDS_PER_FOOT;
-var INCHES_PER_YARD = INCHES_PER_FOOT * FEET_PER_YARD;
-var INCHES_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_INCH;
-var INCHES_PER_ROD = INCHES_PER_FOOT * FEET_PER_ROD;
-var INCHES_PER_FURLONG = INCHES_PER_ROD * RODS_PER_FURLONG;
-var INCHES_PER_KILOMETER = INCHES_PER_METER * METERS_PER_KILOMETER;
-var INCHES_PER_MILE = INCHES_PER_FURLONG * FURLONGS_PER_MILE;
-var HANDS_PER_YARD = HANDS_PER_FOOT * FEET_PER_YARD;
-var HANDS_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_HAND;
-var HANDS_PER_ROD = HANDS_PER_FOOT * FEET_PER_ROD;
-var HANDS_PER_FURLONG = HANDS_PER_ROD * RODS_PER_FURLONG;
-var HANDS_PER_KILOMETER = HANDS_PER_METER * METERS_PER_KILOMETER;
-var HANDS_PER_MILE = HANDS_PER_FURLONG * FURLONGS_PER_MILE;
-var FEET_PER_METER = INCHES_PER_METER / INCHES_PER_FOOT;
-var FEET_PER_FURLONG = FEET_PER_ROD * RODS_PER_FURLONG;
-var FEET_PER_KILOMETER = FEET_PER_METER * METERS_PER_KILOMETER;
-var FEET_PER_MILE = FEET_PER_FURLONG * FURLONGS_PER_MILE;
-var YARDS_PER_METER = INCHES_PER_METER / INCHES_PER_YARD;
-var YARDS_PER_ROD = FEET_PER_ROD / FEET_PER_YARD;
-var YARDS_PER_FURLONG = YARDS_PER_ROD * RODS_PER_FURLONG;
-var YARDS_PER_KILOMETER = YARDS_PER_METER * METERS_PER_KILOMETER;
-var YARDS_PER_MILE = YARDS_PER_FURLONG * FURLONGS_PER_MILE;
-var METERS_PER_ROD = FEET_PER_ROD / FEET_PER_METER;
-var METERS_PER_FURLONG = METERS_PER_ROD * RODS_PER_FURLONG;
-var METERS_PER_MILE = METERS_PER_FURLONG * FURLONGS_PER_MILE;
-var RODS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_ROD;
-var RODS_PER_MILE = RODS_PER_FURLONG * FURLONGS_PER_MILE;
-var FURLONGS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_FURLONG;
-var KILOMETERS_PER_MILE = FURLONGS_PER_MILE / FURLONGS_PER_KILOMETER;
 
 // ../tslib/using.ts
 function interfaceSigCheck(obj2, ...funcNames) {
@@ -2488,7 +2488,7 @@ var NullLogger = class {
 NullLogger.instance = new NullLogger();
 
 // ../../node_modules/@microsoft/signalr/dist/esm/Utils.js
-var VERSION = "6.0.5";
+var VERSION = "6.0.6";
 var Arg = class {
   static isRequired(val, name) {
     if (val === null || val === void 0) {
@@ -6681,7 +6681,7 @@ var Pose = class {
   }
 };
 
-// ../event-system/PointerName.ts
+// ../tslib/events/PointerName.ts
 var PointerName = /* @__PURE__ */ ((PointerName2) => {
   PointerName2[PointerName2["LocalUser"] = 0] = "LocalUser";
   PointerName2[PointerName2["Mouse"] = 1] = "Mouse";
@@ -6868,14 +6868,16 @@ var DEFAULT_LOCAL_USER_ID = "local-user";
 var ActivityDetector = class {
   constructor(name, audioCtx) {
     this.name = name;
-    this._level = 0;
-    this.maxLevel = 0;
     this.analyzer = Analyser(this.name, audioCtx, {
       fftSize: 32,
       minDecibels: -70
     });
     this.buffer = new Uint8Array(this.analyzer.frequencyBinCount);
   }
+  _level = 0;
+  maxLevel = 0;
+  analyzer;
+  buffer;
   dispose() {
     removeVertex(this.analyzer);
   }
@@ -8798,20 +8800,16 @@ function setMatrixFromUpFwdPos(U2, F2, P4, matrix) {
   matrix.set(R.x, U2.x, -F2.x, P4.x, R.y, U2.y, -F2.y, P4.y, R.z, U2.z, -F2.z, P4.z, 0, 0, 0, 1);
 }
 
-// ../event-system/PointerState.ts
+// ../threejs/eventSystem/PointerState.ts
 var PointerState = class {
   buttons = 0;
   moveDistance = 0;
   dragDistance = 0;
-  x = 0;
-  y = 0;
-  dx = 0;
-  dy = 0;
+  position = new THREE.Vector2();
+  motion = new THREE.Vector2();
   dz = 0;
-  u = 0;
-  v = 0;
-  du = 0;
-  dv = 0;
+  uv = new THREE.Vector2();
+  duv = new THREE.Vector2();
   canClick = false;
   dragging = false;
   ctrl = false;
@@ -8825,15 +8823,11 @@ var PointerState = class {
     this.buttons = ptr.buttons;
     this.moveDistance = ptr.moveDistance;
     this.dragDistance = ptr.dragDistance;
-    this.x = ptr.x;
-    this.y = ptr.y;
-    this.dx = ptr.dx;
-    this.dy = ptr.dy;
+    this.position.copy(ptr.position);
+    this.motion.copy(ptr.motion);
     this.dz = ptr.dz;
-    this.u = ptr.u;
-    this.v = ptr.v;
-    this.du = ptr.du;
-    this.dv = ptr.dv;
+    this.uv.copy(ptr.uv);
+    this.duv.copy(ptr.duv);
     this.canClick = ptr.canClick;
     this.dragging = ptr.dragging;
     this.ctrl = ptr.ctrl;
@@ -9139,8 +9133,6 @@ var BasePointer = class {
   get needsUpdate() {
     return this.enabled && this.isActive;
   }
-  recheck() {
-  }
   setEventState(type2) {
     this.evtSys.checkPointer(this, type2);
   }
@@ -9150,17 +9142,14 @@ var BasePointer = class {
       this.lastState = new PointerState();
     }
     this.lastState.copy(this.state);
-  }
-  onUpdate() {
+    this.state.motion.setScalar(0);
+    this.state.dz = 0;
+    this.state.duv.setScalar(0);
   }
   updateCursor(avatarHeadPos, curHit, defaultDistance) {
     if (this.cursor) {
       this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.state, this.origin, this.direction);
     }
-  }
-  onZoom(dz) {
-    this.state.dz = dz;
-    this.setEventState("move");
   }
   onPointerDown() {
     this.state.dragging = false;
@@ -9605,6 +9594,8 @@ var PointerRemote = class extends BasePointer {
     }
     setMatrixFromUpFwdPos(up, forward, position, MW);
     M.copy(this.object.parent.matrixWorld).invert().multiply(MW).decompose(this.pTarget, this.qTarget, dumpS);
+  }
+  onUpdate() {
   }
   animate(dt) {
     this.object.position.lerp(this.pTarget, dt * 0.01);
@@ -10921,7 +10912,7 @@ var AvatarRemote = class extends THREE.Object3D {
     } else if (PointerName[name].startsWith("Touch") && this.body) {
       E.set(0, -0.5, 0).applyQuaternion(this.body.quaternion);
     } else {
-      E.set(0, 0, 0);
+      E.setScalar(0);
     }
     O.add(E);
     pointer.setState(avatarHeadPos, P3, F, U, O);

@@ -118,8 +118,6 @@ export abstract class BasePointer
             && this.isActive;
     }
 
-    recheck(): void { }
-
     protected setEventState(type: SourcePointerEventTypes): void {
         this.evtSys.checkPointer(this, type);
     }
@@ -130,21 +128,17 @@ export abstract class BasePointer
             this.lastState = new PointerState();
         }
         this.lastState.copy(this.state);
+        this.state.motion.setScalar(0);
+        this.state.dz = 0;
+        this.state.duv.setScalar(0);
     }
 
-    protected onUpdate(): void {
-
-    }
+    protected abstract onUpdate(): void;
 
     updateCursor(avatarHeadPos: THREE.Vector3, curHit: THREE.Intersection, defaultDistance: number) {
         if (this.cursor) {
             this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.state, this.origin, this.direction);
         }
-    }
-
-    protected onZoom(dz: number): void {
-        this.state.dz = dz;
-        this.setEventState("move");
     }
 
     protected onPointerDown(): void {

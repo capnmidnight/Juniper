@@ -1,8 +1,4 @@
 import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
-import {
-    project,
-    unproject
-} from "@juniper-lib/tslib";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { resolveCamera } from "../resolveCamera";
 import type { BaseCursor } from "./BaseCursor";
@@ -13,6 +9,8 @@ import type { PointerType } from "./IPointer";
 export abstract class BaseScreenPointer extends BasePointer {
     id: number = null;
     element: HTMLCanvasElement;
+
+    private readonly sizeInv = new THREE.Vector2();
 
     constructor(
         type: PointerType,
@@ -33,10 +31,13 @@ export abstract class BaseScreenPointer extends BasePointer {
         this.element = this.renderer.domElement;
         this.element.addEventListener("pointerdown", onPointerDown);
 
+        const setSizeInv = () => this.sizeInv.set(1 / this.element.clientWidth, 1 / this.element.clientHeight);
+        this.element.addEventListener("resize", setSizeInv);
+        setSizeInv();        
+
         const onPointerMove = (evt: PointerEvent) => {
             if (this.checkEvent(evt)) {
                 this.readEvent(evt);
-                this.onPointerMove();
             }
         };
 
@@ -50,11 +51,24 @@ export abstract class BaseScreenPointer extends BasePointer {
         };
 
         this.element.addEventListener("pointerup", onPointerUp);
-        //this.element.addEventListener("pointercancel", onPointerUp);
+        this.element.addEventListener("pointercancel", onPointerUp);
     }
 
     get isTracking() {
         return this.id != null;
+    }
+
+    isPressed(button: VirtualButtons): boolean {
+        const mask = 1 << button;
+        return this.state.buttons === mask;
+    }
+
+    private readEvent(evt: PointerEvent): void {
+        if(this.checkEvent(evt)) {
+            this.readMetaKeys(evt);
+            this.onReadEvent(evt);
+            this.stateDelta(evt.type);
+        }
     }
 
     protected checkEvent(evt: PointerEvent) {
@@ -62,86 +76,55 @@ export abstract class BaseScreenPointer extends BasePointer {
             && evt.pointerId === this.id;
     }
 
-    protected readEvent(evt: PointerEvent) {
-        if (this.checkEvent(evt)) {
-            this.basicReadEvent(evt);
-
-            this.state.buttons = evt.buttons;
-            this.state.x = evt.offsetX;
-            this.state.y = evt.offsetY;
-            this.state.dx = evt.movementX;
-            this.state.dy = evt.movementY;
-
-            this.stateDelta(evt.type);
-        }
-    }
-
-    protected basicReadEvent(evt: PointerEvent) {
+    protected readMetaKeys(evt: PointerEvent) {
         this.state.ctrl = evt.ctrlKey;
         this.state.alt = evt.altKey;
         this.state.shift = evt.shiftKey;
         this.state.meta = evt.metaKey;
-        this.state.dz = 0;
     }
+
+    protected abstract onReadEvent(evt: PointerEvent): void;
 
     protected stateDelta(type: string) {
-        if (type === "pointermove" && this.lastState) {
-            if (document.pointerLockElement) {
-                this.state.x = this.lastState.x + this.state.dx;
-                this.state.y = this.lastState.y + this.state.dy;
-            }
-            else {
-                this.state.dx = this.state.x - this.lastState.x;
-                this.state.dy = this.state.y - this.lastState.y;
-            }
+        if (type === "pointermove"
+            && document.pointerLockElement
+            && this.lastState) {
+            this.state.position
+                .copy(this.lastState.position)
+                .add(this.state.motion);
         }
 
-        this.state.moveDistance = Math.sqrt(
-            this.state.dx * this.state.dx
-            + this.state.dy * this.state.dy);
+        this.state.moveDistance = this.state.motion.length();
 
-        this.state.u = unproject(project(this.state.x, 0, this.element.clientWidth), -1, 1);
-        this.state.v = unproject(project(this.state.y, 0, this.element.clientHeight), -1, 1);
+        this.state.uv
+            .copy(this.state.position)
+            .multiplyScalar(2)
+            .multiply(this.sizeInv)
+            .addScalar(-1);
 
-        this.state.du = 2 * this.state.dx / this.element.clientWidth;
-        this.state.dv = 2 * this.state.dy / this.element.clientHeight;
+        this.state.duv
+            .copy(this.state.motion)
+            .multiplyScalar(2)
+            .multiply(this.sizeInv);
     }
 
-    private moveOnUpdate = false;
-
-    override recheck(): void {
-        this.moveOnUpdate = true;
-        super.recheck();
-    }
-
-    protected override onUpdate() {
-        super.onUpdate();
+    protected onUpdate() {
         const cam = resolveCamera(this.renderer, this.camera);
 
         this.origin.setFromMatrixPosition(cam.matrixWorld);
-        this.direction.set(this.state.u, -this.state.v, 0.5)
+        this.direction.set(this.state.uv.x, -this.state.uv.y, 0.5)
             .unproject(cam)
             .sub(this.origin)
             .normalize();
 
-        if (this.moveOnUpdate) {
+        if (this.state.motion.manhattanLength() > 0) {
             this.onPointerMove();
         }
 
         this.origin.setFromMatrixPosition(cam.matrixWorld);
-        this.direction.set(this.state.u, -this.state.v, 0.5)
+        this.direction.set(this.state.uv.x, -this.state.uv.y, 0.5)
             .unproject(cam)
             .sub(this.origin)
             .normalize();
-    }
-
-    protected override onPointerMove() {
-        this.moveOnUpdate = false;
-        super.onPointerMove();
-    }
-
-    isPressed(button: VirtualButtons): boolean {
-        const mask = 1 << button;
-        return this.state.buttons === mask;
     }
 }

@@ -219,8 +219,7 @@ export class PointerHand
         }
     }
 
-    protected override onUpdate() {
-        super.onUpdate();
+    protected onUpdate() {
         if (this.enabled) {
             this.updateState();
             this.onPointerMove();

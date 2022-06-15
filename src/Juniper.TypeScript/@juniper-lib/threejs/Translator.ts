@@ -1,6 +1,6 @@
 import { Cube } from "./Cube";
 
-const P = new THREE.Vector4();
+const P = new THREE.Vector3();
 const small = new THREE.Vector3(0.1, 0.1, 0.1);
 
 export class Translator extends Cube {
@@ -19,16 +19,16 @@ export class Translator extends Cube {
         this.isDraggable = true;
         this.isCollider = true;
 
-        const sel = new THREE.Vector4(sx, sy, sz, 0);
-        const start = new THREE.Vector4();
-        const deltaIn = new THREE.Vector4();
+        const sel = new THREE.Vector3(sx, sy, sz);
+        const start = new THREE.Vector3();
+        const deltaIn = new THREE.Vector3();
         const delta = new THREE.Vector3();
 
         let dragging = false;
 
         this.addEventListener("dragstart", (evt: THREE.Event) => {
             dragging = true;
-            start.set(evt.point.x, evt.point.y, evt.point.z, 1);
+            start.set(evt.point.x, evt.point.y, evt.point.z);
         });
 
         this.addEventListener("dragend", () => {
@@ -38,19 +38,17 @@ export class Translator extends Cube {
         this.addEventListener("drag", (evt: THREE.Event) => {
             if (dragging) {
                 deltaIn
-                    .set(evt.point.x, evt.point.y, evt.point.z, 1)
+                    .copy(evt.point)
                     .sub(start);
+
                 start.add(deltaIn);
 
-                P.set(
-                    sel.x / this.parent.parent.scale.x,
-                    sel.y / this.parent.parent.scale.y,
-                    sel.z / this.parent.parent.scale.z,
-                    0)
+                P.copy(sel)
+                    .divide(this.parent.parent.scale)
                     .applyMatrix4(this.parent.matrixWorld)
                     .multiplyScalar(P.dot(deltaIn));
 
-                delta.set(P.x, P.y, P.z);
+                delta.copy(P);
                 this.dispatchEvent({ type: "dragdir", delta });
             }
         });

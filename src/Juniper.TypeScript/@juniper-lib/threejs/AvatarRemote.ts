@@ -306,7 +306,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
                 .applyQuaternion(this.body.quaternion);
         }
         else {
-            E.set(0, 0, 0);
+            E.setScalar(0);
         }
 
         O.add(E);

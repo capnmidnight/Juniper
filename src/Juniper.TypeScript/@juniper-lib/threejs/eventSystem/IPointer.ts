@@ -28,7 +28,6 @@ export interface IPointer {
 
     needsUpdate: boolean;
     update(): void;
-    recheck(): void;
     isPressed(buttons: VirtualButtons): boolean;
     isActive: boolean;
 

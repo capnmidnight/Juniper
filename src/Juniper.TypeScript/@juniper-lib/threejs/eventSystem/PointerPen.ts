@@ -1,36 +1,10 @@
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
-import { BaseScreenPointer } from "./BaseScreenPointer";
-import { CursorXRMouse } from "./CursorXRMouse";
+import { BaseScreenPointerSinglePoint } from "./BaseScreenPointerSinglePoint";
 import type { EventSystem } from "./EventSystem";
 
-export class PointerPen extends BaseScreenPointer {
+export class PointerPen extends BaseScreenPointerSinglePoint {
     constructor(evtSys: EventSystem, renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) {
-
-        const onPrep = (evt: PointerEvent) => {
-            if (evt.pointerType === "pen"
-                && this.id == null) {
-                this.id = evt.pointerId;
-            }
-        };
-
-        const unPrep = (evt: PointerEvent) => {
-            if (evt.pointerType === "pen"
-                && this.id != null) {
-                this.id = null;
-            }
-        };
-
-        const element = renderer.domElement;
-        element.addEventListener("pointerdown", onPrep);
-        element.addEventListener("pointermove", onPrep);
-
-        super("pen", PointerName.Pen, evtSys, renderer, camera, new CursorXRMouse(renderer));
-
-        element.addEventListener("pointerup", unPrep);
-        element.addEventListener("pointercancel", unPrep);
-
-        this.canMoveView = true;
-
+        super("pen", PointerName.Pen, evtSys, renderer, camera);
         Object.seal(this);
     }
 }

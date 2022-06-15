@@ -4506,21 +4506,6 @@ function deg2rad(deg) {
   return deg * Math.PI / 180;
 }
 
-// ../tslib/math/project.ts
-function project(v, min3, max3) {
-  const delta3 = max3 - min3;
-  if (delta3 === 0) {
-    return 0;
-  } else {
-    return (v - min3) / delta3;
-  }
-}
-
-// ../tslib/math/unproject.ts
-function unproject(v, min3, max3) {
-  return v * (max3 - min3) + min3;
-}
-
 // ../tslib/math/lerp.ts
 function lerp2(a, b, p) {
   return (1 - p) * a + p * b;
@@ -4862,6 +4847,102 @@ var SetTimeoutTimer = class extends BaseTimer {
   }
 };
 
+// ../tslib/collections/mapInvert.ts
+function mapInvert(map) {
+  const mapOut = /* @__PURE__ */ new Map();
+  for (const [key, value2] of map) {
+    mapOut.set(value2, key);
+  }
+  return mapOut;
+}
+
+// ../tslib/units/fileSize.ts
+var base2Labels = /* @__PURE__ */ new Map([
+  [1, "KiB"],
+  [2, "MiB"],
+  [3, "GiB"],
+  [4, "TiB"]
+]);
+var base10Labels = /* @__PURE__ */ new Map([
+  [1, "KB"],
+  [2, "MB"],
+  [3, "GB"],
+  [4, "TB"]
+]);
+var base2Sizes = mapInvert(base2Labels);
+var base10Sizes = mapInvert(base10Labels);
+
+// ../tslib/units/length.ts
+var MICROMETERS_PER_MILLIMETER = 1e3;
+var MILLIMETERS_PER_CENTIMETER = 10;
+var CENTIMETERS_PER_INCH = 2.54;
+var CENTIMETERS_PER_METER = 100;
+var INCHES_PER_HAND = 4;
+var HANDS_PER_FOOT = 3;
+var FEET_PER_YARD = 3;
+var FEET_PER_ROD = 16.5;
+var METERS_PER_KILOMETER = 1e3;
+var RODS_PER_FURLONG = 40;
+var FURLONGS_PER_MILE = 8;
+var MICROMETERS_PER_CENTIMETER = MICROMETERS_PER_MILLIMETER * MILLIMETERS_PER_CENTIMETER;
+var MICROMETERS_PER_INCH = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
+var MICROMETERS_PER_HAND = MICROMETERS_PER_INCH * INCHES_PER_HAND;
+var MICROMETERS_PER_FOOT = MICROMETERS_PER_HAND * HANDS_PER_FOOT;
+var MICROMETERS_PER_YARD = MICROMETERS_PER_FOOT * FEET_PER_YARD;
+var MICROMETERS_PER_METER = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
+var MICROMETERS_PER_ROD = MICROMETERS_PER_FOOT * FEET_PER_ROD;
+var MICROMETERS_PER_FURLONG = MICROMETERS_PER_ROD * RODS_PER_FURLONG;
+var MICROMETERS_PER_KILOMETER = MICROMETERS_PER_METER * METERS_PER_KILOMETER;
+var MICROMETERS_PER_MILE = MICROMETERS_PER_FURLONG * FURLONGS_PER_MILE;
+var MILLIMETERS_PER_INCH = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
+var MILLIMETERS_PER_HAND = MILLIMETERS_PER_INCH * INCHES_PER_HAND;
+var MILLIMETERS_PER_FOOT = MILLIMETERS_PER_HAND * HANDS_PER_FOOT;
+var MILLIMETERS_PER_YARD = MILLIMETERS_PER_FOOT * FEET_PER_YARD;
+var MILLIMETERS_PER_METER = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
+var MILLIMETERS_PER_ROD = MILLIMETERS_PER_FOOT * FEET_PER_ROD;
+var MILLIMETERS_PER_FURLONG = MILLIMETERS_PER_ROD * RODS_PER_FURLONG;
+var MILLIMETERS_PER_KILOMETER = MILLIMETERS_PER_METER * METERS_PER_KILOMETER;
+var MILLIMETERS_PER_MILE = MILLIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
+var CENTIMETERS_PER_HAND = CENTIMETERS_PER_INCH * INCHES_PER_HAND;
+var CENTIMETERS_PER_FOOT = CENTIMETERS_PER_HAND * HANDS_PER_FOOT;
+var CENTIMETERS_PER_YARD = CENTIMETERS_PER_FOOT * FEET_PER_YARD;
+var CENTIMETERS_PER_ROD = CENTIMETERS_PER_FOOT * FEET_PER_ROD;
+var CENTIMETERS_PER_FURLONG = CENTIMETERS_PER_ROD * RODS_PER_FURLONG;
+var CENTIMETERS_PER_KILOMETER = CENTIMETERS_PER_METER * METERS_PER_KILOMETER;
+var CENTIMETERS_PER_MILE = CENTIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
+var INCHES_PER_FOOT = INCHES_PER_HAND * HANDS_PER_FOOT;
+var INCHES_PER_YARD = INCHES_PER_FOOT * FEET_PER_YARD;
+var INCHES_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_INCH;
+var INCHES_PER_ROD = INCHES_PER_FOOT * FEET_PER_ROD;
+var INCHES_PER_FURLONG = INCHES_PER_ROD * RODS_PER_FURLONG;
+var INCHES_PER_KILOMETER = INCHES_PER_METER * METERS_PER_KILOMETER;
+var INCHES_PER_MILE = INCHES_PER_FURLONG * FURLONGS_PER_MILE;
+var HANDS_PER_YARD = HANDS_PER_FOOT * FEET_PER_YARD;
+var HANDS_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_HAND;
+var HANDS_PER_ROD = HANDS_PER_FOOT * FEET_PER_ROD;
+var HANDS_PER_FURLONG = HANDS_PER_ROD * RODS_PER_FURLONG;
+var HANDS_PER_KILOMETER = HANDS_PER_METER * METERS_PER_KILOMETER;
+var HANDS_PER_MILE = HANDS_PER_FURLONG * FURLONGS_PER_MILE;
+var FEET_PER_METER = INCHES_PER_METER / INCHES_PER_FOOT;
+var FEET_PER_FURLONG = FEET_PER_ROD * RODS_PER_FURLONG;
+var FEET_PER_KILOMETER = FEET_PER_METER * METERS_PER_KILOMETER;
+var FEET_PER_MILE = FEET_PER_FURLONG * FURLONGS_PER_MILE;
+var YARDS_PER_METER = INCHES_PER_METER / INCHES_PER_YARD;
+var YARDS_PER_ROD = FEET_PER_ROD / FEET_PER_YARD;
+var YARDS_PER_FURLONG = YARDS_PER_ROD * RODS_PER_FURLONG;
+var YARDS_PER_KILOMETER = YARDS_PER_METER * METERS_PER_KILOMETER;
+var YARDS_PER_MILE = YARDS_PER_FURLONG * FURLONGS_PER_MILE;
+var METERS_PER_ROD = FEET_PER_ROD / FEET_PER_METER;
+var METERS_PER_FURLONG = METERS_PER_ROD * RODS_PER_FURLONG;
+var METERS_PER_MILE = METERS_PER_FURLONG * FURLONGS_PER_MILE;
+var RODS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_ROD;
+var RODS_PER_MILE = RODS_PER_FURLONG * FURLONGS_PER_MILE;
+var FURLONGS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_FURLONG;
+var KILOMETERS_PER_MILE = FURLONGS_PER_MILE / FURLONGS_PER_KILOMETER;
+function feet2Meters(feet) {
+  return feet / FEET_PER_METER;
+}
+
 // ../tslib/URLBuilder.ts
 function parsePort(portString) {
   if (isDefined(portString) && portString.length > 0) {
@@ -5043,102 +5124,6 @@ var URLBuilder = class {
     return this.toString();
   }
 };
-
-// ../tslib/collections/mapInvert.ts
-function mapInvert(map) {
-  const mapOut = /* @__PURE__ */ new Map();
-  for (const [key, value2] of map) {
-    mapOut.set(value2, key);
-  }
-  return mapOut;
-}
-
-// ../tslib/units/fileSize.ts
-var base2Labels = /* @__PURE__ */ new Map([
-  [1, "KiB"],
-  [2, "MiB"],
-  [3, "GiB"],
-  [4, "TiB"]
-]);
-var base10Labels = /* @__PURE__ */ new Map([
-  [1, "KB"],
-  [2, "MB"],
-  [3, "GB"],
-  [4, "TB"]
-]);
-var base2Sizes = mapInvert(base2Labels);
-var base10Sizes = mapInvert(base10Labels);
-
-// ../tslib/units/length.ts
-var MICROMETERS_PER_MILLIMETER = 1e3;
-var MILLIMETERS_PER_CENTIMETER = 10;
-var CENTIMETERS_PER_INCH = 2.54;
-var CENTIMETERS_PER_METER = 100;
-var INCHES_PER_HAND = 4;
-var HANDS_PER_FOOT = 3;
-var FEET_PER_YARD = 3;
-var FEET_PER_ROD = 16.5;
-var METERS_PER_KILOMETER = 1e3;
-var RODS_PER_FURLONG = 40;
-var FURLONGS_PER_MILE = 8;
-var MICROMETERS_PER_CENTIMETER = MICROMETERS_PER_MILLIMETER * MILLIMETERS_PER_CENTIMETER;
-var MICROMETERS_PER_INCH = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
-var MICROMETERS_PER_HAND = MICROMETERS_PER_INCH * INCHES_PER_HAND;
-var MICROMETERS_PER_FOOT = MICROMETERS_PER_HAND * HANDS_PER_FOOT;
-var MICROMETERS_PER_YARD = MICROMETERS_PER_FOOT * FEET_PER_YARD;
-var MICROMETERS_PER_METER = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
-var MICROMETERS_PER_ROD = MICROMETERS_PER_FOOT * FEET_PER_ROD;
-var MICROMETERS_PER_FURLONG = MICROMETERS_PER_ROD * RODS_PER_FURLONG;
-var MICROMETERS_PER_KILOMETER = MICROMETERS_PER_METER * METERS_PER_KILOMETER;
-var MICROMETERS_PER_MILE = MICROMETERS_PER_FURLONG * FURLONGS_PER_MILE;
-var MILLIMETERS_PER_INCH = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
-var MILLIMETERS_PER_HAND = MILLIMETERS_PER_INCH * INCHES_PER_HAND;
-var MILLIMETERS_PER_FOOT = MILLIMETERS_PER_HAND * HANDS_PER_FOOT;
-var MILLIMETERS_PER_YARD = MILLIMETERS_PER_FOOT * FEET_PER_YARD;
-var MILLIMETERS_PER_METER = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
-var MILLIMETERS_PER_ROD = MILLIMETERS_PER_FOOT * FEET_PER_ROD;
-var MILLIMETERS_PER_FURLONG = MILLIMETERS_PER_ROD * RODS_PER_FURLONG;
-var MILLIMETERS_PER_KILOMETER = MILLIMETERS_PER_METER * METERS_PER_KILOMETER;
-var MILLIMETERS_PER_MILE = MILLIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
-var CENTIMETERS_PER_HAND = CENTIMETERS_PER_INCH * INCHES_PER_HAND;
-var CENTIMETERS_PER_FOOT = CENTIMETERS_PER_HAND * HANDS_PER_FOOT;
-var CENTIMETERS_PER_YARD = CENTIMETERS_PER_FOOT * FEET_PER_YARD;
-var CENTIMETERS_PER_ROD = CENTIMETERS_PER_FOOT * FEET_PER_ROD;
-var CENTIMETERS_PER_FURLONG = CENTIMETERS_PER_ROD * RODS_PER_FURLONG;
-var CENTIMETERS_PER_KILOMETER = CENTIMETERS_PER_METER * METERS_PER_KILOMETER;
-var CENTIMETERS_PER_MILE = CENTIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
-var INCHES_PER_FOOT = INCHES_PER_HAND * HANDS_PER_FOOT;
-var INCHES_PER_YARD = INCHES_PER_FOOT * FEET_PER_YARD;
-var INCHES_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_INCH;
-var INCHES_PER_ROD = INCHES_PER_FOOT * FEET_PER_ROD;
-var INCHES_PER_FURLONG = INCHES_PER_ROD * RODS_PER_FURLONG;
-var INCHES_PER_KILOMETER = INCHES_PER_METER * METERS_PER_KILOMETER;
-var INCHES_PER_MILE = INCHES_PER_FURLONG * FURLONGS_PER_MILE;
-var HANDS_PER_YARD = HANDS_PER_FOOT * FEET_PER_YARD;
-var HANDS_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_HAND;
-var HANDS_PER_ROD = HANDS_PER_FOOT * FEET_PER_ROD;
-var HANDS_PER_FURLONG = HANDS_PER_ROD * RODS_PER_FURLONG;
-var HANDS_PER_KILOMETER = HANDS_PER_METER * METERS_PER_KILOMETER;
-var HANDS_PER_MILE = HANDS_PER_FURLONG * FURLONGS_PER_MILE;
-var FEET_PER_METER = INCHES_PER_METER / INCHES_PER_FOOT;
-var FEET_PER_FURLONG = FEET_PER_ROD * RODS_PER_FURLONG;
-var FEET_PER_KILOMETER = FEET_PER_METER * METERS_PER_KILOMETER;
-var FEET_PER_MILE = FEET_PER_FURLONG * FURLONGS_PER_MILE;
-var YARDS_PER_METER = INCHES_PER_METER / INCHES_PER_YARD;
-var YARDS_PER_ROD = FEET_PER_ROD / FEET_PER_YARD;
-var YARDS_PER_FURLONG = YARDS_PER_ROD * RODS_PER_FURLONG;
-var YARDS_PER_KILOMETER = YARDS_PER_METER * METERS_PER_KILOMETER;
-var YARDS_PER_MILE = YARDS_PER_FURLONG * FURLONGS_PER_MILE;
-var METERS_PER_ROD = FEET_PER_ROD / FEET_PER_METER;
-var METERS_PER_FURLONG = METERS_PER_ROD * RODS_PER_FURLONG;
-var METERS_PER_MILE = METERS_PER_FURLONG * FURLONGS_PER_MILE;
-var RODS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_ROD;
-var RODS_PER_MILE = RODS_PER_FURLONG * FURLONGS_PER_MILE;
-var FURLONGS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_FURLONG;
-var KILOMETERS_PER_MILE = FURLONGS_PER_MILE / FURLONGS_PER_KILOMETER;
-function feet2Meters(feet) {
-  return feet / FEET_PER_METER;
-}
 
 // ../tslib/using.ts
 function interfaceSigCheck(obj2, ...funcNames) {
@@ -10587,7 +10572,7 @@ var VideoPlayer3D = class extends BaseVideoPlayer {
     }
     const aspect = this.height / this.width;
     if (encoding !== "N/A") {
-      this.vidMeshes[0].scale.set(100, 100, 100);
+      this.vidMeshes[0].scale.setScalar(100);
     } else if (layout === "mono") {
       this.vidMeshes[0].scale.set(1, aspect, 1);
     } else if (layout === "left-right" || layout === "right-left") {
@@ -11223,11 +11208,11 @@ function minRotAngle(to, from) {
   const b = a + 2 * Math.PI;
   const c = a - 2 * Math.PI;
   const A3 = Math.abs(a);
-  const B3 = Math.abs(b);
+  const B2 = Math.abs(b);
   const C2 = Math.abs(c);
-  if (A3 < B3 && A3 < C2) {
+  if (A3 < B2 && A3 < C2) {
     return a;
-  } else if (B3 < C2) {
+  } else if (B2 < C2) {
     return b;
   } else {
     return c;
@@ -11334,7 +11319,7 @@ function onInput(callback, opts) {
   return new HtmlEvt("input", callback, opts);
 }
 
-// ../event-system/AvatarMovedEvent.ts
+// ../threejs/eventSystem/AvatarMovedEvent.ts
 var AvatarMovedEvent = class extends TypedEvent {
   px = 0;
   py = 0;
@@ -11374,15 +11359,15 @@ function resolveCamera(renderer, camera) {
 }
 
 // ../threejs/setRightUpFwdPosFromMatrix.ts
-function setRightUpFwdPosFromMatrix(matrix, R2, U3, F2, P4) {
+function setRightUpFwdPosFromMatrix(matrix, R, U2, F, P3) {
   const m = matrix.elements;
-  R2.set(m[0], m[1], m[2]);
-  U3.set(m[4], m[5], m[6]);
-  F2.set(-m[8], -m[9], -m[10]);
-  P4.set(m[12], m[13], m[14]);
-  R2.normalize();
-  U3.normalize();
-  F2.normalize();
+  R.set(m[0], m[1], m[2]);
+  U2.set(m[4], m[5], m[6]);
+  F.set(-m[8], -m[9], -m[10]);
+  P3.set(m[12], m[13], m[14]);
+  R.normalize();
+  U2.normalize();
+  F.normalize();
 }
 
 // ../threejs/AvatarLocal.ts
@@ -11390,21 +11375,6 @@ var MOUSE_SENSITIVITY_SCALE = 100;
 var TOUCH_SENSITIVITY_SCALE = 50;
 var GAMEPAD_SENSITIVITY_SCALE = 1;
 var MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE = Math.PI / 3;
-var B2 = new THREE.Vector3(0, 0, 1);
-var R = new THREE.Vector3();
-var F = new THREE.Vector3();
-var U = new THREE.Vector3();
-var P3 = new THREE.Vector3();
-var M2 = new THREE.Matrix4();
-var E = new THREE.Euler();
-var Q1 = new THREE.Quaternion();
-var Q2 = new THREE.Quaternion();
-var Q3 = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
-var motion = new THREE.Vector3();
-var deltaQuat = new THREE.Quaternion();
-var nextFlick = new THREE.Vector3();
-var rotStage = new THREE.Matrix4();
-var userMovedEvt = new AvatarMovedEvent();
 function isPermissionedDeviceOrientationEvent(obj2) {
   return obj2 === DeviceOrientationEvent && "requestPermission" in obj2 && isFunction(obj2.requestPermission);
 }
@@ -11418,19 +11388,39 @@ var AvatarLocal = class extends TypedEventBase {
       ["mousedrag" /* MouseDrag */, 1 /* Mouse0 */],
       ["touchswipe" /* Touch */, 1 /* Mouse0 */]
     ]);
+    this.B = new THREE.Vector3(0, 0, 1);
+    this.R = new THREE.Vector3();
+    this.F = new THREE.Vector3();
+    this.U = new THREE.Vector3();
+    this.P = new THREE.Vector3();
+    this.M = new THREE.Matrix4();
+    this.E = new THREE.Euler();
+    this.Q1 = new THREE.Quaternion();
+    this.Q2 = new THREE.Quaternion();
+    this.Q3 = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
+    this.motion = new THREE.Vector2();
+    this.nextFlick = new THREE.Vector2();
+    this.rotStage = new THREE.Matrix4();
+    this.userMovedEvt = new AvatarMovedEvent();
     this._heading = 0;
     this._pitch = 0;
     this._roll = 0;
+    this.headX = 0;
+    this.headZ = 0;
     this.fwrd = false;
     this.back = false;
     this.left = false;
-    this.rgth = false;
+    this.rght = false;
+    this.fwrd2 = false;
+    this.back2 = false;
+    this.left2 = false;
+    this.rght2 = false;
     this.up = false;
     this.down = false;
     this.grow = false;
     this.shrk = false;
-    this.viewEuler = new THREE.Euler();
     this.move = new THREE.Vector3();
+    this.move2 = new THREE.Vector3();
     this.followers = new Array();
     this.worldPos = new THREE.Vector3();
     this._worldHeading = 0;
@@ -11438,23 +11428,16 @@ var AvatarLocal = class extends TypedEventBase {
     this.lastTouchInputTime = Number.MIN_SAFE_INTEGER;
     this.evtSys = null;
     this.requiredTouchCount = 1;
-    this.disableHorizontal = false;
-    this.disableVertical = false;
-    this.invertHorizontal = false;
-    this.invertVertical = true;
+    this.axisControl = new THREE.Vector2(0, 0);
     this.minimumX = -85 * Math.PI / 180;
     this.maximumX = 85 * Math.PI / 180;
     this.target = new THREE.Quaternion(0, 0, 0, 1);
     this.edgeFactor = 1 / 3;
-    this.accelerationX = 2;
-    this.accelerationY = 2;
-    this.speedX = 3;
-    this.speedY = 2;
+    this.acceleration = new THREE.Vector2(2, 2);
+    this.speed = new THREE.Vector2(3, 2);
     this.deviceQ = new THREE.Quaternion().identity();
-    this.u = 0;
-    this.v = 0;
-    this.du = 0;
-    this.dv = 0;
+    this.uv = new THREE.Vector2();
+    this.duv = new THREE.Vector2();
     this._keyboardControlEnabled = false;
     this.deviceOrientation = null;
     this.screenOrientation = 0;
@@ -11462,45 +11445,40 @@ var AvatarLocal = class extends TypedEventBase {
     this.onDeviceOrientationChangeEvent = null;
     this.onScreenOrientationChangeEvent = null;
     this.motionEnabled = false;
+    this.disableHorizontal = false;
+    this.disableVertical = false;
+    this.invertHorizontal = false;
+    this.invertVertical = true;
     this._height = defaultAvatarHeight;
     this.head = obj("Head", fader);
-    this.onKeyDown = (evt) => {
-      const ok = isModifierless(evt);
-      if (evt.key === "w")
+    const setKey = (key, ok) => {
+      if (key === "w")
         this.fwrd = ok;
-      if (evt.key === "s")
+      if (key === "s")
         this.back = ok;
-      if (evt.key === "a")
+      if (key === "a")
         this.left = ok;
-      if (evt.key === "d")
-        this.rgth = ok;
-      if (evt.key === "e")
+      if (key === "d")
+        this.rght = ok;
+      if (key === "e")
         this.up = ok;
-      if (evt.key === "q")
+      if (key === "q")
         this.down = ok;
-      if (evt.key === "r")
+      if (key === "ArrowUp")
+        this.fwrd2 = ok;
+      if (key === "ArrowDown")
+        this.back2 = ok;
+      if (key === "ArrowLeft")
+        this.left2 = ok;
+      if (key === "ArrowRight")
+        this.rght2 = ok;
+      if (key === "r")
         this.grow = ok;
-      if (evt.key === "f")
+      if (key === "f")
         this.shrk = ok;
     };
-    this.onKeyUp = (evt) => {
-      if (evt.key === "w")
-        this.fwrd = false;
-      if (evt.key === "s")
-        this.back = false;
-      if (evt.key === "a")
-        this.left = false;
-      if (evt.key === "d")
-        this.rgth = false;
-      if (evt.key === "e")
-        this.up = false;
-      if (evt.key === "q")
-        this.down = false;
-      if (evt.key === "r")
-        this.grow = false;
-      if (evt.key === "f")
-        this.shrk = false;
-    };
+    this.onKeyDown = (evt) => setKey(evt.key, isModifierless(evt));
+    this.onKeyUp = (evt) => setKey(evt.key, false);
     this.keyboardControlEnabled = true;
     if (isMobileVR()) {
       this.controlMode = "motioncontroller" /* MotionControllerStick */;
@@ -11533,6 +11511,22 @@ var AvatarLocal = class extends TypedEventBase {
   get worldPitch() {
     return this._worldPitch;
   }
+  set disableVertical(v) {
+    this._disableVertical = v;
+    this.axisControl.x = this._disableVertical ? 0 : this._invertVertical ? 1 : -1;
+  }
+  set invertVertical(v) {
+    this._invertVertical = v;
+    this.axisControl.x = this._disableVertical ? 0 : this._invertVertical ? 1 : -1;
+  }
+  set disableHorizontal(v) {
+    this._disableHorizontal = v;
+    this.axisControl.y = this._disableHorizontal ? 0 : this._invertHorizontal ? 1 : -1;
+  }
+  set invertHorizontal(v) {
+    this._invertHorizontal = v;
+    this.axisControl.y = this._disableHorizontal ? 0 : this._invertHorizontal ? 1 : -1;
+  }
   get height() {
     return this.head.position.y;
   }
@@ -11543,7 +11537,7 @@ var AvatarLocal = class extends TypedEventBase {
     return this.head.parent;
   }
   onFlick(direction) {
-    nextFlick.set(MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction, 0, 0);
+    this.nextFlick.x = MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction;
   }
   get keyboardControlEnabled() {
     return this._keyboardControlEnabled;
@@ -11572,10 +11566,8 @@ var AvatarLocal = class extends TypedEventBase {
     if (evt.pointer.enabled) {
       this.setMode(evt);
       if (evt.pointer.canMoveView && this.checkMode(this.controlMode, evt)) {
-        this.u = evt.pointer.state.u;
-        this.v = evt.pointer.state.v;
-        this.du = evt.pointer.state.du;
-        this.dv = evt.pointer.state.dv;
+        this.uv.copy(evt.pointer.state.uv);
+        this.duv.copy(evt.pointer.state.duv);
       }
     }
   }
@@ -11655,70 +11647,62 @@ var AvatarLocal = class extends TypedEventBase {
         const beta2 = device.beta ? deg2rad(device.beta) : 0;
         const gamma = device.gamma ? deg2rad(device.gamma) : 0;
         const orient = this.screenOrientation ? deg2rad(this.screenOrientation) : 0;
-        E.set(beta2, alpha, -gamma, "YXZ");
-        Q2.setFromAxisAngle(B2, -orient);
-        this.deviceQ.setFromEuler(E).multiply(Q3).multiply(Q2);
+        this.E.set(beta2, alpha, -gamma, "YXZ");
+        this.Q2.setFromAxisAngle(this.B, -orient);
+        this.deviceQ.setFromEuler(this.E).multiply(this.Q3).multiply(this.Q2);
       }
     } else if (this.controlMode === "mousefirstperson" /* MouseFPS */) {
-      this.setHeading(this.heading - this.du * 5);
-      this.setPitch(this.pitch + this.dv * 5, this.minimumX, this.maximumX);
-      this.setRoll(0);
-      this.du *= 0.5;
-      this.dv *= 0.5;
+      if (this.duv.manhattanLength() > 0) {
+        this.motion.copy(this.duv).multiply(this.axisControl);
+        this.setHeading(this.heading + this.motion.x);
+        this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+        this.setRoll(0);
+      }
+    } else if (this.controlMode === "motioncontroller" /* MotionControllerStick */) {
+      if (this.nextFlick.manhattanLength() !== 0) {
+        this.motion.copy(this.nextFlick).multiply(this.axisControl);
+        this.nextFlick.setScalar(0);
+        this.setHeading(this.heading + this.motion.x);
+        this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+        this.setRoll(0);
+      }
+    } else if (this.controlMode === "mouseedge" /* MouseScreenEdge */) {
+      if (this.uv.manhattanLength() > 0) {
+        this.motion.set(this.scaleRadialComponent(this.uv.x, this.speed.x, this.acceleration.x), this.scaleRadialComponent(this.uv.y, this.speed.y, this.acceleration.y)).multiplyScalar(dt).multiply(this.axisControl);
+        this.setHeading(this.heading + this.motion.x);
+        this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+        this.setRoll(0);
+      }
     } else if (this.controlMode !== "none" /* None */) {
-      const startPitch = this.pitch;
-      const startHeading = this.heading;
-      if (this.controlMode === "motioncontroller" /* MotionControllerStick */) {
-        motion.copy(nextFlick);
-        nextFlick.set(0, 0, 0);
-      } else if (this.controlMode === "mouseedge" /* MouseScreenEdge */) {
-        motion.set(this.scaleRadialComponent(this.u, this.speedX, this.accelerationX), this.scaleRadialComponent(-this.v, this.speedY, this.accelerationY), 0);
-      } else {
+      if (this.duv.manhattanLength() > 0) {
         const sensitivity = this.controlMode === "mousedrag" /* MouseDrag */ ? MOUSE_SENSITIVITY_SCALE : this.controlMode === "touchswipe" /* Touch */ ? TOUCH_SENSITIVITY_SCALE : this.controlMode === "gamepad" /* Gamepad */ ? GAMEPAD_SENSITIVITY_SCALE : assertNever(this.controlMode);
-        motion.set(-sensitivity * this.du, sensitivity * this.dv, 0);
-      }
-      if (this.controlMode === "mousedrag" /* MouseDrag */ || this.controlMode === "touchswipe" /* Touch */) {
-        const factor = Math.pow(0.95, 100 * dt);
-        this.du = truncate(factor * this.du);
-        this.dv = truncate(factor * this.dv);
-      }
-      if (this.disableVertical) {
-        motion.x = 0;
-      } else if (this.invertVertical) {
-        motion.x *= -1;
-      }
-      if (this.disableHorizontal) {
-        motion.y = 0;
-      } else if (this.invertHorizontal) {
-        motion.y *= -1;
-      }
-      if (this.controlMode !== "motioncontroller" /* MotionControllerStick */) {
-        motion.multiplyScalar(dt);
-      }
-      E.set(motion.y, motion.x, 0, "YXZ");
-      deltaQuat.setFromEuler(E);
-      this.viewEuler.setFromQuaternion(deltaQuat, "YXZ");
-      let { x, y } = this.viewEuler;
-      this.setHeading(this.heading + y);
-      this.setPitch(this.pitch + x, this.minimumX, this.maximumX);
-      this.setRoll(0);
-      if (this.evtSys) {
-        const viewChanged = startPitch !== this.pitch || startHeading !== this.heading;
-        if (viewChanged && this.controlMode === "mouseedge" /* MouseScreenEdge */) {
-          this.evtSys.recheckPointers();
-        }
+        this.motion.copy(this.duv).multiplyScalar(sensitivity * dt).multiply(this.axisControl);
+        this.setHeading(this.heading + this.motion.x);
+        this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+        this.setRoll(0);
       }
     }
-    if (this.fwrd || this.back || this.left || this.rgth || this.up || this.down) {
-      Q1.setFromAxisAngle(this.stage.up, this.worldHeading);
-      const dx = (this.left ? -1 : 0) + (this.rgth ? 1 : 0);
+    this.Q1.setFromAxisAngle(this.stage.up, this.worldHeading);
+    if (this.fwrd || this.back || this.left || this.rght || this.up || this.down) {
+      const dx = (this.left ? -1 : 0) + (this.rght ? 1 : 0);
       const dy = (this.down ? -1 : 0) + (this.up ? 1 : 0);
       const dz = (this.fwrd ? -1 : 0) + (this.back ? 1 : 0);
       this.move.set(dx, dy, dz);
       const d = this.move.length();
       if (d > 0) {
-        this.move.multiplyScalar(dt / d).applyQuaternion(Q1);
+        this.move.multiplyScalar(dt / d).applyQuaternion(this.Q1);
         this.stage.position.add(this.move);
+      }
+    }
+    if (this.fwrd2 || this.back2 || this.left2 || this.rght2) {
+      const dx = (this.left2 ? -1 : 0) + (this.rght2 ? 1 : 0);
+      const dz = (this.fwrd2 ? -1 : 0) + (this.back2 ? 1 : 0);
+      this.move2.set(dx, 0, dz);
+      const d = this.move2.length();
+      if (d > 0) {
+        this.move2.multiplyScalar(dt / d).applyQuaternion(this.Q1);
+        this.headX += this.move2.x;
+        this.headZ += this.move2.y;
       }
     }
     if (this.grow || this.shrk) {
@@ -11727,8 +11711,13 @@ var AvatarLocal = class extends TypedEventBase {
       this._height = clamp(this._height, 1, 2);
     }
     this.updateOrientation();
-    userMovedEvt.set(P3.x, P3.y, P3.z, F.x, F.y, F.z, U.x, U.y, U.z, this.height);
-    this.dispatchEvent(userMovedEvt);
+    this.userMovedEvt.set(this.P.x, this.P.y, this.P.z, this.F.x, this.F.y, this.F.z, this.U.x, this.U.y, this.U.z, this.height);
+    this.dispatchEvent(this.userMovedEvt);
+    const decay = Math.pow(0.95, 100 * dt);
+    this.duv.multiplyScalar(decay);
+    if (this.duv.manhattanLength() <= 1e-4) {
+      this.duv.setScalar(0);
+    }
   }
   scaleRadialComponent(n2, dn, ddn) {
     const absN = Math.abs(n2);
@@ -11736,28 +11725,28 @@ var AvatarLocal = class extends TypedEventBase {
   }
   updateOrientation() {
     const cam = resolveCamera(this.renderer, this.camera);
-    rotStage.makeRotationY(this._heading);
-    this.stage.matrix.makeTranslation(this.stage.position.x, this.stage.position.y, this.stage.position.z).multiply(rotStage);
+    this.rotStage.makeRotationY(this._heading);
+    this.stage.matrix.makeTranslation(this.stage.position.x, this.stage.position.y, this.stage.position.z).multiply(this.rotStage);
     this.stage.matrix.decompose(this.stage.position, this.stage.quaternion, this.stage.scale);
     if (this.renderer.xr.isPresenting) {
-      M2.copy(this.stage.matrixWorld).invert();
-      this.head.position.copy(cam.position).applyMatrix4(M2);
+      this.M.copy(this.stage.matrixWorld).invert();
+      this.head.position.copy(cam.position).applyMatrix4(this.M);
       this.head.quaternion.copy(this.stage.quaternion).invert().multiply(cam.quaternion);
     } else {
-      this.head.position.set(0, this._height, 0);
-      E.set(this._pitch, 0, this._roll, "XYZ");
-      this.head.quaternion.setFromEuler(E).premultiply(this.deviceQ);
+      this.head.position.set(this.headX, this._height, this.headZ);
+      this.E.set(this._pitch, 0, this._roll, "XYZ");
+      this.head.quaternion.setFromEuler(this.E).premultiply(this.deviceQ);
     }
     this.camera.position.copy(this.head.position);
     this.camera.quaternion.copy(this.head.quaternion);
     this.head.getWorldPosition(this.worldPos);
-    this.head.getWorldDirection(F);
-    this._worldHeading = getLookHeading(F);
-    this._worldPitch = getLookPitch(F);
-    setRightUpFwdPosFromMatrix(this.head.matrixWorld, R, U, F, P3);
+    this.head.getWorldDirection(this.F);
+    this._worldHeading = getLookHeading(this.F);
+    this._worldPitch = getLookPitch(this.F);
+    setRightUpFwdPosFromMatrix(this.head.matrixWorld, this.R, this.U, this.F, this.P);
   }
   reset() {
-    this.stage.position.set(0, 0, 0);
+    this.stage.position.setScalar(0);
     this.setHeadingImmediate(0);
   }
   resetFollowers() {
@@ -11807,7 +11796,7 @@ var CameraControl = class {
     this.dz = 0;
   }
   onMove(evt) {
-    if (evt.pointer.enabled && evt.pointer.canMoveView && evt.pointer.state.dz !== 0) {
+    if (evt.pointer.enabled && evt.pointer.canMoveView) {
       this.dz = evt.pointer.state.dz;
     }
   }
@@ -11844,7 +11833,7 @@ function deepEnableLayer(obj2, level) {
 // ../threejs/eventSystem/BaseCursor.ts
 var T = new THREE.Vector3();
 var V = new THREE.Vector3();
-var Q4 = new THREE.Quaternion();
+var Q2 = new THREE.Quaternion();
 var BaseCursor = class {
   constructor() {
     this._object = null;
@@ -11872,8 +11861,8 @@ var BaseCursor = class {
   update(avatarHeadPos, hit, defaultDistance, canMoveView, state, origin, direction) {
     if (hit && hit.face) {
       this.position.copy(hit.point);
-      hit.object.getWorldQuaternion(Q4);
-      T.copy(hit.face.normal).applyQuaternion(Q4);
+      hit.object.getWorldQuaternion(Q2);
+      T.copy(hit.face.normal).applyQuaternion(Q2);
       V.copy(T).multiplyScalar(0.02);
       this.position.add(V);
       V.copy(T).multiplyScalar(10).add(this.position);
@@ -11945,7 +11934,7 @@ var Cursor3D = class extends BaseCursor {
   }
 };
 
-// ../event-system/ObjectMovedEvent.ts
+// ../threejs/eventSystem/ObjectMovedEvent.ts
 var ObjectMovedEvent = class extends TypedEvent {
   constructor(name2 = null) {
     super("objectMoved");
@@ -15037,20 +15026,16 @@ var XRHandModelFactory = class {
   }
 };
 
-// ../event-system/PointerState.ts
+// ../threejs/eventSystem/PointerState.ts
 var PointerState = class {
   buttons = 0;
   moveDistance = 0;
   dragDistance = 0;
-  x = 0;
-  y = 0;
-  dx = 0;
-  dy = 0;
+  position = new THREE.Vector2();
+  motion = new THREE.Vector2();
   dz = 0;
-  u = 0;
-  v = 0;
-  du = 0;
-  dv = 0;
+  uv = new THREE.Vector2();
+  duv = new THREE.Vector2();
   canClick = false;
   dragging = false;
   ctrl = false;
@@ -15064,15 +15049,11 @@ var PointerState = class {
     this.buttons = ptr.buttons;
     this.moveDistance = ptr.moveDistance;
     this.dragDistance = ptr.dragDistance;
-    this.x = ptr.x;
-    this.y = ptr.y;
-    this.dx = ptr.dx;
-    this.dy = ptr.dy;
+    this.position.copy(ptr.position);
+    this.motion.copy(ptr.motion);
     this.dz = ptr.dz;
-    this.u = ptr.u;
-    this.v = ptr.v;
-    this.du = ptr.du;
-    this.dv = ptr.dv;
+    this.uv.copy(ptr.uv);
+    this.duv.copy(ptr.duv);
     this.canClick = ptr.canClick;
     this.dragging = ptr.dragging;
     this.ctrl = ptr.ctrl;
@@ -15397,8 +15378,6 @@ var BasePointer = class {
   get needsUpdate() {
     return this.enabled && this.isActive;
   }
-  recheck() {
-  }
   setEventState(type2) {
     this.evtSys.checkPointer(this, type2);
   }
@@ -15408,17 +15387,14 @@ var BasePointer = class {
       this.lastState = new PointerState();
     }
     this.lastState.copy(this.state);
-  }
-  onUpdate() {
+    this.state.motion.setScalar(0);
+    this.state.dz = 0;
+    this.state.duv.setScalar(0);
   }
   updateCursor(avatarHeadPos, curHit, defaultDistance) {
     if (this.cursor) {
       this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.state, this.origin, this.direction);
     }
-  }
-  onZoom(dz) {
-    this.state.dz = dz;
-    this.setEventState("move");
   }
   onPointerDown() {
     this.state.dragging = false;
@@ -15983,7 +15959,6 @@ var PointerHand = class extends BasePointer {
     }
   }
   onUpdate() {
-    super.onUpdate();
     if (this.enabled) {
       this.updateState();
       this.onPointerMove();
@@ -16017,7 +15992,7 @@ var BaseScreenPointer = class extends BasePointer {
     this.renderer = renderer;
     this.camera = camera;
     this.id = null;
-    this.moveOnUpdate = false;
+    this.sizeInv = new THREE.Vector2();
     const onPointerDown = (evt) => {
       if (this.checkEvent(evt)) {
         this.readEvent(evt);
@@ -16026,10 +16001,12 @@ var BaseScreenPointer = class extends BasePointer {
     };
     this.element = this.renderer.domElement;
     this.element.addEventListener("pointerdown", onPointerDown);
+    const setSizeInv = () => this.sizeInv.set(1 / this.element.clientWidth, 1 / this.element.clientHeight);
+    this.element.addEventListener("resize", setSizeInv);
+    setSizeInv();
     const onPointerMove = (evt) => {
       if (this.checkEvent(evt)) {
         this.readEvent(evt);
-        this.onPointerMove();
       }
     };
     this.element.addEventListener("pointermove", onPointerMove);
@@ -16040,106 +16017,96 @@ var BaseScreenPointer = class extends BasePointer {
       }
     };
     this.element.addEventListener("pointerup", onPointerUp);
+    this.element.addEventListener("pointercancel", onPointerUp);
   }
   get isTracking() {
     return this.id != null;
-  }
-  checkEvent(evt) {
-    return evt.pointerType === this.type && evt.pointerId === this.id;
-  }
-  readEvent(evt) {
-    if (this.checkEvent(evt)) {
-      this.basicReadEvent(evt);
-      this.state.buttons = evt.buttons;
-      this.state.x = evt.offsetX;
-      this.state.y = evt.offsetY;
-      this.state.dx = evt.movementX;
-      this.state.dy = evt.movementY;
-      this.stateDelta(evt.type);
-    }
-  }
-  basicReadEvent(evt) {
-    this.state.ctrl = evt.ctrlKey;
-    this.state.alt = evt.altKey;
-    this.state.shift = evt.shiftKey;
-    this.state.meta = evt.metaKey;
-    this.state.dz = 0;
-  }
-  stateDelta(type2) {
-    if (type2 === "pointermove" && this.lastState) {
-      if (document.pointerLockElement) {
-        this.state.x = this.lastState.x + this.state.dx;
-        this.state.y = this.lastState.y + this.state.dy;
-      } else {
-        this.state.dx = this.state.x - this.lastState.x;
-        this.state.dy = this.state.y - this.lastState.y;
-      }
-    }
-    this.state.moveDistance = Math.sqrt(this.state.dx * this.state.dx + this.state.dy * this.state.dy);
-    this.state.u = unproject(project(this.state.x, 0, this.element.clientWidth), -1, 1);
-    this.state.v = unproject(project(this.state.y, 0, this.element.clientHeight), -1, 1);
-    this.state.du = 2 * this.state.dx / this.element.clientWidth;
-    this.state.dv = 2 * this.state.dy / this.element.clientHeight;
-  }
-  recheck() {
-    this.moveOnUpdate = true;
-    super.recheck();
-  }
-  onUpdate() {
-    super.onUpdate();
-    const cam = resolveCamera(this.renderer, this.camera);
-    this.origin.setFromMatrixPosition(cam.matrixWorld);
-    this.direction.set(this.state.u, -this.state.v, 0.5).unproject(cam).sub(this.origin).normalize();
-    if (this.moveOnUpdate) {
-      this.onPointerMove();
-    }
-    this.origin.setFromMatrixPosition(cam.matrixWorld);
-    this.direction.set(this.state.u, -this.state.v, 0.5).unproject(cam).sub(this.origin).normalize();
-  }
-  onPointerMove() {
-    this.moveOnUpdate = false;
-    super.onPointerMove();
   }
   isPressed(button) {
     const mask = 1 << button;
     return this.state.buttons === mask;
   }
+  readEvent(evt) {
+    if (this.checkEvent(evt)) {
+      this.readMetaKeys(evt);
+      this.onReadEvent(evt);
+      this.stateDelta(evt.type);
+    }
+  }
+  checkEvent(evt) {
+    return evt.pointerType === this.type && evt.pointerId === this.id;
+  }
+  readMetaKeys(evt) {
+    this.state.ctrl = evt.ctrlKey;
+    this.state.alt = evt.altKey;
+    this.state.shift = evt.shiftKey;
+    this.state.meta = evt.metaKey;
+  }
+  stateDelta(type2) {
+    if (type2 === "pointermove" && document.pointerLockElement && this.lastState) {
+      this.state.position.copy(this.lastState.position).add(this.state.motion);
+    }
+    this.state.moveDistance = this.state.motion.length();
+    this.state.uv.copy(this.state.position).multiplyScalar(2).multiply(this.sizeInv).addScalar(-1);
+    this.state.duv.copy(this.state.motion).multiplyScalar(2).multiply(this.sizeInv);
+  }
+  onUpdate() {
+    const cam = resolveCamera(this.renderer, this.camera);
+    this.origin.setFromMatrixPosition(cam.matrixWorld);
+    this.direction.set(this.state.uv.x, -this.state.uv.y, 0.5).unproject(cam).sub(this.origin).normalize();
+    if (this.state.motion.manhattanLength() > 0) {
+      this.onPointerMove();
+    }
+    this.origin.setFromMatrixPosition(cam.matrixWorld);
+    this.direction.set(this.state.uv.x, -this.state.uv.y, 0.5).unproject(cam).sub(this.origin).normalize();
+  }
 };
 
-// ../threejs/eventSystem/PointerMouse.ts
-var PointerMouse = class extends BaseScreenPointer {
-  constructor(evtSys, renderer, camera) {
+// ../threejs/eventSystem/BaseScreenPointerSinglePoint.ts
+var BaseScreenPointerSinglePoint = class extends BaseScreenPointer {
+  constructor(type2, name2, evtSys, renderer, camera) {
     const onPrep = (evt) => {
-      if (evt.pointerType === "mouse" && this.id == null) {
+      if (evt.pointerType === type2 && this.id == null) {
         this.id = evt.pointerId;
       }
     };
     const unPrep = (evt) => {
-      if (evt.pointerType === "mouse" && this.id != null) {
+      if (evt.pointerType === type2 && this.id != null) {
         this.id = null;
       }
     };
     const element = renderer.domElement;
     element.addEventListener("pointerdown", onPrep);
     element.addEventListener("pointermove", onPrep);
-    super("mouse", 1 /* Mouse */, evtSys, renderer, camera, new CursorXRMouse(renderer));
-    this.allowPointerLock = false;
+    super(type2, name2, evtSys, renderer, camera, new CursorXRMouse(renderer));
+    element.addEventListener("pointerup", unPrep);
+    element.addEventListener("pointercancel", unPrep);
+    this.canMoveView = true;
+  }
+  onReadEvent(evt) {
+    this.state.buttons = evt.buttons;
+    this.state.position.set(evt.offsetX, -evt.offsetY);
+    this.state.motion.set(evt.movementX, -evt.movementY);
+  }
+};
+
+// ../threejs/eventSystem/PointerMouse.ts
+var PointerMouse = class extends BaseScreenPointerSinglePoint {
+  constructor(evtSys, renderer, camera) {
+    super("mouse", 1 /* Mouse */, evtSys, renderer, camera);
+    this.allowPointerLock = true;
     this.element.addEventListener("wheel", (evt) => {
       evt.preventDefault();
-      const dz = -evt.deltaY * 0.5;
-      this.onZoom(dz);
+      this.state.dz = -evt.deltaY * 0.5;
     }, { passive: false });
     this.element.addEventListener("contextmenu", (evt) => {
       evt.preventDefault();
     });
-    this.element.addEventListener("pointerup", unPrep);
-    this.element.addEventListener("pointercancel", unPrep);
     this.element.addEventListener("pointerdown", () => {
       if (this.allowPointerLock && !this.isPointerLocked) {
         this.lockPointer();
       }
     });
-    this.canMoveView = true;
     Object.seal(this);
   }
   lockPointer() {
@@ -16170,44 +16137,31 @@ var PointerMultiTouch = class extends BaseScreenPointer {
   checkEvent(evt) {
     return evt.pointerType === this.type;
   }
-  readEvent(evt) {
-    if (this.checkEvent(evt)) {
-      this.basicReadEvent(evt);
-      if (evt.type === "pointerdown" || evt.type === "pointermove") {
-        this.points.set(evt.pointerId, evt);
-      } else if (this.points.has(evt.pointerId) && (evt.type === "pointerup" || evt.type === "pointercancel")) {
-        this.points.delete(evt.pointerId);
+  onReadEvent(evt) {
+    if (evt.type === "pointerdown" || evt.type === "pointermove") {
+      this.points.set(evt.pointerId, evt);
+    } else if (this.points.has(evt.pointerId) && (evt.type === "pointerup" || evt.type === "pointercancel")) {
+      this.points.delete(evt.pointerId);
+    }
+    this.state.buttons = 0;
+    if (this.points.size > 0) {
+      this.state.position.setScalar(0);
+      const K = 1 / this.points.size;
+      for (const point of this.points.values()) {
+        this.state.buttons |= point.buttons << this.points.size - 1;
+        this.state.position.x += K * point.offsetX;
+        this.state.position.y -= K * point.offsetY;
+        this.state.motion.x += K * point.movementX;
+        this.state.motion.y -= K * point.movementY;
       }
-      this.state.buttons = 0;
-      this.state.dz *= 0.9;
-      if (this.points.size === 0) {
-        this.state.x *= 0.9;
-        this.state.y *= 0.9;
-        this.state.dx *= 0.9;
-        this.state.dy *= 0.9;
-      } else {
-        this.state.x = 0;
-        this.state.y = 0;
-        this.state.dx = 0;
-        this.state.dy = 0;
-        const K = 1 / this.points.size;
-        for (const point of this.points.values()) {
-          this.state.buttons |= point.buttons << this.points.size - 1;
-          this.state.x += K * point.offsetX;
-          this.state.y += K * point.offsetY;
-          this.state.dx += K * point.movementX;
-          this.state.dy += K * point.movementY;
+      if (this.points.size === 2) {
+        const [a, b] = Array.from(this.points.values());
+        const pinchDist = dist2(a, b);
+        if (this.lastState && this.lastState.buttons === 2) {
+          this.state.dz = (pinchDist - this.lastPinchDist) * 2.5;
         }
-        if (this.points.size === 2) {
-          const [a, b] = Array.from(this.points.values());
-          const pinchDist = dist2(a, b);
-          if (this.lastState && this.lastState.buttons === 2) {
-            this.state.dz = (pinchDist - this.lastPinchDist) * 2.5;
-          }
-          this.lastPinchDist = pinchDist;
-        }
+        this.lastPinchDist = pinchDist;
       }
-      this.stateDelta(evt.type);
     }
   }
   vibrate() {
@@ -16216,25 +16170,9 @@ var PointerMultiTouch = class extends BaseScreenPointer {
 };
 
 // ../threejs/eventSystem/PointerPen.ts
-var PointerPen = class extends BaseScreenPointer {
+var PointerPen = class extends BaseScreenPointerSinglePoint {
   constructor(evtSys, renderer, camera) {
-    const onPrep = (evt) => {
-      if (evt.pointerType === "pen" && this.id == null) {
-        this.id = evt.pointerId;
-      }
-    };
-    const unPrep = (evt) => {
-      if (evt.pointerType === "pen" && this.id != null) {
-        this.id = null;
-      }
-    };
-    const element = renderer.domElement;
-    element.addEventListener("pointerdown", onPrep);
-    element.addEventListener("pointermove", onPrep);
-    super("pen", 2 /* Pen */, evtSys, renderer, camera, new CursorXRMouse(renderer));
-    element.addEventListener("pointerup", unPrep);
-    element.addEventListener("pointercancel", unPrep);
-    this.canMoveView = true;
+    super("pen", 2 /* Pen */, evtSys, renderer, camera);
     Object.seal(this);
   }
 };
@@ -16420,10 +16358,6 @@ var EventSystem = class extends TypedEventBase {
           }
         }
         break;
-      case "enter":
-      case "exit":
-        console.log(pointer, eventType);
-        break;
       default:
         assertNever(eventType);
     }
@@ -16495,13 +16429,6 @@ var EventSystem = class extends TypedEventBase {
     for (const pointer of this.pointers) {
       if (pointer.needsUpdate) {
         pointer.update();
-      }
-    }
-  }
-  recheckPointers() {
-    for (const pointer of this.pointers) {
-      if (pointer.needsUpdate) {
-        pointer.recheck();
       }
     }
   }
@@ -19740,7 +19667,7 @@ var ScreenControl = class extends TypedEventBase {
       if (this.currentSession) {
         this.currentSession.end();
       } else if (navigator.xr) {
-        this.camera.position.set(0, 0, 0);
+        this.camera.position.setScalar(0);
         this.camera.quaternion.identity();
         try {
           const session = await navigator.xr.requestSession(xrMode.sessionMode, {
@@ -19796,7 +19723,7 @@ var ScreenControl = class extends TypedEventBase {
 };
 
 // ../threejs/Skybox.ts
-var U2 = new THREE.Vector3(0, 1, 0);
+var U = new THREE.Vector3(0, 1, 0);
 var FACE_SIZE = 2048;
 var FACE_SIZE_HALF = FACE_SIZE / 2;
 var FACES = [
@@ -19930,7 +19857,7 @@ var Skybox = class {
         throw new Error("Skybox rotation was not a valid array format. Needs an array of 4 numbers.");
       }
     } else if (isGoodNumber(rotation)) {
-      this._rotation.setFromAxisAngle(U2, rotation);
+      this._rotation.setFromAxisAngle(U, rotation);
     } else {
       if (isDefined(rotation)) {
         console.warn("Skybox rotation must be a THREE.Quaternion, THREE.Euler, number[] (representing a Quaternion), or a number (representing rotation about the Y-axis).");
@@ -19968,7 +19895,7 @@ var Skybox = class {
         if (this.env.avatar.heading !== this.stageHeading) {
           this.rotationNeedsUpdate = true;
           this.stageHeading = this.env.avatar.heading;
-          this.stageRotation.setFromAxisAngle(U2, this.env.avatar.heading);
+          this.stageRotation.setFromAxisAngle(U, this.env.avatar.heading);
         }
       } else {
         this.rotationNeedsUpdate = this.imageNeedsUpdate = this.imageNeedsUpdate || this.rotationNeedsUpdate;
@@ -20082,10 +20009,11 @@ var gridWidth = 15;
 var gridSize = feet2Meters(gridWidth);
 Style(rule("#frontBuffer", position("absolute"), left(0), top(0), width("100%"), height("100%"), margin(0), padding(0), border(0), touchAction("none")));
 var BaseEnvironment = class extends TypedEventBase {
-  constructor(canvas, fetcher, defaultAvatarHeight, enableFullResolution) {
+  constructor(canvas, fetcher, defaultAvatarHeight, enableFullResolution, DEBUG) {
     super();
     this.fetcher = fetcher;
     this.defaultAvatarHeight = defaultAvatarHeight;
+    this.DEBUG = DEBUG;
     this.layers = new Array();
     this.layerSortOrder = /* @__PURE__ */ new Map();
     this.fadeDepth = 0;
@@ -20133,7 +20061,7 @@ var BaseEnvironment = class extends TypedEventBase {
     this.sun.lookAt(0, 0, 0);
     this.sun.layers.enableAll();
     const showGround = () => {
-      this.ground.visible = this.renderer.xr.isPresenting;
+      this.ground.visible = this.renderer.xr.isPresenting || this.DEBUG;
     };
     this.screenControl.addEventListener("sessionstarted", showGround);
     this.screenControl.addEventListener("sessionstopped", showGround);
@@ -20642,16 +20570,14 @@ var Environment = class extends BaseEnvironment {
   get currentRoom() {
     return this._currentRoom;
   }
-  DEBUG;
   constructor(canvas, fetcher, dialogFontFamily, uiImagePaths, defaultAvatarHeight, enableFullResolution, options) {
-    super(canvas, fetcher, defaultAvatarHeight, enableFullResolution);
+    super(canvas, fetcher, defaultAvatarHeight, enableFullResolution, options && options.DEBUG);
     this.compassImage = new CanvasImageMesh(this, "Horizon", new ArtificialHorizon());
     this.compassImage.mesh.renderOrder = 5;
     this.clockImage = new CanvasImageMesh(this, "Clock", new ClockImage());
     this.clockImage.mesh.renderOrder = 5;
     options = options || {};
     const JS_EXT = options.JS_EXT || ".js";
-    this.DEBUG = options.DEBUG || false;
     this.apps = new ApplicationLoader(this, JS_EXT);
     this.apps.addEventListener("apploading", (evt) => {
       evt.preLoadTask = this.fadeOut().then(() => {

@@ -239,7 +239,7 @@ export class ScreenControl
                 this.currentSession.end();
             }
             else if (navigator.xr) {
-                this.camera.position.set(0, 0, 0);
+                this.camera.position.setScalar(0);
                 this.camera.quaternion.identity();
                 // WebXR"s requestReferenceSpace only works if the corresponding feature
                 // was requested at session creation time. For simplicity, just ask for

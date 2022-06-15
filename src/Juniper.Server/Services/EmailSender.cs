@@ -13,8 +13,8 @@ namespace Juniper.Services
         private bool disposedValue;
 
         public EmailSender(IConfiguration config)
-            : this("dlsdc-com.mail.protection.outlook.com", //config.GetValue<string>("Mail:Host"),
-                  25, //config.GetValue<int>("Mail:Port"),
+            : this(config.GetValue<string>("Mail:Host"),
+                  config.GetValue<int>("Mail:Port"),
                   config.GetValue<string>("Mail:From"),
                   config.GetValue<string>("Mail:User"),
                   config.GetValue<string>("Mail:Password"))

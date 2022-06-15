@@ -2,7 +2,7 @@ import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
 import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
 import { PointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
-import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isMobile, isMobileVR, isNullOrUndefined, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";
+import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isMobile, isMobileVR, isNullOrUndefined, isString, TypedEventBase } from "@juniper-lib/tslib";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading, getLookPitch } from "./animation/lookAngles";
 import type { EventSystem } from "./eventSystem/EventSystem";
@@ -27,22 +27,6 @@ const TOUCH_SENSITIVITY_SCALE = 50;
 const GAMEPAD_SENSITIVITY_SCALE = 1;
 
 const MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE = Math.PI / 3;
-
-const B = new THREE.Vector3(0, 0, 1);
-const R = new THREE.Vector3();
-const F = new THREE.Vector3();
-const U = new THREE.Vector3();
-const P = new THREE.Vector3();
-const M = new THREE.Matrix4();
-const E = new THREE.Euler();
-const Q1 = new THREE.Quaternion();
-const Q2 = new THREE.Quaternion();
-const Q3 = new THREE.Quaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
-const motion = new THREE.Vector3();
-const deltaQuat = new THREE.Quaternion();
-const nextFlick = new THREE.Vector3();
-const rotStage = new THREE.Matrix4();
-const userMovedEvt = new AvatarMovedEvent();
 
 interface DeviceOrientationEventWithPermissionRequest extends Function {
     requestPermission(): Promise<PermissionState>;
@@ -80,21 +64,46 @@ export class AvatarLocal
     ]);
 
 
+
+    private readonly B = new THREE.Vector3(0, 0, 1);
+    private readonly R = new THREE.Vector3();
+    private readonly F = new THREE.Vector3();
+    private readonly U = new THREE.Vector3();
+    private readonly P = new THREE.Vector3();
+    private readonly M = new THREE.Matrix4();
+    private readonly E = new THREE.Euler();
+    private readonly Q1 = new THREE.Quaternion();
+    private readonly Q2 = new THREE.Quaternion();
+    private readonly Q3 = new THREE.Quaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
+    private readonly motion = new THREE.Vector2();
+    private readonly nextFlick = new THREE.Vector2();
+    private readonly rotStage = new THREE.Matrix4();
+    private readonly userMovedEvt = new AvatarMovedEvent();
+
+
+
     private _heading = 0;
     private _pitch = 0;
     private _roll = 0;
 
+    private headX = 0;
+    private headZ = 0;
+
     private fwrd = false;
     private back = false;
     private left = false;
-    private rgth = false;
+    private rght = false;
+    private fwrd2 = false;
+    private back2 = false;
+    private left2 = false;
+    private rght2 = false;
     private up = false;
     private down = false;
     private grow = false;
     private shrk = false;
 
-    private readonly viewEuler = new THREE.Euler();
     private readonly move = new THREE.Vector3();
+    private readonly move2 = new THREE.Vector3();
 
     private readonly followers = new Array<BodyFollower>();
 
@@ -116,10 +125,32 @@ export class AvatarLocal
 
     evtSys: EventSystem = null;
     requiredTouchCount = 1;
-    disableHorizontal = false;
-    disableVertical = false;
-    invertHorizontal = false;
-    invertVertical = true;
+    private _disableHorizontal: boolean;
+    private _disableVertical: boolean;
+    private _invertHorizontal: boolean;
+    private _invertVertical: boolean;
+    private axisControl = new THREE.Vector2(0, 0);
+
+    set disableVertical(v: boolean) {
+        this._disableVertical = v;
+        this.axisControl.x = this._disableVertical ? 0 : this._invertVertical ? 1 : -1;
+    }
+
+    set invertVertical(v: boolean) {
+        this._invertVertical = v;
+        this.axisControl.x = this._disableVertical ? 0 : this._invertVertical ? 1 : -1;
+    }
+
+    set disableHorizontal(v: boolean) {
+        this._disableHorizontal = v;
+        this.axisControl.y = this._disableHorizontal ? 0 : this._invertHorizontal ? 1 : -1;
+    }
+
+    set invertHorizontal(v: boolean) {
+        this._invertHorizontal = v;
+        this.axisControl.y = this._disableHorizontal ? 0 : this._invertHorizontal ? 1 : -1;
+    }
+
 
     minimumX = -85 * Math.PI / 180;
     maximumX = 85 * Math.PI / 180;
@@ -127,10 +158,8 @@ export class AvatarLocal
     target = new THREE.Quaternion(0, 0, 0, 1);
 
     edgeFactor = 1 / 3;
-    accelerationX = 2;
-    accelerationY = 2;
-    speedX = 3;
-    speedY = 2;
+    private readonly acceleration = new THREE.Vector2(2, 2);
+    private readonly speed = new THREE.Vector2(3, 2);
 
     private deviceQ = new THREE.Quaternion().identity();
 
@@ -139,10 +168,8 @@ export class AvatarLocal
         return this.head.position.y;
     }
 
-    private u: number = 0;
-    private v: number = 0;
-    private du: number = 0;
-    private dv: number = 0;
+    private readonly uv = new THREE.Vector2();
+    private readonly duv = new THREE.Vector2();
 
     get object() {
         return this.head;
@@ -161,34 +188,31 @@ export class AvatarLocal
         fader: Fader,
         defaultAvatarHeight: number) {
         super();
+        this.disableHorizontal = false;
+        this.disableVertical = false;
+        this.invertHorizontal = false;
+        this.invertVertical = true;
 
         this._height = defaultAvatarHeight;
         this.head = obj("Head", fader);
 
-        this.onKeyDown = (evt) => {
-            const ok = isModifierless(evt);
-            if (evt.key === "w") this.fwrd = ok;
-            if (evt.key === "s") this.back = ok;
-            if (evt.key === "a") this.left = ok;
-            if (evt.key === "d") this.rgth = ok;
-            if (evt.key === "e") this.up = ok;
-            if (evt.key === "q") this.down = ok;
-
-            if (evt.key === "r") this.grow = ok;
-            if (evt.key === "f") this.shrk = ok;
+        const setKey = (key: string, ok: boolean) => {
+            if (key === "w") this.fwrd = ok;
+            if (key === "s") this.back = ok;
+            if (key === "a") this.left = ok;
+            if (key === "d") this.rght = ok;
+            if (key === "e") this.up = ok;
+            if (key === "q") this.down = ok;
+            if (key === "ArrowUp") this.fwrd2 = ok;
+            if (key === "ArrowDown") this.back2 = ok;
+            if (key === "ArrowLeft") this.left2 = ok;
+            if (key === "ArrowRight") this.rght2 = ok;
+            if (key === "r") this.grow = ok;
+            if (key === "f") this.shrk = ok;
         };
 
-        this.onKeyUp = (evt) => {
-            if (evt.key === "w") this.fwrd = false;
-            if (evt.key === "s") this.back = false;
-            if (evt.key === "a") this.left = false;
-            if (evt.key === "d") this.rgth = false;
-            if (evt.key === "e") this.up = false;
-            if (evt.key === "q") this.down = false;
-
-            if (evt.key === "r") this.grow = false;
-            if (evt.key === "f") this.shrk = false;
-        };
+        this.onKeyDown = (evt: KeyboardEvent) => setKey(evt.key, isModifierless(evt));
+        this.onKeyUp = (evt: KeyboardEvent) => setKey(evt.key, false);
 
         this.keyboardControlEnabled = true;
 
@@ -226,7 +250,7 @@ export class AvatarLocal
     }
 
     onFlick(direction: number) {
-        nextFlick.set(MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction, 0, 0);
+        this.nextFlick.x = MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction;
     }
 
     get keyboardControlEnabled(): boolean {
@@ -262,10 +286,8 @@ export class AvatarLocal
             this.setMode(evt);
             if (evt.pointer.canMoveView
                 && this.checkMode(this.controlMode, evt)) {
-                this.u = evt.pointer.state.u;
-                this.v = evt.pointer.state.v;
-                this.du = evt.pointer.state.du;
-                this.dv = evt.pointer.state.dv;
+                this.uv.copy(evt.pointer.state.uv);
+                this.duv.copy(evt.pointer.state.duv);
             }
         }
     }
@@ -377,35 +399,51 @@ export class AvatarLocal
                 const beta = device.beta ? deg2rad(device.beta) : 0;
                 const gamma = device.gamma ? deg2rad(device.gamma) : 0;
                 const orient = this.screenOrientation ? deg2rad(this.screenOrientation) : 0;
-                E.set(beta, alpha, -gamma, "YXZ");
-                Q2.setFromAxisAngle(B, -orient);
-                this.deviceQ.setFromEuler(E) // orient the device
-                    .multiply(Q3) // camera looks out the back of the device, not the top
-                    .multiply(Q2); // adjust for screen orientation
+                this.E.set(beta, alpha, -gamma, "YXZ");
+                this.Q2.setFromAxisAngle(this.B, -orient);
+                this.deviceQ
+                    .setFromEuler(this.E) // orient the device
+                    .multiply(this.Q3) // camera looks out the back of the device, not the top
+                    .multiply(this.Q2); // adjust for screen orientation
+            }
+        }
+        else if (this.controlMode === CameraControlMode.MotionControllerStick) {
+            if (this.nextFlick.manhattanLength() !== 0) {
+                this.motion
+                    .copy(this.nextFlick)
+                    .multiply(this.axisControl);
+                this.nextFlick.setScalar(0);
+                this.setHeading(this.heading + this.motion.x);
+                this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+                this.setRoll(0);
+            }
+        }
+        else if (this.controlMode === CameraControlMode.MouseScreenEdge) {
+            if (this.uv.manhattanLength() > 0) {
+                this.motion
+                    .set(
+                        this.scaleRadialComponent(this.uv.x, this.speed.x, this.acceleration.x),
+                        this.scaleRadialComponent(this.uv.y, this.speed.y, this.acceleration.y))
+                    .multiplyScalar(dt)
+                    .multiply(this.axisControl);
+
+                this.setHeading(this.heading + this.motion.x);
+                this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+                this.setRoll(0);
             }
         }
         else if (this.controlMode === CameraControlMode.MouseFPS) {
-            this.setHeading(this.heading - this.du * 5);
-            this.setPitch(this.pitch + this.dv * 5, this.minimumX, this.maximumX);
-            this.setRoll(0);
-            this.du *= 0.5;
-            this.dv *= 0.5;
+            if (this.duv.manhattanLength() > 0) {
+                this.motion
+                    .copy(this.duv)
+                    .multiply(this.axisControl);
+                this.setHeading(this.heading + this.motion.x);
+                this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+                this.setRoll(0);
+            }
         }
         else if (this.controlMode !== CameraControlMode.None) {
-            const startPitch = this.pitch;
-            const startHeading = this.heading;
-
-            if (this.controlMode === CameraControlMode.MotionControllerStick) {
-                motion.copy(nextFlick);
-                nextFlick.set(0, 0, 0);
-            }
-            else if (this.controlMode === CameraControlMode.MouseScreenEdge) {
-                motion.set(
-                    this.scaleRadialComponent(this.u, this.speedX, this.accelerationX),
-                    this.scaleRadialComponent(-this.v, this.speedY, this.accelerationY),
-                    0);
-            }
-            else {
+            if (this.duv.manhattanLength() > 0) {
                 const sensitivity = this.controlMode === CameraControlMode.MouseDrag
                     ? MOUSE_SENSITIVITY_SCALE
                     : this.controlMode === CameraControlMode.Touch
@@ -413,68 +451,44 @@ export class AvatarLocal
                         : this.controlMode === CameraControlMode.Gamepad
                             ? GAMEPAD_SENSITIVITY_SCALE
                             : assertNever(this.controlMode);
-                motion.set(
-                    -sensitivity * this.du,
-                    sensitivity * this.dv,
-                    0);
-            }
 
-            if (this.controlMode === CameraControlMode.MouseDrag
-                || this.controlMode === CameraControlMode.Touch) {
-                const factor = Math.pow(0.95, 100 * dt);
-                this.du = truncate(factor * this.du);
-                this.dv = truncate(factor * this.dv);
-            }
+                this.motion
+                    .copy(this.duv)
+                    .multiplyScalar(sensitivity * dt)
+                    .multiply(this.axisControl);
 
-            if (this.disableVertical) {
-                motion.x = 0;
-            }
-            else if (this.invertVertical) {
-                motion.x *= -1;
-            }
-
-            if (this.disableHorizontal) {
-                motion.y = 0;
-            }
-            else if (this.invertHorizontal) {
-                motion.y *= -1;
-            }
-
-            if (this.controlMode !== CameraControlMode.MotionControllerStick) {
-                motion.multiplyScalar(dt);
-            }
-
-            E.set(motion.y, motion.x, 0, "YXZ");
-            deltaQuat.setFromEuler(E);
-            this.viewEuler.setFromQuaternion(deltaQuat, "YXZ");
-            let { x, y } = this.viewEuler;
-
-            this.setHeading(this.heading + y);
-            this.setPitch(this.pitch + x, this.minimumX, this.maximumX);
-            this.setRoll(0);
-
-            if (this.evtSys) {
-                const viewChanged = startPitch !== this.pitch
-                    || startHeading !== this.heading;
-
-                if (viewChanged
-                    && this.controlMode === CameraControlMode.MouseScreenEdge) {
-                    this.evtSys.recheckPointers();
-                }
+                this.setHeading(this.heading + this.motion.x);
+                this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+                this.setRoll(0);
             }
         }
 
-        if (this.fwrd || this.back || this.left || this.rgth || this.up || this.down) {
-            Q1.setFromAxisAngle(this.stage.up, this.worldHeading);
-            const dx = (this.left ? -1 : 0) + (this.rgth ? 1 : 0);
+        this.Q1.setFromAxisAngle(this.stage.up, this.worldHeading);
+
+        if (this.fwrd || this.back || this.left || this.rght || this.up || this.down) {
+            const dx = (this.left ? -1 : 0) + (this.rght ? 1 : 0);
             const dy = (this.down ? -1 : 0) + (this.up ? 1 : 0);
             const dz = (this.fwrd ? -1 : 0) + (this.back ? 1 : 0);
             this.move.set(dx, dy, dz);
             const d = this.move.length();
             if (d > 0) {
                 this.move.multiplyScalar(dt / d)
-                    .applyQuaternion(Q1);
+                    .applyQuaternion(this.Q1);
                 this.stage.position.add(this.move);
+            }
+        }
+
+        if (this.fwrd2 || this.back2 || this.left2 || this.rght2) {
+            const dx = (this.left2 ? -1 : 0) + (this.rght2 ? 1 : 0);
+            const dz = (this.fwrd2 ? -1 : 0) + (this.back2 ? 1 : 0);
+            this.move2.set(dx, 0, dz);
+            const d = this.move2.length();
+            if (d > 0) {
+                this.move2.multiplyScalar(dt / d)
+                    .applyQuaternion(this.Q1);
+
+                this.headX += this.move2.x;
+                this.headZ += this.move2.y;
             }
         }
 
@@ -486,13 +500,19 @@ export class AvatarLocal
 
         this.updateOrientation();
 
-        userMovedEvt.set(
-            P.x, P.y, P.z,
-            F.x, F.y, F.z,
-            U.x, U.y, U.z,
+        this.userMovedEvt.set(
+            this.P.x, this.P.y, this.P.z,
+            this.F.x, this.F.y, this.F.z,
+            this.U.x, this.U.y, this.U.z,
             this.height);
 
-        this.dispatchEvent(userMovedEvt);
+        this.dispatchEvent(this.userMovedEvt);
+
+        const decay = Math.pow(0.95, 100 * dt);
+        this.duv.multiplyScalar(decay);
+        if (this.duv.manhattanLength() <= 0.0001) {
+            this.duv.setScalar(0);
+        }
     }
 
     private scaleRadialComponent(n: number, dn: number, ddn: number) {
@@ -503,13 +523,13 @@ export class AvatarLocal
     private updateOrientation() {
         const cam = resolveCamera(this.renderer, this.camera);
 
-        rotStage.makeRotationY(this._heading);
+        this.rotStage.makeRotationY(this._heading);
 
         this.stage.matrix.makeTranslation(
             this.stage.position.x,
             this.stage.position.y,
             this.stage.position.z)
-            .multiply(rotStage);
+            .multiply(this.rotStage);
 
         this.stage.matrix.decompose(
             this.stage.position,
@@ -517,21 +537,21 @@ export class AvatarLocal
             this.stage.scale);
 
         if (this.renderer.xr.isPresenting) {
-            M.copy(this.stage.matrixWorld)
+            this.M.copy(this.stage.matrixWorld)
                 .invert();
 
             this.head.position.copy(cam.position)
-                .applyMatrix4(M);
+                .applyMatrix4(this.M);
 
             this.head.quaternion.copy(this.stage.quaternion)
                 .invert()
                 .multiply(cam.quaternion);
         }
         else {
-            this.head.position.set(0, this._height, 0);
+            this.head.position.set(this.headX, this._height, this.headZ);
 
-            E.set(this._pitch, 0, this._roll, "XYZ");
-            this.head.quaternion.setFromEuler(E)
+            this.E.set(this._pitch, 0, this._roll, "XYZ");
+            this.head.quaternion.setFromEuler(this.E)
                 .premultiply(this.deviceQ);
         }
 
@@ -540,14 +560,14 @@ export class AvatarLocal
         this.camera.quaternion.copy(this.head.quaternion);
 
         this.head.getWorldPosition(this.worldPos);
-        this.head.getWorldDirection(F);
-        this._worldHeading = getLookHeading(F);
-        this._worldPitch = getLookPitch(F);
-        setRightUpFwdPosFromMatrix(this.head.matrixWorld, R, U, F, P);
+        this.head.getWorldDirection(this.F);
+        this._worldHeading = getLookHeading(this.F);
+        this._worldPitch = getLookPitch(this.F);
+        setRightUpFwdPosFromMatrix(this.head.matrixWorld, this.R, this.U, this.F, this.P);
     }
 
     reset() {
-        this.stage.position.set(0, 0, 0);
+        this.stage.position.setScalar(0);
         this.setHeadingImmediate(0);
     }
 

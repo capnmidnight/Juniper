@@ -115,7 +115,7 @@ export class VideoPlayer3D
 
         const aspect = this.height / this.width;
         if (encoding !== "N/A") {
-            this.vidMeshes[0].scale.set(100, 100, 100);
+            this.vidMeshes[0].scale.setScalar(100);
         }
         else if (layout === "mono") {
             this.vidMeshes[0].scale.set(1, aspect, 1);
