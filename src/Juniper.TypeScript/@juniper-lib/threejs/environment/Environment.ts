@@ -274,7 +274,10 @@ export class Environment
             }
 
             if ((++this.countTick) % 100 === 0) {
-                this.clockImage.image.fps = this.avgFPS;
+                this.clockImage.image.setStats(
+                    this.avgFPS,
+                    this.renderer.info.render.calls,
+                    this.renderer.info.render.triangles);
             }
         }
 

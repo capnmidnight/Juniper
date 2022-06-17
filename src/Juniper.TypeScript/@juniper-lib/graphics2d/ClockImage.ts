@@ -21,17 +21,14 @@ export class ClockImage extends TextImage {
         updater();
     }
 
-    private _fps: number = null;
+    private fps: number = null;
+    private drawCalls: number = null;
+    private triangles: number = null;
 
-    get fps(): number {
-        return this._fps;
-    }
-
-    set fps(v: number) {
-        if (v !== this.fps) {
-            this._fps = v;
-            this.update();
-        }
+    setStats(fps: number, drawCalls: number, triangles: number): void {
+        this.fps = fps;
+        this.drawCalls = drawCalls;
+        this.triangles = triangles;
     }
 
     private lastLen: number = 0;
@@ -40,7 +37,7 @@ export class ClockImage extends TextImage {
         const time = new Date();
         let value = time.toLocaleTimeString();
         if (this.fps !== null) {
-            value += ` ${Math.round(this.fps).toFixed(0)}hz`;
+            value += ` ${Math.round(this.fps).toFixed(0)}hz ${this.drawCalls}c ${this.triangles}t`;
         }
 
         if (value.length !== this.lastLen) {
