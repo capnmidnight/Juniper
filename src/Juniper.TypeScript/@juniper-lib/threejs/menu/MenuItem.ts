@@ -1,29 +1,25 @@
 import { scaleOnHover } from "../animation/scaleOnHover";
+import { makeRayTarget, RayTarget } from "../eventSystem/RayTarget";
 import { Image2DMesh } from "../Image2DMesh";
 import { IUpdatable } from "../IUpdatable";
-import { PlaneCollider } from "../Plane";
 
 export class MenuItem
     extends THREE.Object3D
     implements IUpdatable {
-    disabled: boolean;
-    collider: PlaneCollider;
-
     startX: number = 0;
 
     useWebXRLayers = false;
+    readonly target: RayTarget;
 
     constructor(width: number, height: number,
         name: string,
         public front: THREE.Object3D,
-        public back: THREE.Object3D,
+        public back: Image2DMesh,
         public isClickable: boolean,
         enabled: boolean) {
         super();
 
         this.name = `MenuItem-${name}`;
-
-        this.disabled = !enabled;
 
         if (this.front) {
             this.front = front;
@@ -40,10 +36,8 @@ export class MenuItem
             this.add(this.back);
         }
 
-        this.collider = new PlaneCollider(width, height);
-        this.collider.scale.x = width;
-        this.collider.scale.y = height;
-        this.add(this.collider);
+        this.target = makeRayTarget(this.back.mesh, this);
+        this.target.enabled = enabled;
 
         if (this.isClickable) {
             scaleOnHover(this);
@@ -63,10 +57,10 @@ export class MenuItem
     }
 
     get width() {
-        return this.collider.scale.x;
+        return this.back.scale.x;
     }
 
     get height() {
-        return this.collider.scale.y;
+        return this.back.scale.y;
     }
 }

@@ -29,6 +29,9 @@ export class TransformEditor extends TypedEventBase<TransformEditorEvents> imple
 
     private _size: number = 1;
 
+    private readonly movingEvt = new TransformEditorMovingEvent();
+    private readonly movedEvt = new TransformEditorMovedEvent();
+
     constructor(orbitTranslate: boolean, defaultAvatarHeight: number) {
         super();
 
@@ -73,7 +76,7 @@ export class TransformEditor extends TypedEventBase<TransformEditorEvents> imple
     private setTranslator(name: string, sx: number, sy: number, sz: number, color: THREE.MeshBasicMaterial, defaultAvatarHeight: number): Translator {
         const translator = new Translator(name, sx, sy, sz, color);
         translator.size = this.size * 0.5;
-        translator.addEventListener("dragdir", (evt: THREE.Event) => {
+        translator.target.addEventListener("dragdir", (evt) => {
             this.object.parent.position.y -= defaultAvatarHeight;
 
             const dist = this.object.parent.position.length();
@@ -94,11 +97,11 @@ export class TransformEditor extends TypedEventBase<TransformEditorEvents> imple
 
             this.object.parent.position.y += defaultAvatarHeight;
 
-            this.dispatchEvent(new TransformEditorMovingEvent());
+            this.dispatchEvent(this.movingEvt);
         });
 
-        translator.addEventListener("dragend", () =>
-            this.dispatchEvent(new TransformEditorMovedEvent()));
+        translator.target.addEventListener("dragend", () =>
+            this.dispatchEvent(this.movedEvt));
 
         return translator;
     }

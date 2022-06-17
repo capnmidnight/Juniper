@@ -9,7 +9,7 @@ export class ButtonImageWidget implements Widget, EventTarget {
 
     readonly element: HTMLButtonElement;
     readonly object: THREE.Object3D;
-    private mesh: THREE.Object3D = null;
+    private mesh: MeshButton = null;
 
     constructor(buttons: ButtonFactory, setName: string, iconName: string) {
         this.element = ButtonPrimary(
@@ -25,7 +25,7 @@ export class ButtonImageWidget implements Widget, EventTarget {
         this.mesh = new MeshButton(iconName, geometry, enabledMaterial, disabledMaterial, 0.2);
         this.object.add(this.mesh);
         this.mesh.visible = this.visible;
-        this.mesh.addEventListener("click", () => {
+        this.mesh.target.addEventListener("click", () => {
             this.element.click();
         });
     }

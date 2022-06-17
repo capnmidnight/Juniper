@@ -1,27 +1,25 @@
 import { scaleOnHover } from "./animation/scaleOnHover";
-import { Collider } from "./Collider";
+import { makeRayTarget, RayTarget } from "./eventSystem/RayTarget";
 import { MeshLabel } from "./MeshLabel";
 
 export class MeshButton extends MeshLabel {
-    readonly collider: Collider;
-    readonly isDraggable = false;
-    readonly isClickable = true;
+    readonly target: RayTarget;
 
     constructor(name: string, geometry: THREE.BufferGeometry, enabledMaterial: THREE.Material, disabledMaterial: THREE.Material, size: number) {
         super(name, geometry, enabledMaterial, disabledMaterial, size);
 
-        this.collider = new Collider(geometry);
-        this.collider.name = `Collider-${this.name}`;
-        this.size = size;
-        this.add(this.collider);
+        this.target = makeRayTarget(this.enabledMesh);
+        this.target.clickable = true;
+        this.target.disabled = this.disabled;
 
         scaleOnHover(this);
     }
 
-    override set size(v: number) {
-        super.size = v;
-        if (this.collider) {
-            this.collider.scale.setScalar(v);
-        }
+    override get disabled() {
+        return super.disabled;
+    }
+
+    override set disabled(v) {
+        this.target.disabled = super.disabled = v;
     }
 }

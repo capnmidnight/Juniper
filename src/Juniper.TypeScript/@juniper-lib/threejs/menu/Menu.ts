@@ -170,7 +170,7 @@ export class Menu extends THREE.Object3D {
     private disableAll(): void {
         setTimeout(() => {
             for (const button of this.buttons) {
-                button.disabled = true;
+                button.target.disabled = true;
             }
         }, 10);
     }
@@ -407,8 +407,8 @@ export class Menu extends THREE.Object3D {
             item.clickable !== false,
             enabled);
 
-        if (!button.disabled && isFunction(onClick)) {
-            button.addEventListener("click", () => {
+        if (!button.target.disabled && isFunction(onClick)) {
+            button.target.addEventListener("click", () => {
                 this.curBlowout = this.blowOut(true);
                 onClick(item);
             });
@@ -434,14 +434,14 @@ export class Menu extends THREE.Object3D {
     }
 
     private async blowOutChild(child: MenuItem, i: number, d: boolean): Promise<void> {
-        const wasDisabled = child.disabled;
-        child.disabled = true;
+        const wasDisabled = child.target.disabled;
+        child.target.disabled = true;
 
         await this.animator.start(0.125 * i, 0.5, (t: number) => {
             const st = clamp(d ? t : (1 - t), 0, 1);
             child.position.x = child.startX - 10 * bump(st, 0.15);
         });
 
-        child.disabled = wasDisabled;
+        child.target.disabled = wasDisabled;
     }
 }

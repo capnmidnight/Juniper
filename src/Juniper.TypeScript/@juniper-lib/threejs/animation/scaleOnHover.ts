@@ -1,6 +1,7 @@
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { IDisposable, singleton } from "@juniper-lib/tslib";
-import { InteractiveObject3D } from "../eventSystem/InteractiveObject3D";
+import { getObjectTargets, makeRayTarget } from "../eventSystem/RayTarget";
+import { isMesh } from "../typeChecks";
 
 /**
  * This is a hack to make sure all Applications get the same scaleOnHover state as the Environment.
@@ -29,12 +30,28 @@ class ScaleState implements IDisposable {
         this.onEnter = () => this.run(1);
         this.onExit = () => this.run(-1);
 
-        this.obj.addEventListener("enter", this.onEnter);
-        this.obj.addEventListener("exit", this.onExit);
+        this.obj.traverse(child => {
+            if (isMesh(child)) {
+                const target = makeRayTarget(child, this.obj);
+                target.addEventListener("enter", this.onEnter);
+                target.addEventListener("exit", this.onExit);
+            }
+        });
     }
 
     private get enabled() {
-        return !(this.obj as InteractiveObject3D).disabled;
+        const targets = getObjectTargets(this.obj);
+        if (!targets || targets.length === 0) {
+            return false;
+        }
+
+        for (const target of targets) {
+            if (!target.enabled) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private get disabled() {
@@ -42,7 +59,7 @@ class ScaleState implements IDisposable {
     }
 
     private run(d: number) {
-        if (this.enabled || (d === -1 || this.p > 0)) {
+        if (!this.disabled || (d === -1 || this.p > 0)) {
             this.dir = d;
             this.running = true;
         }

@@ -20,7 +20,7 @@ export class ButtonTextWidget implements Widget, EventTarget {
             text);
         this.object = obj(`${name}-button`,
             this.mesh = new TextMeshButton(fetcher, this.env, `${name}-button`, text, textButtonStyle));
-        this.mesh.addEventListener("click", () => {
+        this.mesh.target.addEventListener("click", () => {
             this.element.click();
         });
     }

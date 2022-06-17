@@ -1,13 +1,15 @@
 import { PointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { TypedEvent } from "@juniper-lib/tslib";
+import { FlickEvent } from "./FlickEvent";
 import type { IPointer } from "./IPointer";
-import { resolveObj } from "./resolveObj";
+import { ObjectMovedEvent } from "./ObjectMovedEvent";
+import { getMeshTarget, RayTarget } from "./RayTarget";
 
-export class EventSystemEvent<T extends PointerEventTypes> extends TypedEvent<T> {
+export class EventSystemEvent<T extends PointerEventTypes = PointerEventTypes> extends TypedEvent<T> {
     private _hit: THREE.Intersection = null;
     private _point: THREE.Vector3 = null;
     private _distance: number = Number.POSITIVE_INFINITY;
-    private _object: THREE.Object3D<THREE.Event> = null;
+    private _rayTarget: RayTarget = null;
 
     constructor(type: T,
         public readonly pointer: IPointer) {
@@ -25,18 +27,18 @@ export class EventSystemEvent<T extends PointerEventTypes> extends TypedEvent<T>
             this._hit = v;
             this._point = null;
             this._distance = Number.POSITIVE_INFINITY;
-            this._object = null;
+            this._rayTarget = null;
 
             if (v) {
                 this._point = v.point;
                 this._distance = v.distance;
-                this._object = resolveObj(v);
+                this._rayTarget = getMeshTarget(v.object);
             }
         }
     }
 
-    get object(): THREE.Object3D {
-        return this._object;
+    get rayTarget(): RayTarget {
+        return this._rayTarget;
     }
 
     get point(): THREE.Vector3 {
@@ -45,36 +47,20 @@ export class EventSystemEvent<T extends PointerEventTypes> extends TypedEvent<T>
 
     get distance(): number {
         return this._distance;
-    }
-
-    to3(altHit: THREE.Intersection): EventSystemThreeJSEvent<T> {
-        return new EventSystemThreeJSEvent(this.type, this.pointer, altHit, this.pointer.state.buttons);
     }
 }
 
-export class EventSystemThreeJSEvent<T extends string> implements THREE.Event {
-    private _point: THREE.Vector3;
-    private _distance: number;
-    private _object: THREE.Object3D;
-
-    constructor(public readonly type: T,
-        public readonly pointer: IPointer,
-        public readonly hit: THREE.Intersection,
-        public readonly buttons: number) {
-        this._point = this.hit && this.hit.point;
-        this._distance = this.hit && this.hit.distance || Number.POSITIVE_INFINITY;
-        this._object = resolveObj(this.hit);
-    }
-
-    get object(): THREE.Object3D {
-        return this._object;
-    }
-
-    get point(): THREE.Vector3 {
-        return this._point;
-    }
-
-    get distance(): number {
-        return this._distance;
-    }
+export interface EventSystemEvents {
+    move: EventSystemEvent<"move">;
+    enter: EventSystemEvent<"enter">;
+    exit: EventSystemEvent<"exit">;
+    up: EventSystemEvent<"up">;
+    down: EventSystemEvent<"down">;
+    click: EventSystemEvent<"click">;
+    dragstart: EventSystemEvent<"dragstart">;
+    drag: EventSystemEvent<"drag">;
+    dragcancel: EventSystemEvent<"dragcancel">;
+    dragend: EventSystemEvent<"dragend">;
+    objectMoved: ObjectMovedEvent;
+    flick: FlickEvent;
 }

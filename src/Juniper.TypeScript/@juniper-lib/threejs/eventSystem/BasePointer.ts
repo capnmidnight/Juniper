@@ -2,13 +2,12 @@ import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
 import { SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
 import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
-import { isNullOrUndefined } from "@juniper-lib/tslib";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import type { BaseCursor } from "./BaseCursor";
 import { CursorXRMouse } from "./CursorXRMouse";
 import type { EventSystem } from "./EventSystem";
-import { isClickable, isDraggable } from "./InteractiveObject3D";
 import type { IPointer, PointerType } from "./IPointer";
+import { getMeshTarget } from "./RayTarget";
 
 const MAX_DRAG_DISTANCE = 5;
 
@@ -49,7 +48,8 @@ export abstract class BasePointer
 
     set pressedHit(v: THREE.Intersection) {
         this._pressedHit = v;
-        if (isDraggable(v) && !isClickable(v)) {
+        const target = getMeshTarget(v);
+        if (target && target.draggable && !target.clickable) {
             this.onDragStart();
         }
     }
@@ -150,8 +150,8 @@ export abstract class BasePointer
     protected onPointerMove() {
         this.setEventState("move");
         if (this.state.buttons !== MouseButtons.None) {
-            const canDrag = isNullOrUndefined(this.pressedHit)
-                || isDraggable(this.pressedHit);
+            const target = getMeshTarget(this.pressedHit);
+            const canDrag = !target || target.draggable;
             if (canDrag) {
                 if (this.lastState && this.lastState.buttons === this.state.buttons) {
                     this.state.dragDistance += this.state.moveDistance;

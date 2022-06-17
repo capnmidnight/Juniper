@@ -1,10 +1,26 @@
+import { TypedEvent } from "@juniper-lib/tslib";
 import { Cube } from "./Cube";
+import { makeRayTarget, RayTarget } from "./eventSystem/RayTarget";
 
-const P = new THREE.Vector3();
-const small = new THREE.Vector3(0.1, 0.1, 0.1);
+export class TranslatorDragDirEvent extends TypedEvent<"dragdir">{
+
+    public readonly delta = new THREE.Vector3();
+
+    constructor() {
+        super("dragdir");
+    }
+}
+
+export interface TranslatorDragDirEvents {
+    "dragdir": TranslatorDragDirEvent;
+}
 
 export class Translator extends Cube {
     private _size: number = 1;
+
+    readonly target: RayTarget<TranslatorDragDirEvents>;
+
+    private static readonly small = new THREE.Vector3(0.1, 0.1, 0.1);
 
     constructor(
         name: string,
@@ -16,40 +32,45 @@ export class Translator extends Cube {
         super(1, 1, 1, color);
 
         this.name = "Translator " + name;
-        this.isDraggable = true;
-        this.isCollider = true;
 
         const sel = new THREE.Vector3(sx, sy, sz);
         const start = new THREE.Vector3();
         const deltaIn = new THREE.Vector3();
-        const delta = new THREE.Vector3();
+        const dragEvt = new TranslatorDragDirEvent();
 
         let dragging = false;
 
-        this.addEventListener("dragstart", (evt: THREE.Event) => {
+        this.target = makeRayTarget<TranslatorDragDirEvents>(this);
+        this.target.draggable = true;
+
+        this.target.addEventListener("dragstart", (evt) => {
             dragging = true;
-            start.set(evt.point.x, evt.point.y, evt.point.z);
+            start.copy(evt.point);
         });
 
-        this.addEventListener("dragend", () => {
+        this.target.addEventListener("dragend", () => {
             dragging = false;
         });
 
-        this.addEventListener("drag", (evt: THREE.Event) => {
+        this.target.addEventListener("drag", (evt) => {
             if (dragging) {
+
                 deltaIn
                     .copy(evt.point)
                     .sub(start);
 
-                start.add(deltaIn);
+                start.copy(evt.point);
 
-                P.copy(sel)
-                    .divide(this.parent.parent.scale)
-                    .applyMatrix4(this.parent.matrixWorld)
-                    .multiplyScalar(P.dot(deltaIn));
+                if (deltaIn.manhattanLength() > 0) {
+                    dragEvt.delta
+                        .copy(sel)
+                        .applyQuaternion(this.parent.parent.quaternion)
+                        .multiplyScalar(deltaIn.dot(dragEvt.delta));
 
-                delta.copy(P);
-                this.dispatchEvent({ type: "dragdir", delta });
+                    console.log("sel", ...sel.toArray(), "\ndrag", ...dragEvt.delta.toArray())
+
+                    this.target.dispatchEvent(dragEvt);
+                }
             }
         });
     }
@@ -63,7 +84,7 @@ export class Translator extends Cube {
 
         this.scale.set(this.sx, this.sy, this.sz)
             .multiplyScalar(0.9)
-            .add(small)
+            .add(Translator.small)
             .multiplyScalar(this.size);
 
         this.position.set(this.sx, this.sy, this.sz)

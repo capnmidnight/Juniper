@@ -8,7 +8,6 @@ import { TextMeshButton } from "./TextMeshButton";
 
 
 export class Image2DMeshButton extends TextMeshButton {
-
     private readonly enabledSubImage: Image2DMesh;
     private readonly disabledSubImage: Image2DMesh;
 

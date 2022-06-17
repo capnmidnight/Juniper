@@ -1,7 +1,7 @@
 import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
 import type { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
 import { ErsatzObject } from "../objects";
-import { isClickable, isDisabled, isDraggable } from "./InteractiveObject3D";
+import { getMeshTarget } from "./RayTarget";
 
 const T = new THREE.Vector3();
 const V = new THREE.Vector3();
@@ -66,14 +66,16 @@ export abstract class BaseCursor implements ErsatzObject {
 
         this.lookAt(V);
 
-        this.style = hit
-            ? isDisabled(hit)
+        const target = getMeshTarget(hit);
+
+        this.style = target
+            ? !target.enabled
                 ? "not-allowed"
-                : isDraggable(hit)
+                : target.draggable
                     ? state.dragging
                         ? "grabbing"
                         : "move"
-                    : isClickable(hit)
+                    : target.clickable
                         ? "pointer"
                         : "default"
             : canMoveView

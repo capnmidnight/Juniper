@@ -6946,18 +6946,18 @@ var DeviceManager = class extends TypedEventBase {
     super();
     this.element = element;
     this.needsVideoDevice = needsVideoDevice;
-    this._hasAudioPermission = false;
-    this._hasVideoPermission = false;
-    this._currentStream = null;
     this.ready = this.start();
     Object.seal(this);
   }
+  _hasAudioPermission = false;
   get hasAudioPermission() {
     return this._hasAudioPermission;
   }
+  _hasVideoPermission = false;
   get hasVideoPermission() {
     return this._hasVideoPermission;
   }
+  _currentStream = null;
   get currentStream() {
     return this._currentStream;
   }
@@ -6971,6 +6971,7 @@ var DeviceManager = class extends TypedEventBase {
       this._currentStream = v;
     }
   }
+  ready;
   async start() {
     if (canChangeAudioOutput) {
       const device = await this.getPreferredAudioOutput();
@@ -8496,75 +8497,6 @@ function objectSetEnabled(obj2, enabled) {
   }
 }
 
-// ../threejs/animation/scaleOnHover.ts
-var scaledItems = singleton("Juniper:ScaledItems", () => /* @__PURE__ */ new Map());
-var start = 1;
-var end = 1.1;
-var timeScale = 5e-3;
-var ScaleState = class {
-  constructor(obj2) {
-    this.obj = obj2;
-    this.base = obj2.scale.clone();
-    this.p = 0;
-    this.dir = 0;
-    this.running = false;
-    this.wasDisabled = this.disabled;
-    this.onEnter = () => this.run(1);
-    this.onExit = () => this.run(-1);
-    this.obj.addEventListener("enter", this.onEnter);
-    this.obj.addEventListener("exit", this.onExit);
-  }
-  get enabled() {
-    return !this.obj.disabled;
-  }
-  get disabled() {
-    return !this.enabled;
-  }
-  run(d) {
-    if (this.enabled || (d === -1 || this.p > 0)) {
-      this.dir = d;
-      this.running = true;
-    }
-  }
-  updateScaling(dt) {
-    if (this.disabled !== this.wasDisabled) {
-      this.wasDisabled = this.disabled;
-      if (this.disabled) {
-        this.onExit();
-      }
-    }
-    if (this.running) {
-      this.p += this.dir * dt;
-      if (this.dir > 0 && this.p >= 1 || this.dir < 0 && this.p < 0) {
-        this.p = Math.max(0, Math.min(1, this.p));
-        this.running = false;
-      }
-      const q = bump(this.p, 1.1);
-      this.obj.scale.copy(this.base).multiplyScalar(q * (end - start) + start);
-    }
-  }
-  dispose() {
-    this.obj.removeEventListener("enter", this.onEnter);
-    this.obj.removeEventListener("exit", this.onExit);
-  }
-};
-function updateScalings(dt) {
-  dt *= timeScale;
-  for (const state of scaledItems.values()) {
-    state.updateScaling(dt);
-  }
-}
-function removeScaledObj(obj2) {
-  const state = scaledItems.get(obj2);
-  if (state) {
-    scaledItems.delete(obj2);
-    state.dispose();
-  }
-}
-function scaleOnHover(obj2) {
-  scaledItems.set(obj2, new ScaleState(obj2));
-}
-
 // ../threejs/examples/lines/LineMaterial.js
 THREE.UniformsLib.line = {
   worldUnits: { value: 1 },
@@ -9138,31 +9070,154 @@ function lit(options) {
 function line2(options) {
   return makeMaterial("line2", LineMaterial, options);
 }
-var black = 0;
 var grey = 12632256;
 var white = 16777215;
-function solidTransparentBlack(opacity) {
-  return solidTransparent({ color: black, opacity });
-}
 var litGrey = /* @__PURE__ */ lit({ color: grey });
 var litWhite = /* @__PURE__ */ lit({ color: white });
 
-// ../threejs/Plane.ts
-var plane = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
-plane.name = "PlaneGeom";
-var BasePlane = class extends THREE.Mesh {
-  constructor(sx, sy, material, isCollider2) {
-    super(plane, material);
-    this.isCollider = isCollider2;
-    this.scale.set(sx, sy, 1);
+// ../threejs/eventSystem/RayTarget.ts
+var RAY_TARGET_KEY = "Juniper:ThreeJS:EventSystem:RayTarget";
+var RAY_TARGETS_KEY = "Juniper:ThreeJS:EventSystem:RayTargets";
+var RAY_TARGET_DISABLED_KEY = "Juniper:ThreeJS:EventSystem:RayTarget:Disabled";
+var RAY_TARGET_CLICKABLE_KEY = "Juniper:ThreeJS:EventSystem:RayTarget:Clickable";
+var RAY_TARGET_DRAGGABLE_KEY = "Juniper:ThreeJS:EventSystem:RayTarget:Draggable";
+var RayTarget = class extends TypedEventBase {
+  constructor(object, mesh) {
+    super();
+    this.object = object;
+    this.mesh = mesh;
+    this.mesh.userData[RAY_TARGET_KEY] = this;
+    let targets = this.object.userData[RAY_TARGETS_KEY];
+    if (!targets) {
+      this.object.userData[RAY_TARGETS_KEY] = targets = new Array();
+    }
+    targets.push(this);
+  }
+  get disabled() {
+    return this.object.userData[RAY_TARGET_DISABLED_KEY];
+  }
+  set disabled(v) {
+    this.object.userData[RAY_TARGET_DISABLED_KEY] = v;
+  }
+  get enabled() {
+    return !this.disabled;
+  }
+  set enabled(v) {
+    this.disabled = !v;
+  }
+  get clickable() {
+    return this.object.userData[RAY_TARGET_CLICKABLE_KEY];
+  }
+  set clickable(v) {
+    this.object.userData[RAY_TARGET_CLICKABLE_KEY] = v;
+  }
+  get draggable() {
+    return this.object.userData[RAY_TARGET_DRAGGABLE_KEY];
+  }
+  set draggable(v) {
+    this.object.userData[RAY_TARGET_DRAGGABLE_KEY] = v;
   }
 };
-var PlaneCollider = class extends BasePlane {
-  constructor(sx, sy) {
-    super(sx, sy, solidTransparentBlack(0), true);
-    this.visible = false;
+function getMeshTarget(objectOrHit) {
+  if (!objectOrHit) {
+    return null;
+  }
+  const obj2 = isObject3D(objectOrHit) ? objectOrHit : objectOrHit.object;
+  return obj2 && obj2.userData[RAY_TARGET_KEY];
+}
+function getObjectTargets(obj2) {
+  if (!obj2) {
+    return null;
+  }
+  return obj2.userData[RAY_TARGETS_KEY];
+}
+function makeRayTarget(mesh, obj2) {
+  obj2 = obj2 || mesh;
+  return new RayTarget(obj2, mesh);
+}
+
+// ../threejs/animation/scaleOnHover.ts
+var scaledItems = singleton("Juniper:ScaledItems", () => /* @__PURE__ */ new Map());
+var start = 1;
+var end = 1.1;
+var timeScale = 5e-3;
+var ScaleState = class {
+  constructor(obj2) {
+    this.obj = obj2;
+    this.base = obj2.scale.clone();
+    this.p = 0;
+    this.dir = 0;
+    this.running = false;
+    this.wasDisabled = this.disabled;
+    this.onEnter = () => this.run(1);
+    this.onExit = () => this.run(-1);
+    this.obj.traverse((child) => {
+      if (isMesh(child)) {
+        const target = makeRayTarget(child, this.obj);
+        target.addEventListener("enter", this.onEnter);
+        target.addEventListener("exit", this.onExit);
+      }
+    });
+  }
+  get enabled() {
+    const targets = getObjectTargets(this.obj);
+    if (!targets || targets.length === 0) {
+      return false;
+    }
+    for (const target of targets) {
+      if (!target.enabled) {
+        return false;
+      }
+    }
+    return true;
+  }
+  get disabled() {
+    return !this.enabled;
+  }
+  run(d) {
+    if (!this.disabled || (d === -1 || this.p > 0)) {
+      this.dir = d;
+      this.running = true;
+    }
+  }
+  updateScaling(dt) {
+    if (this.disabled !== this.wasDisabled) {
+      this.wasDisabled = this.disabled;
+      if (this.disabled) {
+        this.onExit();
+      }
+    }
+    if (this.running) {
+      this.p += this.dir * dt;
+      if (this.dir > 0 && this.p >= 1 || this.dir < 0 && this.p < 0) {
+        this.p = Math.max(0, Math.min(1, this.p));
+        this.running = false;
+      }
+      const q = bump(this.p, 1.1);
+      this.obj.scale.copy(this.base).multiplyScalar(q * (end - start) + start);
+    }
+  }
+  dispose() {
+    this.obj.removeEventListener("enter", this.onEnter);
+    this.obj.removeEventListener("exit", this.onExit);
   }
 };
+function updateScalings(dt) {
+  dt *= timeScale;
+  for (const state of scaledItems.values()) {
+    state.updateScaling(dt);
+  }
+}
+function removeScaledObj(obj2) {
+  const state = scaledItems.get(obj2);
+  if (state) {
+    scaledItems.delete(obj2);
+    state.dispose();
+  }
+}
+function scaleOnHover(obj2) {
+  scaledItems.set(obj2, new ScaleState(obj2));
+}
 
 // ../threejs/cleanup.ts
 function cleanup(obj2) {
@@ -9200,6 +9255,16 @@ function objectGetRelativePose(ref, obj2, position2, quaternion, scale4) {
   M.copy(ref.matrixWorld).invert().multiply(obj2.matrixWorld).decompose(P, quaternion, scale4);
   position2.set(P.x, P.y, P.z, 1);
 }
+
+// ../threejs/Plane.ts
+var plane = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
+plane.name = "PlaneGeom";
+var Plane = class extends THREE.Mesh {
+  constructor(sx, sy, material) {
+    super(plane, material);
+    this.scale.set(sx, sy, 1);
+  }
+};
 
 // ../threejs/TexturedMesh.ts
 var inchesPerMeter = 39.3701;
@@ -9629,16 +9694,9 @@ var TextMeshLabel = class extends THREE.Object3D {
 var TextMeshButton = class extends TextMeshLabel {
   constructor(fetcher, env, name2, value2, textImageOptions) {
     super(fetcher, env, name2, value2, textImageOptions);
-    this.collider = null;
-    this.isClickable = true;
+    this.target = makeRayTarget(this.enabledImage.mesh, this);
+    this.target.clickable = true;
     if (isDefined(value2)) {
-      this.image.addEventListener("redrawn", () => {
-        this.collider.scale.x = this.image.width;
-        this.collider.scale.y = this.image.height;
-      });
-      this.collider = new PlaneCollider(this.image.width, this.image.height);
-      this.collider.name = `collider-${this.name}`;
-      this.add(this.collider);
       scaleOnHover(this);
     }
   }
@@ -9698,10 +9756,10 @@ var ConfirmationDialog = class extends DialogBox {
     this.cancelButton.innerText = "No";
     this.mesh = new TextMeshLabel(this.env.fetcher, this.env, "confirmationDialogLabel", "", newStyle(textLabelStyle, fontFamily));
     this.confirmButton3D = new TextMeshButton(this.env.fetcher, this.env, "confirmationDialogConfirmButton", "Yes", newStyle(confirmButton3DStyle, fontFamily));
-    this.confirmButton3D.addEventListener("click", () => this.confirmButton.click());
+    this.confirmButton3D.target.addEventListener("click", () => this.confirmButton.click());
     this.confirmButton3D.position.set(1, -0.5, 0.5);
     this.cancelButton3D = new TextMeshButton(this.env.fetcher, this.env, "confirmationDialogCancelButton", "No", newStyle(cancelButton3DStyle, fontFamily));
-    this.cancelButton3D.addEventListener("click", () => this.cancelButton.click());
+    this.cancelButton3D.target.addEventListener("click", () => this.cancelButton.click());
     this.cancelButton3D.position.set(2, -0.5, 0.5);
     elementApply(this.container, styles(maxWidth("calc(100% - 2em)"), width("max-content")));
     elementApply(this.contentArea, styles(fontSize("18pt"), textAlign("center"), padding("1em")));
@@ -9755,52 +9813,9 @@ var ConfirmationDialog = class extends DialogBox {
   }
 };
 
-// ../threejs/isVisible.ts
-function isVisible(obj2) {
-  while (obj2 != null) {
-    if (!obj2.visible) {
-      return false;
-    }
-    obj2 = obj2.parent;
-  }
-  return true;
-}
-
-// ../threejs/eventSystem/InteractiveObject3D.ts
-function isCollider(obj2) {
-  return isObject3D(obj2) && isBoolean(obj2.isCollider) && isDefined(obj2.parent);
-}
-function isInteractiveHit(hit) {
-  return isDefined(hit) && isCollider(hit.object);
-}
-function isObjVisible(hit) {
-  return isDefined(hit) && isCollider(hit.object) && (isInteractiveObject3D(hit.object) && isVisible(hit.object) || isInteractiveObject3D(hit.object.parent) && isVisible(hit.object.parent));
-}
-function isInteractiveObject3D(obj2) {
-  return isObject3D(obj2) && (isBoolean(obj2.disabled) || isBoolean(obj2.isDraggable) || isBoolean(obj2.isClickable));
-}
-function checkClickable(obj2) {
-  return isInteractiveObject3D(obj2) && obj2.isClickable && !obj2.disabled;
-}
-function isClickable(hit) {
-  return isInteractiveHit(hit) && isCollider(hit.object) && (checkClickable(hit.object) || checkClickable(hit.object.parent));
-}
-function checkDraggable(obj2) {
-  return isInteractiveObject3D(obj2) && obj2.isDraggable && !obj2.disabled;
-}
-function isDraggable(hit) {
-  return isInteractiveHit(hit) && isCollider(hit.object) && (checkDraggable(hit.object) || checkDraggable(hit.object.parent));
-}
-function checkDisabled(obj2) {
-  return isInteractiveObject3D(obj2) && obj2.disabled;
-}
-function isDisabled(hit) {
-  return isInteractiveHit(hit) && isCollider(hit.object) && (checkDisabled(hit.object) || checkDisabled(hit.object.parent));
-}
-
 // ../threejs/eventSystem/InteractionAudio.ts
-function makeClipName(type2, isDisabled2) {
-  if (type2 === "click" && isDisabled2) {
+function makeClipName(type2, isDisabled) {
+  if (type2 === "click" && isDisabled) {
     type2 = "error";
   }
   return `InteractionAudio-${type2}`;
@@ -9811,9 +9826,8 @@ var InteractionAudio = class {
     this.eventSys = eventSys;
     this.enabled = true;
     const playClip = (evt) => {
-      const obj2 = evt.object;
-      if (this.enabled && isInteractiveObject3D(obj2) && obj2.isClickable) {
-        const clipName = makeClipName(evt.type, obj2.disabled);
+      if (this.enabled && evt.rayTarget && evt.rayTarget.clickable) {
+        const clipName = makeClipName(evt.type, !evt.rayTarget.enabled);
         if (this.audio.hasClip(clipName)) {
           const { x, y, z } = evt.point;
           this.audio.setClipPosition(clipName, x, y, z);
@@ -10757,15 +10771,6 @@ function rot(def) {
   return def.map(rotQuad);
 }
 
-// ../threejs/Collider.ts
-var Collider = class extends THREE.Mesh {
-  constructor(geometry) {
-    super(geometry, solidTransparentBlack(0));
-    this.isCollider = true;
-    this.visible = false;
-  }
-};
-
 // ../threejs/MeshLabel.ts
 var MeshLabel = class extends THREE.Object3D {
   constructor(name2, geometry, enabledMaterial, disabledMaterial, size) {
@@ -10807,19 +10812,9 @@ var MeshLabel = class extends THREE.Object3D {
 var MeshButton = class extends MeshLabel {
   constructor(name2, geometry, enabledMaterial, disabledMaterial, size) {
     super(name2, geometry, enabledMaterial, disabledMaterial, size);
-    this.isDraggable = false;
-    this.isClickable = true;
-    this.collider = new Collider(geometry);
-    this.collider.name = `Collider-${this.name}`;
-    this.size = size;
-    this.add(this.collider);
+    this.target = makeRayTarget(this.enabledMesh);
+    this.target.clickable = true;
     scaleOnHover(this);
-  }
-  set size(v) {
-    super.size = v;
-    if (this.collider) {
-      this.collider.scale.setScalar(v);
-    }
   }
 };
 
@@ -10836,7 +10831,7 @@ var ButtonImageWidget = class {
     this.mesh = new MeshButton(iconName, geometry, enabledMaterial, disabledMaterial, 0.2);
     this.object.add(this.mesh);
     this.mesh.visible = this.visible;
-    this.mesh.addEventListener("click", () => {
+    this.mesh.target.addEventListener("click", () => {
       this.element.click();
     });
   }
@@ -10987,8 +10982,8 @@ var ToggleButton = class {
       this.buttons.getGeometryAndMaterials(this.setName, this.inactiveName)
     ]);
     objGraph(this.object, this.enterButton = new MeshButton(`${this.setName}-activate-button`, activate.geometry, activate.enabledMaterial, activate.disabledMaterial, 0.2), this.exitButton = new MeshButton(`${this.setName}-deactivate-button`, deactivate.geometry, deactivate.enabledMaterial, deactivate.disabledMaterial, 0.2));
-    this.enterButton.addEventListener("click", () => this.element.click());
-    this.exitButton.addEventListener("click", () => this.element.click());
+    this.enterButton.target.addEventListener("click", () => this.element.click());
+    this.exitButton.target.addEventListener("click", () => this.element.click());
     this.refreshState();
   }
   get mesh() {
@@ -11651,13 +11646,6 @@ var AvatarLocal = class extends TypedEventBase {
         this.Q2.setFromAxisAngle(this.B, -orient);
         this.deviceQ.setFromEuler(this.E).multiply(this.Q3).multiply(this.Q2);
       }
-    } else if (this.controlMode === "mousefirstperson" /* MouseFPS */) {
-      if (this.duv.manhattanLength() > 0) {
-        this.motion.copy(this.duv).multiply(this.axisControl);
-        this.setHeading(this.heading + this.motion.x);
-        this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
-        this.setRoll(0);
-      }
     } else if (this.controlMode === "motioncontroller" /* MotionControllerStick */) {
       if (this.nextFlick.manhattanLength() !== 0) {
         this.motion.copy(this.nextFlick).multiply(this.axisControl);
@@ -11669,6 +11657,13 @@ var AvatarLocal = class extends TypedEventBase {
     } else if (this.controlMode === "mouseedge" /* MouseScreenEdge */) {
       if (this.uv.manhattanLength() > 0) {
         this.motion.set(this.scaleRadialComponent(this.uv.x, this.speed.x, this.acceleration.x), this.scaleRadialComponent(this.uv.y, this.speed.y, this.acceleration.y)).multiplyScalar(dt).multiply(this.axisControl);
+        this.setHeading(this.heading + this.motion.x);
+        this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+        this.setRoll(0);
+      }
+    } else if (this.controlMode === "mousefirstperson" /* MouseFPS */) {
+      if (this.duv.manhattanLength() > 0) {
+        this.motion.copy(this.duv).multiply(this.axisControl);
         this.setHeading(this.heading + this.motion.x);
         this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
         this.setRoll(0);
@@ -11872,7 +11867,8 @@ var BaseCursor = class {
     }
     this.object.parent.worldToLocal(this.position);
     this.lookAt(V);
-    this.style = hit ? isDisabled(hit) ? "not-allowed" : isDraggable(hit) ? state.dragging ? "grabbing" : "move" : isClickable(hit) ? "pointer" : "default" : canMoveView ? state.buttons === 1 /* Mouse0 */ ? "grabbing" : "grab" : "default";
+    const target = getMeshTarget(hit);
+    this.style = target ? !target.enabled ? "not-allowed" : target.draggable ? state.dragging ? "grabbing" : "move" : target.clickable ? "pointer" : "default" : canMoveView ? state.buttons === 1 /* Mouse0 */ ? "grabbing" : "grab" : "default";
   }
   lookAt(_v) {
   }
@@ -11962,18 +11958,6 @@ var ObjectMovedEvent = class extends TypedEvent {
   }
 };
 
-// ../threejs/eventSystem/resolveObj.ts
-function resolveObj(hit) {
-  if (!hit || !isCollider(hit.object)) {
-    return null;
-  }
-  let obj2 = hit.object;
-  while (isDefined(obj2) && !isInteractiveObject3D(obj2)) {
-    obj2 = obj2.parent;
-  }
-  return obj2;
-}
-
 // ../threejs/eventSystem/EventSystemEvent.ts
 var EventSystemEvent = class extends TypedEvent {
   constructor(type2, pointer) {
@@ -11982,7 +11966,7 @@ var EventSystemEvent = class extends TypedEvent {
     this._hit = null;
     this._point = null;
     this._distance = Number.POSITIVE_INFINITY;
-    this._object = null;
+    this._rayTarget = null;
     Object.seal(this);
   }
   get hit() {
@@ -11993,39 +11977,16 @@ var EventSystemEvent = class extends TypedEvent {
       this._hit = v;
       this._point = null;
       this._distance = Number.POSITIVE_INFINITY;
-      this._object = null;
+      this._rayTarget = null;
       if (v) {
         this._point = v.point;
         this._distance = v.distance;
-        this._object = resolveObj(v);
+        this._rayTarget = getMeshTarget(v.object);
       }
     }
   }
-  get object() {
-    return this._object;
-  }
-  get point() {
-    return this._point;
-  }
-  get distance() {
-    return this._distance;
-  }
-  to3(altHit) {
-    return new EventSystemThreeJSEvent(this.type, this.pointer, altHit, this.pointer.state.buttons);
-  }
-};
-var EventSystemThreeJSEvent = class {
-  constructor(type2, pointer, hit, buttons) {
-    this.type = type2;
-    this.pointer = pointer;
-    this.hit = hit;
-    this.buttons = buttons;
-    this._point = this.hit && this.hit.point;
-    this._distance = this.hit && this.hit.distance || Number.POSITIVE_INFINITY;
-    this._object = resolveObj(this.hit);
-  }
-  get object() {
-    return this._object;
+  get rayTarget() {
+    return this._rayTarget;
   }
   get point() {
     return this._point;
@@ -15145,17 +15106,16 @@ cube.name = "CubeGeom";
 var invCube = cube.clone();
 invCube.name = "InvertedCubeGeom";
 setGeometryUVsForCubemaps(invCube);
-var BaseCube = class extends THREE.Mesh {
-  constructor(sx, sy, sz, material, isCollider2) {
+var Cube = class extends THREE.Mesh {
+  constructor(sx, sy, sz, material) {
     super(cube, material);
-    this.isCollider = isCollider2;
     this.scale.set(sx, sy, sz);
   }
 };
-var Cube = class extends BaseCube {
+var InvCube = class extends THREE.Mesh {
   constructor(sx, sy, sz, material) {
-    super(sx, sy, sz, material, false);
-    this.isDraggable = false;
+    super(invCube, material);
+    this.scale.set(sx, sy, sz);
   }
 };
 
@@ -15323,7 +15283,8 @@ var BasePointer = class {
   }
   set pressedHit(v) {
     this._pressedHit = v;
-    if (isDraggable(v) && !isClickable(v)) {
+    const target = getMeshTarget(v);
+    if (target && target.draggable && !target.clickable) {
       this.onDragStart();
     }
   }
@@ -15404,7 +15365,8 @@ var BasePointer = class {
   onPointerMove() {
     this.setEventState("move");
     if (this.state.buttons !== 0 /* None */) {
-      const canDrag = isNullOrUndefined(this.pressedHit) || isDraggable(this.pressedHit);
+      const target = getMeshTarget(this.pressedHit);
+      const canDrag = !target || target.draggable;
       if (canDrag) {
         if (this.lastState && this.lastState.buttons === this.state.buttons) {
           this.state.dragDistance += this.state.moveDistance;
@@ -15993,6 +15955,8 @@ var BaseScreenPointer = class extends BasePointer {
     this.camera = camera;
     this.id = null;
     this.sizeInv = new THREE.Vector2();
+    this.uvComp = new THREE.Vector2(1, -1);
+    this.uvOff = new THREE.Vector2(-1, 1);
     const onPointerDown = (evt) => {
       if (this.checkEvent(evt)) {
         this.readEvent(evt);
@@ -16019,6 +15983,9 @@ var BaseScreenPointer = class extends BasePointer {
     this.element.addEventListener("pointerup", onPointerUp);
     this.element.addEventListener("pointercancel", onPointerUp);
   }
+  checkEvent(evt) {
+    return evt.pointerType === this.type && evt.pointerId === this.id;
+  }
   get isTracking() {
     return this.id != null;
   }
@@ -16028,37 +15995,30 @@ var BaseScreenPointer = class extends BasePointer {
   }
   readEvent(evt) {
     if (this.checkEvent(evt)) {
-      this.readMetaKeys(evt);
+      this.state.ctrl = evt.ctrlKey;
+      this.state.alt = evt.altKey;
+      this.state.shift = evt.shiftKey;
+      this.state.meta = evt.metaKey;
       this.onReadEvent(evt);
-      this.stateDelta(evt.type);
+      if (evt.type === "pointermove" && document.pointerLockElement && this.lastState) {
+        this.state.position.copy(this.lastState.position).add(this.state.motion);
+      }
+      this.state.moveDistance = this.state.motion.length();
+      this.state.uv.copy(this.state.position).multiplyScalar(2).multiply(this.sizeInv).multiply(this.uvComp).add(this.uvOff);
+      this.state.duv.copy(this.state.motion).multiplyScalar(2).multiply(this.sizeInv).multiply(this.uvComp);
     }
-  }
-  checkEvent(evt) {
-    return evt.pointerType === this.type && evt.pointerId === this.id;
-  }
-  readMetaKeys(evt) {
-    this.state.ctrl = evt.ctrlKey;
-    this.state.alt = evt.altKey;
-    this.state.shift = evt.shiftKey;
-    this.state.meta = evt.metaKey;
-  }
-  stateDelta(type2) {
-    if (type2 === "pointermove" && document.pointerLockElement && this.lastState) {
-      this.state.position.copy(this.lastState.position).add(this.state.motion);
-    }
-    this.state.moveDistance = this.state.motion.length();
-    this.state.uv.copy(this.state.position).multiplyScalar(2).multiply(this.sizeInv).addScalar(-1);
-    this.state.duv.copy(this.state.motion).multiplyScalar(2).multiply(this.sizeInv);
   }
   onUpdate() {
     const cam = resolveCamera(this.renderer, this.camera);
-    this.origin.setFromMatrixPosition(cam.matrixWorld);
-    this.direction.set(this.state.uv.x, -this.state.uv.y, 0.5).unproject(cam).sub(this.origin).normalize();
+    this.updateRay(cam);
     if (this.state.motion.manhattanLength() > 0) {
       this.onPointerMove();
+      this.updateRay(cam);
     }
+  }
+  updateRay(cam) {
     this.origin.setFromMatrixPosition(cam.matrixWorld);
-    this.direction.set(this.state.uv.x, -this.state.uv.y, 0.5).unproject(cam).sub(this.origin).normalize();
+    this.direction.set(this.state.uv.x, this.state.uv.y, 0.5).unproject(cam).sub(this.origin).normalize();
   }
 };
 
@@ -16085,8 +16045,8 @@ var BaseScreenPointerSinglePoint = class extends BaseScreenPointer {
   }
   onReadEvent(evt) {
     this.state.buttons = evt.buttons;
-    this.state.position.set(evt.offsetX, -evt.offsetY);
-    this.state.motion.set(evt.movementX, -evt.movementY);
+    this.state.position.set(evt.offsetX, evt.offsetY);
+    this.state.motion.set(evt.movementX, evt.movementY);
   }
 };
 
@@ -16094,7 +16054,7 @@ var BaseScreenPointerSinglePoint = class extends BaseScreenPointer {
 var PointerMouse = class extends BaseScreenPointerSinglePoint {
   constructor(evtSys, renderer, camera) {
     super("mouse", 1 /* Mouse */, evtSys, renderer, camera);
-    this.allowPointerLock = true;
+    this.allowPointerLock = false;
     this.element.addEventListener("wheel", (evt) => {
       evt.preventDefault();
       this.state.dz = -evt.deltaY * 0.5;
@@ -16150,9 +16110,9 @@ var PointerMultiTouch = class extends BaseScreenPointer {
       for (const point of this.points.values()) {
         this.state.buttons |= point.buttons << this.points.size - 1;
         this.state.position.x += K * point.offsetX;
-        this.state.position.y -= K * point.offsetY;
+        this.state.position.y += K * point.offsetY;
         this.state.motion.x += K * point.movementX;
-        this.state.motion.y -= K * point.movementY;
+        this.state.motion.y += K * point.movementY;
       }
       if (this.points.size === 2) {
         const [a, b] = Array.from(this.points.values());
@@ -16254,10 +16214,10 @@ var EventSystem = class extends TypedEventBase {
     pointer.isActive = true;
     this.fireRay(pointer);
     const { curHit, hoveredHit, pressedHit, draggedHit } = pointer;
-    const curObj = resolveObj(curHit);
-    const hoveredObj = resolveObj(hoveredHit);
-    const pressedObj = resolveObj(pressedHit);
-    const draggedObj = resolveObj(draggedHit);
+    const curTarget = getMeshTarget(curHit);
+    const hovTarget = getMeshTarget(hoveredHit);
+    const prsTarget = getMeshTarget(pressedHit);
+    const drgTarget = getMeshTarget(draggedHit);
     if (eventType === "move" || eventType === "drag") {
       correctHit(hoveredHit, pointer);
       correctHit(pressedHit, pointer);
@@ -16270,14 +16230,14 @@ var EventSystem = class extends TypedEventBase {
           this.env.avatar.onMove(moveEvt);
           this.env.fovControl.onMove(moveEvt);
           if (isDefined(draggedHit)) {
-            draggedObj.dispatchEvent(moveEvt.to3(draggedHit));
+            drgTarget.dispatchEvent(moveEvt);
           } else if (isDefined(pressedHit)) {
-            pressedObj.dispatchEvent(moveEvt.to3(pressedHit));
+            prsTarget.dispatchEvent(moveEvt);
           } else if (pointer.state.buttons === 0) {
             this.checkExit(curHit, hoveredHit, pointer);
             this.checkEnter(curHit, hoveredHit, pointer);
-            if (curObj) {
-              curObj.dispatchEvent(moveEvt.to3(curHit));
+            if (curTarget) {
+              curTarget.dispatchEvent(moveEvt);
             }
           }
           this.localPointerMovedEvt.name = pointer.name;
@@ -16289,9 +16249,9 @@ var EventSystem = class extends TypedEventBase {
         {
           const downEvt = this.getEvent(pointer, "down", curHit);
           this.env.avatar.onDown(downEvt);
-          if (isClickable(hoveredHit) || isDraggable(hoveredHit)) {
+          if (hovTarget && (hovTarget.clickable || hovTarget.draggable)) {
             pointer.pressedHit = hoveredHit;
-            hoveredObj.dispatchEvent(downEvt.to3(hoveredHit));
+            hovTarget.dispatchEvent(downEvt);
           }
         }
         break;
@@ -16302,7 +16262,7 @@ var EventSystem = class extends TypedEventBase {
           if (pointer.state.buttons === 0) {
             if (isDefined(pressedHit)) {
               pointer.pressedHit = null;
-              pressedObj.dispatchEvent(upEvt.to3(pressedHit));
+              prsTarget.dispatchEvent(upEvt);
             }
             this.checkExit(curHit, hoveredHit, pointer);
             this.checkEnter(curHit, hoveredHit, pointer);
@@ -16313,9 +16273,9 @@ var EventSystem = class extends TypedEventBase {
         {
           const clickEvt = this.getEvent(pointer, "click", curHit);
           this.dispatchEvent(clickEvt);
-          if (isClickable(curHit)) {
+          if (curTarget && curTarget.clickable) {
             pointer.vibrate();
-            curObj.dispatchEvent(clickEvt.to3(curHit));
+            curTarget.dispatchEvent(clickEvt);
           }
         }
         break;
@@ -16325,7 +16285,7 @@ var EventSystem = class extends TypedEventBase {
           this.dispatchEvent(dragStartEvt);
           if (isDefined(pressedHit)) {
             pointer.draggedHit = pressedHit;
-            pressedObj.dispatchEvent(dragStartEvt.to3(pressedHit));
+            prsTarget.dispatchEvent(dragStartEvt);
           }
         }
         break;
@@ -16334,7 +16294,7 @@ var EventSystem = class extends TypedEventBase {
           const dragEvt = this.getEvent(pointer, "drag", draggedHit, curHit);
           this.dispatchEvent(dragEvt);
           if (isDefined(draggedHit)) {
-            draggedObj.dispatchEvent(dragEvt.to3(draggedHit));
+            drgTarget.dispatchEvent(dragEvt);
           }
         }
         break;
@@ -16344,7 +16304,7 @@ var EventSystem = class extends TypedEventBase {
           this.dispatchEvent(dragCancelEvt);
           if (isDefined(draggedHit)) {
             pointer.draggedHit = null;
-            draggedObj.dispatchEvent(dragCancelEvt.to3(draggedHit));
+            drgTarget.dispatchEvent(dragCancelEvt);
           }
         }
         break;
@@ -16354,7 +16314,7 @@ var EventSystem = class extends TypedEventBase {
           this.dispatchEvent(dragEndEvt);
           if (isDefined(draggedHit)) {
             pointer.draggedHit = null;
-            draggedObj.dispatchEvent(dragEndEvt.to3(draggedHit));
+            drgTarget.dispatchEvent(dragEndEvt);
           }
         }
         break;
@@ -16382,23 +16342,23 @@ var EventSystem = class extends TypedEventBase {
     return evt;
   }
   checkExit(curHit, hoveredHit, pointer) {
-    const curObj = resolveObj(curHit);
-    const hoveredObj = resolveObj(hoveredHit);
+    const curObj = getMeshTarget(curHit);
+    const hoveredObj = getMeshTarget(hoveredHit);
     if (curObj !== hoveredObj && isDefined(hoveredObj)) {
       pointer.hoveredHit = null;
       const exitEvt = this.getEvent(pointer, "exit", hoveredHit);
       this.dispatchEvent(exitEvt);
-      hoveredObj.dispatchEvent(exitEvt.to3(hoveredHit));
+      hoveredObj.dispatchEvent(exitEvt);
     }
   }
   checkEnter(curHit, hoveredHit, pointer) {
-    const curObj = resolveObj(curHit);
-    const hoveredObj = resolveObj(hoveredHit);
+    const curObj = getMeshTarget(curHit);
+    const hoveredObj = getMeshTarget(hoveredHit);
     if (curObj !== hoveredObj && isDefined(curHit)) {
       pointer.hoveredHit = curHit;
       const enterEvt = this.getEvent(pointer, "enter", curHit);
       this.dispatchEvent(enterEvt);
-      curObj.dispatchEvent(enterEvt.to3(curHit));
+      curObj.dispatchEvent(enterEvt);
     }
   }
   refreshCursors() {
@@ -16416,7 +16376,8 @@ var EventSystem = class extends TypedEventBase {
     pointer.curHit = null;
     let minDist = Number.MAX_VALUE;
     for (const hit of this.hits) {
-      if (isInteractiveHit(hit) && isObjVisible(hit) && hit.distance < minDist) {
+      const rayTarget = getMeshTarget(hit);
+      if (rayTarget && rayTarget.object.visible && hit.distance < minDist) {
         pointer.curHit = hit;
         minDist = hit.distance;
       }
@@ -19748,7 +19709,7 @@ var CUBEMAP_PATTERN = {
     [0, Math.PI, 0, 0]
   ]
 };
-var black2 = new THREE.Color(0);
+var black = new THREE.Color(0);
 var Skybox = class {
   constructor(env) {
     this.env = env;
@@ -19771,7 +19732,7 @@ var Skybox = class {
     this.webXRLayerEnabled = true;
     this.visible = true;
     this.webXRLayerEnabled &&= this.env.hasXRCompositionLayers;
-    this.env.scene.background = black2;
+    this.env.scene.background = black;
     for (let i = 0; i < this.canvases.length; ++i) {
       const f = this.canvases[i] = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
       this.contexts[i] = f.getContext("2d");
@@ -19800,7 +19761,7 @@ var Skybox = class {
     this.rtScene.add(this.rtCamera);
     this.flipped = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
     this.flipper = this.flipped.getContext("2d");
-    this.flipper.fillStyle = black2.getHexString();
+    this.flipper.fillStyle = black.getHexString();
     this.flipper.scale(-1, 1);
     this.flipper.translate(-FACE_SIZE, 0);
     this.setImages("", this.canvases);
@@ -19887,7 +19848,7 @@ var Skybox = class {
         }
         this.imageNeedsUpdate = this.rotationNeedsUpdate = true;
       }
-      this.env.scene.background = this.layer ? null : this.visible ? this.rt.texture : black2;
+      this.env.scene.background = this.layer ? null : this.visible ? this.rt.texture : black;
       if (this.layer) {
         if (this.visible !== this.wasVisible || this.layer.needsRedraw) {
           this.imageNeedsUpdate = true;
@@ -20061,7 +20022,7 @@ var BaseEnvironment = class extends TypedEventBase {
     this.sun.lookAt(0, 0, 0);
     this.sun.layers.enableAll();
     const showGround = () => {
-      this.ground.visible = this.renderer.xr.isPresenting || this.DEBUG;
+      this.ground.visible = this.renderer.xr.isPresenting;
     };
     this.screenControl.addEventListener("sessionstarted", showGround);
     this.screenControl.addEventListener("sessionstopped", showGround);
@@ -20231,14 +20192,6 @@ var BaseEnvironment = class extends TypedEventBase {
     const model = await loader.loadAsync(path, (evt) => {
       if (isDefined(prog)) {
         prog.report(evt.loaded, evt.total, path);
-      }
-    });
-    model.scene.traverse((m) => {
-      if (isMesh(m)) {
-        m.isCollider = true;
-        const material = m.material;
-        material.side = THREE.FrontSide;
-        material.needsUpdate = true;
       }
     });
     return model.scene;

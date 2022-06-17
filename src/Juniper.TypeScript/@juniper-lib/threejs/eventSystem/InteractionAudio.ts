@@ -2,7 +2,6 @@ import type { AudioManager } from "@juniper-lib/audio/AudioManager";
 import type { IProgress } from "@juniper-lib/tslib";
 import type { EventSystem } from "./EventSystem";
 import type { EventSystemEvent } from "./EventSystemEvent";
-import { isInteractiveObject3D } from "./InteractiveObject3D";
 
 function makeClipName(type: string, isDisabled: boolean) {
     if (type === "click" && isDisabled) {
@@ -23,11 +22,10 @@ export class InteractionAudio {
         this.enabled = true;
 
         const playClip = (evt: EventSystemEvent<"enter" | "exit" | "click">) => {
-            const obj = evt.object;
             if (this.enabled
-                && isInteractiveObject3D(obj)
-                && obj.isClickable) {
-                const clipName = makeClipName(evt.type, obj.disabled);
+                && evt.rayTarget
+                && evt.rayTarget.clickable) {
+                const clipName = makeClipName(evt.type, !evt.rayTarget.enabled);
                 if (this.audio.hasClip(clipName)) {
                     const { x, y, z } = evt.point;
                     this.audio.setClipPosition(clipName, x, y, z);

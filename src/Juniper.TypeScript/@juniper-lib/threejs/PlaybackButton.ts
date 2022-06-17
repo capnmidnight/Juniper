@@ -3,12 +3,10 @@ import { MediaElementSourceEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer } from "@juniper-lib/audio/sources/IPlayer";
 import { keycapDigits } from "@juniper-lib/emoji/numbers";
 import { IFetcher } from "@juniper-lib/fetcher";
-import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
 import { AsyncCallback, BaseProgress, IDisposable, isDefined, TypedEvent } from "@juniper-lib/tslib";
 import { ButtonFactory } from "./ButtonFactory";
 import { cleanup } from "./cleanup";
 import { Cube } from "./Cube";
-import { EventSystemThreeJSEvent } from "./eventSystem/EventSystemEvent";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
 import { solidWhite } from "./materials";
 import { MeshButton } from "./MeshButton";
@@ -155,7 +153,7 @@ export class PlaybackButton<T extends FullAudioRecord>
                     || player.playbackState === "playing"
                     || player.playbackState === "errored")
                 || !hasMyData
-                    && player.playbackState === "loading";
+                && player.playbackState === "loading";
             this.pauseButton.disabled = !hasMyData
                 || player.playbackState === "loading"
                 || player.playbackState !== "playing";
@@ -194,12 +192,7 @@ export class PlaybackButton<T extends FullAudioRecord>
         player.addEventListener("stopped", local(() => this.dispatchEvent(stopEvt)));
 
         const onClick = (btn: MeshButton, callback: () => void) => {
-            btn.addEventListener("click", async (ev: THREE.Event) => {
-                const evt = ev as EventSystemThreeJSEvent<"click">;
-                if (evt.buttons === MouseButtons.Mouse0) {
-                    callback();
-                }
-            });
+            btn.target.addEventListener("click", callback);
         }
 
         this.clickPlay = async () => {

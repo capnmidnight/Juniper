@@ -1,5 +1,4 @@
 import type { SolidMaterial } from "./materials";
-import { solidTransparentBlack } from "./materials";
 import { setGeometryUVsForCubemaps } from "./setGeometryUVsForCubemaps";
 
 export const cube = new THREE.BoxBufferGeometry(1, 1, 1, 1, 1, 1);
@@ -9,24 +8,16 @@ export const invCube = cube.clone() as THREE.BoxBufferGeometry;
 invCube.name = "InvertedCubeGeom";
 setGeometryUVsForCubemaps(invCube);
 
-abstract class BaseCube extends THREE.Mesh {
-    constructor(sx: number, sy: number, sz: number, material: SolidMaterial, public isCollider: boolean) {
+export class Cube extends THREE.Mesh {
+    constructor(sx: number, sy: number, sz: number, material: SolidMaterial) {
         super(cube, material);
         this.scale.set(sx, sy, sz);
     }
 }
 
-export class Cube extends BaseCube {
-    isDraggable = false;
-
+export class InvCube extends THREE.Mesh {
     constructor(sx: number, sy: number, sz: number, material: SolidMaterial) {
-        super(sx, sy, sz, material, false);
-    }
-}
-
-export class CubeCollider extends BaseCube {
-    constructor(sx: number, sy: number, sz: number) {
-        super(sx, sy, sz, solidTransparentBlack(0), true);
-        this.visible = false;
+        super(invCube, material);
+        this.scale.set(sx, sy, sz);
     }
 }

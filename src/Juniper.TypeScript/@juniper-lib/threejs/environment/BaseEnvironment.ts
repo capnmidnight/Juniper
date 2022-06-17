@@ -26,7 +26,6 @@ import { CameraControl } from "../CameraFOVControl";
 import { cleanup } from "../cleanup";
 import { Cursor3D } from "../eventSystem/Cursor3D";
 import { EventSystem } from "../eventSystem/EventSystem";
-import type { InteractiveObject3D } from "../eventSystem/InteractiveObject3D";
 import { GLTFLoader } from "../examples/loaders/GLTFLoader";
 import { Fader } from "../Fader";
 import { IModelLoader } from "../IModelLoader";
@@ -37,7 +36,6 @@ import { obj, objGraph } from "../objects";
 import { resolveCamera } from "../resolveCamera";
 import { ScreenControl } from "../ScreenControl";
 import { Skybox } from "../Skybox";
-import { isMesh } from "../typeChecks";
 import { XRTimer, XRTimerTickEvent } from "./XRTimer";
 
 
@@ -390,14 +388,6 @@ export class BaseEnvironment<Events = void>
         const model = await loader.loadAsync(path, (evt) => {
             if (isDefined(prog)) {
                 prog.report(evt.loaded, evt.total, path);
-            }
-        });
-        model.scene.traverse((m: THREE.Object3D) => {
-            if (isMesh(m)) {
-                (m as InteractiveObject3D).isCollider = true;
-                const material = m.material as (THREE.MeshStandardMaterial | THREE.MeshBasicMaterial);
-                material.side = THREE.FrontSide;
-                material.needsUpdate = true;
             }
         });
         return model.scene;

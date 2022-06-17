@@ -1,5 +1,4 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
-import { FlickEvent } from "@juniper-lib/threejs/eventSystem/FlickEvent";
 import { ObjectMovedEvent } from "@juniper-lib/threejs/eventSystem/ObjectMovedEvent";
 import { PointerEventTypes, SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
@@ -7,28 +6,13 @@ import { arrayClear, arrayScan, assertNever, isDefined, TypedEventBase } from "@
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";
-import { EventSystemEvent } from "./EventSystemEvent";
-import { isClickable, isDraggable, isInteractiveHit, isObjVisible } from "./InteractiveObject3D";
+import { EventSystemEvent, EventSystemEvents } from "./EventSystemEvent";
 import type { IPointer } from "./IPointer";
 import { PointerHand } from "./PointerHand";
 import { PointerMouse } from "./PointerMouse";
 import { PointerMultiTouch } from "./PointerMultiTouch";
 import { PointerPen } from "./PointerPen";
-import { resolveObj } from "./resolveObj";
-
-interface EventSystemEvents {
-    move: EventSystemEvent<"move">;
-    enter: EventSystemEvent<"enter">;
-    exit: EventSystemEvent<"exit">;
-    up: EventSystemEvent<"up">;
-    down: EventSystemEvent<"down">;
-    click: EventSystemEvent<"click">;
-    dragstart: EventSystemEvent<"dragstart">;
-    drag: EventSystemEvent<"drag">;
-    dragend: EventSystemEvent<"dragend">;
-    objectMoved: ObjectMovedEvent;
-    flick: FlickEvent;
-}
+import { getMeshTarget } from "./RayTarget";
 
 function correctHit(hit: THREE.Intersection, pointer: IPointer) {
     if (isDefined(hit)) {
@@ -134,10 +118,10 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
         const { curHit, hoveredHit, pressedHit, draggedHit } = pointer;
 
-        const curObj = resolveObj(curHit);
-        const hoveredObj = resolveObj(hoveredHit);
-        const pressedObj = resolveObj(pressedHit);
-        const draggedObj = resolveObj(draggedHit);
+        const curTarget = getMeshTarget(curHit);
+        const hovTarget = getMeshTarget(hoveredHit);
+        const prsTarget = getMeshTarget(pressedHit);
+        const drgTarget = getMeshTarget(draggedHit);
 
         if (eventType === "move" || eventType === "drag") {
             correctHit(hoveredHit, pointer);
@@ -153,16 +137,16 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     this.env.fovControl.onMove(moveEvt);
 
                     if (isDefined(draggedHit)) {
-                        draggedObj.dispatchEvent(moveEvt.to3(draggedHit));
+                        drgTarget.dispatchEvent(moveEvt);
                     }
                     else if (isDefined(pressedHit)) {
-                        pressedObj.dispatchEvent(moveEvt.to3(pressedHit));
+                        prsTarget.dispatchEvent(moveEvt);
                     }
                     else if (pointer.state.buttons === 0) {
                         this.checkExit(curHit, hoveredHit, pointer);
                         this.checkEnter(curHit, hoveredHit, pointer);
-                        if (curObj) {
-                            curObj.dispatchEvent(moveEvt.to3(curHit));
+                        if (curTarget) {
+                            curTarget.dispatchEvent(moveEvt);
                         }
                     }
 
@@ -181,11 +165,12 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     const downEvt = this.getEvent(pointer, "down", curHit);
                     this.env.avatar.onDown(downEvt);
 
-                    if (isClickable(hoveredHit)
-                        || isDraggable(hoveredHit)) {
+                    if (hovTarget &&
+                        (hovTarget.clickable
+                        || hovTarget.draggable)) {
                         pointer.pressedHit = hoveredHit;
 
-                        hoveredObj.dispatchEvent(downEvt.to3(hoveredHit));
+                        hovTarget.dispatchEvent(downEvt);
                     }
                 }
                 break;
@@ -198,7 +183,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     if (pointer.state.buttons === 0) {
                         if (isDefined(pressedHit)) {
                             pointer.pressedHit = null;
-                            pressedObj.dispatchEvent(upEvt.to3(pressedHit));
+                            prsTarget.dispatchEvent(upEvt);
                         }
 
                         this.checkExit(curHit, hoveredHit, pointer);
@@ -212,9 +197,9 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     const clickEvt = this.getEvent(pointer, "click", curHit);
                     this.dispatchEvent(clickEvt);
 
-                    if (isClickable(curHit)) {
+                    if (curTarget && curTarget.clickable) {
                         pointer.vibrate();
-                        curObj.dispatchEvent(clickEvt.to3(curHit));
+                        curTarget.dispatchEvent(clickEvt);
                     }
                 }
                 break;
@@ -226,7 +211,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
                     if (isDefined(pressedHit)) {
                         pointer.draggedHit = pressedHit;
-                        pressedObj.dispatchEvent(dragStartEvt.to3(pressedHit));
+                        prsTarget.dispatchEvent(dragStartEvt);
                     }
                 }
                 break;
@@ -237,7 +222,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     this.dispatchEvent(dragEvt);
 
                     if (isDefined(draggedHit)) {
-                        draggedObj.dispatchEvent(dragEvt.to3(draggedHit));
+                        drgTarget.dispatchEvent(dragEvt);
                     }
                 }
                 break;
@@ -249,7 +234,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
                     if (isDefined(draggedHit)) {
                         pointer.draggedHit = null;
-                        draggedObj.dispatchEvent(dragCancelEvt.to3(draggedHit));
+                        drgTarget.dispatchEvent(dragCancelEvt);
                     }
                 }
                 break;
@@ -261,7 +246,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
                     if (isDefined(draggedHit)) {
                         pointer.draggedHit = null;
-                        draggedObj.dispatchEvent(dragEndEvt.to3(draggedHit));
+                        drgTarget.dispatchEvent(dragEndEvt);
                     }
                 }
                 break;
@@ -298,28 +283,26 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
     }
 
     private checkExit(curHit: THREE.Intersection, hoveredHit: THREE.Intersection, pointer: IPointer) {
-        const curObj = resolveObj(curHit);
-        const hoveredObj = resolveObj(hoveredHit);
+        const curObj = getMeshTarget(curHit);
+        const hoveredObj = getMeshTarget(hoveredHit);
         if (curObj !== hoveredObj && isDefined(hoveredObj)) {
             pointer.hoveredHit = null;
 
             const exitEvt = this.getEvent(pointer, "exit", hoveredHit);
             this.dispatchEvent(exitEvt);
-
-            hoveredObj.dispatchEvent(exitEvt.to3(hoveredHit));
+            hoveredObj.dispatchEvent(exitEvt);
         }
     }
 
     private checkEnter(curHit: THREE.Intersection, hoveredHit: THREE.Intersection, pointer: IPointer) {
-        const curObj = resolveObj(curHit);
-        const hoveredObj = resolveObj(hoveredHit);
+        const curObj = getMeshTarget(curHit);
+        const hoveredObj = getMeshTarget(hoveredHit);
         if (curObj !== hoveredObj && isDefined(curHit)) {
             pointer.hoveredHit = curHit;
 
             const enterEvt = this.getEvent(pointer, "enter", curHit);
             this.dispatchEvent(enterEvt);
-
-            curObj.dispatchEvent(enterEvt.to3(curHit));
+            curObj.dispatchEvent(enterEvt);
         }
     }
 
@@ -341,8 +324,9 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
         pointer.curHit = null;
         let minDist = Number.MAX_VALUE;
         for (const hit of this.hits) {
-            if (isInteractiveHit(hit)
-                && isObjVisible(hit)
+            const rayTarget = getMeshTarget(hit);
+            if (rayTarget
+                && rayTarget.object.visible
                 && hit.distance < minDist) {
                 pointer.curHit = hit;
                 minDist = hit.distance;
