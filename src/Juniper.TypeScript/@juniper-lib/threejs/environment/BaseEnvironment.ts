@@ -99,6 +99,8 @@ export class BaseEnvironment<Events = void>
     readonly screenControl: ScreenControl;
     readonly eventSystem: EventSystem;
 
+    enableSpectator = false;
+
     constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, enableFullResolution: boolean) {
         super();
 
@@ -256,24 +258,26 @@ export class BaseEnvironment<Events = void>
 
             this.renderer.clear();
             this.renderer.render(this.scene, this.camera);
-            if (!this.renderer.xr.isPresenting) {
-                lastViewport.copy(curViewport);
-                this.renderer.getViewport(curViewport);
-            }
-            else if (isDesktop()
-                && !isFirefox()) {
-                spectator.projectionMatrix.copy(this.camera.projectionMatrix);
-                spectator.position.copy(cam.position);
-                spectator.quaternion.copy(cam.quaternion);
-                const curRT = this.renderer.getRenderTarget();
-                this.renderer.xr.isPresenting = false;
-                this.renderer.setRenderTarget(null);
-                this.renderer.setViewport(lastViewport);
-                this.renderer.clear();
-                this.renderer.render(this.scene, spectator);
-                this.renderer.setViewport(curViewport);
-                this.renderer.setRenderTarget(curRT);
-                this.renderer.xr.isPresenting = true;
+            if (this.enableSpectator) {
+                if (!this.renderer.xr.isPresenting) {
+                    lastViewport.copy(curViewport);
+                    this.renderer.getViewport(curViewport);
+                }
+                else if (isDesktop()
+                    && !isFirefox()) {
+                    spectator.projectionMatrix.copy(this.camera.projectionMatrix);
+                    spectator.position.copy(cam.position);
+                    spectator.quaternion.copy(cam.quaternion);
+                    const curRT = this.renderer.getRenderTarget();
+                    this.renderer.xr.isPresenting = false;
+                    this.renderer.setRenderTarget(null);
+                    this.renderer.setViewport(lastViewport);
+                    this.renderer.clear();
+                    this.renderer.render(this.scene, spectator);
+                    this.renderer.setViewport(curViewport);
+                    this.renderer.setRenderTarget(curRT);
+                    this.renderer.xr.isPresenting = true;
+                }
             }
         }
     }
