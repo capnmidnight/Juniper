@@ -35,7 +35,7 @@ export abstract class BaseScreenPointerSinglePoint extends BaseScreenPointer {
 
     protected onReadEvent(evt: PointerEvent) {
         this.state.buttons = evt.buttons;
-        this.state.position.set(evt.offsetX, -evt.offsetY);
-        this.state.motion.set(evt.movementX, -evt.movementY);
+        this.state.position.set(evt.offsetX, evt.offsetY);
+        this.state.motion.set(evt.movementX, evt.movementY);
     }
 }

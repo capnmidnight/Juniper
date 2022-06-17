@@ -11,6 +11,8 @@ export abstract class BaseScreenPointer extends BasePointer {
     element: HTMLCanvasElement;
 
     private readonly sizeInv = new THREE.Vector2();
+    private readonly uvComp = new THREE.Vector2(1, -1);
+    private readonly uvOff = new THREE.Vector2(-1, 1);
 
     constructor(
         type: PointerType,
@@ -54,6 +56,11 @@ export abstract class BaseScreenPointer extends BasePointer {
         this.element.addEventListener("pointercancel", onPointerUp);
     }
 
+    protected checkEvent(evt: PointerEvent) {
+        return evt.pointerType === this.type
+            && evt.pointerId === this.id;
+    }
+
     get isTracking() {
         return this.id != null;
     }
@@ -64,65 +71,54 @@ export abstract class BaseScreenPointer extends BasePointer {
     }
 
     private readEvent(evt: PointerEvent): void {
-        if(this.checkEvent(evt)) {
-            this.readMetaKeys(evt);
+        if (this.checkEvent(evt)) {
+            this.state.ctrl = evt.ctrlKey;
+            this.state.alt = evt.altKey;
+            this.state.shift = evt.shiftKey;
+            this.state.meta = evt.metaKey;
+
             this.onReadEvent(evt);
-            this.stateDelta(evt.type);
+
+            if (evt.type === "pointermove"
+                && document.pointerLockElement
+                && this.lastState) {
+                this.state.position
+                    .copy(this.lastState.position)
+                    .add(this.state.motion);
+            }
+
+            this.state.moveDistance = this.state.motion.length();
+            this.state.uv
+                .copy(this.state.position)
+                .multiplyScalar(2)
+                .multiply(this.sizeInv)
+                .multiply(this.uvComp)
+                .add(this.uvOff);
+            this.state.duv
+                .copy(this.state.motion)
+                .multiplyScalar(2)
+                .multiply(this.sizeInv)
+                .multiply(this.uvComp);
         }
-    }
-
-    protected checkEvent(evt: PointerEvent) {
-        return evt.pointerType === this.type
-            && evt.pointerId === this.id;
-    }
-
-    protected readMetaKeys(evt: PointerEvent) {
-        this.state.ctrl = evt.ctrlKey;
-        this.state.alt = evt.altKey;
-        this.state.shift = evt.shiftKey;
-        this.state.meta = evt.metaKey;
     }
 
     protected abstract onReadEvent(evt: PointerEvent): void;
 
-    protected stateDelta(type: string) {
-        if (type === "pointermove"
-            && document.pointerLockElement
-            && this.lastState) {
-            this.state.position
-                .copy(this.lastState.position)
-                .add(this.state.motion);
-        }
-
-        this.state.moveDistance = this.state.motion.length();
-
-        this.state.uv
-            .copy(this.state.position)
-            .multiplyScalar(2)
-            .multiply(this.sizeInv)
-            .addScalar(-1);
-
-        this.state.duv
-            .copy(this.state.motion)
-            .multiplyScalar(2)
-            .multiply(this.sizeInv);
-    }
-
     protected onUpdate() {
         const cam = resolveCamera(this.renderer, this.camera);
 
-        this.origin.setFromMatrixPosition(cam.matrixWorld);
-        this.direction.set(this.state.uv.x, -this.state.uv.y, 0.5)
-            .unproject(cam)
-            .sub(this.origin)
-            .normalize();
+        this.updateRay(cam);
 
         if (this.state.motion.manhattanLength() > 0) {
             this.onPointerMove();
+            this.updateRay(cam);
         }
+    }
 
+    private updateRay(cam: THREE.Camera) {
         this.origin.setFromMatrixPosition(cam.matrixWorld);
-        this.direction.set(this.state.uv.x, -this.state.uv.y, 0.5)
+        this.direction
+            .set(this.state.uv.x, this.state.uv.y, 0.5)
             .unproject(cam)
             .sub(this.origin)
             .normalize();
