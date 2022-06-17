@@ -423,7 +423,7 @@ export class AvatarLocal
                 this.motion
                     .set(
                         this.scaleRadialComponent(this.uv.x, this.speed.x, this.acceleration.x),
-                        this.scaleRadialComponent(this.uv.y, this.speed.y, this.acceleration.y))
+                        this.scaleRadialComponent(-this.uv.y, this.speed.y, this.acceleration.y))
                     .multiplyScalar(dt)
                     .multiply(this.axisControl);
 
