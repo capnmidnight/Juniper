@@ -6468,22 +6468,20 @@ var ClockImage = class extends TextImage {
     setInterval(updater, 500);
     updater();
   }
-  _fps = null;
-  get fps() {
-    return this._fps;
-  }
-  set fps(v) {
-    if (v !== this.fps) {
-      this._fps = v;
-      this.update();
-    }
+  fps = null;
+  drawCalls = null;
+  triangles = null;
+  setStats(fps, drawCalls, triangles) {
+    this.fps = fps;
+    this.drawCalls = drawCalls;
+    this.triangles = triangles;
   }
   lastLen = 0;
   update() {
     const time = new Date();
     let value2 = time.toLocaleTimeString();
     if (this.fps !== null) {
-      value2 += ` ${Math.round(this.fps).toFixed(0)}hz`;
+      value2 += ` ${Math.round(this.fps).toFixed(0)}hz ${this.drawCalls}c ${this.triangles}t`;
     }
     if (value2.length !== this.lastLen) {
       this.lastLen = value2.length;
@@ -6963,18 +6961,18 @@ var DeviceManager = class extends TypedEventBase {
     super();
     this.element = element;
     this.needsVideoDevice = needsVideoDevice;
+    this._hasAudioPermission = false;
+    this._hasVideoPermission = false;
+    this._currentStream = null;
     this.ready = this.start();
     Object.seal(this);
   }
-  _hasAudioPermission = false;
   get hasAudioPermission() {
     return this._hasAudioPermission;
   }
-  _hasVideoPermission = false;
   get hasVideoPermission() {
     return this._hasVideoPermission;
   }
-  _currentStream = null;
   get currentStream() {
     return this._currentStream;
   }
@@ -6988,7 +6986,6 @@ var DeviceManager = class extends TypedEventBase {
       this._currentStream = v;
     }
   }
-  ready;
   async start() {
     if (canChangeAudioOutput) {
       const device = await this.getPreferredAudioOutput();
@@ -20101,6 +20098,7 @@ var BaseEnvironment = class extends TypedEventBase {
     this.ground = new THREE.GridHelper(gridSize, gridWidth, 12632256, 8421504);
     this.foreground = obj("Foreground");
     this.loadingBar = new LoadingBar();
+    this.enableSpectator = false;
     this._xrBinding = null;
     this._xrMediaBinding = null;
     this._hasXRMediaLayers = null;
@@ -20203,22 +20201,24 @@ var BaseEnvironment = class extends TypedEventBase {
       }
       this.renderer.clear();
       this.renderer.render(this.scene, this.camera);
-      if (!this.renderer.xr.isPresenting) {
-        lastViewport.copy(curViewport);
-        this.renderer.getViewport(curViewport);
-      } else if (isDesktop() && !isFirefox()) {
-        spectator.projectionMatrix.copy(this.camera.projectionMatrix);
-        spectator.position.copy(cam.position);
-        spectator.quaternion.copy(cam.quaternion);
-        const curRT = this.renderer.getRenderTarget();
-        this.renderer.xr.isPresenting = false;
-        this.renderer.setRenderTarget(null);
-        this.renderer.setViewport(lastViewport);
-        this.renderer.clear();
-        this.renderer.render(this.scene, spectator);
-        this.renderer.setViewport(curViewport);
-        this.renderer.setRenderTarget(curRT);
-        this.renderer.xr.isPresenting = true;
+      if (this.enableSpectator) {
+        if (!this.renderer.xr.isPresenting) {
+          lastViewport.copy(curViewport);
+          this.renderer.getViewport(curViewport);
+        } else if (isDesktop() && !isFirefox()) {
+          spectator.projectionMatrix.copy(this.camera.projectionMatrix);
+          spectator.position.copy(cam.position);
+          spectator.quaternion.copy(cam.quaternion);
+          const curRT = this.renderer.getRenderTarget();
+          this.renderer.xr.isPresenting = false;
+          this.renderer.setRenderTarget(null);
+          this.renderer.setViewport(lastViewport);
+          this.renderer.clear();
+          this.renderer.render(this.scene, spectator);
+          this.renderer.setViewport(curViewport);
+          this.renderer.setRenderTarget(curRT);
+          this.renderer.xr.isPresenting = true;
+        }
       }
     }
   }
@@ -20771,7 +20771,7 @@ var Environment = class extends BaseEnvironment {
         this.avgFPS -= fps2 / 100;
       }
       if (++this.countTick % 100 === 0) {
-        this.clockImage.image.fps = this.avgFPS;
+        this.clockImage.image.setStats(this.avgFPS, this.renderer.info.render.calls, this.renderer.info.render.triangles);
       }
     }
     this.confirmationDialog.update(evt.dt);
