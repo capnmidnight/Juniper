@@ -3,7 +3,7 @@ import { Asset } from "@juniper-lib/fetcher-base/Asset";
 import { HTTPMethods } from "@juniper-lib/fetcher-base/HTTPMethods";
 import { IFetcher } from "@juniper-lib/fetcher-base/IFetcher";
 import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
-import { IProgress, isWorker, progressTasksWeighted } from "@juniper-lib/tslib";
+import { IProgress, isDefined, isWorker, progressTasksWeighted } from "@juniper-lib/tslib";
 import { RequestBuilder } from "./RequestBuilder";
 
 
@@ -55,6 +55,7 @@ export class Fetcher implements IFetcher {
     }
 
     async assets(progress: IProgress, ...assets: Asset<any, any>[]): Promise<void> {
+        assets = assets.filter(isDefined);
         const assetSizes = new Map(await Promise.all(assets.map((asset) => asset.getSize(this))));
         await progressTasksWeighted(
             progress,
