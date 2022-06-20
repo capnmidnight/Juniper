@@ -25,6 +25,7 @@ export function isNumber(obj: any): obj is number {
  */
 export function isGoodNumber(obj: any): obj is number {
     return isNumber(obj)
+        && Number.isFinite(obj)
         && !Number.isNaN(obj);
 }
 

@@ -33,10 +33,6 @@ export abstract class BaseScreenPointer extends BasePointer {
         this.element = this.renderer.domElement;
         this.element.addEventListener("pointerdown", onPointerDown);
 
-        const setSizeInv = () => this.sizeInv.set(1 / this.element.clientWidth, 1 / this.element.clientHeight);
-        this.element.addEventListener("resize", setSizeInv);
-        setSizeInv();        
-
         const onPointerMove = (evt: PointerEvent) => {
             if (this.checkEvent(evt)) {
                 this.readEvent(evt);
@@ -88,17 +84,21 @@ export abstract class BaseScreenPointer extends BasePointer {
             }
 
             this.state.moveDistance = this.state.motion.length();
-            this.state.uv
-                .copy(this.state.position)
-                .multiplyScalar(2)
-                .multiply(this.sizeInv)
-                .multiply(this.uvComp)
-                .add(this.uvOff);
-            this.state.duv
-                .copy(this.state.motion)
-                .multiplyScalar(2)
-                .multiply(this.sizeInv)
-                .multiply(this.uvComp);
+
+            this.sizeInv.set(this.element.clientWidth, this.element.clientHeight);
+            if (this.sizeInv.manhattanLength() > 0) {
+                this.state.uv
+                    .copy(this.state.position)
+                    .multiplyScalar(2)
+                    .divide(this.sizeInv)
+                    .multiply(this.uvComp)
+                    .add(this.uvOff);
+                this.state.duv
+                    .copy(this.state.motion)
+                    .multiplyScalar(2)
+                    .divide(this.sizeInv)
+                    .multiply(this.uvComp);
+            }
         }
     }
 
