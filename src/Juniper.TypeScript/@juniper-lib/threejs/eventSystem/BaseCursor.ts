@@ -1,7 +1,7 @@
 import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
 import type { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
 import { ErsatzObject } from "../objects";
-import { getMeshTarget } from "./RayTarget";
+import { getRayTarget } from "./RayTarget";
 
 const T = new THREE.Vector3();
 const V = new THREE.Vector3();
@@ -66,7 +66,7 @@ export abstract class BaseCursor implements ErsatzObject {
 
         this.lookAt(V);
 
-        const target = getMeshTarget(hit);
+        const target = getRayTarget(hit);
 
         this.style = target
             ? !target.enabled

@@ -1,6 +1,6 @@
 import { TypedEvent } from "@juniper-lib/tslib";
 import { Cube } from "./Cube";
-import { makeRayTarget, RayTarget } from "./eventSystem/RayTarget";
+import { assureRayTarget, RayTarget } from "./eventSystem/RayTarget";
 
 export class TranslatorDragDirEvent extends TypedEvent<"dragdir">{
 
@@ -40,7 +40,9 @@ export class Translator extends Cube {
 
         let dragging = false;
 
-        this.target = makeRayTarget<TranslatorDragDirEvents>(this);
+        this.target = assureRayTarget<TranslatorDragDirEvents>(this);
+        this.target.addMesh(this);
+        this.target.enabled = true;
         this.target.draggable = true;
 
         this.target.addEventListener("dragstart", (evt) => {

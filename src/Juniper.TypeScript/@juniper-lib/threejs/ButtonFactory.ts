@@ -146,17 +146,6 @@ export class ButtonFactory {
         return geom;
     }
 
-    async getMesh(setName: string, iconName: string, enabled: boolean) {
-        const geom = await this.getGeometry(setName, iconName);
-        const mesh = new THREE.Mesh(
-            geom,
-            enabled
-                ? this.enabledMaterial
-                : this.disabledMaterial);
-        mesh.name = `Mesh:${setName}/${iconName}`;
-        return mesh;
-    }
-
     async getGeometryAndMaterials(setName: string, iconName: string) {
         const [geometry, enabledMaterial, disabledMaterial] = await Promise.all([
             this.getGeometry(setName, iconName),

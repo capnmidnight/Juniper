@@ -1,11 +1,12 @@
+import type { FontDescription } from "@juniper-lib/dom/fonts";
+import { loadFont } from "@juniper-lib/dom/fonts";
 import { Animator } from "@juniper-lib/graphics2d/animation/Animator";
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import type { FontDescription } from "@juniper-lib/dom/fonts";
-import { loadFont } from "@juniper-lib/dom/fonts";
 import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted, TaskDef } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { Image2D } from "../Image2D";
+import { objGraph } from "../objects";
 import { TextMesh } from "../TextMesh";
 import { MenuItem } from "./MenuItem";
 
@@ -170,7 +171,7 @@ export class Menu extends THREE.Object3D {
     private disableAll(): void {
         setTimeout(() => {
             for (const button of this.buttons) {
-                button.target.disabled = true;
+                button.disabled = true;
             }
         }, 10);
     }
@@ -249,7 +250,6 @@ export class Menu extends THREE.Object3D {
                 return this.createMenuItem(item, onClick, prog);
             }
         });
-
         arrayReplace(this.buttons, ...buttons);
 
         const space = 0.05;
@@ -284,9 +284,7 @@ export class Menu extends THREE.Object3D {
             a += 0.5 * (button.width + space) / radius;
         }
 
-        for (const button of this.buttons) {
-            this.add(button);
-        }
+        objGraph(this, ...this.buttons);
 
         await this.blowOut(false);
 
@@ -305,23 +303,25 @@ export class Menu extends THREE.Object3D {
     private setButtonPosition(button: MenuItem, a: number, radius: number) {
         const x = radius * Math.sin(a);
         const z = -radius * Math.cos(a);
-        button.position.set(x, 0, z);
-        button.lookAt(zero);
+        button.object.position.set(x, 0, z);
+        button.object.lookAt(zero);
         button.startX = x;
-        button.position.x = x - 10;
+        button.object.position.x = x - 10;
     }
 
     private async createMenuItem(item: MenuItemDescription, onClick?: menuItemCallback<MenuItemDescription> | Function, prog?: IProgress): Promise<MenuItem> {
 
         if (!item.back) {
             if (item.filePath) {
-                item.back = new Image2DMesh(this.env, `${item.name}-Background`, true);
-                await item.back.mesh.loadImage(this.env.fetcher, item.filePath, prog);
+                item.back = new Image2D(this.env, `${item.name}-Background`, true);
+                await item.back.loadImage(this.env.fetcher, item.filePath, prog);
             }
             else {
-                item.back = this.defaultButtonImage.clone() as Image2DMesh;
+                item.back = this.defaultButtonImage.clone() as Image2D;
             }
             item.back.frustumCulled = false;
+            item.height = 1;
+            item.width = item.back.imageAspectRatio;
         }
 
         if (!isGoodNumber(item.width)) {
@@ -403,12 +403,13 @@ export class Menu extends THREE.Object3D {
             item.height,
             item.name,
             item.front,
-            item.back,
-            item.clickable !== false,
-            enabled);
+            item.back);
 
-        if (!button.target.disabled && isFunction(onClick)) {
-            button.target.addEventListener("click", () => {
+        button.clickable = item.clickable !== false;
+        button.enabled = enabled;
+
+        if (button.enabled && isFunction(onClick)) {
+            button.addEventListener("click", () => {
                 this.curBlowout = this.blowOut(true);
                 onClick(item);
             });
@@ -422,26 +423,20 @@ export class Menu extends THREE.Object3D {
     }
 
     private async blowOut(d: boolean) {
-        await Promise.all(this.children.map((child, i) => {
-            if (child instanceof MenuItem) {
-                return this.blowOutChild(child, i, d);
-            }
-            else {
-                return Promise.resolve();
-            }
-        }));
+        await Promise.all(this.buttons.map((child, i) =>
+            this.blowOutChild(child, i, d)));
         this.animator.clear();
     }
 
     private async blowOutChild(child: MenuItem, i: number, d: boolean): Promise<void> {
-        const wasDisabled = child.target.disabled;
-        child.target.disabled = true;
+        const wasDisabled = child.disabled;
+        child.disabled = true;
 
         await this.animator.start(0.125 * i, 0.5, (t: number) => {
             const st = clamp(d ? t : (1 - t), 0, 1);
-            child.position.x = child.startX - 10 * bump(st, 0.15);
+            child.object.position.x = child.startX - 10 * bump(st, 0.15);
         });
 
-        child.target.disabled = wasDisabled;
+        child.disabled = wasDisabled;
     }
 }

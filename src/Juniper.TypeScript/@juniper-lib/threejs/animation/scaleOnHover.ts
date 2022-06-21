@@ -1,17 +1,20 @@
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { IDisposable, singleton } from "@juniper-lib/tslib";
-import { getObjectTargets, makeRayTarget } from "../eventSystem/RayTarget";
+import { assureRayTarget, RayTarget } from "../eventSystem/RayTarget";
+import { objectResolve, Objects } from "../objects";
 import { isMesh } from "../typeChecks";
 
 /**
  * This is a hack to make sure all Applications get the same scaleOnHover state as the Environment.
  **/
-const scaledItems = singleton("Juniper:ScaledItems", () => new Map<THREE.Object3D, ScaleState>());
+const scaledItems = singleton("Juniper:ScaledItems", () => new Map<Objects, ScaleState>());
 const start = 1;
 const end = 1.1;
 const timeScale = 0.005;
 
 class ScaleState implements IDisposable {
+    private readonly obj: THREE.Object3D;
+    private readonly target: RayTarget;
     private readonly base: THREE.Vector3;
     private readonly onEnter: () => void;
     private readonly onExit: () => void;
@@ -21,8 +24,10 @@ class ScaleState implements IDisposable {
     private running: boolean;
     private wasDisabled: boolean;
 
-    constructor(private readonly obj: THREE.Object3D) {
-        this.base = obj.scale.clone();
+    constructor(obj: Objects) {
+        this.target = assureRayTarget(obj);
+        this.obj = objectResolve(obj);
+        this.base = this.obj.scale.clone();
         this.p = 0;
         this.dir = 0;
         this.running = false;
@@ -30,32 +35,19 @@ class ScaleState implements IDisposable {
         this.onEnter = () => this.run(1);
         this.onExit = () => this.run(-1);
 
+
+        this.target.addEventListener("enter", this.onEnter);
+        this.target.addEventListener("exit", this.onExit);
+
         this.obj.traverse(child => {
             if (isMesh(child)) {
-                const target = makeRayTarget(child, this.obj);
-                target.addEventListener("enter", this.onEnter);
-                target.addEventListener("exit", this.onExit);
+                this.target.addMesh(child);
             }
         });
     }
 
-    private get enabled() {
-        const targets = getObjectTargets(this.obj);
-        if (!targets || targets.length === 0) {
-            return false;
-        }
-
-        for (const target of targets) {
-            if (!target.enabled) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     private get disabled() {
-        return !this.enabled;
+        return this.target.disabled;
     }
 
     private run(d: number) {
@@ -89,8 +81,8 @@ class ScaleState implements IDisposable {
     }
 
     dispose() {
-        this.obj.removeEventListener("enter", this.onEnter);
-        this.obj.removeEventListener("exit", this.onExit);
+        this.target.removeEventListener("enter", this.onEnter);
+        this.target.removeEventListener("exit", this.onExit);
     }
 }
 
@@ -109,6 +101,16 @@ export function removeScaledObj(obj: THREE.Object3D) {
     }
 }
 
-export function scaleOnHover(obj: THREE.Object3D) {
-    scaledItems.set(obj, new ScaleState(obj));
+export function scaleOnHover(obj: Objects, enabled: boolean) {
+    const has = scaledItems.has(obj);
+    if (enabled != has) {
+        if (enabled) {
+            scaledItems.set(obj, new ScaleState(obj));;
+        }
+        else {
+            const scaler = scaledItems.get(obj);
+            scaler.dispose();
+            scaledItems.delete(obj);
+        }
+    }
 }

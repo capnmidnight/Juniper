@@ -1,32 +1,36 @@
-import { TypedEventBase } from "@juniper-lib/tslib";
-import { solidBlack } from "../materials";
-import { isObject3D } from "../typeChecks";
+import { isDefined, isNumber, TypedEventBase } from "@juniper-lib/tslib";
+import { ErsatzObject, isErsatzObject, objectResolve, Objects } from "../objects";
 import { EventSystemEvents } from "./EventSystemEvent";
 
 const RAY_TARGET_KEY = "Juniper:ThreeJS:EventSystem:RayTarget";
-const RAY_TARGETS_KEY = "Juniper:ThreeJS:EventSystem:RayTargets";
-const RAY_TARGET_DISABLED_KEY = "Juniper:ThreeJS:EventSystem:RayTarget:Disabled";
-const RAY_TARGET_CLICKABLE_KEY = "Juniper:ThreeJS:EventSystem:RayTarget:Clickable";
-const RAY_TARGET_DRAGGABLE_KEY = "Juniper:ThreeJS:EventSystem:RayTarget:Draggable";
 
-export class RayTarget<EventsT = void> extends TypedEventBase<EventsT & EventSystemEvents> {
-    constructor(public readonly object: THREE.Object3D, public readonly mesh: THREE.Mesh) {
+export class RayTarget<EventsT = void>
+    extends TypedEventBase<EventsT & EventSystemEvents>
+    implements ErsatzObject {
+
+    private readonly meshes = new Array<THREE.Mesh>();
+
+    private _disabled: boolean = false;
+    private _clickable: boolean = false;
+    private _draggable: boolean = false;
+
+    constructor(public readonly object: THREE.Object3D) {
         super();
+        this.object.userData[RAY_TARGET_KEY] = this;
+    }
 
-        this.mesh.userData[RAY_TARGET_KEY] = this;
-        let targets = this.object.userData[RAY_TARGETS_KEY] as Array<RayTarget<EventsT>>;
-        if (!targets) {
-            this.object.userData[RAY_TARGETS_KEY] = targets = new Array<RayTarget<EventsT>>();
-        }
-        targets.push(this);
+    addMesh(mesh: THREE.Mesh): this {
+        mesh.userData[RAY_TARGET_KEY] = this;
+        this.meshes.push(mesh);
+        return this;
     }
 
     get disabled() {
-        return this.object.userData[RAY_TARGET_DISABLED_KEY] as boolean;
+        return this._disabled;
     }
 
     set disabled(v) {
-        this.object.userData[RAY_TARGET_DISABLED_KEY] = v;
+        this._disabled = v;
     }
 
     get enabled() {
@@ -38,48 +42,55 @@ export class RayTarget<EventsT = void> extends TypedEventBase<EventsT & EventSys
     }
 
     get clickable() {
-        return this.object.userData[RAY_TARGET_CLICKABLE_KEY] as boolean;
+        return this._clickable;
     }
 
     set clickable(v) {
-        this.object.userData[RAY_TARGET_CLICKABLE_KEY] = v;
+        this._clickable = v;
     }
 
     get draggable() {
-        return this.object.userData[RAY_TARGET_DRAGGABLE_KEY] as boolean;
+        return this._draggable;
     }
 
     set draggable(v) {
-        this.object.userData[RAY_TARGET_DRAGGABLE_KEY] = v;
+        this._draggable = v;
     }
 }
 
-export function getMeshTarget(objectOrHit: THREE.Object3D | THREE.Intersection): RayTarget {
-    if (!objectOrHit) {
-        return null;
-    }
-
-    const obj = isObject3D(objectOrHit) ? objectOrHit : objectOrHit.object;
-
-    return obj && obj.userData[RAY_TARGET_KEY] as RayTarget;
+export function isRayTarget<T = void>(obj: Objects): obj is RayTarget<T> {
+    return obj instanceof RayTarget;
 }
 
-export function getObjectTargets(obj: THREE.Object3D): Array<RayTarget> {
+export function isIntersection(obj: any): obj is THREE.Intersection {
+    return isDefined(obj)
+        && isNumber(obj.distance)
+        && obj.point instanceof THREE.Vector3
+        && (obj.object === null
+            || obj.object instanceof THREE.Object3D);
+}
+
+export function getRayTarget<T = void>(obj: Objects | THREE.Intersection): RayTarget<T> {
     if (!obj) {
         return null;
     }
 
-    return obj.userData[RAY_TARGETS_KEY] as Array<RayTarget>;
+    if (isRayTarget<T>(obj)) {
+        return obj;
+    }
+    else if (isIntersection(obj)
+        || isErsatzObject(obj)) {
+        obj = obj.object;
+    }
+
+    return obj && obj.userData[RAY_TARGET_KEY] as RayTarget<T>;
 }
 
-export function makeRayTarget<T>(mesh: THREE.Mesh, obj?: THREE.Object3D): RayTarget<T> {
-    obj = obj || mesh;
-    return new RayTarget<T>(obj, mesh);
-}
+export function assureRayTarget<T = void>(obj: Objects): RayTarget<T> {
+    if (!obj) {
+        throw new Error("object is not defined");
+    }
 
-export function addRayTarget<T>(obj: THREE.Object3D, geom: THREE.BufferGeometry): RayTarget<T> {
-    const mesh = new THREE.Mesh(geom, solidBlack);
-    mesh.visible = false;
-    obj.add(mesh);
-    return makeRayTarget<T>(mesh, obj);
+    return getRayTarget<T>(obj)
+        || new RayTarget<T>(objectResolve(obj));
 }

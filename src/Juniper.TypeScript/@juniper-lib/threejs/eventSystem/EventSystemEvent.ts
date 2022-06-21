@@ -3,7 +3,7 @@ import { TypedEvent } from "@juniper-lib/tslib";
 import { FlickEvent } from "./FlickEvent";
 import type { IPointer } from "./IPointer";
 import { ObjectMovedEvent } from "./ObjectMovedEvent";
-import { getMeshTarget, RayTarget } from "./RayTarget";
+import { getRayTarget, RayTarget } from "./RayTarget";
 
 export class EventSystemEvent<T extends PointerEventTypes = PointerEventTypes> extends TypedEvent<T> {
     private _hit: THREE.Intersection = null;
@@ -32,7 +32,7 @@ export class EventSystemEvent<T extends PointerEventTypes = PointerEventTypes> e
             if (v) {
                 this._point = v.point;
                 this._distance = v.distance;
-                this._rayTarget = getMeshTarget(v.object);
+                this._rayTarget = getRayTarget(v);
             }
         }
     }

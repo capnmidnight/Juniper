@@ -12,7 +12,7 @@ import { PointerHand } from "./PointerHand";
 import { PointerMouse } from "./PointerMouse";
 import { PointerMultiTouch } from "./PointerMultiTouch";
 import { PointerPen } from "./PointerPen";
-import { getMeshTarget } from "./RayTarget";
+import { getRayTarget } from "./RayTarget";
 
 function correctHit(hit: THREE.Intersection, pointer: IPointer) {
     if (isDefined(hit)) {
@@ -118,10 +118,10 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
         const { curHit, hoveredHit, pressedHit, draggedHit } = pointer;
 
-        const curTarget = getMeshTarget(curHit);
-        const hovTarget = getMeshTarget(hoveredHit);
-        const prsTarget = getMeshTarget(pressedHit);
-        const drgTarget = getMeshTarget(draggedHit);
+        const curTarget = getRayTarget(curHit);
+        const hovTarget = getRayTarget(hoveredHit);
+        const prsTarget = getRayTarget(pressedHit);
+        const drgTarget = getRayTarget(draggedHit);
 
         if (eventType === "move" || eventType === "drag") {
             correctHit(hoveredHit, pointer);
@@ -283,26 +283,26 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
     }
 
     private checkExit(curHit: THREE.Intersection, hoveredHit: THREE.Intersection, pointer: IPointer) {
-        const curObj = getMeshTarget(curHit);
-        const hoveredObj = getMeshTarget(hoveredHit);
-        if (curObj !== hoveredObj && isDefined(hoveredObj)) {
+        const curTarget = getRayTarget(curHit);
+        const hoveredTarget = getRayTarget(hoveredHit);
+        if (curTarget !== hoveredTarget && isDefined(hoveredTarget)) {
             pointer.hoveredHit = null;
 
             const exitEvt = this.getEvent(pointer, "exit", hoveredHit);
             this.dispatchEvent(exitEvt);
-            hoveredObj.dispatchEvent(exitEvt);
+            hoveredTarget.dispatchEvent(exitEvt);
         }
     }
 
     private checkEnter(curHit: THREE.Intersection, hoveredHit: THREE.Intersection, pointer: IPointer) {
-        const curObj = getMeshTarget(curHit);
-        const hoveredObj = getMeshTarget(hoveredHit);
-        if (curObj !== hoveredObj && isDefined(curHit)) {
+        const curTarget = getRayTarget(curHit);
+        const hoveredTarget = getRayTarget(hoveredHit);
+        if (curTarget !== hoveredTarget && isDefined(curHit)) {
             pointer.hoveredHit = curHit;
 
             const enterEvt = this.getEvent(pointer, "enter", curHit);
             this.dispatchEvent(enterEvt);
-            curObj.dispatchEvent(enterEvt);
+            curTarget.dispatchEvent(enterEvt);
         }
     }
 
@@ -324,7 +324,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
         pointer.curHit = null;
         let minDist = Number.MAX_VALUE;
         for (const hit of this.hits) {
-            const rayTarget = getMeshTarget(hit);
+            const rayTarget = getRayTarget(hit);
             if (rayTarget
                 && rayTarget.object.visible
                 && hit.distance < minDist) {

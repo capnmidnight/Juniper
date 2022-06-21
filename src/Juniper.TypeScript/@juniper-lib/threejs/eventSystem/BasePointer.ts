@@ -7,7 +7,7 @@ import type { BaseCursor } from "./BaseCursor";
 import { CursorXRMouse } from "./CursorXRMouse";
 import type { EventSystem } from "./EventSystem";
 import type { IPointer, PointerType } from "./IPointer";
-import { getMeshTarget } from "./RayTarget";
+import { getRayTarget } from "./RayTarget";
 
 const MAX_DRAG_DISTANCE = 5;
 
@@ -48,7 +48,7 @@ export abstract class BasePointer
 
     set pressedHit(v: THREE.Intersection) {
         this._pressedHit = v;
-        const target = getMeshTarget(v);
+        const target = getRayTarget(v);
         if (target && target.draggable && !target.clickable) {
             this.onDragStart();
         }
@@ -150,7 +150,7 @@ export abstract class BasePointer
     protected onPointerMove() {
         this.setEventState("move");
         if (this.state.buttons !== MouseButtons.None) {
-            const target = getMeshTarget(this.pressedHit);
+            const target = getRayTarget(this.pressedHit);
             const canDrag = !target || target.draggable;
             if (canDrag) {
                 if (this.lastState && this.lastState.buttons === this.state.buttons) {
