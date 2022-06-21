@@ -320,8 +320,6 @@ export class Menu extends THREE.Object3D {
                 item.back = this.defaultButtonImage.clone() as Image2D;
             }
             item.back.frustumCulled = false;
-            item.height = 1;
-            item.width = item.back.imageAspectRatio;
         }
 
         if (!isGoodNumber(item.width)) {

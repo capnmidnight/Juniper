@@ -34,8 +34,8 @@ export class MenuItem extends RayTarget
             }
         }
 
-        this.object.scale.x = width;
-        this.object.scale.y = height;
+        this.back.scale.x = width;
+        this.back.scale.y = height;
 
         objGraph(this, this.back, this.front);
     }
@@ -79,10 +79,10 @@ export class MenuItem extends RayTarget
     }
 
     get width() {
-        return this.object.scale.x;
+        return this.back.scale.x;
     }
 
     get height() {
-        return this.object.scale.y;
+        return this.back.scale.y;
     }
 }
