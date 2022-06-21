@@ -3,7 +3,7 @@ import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { star } from "@juniper-lib/emoji";
-import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
+import { TextImage, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import type { IDisposable } from "@juniper-lib/tslib";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
@@ -76,7 +76,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
 
         this.name = user.userName;
         this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`);
-        this.nameTag.createTextImage(Object.assign({}, nameTagFont, font));
+        this.nameTag.textImage = new TextImage(Object.assign({}, nameTagFont, font));
         this.nameTag.position.y = 0.25;
         this.userName = user.userName;
         this.add(this.nameTag);
@@ -128,7 +128,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     }
 
     get userName(): string {
-        return this.nameTag.value;
+        return this.nameTag.textImage.value;
     }
 
     set userName(name: string) {
@@ -136,20 +136,20 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             const words = name.match(/^(?:((?:student|instructor))_)?([^<>{}"]+)$/i);
             if (words) {
                 if (words.length === 2) {
-                    this.nameTag.value = words[1];
+                    this.nameTag.textImage.value = words[1];
                 }
                 else if (words.length === 3) {
                     this.isInstructor = words[1]
                         && words[1].toLocaleLowerCase() === "instructor";
                     if (this.isInstructor) {
-                        this.nameTag.value = star.value + words[2];
+                        this.nameTag.textImage.value = star.value + words[2];
                     }
                     else {
-                        this.nameTag.value = words[2];
+                        this.nameTag.textImage.value = words[2];
                     }
                 }
                 else {
-                    this.nameTag.value = "???";
+                    this.nameTag.textImage.value = "???";
                 }
             }
         }

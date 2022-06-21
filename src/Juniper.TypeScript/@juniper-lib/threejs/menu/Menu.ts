@@ -2,7 +2,7 @@ import type { FontDescription } from "@juniper-lib/dom/fonts";
 import { loadFont } from "@juniper-lib/dom/fonts";
 import { Animator } from "@juniper-lib/graphics2d/animation/Animator";
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
-import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
+import { TextDirection, TextImage, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted, TaskDef } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { Image2D } from "../Image2D";
@@ -371,7 +371,7 @@ export class Menu extends THREE.Object3D {
                 img.mesh.renderOrder = 1;
 
                 img.addEventListener("redrawn", () => {
-                    const y = (img.textHeight - item.height + 0.025) / 2;
+                    const y = (img.textImage.height - item.height + 0.025) / 2;
                     if (item.textPosition === "bottom") {
                         img.position.y = y;
                     }
@@ -380,7 +380,7 @@ export class Menu extends THREE.Object3D {
                     }
                 });
 
-                img.createTextImage(options);
+                img.textImage = new TextImage(options);
 
                 img.position.z = -0.01;
 
@@ -391,7 +391,7 @@ export class Menu extends THREE.Object3D {
                 item.front.frustumCulled = false;
 
                 if (item.front instanceof TextMesh) {
-                    item.front.value = item.text;
+                    item.front.textImage.value = item.text;
                 }
             }
         }
