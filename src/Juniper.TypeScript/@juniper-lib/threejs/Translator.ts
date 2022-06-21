@@ -67,8 +67,6 @@ export class Translator extends Cube {
                         .applyQuaternion(this.parent.parent.quaternion)
                         .multiplyScalar(deltaIn.dot(dragEvt.delta));
 
-                    console.log("sel", ...sel.toArray(), "\ndrag", ...dragEvt.delta.toArray())
-
                     this.target.dispatchEvent(dragEvt);
                 }
             }

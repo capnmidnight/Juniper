@@ -2,7 +2,7 @@ import { and, arrayClear, PriorityMap } from "@juniper-lib/tslib";
 import { BaseVideoPlayer } from "@juniper-lib/video/BaseVideoPlayer";
 import { cleanup } from "./cleanup";
 import { createEACGeometry, createQuadGeometry, PosUV, QuadPosUV } from "./CustomGeometry";
-import { Image2DMesh } from "./Image2DMesh";
+import { Image2D } from "./Image2D";
 import { IUpdatable } from "./IUpdatable";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
 import { solidTransparent } from "./materials";
@@ -45,7 +45,7 @@ export class VideoPlayer3D
     implements ErsatzObject, IUpdatable {
 
     private readonly material: THREE.MeshBasicMaterial;
-    private readonly vidMeshes: Image2DMesh[];
+    private readonly vidMeshes: Image2D[];
 
     readonly object: THREE.Object3D;
 
@@ -56,9 +56,9 @@ export class VideoPlayer3D
 
         this.vidMeshes = [];
         for (let i = 0; i < 2; ++i) {
-            const vidMesh = new Image2DMesh(layerMgr, `videoPlayer-view${i + 1}`, false, this.material);
-            vidMesh.mesh.setImage(this.video);
-            vidMesh.renderOrder = 4;
+            const vidMesh = new Image2D(layerMgr, `videoPlayer-view${i + 1}`, false, this.material);
+            vidMesh.setImage(this.video);
+            vidMesh.mesh.renderOrder = 4;
             if (i > 0) {
                 vidMesh.mesh.layers.disable(0);
             }

@@ -1,11 +1,11 @@
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { TextImage } from "@juniper-lib/graphics2d/TextImage";
-import { Image2DMesh } from "./Image2DMesh";
+import { Image2D } from "./Image2D";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
 
 const redrawnEvt = { type: "redrawn" };
 
-export class TextMesh extends Image2DMesh {
+export class TextMesh extends Image2D {
     private _textImage: TextImage = null;
 
     private _onRedrawn: () => void;
@@ -17,7 +17,7 @@ export class TextMesh extends Image2DMesh {
     }
 
     private onRedrawn() {
-        this.mesh.updateTexture();
+        this.updateTexture();
         this.scale.set(this._textImage.width, this._textImage.height, 0.01);
         this.dispatchEvent(redrawnEvt);
     }
@@ -37,7 +37,7 @@ export class TextMesh extends Image2DMesh {
 
             if (this.textImage) {
                 this.textImage.addEventListener("redrawn", this._onRedrawn);
-                this.mesh.setImage(this.textImage.canvas);
+                this.setImage(this.textImage.canvas);
                 this._onRedrawn();
             }
         }

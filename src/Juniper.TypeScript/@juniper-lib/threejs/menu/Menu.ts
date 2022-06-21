@@ -5,7 +5,7 @@ import type { FontDescription } from "@juniper-lib/dom/fonts";
 import { loadFont } from "@juniper-lib/dom/fonts";
 import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted, TaskDef } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
-import { Image2DMesh } from "../Image2DMesh";
+import { Image2D } from "../Image2D";
 import { TextMesh } from "../TextMesh";
 import { MenuItem } from "./MenuItem";
 
@@ -26,11 +26,11 @@ export interface MenuItemDescription {
     name: string;
     text?: string;
     filePath?: string;
-    front?: (Image2DMesh | TextMesh) & {
+    front?: (Image2D | TextMesh) & {
         width?: number;
     };
     noLabel?: boolean;
-    back?: Image2DMesh;
+    back?: Image2D;
     width?: number;
     height?: number;
     textPosition?: string;
@@ -53,7 +53,7 @@ export class Menu extends THREE.Object3D {
     private readonly nextButton: MenuItemDescription;
     private readonly prevButton: MenuItemDescription;
     private readonly menuTitle: MenuItemDescription;
-    private readonly defaultButtonImage: Image2DMesh;
+    private readonly defaultButtonImage: Image2D;
     private readonly animator = new Animator();
     private readonly lastMenuIndex = new Map<number, number>();
     private readonly buttons = new Array<MenuItem>();
@@ -66,24 +66,24 @@ export class Menu extends THREE.Object3D {
 
         this.name = "Menu";
 
-        this.defaultButtonImage = new Image2DMesh(this.env, "DefaultButton", true);
+        this.defaultButtonImage = new Image2D(this.env, "DefaultButton", true);
 
         this.logo = {
             name: "Logo",
             noLabel: true,
-            back: new Image2DMesh(this.env, "LogoBack", true),
+            back: new Image2D(this.env, "LogoBack", true),
             width: 1,
             clickable: false
         };
 
         this.backButton = {
             name: "Back",
-            back: new Image2DMesh(this.env, "BackButton", true)
+            back: new Image2D(this.env, "BackButton", true)
         };
 
         this.nextButton = {
             name: "Next",
-            back: new Image2DMesh(this.env, "NextButton", true),
+            back: new Image2D(this.env, "NextButton", true),
             width: 0.25,
             textDirection: "vertical",
             textPosition: "middle",
@@ -93,7 +93,7 @@ export class Menu extends THREE.Object3D {
 
         this.prevButton = {
             name: "Previous",
-            back: new Image2DMesh(this.env, "PrevButton", true),
+            back: new Image2D(this.env, "PrevButton", true),
             width: 0.25,
             height: 1,
             textDirection: "vertical",
@@ -104,7 +104,7 @@ export class Menu extends THREE.Object3D {
 
         this.menuTitle = {
             name: "Menu",
-            back: new Image2DMesh(this.env, "MenuTitle", true),
+            back: new Image2D(this.env, "MenuTitle", true),
             width: 0.25,
             textDirection: "vertical",
             textPosition: "top",
@@ -120,17 +120,17 @@ export class Menu extends THREE.Object3D {
 
         const tasks: TaskDef[] = [
             [1, (prog) => loadFont(this.menuFont, null, prog)],
-            [1, (prog) => this.backButton.back.mesh.loadImage(this.env.fetcher, imgs.backButton, prog)],
-            [1, (prog) => this.defaultButtonImage.mesh.loadImage(this.env.fetcher, imgs.defaultButton, prog)],
-            [1, (prog) => this.menuTitle.back.mesh.loadImage(this.env.fetcher, imgs.title, prog)],
-            [1, (prog) => this.nextButton.back.mesh.loadImage(this.env.fetcher, imgs.title, prog)],
-            [1, (prog) => this.prevButton.back.mesh.loadImage(this.env.fetcher, imgs.title, prog)],
-            [1, (prog) => this.logo.back.mesh.loadImage(this.env.fetcher, imgs.logo.back, prog)]
+            [1, (prog) => this.backButton.back.loadImage(this.env.fetcher, imgs.backButton, prog)],
+            [1, (prog) => this.defaultButtonImage.loadImage(this.env.fetcher, imgs.defaultButton, prog)],
+            [1, (prog) => this.menuTitle.back.loadImage(this.env.fetcher, imgs.title, prog)],
+            [1, (prog) => this.nextButton.back.loadImage(this.env.fetcher, imgs.title, prog)],
+            [1, (prog) => this.prevButton.back.loadImage(this.env.fetcher, imgs.title, prog)],
+            [1, (prog) => this.logo.back.loadImage(this.env.fetcher, imgs.logo.back, prog)]
         ];
 
         if (imgs.logo.front) {
-            this.logo.front = new Image2DMesh(this.env, "LogoFront", true, { transparent: true });
-            tasks.push([1, (prog) => this.logo.front.mesh.loadImage(this.env.fetcher, imgs.logo.front, prog)]);
+            this.logo.front = new Image2D(this.env, "LogoFront", true, { transparent: true });
+            tasks.push([1, (prog) => this.logo.front.loadImage(this.env.fetcher, imgs.logo.front, prog)]);
         }
 
         await progressTasksWeighted(prog, tasks);

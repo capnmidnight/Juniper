@@ -1,14 +1,14 @@
-import type { CanvasImage } from "@juniper-lib/graphics2d/CanvasImage";
 import { isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
-import { Image2DMesh } from "../Image2DMesh";
+import type { CanvasImage } from "@juniper-lib/graphics2d/CanvasImage";
+import { Image2D } from "../Image2D";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { objectSetVisible } from "../objects";
 import type { Widget } from "./widgets";
 
 
 export class CanvasImageMesh<T extends CanvasImage>
-    extends Image2DMesh
+    extends Image2D
     implements Widget {
 
     get object() {
@@ -19,20 +19,20 @@ export class CanvasImageMesh<T extends CanvasImage>
         super(env, name, false);
 
         if (this.mesh) {
-            this.setImage(image);
+            this.setCanvas(image);
         }
     }
 
-    private setImage(image: T): void {
-        this.mesh.setImage(image.canvas);
-        this.mesh.objectHeight = 0.1;
-        this.mesh.updateTexture();
-        image.addEventListener("redrawn", () => this.mesh.updateTexture());
+    private setCanvas(image: T): void {
+        this.setImage(image.canvas);
+        this.objectHeight = 0.1;
+        this.updateTexture();
+        image.addEventListener("redrawn", () => this.updateTexture());
     }
 
     override copy(source: this, recursive = true): this {
         super.copy(source, recursive);
-        this.setImage(source.image);
+        this.setCanvas(source.image);
         return this;
     }
 

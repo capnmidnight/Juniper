@@ -1,4 +1,6 @@
-import { arrayCompare, IDisposable, isDefined, isNullOrUndefined } from "@juniper-lib/tslib";
+import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
+import { IFetcher } from "@juniper-lib/fetcher";
+import { arrayCompare, IDisposable, inches2Meters, IProgress, isDefined, isNullOrUndefined, isNumber, meters2Inches } from "@juniper-lib/tslib";
 import { cleanup } from "./cleanup";
 import { IUpdatable } from "./IUpdatable";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
@@ -6,7 +8,6 @@ import { solidTransparent } from "./materials";
 import { objectGetRelativePose } from "./objectGetRelativePose";
 import { objectIsFullyVisible } from "./objects";
 import { plane } from "./Plane";
-import { TexturedMesh } from "./TexturedMesh";
 import { isMeshBasicMaterial } from "./typeChecks";
 import { StereoLayoutName } from "./VideoPlayer3D";
 
@@ -16,19 +17,21 @@ const S = new THREE.Vector3();
 
 let copyCounter = 0;
 
-export class Image2DMesh
+export class Image2D
     extends THREE.Object3D
     implements IDisposable, IUpdatable {
     private readonly lastMatrixWorld = new THREE.Matrix4();
     private layer: XRQuadLayer = null;
     private tryWebXRLayers = true;
     private wasUsingLayer = false;
+    private _imageWidth: number = 0;
+    private _imageHeight: number = 0;
     private lastImage: unknown = null;
     private lastWidth: number = null;
     private lastHeight: number = null;
     stereoLayoutName: StereoLayoutName = "mono";
     protected env: IWebXRLayerManager = null;
-    mesh: TexturedMesh = null;
+    mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial> = null;
 
     webXRLayersEnabled = true;
 
@@ -45,13 +48,55 @@ export class Image2DMesh
                     materialOrOptions,
                     { name: this.name }));
 
-            this.mesh = new TexturedMesh(plane, material);
+            this.mesh = new THREE.Mesh(plane, material);
             this.add(this.mesh);
         }
     }
 
     dispose(): void {
         cleanup(this.layer);
+    }
+
+    get imageWidth() {
+        return this._imageWidth;
+    }
+
+    get imageHeight() {
+        return this._imageHeight;
+    }
+
+    get imageAspectRatio() {
+        return this.imageWidth / this.imageHeight;
+    }
+
+    get objectWidth() {
+        return this.scale.x;
+    }
+
+    set objectWidth(v) {
+        this.scale.x = v;
+        this.scale.y = v / this.imageAspectRatio;
+    }
+
+    get objectHeight() {
+        return this.scale.y;
+    }
+
+    set objectHeight(v) {
+        this.scale.x = this.imageAspectRatio * v;
+        this.scale.y = v;
+    }
+
+    get pixelDensity() {
+        const inches = meters2Inches(this.objectWidth);
+        const ppi = this.imageWidth / inches;
+        return ppi;
+    }
+
+    set pixelDensity(ppi) {
+        const inches = this.imageWidth / ppi;
+        const meters = inches2Meters(inches);
+        this.objectWidth = meters;
     }
 
     private setEnvAndName(env: IWebXRLayerManager, name: string) {
@@ -62,13 +107,15 @@ export class Image2DMesh
 
     override copy(source: this, recursive = true) {
         super.copy(source, recursive);
+        this._imageWidth = source.imageWidth;
+        this._imageHeight = source.imageHeight;
         this.setEnvAndName(source.env, source.name + (++copyCounter));
         for (let i = this.children.length - 1; i >= 0; --i) {
             const child = this.children[i];
-            if (child.parent instanceof Image2DMesh
-                && child instanceof TexturedMesh) {
+            if (child.parent instanceof Image2D
+                && child instanceof THREE.Mesh) {
                 child.removeFromParent();
-                this.mesh = new TexturedMesh(child.geometry, child.material as THREE.MeshBasicMaterial);
+                this.mesh = new THREE.Mesh(child.geometry, child.material);
             }
         }
         if (isNullOrUndefined(this.mesh)) {
@@ -107,6 +154,57 @@ export class Image2DMesh
         }
     }
 
+    setImage(img: CanvasImageTypes | HTMLVideoElement): THREE.Texture {
+        if (isImageBitmap(img)) {
+            img = createCanvasFromImageBitmap(img);
+        }
+
+        if (isOffscreenCanvas(img)) {
+            img = img as any as HTMLCanvasElement;
+        }
+
+        if (img instanceof HTMLVideoElement) {
+            this.mesh.material.map = new THREE.VideoTexture(img);
+            this._imageWidth = img.videoWidth;
+            this._imageHeight = img.videoHeight;
+        }
+        else {
+            this.mesh.material.map = new THREE.Texture(img);
+            this._imageWidth = img.width;
+            this._imageHeight = img.height;
+            this.mesh.material.map.needsUpdate = true;
+        }
+
+        this.mesh.material.needsUpdate = true;
+
+        return this.mesh.material.map;
+    }
+
+    async loadImage(fetcher: IFetcher, path: string, prog?: IProgress): Promise<void> {
+        let { content: img } = await fetcher
+            .get(path)
+            .progress(prog)
+            .image();
+        const texture = this.setImage(img);
+        texture.name = path;
+    }
+
+    updateTexture() {
+        const img = this.mesh.material.map.image;
+        if (isNumber(img.width)
+            && isNumber(img.height)
+            && (this.imageWidth !== img.width
+                || this.imageHeight !== img.height)) {
+
+            this._imageWidth = img.width;
+            this._imageHeight = img.height
+            this.mesh.material.map.dispose();
+            this.mesh.material.map = new THREE.Texture(img);
+            this.mesh.material.needsUpdate = true;
+        }
+        this.mesh.material.map.needsUpdate = true;
+    }
+
     update(_dt: number, frame?: XRFrame): void {
         if (this.mesh.material.map && this.mesh.material.map.image) {
             const isVideo = this.mesh.material.map instanceof THREE.VideoTexture;
@@ -121,13 +219,13 @@ export class Image2DMesh
             const imageChanged = this.mesh.material.map.image !== this.lastImage
                 || this.mesh.material.needsUpdate
                 || this.mesh.material.map.needsUpdate;
-            const sizeChanged = this.mesh.imageWidth !== this.lastWidth
-                || this.mesh.imageHeight !== this.lastHeight;
+            const sizeChanged = this.imageWidth !== this.lastWidth
+                || this.imageHeight !== this.lastHeight;
 
             this.wasUsingLayer = useLayer;
             this.lastImage = this.mesh.material.map.image;
-            this.lastWidth = this.mesh.imageWidth;
-            this.lastHeight = this.mesh.imageHeight;
+            this.lastWidth = this.imageWidth;
+            this.lastHeight = this.imageHeight;
 
             if (useLayerChanged || sizeChanged) {
                 if ((!useLayer || sizeChanged) && this.layer) {
@@ -167,8 +265,8 @@ export class Image2DMesh
                             layout,
                             textureType: "texture",
                             isStatic: this.isStatic,
-                            viewPixelWidth: this.mesh.imageWidth,
-                            viewPixelHeight: this.mesh.imageHeight,
+                            viewPixelWidth: this.imageWidth,
+                            viewPixelHeight: this.imageHeight,
                             transform,
                             width,
                             height
