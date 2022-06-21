@@ -41,6 +41,13 @@ const pointerNames = new Map<XRHandedness, PointerName>([
     ["right", PointerName.MotionControllerRight]
 ]);
 
+type XRControllerConnectionEventTypes = "connected" | "disconnected";
+type XRControllerConnectionEvent<T extends XRControllerConnectionEventTypes> = THREE.Event & {
+    type: T,
+    target: THREE.XRTargetRaySpace,
+    data?: XRInputSource
+};
+
 export class PointerHand
     extends BasePointer
     implements ErsatzObject {
@@ -52,9 +59,9 @@ export class PointerHand
     private inputSource: XRInputSource = null;
     private _gamepad: EventedGamepad = null;
 
-    private readonly controller: THREE.Group;
-    private readonly grip: THREE.Group;
-    private readonly hand: THREE.Group;
+    private readonly controller: THREE.XRTargetRaySpace;
+    private readonly grip: THREE.XRGripSpace;
+    private readonly hand: THREE.XRHandSpace;
     private readonly onAxisMaxed: (evt: GamepadAxisMaxedEvent) => void;
 
     constructor(evtSys: EventSystem, private readonly renderer: THREE.WebGLRenderer, index: number) {
@@ -92,40 +99,42 @@ export class PointerHand
             }
         };
 
-        this.controller.addEventListener("connected", () => {
-            const session = this.renderer.xr.getSession();
+        this.controller.addEventListener("connected", (evt: XRControllerConnectionEvent<"connected">) => {
+            if (evt.target === this.controller) {
+                this.inputSource = evt.data;
+                this.setGamepad(this.inputSource.gamepad);
+                this._isHand = isDefined(this.inputSource.hand);
+                this._handedness = this.inputSource.handedness;
+                this.name = pointerNames.get(this.handedness);
+                this.updateCursorSide();
 
-            this.inputSource = session.inputSources[index];
-            this.setGamepad(this.inputSource.gamepad);
-            this._isHand = isDefined(this.inputSource.hand);
-            this._handedness = this.inputSource.handedness;
-            this.name = pointerNames.get(this.handedness);
-            this.updateCursorSide();
+                this.grip.visible = !this.isHand;
+                this.controller.visible = !this.isHand;
+                this.hand.visible = this.isHand;
 
-            this.grip.visible = !this.isHand;
-            this.controller.visible = !this.isHand;
-            this.hand.visible = this.isHand;
-
-            this.enabled = true;
-            this.isActive = true;
-            this.evtSys.onConnected(this);
+                this.enabled = true;
+                this.isActive = true;
+                this.evtSys.onConnected(this);
+            }
         });
 
-        this.controller.addEventListener("disconnected", () => {
-            this.inputSource = null;
-            this.setGamepad(null);
-            this._isHand = false;
-            this._handedness = "none";
-            this.name = pointerNames.get(this.handedness);
-            this.updateCursorSide();
+        this.controller.addEventListener("disconnected", (evt: XRControllerConnectionEvent<"disconnected">) => {
+            if (evt.target === this.controller) {
+                this.inputSource = null;
+                this.setGamepad(null);
+                this._isHand = false;
+                this._handedness = "none";
+                this.name = pointerNames.get(this.handedness);
+                this.updateCursorSide();
 
-            this.grip.visible = false;
-            this.controller.visible = false;
-            this.hand.visible = false;
+                this.grip.visible = false;
+                this.controller.visible = false;
+                this.hand.visible = false;
 
-            this.enabled = false;
-            this.isActive = false;
-            this.evtSys.onDisconnected(this);
+                this.enabled = false;
+                this.isActive = false;
+                this.evtSys.onDisconnected(this);
+            }
         });
 
         const buttonDown = (btn: MouseButtons) => {
