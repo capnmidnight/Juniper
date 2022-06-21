@@ -40,7 +40,7 @@ export class RequestBuilder implements
     private readonly request: IRequestWithBody;
     private prog: IProgress = null;
 
-    constructor(private readonly fetcher: IFetchingService, private readonly method: HTTPMethods, path: URL) {
+    constructor(private readonly fetcher: IFetchingService, private readonly useFileBlobsForModules: boolean, private readonly method: HTTPMethods, path: URL) {
         this.path = path;
         this.request = {
             method,
@@ -302,6 +302,7 @@ export class RequestBuilder implements
             element: ElementT,
             resolveEvt: keyof EventsT & string,
             acceptType: string | MediaType): Promise<IResponse<ElementT>> {
+
         const response = await this.file(acceptType);
         const task = once<EventsT>(element, resolveEvt, "error");
         element.src = response.content;
@@ -412,16 +413,22 @@ export class RequestBuilder implements
         );
     }
 
-    private async getScript() {
+    private async getScript(): Promise<void> {
         const tag = Script(type(Application_Javascript));
         document.body.append(tag);
-        await this.htmlElement(
-            tag,
-            "load",
-            Application_Javascript);
+        if (this.useFileBlobsForModules) {
+            await this.htmlElement(
+                tag,
+                "load",
+                Application_Javascript);
+        }
+        else {
+            tag.src = this.request.path;
+        }
     }
 
     async script(test: () => boolean): Promise<void> {
+        const scriptPath = this.request.path;
         if (!test) {
             await this.getScript();
         }
@@ -430,12 +437,20 @@ export class RequestBuilder implements
             await this.getScript();
             await scriptLoadTask;
         }
+        if (this.prog) {
+            this.prog.end(scriptPath);
+        }
     }
 
     async module<T>(): Promise<T> {
         const scriptPath = this.request.path;
-        const { content: file } = await this.file(Application_Javascript);
-        const value = await import(file);
+        let requestPath = scriptPath;
+        if (this.useFileBlobsForModules) {
+            const { content: file } = await this.file(Application_Javascript);
+            requestPath = file;
+        }
+
+        const value = await import(requestPath);
         if (this.prog) {
             this.prog.end(scriptPath);
         }
@@ -454,9 +469,18 @@ export class RequestBuilder implements
     }
 
     async worker(type: WorkerType = "module"): Promise<Worker> {
-        const { content } = await this.file(Application_Javascript);
+        const scriptPath = this.request.path;
+        let requestPath = scriptPath;
+        if (this.useFileBlobsForModules) {
+            const { content: file } = await this.file(Application_Javascript);
+            requestPath = file;
+        }
         this.prog = null;
         this.request.timeout = null;
-        return new Worker(content, { type });
+        const worker = new Worker(requestPath, { type });
+        if (this.prog) {
+            this.prog.end(scriptPath);
+        }
+        return worker;
     }
 }

@@ -9,7 +9,7 @@ import { RequestBuilder } from "./RequestBuilder";
 
 
 export class Fetcher implements IFetcher {
-    constructor(private readonly service: IFetchingService) {
+    constructor(private readonly service: IFetchingService, private readonly useFileBlobsForModules: boolean = true) {
         if (!isWorker) {
             const antiforgeryToken = getInput("input[name=__RequestVerificationToken]");
             if (antiforgeryToken) {
@@ -19,7 +19,7 @@ export class Fetcher implements IFetcher {
     }
 
     private createRequest(method: HTTPMethods, path: string | URL, base?: string | URL) {
-        return new RequestBuilder(this.service, method, new URL(path, base || location.href));
+        return new RequestBuilder(this.service, this.useFileBlobsForModules, method, new URL(path, base || location.href));
     }
 
     clearCache(): Promise<void> {
