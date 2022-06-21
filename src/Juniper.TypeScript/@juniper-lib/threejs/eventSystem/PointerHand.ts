@@ -126,7 +126,6 @@ export class PointerHand
             this.enabled = false;
             this.isActive = false;
             this.evtSys.onDisconnected(this);
-            this.isActive = false;
         });
 
         const buttonDown = (btn: MouseButtons) => {

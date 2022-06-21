@@ -18,7 +18,7 @@ export class PointerMultiTouch extends BaseScreenPointer {
         Object.seal(this);
     }
 
-    protected override checkEvent(evt: PointerEvent) {
+    protected override onCheckEvent(evt: PointerEvent) {
         return evt.pointerType === this.type;
     }
 

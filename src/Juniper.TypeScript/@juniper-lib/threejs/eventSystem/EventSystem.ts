@@ -112,8 +112,6 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
     }
 
     checkPointer(pointer: IPointer, eventType: SourcePointerEventTypes) {
-        pointer.isActive = true;
-
         this.fireRay(pointer);
 
         const { curHit, hoveredHit, pressedHit, draggedHit } = pointer;

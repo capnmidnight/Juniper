@@ -52,7 +52,11 @@ export abstract class BaseScreenPointer extends BasePointer {
         this.element.addEventListener("pointercancel", onPointerUp);
     }
 
-    protected checkEvent(evt: PointerEvent) {
+    private checkEvent(evt: PointerEvent): boolean {
+        return this.isActive = this.onCheckEvent(evt);
+    }
+
+    protected onCheckEvent(evt: PointerEvent): boolean {
         return evt.pointerType === this.type
             && evt.pointerId === this.id;
     }
