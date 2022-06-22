@@ -15,7 +15,8 @@ import {
     position,
     rule,
     top,
-    width
+    width,
+    zIndex
 } from "@juniper-lib/dom/css";
 import { Div, ErsatzElement, Style } from "@juniper-lib/dom/tags";
 
@@ -31,7 +32,8 @@ Style(
     rule("#controls",
         display("grid"),
         fontSize("20pt"),
-        gridTemplateRows("auto 1fr auto")
+        gridTemplateRows("auto 1fr auto"),
+        zIndex(1)
     ),
 
     rule("#controls, #controls *",
