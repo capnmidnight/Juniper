@@ -29,9 +29,10 @@ export class CanvasImageMesh<T extends CanvasImage>
         }
     }
 
-    constructor(env: IWebXRLayerManager, name: string, materialOptions?: THREE.MeshBasicMaterialParameters) {
+    constructor(env: IWebXRLayerManager, name: string, image: T, materialOptions?: THREE.MeshBasicMaterialParameters) {
         super(env, name, false, materialOptions);
         this._onRedrawn = this.onRedrawn.bind(this);
+        this.image = image;
     }
 
     protected onRedrawn() {
@@ -53,7 +54,6 @@ export class CanvasImageMesh<T extends CanvasImage>
         if (this.image) {
             this.image.addEventListener("redrawn", this._onRedrawn);
             this.setTextureMap(this.image.canvas);
-            this.objectHeight = 0.1;
             this._onRedrawn();
         }
     }

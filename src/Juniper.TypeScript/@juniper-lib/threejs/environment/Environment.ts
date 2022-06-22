@@ -87,8 +87,7 @@ export class Environment
 
         this.compassImage = new ArtificialHorizon();
 
-        this.clockImage = new CanvasImageMesh(this, "Clock");
-        this.clockImage.image = new ClockImage();
+        this.clockImage = new CanvasImageMesh(this, "Clock", new ClockImage());
         this.clockImage.mesh.renderOrder = 5;
 
         options = options || {};
@@ -169,8 +168,7 @@ export class Environment
         elementApply(this.screenUISpace.bottomRowRight, this.fullscreenButton, this.vrButton); //, this.arButton);
 
         if (BatteryImage.isAvailable && isMobile()) {
-            this.batteryImage = new CanvasImageMesh(this, "Battery");
-            this.batteryImage.image = new BatteryImage();
+            this.batteryImage = new CanvasImageMesh(this, "Battery", new BatteryImage());
             this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, scale: 1 });
             elementApply(this.screenUISpace.topRowRight, this.batteryImage);
         }

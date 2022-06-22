@@ -5,14 +5,15 @@ import { CanvasImageMesh } from "./CanvasImageMesh";
 
 export class TextMesh extends CanvasImageMesh<TextImage> {
     constructor(env: IWebXRLayerManager, name: string, textOptions: TextImage | Partial<TextImageOptions>, materialOptions?: THREE.MeshBasicMaterialParameters) {
-        super(env, name, materialOptions);
-
+        let image: TextImage;
         if (textOptions instanceof TextImage) {
-            this.image = textOptions;
+            image = textOptions;
         }
         else {
-            this.image = new TextImage(textOptions);
+            image = new TextImage(textOptions);
         }
+
+        super(env, name, image, materialOptions);
     }
 
     protected override onRedrawn() {
