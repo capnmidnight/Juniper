@@ -5,7 +5,7 @@ import { isDefined, stringRandom } from "@juniper-lib/tslib";
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { RayTarget } from "../eventSystem/RayTarget";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
-import { objGraph } from "../objects";
+import { obj, objGraph } from "../objects";
 import { TextMesh } from "./TextMesh";
 
 export class TextMeshButton extends RayTarget {
@@ -18,11 +18,9 @@ export class TextMeshButton extends RayTarget {
         name: string,
         value: string,
         textImageOptions?: Partial<TextImageOptions>) {
-        super(new THREE.Object3D());
+        super(obj(name));
 
         if (isDefined(value)) {
-            this.object.name = name;
-
             textImageOptions = Object.assign({
                 textFillColor: "#ffffff",
                 fontFamily: "Segoe UI Emoji",

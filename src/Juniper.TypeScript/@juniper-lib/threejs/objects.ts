@@ -53,7 +53,7 @@ export function objectToggleVisible(obj: Objects): void {
     objectSetVisible(obj, !objectIsVisible(obj));
 }
 
-export function objGraph(obj: Objects, ...children: Objects[]): Objects {
+export function objGraph<T extends Objects>(obj: T, ...children: Objects[]): T {
     const toAdd = children
         .filter(isDefined)
         .map(objectResolve);

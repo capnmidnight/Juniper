@@ -3,6 +3,7 @@ import { SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/Pointe
 import { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
 import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import { objGraph } from "../objects";
 import type { BaseCursor } from "./BaseCursor";
 import { CursorXRMouse } from "./CursorXRMouse";
 import type { EventSystem } from "./EventSystem";
@@ -85,14 +86,14 @@ export abstract class BasePointer
                 if (oldCursor instanceof CursorXRMouse) {
                     oldCursor.cursor = newCursor;
                     if (oldParent) {
-                        oldParent.add(oldCursor.object);
+                        objGraph(oldParent, oldCursor);
                     }
                 }
                 else {
                     this._cursor = newCursor;
                     if (oldCursor) {
                         if (oldParent) {
-                            oldParent.add(newCursor.object);
+                            objGraph(oldParent, newCursor);
                         }
                         newCursor.style = oldCursor.style;
                         newCursor.visible = oldCursor.visible;

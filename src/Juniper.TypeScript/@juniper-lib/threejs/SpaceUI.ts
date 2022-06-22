@@ -22,7 +22,6 @@ export class SpaceUI extends THREE.Object3D {
     addItem(child: Objects, position: Point2D): void {
         child = objectResolve(child);
         objGraph(this, child);
-        this.add(child);
         child.position.set(
             radius * Math.sin(position.x * dAngleH),
             radius * Math.sin(position.y * dAngleV),

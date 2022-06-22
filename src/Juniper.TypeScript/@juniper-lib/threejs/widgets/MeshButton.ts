@@ -1,22 +1,21 @@
 import { stringRandom } from "@juniper-lib/tslib";
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { RayTarget } from "../eventSystem/RayTarget";
+import { obj, objGraph } from "../objects";
 
 export class MeshButton extends RayTarget {
     protected readonly enabledMesh: THREE.Mesh;
     protected readonly disabledMesh: THREE.Mesh;
 
     constructor(name: string, geometry: THREE.BufferGeometry, enabledMaterial: THREE.Material, disabledMaterial: THREE.Material, size: number) {
-        super(new THREE.Object3D());
-        const id = stringRandom(16);
+        name = name + stringRandom(16);
+        super(obj(name));
 
-        this.object.name = name + id;
-
-        this.enabledMesh = this.createMesh(`${this.object.name}-enabled`, geometry, enabledMaterial);
-        this.disabledMesh = this.createMesh(`${this.object.name}-disabled`, geometry, disabledMaterial);
+        this.enabledMesh = this.createMesh(`${name}-enabled`, geometry, enabledMaterial);
+        this.disabledMesh = this.createMesh(`${name}-disabled`, geometry, disabledMaterial);
         this.disabledMesh.visible = false;
         this.size = size;
-        this.object.add(this.enabledMesh, this.disabledMesh);
+        objGraph(this, this.enabledMesh, this.disabledMesh);
         this.addMesh(this.enabledMesh);
         this.addMesh(this.disabledMesh);
 

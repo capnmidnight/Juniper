@@ -109,7 +109,7 @@ export class PlaybackButton<T extends FullAudioRecord>
         ]);
 
         objGraph(
-            this.object,
+            this,
             this.textLabel,
             this.playButton = new MeshButton(
                 "PlayButton",
@@ -137,13 +137,12 @@ export class PlaybackButton<T extends FullAudioRecord>
                 enabledMaterial,
                 disabledMaterial,
                 size
-            )
+            ),
+            this.progressBar
         );
 
         this.object.children.forEach((child, i, arr) =>
             child.position.x = (i - arr.length / 2) * size);
-
-        this.object.add(this.progressBar);
 
         const refresh = () => {
             const hasMyData = player.data === this.data;

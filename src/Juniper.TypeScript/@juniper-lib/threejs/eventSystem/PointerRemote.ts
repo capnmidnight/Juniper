@@ -2,7 +2,7 @@ import type { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualBut
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { Cube } from "../Cube";
 import { green, litGrey, yellow } from "../materials";
-import { ErsatzObject, obj } from "../objects";
+import { ErsatzObject, obj, objGraph } from "../objects";
 import { setMatrixFromUpFwdPos } from "../setMatrixFromUpFwdPos";
 import { BasePointer } from "./BasePointer";
 import type { Cursor3D } from "./Cursor3D";
@@ -30,11 +30,11 @@ export class PointerRemote
         this.laser.length = 30;
 
         const hand = new Cube(0.05, 0.05, 0.05, litGrey);
-        hand.add(this.laser);
+        objGraph(hand, this.laser);
 
         const elbow = new Cube(0.05, 0.05, 0.05, litGrey);
 
-        this.object = obj(`${userName}-arm`, hand, elbow);
+        this.object = obj(`remote:${userName}:${PointerName[pointerName]}`, hand, elbow);
 
         if (pointerName === PointerName.Mouse) {
             hand.position.set(0, 0, -0.2);
@@ -45,7 +45,6 @@ export class PointerRemote
             elbow.position.set(0, 0, 0.2);
         }
 
-        this.object.name = `remote:${userName}:${PointerName[pointerName]}`;
         this.cursor.object.name = `${this.object.name}:cursor`;
     }
 

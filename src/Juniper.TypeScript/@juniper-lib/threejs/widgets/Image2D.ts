@@ -6,7 +6,7 @@ import { IUpdatable } from "../IUpdatable";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { solidTransparent } from "../materials";
 import { objectGetRelativePose } from "../objectGetRelativePose";
-import { objectIsFullyVisible } from "../objects";
+import { objectIsFullyVisible, objGraph } from "../objects";
 import { plane } from "../Plane";
 import { isMeshBasicMaterial } from "../typeChecks";
 import { StereoLayoutName } from "../VideoPlayer3D";
@@ -49,7 +49,7 @@ export class Image2D
                     { name: this.name }));
 
             this.mesh = new THREE.Mesh(plane, material);
-            this.add(this.mesh);
+            objGraph(this, this.mesh);
         }
     }
 
@@ -120,7 +120,7 @@ export class Image2D
         }
         if (isNullOrUndefined(this.mesh)) {
             this.mesh = source.mesh.clone();
-            this.add(this.mesh);
+            objGraph(this, this.mesh);
         }
         return this;
     }

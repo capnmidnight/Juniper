@@ -7,6 +7,7 @@ import { cleanup } from "./cleanup";
 import { DebugObject } from "./DebugObject";
 import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
+import { objGraph } from "./objects";
 
 export class Tele extends Application {
 
@@ -71,7 +72,7 @@ export class Tele extends Application {
 
         this.env.addEventListener("roomjoined", (evt) => this.join(evt.roomName));
         this.env.addEventListener("sceneclearing", () => this.env.foreground.remove(this.remoteUsers));
-        this.env.addEventListener("scenecleared", () => this.env.foreground.add(this.remoteUsers));
+        this.env.addEventListener("scenecleared", () => objGraph(this.env.foreground, this.remoteUsers));
 
         this.env.muteMicButton.visible = true;
         this.env.muteMicButton.addEventListener("click", async () => {
@@ -106,7 +107,7 @@ export class Tele extends Application {
             user.setAvatar(avatar);
             user.userName = evt.user.userName;
             this.users.set(evt.user.userID, user);
-            this.remoteUsers.add(user);
+            objGraph(this.remoteUsers, user);
             this.env.audio.playClip("join");
         });
 
@@ -129,7 +130,7 @@ export class Tele extends Application {
     }
 
     async show(_onProgress?: IProgress): Promise<void> {
-        this.env.foreground.add(this.remoteUsers);
+        objGraph(this.env.foreground, this.remoteUsers);
         if (isDefined(this.env.currentRoom)) {
             await this.join(this.env.currentRoom);
         }

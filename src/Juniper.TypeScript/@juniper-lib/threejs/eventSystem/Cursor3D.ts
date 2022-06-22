@@ -1,6 +1,6 @@
 import { arrayScan } from "@juniper-lib/tslib";
 import { deepEnableLayer, PURGATORY } from "../layers";
-import { ErsatzObject, objectIsVisible, objectSetVisible } from "../objects";
+import { ErsatzObject, objectIsVisible, objectSetVisible, objGraph } from "../objects";
 import { BaseCursor } from "./BaseCursor";
 import { CursorSystem } from "./CursorSystem";
 
@@ -17,7 +17,7 @@ export class Cursor3D
     }
 
     add(name: string, obj: THREE.Object3D) {
-        this.object.add(obj);
+        objGraph(this, obj);
         deepEnableLayer(obj, PURGATORY);
         obj.visible = name === "default";
     }

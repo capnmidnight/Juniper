@@ -1,6 +1,7 @@
 import { isDefined } from "@juniper-lib/tslib";
 import { Cube } from "./Cube";
 import { lit, solidBlue, solidGreen, solidRed } from "./materials";
+import { objGraph } from "./objects";
 
 export class DebugObject extends THREE.Object3D {
     private center: Cube = null;
@@ -17,7 +18,7 @@ export class DebugObject extends THREE.Object3D {
 
         if (isDefined(this.color)) {
             this.center = new Cube(0.5, 0.5, 0.5, lit({ color: this.color }));
-            this.add(this.center);
+            objGraph(this, this.center);
         }
 
         this.xp = new Cube(1.0, 0.1, 0.1, solidRed);
@@ -28,7 +29,7 @@ export class DebugObject extends THREE.Object3D {
         this.yp.position.y = 1;
         this.zn.position.z = -1;
 
-        this.add(this.xp, this.yp, this.zn);
+        objGraph(this, this.xp, this.yp, this.zn);
     }
 
     override copy(source: this, recursive = true): this {

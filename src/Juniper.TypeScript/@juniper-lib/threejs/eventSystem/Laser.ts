@@ -1,6 +1,7 @@
 import { Line2 } from "../examples/lines/Line2";
 import { LineGeometry } from "../examples/lines/LineGeometry";
 import { line2 } from "../materials";
+import { objGraph } from "../objects";
 
 const geom = new LineGeometry();
 geom.setPositions([
@@ -21,7 +22,7 @@ export class Laser extends THREE.Object3D {
         }));
         this.line.computeLineDistances();
 
-        this.add(this.line);
+        objGraph(this, this.line);
     }
 
     get length() {

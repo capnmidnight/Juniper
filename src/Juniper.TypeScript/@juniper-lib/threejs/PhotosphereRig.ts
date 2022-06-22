@@ -3,6 +3,7 @@ import { IFetcher } from "@juniper-lib/fetcher";
 import { Image_Jpeg } from "@juniper-lib/mediatypes";
 import { deg2rad, IDisposable, IProgress, progressOfArray } from "@juniper-lib/tslib";
 import { cleanup } from "./cleanup";
+import { objGraph } from "./objects";
 import { CUBEMAP_PATTERN } from "./Skybox";
 
 const QUAD_SIZE = 2;
@@ -65,9 +66,11 @@ export abstract class PhotosphereRig
 
         this.camera = new THREE.PerspectiveCamera(90);
         this.photosphere = new THREE.Group();
-        this.scene = new THREE.Scene();
-        this.scene.add(new THREE.AmbientLight(0xffffff, 1));
-        this.scene.add(this.camera, this.photosphere);
+        this.scene = objGraph(new THREE.Scene(),
+            new THREE.AmbientLight(0xffffff, 1),
+            this.camera,
+            this.photosphere
+        );
         this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
     }
 
@@ -191,7 +194,7 @@ export abstract class PhotosphereRig
         mesh.quaternion.setFromEuler(E);
         mesh.position.set(0, 0, -dist)
             .applyQuaternion(mesh.quaternion);
-        this.photosphere.add(mesh);
+        objGraph(this.photosphere, mesh)
     }
 
     private clear() {

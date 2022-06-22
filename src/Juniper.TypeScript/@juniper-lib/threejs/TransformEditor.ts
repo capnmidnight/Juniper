@@ -1,6 +1,6 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { solidBlue, solidGreen, solidRed } from "./materials";
-import { ErsatzObject, objectIsVisible, objectSetVisible, objGraph } from "./objects";
+import { ErsatzObject, obj, objectIsVisible, objectSetVisible } from "./objects";
 import { Translator } from "./Translator";
 
 const P = new THREE.Vector3();
@@ -23,7 +23,7 @@ interface TransformEditorEvents {
 }
 
 export class TransformEditor extends TypedEventBase<TransformEditorEvents> implements ErsatzObject {
-    readonly object = new THREE.Object3D();
+    readonly object: THREE.Object3D;
 
     private translators: Translator[];
 
@@ -35,19 +35,18 @@ export class TransformEditor extends TypedEventBase<TransformEditorEvents> imple
     constructor(orbitTranslate: boolean, defaultAvatarHeight: number) {
         super();
 
-        this.translators = [
-            this.setTranslator("+X", 1, 0, 0, solidRed, defaultAvatarHeight),
-            this.setTranslator("-X", -1, 0, 0, solidRed, defaultAvatarHeight),
-            this.setTranslator("+Y", 0, 1, 0, solidGreen, defaultAvatarHeight),
-            this.setTranslator("-Y", 0, -1, 0, solidGreen, defaultAvatarHeight),
-            this.setTranslator("+Z", 0, 0, 1, solidBlue, defaultAvatarHeight),
-            this.setTranslator("-Z", 0, 0, -1, solidBlue, defaultAvatarHeight)
-        ];
+        this.object = obj("Translator",
+            ...this.translators = [
+                this.setTranslator("+X", 1, 0, 0, solidRed, defaultAvatarHeight),
+                this.setTranslator("-X", -1, 0, 0, solidRed, defaultAvatarHeight),
+                this.setTranslator("+Y", 0, 1, 0, solidGreen, defaultAvatarHeight),
+                this.setTranslator("-Y", 0, -1, 0, solidGreen, defaultAvatarHeight),
+                this.setTranslator("+Z", 0, 0, 1, solidBlue, defaultAvatarHeight),
+                this.setTranslator("-Z", 0, 0, -1, solidBlue, defaultAvatarHeight)
+            ]
+        );
 
         this.orbit = orbitTranslate;
-
-        this.object.name = "Translator";
-        objGraph(this, ...this.translators)
     }
 
     get orbit() {

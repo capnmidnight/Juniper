@@ -1,7 +1,7 @@
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { RayTarget } from "../eventSystem/RayTarget";
 import { IUpdatable } from "../IUpdatable";
-import { objGraph } from "../objects";
+import { obj, objGraph } from "../objects";
 import { Image2D } from "../widgets/Image2D";
 
 export class MenuItem extends RayTarget
@@ -14,9 +14,7 @@ export class MenuItem extends RayTarget
         name: string,
         public readonly front: Image2D,
         public readonly back: Image2D) {
-        super(new THREE.Object3D());
-
-        this.object.name = `MenuItem-${name}`;
+        super(obj(`MenuItem-${name}`));
 
         if (this.back) {
             this.back = back;

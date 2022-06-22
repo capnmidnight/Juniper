@@ -10,6 +10,7 @@ import { hasVR, IProgress, isDesktop, isMobile, isMobileVR, PriorityMap, progres
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
 import { ConfirmationDialog } from "../ConfirmationDialog";
 import { InteractionAudio } from "../eventSystem/InteractionAudio";
+import { objGraph } from "../objects";
 import { ScreenMode } from "../ScreenMode";
 import { ScreenUI } from "../ScreenUI";
 import { SpaceUI } from "../SpaceUI";
@@ -162,7 +163,7 @@ export class Environment
         this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
         //this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
 
-        this.worldUISpace.add(this.xrUI);
+        objGraph(this.worldUISpace, this.xrUI);
 
         elementApply(this.screenUISpace.topRowLeft, this.compassImage, this.clockImage);
         elementApply(this.screenUISpace.topRowRight, this.quitButton);

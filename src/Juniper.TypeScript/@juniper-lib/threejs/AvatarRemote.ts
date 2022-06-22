@@ -78,7 +78,8 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
         this.nameTag.position.y = 0.25;
         this.userName = user.userName;
-        this.add(this.nameTag);
+
+        objGraph(this, this.nameTag);
 
         user.addEventListener("userPosed", (evt: UserPosedEvent) =>
             this.setPose(evt.pose, evt.height));
@@ -174,12 +175,12 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
 
             if (this.head && this.body) {
                 this.headFollower = new BodyFollower("AvatarBody", 0.05, angle, 0, 5);
-                this.body.parent.add(this.headFollower);
-                this.body.add(this.nameTag);
-                this.headFollower.add(this.body);
+                objGraph(this.body.parent,
+                    objGraph(this.headFollower,
+                        objGraph(this.body, this.nameTag)));
             }
 
-            this.add(this.avatar);
+            objGraph(this, this.avatar);
         }
     }
 

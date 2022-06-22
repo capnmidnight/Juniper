@@ -12,7 +12,7 @@ import { EventedGamepad, GamepadAxisMaxedEvent } from "@juniper-lib/widgets/Even
 import { XRControllerModelFactory } from "../examples/webxr/XRControllerModelFactory";
 import { XRHandModelFactory } from "../examples/webxr/XRHandModelFactory";
 import { white } from "../materials";
-import { ErsatzObject } from "../objects";
+import { ErsatzObject, objGraph } from "../objects";
 import { BasePointer } from "./BasePointer";
 import { CursorColor } from "./CursorColor";
 import type { EventSystem } from "./EventSystem";
@@ -67,7 +67,7 @@ export class PointerHand
     constructor(evtSys: EventSystem, private readonly renderer: THREE.WebGLRenderer, index: number) {
         super("hand", PointerName.MotionController, evtSys, new CursorColor());
 
-        this.object.add(
+        objGraph(this,
             this.controller = this.renderer.xr.getController(index),
             this.grip = this.renderer.xr.getControllerGrip(index),
             this.hand = this.renderer.xr.getHand(index)
@@ -88,10 +88,9 @@ export class PointerHand
             }
         }
 
-        this.controller.add(this.laser);
-        this.grip.add(mcModelFactory.createControllerModel(this.controller));
-
-        this.hand.add(handModelFactory.createHandModel(this.hand, "mesh"));
+        objGraph(this.controller, this.laser);
+        objGraph(this.grip, mcModelFactory.createControllerModel(this.controller));
+        objGraph(this.hand, handModelFactory.createHandModel(this.hand, "mesh"));
 
         this.onAxisMaxed = (evt: GamepadAxisMaxedEvent) => {
             if (evt.axis === 2) {
