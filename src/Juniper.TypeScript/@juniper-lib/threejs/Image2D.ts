@@ -154,7 +154,7 @@ export class Image2D
         }
     }
 
-    setImage(img: CanvasImageTypes | HTMLVideoElement): THREE.Texture {
+    setTextureMap(img: CanvasImageTypes | HTMLVideoElement): THREE.Texture {
         if (isImageBitmap(img)) {
             img = createCanvasFromImageBitmap(img);
         }
@@ -180,12 +180,12 @@ export class Image2D
         return this.mesh.material.map;
     }
 
-    async loadImage(fetcher: IFetcher, path: string, prog?: IProgress): Promise<void> {
+    async loadTextureMap(fetcher: IFetcher, path: string, prog?: IProgress): Promise<void> {
         let { content: img } = await fetcher
             .get(path)
             .progress(prog)
             .image();
-        const texture = this.setImage(img);
+        const texture = this.setTextureMap(img);
         texture.name = path;
     }
 

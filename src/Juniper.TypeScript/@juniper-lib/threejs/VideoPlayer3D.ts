@@ -57,7 +57,7 @@ export class VideoPlayer3D
         this.vidMeshes = [];
         for (let i = 0; i < 2; ++i) {
             const vidMesh = new Image2D(layerMgr, `videoPlayer-view${i + 1}`, false, this.material);
-            vidMesh.setImage(this.video);
+            vidMesh.setTextureMap(this.video);
             vidMesh.mesh.renderOrder = 4;
             if (i > 0) {
                 vidMesh.mesh.layers.disable(0);

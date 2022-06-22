@@ -51,7 +51,7 @@ export class TextMeshLabel extends THREE.Object3D {
             opacity
         });
 
-        image.textImage = this.image;
+        image.image = this.image;
 
         return image;
     }

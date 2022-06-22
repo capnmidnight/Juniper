@@ -170,8 +170,6 @@ export class BaseEnvironment<Events = void>
 
         this.avatar.addFollower(this.worldUISpace);
 
-        this.timer.addTickHandler((evt) => this.update(evt));
-
         objGraph(this.scene,
             this.sun,
             this.ambient,
@@ -187,6 +185,7 @@ export class BaseEnvironment<Events = void>
             )
         );
 
+        this.timer.addTickHandler((evt) => this.update(evt));
         this.timer.start();
 
         (globalThis as any).env = this;

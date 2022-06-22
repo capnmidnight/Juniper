@@ -6,33 +6,17 @@ import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { objectSetVisible } from "../objects";
 import type { Widget } from "./widgets";
 
+const redrawnEvt = { type: "redrawn" };
 
 export class CanvasImageMesh<T extends CanvasImage>
     extends Image2D
     implements Widget {
 
+    private _image: T;
+
+    private readonly _onRedrawn: () => void;
+
     get object() {
-        return this;
-    }
-
-    constructor(env: IWebXRLayerManager, name: string, public image: T) {
-        super(env, name, false);
-
-        if (this.mesh) {
-            this.setCanvas(image);
-        }
-    }
-
-    private setCanvas(image: T): void {
-        this.setImage(image.canvas);
-        this.objectHeight = 0.1;
-        this.updateTexture();
-        image.addEventListener("redrawn", () => this.updateTexture());
-    }
-
-    override copy(source: this, recursive = true): this {
-        super.copy(source, recursive);
-        this.setCanvas(source.image);
         return this;
     }
 
@@ -43,6 +27,49 @@ export class CanvasImageMesh<T extends CanvasImage>
         else {
             return null;
         }
+    }
+
+    constructor(env: IWebXRLayerManager, name: string, materialOptions?: THREE.MeshBasicMaterialParameters) {
+        super(env, name, false, materialOptions);
+        this._onRedrawn = this.onRedrawn.bind(this);
+    }
+
+    protected onRedrawn() {
+        this.updateTexture();
+        this.dispatchEvent(redrawnEvt);
+    }
+
+    get image(): T {
+        return this._image;
+    }
+
+    set image(v: T) {
+        if (this.image) {
+            this.image.removeEventListener("redrawn", this._onRedrawn);
+        }
+
+        this._image = v;
+
+        if (this.image) {
+            this.image.addEventListener("redrawn", this._onRedrawn);
+            this.setTextureMap(this.image.canvas);
+            this.objectHeight = 0.1;
+            this._onRedrawn();
+        }
+    }
+
+    override get imageWidth() {
+        return this.image.width;
+    }
+
+    override get imageHeight() {
+        return this.image.height;
+    }
+
+    override copy(source: this, recursive = true): this {
+        super.copy(source, recursive);
+        this.image = source.image;
+        return this;
     }
 
     get isVisible() {

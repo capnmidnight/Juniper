@@ -121,17 +121,17 @@ export class Menu extends THREE.Object3D {
 
         const tasks: TaskDef[] = [
             [1, (prog) => loadFont(this.menuFont, null, prog)],
-            [1, (prog) => this.backButton.back.loadImage(this.env.fetcher, imgs.backButton, prog)],
-            [1, (prog) => this.defaultButtonImage.loadImage(this.env.fetcher, imgs.defaultButton, prog)],
-            [1, (prog) => this.menuTitle.back.loadImage(this.env.fetcher, imgs.title, prog)],
-            [1, (prog) => this.nextButton.back.loadImage(this.env.fetcher, imgs.title, prog)],
-            [1, (prog) => this.prevButton.back.loadImage(this.env.fetcher, imgs.title, prog)],
-            [1, (prog) => this.logo.back.loadImage(this.env.fetcher, imgs.logo.back, prog)]
+            [1, (prog) => this.backButton.back.loadTextureMap(this.env.fetcher, imgs.backButton, prog)],
+            [1, (prog) => this.defaultButtonImage.loadTextureMap(this.env.fetcher, imgs.defaultButton, prog)],
+            [1, (prog) => this.menuTitle.back.loadTextureMap(this.env.fetcher, imgs.title, prog)],
+            [1, (prog) => this.nextButton.back.loadTextureMap(this.env.fetcher, imgs.title, prog)],
+            [1, (prog) => this.prevButton.back.loadTextureMap(this.env.fetcher, imgs.title, prog)],
+            [1, (prog) => this.logo.back.loadTextureMap(this.env.fetcher, imgs.logo.back, prog)]
         ];
 
         if (imgs.logo.front) {
             this.logo.front = new Image2D(this.env, "LogoFront", true, { transparent: true });
-            tasks.push([1, (prog) => this.logo.front.loadImage(this.env.fetcher, imgs.logo.front, prog)]);
+            tasks.push([1, (prog) => this.logo.front.loadTextureMap(this.env.fetcher, imgs.logo.front, prog)]);
         }
 
         await progressTasksWeighted(prog, tasks);
@@ -314,7 +314,7 @@ export class Menu extends THREE.Object3D {
         if (!item.back) {
             if (item.filePath) {
                 item.back = new Image2D(this.env, `${item.name}-Background`, true);
-                await item.back.loadImage(this.env.fetcher, item.filePath, prog);
+                await item.back.loadTextureMap(this.env.fetcher, item.filePath, prog);
             }
             else {
                 item.back = this.defaultButtonImage.clone() as Image2D;
@@ -371,7 +371,7 @@ export class Menu extends THREE.Object3D {
                 img.mesh.renderOrder = 1;
 
                 img.addEventListener("redrawn", () => {
-                    const y = (img.textImage.height - item.height + 0.025) / 2;
+                    const y = (img.image.height - item.height + 0.025) / 2;
                     if (item.textPosition === "bottom") {
                         img.position.y = y;
                     }
@@ -380,7 +380,7 @@ export class Menu extends THREE.Object3D {
                     }
                 });
 
-                img.textImage = new TextImage(options);
+                img.image = new TextImage(options);
 
                 img.position.z = -0.01;
 
@@ -391,7 +391,7 @@ export class Menu extends THREE.Object3D {
                 item.front.frustumCulled = false;
 
                 if (item.front instanceof TextMesh) {
-                    item.front.textImage.value = item.text;
+                    item.front.image.value = item.text;
                 }
             }
         }

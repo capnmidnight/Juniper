@@ -76,7 +76,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
 
         this.name = user.userName;
         this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`);
-        this.nameTag.textImage = new TextImage(Object.assign({}, nameTagFont, font));
+        this.nameTag.image = new TextImage(Object.assign({}, nameTagFont, font));
         this.nameTag.position.y = 0.25;
         this.userName = user.userName;
         this.add(this.nameTag);
@@ -128,7 +128,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     }
 
     get userName(): string {
-        return this.nameTag.textImage.value;
+        return this.nameTag.image.value;
     }
 
     set userName(name: string) {
@@ -136,20 +136,20 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             const words = name.match(/^(?:((?:student|instructor))_)?([^<>{}"]+)$/i);
             if (words) {
                 if (words.length === 2) {
-                    this.nameTag.textImage.value = words[1];
+                    this.nameTag.image.value = words[1];
                 }
                 else if (words.length === 3) {
                     this.isInstructor = words[1]
                         && words[1].toLocaleLowerCase() === "instructor";
                     if (this.isInstructor) {
-                        this.nameTag.textImage.value = star.value + words[2];
+                        this.nameTag.image.value = star.value + words[2];
                     }
                     else {
-                        this.nameTag.textImage.value = words[2];
+                        this.nameTag.image.value = words[2];
                     }
                 }
                 else {
-                    this.nameTag.textImage.value = "???";
+                    this.nameTag.image.value = "???";
                 }
             }
         }
