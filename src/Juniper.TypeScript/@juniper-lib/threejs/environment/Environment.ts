@@ -52,7 +52,7 @@ export class Environment
     readonly xrUI: SpaceUI;
     readonly screenUISpace = new ScreenUI();
     readonly confirmationDialog: ConfirmationDialog;
-    readonly compassImage: CanvasImageMesh<ArtificialHorizon>;
+    readonly compassImage: ArtificialHorizon;
     readonly clockImage: CanvasImageMesh<ClockImage>;
     readonly batteryImage: CanvasImageMesh<BatteryImage>;
     readonly settingsButton: ButtonImageWidget;
@@ -85,9 +85,7 @@ export class Environment
         options?: Partial<EnvironmentOptions>) {
         super(canvas, fetcher, defaultAvatarHeight, enableFullResolution, options && options.DEBUG);
 
-        this.compassImage = new CanvasImageMesh(this, "Horizon");
-        this.compassImage.image = new ArtificialHorizon();
-        this.compassImage.mesh.renderOrder = 5;
+        this.compassImage = new ArtificialHorizon();
 
         this.clockImage = new CanvasImageMesh(this, "Clock");
         this.clockImage.image = new ClockImage();
@@ -262,9 +260,11 @@ export class Environment
         this.audio.update();
         this.videoPlayer.update(evt.dt, evt.frame);
 
-        this.compassImage.image.setPitchAndHeading(
-            rad2deg(this.avatar.worldPitch),
-            rad2deg(this.avatar.worldHeading));
+        if (!this.renderer.xr.isPresenting) {
+            this.compassImage.setPitchAndHeading(
+                rad2deg(this.avatar.worldPitch),
+                rad2deg(this.avatar.worldHeading));
+        }
 
         if (this.DEBUG) {
             const fps = Math.round(evt.fps);
