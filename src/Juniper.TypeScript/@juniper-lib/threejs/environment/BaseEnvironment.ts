@@ -9,7 +9,8 @@ import {
     rule,
     top,
     touchAction,
-    width
+    width,
+    zIndex
 } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 import type { IFetcher } from "@juniper-lib/fetcher";
@@ -63,7 +64,8 @@ Style(
         margin(0),
         padding(0),
         border(0),
-        touchAction("none")
+        touchAction("none"),
+        zIndex(-1)
     )
 );
 

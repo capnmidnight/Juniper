@@ -135,7 +135,8 @@ export class Environment
             this.renderer.domElement.parentElement,
             this.screenUISpace,
             this.confirmationDialog,
-            this.devicesDialog);
+            this.devicesDialog,
+            this.renderer.domElement);
 
         this.uiButtons = new ButtonFactory(this.fetcher, uiImagePaths, 20);
 
