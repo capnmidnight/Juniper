@@ -17,6 +17,10 @@ const S = new THREE.Vector3();
 
 let copyCounter = 0;
 
+export type Image2DObjectSizeMode = "none"
+    | "fixed-height"
+    | "fixed-width";
+
 export class Image2D
     extends THREE.Object3D
     implements IDisposable, IUpdatable {
@@ -34,6 +38,8 @@ export class Image2D
     mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial> = null;
 
     webXRLayersEnabled = true;
+
+    sizeMode: Image2DObjectSizeMode = "none";
 
     constructor(env: IWebXRLayerManager, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
         super();
@@ -57,6 +63,23 @@ export class Image2D
         cleanup(this.layer);
     }
 
+    private setImageSize(width: number, height: number) {
+        if (width !== this._imageWidth
+            || height !== this._imageHeight) {
+            const { objectWidth, objectHeight } = this;
+            this._imageWidth = width;
+            this._imageHeight = height;
+            if (this.sizeMode !== "none") {
+                if (this.sizeMode === "fixed-width") {
+                    this.objectWidth = objectWidth;
+                }
+                else {
+                    this.objectHeight = objectHeight;
+                }
+            }
+        }
+    }
+
     get imageWidth() {
         return this._imageWidth;
     }
@@ -74,8 +97,7 @@ export class Image2D
     }
 
     set objectWidth(v) {
-        this.scale.x = v;
-        this.scale.y = v / this.imageAspectRatio;
+        this.scale.set(v, this.scale.y = v / this.imageAspectRatio, 1);
     }
 
     get objectHeight() {
@@ -83,8 +105,7 @@ export class Image2D
     }
 
     set objectHeight(v) {
-        this.scale.x = this.imageAspectRatio * v;
-        this.scale.y = v;
+        this.scale.set(this.imageAspectRatio * v, v, 1);
     }
 
     get pixelDensity() {
@@ -107,8 +128,7 @@ export class Image2D
 
     override copy(source: this, recursive = true) {
         super.copy(source, recursive);
-        this._imageWidth = source.imageWidth;
-        this._imageHeight = source.imageHeight;
+        this.setImageSize(source.imageWidth, source.imageHeight);
         this.setEnvAndName(source.env, source.name + (++copyCounter));
         for (let i = this.children.length - 1; i >= 0; --i) {
             const child = this.children[i];
@@ -165,13 +185,11 @@ export class Image2D
 
         if (img instanceof HTMLVideoElement) {
             this.mesh.material.map = new THREE.VideoTexture(img);
-            this._imageWidth = img.videoWidth;
-            this._imageHeight = img.videoHeight;
+            this.setImageSize(img.videoWidth, img.videoHeight);
         }
         else {
             this.mesh.material.map = new THREE.Texture(img);
-            this._imageWidth = img.width;
-            this._imageHeight = img.height;
+            this.setImageSize(img.width, img.height);
             this.mesh.material.map.needsUpdate = true;
         }
 
@@ -195,12 +213,10 @@ export class Image2D
             && isNumber(img.height)
             && (this.imageWidth !== img.width
                 || this.imageHeight !== img.height)) {
-
-            this._imageWidth = img.width;
-            this._imageHeight = img.height
             this.mesh.material.map.dispose();
             this.mesh.material.map = new THREE.Texture(img);
             this.mesh.material.needsUpdate = true;
+            this.setImageSize(img.width, img.height);
         }
         this.mesh.material.map.needsUpdate = true;
     }

@@ -316,7 +316,6 @@ export class ScreenControl
                 && (mode === ScreenMode.None
                     || mode === ScreenMode.Fullscreen
                     || button.mode === mode);
-            console.log(button, button.mode, mode, button.active, this.wasVisible.get(button), button.visible)
         }
 
         this._currentMode = mode;

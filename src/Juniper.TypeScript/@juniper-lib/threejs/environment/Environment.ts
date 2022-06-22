@@ -88,6 +88,7 @@ export class Environment
         this.compassImage = new ArtificialHorizon();
 
         this.clockImage = new CanvasImageMesh(this, "Clock", new ClockImage());
+        this.clockImage.sizeMode = "fixed-height";
         this.clockImage.mesh.renderOrder = 5;
 
         options = options || {};
@@ -149,7 +150,7 @@ export class Environment
         //this.arButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.AR);
 
         this.xrUI = new SpaceUI();
-        this.xrUI.addItem(this.clockImage, { x: -1, y: 1, scale: 1 });
+        this.xrUI.addItem(this.clockImage, { x: -1, y: 1, height: 0.1 });
         this.xrUI.addItem(this.quitButton, { x: 1, y: 1, scale: 0.5 });
         this.xrUI.addItem(this.confirmationDialog, { x: 0, y: 0, scale: 0.25 });
         this.xrUI.addItem(this.settingsButton, { x: -1, y: -1, scale: 0.5 });
@@ -169,7 +170,8 @@ export class Environment
 
         if (BatteryImage.isAvailable && isMobile()) {
             this.batteryImage = new CanvasImageMesh(this, "Battery", new BatteryImage());
-            this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, scale: 1 });
+            this.batteryImage.sizeMode = "fixed-height";
+            this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, width: 0.2, height: 0.1 });
             elementApply(this.screenUISpace.topRowRight, this.batteryImage);
         }
 

@@ -54,7 +54,7 @@ export class CanvasImageMesh<T extends CanvasImage>
         if (this.image) {
             this.image.addEventListener("redrawn", this._onRedrawn);
             this.setTextureMap(this.image.canvas);
-            this._onRedrawn();
+            this.onRedrawn();
         }
     }
 
