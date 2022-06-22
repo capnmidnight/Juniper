@@ -1,15 +1,15 @@
 import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher";
 import { arrayCompare, IDisposable, inches2Meters, IProgress, isDefined, isNullOrUndefined, isNumber, meters2Inches } from "@juniper-lib/tslib";
-import { cleanup } from "./cleanup";
-import { IUpdatable } from "./IUpdatable";
-import { IWebXRLayerManager } from "./IWebXRLayerManager";
-import { solidTransparent } from "./materials";
-import { objectGetRelativePose } from "./objectGetRelativePose";
-import { objectIsFullyVisible } from "./objects";
-import { plane } from "./Plane";
-import { isMeshBasicMaterial } from "./typeChecks";
-import { StereoLayoutName } from "./VideoPlayer3D";
+import { cleanup } from "../cleanup";
+import { IUpdatable } from "../IUpdatable";
+import { IWebXRLayerManager } from "../IWebXRLayerManager";
+import { solidTransparent } from "../materials";
+import { objectGetRelativePose } from "../objectGetRelativePose";
+import { objectIsFullyVisible } from "../objects";
+import { plane } from "../Plane";
+import { isMeshBasicMaterial } from "../typeChecks";
+import { StereoLayoutName } from "../VideoPlayer3D";
 
 const P = new THREE.Vector4();
 const Q = new THREE.Quaternion();

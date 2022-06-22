@@ -1,10 +1,10 @@
-import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { title } from "@juniper-lib/dom/attrs";
 import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { IFetcher } from "@juniper-lib/fetcher";
+import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { obj } from "../objects";
-import { TextMeshButton } from "../TextMeshButton";
+import { TextMeshButton } from "./TextMeshButton";
 import type { Widget } from "./widgets";
 
 

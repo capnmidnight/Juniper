@@ -1,8 +1,8 @@
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { RayTarget } from "../eventSystem/RayTarget";
-import { Image2D } from "../Image2D";
 import { IUpdatable } from "../IUpdatable";
 import { objGraph } from "../objects";
+import { Image2D } from "../widgets/Image2D";
 
 export class MenuItem extends RayTarget
     implements IUpdatable {

@@ -1,6 +1,6 @@
 import { TextImage, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import { IWebXRLayerManager } from "./IWebXRLayerManager";
-import { CanvasImageMesh } from "./widgets/CanvasImageMesh";
+import { IWebXRLayerManager } from "../IWebXRLayerManager";
+import { CanvasImageMesh } from "./CanvasImageMesh";
 
 
 export class TextMesh extends CanvasImageMesh<TextImage> {

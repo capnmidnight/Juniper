@@ -5,9 +5,9 @@ import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted, TaskDef } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
-import { Image2D } from "../Image2D";
 import { objGraph } from "../objects";
-import { TextMesh } from "../TextMesh";
+import { Image2D } from "../widgets/Image2D";
+import { TextMesh } from "../widgets/TextMesh";
 import { MenuItem } from "./MenuItem";
 
 const zero = new THREE.Vector3(0, 0, 0);

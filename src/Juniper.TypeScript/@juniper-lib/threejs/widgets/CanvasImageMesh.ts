@@ -1,9 +1,9 @@
 import { isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import type { CanvasImage } from "@juniper-lib/graphics2d/CanvasImage";
-import { Image2D } from "../Image2D";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { objectSetVisible } from "../objects";
+import { Image2D } from "./Image2D";
 import type { Widget } from "./widgets";
 
 const redrawnEvt = { type: "redrawn" };

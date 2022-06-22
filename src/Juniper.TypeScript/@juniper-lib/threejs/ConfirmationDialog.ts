@@ -18,8 +18,8 @@ import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import type { Environment } from "./environment/Environment";
 import { objectSetVisible, objGraph } from "./objects";
-import { TextMesh } from "./TextMesh";
-import { TextMeshButton } from "./TextMeshButton";
+import { TextMesh } from "./widgets/TextMesh";
+import { TextMeshButton } from "./widgets/TextMeshButton";
 import type { Widget } from "./widgets/widgets";
 
 const baseTextStyle: Partial<TextImageOptions> = {

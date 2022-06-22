@@ -15,7 +15,7 @@ import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/PointerRemote";
 import { objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
-import { TextMesh } from "./TextMesh";
+import { TextMesh } from "./widgets/TextMesh";
 
 const P = new THREE.Vector3();
 const F = new THREE.Vector3();

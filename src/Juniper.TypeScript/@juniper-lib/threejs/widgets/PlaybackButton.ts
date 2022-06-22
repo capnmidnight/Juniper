@@ -3,13 +3,13 @@ import { MediaElementSourceEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer } from "@juniper-lib/audio/sources/IPlayer";
 import { keycapDigits } from "@juniper-lib/emoji/numbers";
 import { AsyncCallback, BaseProgress, IDisposable, isDefined, TypedEvent } from "@juniper-lib/tslib";
+import { cleanup } from "../cleanup";
+import { Cube } from "../Cube";
+import { IWebXRLayerManager } from "../IWebXRLayerManager";
+import { solidWhite } from "../materials";
+import { ErsatzObject, obj, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
-import { cleanup } from "./cleanup";
-import { Cube } from "./Cube";
-import { IWebXRLayerManager } from "./IWebXRLayerManager";
-import { solidWhite } from "./materials";
 import { MeshButton } from "./MeshButton";
-import { ErsatzObject, obj, objGraph } from "./objects";
 import { TextMesh } from "./TextMesh";
 
 

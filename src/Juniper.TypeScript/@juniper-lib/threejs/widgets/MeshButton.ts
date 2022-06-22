@@ -1,6 +1,6 @@
 import { stringRandom } from "@juniper-lib/tslib";
-import { scaleOnHover } from "./animation/scaleOnHover";
-import { assureRayTarget, RayTarget } from "./eventSystem/RayTarget";
+import { scaleOnHover } from "../animation/scaleOnHover";
+import { assureRayTarget, RayTarget } from "../eventSystem/RayTarget";
 
 export class MeshButton extends THREE.Object3D {
     private _disabled = false;

@@ -1,5 +1,5 @@
-import { ButtonFactory } from "../ButtonFactory";
 import { ScreenMode } from "../ScreenMode";
+import { ButtonFactory } from "./ButtonFactory";
 import { ToggleButton } from "./ToggleButton";
 
 export class ScreenModeToggleButton extends ToggleButton {

@@ -1,8 +1,8 @@
 import { title } from "@juniper-lib/dom/attrs";
 import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
-import { ButtonFactory } from "../ButtonFactory";
-import { MeshButton } from "../MeshButton";
 import { obj } from "../objects";
+import { ButtonFactory } from "./ButtonFactory";
+import { MeshButton } from "./MeshButton";
 import type { Widget } from "./widgets";
 
 export class ButtonImageWidget implements Widget, EventTarget {

@@ -1,8 +1,8 @@
 import { buttonSetEnabled } from "@juniper-lib/dom/buttonSetEnabled";
 import { ButtonPrimary, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
-import { ButtonFactory } from "../ButtonFactory";
-import { MeshButton } from "../MeshButton";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
+import { ButtonFactory } from "./ButtonFactory";
+import { MeshButton } from "./MeshButton";
 import type { Widget } from "./widgets";
 
 

@@ -2,9 +2,9 @@ import { IFetcher } from "@juniper-lib/fetcher";
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { TextImage } from "@juniper-lib/graphics2d/TextImage";
 import { isDefined, stringRandom } from "@juniper-lib/tslib";
-import { scaleOnHover } from "./animation/scaleOnHover";
-import { assureRayTarget, RayTarget } from "./eventSystem/RayTarget";
-import { IWebXRLayerManager } from "./IWebXRLayerManager";
+import { scaleOnHover } from "../animation/scaleOnHover";
+import { assureRayTarget, RayTarget } from "../eventSystem/RayTarget";
+import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { TextMesh } from "./TextMesh";
 
 export class TextMeshButton extends THREE.Object3D {
