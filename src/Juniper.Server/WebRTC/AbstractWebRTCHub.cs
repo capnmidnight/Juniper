@@ -58,14 +58,7 @@ namespace Juniper.WebRTC
             {
                 if (server.Scheme.StartsWith("stun"))
                 {
-                    if (server.Scheme.EndsWith("s"))
-                    {
-                        iceServers.Add(new RTCStunsServer(server.Host, server.Port));
-                    }
-                    else
-                    {
-                        iceServers.Add(new RTCStunServer(server.Host, server.Port));
-                    }
+                    iceServers.Add(new RTCStunServer(server.Host, server.Port));
                 }
                 else if (server.Scheme.StartsWith("turn"))
                 {

@@ -37,13 +37,6 @@ namespace Juniper.WebRTC
         { }
     }
 
-    public class RTCStunsServer : AbstractRTCIceServer
-    {
-        public RTCStunsServer(string host, int? port = null)
-            : base("stuns", host, 5349, port)
-        { }
-    }
-
     public class RTCTurnServer : AbstractRTCTurnServer
     {
         public RTCTurnServer(string username, string credential, string host, int? port = null)
