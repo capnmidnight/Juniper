@@ -3,15 +3,12 @@ import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { TextImage } from "@juniper-lib/graphics2d/TextImage";
 import { isDefined, stringRandom } from "@juniper-lib/tslib";
 import { scaleOnHover } from "../animation/scaleOnHover";
-import { assureRayTarget, RayTarget } from "../eventSystem/RayTarget";
+import { RayTarget } from "../eventSystem/RayTarget";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
+import { objGraph } from "../objects";
 import { TextMesh } from "./TextMesh";
 
-export class TextMeshButton extends THREE.Object3D {
-    private _disabled = false;
-
-    readonly target: RayTarget;
-
+export class TextMeshButton extends RayTarget {
     readonly image: TextImage;
     readonly enabledImage: TextMesh;
     readonly disabledImage: TextMesh;
@@ -21,10 +18,10 @@ export class TextMeshButton extends THREE.Object3D {
         name: string,
         value: string,
         textImageOptions?: Partial<TextImageOptions>) {
-        super();
+        super(new THREE.Object3D());
 
         if (isDefined(value)) {
-            this.name = name;
+            this.object.name = name;
 
             textImageOptions = Object.assign({
                 textFillColor: "#ffffff",
@@ -43,12 +40,12 @@ export class TextMeshButton extends THREE.Object3D {
             this.disabledImage = this.createImage(`${id}-disabled`, 0.5);
             this.disabledImage.visible = false;
 
-            this.add(this.enabledImage, this.disabledImage);
+            objGraph(this, this.enabledImage, this.disabledImage);
         }
 
-        this.target = assureRayTarget(this);
-        this.target.addMesh(this.enabledImage.mesh);
-        this.target.clickable = true;
+        this.addMesh(this.enabledImage.mesh);
+        this.addMesh(this.disabledImage.mesh);
+        this.clickable = true;
 
         if (isDefined(value)) {
             scaleOnHover(this, true);
@@ -68,15 +65,13 @@ export class TextMeshButton extends THREE.Object3D {
         return image;
     }
 
-    get disabled(): boolean {
-        return this._disabled;
+    override get disabled(): boolean {
+        return super.disabled;
     }
 
-    set disabled(v: boolean) {
-        if (v !== this.disabled) {
-            this._disabled = v;
-            this.enabledImage.visible = !v;
-            this.disabledImage.visible = v;
-        }
+    override set disabled(v: boolean) {
+        super.disabled = v;
+        this.enabledImage.visible = !v;
+        this.disabledImage.visible = v;
     }
 }

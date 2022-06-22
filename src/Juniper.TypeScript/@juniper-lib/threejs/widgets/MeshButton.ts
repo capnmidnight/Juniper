@@ -1,29 +1,27 @@
 import { stringRandom } from "@juniper-lib/tslib";
 import { scaleOnHover } from "../animation/scaleOnHover";
-import { assureRayTarget, RayTarget } from "../eventSystem/RayTarget";
+import { RayTarget } from "../eventSystem/RayTarget";
 
-export class MeshButton extends THREE.Object3D {
-    private _disabled = false;
-
-    readonly target: RayTarget;
+export class MeshButton extends RayTarget {
     protected readonly enabledMesh: THREE.Mesh;
     protected readonly disabledMesh: THREE.Mesh;
 
     constructor(name: string, geometry: THREE.BufferGeometry, enabledMaterial: THREE.Material, disabledMaterial: THREE.Material, size: number) {
-        super();
+        super(new THREE.Object3D());
         const id = stringRandom(16);
 
-        this.name = name + id;
+        this.object.name = name + id;
 
-        this.enabledMesh = this.createMesh(`${this.name}-enabled`, geometry, enabledMaterial);
-        this.disabledMesh = this.createMesh(`${this.name}-disabled`, geometry, disabledMaterial);
+        this.enabledMesh = this.createMesh(`${this.object.name}-enabled`, geometry, enabledMaterial);
+        this.disabledMesh = this.createMesh(`${this.object.name}-disabled`, geometry, disabledMaterial);
         this.disabledMesh.visible = false;
         this.size = size;
-        this.add(this.enabledMesh, this.disabledMesh);
+        this.object.add(this.enabledMesh, this.disabledMesh);
+        this.addMesh(this.enabledMesh);
+        this.addMesh(this.disabledMesh);
 
-        this.target = assureRayTarget(this.enabledMesh);
-        this.target.clickable = true;
-        this.target.disabled = this.disabled;
+        this.clickable = true;
+        this.disabled = this.disabled;
 
         scaleOnHover(this, true);
     }
@@ -43,16 +41,13 @@ export class MeshButton extends THREE.Object3D {
         return mesh;
     }
 
-    get disabled(): boolean {
-        return this._disabled;
+    override get disabled(): boolean {
+        return super.disabled;
     }
 
-    set disabled(v: boolean) {
-        if (v !== this.disabled) {
-            this._disabled = v;
-            this.enabledMesh.visible = !v;
-            this.disabledMesh.visible = v;
-            this.target.disabled = v;
-        }
+    override set disabled(v: boolean) {
+        super.disabled = v;
+        this.enabledMesh.visible = !v;
+        this.disabledMesh.visible = v;
     }
 }

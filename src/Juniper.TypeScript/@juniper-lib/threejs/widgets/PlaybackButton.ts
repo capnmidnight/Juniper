@@ -191,7 +191,7 @@ export class PlaybackButton<T extends FullAudioRecord>
         player.addEventListener("stopped", local(() => this.dispatchEvent(stopEvt)));
 
         const onClick = (btn: MeshButton, callback: () => void) => {
-            btn.target.addEventListener("click", callback);
+            btn.addEventListener("click", callback);
         }
 
         this.clickPlay = async () => {

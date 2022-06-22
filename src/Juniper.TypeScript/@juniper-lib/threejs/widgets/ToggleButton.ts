@@ -61,9 +61,9 @@ export class ToggleButton implements Widget, EventTarget {
             this.enterButton = new MeshButton(`${this.setName}-activate-button`, activate.geometry, activate.enabledMaterial, activate.disabledMaterial, 0.2),
             this.exitButton = new MeshButton(`${this.setName}-deactivate-button`, deactivate.geometry, deactivate.enabledMaterial, deactivate.disabledMaterial, 0.2));
 
-        this.enterButton.target.addEventListener("click", () => this.element.click());
+        this.enterButton.addEventListener("click", () => this.element.click());
 
-        this.exitButton.target.addEventListener("click", () => this.element.click());
+        this.exitButton.addEventListener("click", () => this.element.click());
 
         this.refreshState();
     }

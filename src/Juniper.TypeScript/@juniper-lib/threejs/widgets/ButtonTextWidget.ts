@@ -3,7 +3,7 @@ import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-l
 import { IFetcher } from "@juniper-lib/fetcher";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
-import { obj } from "../objects";
+import { obj, objectSetVisible } from "../objects";
 import { TextMeshButton } from "./TextMeshButton";
 import type { Widget } from "./widgets";
 
@@ -20,7 +20,7 @@ export class ButtonTextWidget implements Widget, EventTarget {
             text);
         this.object = obj(`${name}-button`,
             this.mesh = new TextMeshButton(fetcher, this.env, `${name}-button`, text, textButtonStyle));
-        this.mesh.target.addEventListener("click", () => {
+        this.mesh.addEventListener("click", () => {
             this.element.click();
         });
     }
@@ -51,6 +51,6 @@ export class ButtonTextWidget implements Widget, EventTarget {
 
     set visible(visible) {
         elementSetDisplay(this, visible, "inline-block");
-        this.mesh.visible = visible;
+        objectSetVisible(this.mesh, visible);
     }
 }

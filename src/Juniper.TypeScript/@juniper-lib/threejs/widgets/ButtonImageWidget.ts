@@ -24,8 +24,8 @@ export class ButtonImageWidget implements Widget, EventTarget {
         const { geometry, enabledMaterial, disabledMaterial } = await buttons.getGeometryAndMaterials(setName, iconName);
         this.mesh = new MeshButton(iconName, geometry, enabledMaterial, disabledMaterial, 0.2);
         this.object.add(this.mesh);
-        this.mesh.visible = this.visible;
-        this.mesh.target.addEventListener("click", () => {
+        this.mesh.object.visible = this.visible;
+        this.mesh.addEventListener("click", () => {
             this.element.click();
         });
     }
@@ -57,7 +57,7 @@ export class ButtonImageWidget implements Widget, EventTarget {
     set visible(visible) {
         elementSetDisplay(this, visible, "inline-block");
         if (this.mesh) {
-            this.mesh.visible = visible;
+            this.mesh.object.visible = visible;
         }
     }
 }
