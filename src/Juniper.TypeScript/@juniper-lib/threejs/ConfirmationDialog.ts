@@ -14,12 +14,12 @@ import {
 } from "@juniper-lib/dom/tags";
 import { Animator } from "@juniper-lib/graphics2d/animation/Animator";
 import { jump } from "@juniper-lib/graphics2d/animation/tween";
-import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
+import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import type { Environment } from "./environment/Environment";
 import { objectSetVisible, objGraph } from "./objects";
+import { TextMesh } from "./TextMesh";
 import { TextMeshButton } from "./TextMeshButton";
-import { TextMeshLabel } from "./TextMeshLabel";
 import type { Widget } from "./widgets/widgets";
 
 const baseTextStyle: Partial<TextImageOptions> = {
@@ -73,7 +73,7 @@ export class ConfirmationDialog extends DialogBox implements Widget {
     readonly name = "ConfirmationDialog";
 
     private readonly root = new THREE.Object3D();
-    readonly mesh: TextMeshLabel;
+    readonly mesh: TextMesh;
     private readonly confirmButton3D: TextMeshButton;
     private readonly cancelButton3D: TextMeshButton;
 
@@ -85,7 +85,7 @@ export class ConfirmationDialog extends DialogBox implements Widget {
         this.confirmButton.innerText = "Yes";
         this.cancelButton.innerText = "No";
 
-        this.mesh = new TextMeshLabel(this.env.fetcher, this.env, "confirmationDialogLabel", "", newStyle(textLabelStyle, fontFamily));
+        this.mesh = new TextMesh(this.env, "confirmationDialogLabel", newStyle(textLabelStyle, fontFamily));
 
         this.confirmButton3D = new TextMeshButton(this.env.fetcher, this.env, "confirmationDialogConfirmButton", "Yes", newStyle(confirmButton3DStyle, fontFamily));
         this.confirmButton3D.target.addEventListener("click", () =>

@@ -66,7 +66,7 @@ export class TextImage extends CanvasImage {
 
     private _value: string = null;
 
-    constructor(options?: Partial<TextImageOptions>) {
+    constructor(options: Partial<TextImageOptions>) {
         super(10, 10, options);
 
         if (isDefined(options)) {

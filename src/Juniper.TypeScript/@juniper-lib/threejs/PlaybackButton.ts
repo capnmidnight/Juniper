@@ -2,7 +2,6 @@ import { FullAudioRecord } from "@juniper-lib/audio/data";
 import { MediaElementSourceEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer } from "@juniper-lib/audio/sources/IPlayer";
 import { keycapDigits } from "@juniper-lib/emoji/numbers";
-import { IFetcher } from "@juniper-lib/fetcher";
 import { AsyncCallback, BaseProgress, IDisposable, isDefined, TypedEvent } from "@juniper-lib/tslib";
 import { ButtonFactory } from "./ButtonFactory";
 import { cleanup } from "./cleanup";
@@ -11,7 +10,7 @@ import { IWebXRLayerManager } from "./IWebXRLayerManager";
 import { solidWhite } from "./materials";
 import { MeshButton } from "./MeshButton";
 import { ErsatzObject, obj, objGraph } from "./objects";
-import { TextMeshLabel } from "./TextMeshLabel";
+import { TextMesh } from "./TextMesh";
 
 
 const playEvt = new TypedEvent("play");
@@ -32,7 +31,7 @@ export class PlaybackButton<T extends FullAudioRecord>
 
     readonly object: THREE.Object3D;
 
-    private readonly textLabel: TextMeshLabel;
+    private readonly textLabel: TextMesh;
     private readonly progressBar: THREE.Object3D;
     private playButton: MeshButton = null;
     private pauseButton: MeshButton = null;
@@ -42,7 +41,6 @@ export class PlaybackButton<T extends FullAudioRecord>
     clickPlay: AsyncCallback = null;
 
     constructor(
-        fetcher: IFetcher,
         env: IWebXRLayerManager,
         buttonFactory: ButtonFactory,
         private readonly data: T | string,
@@ -55,7 +53,7 @@ export class PlaybackButton<T extends FullAudioRecord>
 
         this.object = obj(`playback-${name}`);
 
-        this.textLabel = new TextMeshLabel(fetcher, env, `playback-${name}-label`, label, {
+        this.textLabel = new TextMesh(env, `playback-${name}-label`, {
             minHeight: size,
             maxHeight: size,
             minWidth: size,
@@ -63,6 +61,7 @@ export class PlaybackButton<T extends FullAudioRecord>
             scale: 1000,
             bgFillColor: "#1e4388"
         });
+        this.textLabel.image.value = label;
 
         this.progressBar = new Cube(1, 0.025, 0.01, solidWhite);
         this.progressBar.position.y = -size / 2;

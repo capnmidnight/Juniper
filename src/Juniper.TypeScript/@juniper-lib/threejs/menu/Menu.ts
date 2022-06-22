@@ -2,7 +2,7 @@ import type { FontDescription } from "@juniper-lib/dom/fonts";
 import { loadFont } from "@juniper-lib/dom/fonts";
 import { Animator } from "@juniper-lib/graphics2d/animation/Animator";
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
-import { TextDirection, TextImage, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
+import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted, TaskDef } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { Image2D } from "../Image2D";
@@ -367,7 +367,8 @@ export class Menu extends THREE.Object3D {
                     maxWidth: item.width,
                     maxHeight: item.height
                 };
-                const img = new TextMesh(this.env, item.text);
+                const img = new TextMesh(this.env, item.text, options);
+
                 img.mesh.renderOrder = 1;
 
                 img.addEventListener("redrawn", () => {
@@ -379,8 +380,6 @@ export class Menu extends THREE.Object3D {
                         img.position.y = -y;
                     }
                 });
-
-                img.image = new TextImage(options);
 
                 img.position.z = -0.01;
 

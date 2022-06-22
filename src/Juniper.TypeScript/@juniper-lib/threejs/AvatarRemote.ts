@@ -3,7 +3,7 @@ import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { star } from "@juniper-lib/emoji";
-import { TextImage, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
+import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import type { IDisposable } from "@juniper-lib/tslib";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
@@ -75,8 +75,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.height = this.defaultAvatarHeight;
 
         this.name = user.userName;
-        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`);
-        this.nameTag.image = new TextImage(Object.assign({}, nameTagFont, font));
+        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
         this.nameTag.position.y = 0.25;
         this.userName = user.userName;
         this.add(this.nameTag);
