@@ -16,7 +16,8 @@ namespace Juniper.WebRTC
     }
 
 
-    public abstract class AbstractGameHub : AbstractWebRTCHub<IGameHubClient>, IGameHubServer
+    public abstract class AbstractGameHub<ClientT> : AbstractWebRTCHub<ClientT>, IGameHubServer
+        where ClientT : class, IGameHubClient
     {
         public async Task UserPosed(string fromUserID, string roomName, float px, float py, float pz, float fx, float fy, float fz, float ux, float uy, float uz, float height)
         {
