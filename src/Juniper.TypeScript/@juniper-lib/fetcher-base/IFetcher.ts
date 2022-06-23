@@ -6,6 +6,7 @@ import type { IResponse } from "./IResponse";
 export interface IFetcherBasic {
     query(name: string, value: string): this;
     header(name: string, value: string): this;
+    accept(type: string | MediaType): this;
 }
 
 export interface IFetcher {

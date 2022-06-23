@@ -51,11 +51,18 @@ export abstract class BaseAsset<ResultT = any, ErrorT = any> implements Promise<
         });
     }
 
-    getSize(fetcher: IFetcher): Promise<[this, number]> {
-        return fetcher
-            .head(this.path)
-            .exec()
-            .then(response => [this, response.contentLength]);
+    async getSize(fetcher: IFetcher): Promise<[this, number]> {
+        try {
+            const { contentLength } = await fetcher
+                .head(this.path)
+                .accept(this.type)
+                .exec();
+            return [this, contentLength || 1];
+        }
+        catch (exp) {
+            console.warn(exp);
+            return [this, 1];
+        };
     }
 
     async fetch(fetcher: IFetcher, prog?: IProgress) {

@@ -107,8 +107,9 @@ export class RequestBuilder implements
         this.media("content-type", contentType);
     }
 
-    private accept(acceptType: string | MediaType): void {
+    accept(acceptType: string | MediaType): this {
         this.media("accept", acceptType);
+        return this;
     }
 
     blob(acceptType?: string | MediaType): Promise<IResponse<Blob>> {
