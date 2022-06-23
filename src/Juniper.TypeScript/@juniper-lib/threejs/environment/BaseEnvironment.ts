@@ -67,7 +67,7 @@ Style(
     )
 );
 
-export class BaseEnvironment<Events = void>
+export class BaseEnvironment<Events = unknown>
     extends TypedEventBase<Events & BaseEnvironmentEvents>
     implements IWebXRLayerManager, IModelLoader {
 

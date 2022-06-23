@@ -254,7 +254,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
 
         if (!pointer) {
             pointer = new PointerRemote(
-                this.env.eventSystem,
+                this.env,
                 this.userName,
                 this.isInstructor,
                 name,

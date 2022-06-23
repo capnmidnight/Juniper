@@ -1,12 +1,11 @@
 import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
 import { SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
-import { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
 import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objGraph } from "../objects";
 import type { BaseCursor } from "./BaseCursor";
 import { CursorXRMouse } from "./CursorXRMouse";
-import type { EventSystem } from "./EventSystem";
 import type { IPointer, PointerType } from "./IPointer";
 import { getRayTarget } from "./RayTarget";
 
@@ -18,10 +17,15 @@ export abstract class BasePointer
     private _canMoveView = false;
     private _enabled = false;
 
+    private canClick = false;
+    protected _buttons = MouseButtons.None;
+    private lastButtons = 0;
+    protected moveDistance = 0;
+    private _dragging = false;
+    private wasDragging = false;
+    private dragDistance = 0;
+
     isActive = false;
-    movementDragThreshold = MAX_DRAG_DISTANCE;
-    state = new PointerState();
-    lastState: PointerState = null;
     origin = new THREE.Vector3();
     direction = new THREE.Vector3();
 
@@ -34,9 +38,8 @@ export abstract class BasePointer
     constructor(
         public readonly type: PointerType,
         public name: PointerName,
-        protected readonly evtSys: EventSystem,
+        protected readonly env: BaseEnvironment,
         cursor: BaseCursor) {
-        //super();
 
         this._cursor = cursor;
         this.enabled = false;
@@ -114,54 +117,65 @@ export abstract class BasePointer
         }
     }
 
+    get buttons() {
+        return this._buttons;
+    }
+
+    get dragging() {
+        return this._dragging;
+    }
+
+    set dragging(v) {
+        this._dragging = v;
+        this.dragDistance = 0;
+    }
+
     get needsUpdate() {
         return this.enabled
             && this.isActive;
     }
 
     protected setEventState(type: SourcePointerEventTypes): void {
-        this.evtSys.checkPointer(this, type);
+        this.env.eventSystem.checkPointer(this, type);
     }
 
     update(): void {
-        this.onUpdate();
-        if (!this.lastState) {
-            this.lastState = new PointerState();
+        if (this.needsUpdate) {
+            this.onUpdate();
+            this.lastButtons = this.buttons;
+            this.wasDragging = this.dragging;
         }
-        this.lastState.copy(this.state);
-        this.state.motion.setScalar(0);
-        this.state.dz = 0;
-        this.state.duv.setScalar(0);
     }
 
     protected abstract onUpdate(): void;
 
     updateCursor(avatarHeadPos: THREE.Vector3, curHit: THREE.Intersection, defaultDistance: number) {
         if (this.cursor) {
-            this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.state, this.origin, this.direction);
+            this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.origin, this.direction, this.buttons, this.dragging);
         }
     }
 
     protected onPointerDown(): void {
-        this.state.dragging = false;
-        this.state.canClick = true;
+        this.dragging = false;
+        this.canClick = true;
+        this.env.avatar.setMode(this);
         this.setEventState("down");
     }
 
     protected onPointerMove() {
         this.setEventState("move");
-        if (this.state.buttons !== MouseButtons.None) {
+        if (this.buttons !== MouseButtons.None) {
             const target = getRayTarget(this.pressedHit);
             const canDrag = !target || target.draggable;
             if (canDrag) {
-                if (this.lastState && this.lastState.buttons === this.state.buttons) {
-                    this.state.dragDistance += this.state.moveDistance;
-                    if (this.state.dragDistance > this.movementDragThreshold) {
+                if (this.buttons === this.lastButtons) {
+                    this.dragDistance += this.moveDistance;
+                    if (this.dragDistance > MAX_DRAG_DISTANCE) {
                         this.onDragStart();
                     }
                 }
-                else if (this.state.dragging) {
-                    this.state.dragging = false;
+                else if (this.dragging) {
+                    this.dragging = false;
                     this.setEventState("dragcancel");
                 }
             }
@@ -169,29 +183,28 @@ export abstract class BasePointer
     }
 
     private onDragStart() {
-        this.state.dragging = true;
+        this.dragging = true;
 
-        if (this.lastState && !this.lastState.dragging) {
+        if (!this.wasDragging) {
             this.setEventState("dragstart");
         }
 
-        this.state.canClick = false;
+        this.canClick = false;
         this.setEventState("drag");
     }
 
     protected onPointerUp() {
-        if (this.state.canClick && this.lastState) {
-            const lastButtons = this.state.buttons;
-            this.state.buttons = this.lastState.buttons;
+        if (this.canClick) {
+            const curButtons = this.buttons;
+            this._buttons = this.lastButtons;
             this.setEventState("click");
-            this.state.buttons = lastButtons;
+            this._buttons = curButtons;
         }
 
         this.setEventState("up");
 
-        this.state.dragDistance = 0;
-        this.state.dragging = false;
-        if (this.lastState && this.lastState.dragging) {
+        this.dragging = false;
+        if (this.wasDragging) {
             this.setEventState("dragend");
         }
     }

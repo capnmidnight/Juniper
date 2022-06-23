@@ -1,5 +1,4 @@
 import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
-import type { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
 import { ErsatzObject } from "../objects";
 import { getRayTarget } from "./RayTarget";
 
@@ -38,7 +37,7 @@ export abstract class BaseCursor implements ErsatzObject {
 
     abstract get position(): THREE.Vector3;
 
-    update(avatarHeadPos: THREE.Vector3, hit: THREE.Intersection, defaultDistance: number, canMoveView: boolean, state: PointerState, origin: THREE.Vector3, direction: THREE.Vector3) {
+    update(avatarHeadPos: THREE.Vector3, hit: THREE.Intersection, defaultDistance: number, canMoveView: boolean, origin: THREE.Vector3, direction: THREE.Vector3, buttons: MouseButtons, dragging: boolean) {
 
         if (hit && hit.face) {
             this.position.copy(hit.point);
@@ -72,14 +71,14 @@ export abstract class BaseCursor implements ErsatzObject {
             ? !target.enabled
                 ? "not-allowed"
                 : target.draggable
-                    ? state.dragging
+                    ? dragging
                         ? "grabbing"
                         : "move"
                     : target.clickable
                         ? "pointer"
                         : "default"
             : canMoveView
-                ? state.buttons === MouseButtons.Mouse0
+                ? buttons === MouseButtons.Mouse0
                     ? "grabbing"
                     : "grab"
                 : "default";

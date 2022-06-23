@@ -1,6 +1,6 @@
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { BaseScreenPointer } from "./BaseScreenPointer";
-import type { EventSystem } from "./EventSystem";
 
 function dist(a: PointerEvent, b: PointerEvent) {
     const dx = b.offsetX - a.offsetY;
@@ -12,8 +12,8 @@ export class PointerMultiTouch extends BaseScreenPointer {
     private lastPinchDist = 0;
     private readonly points = new Map<number, PointerEvent>();
 
-    constructor(evtSys: EventSystem, renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) {
-        super("touch", PointerName.Touches, evtSys, renderer, camera, null);
+    constructor(env: BaseEnvironment) {
+        super("touch", PointerName.Touches, env, null);
         this.canMoveView = true;
         Object.seal(this);
     }
@@ -31,25 +31,25 @@ export class PointerMultiTouch extends BaseScreenPointer {
             this.points.delete(evt.pointerId);
         }
 
-        this.state.buttons = 0;
+        this._buttons = 0;
 
         if (this.points.size > 0) {
-            this.state.position.setScalar(0);
+            this.position.setScalar(0);
 
             const K = 1 / this.points.size;
             for (const point of this.points.values()) {
-                this.state.buttons |= point.buttons << (this.points.size - 1);
-                this.state.position.x += K * point.offsetX;
-                this.state.position.y += K * point.offsetY;
-                this.state.motion.x += K * point.movementX;
-                this.state.motion.y += K * point.movementY;
+                this._buttons |= point.buttons << (this.points.size - 1);
+                this.position.x += K * point.offsetX;
+                this.position.y += K * point.offsetY;
+                this.motion.x += K * point.movementX;
+                this.motion.y += K * point.movementY;
             }
 
             if (this.points.size === 2) {
                 const [a, b] = Array.from(this.points.values());
                 const pinchDist = dist(a, b);
-                if (this.lastState && this.lastState.buttons === 2) {
-                    this.state.dz = (pinchDist - this.lastPinchDist) * 2.5;
+                if (evt.type === "pointermove") {
+                    this.env.fovControl.zoom((pinchDist - this.lastPinchDist) * 5);
                 }
 
                 this.lastPinchDist = pinchDist;

@@ -1,13 +1,13 @@
 import type { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { Cube } from "../Cube";
+import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { green, litGrey, yellow } from "../materials";
 import { ErsatzObject, obj, objGraph } from "../objects";
 import { setMatrixFromUpFwdPos } from "../setMatrixFromUpFwdPos";
 import { BasePointer } from "./BasePointer";
 import type { Cursor3D } from "./Cursor3D";
 import { CursorColor } from "./CursorColor";
-import type { EventSystem } from "./EventSystem";
 import { Laser } from "./Laser";
 
 export class PointerRemote
@@ -18,12 +18,12 @@ export class PointerRemote
     private laser: Laser;
 
     constructor(
-        evtSys: EventSystem,
+        env: BaseEnvironment,
         userName: string,
         isInstructor: boolean,
         pointerName: PointerName,
         cursor: Cursor3D) {
-        super("remote", PointerName.RemoteUser, evtSys, cursor || new CursorColor());
+        super("remote", PointerName.RemoteUser, env, cursor || new CursorColor());
         this.laser = new Laser(
             isInstructor ? green : yellow,
             0.002);
@@ -58,7 +58,7 @@ export class PointerRemote
         this.origin.copy(position);
         this.direction.copy(forward);
         this.cursor.visible = true;
-        this.evtSys.fireRay(this);
+        this.env.eventSystem.fireRay(this);
 
         this.updateCursor(avatarHeadPos, this.curHit, 3);
 

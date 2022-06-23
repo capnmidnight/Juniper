@@ -1,27 +1,30 @@
 import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { resolveCamera } from "../resolveCamera";
 import type { BaseCursor } from "./BaseCursor";
 import { BasePointer } from "./BasePointer";
-import type { EventSystem } from "./EventSystem";
 import type { PointerType } from "./IPointer";
 
 export abstract class BaseScreenPointer extends BasePointer {
     id: number = null;
     element: HTMLCanvasElement;
 
+    protected readonly position = new THREE.Vector2();
+    protected readonly motion = new THREE.Vector2();
+    private readonly uv = new THREE.Vector2();
+    private readonly duv = new THREE.Vector2();
     private readonly sizeInv = new THREE.Vector2();
     private readonly uvComp = new THREE.Vector2(1, -1);
     private readonly uvOff = new THREE.Vector2(-1, 1);
+    private lastPosition: THREE.Vector2 = null;
 
     constructor(
         type: PointerType,
         name: PointerName,
-        evtSys: EventSystem,
-        protected readonly renderer: THREE.WebGLRenderer,
-        protected readonly camera: THREE.PerspectiveCamera,
+        env: BaseEnvironment,
         cursor: BaseCursor) {
-        super(type, name, evtSys, cursor);
+        super(type, name, env, cursor);
 
         const onPointerDown = (evt: PointerEvent) => {
             if (this.checkEvent(evt)) {
@@ -30,7 +33,7 @@ export abstract class BaseScreenPointer extends BasePointer {
             }
         };
 
-        this.element = this.renderer.domElement;
+        this.element = this.env.renderer.domElement;
         this.element.addEventListener("pointerdown", onPointerDown);
 
         const onPointerMove = (evt: PointerEvent) => {
@@ -67,38 +70,33 @@ export abstract class BaseScreenPointer extends BasePointer {
 
     isPressed(button: VirtualButtons): boolean {
         const mask = 1 << button;
-        return this.state.buttons === mask;
+        return this.buttons === mask;
     }
 
     private readEvent(evt: PointerEvent): void {
         if (this.checkEvent(evt)) {
-            this.state.ctrl = evt.ctrlKey;
-            this.state.alt = evt.altKey;
-            this.state.shift = evt.shiftKey;
-            this.state.meta = evt.metaKey;
-
             this.onReadEvent(evt);
 
             if (evt.type === "pointermove"
                 && document.pointerLockElement
-                && this.lastState) {
-                this.state.position
-                    .copy(this.lastState.position)
-                    .add(this.state.motion);
+                && this.lastPosition) {
+                this.position
+                    .copy(this.lastPosition)
+                    .add(this.motion);
             }
 
-            this.state.moveDistance = this.state.motion.length();
+            this.moveDistance = this.motion.length();
 
             this.sizeInv.set(this.element.clientWidth, this.element.clientHeight);
             if (this.sizeInv.manhattanLength() > 0) {
-                this.state.uv
-                    .copy(this.state.position)
+                this.uv
+                    .copy(this.position)
                     .multiplyScalar(2)
                     .divide(this.sizeInv)
                     .multiply(this.uvComp)
                     .add(this.uvOff);
-                this.state.duv
-                    .copy(this.state.motion)
+                this.duv
+                    .copy(this.motion)
                     .multiplyScalar(2)
                     .divide(this.sizeInv)
                     .multiply(this.uvComp);
@@ -108,21 +106,34 @@ export abstract class BaseScreenPointer extends BasePointer {
 
     protected abstract onReadEvent(evt: PointerEvent): void;
 
-    protected onUpdate() {
-        const cam = resolveCamera(this.renderer, this.camera);
+    protected override onPointerMove(): void {
+        this.env.avatar.onMove(this, this.uv, this.duv);
+        super.onPointerMove();
+    }
+
+    protected onUpdate(): void {
+        const cam = resolveCamera(this.env.renderer, this.env.camera);
 
         this.updateRay(cam);
 
-        if (this.state.motion.manhattanLength() > 0) {
+        if (this.motion.manhattanLength() > 0) {
             this.onPointerMove();
             this.updateRay(cam);
         }
+
+        if (!this.lastPosition) {
+            this.lastPosition = new THREE.Vector2();
+        }
+
+        this.lastPosition.copy(this.position);
+        this.motion.setScalar(0);
+        this.duv.setScalar(0);
     }
 
     private updateRay(cam: THREE.Camera) {
         this.origin.setFromMatrixPosition(cam.matrixWorld);
         this.direction
-            .set(this.state.uv.x, this.state.uv.y, 0.5)
+            .set(this.uv.x, this.uv.y, 0.5)
             .unproject(cam)
             .sub(this.origin)
             .normalize();

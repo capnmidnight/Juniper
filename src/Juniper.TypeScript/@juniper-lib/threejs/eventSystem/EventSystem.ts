@@ -48,12 +48,12 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
         this.raycaster.camera = this.env.camera;
         this.raycaster.layers.set(FOREGROUND);
 
-        this.mouse = new PointerMouse(this, this.env.renderer, this.env.camera);
-        this.pen = new PointerPen(this, this.env.renderer, this.env.camera);
-        this.touches = new PointerMultiTouch(this, this.env.renderer, this.env.camera);
+        this.mouse = new PointerMouse(this.env);
+        this.pen = new PointerPen(this.env);
+        this.touches = new PointerMultiTouch(this.env);
 
         for (let i = 0; i < 2; ++i) {
-            this.hands[i] = new PointerHand(this, this.env.renderer, i);
+            this.hands[i] = new PointerHand(this.env, i);
         }
 
         this.pointers = [
@@ -83,10 +83,6 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
         this.env.avatar.evtSys = this;
 
         this.checkXRMouse();
-    }
-
-    onFlick(direction: number) {
-        this.env.avatar.onFlick(direction);
     }
 
     onConnected(_hand: PointerHand) {
@@ -131,8 +127,6 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
             case "move":
                 {
                     const moveEvt = this.getEvent(pointer, "move", curHit);
-                    this.env.avatar.onMove(moveEvt);
-                    this.env.fovControl.onMove(moveEvt);
 
                     if (isDefined(draggedHit)) {
                         drgTarget.dispatchEvent(moveEvt);
@@ -140,7 +134,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     else if (isDefined(pressedHit)) {
                         prsTarget.dispatchEvent(moveEvt);
                     }
-                    else if (pointer.state.buttons === 0) {
+                    else if (pointer.buttons === 0) {
                         this.checkExit(curHit, hoveredHit, pointer);
                         this.checkEnter(curHit, hoveredHit, pointer);
                         if (curTarget) {
@@ -161,11 +155,10 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
             case "down":
                 {
                     const downEvt = this.getEvent(pointer, "down", curHit);
-                    this.env.avatar.onDown(downEvt);
 
                     if (hovTarget &&
                         (hovTarget.clickable
-                        || hovTarget.draggable)) {
+                            || hovTarget.draggable)) {
                         pointer.pressedHit = hoveredHit;
 
                         hovTarget.dispatchEvent(downEvt);
@@ -178,7 +171,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     const upEvt = this.getEvent(pointer, "up", curHit);
                     this.dispatchEvent(upEvt);
 
-                    if (pointer.state.buttons === 0) {
+                    if (pointer.buttons === 0) {
                         if (isDefined(pressedHit)) {
                             pointer.pressedHit = null;
                             prsTarget.dispatchEvent(upEvt);

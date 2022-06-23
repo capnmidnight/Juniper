@@ -1,5 +1,4 @@
 import { clamp, truncate } from "@juniper-lib/tslib";
-import type { EventSystemEvent } from "./eventSystem/EventSystemEvent";
 
 export class CameraControl {
 
@@ -13,11 +12,8 @@ export class CameraControl {
 
     }
 
-    onMove(evt: EventSystemEvent<"move">) {
-        if (evt.pointer.enabled
-            && evt.pointer.canMoveView) {
-            this.dz = evt.pointer.state.dz;
-        }
+    zoom(dz: number) {
+        this.dz = dz;
     }
 
     get fov() {

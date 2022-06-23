@@ -1,10 +1,10 @@
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { BaseScreenPointerSinglePoint } from "./BaseScreenPointerSinglePoint";
-import type { EventSystem } from "./EventSystem";
 
 export class PointerSingleTouch extends BaseScreenPointerSinglePoint {
-    constructor(evtSys: EventSystem, renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) {
-        super("touch", PointerName.Touch0, evtSys, renderer, camera);
+    constructor(env: BaseEnvironment) {
+        super("touch", PointerName.Touch0, env);
         Object.seal(this);
     }
 }

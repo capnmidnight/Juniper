@@ -1,16 +1,16 @@
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { BaseScreenPointerSinglePoint } from "./BaseScreenPointerSinglePoint";
-import type { EventSystem } from "./EventSystem";
 
 export class PointerMouse extends BaseScreenPointerSinglePoint {
     allowPointerLock: boolean = false;
 
-    constructor(evtSys: EventSystem, renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) {
-        super("mouse", PointerName.Mouse, evtSys, renderer, camera);
+    constructor(env: BaseEnvironment) {
+        super("mouse", PointerName.Mouse, env);
 
         this.element.addEventListener("wheel", (evt: WheelEvent) => {
             evt.preventDefault();
-            this.state.dz = -evt.deltaY * 0.5;
+            this.env.fovControl.zoom(-evt.deltaY * 0.5);
         }, { passive: false });
 
         this.element.addEventListener("contextmenu", (evt: Event) => {

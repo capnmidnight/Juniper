@@ -1,12 +1,12 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
 import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
-import { PointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isMobile, isMobileVR, isNullOrUndefined, isString, TypedEventBase } from "@juniper-lib/tslib";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading, getLookPitch } from "./animation/lookAngles";
+import { BaseScreenPointer } from "./eventSystem/BaseScreenPointer";
 import type { EventSystem } from "./eventSystem/EventSystem";
-import type { EventSystemEvent } from "./eventSystem/EventSystemEvent";
+import { IPointer } from "./eventSystem/IPointer";
 import type { Fader } from "./Fader";
 import { ErsatzObject, obj } from "./objects";
 import { resolveCamera } from "./resolveCamera";
@@ -45,7 +45,6 @@ enum CameraControlMode {
     MouseScreenEdge = "mouseedge",
     Touch = "touchswipe",
     Gamepad = "gamepad",
-    MotionControllerStick = "motioncontroller",
     MagicWindow = "magicwindow"
 }
 
@@ -76,7 +75,6 @@ export class AvatarLocal
     private readonly Q2 = new THREE.Quaternion();
     private readonly Q3 = new THREE.Quaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
     private readonly motion = new THREE.Vector2();
-    private readonly nextFlick = new THREE.Vector2();
     private readonly rotStage = new THREE.Matrix4();
     private readonly userMovedEvt = new AvatarMovedEvent();
 
@@ -216,10 +214,7 @@ export class AvatarLocal
 
         this.keyboardControlEnabled = true;
 
-        if (isMobileVR()) {
-            this.controlMode = CameraControlMode.MotionControllerStick;
-        }
-        else if (matchMedia("(pointer: coarse)").matches) {
+        if (matchMedia("(pointer: coarse)").matches) {
             this.controlMode = CameraControlMode.Touch;
         }
         else if (matchMedia("(pointer: fine)").matches) {
@@ -249,8 +244,8 @@ export class AvatarLocal
         }
     }
 
-    onFlick(direction: number) {
-        this.nextFlick.x = MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction;
+    snapTurn(direction: number) {
+        this.setHeading(this.heading + MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction);
     }
 
     get keyboardControlEnabled(): boolean {
@@ -275,41 +270,32 @@ export class AvatarLocal
         this.followers.push(follower);
     }
 
-    onDown(evt: EventSystemEvent<"down">) {
-        if (evt.pointer.enabled) {
-            this.setMode(evt);
+    onMove(pointer: BaseScreenPointer, uv: THREE.Vector2, duv: THREE.Vector2) {
+        this.setMode(pointer);
+        if (pointer.canMoveView
+            && this.controlMode !== CameraControlMode.None
+            && this.gestureSatisfied(pointer)
+            && this.dragSatisfied(pointer)) {
+            this.uv.copy(uv);
+            this.duv.copy(duv);
         }
     }
 
-    onMove(evt: EventSystemEvent<"move">) {
-        if (evt.pointer.enabled) {
-            this.setMode(evt);
-            if (evt.pointer.canMoveView
-                && this.checkMode(this.controlMode, evt)) {
-                this.uv.copy(evt.pointer.state.uv);
-                this.duv.copy(evt.pointer.state.duv);
-            }
-        }
-    }
-
-    private setMode(evt: EventSystemEvent<PointerEventTypes>) {
-        if (evt.pointer.type === "touch" || evt.pointer.type === "pen") {
+    setMode(pointer: IPointer) {
+        if (pointer.type === "touch" || pointer.type === "pen") {
             this.lastTouchInputTime = performance.now();
             this.controlMode = CameraControlMode.Touch;
         }
-        else if (evt.pointer.type === "gamepad") {
+        else if (pointer.type === "gamepad") {
             this.controlMode = CameraControlMode.Gamepad;
         }
-        else if (evt.pointer.type === "hand") {
-            this.controlMode = CameraControlMode.MotionControllerStick;
-        }
-        else if (evt.pointer.type !== "mouse") {
+        else if (pointer.type !== "mouse") {
             this.controlMode = CameraControlMode.None;
         }
         else if (this.evtSys.mouse.isPointerLocked) {
             this.controlMode = CameraControlMode.MouseFPS;
         }
-        else if (evt.pointer.draggedHit) {
+        else if (pointer.draggedHit) {
             this.controlMode = CameraControlMode.MouseScreenEdge;
         }
         else {
@@ -317,29 +303,23 @@ export class AvatarLocal
         }
     }
 
-    private checkMode(mode: CameraControlMode, evt: EventSystemEvent<PointerEventTypes>) {
-        return mode !== CameraControlMode.None
-            && this.gestureSatisfied(mode, evt)
-            && this.dragSatisfied(mode, evt);
-    }
-
-    private gestureSatisfied(mode: CameraControlMode, evt: EventSystemEvent<PointerEventTypes>) {
-        const button = this.requiredMouseButton.get(mode);
+    private gestureSatisfied(pointer: IPointer) {
+        const button = this.requiredMouseButton.get(this.controlMode);
         if (isNullOrUndefined(button)) {
-            return mode === CameraControlMode.MouseScreenEdge
-                || mode === CameraControlMode.MouseFPS
-                || mode === CameraControlMode.Touch
-                || mode === CameraControlMode.Gamepad;
+            return this.controlMode === CameraControlMode.MouseScreenEdge
+                || this.controlMode === CameraControlMode.MouseFPS
+                || this.controlMode === CameraControlMode.Touch
+                || this.controlMode === CameraControlMode.Gamepad;
         }
         else {
-            return evt.pointer.state.buttons === button;
+            return pointer.buttons === button;
         }
     }
 
-    private dragSatisfied(mode: CameraControlMode, evt: EventSystemEvent<PointerEventTypes>) {
-        return !this.requiredMouseButton.has(mode)
-            || this.requiredMouseButton.get(mode) == MouseButtons.None
-            || evt.pointer.state.dragging;
+    private dragSatisfied(pointer: IPointer) {
+        return !this.requiredMouseButton.has(this.controlMode)
+            || this.requiredMouseButton.get(this.controlMode) == MouseButtons.None
+            || pointer.dragging;
     }
 
     get name(): string {
@@ -405,17 +385,6 @@ export class AvatarLocal
                     .setFromEuler(this.E) // orient the device
                     .multiply(this.Q3) // camera looks out the back of the device, not the top
                     .multiply(this.Q2); // adjust for screen orientation
-            }
-        }
-        else if (this.controlMode === CameraControlMode.MotionControllerStick) {
-            if (this.nextFlick.manhattanLength() !== 0) {
-                this.motion
-                    .copy(this.nextFlick)
-                    .multiply(this.axisControl);
-                this.nextFlick.setScalar(0);
-                this.setHeading(this.heading + this.motion.x);
-                this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
-                this.setRoll(0);
             }
         }
         else if (this.controlMode === CameraControlMode.MouseScreenEdge) {

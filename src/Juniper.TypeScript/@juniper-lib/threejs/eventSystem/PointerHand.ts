@@ -9,13 +9,13 @@ import {
 } from "@juniper-lib/tslib";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { EventedGamepad, GamepadAxisMaxedEvent } from "@juniper-lib/widgets/EventedGamepad";
+import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { XRControllerModelFactory } from "../examples/webxr/XRControllerModelFactory";
 import { XRHandModelFactory } from "../examples/webxr/XRHandModelFactory";
 import { white } from "../materials";
 import { ErsatzObject, objGraph } from "../objects";
 import { BasePointer } from "./BasePointer";
 import { CursorColor } from "./CursorColor";
-import type { EventSystem } from "./EventSystem";
 import { Laser } from "./Laser";
 
 const mcModelFactory = new XRControllerModelFactory();
@@ -64,13 +64,13 @@ export class PointerHand
     private readonly hand: THREE.XRHandSpace;
     private readonly onAxisMaxed: (evt: GamepadAxisMaxedEvent) => void;
 
-    constructor(evtSys: EventSystem, private readonly renderer: THREE.WebGLRenderer, index: number) {
-        super("hand", PointerName.MotionController, evtSys, new CursorColor());
+    constructor(env: BaseEnvironment, index: number) {
+        super("hand", PointerName.MotionController, env, new CursorColor());
 
         objGraph(this,
-            this.controller = this.renderer.xr.getController(index),
-            this.grip = this.renderer.xr.getControllerGrip(index),
-            this.hand = this.renderer.xr.getHand(index)
+            this.controller = this.env.renderer.xr.getController(index),
+            this.grip = this.env.renderer.xr.getControllerGrip(index),
+            this.hand = this.env.renderer.xr.getHand(index)
         );
 
         // isDesktop and isOculus can both be true if the user
@@ -94,7 +94,7 @@ export class PointerHand
 
         this.onAxisMaxed = (evt: GamepadAxisMaxedEvent) => {
             if (evt.axis === 2) {
-                this.evtSys.onFlick(evt.value);
+                this.env.avatar.snapTurn(evt.value);
             }
         };
 
@@ -113,7 +113,7 @@ export class PointerHand
 
                 this.enabled = true;
                 this.isActive = true;
-                this.evtSys.onConnected(this);
+                this.env.eventSystem.onConnected(this);
             }
         });
 
@@ -132,19 +132,17 @@ export class PointerHand
 
                 this.enabled = false;
                 this.isActive = false;
-                this.evtSys.onDisconnected(this);
+                this.env.eventSystem.onDisconnected(this);
             }
         });
 
         const buttonDown = (btn: MouseButtons) => {
-            this.updateState();
-            this.state.buttons = this.state.buttons | btn;
+            this._buttons = this.buttons | btn;
             this.onPointerDown();
         };
 
         const buttonUp = (btn: MouseButtons) => {
-            this.updateState();
-            this.state.buttons = this.state.buttons & ~btn;
+            this._buttons = this.buttons & ~btn;
             this.onPointerUp();
         };
 
@@ -226,14 +224,7 @@ export class PointerHand
         }
     }
 
-    protected onUpdate() {
-        if (this.enabled) {
-            this.updateState();
-            this.onPointerMove();
-        }
-    }
-
-    private updateState() {
+    protected onUpdate(): void {
         this.laser.getWorldPosition(newOrigin);
         this.laser.getWorldDirection(newDirection)
             .multiplyScalar(-1);
@@ -248,12 +239,13 @@ export class PointerHand
         delta.sub(this.origin)
             .sub(this.direction);
 
-        this.state.moveDistance += 0.001 * delta.length();
+        this.moveDistance = 0.001 * delta.length();
 
         if (isDefined(this._gamepad)
             && isDefined(this.inputSource)) {
             this.setGamepad(this.inputSource.gamepad);
         }
+        this.onPointerMove();
     }
 
     isPressed(button: VirtualButtons): boolean {

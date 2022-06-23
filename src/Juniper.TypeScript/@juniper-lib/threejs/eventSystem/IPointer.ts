@@ -1,7 +1,7 @@
-import { PointerState } from "@juniper-lib/threejs/eventSystem/PointerState";
-import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
-import { BaseCursor } from "./BaseCursor";
+import type { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
+import type { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import type { BaseCursor } from "./BaseCursor";
+import type { MouseButtons } from "./MouseButton";
 
 export type PointerType = "mouse"
     | "touch"
@@ -24,7 +24,8 @@ export interface IPointer {
     pressedHit: THREE.Intersection;
     draggedHit: THREE.Intersection;
 
-    state: PointerState;
+    buttons: MouseButtons;
+    dragging: boolean;
 
     needsUpdate: boolean;
     update(): void;
