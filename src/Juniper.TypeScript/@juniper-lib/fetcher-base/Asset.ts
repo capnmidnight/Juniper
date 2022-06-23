@@ -1,5 +1,5 @@
 import { IFetcher, IFetcherBodiedResult } from "@juniper-lib/fetcher-base/IFetcher";
-import { MediaType } from "@juniper-lib/mediatypes";
+import { Application_Json, MediaType } from "@juniper-lib/mediatypes";
 import { IProgress, isDefined } from "@juniper-lib/tslib";
 import { IResponse } from "./IResponse";
 
@@ -98,7 +98,7 @@ export class AssetCustom<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, E
 }
 
 abstract class BaseFetchedAsset<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, ErrorT> {
-    constructor(path: string, type: MediaType) {
+    constructor(path: string, type?: MediaType) {
         super(path, type);
     }
 
@@ -132,6 +132,16 @@ export class AssetFile<ErrorT = unknown> extends BaseFetchedAsset<string, ErrorT
 export class AssetImage<ErrorT = unknown> extends BaseFetchedAsset<HTMLImageElement, ErrorT> {
     protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<HTMLImageElement>> {
         return request.image(this.type);
+    }
+}
+
+export class AssetObject<T, ErrorT = unknown> extends BaseFetchedAsset<T, ErrorT> {
+    constructor(path: string) {
+        super(path, Application_Json);
+    }
+
+    protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<T>> {
+        return request.object(this.type);
     }
 }
 
