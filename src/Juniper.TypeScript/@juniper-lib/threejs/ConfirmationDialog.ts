@@ -116,6 +116,7 @@ export class ConfirmationDialog extends DialogBox implements Widget {
                 this.cancelButton3D));
 
         objectSetVisible(this.root, false);
+        this.root.scale.setScalar(0);
     }
 
     get visible() {
