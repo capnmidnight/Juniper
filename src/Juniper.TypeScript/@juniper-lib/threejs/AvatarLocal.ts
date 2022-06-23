@@ -245,7 +245,7 @@ export class AvatarLocal
     }
 
     snapTurn(direction: number) {
-        this.setHeading(this.heading + MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction);
+        this.setHeading(this.heading - MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction);
     }
 
     get keyboardControlEnabled(): boolean {

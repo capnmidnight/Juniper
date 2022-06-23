@@ -249,7 +249,7 @@ export class Skybox {
                 if (this.env.avatar.heading !== this.stageHeading) {
                     this.rotationNeedsUpdate = true;
                     this.stageHeading = this.env.avatar.heading;
-                    this.stageRotation.setFromAxisAngle(U, this.env.avatar.heading);
+                    this.stageRotation.setFromAxisAngle(U, -this.env.avatar.heading);
                 }
             }
             else {
