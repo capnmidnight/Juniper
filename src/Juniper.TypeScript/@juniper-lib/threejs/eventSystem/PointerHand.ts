@@ -239,7 +239,7 @@ export class PointerHand
         delta.sub(this.origin)
             .sub(this.direction);
 
-        this.moveDistance = 0.001 * delta.length();
+        this.moveDistance = 1000 * delta.length();
 
         if (isDefined(this._gamepad)
             && isDefined(this.inputSource)) {
