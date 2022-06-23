@@ -261,8 +261,7 @@ export class Skybox {
 
             if (this.rotationNeedsUpdate) {
                 this.layerRotation
-                    .copy(this.rotation)
-                    .invert();
+                    .copy(this.rotation);
 
                 if (this.layer) {
                     this.layerRotation.multiply(this.stageRotation);
@@ -273,7 +272,7 @@ export class Skybox {
                         this.layerRotation.w);
                 }
                 else {
-                    this.rtCamera.quaternion.copy(this.layerRotation);
+                    this.rtCamera.quaternion.copy(this.layerRotation.invert());
                 }
             }
 
