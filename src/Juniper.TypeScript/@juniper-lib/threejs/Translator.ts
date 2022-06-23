@@ -1,6 +1,6 @@
 import { TypedEvent } from "@juniper-lib/tslib";
 import { Cube } from "./Cube";
-import { assureRayTarget, RayTarget } from "./eventSystem/RayTarget";
+import { RayTarget } from "./eventSystem/RayTarget";
 
 export class TranslatorDragDirEvent extends TypedEvent<"dragdir">{
 
@@ -15,10 +15,8 @@ export interface TranslatorDragDirEvents {
     "dragdir": TranslatorDragDirEvent;
 }
 
-export class Translator extends Cube {
+export class Translator extends RayTarget<TranslatorDragDirEvents> {
     private _size: number = 1;
-
-    readonly target: RayTarget<TranslatorDragDirEvents>;
 
     private static readonly small = new THREE.Vector3(0.1, 0.1, 0.1);
 
@@ -28,10 +26,10 @@ export class Translator extends Cube {
         private sy: number,
         private sz: number,
         color: THREE.MeshBasicMaterial) {
+        const cube = new Cube(1, 1, 1, color);
+        super(cube);
 
-        super(1, 1, 1, color);
-
-        this.name = "Translator " + name;
+        this.object.name = "Translator " + name;
 
         const sel = new THREE.Vector3(sx, sy, sz);
         const start = new THREE.Vector3();
@@ -40,21 +38,20 @@ export class Translator extends Cube {
 
         let dragging = false;
 
-        this.target = assureRayTarget<TranslatorDragDirEvents>(this);
-        this.target.addMesh(this);
-        this.target.enabled = true;
-        this.target.draggable = true;
+        this.addMesh(cube);
+        this.enabled = true;
+        this.draggable = true;
 
-        this.target.addEventListener("dragstart", (evt) => {
+        this.addEventListener("dragstart", (evt) => {
             dragging = true;
             start.copy(evt.point);
         });
 
-        this.target.addEventListener("dragend", () => {
+        this.addEventListener("dragend", () => {
             dragging = false;
         });
 
-        this.target.addEventListener("drag", (evt) => {
+        this.addEventListener("drag", (evt) => {
             if (dragging) {
 
                 deltaIn
@@ -66,10 +63,10 @@ export class Translator extends Cube {
                 if (deltaIn.manhattanLength() > 0) {
                     dragEvt.delta
                         .copy(sel)
-                        .applyQuaternion(this.parent.parent.quaternion)
+                        .applyQuaternion(this.object.parent.parent.quaternion)
                         .multiplyScalar(deltaIn.dot(dragEvt.delta));
 
-                    this.target.dispatchEvent(dragEvt);
+                    this.dispatchEvent(dragEvt);
                 }
             }
         });
@@ -82,12 +79,12 @@ export class Translator extends Cube {
     set size(v: number) {
         this._size = v;
 
-        this.scale.set(this.sx, this.sy, this.sz)
+        this.object.scale.set(this.sx, this.sy, this.sz)
             .multiplyScalar(0.9)
             .add(Translator.small)
             .multiplyScalar(this.size);
 
-        this.position.set(this.sx, this.sy, this.sz)
+        this.object.position.set(this.sx, this.sy, this.sz)
             .multiplyScalar(this.size);
     }
 }

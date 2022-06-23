@@ -22,7 +22,9 @@ interface TransformEditorEvents {
     moved: TransformEditorMovedEvent;
 }
 
-export class TransformEditor extends TypedEventBase<TransformEditorEvents> implements ErsatzObject {
+export class TransformEditor
+    extends TypedEventBase<TransformEditorEvents>
+    implements ErsatzObject {
     readonly object: THREE.Object3D;
 
     private translators: Translator[];
@@ -50,13 +52,13 @@ export class TransformEditor extends TypedEventBase<TransformEditorEvents> imple
     }
 
     get orbit() {
-        return !this.translators[4].visible;
+        return !this.translators[4].object.visible;
     }
 
     set orbit(v: boolean) {
         if (v !== this.orbit) {
-            this.translators[4].visible
-                = this.translators[5].visible
+            this.translators[4].object.visible
+                = this.translators[5].object.visible
                 = !v;
         }
     }
@@ -75,7 +77,7 @@ export class TransformEditor extends TypedEventBase<TransformEditorEvents> imple
     private setTranslator(name: string, sx: number, sy: number, sz: number, color: THREE.MeshBasicMaterial, defaultAvatarHeight: number): Translator {
         const translator = new Translator(name, sx, sy, sz, color);
         translator.size = this.size * 0.5;
-        translator.target.addEventListener("dragdir", (evt) => {
+        translator.addEventListener("dragdir", (evt) => {
             this.object.parent.position.y -= defaultAvatarHeight;
 
             const dist = this.object.parent.position.length();
@@ -99,7 +101,7 @@ export class TransformEditor extends TypedEventBase<TransformEditorEvents> imple
             this.dispatchEvent(this.movingEvt);
         });
 
-        translator.target.addEventListener("dragend", () =>
+        translator.addEventListener("dragend", () =>
             this.dispatchEvent(this.movedEvt));
 
         return translator;
