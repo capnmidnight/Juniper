@@ -1980,6 +1980,12 @@ var RODS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_ROD;
 var RODS_PER_MILE = RODS_PER_FURLONG * FURLONGS_PER_MILE;
 var FURLONGS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_FURLONG;
 var KILOMETERS_PER_MILE = FURLONGS_PER_MILE / FURLONGS_PER_KILOMETER;
+function inches2Meters(inches) {
+  return inches / INCHES_PER_METER;
+}
+function meters2Inches(meters) {
+  return meters * INCHES_PER_METER;
+}
 
 // ../tslib/URLBuilder.ts
 function parsePort(portString) {
@@ -7955,6 +7961,101 @@ var BodyFollower = class extends THREE.Object3D {
   }
 };
 
+// ../threejs/setGeometryUVsForCubemaps.ts
+function setGeometryUVsForCubemaps(geom2) {
+  const positions = geom2.attributes.position;
+  const normals = geom2.attributes.normal;
+  const uvs = geom2.attributes.uv;
+  for (let n2 = 0; n2 < normals.count; ++n2) {
+    const _x = n2 * normals.itemSize, _y = n2 * normals.itemSize + 1, _z = n2 * normals.itemSize + 2, nx = normals.array[_x], ny = normals.array[_y], nz = normals.array[_z], _nx_ = Math.abs(nx), _ny_ = Math.abs(ny), _nz_ = Math.abs(nz), px = positions.array[_x], py = positions.array[_y], pz = positions.array[_z], _px_ = Math.abs(px), _py_ = Math.abs(py), _pz_ = Math.abs(pz), _u = n2 * uvs.itemSize, _v = n2 * uvs.itemSize + 1;
+    let u = uvs.array[_u], v = uvs.array[_v], largest = 0, mx = _nx_, max2 = _px_;
+    if (_ny_ > mx) {
+      largest = 1;
+      mx = _ny_;
+      max2 = _py_;
+    }
+    if (_nz_ > mx) {
+      largest = 2;
+      mx = _nz_;
+      max2 = _pz_;
+    }
+    if (largest === 0) {
+      if (px < 0) {
+        u = -pz;
+        v = py;
+      } else {
+        u = pz;
+        v = py;
+      }
+    } else if (largest === 1) {
+      if (py < 0) {
+        u = px;
+        v = -pz;
+      } else {
+        u = px;
+        v = pz;
+      }
+    } else {
+      if (pz < 0) {
+        u = px;
+        v = py;
+      } else {
+        u = -px;
+        v = py;
+      }
+    }
+    u = (u / max2 + 1) / 8;
+    v = (v / max2 + 1) / 6;
+    if (largest === 0) {
+      if (px < 0) {
+        u += 0;
+        v += 1 / 3;
+      } else {
+        u += 0.5;
+        v += 1 / 3;
+      }
+    } else if (largest === 1) {
+      if (py < 0) {
+        u += 0.25;
+        v += 0;
+      } else {
+        u += 0.25;
+        v += 2 / 3;
+      }
+    } else {
+      if (pz < 0) {
+        u += 0.25;
+        v += 1 / 3;
+      } else {
+        u += 0.75;
+        v += 1 / 3;
+      }
+    }
+    const arr = uvs.array;
+    arr[_u] = u;
+    arr[_v] = v;
+  }
+}
+
+// ../threejs/Cube.ts
+var cube = new THREE.BoxBufferGeometry(1, 1, 1, 1, 1, 1);
+cube.name = "CubeGeom";
+var invCube = cube.clone();
+invCube.name = "InvertedCubeGeom";
+setGeometryUVsForCubemaps(invCube);
+var Cube = class extends THREE.Mesh {
+  constructor(sx, sy, sz, material) {
+    super(cube, material);
+    this.scale.set(sx, sy, sz);
+  }
+};
+var InvCube = class extends THREE.Mesh {
+  constructor(sx, sy, sz, material) {
+    super(invCube, material);
+    this.scale.set(sx, sy, sz);
+  }
+};
+
 // ../threejs/examples/lines/LineMaterial.js
 THREE.UniformsLib.line = {
   worldUnits: { value: 1 },
@@ -8538,102 +8639,6 @@ var solidGreen = /* @__PURE__ */ solid({ color: green });
 var solidRed = /* @__PURE__ */ solid({ color: red });
 var litGrey = /* @__PURE__ */ lit({ color: grey });
 
-// ../threejs/setGeometryUVsForCubemaps.ts
-function setGeometryUVsForCubemaps(geom2) {
-  const positions = geom2.attributes.position;
-  const normals = geom2.attributes.normal;
-  const uvs = geom2.attributes.uv;
-  for (let n2 = 0; n2 < normals.count; ++n2) {
-    const _x = n2 * normals.itemSize, _y = n2 * normals.itemSize + 1, _z = n2 * normals.itemSize + 2, nx = normals.array[_x], ny = normals.array[_y], nz = normals.array[_z], _nx_ = Math.abs(nx), _ny_ = Math.abs(ny), _nz_ = Math.abs(nz), px = positions.array[_x], py = positions.array[_y], pz = positions.array[_z], _px_ = Math.abs(px), _py_ = Math.abs(py), _pz_ = Math.abs(pz), _u = n2 * uvs.itemSize, _v = n2 * uvs.itemSize + 1;
-    let u = uvs.array[_u], v = uvs.array[_v], largest = 0, mx = _nx_, max2 = _px_;
-    if (_ny_ > mx) {
-      largest = 1;
-      mx = _ny_;
-      max2 = _py_;
-    }
-    if (_nz_ > mx) {
-      largest = 2;
-      mx = _nz_;
-      max2 = _pz_;
-    }
-    if (largest === 0) {
-      if (px < 0) {
-        u = -pz;
-        v = py;
-      } else {
-        u = pz;
-        v = py;
-      }
-    } else if (largest === 1) {
-      if (py < 0) {
-        u = px;
-        v = -pz;
-      } else {
-        u = px;
-        v = pz;
-      }
-    } else {
-      if (pz < 0) {
-        u = px;
-        v = py;
-      } else {
-        u = -px;
-        v = py;
-      }
-    }
-    u = (u / max2 + 1) / 8;
-    v = (v / max2 + 1) / 6;
-    if (largest === 0) {
-      if (px < 0) {
-        u += 0;
-        v += 1 / 3;
-      } else {
-        u += 0.5;
-        v += 1 / 3;
-      }
-    } else if (largest === 1) {
-      if (py < 0) {
-        u += 0.25;
-        v += 0;
-      } else {
-        u += 0.25;
-        v += 2 / 3;
-      }
-    } else {
-      if (pz < 0) {
-        u += 0.25;
-        v += 1 / 3;
-      } else {
-        u += 0.75;
-        v += 1 / 3;
-      }
-    }
-    const arr = uvs.array;
-    arr[_u] = u;
-    arr[_v] = v;
-  }
-}
-
-// ../threejs/Cube.ts
-var cube = new THREE.BoxBufferGeometry(1, 1, 1, 1, 1, 1);
-cube.name = "CubeGeom";
-var invCube = cube.clone();
-invCube.name = "InvertedCubeGeom";
-setGeometryUVsForCubemaps(invCube);
-var BaseCube = class extends THREE.Mesh {
-  constructor(sx, sy, sz, material, isCollider2) {
-    super(cube, material);
-    this.isCollider = isCollider2;
-    this.scale.set(sx, sy, sz);
-  }
-};
-var Cube = class extends BaseCube {
-  constructor(sx, sy, sz, material) {
-    super(sx, sy, sz, material, false);
-    this.isDraggable = false;
-  }
-};
-
 // ../dom/attrs.ts
 var Attr = class {
   constructor(key, value, bySetAttribute, ...tags) {
@@ -8694,6 +8699,14 @@ function resolveElement(elem) {
 }
 function isIElementAppliable(obj2) {
   return isObject(obj2) && "applyToElement" in obj2 && isFunction(obj2.applyToElement);
+}
+function elementSetDisplay(elem, visible, visibleDisplayType = "block") {
+  elem = resolveElement(elem);
+  elem.style.display = visible ? visibleDisplayType : "none";
+}
+function elementIsDisplayed(elem) {
+  elem = resolveElement(elem);
+  return elem.style.display !== "none";
 }
 function elementApply(elem, ...children) {
   elem = resolveElement(elem);
@@ -8800,70 +8813,64 @@ function setMatrixFromUpFwdPos(U2, F2, P4, matrix) {
   matrix.set(R.x, U2.x, -F2.x, P4.x, R.y, U2.y, -F2.y, P4.y, R.z, U2.z, -F2.z, P4.z, 0, 0, 0, 1);
 }
 
-// ../threejs/eventSystem/PointerState.ts
-var PointerState = class {
-  buttons = 0;
-  moveDistance = 0;
-  dragDistance = 0;
-  position = new THREE.Vector2();
-  motion = new THREE.Vector2();
-  dz = 0;
-  uv = new THREE.Vector2();
-  duv = new THREE.Vector2();
-  canClick = false;
-  dragging = false;
-  ctrl = false;
-  alt = false;
-  shift = false;
-  meta = false;
-  constructor() {
-    Object.seal(this);
+// ../threejs/eventSystem/RayTarget.ts
+var RAY_TARGET_KEY = "Juniper:ThreeJS:EventSystem:RayTarget";
+var RayTarget = class extends TypedEventBase {
+  constructor(object) {
+    super();
+    this.object = object;
+    this.meshes = new Array();
+    this._disabled = false;
+    this._clickable = false;
+    this._draggable = false;
+    this.object.userData[RAY_TARGET_KEY] = this;
   }
-  copy(ptr) {
-    this.buttons = ptr.buttons;
-    this.moveDistance = ptr.moveDistance;
-    this.dragDistance = ptr.dragDistance;
-    this.position.copy(ptr.position);
-    this.motion.copy(ptr.motion);
-    this.dz = ptr.dz;
-    this.uv.copy(ptr.uv);
-    this.duv.copy(ptr.duv);
-    this.canClick = ptr.canClick;
-    this.dragging = ptr.dragging;
-    this.ctrl = ptr.ctrl;
-    this.alt = ptr.alt;
-    this.shift = ptr.shift;
-    this.meta = ptr.meta;
+  addMesh(mesh) {
+    mesh.userData[RAY_TARGET_KEY] = this;
+    this.meshes.push(mesh);
+    return this;
+  }
+  get disabled() {
+    return this._disabled;
+  }
+  set disabled(v) {
+    this._disabled = v;
+  }
+  get enabled() {
+    return !this.disabled;
+  }
+  set enabled(v) {
+    this.disabled = !v;
+  }
+  get clickable() {
+    return this._clickable;
+  }
+  set clickable(v) {
+    this._clickable = v;
+  }
+  get draggable() {
+    return this._draggable;
+  }
+  set draggable(v) {
+    this._draggable = v;
   }
 };
-
-// ../threejs/eventSystem/InteractiveObject3D.ts
-function isCollider(obj2) {
-  return isObject3D(obj2) && isBoolean(obj2.isCollider) && isDefined(obj2.parent);
+function isRayTarget(obj2) {
+  return obj2 instanceof RayTarget;
 }
-function isInteractiveHit(hit) {
-  return isDefined(hit) && isCollider(hit.object);
+function isIntersection(obj2) {
+  return isDefined(obj2) && isNumber(obj2.distance) && obj2.point instanceof THREE.Vector3 && (obj2.object === null || obj2.object instanceof THREE.Object3D);
 }
-function isInteractiveObject3D(obj2) {
-  return isObject3D(obj2) && (isBoolean(obj2.disabled) || isBoolean(obj2.isDraggable) || isBoolean(obj2.isClickable));
-}
-function checkClickable(obj2) {
-  return isInteractiveObject3D(obj2) && obj2.isClickable && !obj2.disabled;
-}
-function isClickable(hit) {
-  return isInteractiveHit(hit) && isCollider(hit.object) && (checkClickable(hit.object) || checkClickable(hit.object.parent));
-}
-function checkDraggable(obj2) {
-  return isInteractiveObject3D(obj2) && obj2.isDraggable && !obj2.disabled;
-}
-function isDraggable(hit) {
-  return isInteractiveHit(hit) && isCollider(hit.object) && (checkDraggable(hit.object) || checkDraggable(hit.object.parent));
-}
-function checkDisabled(obj2) {
-  return isInteractiveObject3D(obj2) && obj2.disabled;
-}
-function isDisabled(hit) {
-  return isInteractiveHit(hit) && isCollider(hit.object) && (checkDisabled(hit.object) || checkDisabled(hit.object.parent));
+function getRayTarget(obj2) {
+  if (!obj2) {
+    return null;
+  }
+  if (isRayTarget(obj2)) {
+    return obj2;
+  } else if (isIntersection(obj2) || isErsatzObject(obj2)) {
+    obj2 = obj2.object;
+  }
+  return obj2 && obj2.userData[RAY_TARGET_KEY];
 }
 
 // ../threejs/eventSystem/BaseCursor.ts
@@ -8894,7 +8901,7 @@ var BaseCursor = class {
   set visible(v) {
     this._visible = v;
   }
-  update(avatarHeadPos, hit, defaultDistance, canMoveView, state, origin, direction) {
+  update(avatarHeadPos, hit, defaultDistance, canMoveView, origin, direction, buttons, dragging) {
     if (hit && hit.face) {
       this.position.copy(hit.point);
       hit.object.getWorldQuaternion(Q);
@@ -8908,7 +8915,8 @@ var BaseCursor = class {
     }
     this.object.parent.worldToLocal(this.position);
     this.lookAt(V);
-    this.style = hit ? isDisabled(hit) ? "not-allowed" : isDraggable(hit) ? state.dragging ? "grabbing" : "move" : isClickable(hit) ? "pointer" : "default" : canMoveView ? state.buttons === 1 /* Mouse0 */ ? "grabbing" : "grab" : "default";
+    const target = getRayTarget(hit);
+    this.style = target ? !target.enabled ? "not-allowed" : target.draggable ? dragging ? "grabbing" : "move" : target.clickable ? "pointer" : "default" : canMoveView ? buttons === 1 /* Mouse0 */ ? "grabbing" : "grab" : "default";
   }
   lookAt(_v) {
   }
@@ -9053,16 +9061,20 @@ var CursorXRMouse = class extends BaseCursor {
 // ../threejs/eventSystem/BasePointer.ts
 var MAX_DRAG_DISTANCE = 5;
 var BasePointer = class {
-  constructor(type2, name, evtSys, cursor) {
+  constructor(type2, name, env, cursor) {
     this.type = type2;
     this.name = name;
-    this.evtSys = evtSys;
+    this.env = env;
     this._canMoveView = false;
     this._enabled = false;
+    this.canClick = false;
+    this._buttons = 0 /* None */;
+    this.lastButtons = 0;
+    this.moveDistance = 0;
+    this._dragging = false;
+    this.wasDragging = false;
+    this.dragDistance = 0;
     this.isActive = false;
-    this.movementDragThreshold = MAX_DRAG_DISTANCE;
-    this.state = new PointerState();
-    this.lastState = null;
     this.origin = new THREE.Vector3();
     this.direction = new THREE.Vector3();
     this.curHit = null;
@@ -9070,7 +9082,9 @@ var BasePointer = class {
     this._pressedHit = null;
     this.draggedHit = null;
     this._cursor = cursor;
-    this.enabled = false;
+    if (this.cursor) {
+      this.cursor.visible = false;
+    }
     this.canMoveView = false;
   }
   get pressedHit() {
@@ -9078,7 +9092,8 @@ var BasePointer = class {
   }
   set pressedHit(v) {
     this._pressedHit = v;
-    if (isDraggable(v) && !isClickable(v)) {
+    const target = getRayTarget(v);
+    if (target && target.draggable && !target.clickable) {
       this.onDragStart();
     }
   }
@@ -9106,13 +9121,13 @@ var BasePointer = class {
         if (oldCursor instanceof CursorXRMouse) {
           oldCursor.cursor = newCursor;
           if (oldParent) {
-            oldParent.add(oldCursor.object);
+            objGraph(oldParent, oldCursor);
           }
         } else {
           this._cursor = newCursor;
           if (oldCursor) {
             if (oldParent) {
-              oldParent.add(newCursor.object);
+              objGraph(oldParent, newCursor);
             }
             newCursor.style = oldCursor.style;
             newCursor.visible = oldCursor.visible;
@@ -9130,68 +9145,76 @@ var BasePointer = class {
       this.cursor.visible = v;
     }
   }
+  get buttons() {
+    return this._buttons;
+  }
+  get dragging() {
+    return this._dragging;
+  }
+  set dragging(v) {
+    this._dragging = v;
+    this.dragDistance = 0;
+  }
   get needsUpdate() {
     return this.enabled && this.isActive;
   }
   setEventState(type2) {
-    this.evtSys.checkPointer(this, type2);
+    this.env.eventSystem.checkPointer(this, type2);
   }
   update() {
-    this.onUpdate();
-    if (!this.lastState) {
-      this.lastState = new PointerState();
+    if (this.needsUpdate) {
+      this.onUpdate();
+      this.lastButtons = this.buttons;
+      this.wasDragging = this.dragging;
     }
-    this.lastState.copy(this.state);
-    this.state.motion.setScalar(0);
-    this.state.dz = 0;
-    this.state.duv.setScalar(0);
   }
   updateCursor(avatarHeadPos, curHit, defaultDistance) {
     if (this.cursor) {
-      this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.state, this.origin, this.direction);
+      this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.origin, this.direction, this.buttons, this.dragging);
     }
   }
   onPointerDown() {
-    this.state.dragging = false;
-    this.state.canClick = true;
+    this.dragging = false;
+    this.canClick = true;
+    this.env.avatar.setMode(this);
     this.setEventState("down");
   }
   onPointerMove() {
     this.setEventState("move");
-    if (this.state.buttons !== 0 /* None */) {
-      const canDrag = isNullOrUndefined(this.pressedHit) || isDraggable(this.pressedHit);
+    if (this.buttons !== 0 /* None */) {
+      const target = getRayTarget(this.pressedHit);
+      const canDrag = !target || target.draggable;
       if (canDrag) {
-        if (this.lastState && this.lastState.buttons === this.state.buttons) {
-          this.state.dragDistance += this.state.moveDistance;
-          if (this.state.dragDistance > this.movementDragThreshold) {
+        if (this.buttons === this.lastButtons) {
+          this.dragDistance += this.moveDistance;
+          if (this.dragDistance > MAX_DRAG_DISTANCE) {
             this.onDragStart();
           }
-        } else if (this.state.dragging) {
-          this.state.dragging = false;
+        } else if (this.dragging) {
+          this.dragging = false;
           this.setEventState("dragcancel");
         }
       }
     }
   }
   onDragStart() {
-    this.state.dragging = true;
-    if (this.lastState && !this.lastState.dragging) {
+    this.dragging = true;
+    if (!this.wasDragging) {
       this.setEventState("dragstart");
     }
-    this.state.canClick = false;
+    this.canClick = false;
     this.setEventState("drag");
   }
   onPointerUp() {
-    if (this.state.canClick && this.lastState) {
-      const lastButtons = this.state.buttons;
-      this.state.buttons = this.lastState.buttons;
+    if (this.canClick) {
+      const curButtons = this.buttons;
+      this._buttons = this.lastButtons;
       this.setEventState("click");
-      this.state.buttons = lastButtons;
+      this._buttons = curButtons;
     }
     this.setEventState("up");
-    this.state.dragDistance = 0;
-    this.state.dragging = false;
-    if (this.lastState && this.lastState.dragging) {
+    this.dragging = false;
+    if (this.wasDragging) {
       this.setEventState("dragend");
     }
   }
@@ -9551,7 +9574,7 @@ var Laser = class extends THREE.Object3D {
       linewidth
     }));
     this.line.computeLineDistances();
-    this.add(this.line);
+    objGraph(this, this.line);
   }
   get length() {
     return this._length;
@@ -9564,29 +9587,28 @@ var Laser = class extends THREE.Object3D {
 
 // ../threejs/eventSystem/PointerRemote.ts
 var PointerRemote = class extends BasePointer {
-  constructor(evtSys, userName, isInstructor, pointerName, cursor) {
-    super("remote", 18 /* RemoteUser */, evtSys, cursor || new CursorColor());
+  constructor(env, userName, isInstructor, pointerName, cursor) {
+    super("remote", 18 /* RemoteUser */, env, cursor || new CursorColor());
     this.pTarget = new THREE.Vector3();
     this.qTarget = new THREE.Quaternion().identity();
     this.laser = new Laser(isInstructor ? green : yellow, 2e-3);
     this.laser.length = 30;
     const hand = new Cube(0.05, 0.05, 0.05, litGrey);
-    hand.add(this.laser);
+    objGraph(hand, this.laser);
     const elbow = new Cube(0.05, 0.05, 0.05, litGrey);
-    this.object = obj(`${userName}-arm`, hand, elbow);
+    this.object = obj(`remote:${userName}:${PointerName[pointerName]}`, hand, elbow);
     if (pointerName === 1 /* Mouse */) {
       hand.position.set(0, 0, -0.2);
     } else if (pointerName === 15 /* MotionController */ || pointerName === 16 /* MotionControllerLeft */ || pointerName === 17 /* MotionControllerRight */) {
       elbow.position.set(0, 0, 0.2);
     }
-    this.object.name = `remote:${userName}:${PointerName[pointerName]}`;
     this.cursor.object.name = `${this.object.name}:cursor`;
   }
   setState(avatarHeadPos, position, forward, up, offset) {
     this.origin.copy(position);
     this.direction.copy(forward);
     this.cursor.visible = true;
-    this.evtSys.fireRay(this);
+    this.env.eventSystem.fireRay(this);
     this.updateCursor(avatarHeadPos, this.curHit, 3);
     position.add(offset);
     if (this.curHit) {
@@ -10306,27 +10328,59 @@ function objectGetRelativePose(ref, obj2, position, quaternion, scale2) {
 // ../threejs/Plane.ts
 var plane = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
 plane.name = "PlaneGeom";
-var BasePlane = class extends THREE.Mesh {
-  constructor(sx, sy, material, isCollider2) {
+var Plane = class extends THREE.Mesh {
+  constructor(sx, sy, material) {
     super(plane, material);
-    this.isCollider = isCollider2;
     this.scale.set(sx, sy, 1);
   }
 };
 
-// ../threejs/TexturedMesh.ts
-var inchesPerMeter = 39.3701;
-var TexturedMesh = class extends THREE.Mesh {
-  constructor(geom2, mat) {
-    super(geom2, mat);
+// ../threejs/widgets/Image2D.ts
+var P2 = new THREE.Vector4();
+var Q2 = new THREE.Quaternion();
+var S = new THREE.Vector3();
+var copyCounter2 = 0;
+var Image2D = class extends THREE.Object3D {
+  constructor(env, name, isStatic, materialOrOptions = null) {
+    super();
+    this.isStatic = isStatic;
+    this.lastMatrixWorld = new THREE.Matrix4();
+    this.layer = null;
+    this.tryWebXRLayers = true;
+    this.wasUsingLayer = false;
     this._imageWidth = 0;
     this._imageHeight = 0;
+    this.lastImage = null;
+    this.lastWidth = null;
+    this.lastHeight = null;
+    this.stereoLayoutName = "mono";
+    this.env = null;
+    this.mesh = null;
+    this.webXRLayersEnabled = true;
+    this.sizeMode = "none";
+    if (env) {
+      this.setEnvAndName(env, name);
+      let material = isMeshBasicMaterial(materialOrOptions) ? materialOrOptions : solidTransparent(Object.assign({}, materialOrOptions, { name: this.name }));
+      this.mesh = new THREE.Mesh(plane, material);
+      objGraph(this, this.mesh);
+    }
   }
-  copy(source, recursive = true) {
-    super.copy(source, recursive);
-    this._imageWidth = source.imageWidth;
-    this._imageHeight = source.imageHeight;
-    return this;
+  dispose() {
+    cleanup(this.layer);
+  }
+  setImageSize(width, height) {
+    if (width !== this._imageWidth || height !== this._imageHeight) {
+      const { objectWidth, objectHeight } = this;
+      this._imageWidth = width;
+      this._imageHeight = height;
+      if (this.sizeMode !== "none") {
+        if (this.sizeMode === "fixed-width") {
+          this.objectWidth = objectWidth;
+        } else {
+          this.objectHeight = objectHeight;
+        }
+      }
+    }
   }
   get imageWidth() {
     return this._imageWidth;
@@ -10341,92 +10395,23 @@ var TexturedMesh = class extends THREE.Mesh {
     return this.scale.x;
   }
   set objectWidth(v) {
-    this.scale.x = v;
-    this.scale.y = v / this.imageAspectRatio;
+    this.scale.set(v, this.scale.y = v / this.imageAspectRatio, 1);
   }
   get objectHeight() {
     return this.scale.y;
   }
   set objectHeight(v) {
-    this.scale.x = this.imageAspectRatio * v;
-    this.scale.y = v;
+    this.scale.set(this.imageAspectRatio * v, v, 1);
   }
   get pixelDensity() {
-    const ppm = this.imageWidth / this.objectWidth;
-    const ppi = ppm / inchesPerMeter;
+    const inches = meters2Inches(this.objectWidth);
+    const ppi = this.imageWidth / inches;
     return ppi;
   }
   set pixelDensity(ppi) {
-    const ppm = ppi * inchesPerMeter;
-    this.objectWidth = this.imageWidth / ppm;
-  }
-  setImage(img) {
-    if (isImageBitmap(img)) {
-      img = createCanvasFromImageBitmap(img);
-    }
-    if (isOffscreenCanvas(img)) {
-      img = img;
-    }
-    if (img instanceof HTMLVideoElement) {
-      this.material.map = new THREE.VideoTexture(img);
-      this._imageWidth = img.videoWidth;
-      this._imageHeight = img.videoHeight;
-    } else {
-      this.material.map = new THREE.Texture(img);
-      this._imageWidth = img.width;
-      this._imageHeight = img.height;
-      this.material.map.needsUpdate = true;
-    }
-    this.material.needsUpdate = true;
-    return this.material.map;
-  }
-  async loadImage(fetcher, path, prog) {
-    let { content: img } = await fetcher.get(path).progress(prog).image();
-    const texture = this.setImage(img);
-    texture.name = path;
-  }
-  updateTexture() {
-    const img = this.material.map.image;
-    if (isNumber(img.width) && isNumber(img.height) && (this.imageWidth !== img.width || this.imageHeight !== img.height)) {
-      this._imageWidth = img.width;
-      this._imageHeight = img.height;
-      this.material.map.dispose();
-      this.material.map = new THREE.Texture(img);
-      this.material.needsUpdate = true;
-    }
-    this.material.map.needsUpdate = true;
-  }
-};
-
-// ../threejs/Image2DMesh.ts
-var P2 = new THREE.Vector4();
-var Q2 = new THREE.Quaternion();
-var S = new THREE.Vector3();
-var copyCounter2 = 0;
-var Image2DMesh = class extends THREE.Object3D {
-  constructor(env, name, isStatic, materialOrOptions = null) {
-    super();
-    this.isStatic = isStatic;
-    this.lastMatrixWorld = new THREE.Matrix4();
-    this.layer = null;
-    this.tryWebXRLayers = true;
-    this.wasUsingLayer = false;
-    this.lastImage = null;
-    this.lastWidth = null;
-    this.lastHeight = null;
-    this.stereoLayoutName = "mono";
-    this.env = null;
-    this.mesh = null;
-    this.webXRLayersEnabled = true;
-    if (env) {
-      this.setEnvAndName(env, name);
-      let material = isMeshBasicMaterial(materialOrOptions) ? materialOrOptions : solidTransparent(Object.assign({}, materialOrOptions, { name: this.name }));
-      this.mesh = new TexturedMesh(plane, material);
-      this.add(this.mesh);
-    }
-  }
-  dispose() {
-    cleanup(this.layer);
+    const inches = this.imageWidth / ppi;
+    const meters = inches2Meters(inches);
+    this.objectWidth = meters;
   }
   setEnvAndName(env, name) {
     this.env = env;
@@ -10435,17 +10420,18 @@ var Image2DMesh = class extends THREE.Object3D {
   }
   copy(source, recursive = true) {
     super.copy(source, recursive);
+    this.setImageSize(source.imageWidth, source.imageHeight);
     this.setEnvAndName(source.env, source.name + ++copyCounter2);
     for (let i = this.children.length - 1; i >= 0; --i) {
       const child = this.children[i];
-      if (child.parent instanceof Image2DMesh && child instanceof TexturedMesh) {
+      if (child.parent instanceof Image2D && child instanceof THREE.Mesh) {
         child.removeFromParent();
-        this.mesh = new TexturedMesh(child.geometry, child.material);
+        this.mesh = new THREE.Mesh(child.geometry, child.material);
       }
     }
     if (isNullOrUndefined(this.mesh)) {
       this.mesh = source.mesh.clone();
-      this.add(this.mesh);
+      objGraph(this, this.mesh);
     }
     return this;
   }
@@ -10471,6 +10457,39 @@ var Image2DMesh = class extends THREE.Object3D {
       }, 100);
     }
   }
+  setTextureMap(img) {
+    if (isImageBitmap(img)) {
+      img = createCanvasFromImageBitmap(img);
+    }
+    if (isOffscreenCanvas(img)) {
+      img = img;
+    }
+    if (img instanceof HTMLVideoElement) {
+      this.mesh.material.map = new THREE.VideoTexture(img);
+      this.setImageSize(img.videoWidth, img.videoHeight);
+    } else {
+      this.mesh.material.map = new THREE.Texture(img);
+      this.setImageSize(img.width, img.height);
+      this.mesh.material.map.needsUpdate = true;
+    }
+    this.mesh.material.needsUpdate = true;
+    return this.mesh.material.map;
+  }
+  async loadTextureMap(fetcher, path, prog) {
+    let { content: img } = await fetcher.get(path).progress(prog).image();
+    const texture = this.setTextureMap(img);
+    texture.name = path;
+  }
+  updateTexture() {
+    const img = this.mesh.material.map.image;
+    if (isNumber(img.width) && isNumber(img.height) && (this.imageWidth !== img.width || this.imageHeight !== img.height)) {
+      this.mesh.material.map.dispose();
+      this.mesh.material.map = new THREE.Texture(img);
+      this.mesh.material.needsUpdate = true;
+      this.setImageSize(img.width, img.height);
+    }
+    this.mesh.material.map.needsUpdate = true;
+  }
   update(_dt, frame) {
     if (this.mesh.material.map && this.mesh.material.map.image) {
       const isVideo = this.mesh.material.map instanceof THREE.VideoTexture;
@@ -10478,11 +10497,11 @@ var Image2DMesh = class extends THREE.Object3D {
       const useLayer = isLayersAvailable && this.needsLayer;
       const useLayerChanged = useLayer !== this.wasUsingLayer;
       const imageChanged = this.mesh.material.map.image !== this.lastImage || this.mesh.material.needsUpdate || this.mesh.material.map.needsUpdate;
-      const sizeChanged = this.mesh.imageWidth !== this.lastWidth || this.mesh.imageHeight !== this.lastHeight;
+      const sizeChanged = this.imageWidth !== this.lastWidth || this.imageHeight !== this.lastHeight;
       this.wasUsingLayer = useLayer;
       this.lastImage = this.mesh.material.map.image;
-      this.lastWidth = this.mesh.imageWidth;
-      this.lastHeight = this.mesh.imageHeight;
+      this.lastWidth = this.imageWidth;
+      this.lastHeight = this.imageHeight;
       if (useLayerChanged || sizeChanged) {
         if ((!useLayer || sizeChanged) && this.layer) {
           this.removeWebXRLayer();
@@ -10511,8 +10530,8 @@ var Image2DMesh = class extends THREE.Object3D {
               layout,
               textureType: "texture",
               isStatic: this.isStatic,
-              viewPixelWidth: this.mesh.imageWidth,
-              viewPixelHeight: this.mesh.imageHeight,
+              viewPixelWidth: this.imageWidth,
+              viewPixelHeight: this.imageHeight,
               transform,
               width,
               height
@@ -10544,151 +10563,78 @@ var Image2DMesh = class extends THREE.Object3D {
   }
 };
 
-// ../threejs/TextMesh.ts
+// ../threejs/widgets/CanvasImageMesh.ts
 var redrawnEvt = { type: "redrawn" };
-var TextMesh = class extends Image2DMesh {
-  constructor(env, name, materialOptions) {
+var CanvasImageMesh = class extends Image2D {
+  constructor(env, name, image, materialOptions) {
     super(env, name, false, materialOptions);
-    this._textImage = null;
     this._onRedrawn = this.onRedrawn.bind(this);
+    this.image = image;
   }
-  onRedrawn() {
-    this.mesh.updateTexture();
-    this.scale.set(this._textImage.width, this._textImage.height, 0.01);
-    this.dispatchEvent(redrawnEvt);
+  get object() {
+    return this;
   }
-  get textImage() {
-    return this._textImage;
-  }
-  set textImage(v) {
-    if (v !== this.textImage) {
-      if (this.textImage) {
-        this.textImage.clearEventListeners();
-      }
-      this._textImage = v;
-      if (this.textImage) {
-        this.textImage.addEventListener("redrawn", this._onRedrawn);
-        this.mesh.setImage(this.textImage.canvas);
-        this._onRedrawn();
-      }
+  get element() {
+    if (isHTMLCanvas(this.image.canvas)) {
+      return this.image.canvas;
+    } else {
+      return null;
     }
   }
-  createTextImage(textImageOptions) {
-    this.textImage = new TextImage(textImageOptions);
+  onRedrawn() {
+    this.updateTexture();
+    this.dispatchEvent(redrawnEvt);
   }
-  get wrapWords() {
-    return this._textImage.wrapWords;
+  get image() {
+    return this._image;
   }
-  set wrapWords(v) {
-    this._textImage.wrapWords = v;
+  set image(v) {
+    if (this.image) {
+      this.image.removeEventListener("redrawn", this._onRedrawn);
+    }
+    this._image = v;
+    if (this.image) {
+      this.image.addEventListener("redrawn", this._onRedrawn);
+      this.setTextureMap(this.image.canvas);
+      this.onRedrawn();
+    }
   }
-  get minWidth() {
-    return this._textImage.minWidth;
+  get imageWidth() {
+    return this.image.width;
   }
-  set minWidth(v) {
-    this._textImage.minWidth = v;
+  get imageHeight() {
+    return this.image.height;
   }
-  get maxWidth() {
-    return this._textImage.maxWidth;
+  copy(source, recursive = true) {
+    super.copy(source, recursive);
+    this.image = source.image;
+    return this;
   }
-  set maxWidth(v) {
-    this._textImage.maxWidth = v;
+  get isVisible() {
+    return elementIsDisplayed(this);
   }
-  get minHeight() {
-    return this._textImage.minHeight;
+  set isVisible(v) {
+    elementSetDisplay(this, v, "inline-block");
+    objectSetVisible(this, v);
+    objectSetVisible(this.mesh, v);
+    this.image.visible = v;
   }
-  set minHeight(v) {
-    this._textImage.minHeight = v;
+};
+
+// ../threejs/widgets/TextMesh.ts
+var TextMesh = class extends CanvasImageMesh {
+  constructor(env, name, textOptions, materialOptions) {
+    let image;
+    if (textOptions instanceof TextImage) {
+      image = textOptions;
+    } else {
+      image = new TextImage(textOptions);
+    }
+    super(env, name, image, materialOptions);
   }
-  get maxHeight() {
-    return this._textImage.maxHeight;
-  }
-  set maxHeight(v) {
-    this._textImage.maxHeight = v;
-  }
-  get textDirection() {
-    return this._textImage.textDirection;
-  }
-  set textDirection(v) {
-    this._textImage.textDirection = v;
-  }
-  get textScale() {
-    return this._textImage.scale;
-  }
-  set textScale(v) {
-    this._textImage.scale = v;
-  }
-  get textWidth() {
-    return this._textImage.width;
-  }
-  get textHeight() {
-    return this._textImage.height;
-  }
-  get textPadding() {
-    return this._textImage.padding;
-  }
-  set textPadding(v) {
-    this._textImage.padding = v;
-  }
-  get fontStyle() {
-    return this._textImage.fontStyle;
-  }
-  set fontStyle(v) {
-    this._textImage.fontStyle = v;
-  }
-  get fontVariant() {
-    return this._textImage.fontVariant;
-  }
-  set fontVariant(v) {
-    this._textImage.fontVariant = v;
-  }
-  get fontWeight() {
-    return this._textImage.fontWeight;
-  }
-  set fontWeight(v) {
-    this._textImage.fontWeight = v;
-  }
-  get fontSize() {
-    return this._textImage.fontSize;
-  }
-  set fontSize(v) {
-    this._textImage.fontSize = v;
-  }
-  get fontFamily() {
-    return this._textImage.fontFamily;
-  }
-  set fontFamily(v) {
-    this._textImage.fontFamily = v;
-  }
-  get textFillColor() {
-    return this._textImage.textFillColor;
-  }
-  set textFillColor(v) {
-    this._textImage.textFillColor = v;
-  }
-  get textStrokeColor() {
-    return this._textImage.textStrokeColor;
-  }
-  set textStrokeColor(v) {
-    this._textImage.textStrokeColor = v;
-  }
-  get textStrokeSize() {
-    return this._textImage.textStrokeSize;
-  }
-  set textStrokeSize(v) {
-    this._textImage.textStrokeSize = v;
-  }
-  get textBgColor() {
-    return this._textImage.bgFillColor;
-  }
-  set textBgColor(v) {
-    this._textImage.bgFillColor = v;
-  }
-  get value() {
-    return this._textImage.value;
-  }
-  set value(v) {
-    this._textImage.value = v;
+  onRedrawn() {
+    this.objectHeight = this.imageHeight;
+    super.onRedrawn();
   }
 };
 
@@ -10735,11 +10681,10 @@ var AvatarRemote = class extends THREE.Object3D {
     this._headPulse = 1;
     this.height = this.defaultAvatarHeight;
     this.name = user.userName;
-    this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`);
-    this.nameTag.createTextImage(Object.assign({}, nameTagFont, font));
+    this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
     this.nameTag.position.y = 0.25;
     this.userName = user.userName;
-    this.add(this.nameTag);
+    objGraph(this, this.nameTag);
     user.addEventListener("userPosed", (evt) => this.setPose(evt.pose, evt.height));
     user.addEventListener("userPointer", (evt) => {
       this.setPointer(this.env.avatar.worldPos, evt.name, evt.pose);
@@ -10775,23 +10720,23 @@ var AvatarRemote = class extends THREE.Object3D {
     }
   }
   get userName() {
-    return this.nameTag.value;
+    return this.nameTag.image.value;
   }
   set userName(name) {
     if (name) {
       const words = name.match(/^(?:((?:student|instructor))_)?([^<>{}"]+)$/i);
       if (words) {
         if (words.length === 2) {
-          this.nameTag.value = words[1];
+          this.nameTag.image.value = words[1];
         } else if (words.length === 3) {
           this.isInstructor = words[1] && words[1].toLocaleLowerCase() === "instructor";
           if (this.isInstructor) {
-            this.nameTag.value = star.value + words[2];
+            this.nameTag.image.value = star.value + words[2];
           } else {
-            this.nameTag.value = words[2];
+            this.nameTag.image.value = words[2];
           }
         } else {
-          this.nameTag.value = "???";
+          this.nameTag.image.value = "???";
         }
       }
     }
@@ -10813,11 +10758,9 @@ var AvatarRemote = class extends THREE.Object3D {
       });
       if (this.head && this.body) {
         this.headFollower = new BodyFollower("AvatarBody", 0.05, angle2, 0, 5);
-        this.body.parent.add(this.headFollower);
-        this.body.add(this.nameTag);
-        this.headFollower.add(this.body);
+        objGraph(this.body.parent, objGraph(this.headFollower, objGraph(this.body, this.nameTag)));
       }
-      this.add(this.avatar);
+      objGraph(this, this.avatar);
     }
   }
   removeArm(name) {
@@ -10876,7 +10819,7 @@ var AvatarRemote = class extends THREE.Object3D {
   setPointer(avatarHeadPos, name, pose) {
     let pointer = this.pointers.get(name);
     if (!pointer) {
-      pointer = new PointerRemote(this.env.eventSystem, this.userName, this.isInstructor, name, this.env.cursor3D && this.env.cursor3D.clone());
+      pointer = new PointerRemote(this.env, this.userName, this.isInstructor, name, this.env.cursor3D && this.env.cursor3D.clone());
       this.pointers.set(name, pointer);
       objGraph(this.body, pointer);
       if (pointer.cursor) {
@@ -10927,7 +10870,7 @@ var DebugObject = class extends THREE.Object3D {
     this.center = null;
     if (isDefined(this.color)) {
       this.center = new Cube(0.5, 0.5, 0.5, lit({ color: this.color }));
-      this.add(this.center);
+      objGraph(this, this.center);
     }
     this.xp = new Cube(1, 0.1, 0.1, solidRed);
     this.yp = new Cube(0.1, 1, 0.1, solidGreen);
@@ -10935,7 +10878,7 @@ var DebugObject = class extends THREE.Object3D {
     this.xp.position.x = 1;
     this.yp.position.y = 1;
     this.zn.position.z = -1;
-    this.add(this.xp, this.yp, this.zn);
+    objGraph(this, this.xp, this.yp, this.zn);
   }
   copy(source, recursive = true) {
     super.copy(source, recursive);
@@ -11010,7 +10953,7 @@ var Tele = class extends Application {
     });
     this.env.addEventListener("roomjoined", (evt) => this.join(evt.roomName));
     this.env.addEventListener("sceneclearing", () => this.env.foreground.remove(this.remoteUsers));
-    this.env.addEventListener("scenecleared", () => this.env.foreground.add(this.remoteUsers));
+    this.env.addEventListener("scenecleared", () => objGraph(this.env.foreground, this.remoteUsers));
     this.env.muteMicButton.visible = true;
     this.env.muteMicButton.addEventListener("click", async () => {
       this.conference.audioMuted = this.env.muteMicButton.active = !this.conference.audioMuted;
@@ -11029,7 +10972,7 @@ var Tele = class extends Application {
       user.setAvatar(avatar);
       user.userName = evt.user.userName;
       this.users.set(evt.user.userID, user);
-      this.remoteUsers.add(user);
+      objGraph(this.remoteUsers, user);
       this.env.audio.playClip("join");
     });
     this.conference.addEventListener("userNameChanged", (evt) => {
@@ -11049,7 +10992,7 @@ var Tele = class extends Application {
     });
   }
   async show(_onProgress) {
-    this.env.foreground.add(this.remoteUsers);
+    objGraph(this.env.foreground, this.remoteUsers);
     if (isDefined(this.env.currentRoom)) {
       await this.join(this.env.currentRoom);
     }
