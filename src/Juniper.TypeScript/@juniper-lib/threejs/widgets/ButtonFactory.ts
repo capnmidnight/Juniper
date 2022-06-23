@@ -27,14 +27,14 @@ export class ButtonFactory {
 
     private readonly assetSets: PriorityMap<string, string, AssetImage>;
 
-    constructor(private readonly imagePaths: PriorityMap<string, string, string>, private readonly padding: number) {
+    constructor(private readonly imagePaths: PriorityMap<string, string, string>, private readonly padding: number, debug: boolean) {
         this.readyTask = new Task();
         this.assetSets = new PriorityMap(Array.from(this.imagePaths.entries())
                 .map(([setName, iconName, path]) =>
                     [
                         setName,
                         iconName,
-                        new AssetImage(path, Image_Png)
+                        new AssetImage(path, Image_Png, !debug)
                     ]));
         this.assets = Array.from(this.assetSets.values());
         Promise.all(this.assets)

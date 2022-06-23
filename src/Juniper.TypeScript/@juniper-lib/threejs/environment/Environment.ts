@@ -138,7 +138,7 @@ export class Environment
             this.devicesDialog,
             this.renderer.domElement);
 
-        this.uiButtons = new ButtonFactory(uiImagePaths, 20);
+        this.uiButtons = new ButtonFactory(uiImagePaths, 20, this.DEBUG);
 
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
         this.quitButton = new ButtonImageWidget(this.uiButtons, "ui", "quit");
@@ -321,11 +321,11 @@ export class Environment
             prog = progOrAsset
         }
 
-        const footsteps = new AssetAudio("/audio/TransitionFootstepAudio.mp3", Audio_Mpeg);
-        const enter = new AssetAudio("/audio/basic_enter.mp3", Audio_Mpeg);
-        const exit = new AssetAudio("/audio/basic_exit.mp3", Audio_Mpeg);
-        const error = new AssetAudio("/audio/basic_error.mp3", Audio_Mpeg);
-        const click = new AssetAudio("/audio/vintage_radio_button_pressed.mp3", Audio_Mpeg);
+        const footsteps = new AssetAudio("/audio/TransitionFootstepAudio.mp3", Audio_Mpeg, !this.DEBUG);
+        const enter = new AssetAudio("/audio/basic_enter.mp3", Audio_Mpeg, !this.DEBUG);
+        const exit = new AssetAudio("/audio/basic_exit.mp3", Audio_Mpeg, !this.DEBUG);
+        const error = new AssetAudio("/audio/basic_error.mp3", Audio_Mpeg, !this.DEBUG);
+        const click = new AssetAudio("/audio/vintage_radio_button_pressed.mp3", Audio_Mpeg, !this.DEBUG);
 
         assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click);
 

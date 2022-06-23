@@ -1,4 +1,4 @@
-import { IProgress, isDefined, progressPopper, progressSplitWeighted, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { IProgress, isDefined, progressPopper, progressSplitWeighted, TypedEvent, TypedEventBase, URLBuilder } from "@juniper-lib/tslib";
 import type { Application, ApplicationConstructor, ApplicationModule } from "./Application";
 import type { Environment } from "./Environment";
 
@@ -85,12 +85,15 @@ export class ApplicationLoader
 
             let url = `/js/${name}/index${this.JS_EXT}`;
             if (isDefined(this.cacheBustString)) {
-                url += "#" + this.cacheBustString;
+                const uri = new URLBuilder(url, location.href);
+                uri.query("v", this.cacheBustString);
+                url = uri.toString();
             }
 
             const task = this.env.fetcher
                 .get(url)
                 .progress(prog)
+                .useCache(!this.env.DEBUG)
                 .module<ApplicationModule>();
 
             this.loadedModules.set(name, task);

@@ -1,6 +1,6 @@
 import { IFetcher, IFetcherBodiedResult } from "@juniper-lib/fetcher-base/IFetcher";
 import { Application_Json, MediaType } from "@juniper-lib/mediatypes";
-import { IProgress, isDefined } from "@juniper-lib/tslib";
+import { IProgress, isBoolean, isDefined } from "@juniper-lib/tslib";
 import { IResponse } from "./IResponse";
 
 export abstract class BaseAsset<ResultT = any, ErrorT = any> implements Promise<ResultT> {
@@ -105,8 +105,24 @@ export class AssetCustom<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, E
 }
 
 abstract class BaseFetchedAsset<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, ErrorT> {
-    constructor(path: string, type?: MediaType) {
+
+    private readonly useCache: boolean;
+
+    constructor(path: string, type: MediaType, useCache: boolean);
+    constructor(path: string, type: MediaType);
+    constructor(path: string, useCache: boolean);
+    constructor(path: string);
+    constructor(path: string, typeOrUseCache?: MediaType | boolean, useCache?: boolean) {
+        let type: MediaType;
+        if (isBoolean(typeOrUseCache)) {
+            useCache = typeOrUseCache;
+        }
+        else {
+            type = typeOrUseCache;
+        }
         super(path, type);
+
+        this.useCache = !!useCache;
     }
 
     protected async getResult(fetcher: IFetcher, prog?: IProgress): Promise<ResultT> {
@@ -117,6 +133,7 @@ abstract class BaseFetchedAsset<ResultT, ErrorT = unknown> extends BaseAsset<Res
     private getRequest(fetcher: IFetcher, prog?: IProgress): Promise<IResponse<ResultT>> {
         const request = fetcher
             .get(this.path)
+            .useCache(this.useCache)
             .progress(prog);
         return this.getResponse(request);
     }

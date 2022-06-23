@@ -178,7 +178,7 @@ export abstract class PhotosphereRig
         const { content: canvas } = await this.fetcher
             .get(path, this.baseURL)
             .progress(prog)
-            .useCache(this.isDebug)
+            .useCache(!this.isDebug)
             .canvas();
 
         const texture = new THREE.Texture(canvas as any);

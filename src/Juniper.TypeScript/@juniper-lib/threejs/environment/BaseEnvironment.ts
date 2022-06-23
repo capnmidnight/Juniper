@@ -211,7 +211,6 @@ export class BaseEnvironment<Events = unknown>
             if (this.hasXRMediaLayers && (this._xrMediaBinding === null) === this.renderer.xr.isPresenting) {
                 if (this._xrMediaBinding === null && isDefined(session)) {
                     this._xrMediaBinding = new XRMediaBinding(session);
-                    console.log("Media binding created");
                 }
                 else {
                     this._xrMediaBinding = null;
@@ -392,7 +391,7 @@ export class BaseEnvironment<Events = unknown>
     private getModel(fetcher: IFetcher, path: string, type: string | MediaType, prog?: IProgress) {
         return fetcher
             .get(path)
-            .useCache(true)
+            .useCache(!this.DEBUG)
             .progress(prog)
             .file(type)
             .then(response => this.loadModel(response.content));

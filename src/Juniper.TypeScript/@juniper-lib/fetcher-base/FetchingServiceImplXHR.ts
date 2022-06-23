@@ -321,9 +321,9 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
                 response = await this.store.get(request.path);
             }
 
-            const hadCachedResponse = isNullOrUndefined(response);
+            const noCachedResponse = isNullOrUndefined(response);
 
-            if (hadCachedResponse) {
+            if (noCachedResponse) {
                 const xhr = new XMLHttpRequest();
                 const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 
@@ -340,7 +340,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
             const value = await this.decodeContent<K, T>(xhrType, response);
 
-            if (hadCachedResponse && isDefined(progress)) {
+            if (noCachedResponse && isDefined(progress)) {
                 progress.end();
             }
 

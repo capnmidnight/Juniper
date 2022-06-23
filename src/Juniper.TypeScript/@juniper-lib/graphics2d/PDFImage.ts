@@ -1,6 +1,6 @@
 import { setContextSize } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher";
-import { clamp, IProgress, singleton, Task } from "@juniper-lib/tslib";
+import { clamp, IProgress, singleton, Task, URLBuilder } from "@juniper-lib/tslib";
 import pdfJS from "pdfjs-dist";
 import { version as pdfjsVersion } from "pdfjs-dist/package.json";
 import { GetViewportParameters } from "pdfjs-dist/types/src/display/api";
@@ -10,14 +10,18 @@ const pdfReady = singleton("Juniper:PdfReady", () => new Task(false));
 
 export class PDFImage extends CanvasImage {
 
-    static async prepare(workerPath: string, fetcher: IFetcher, prog?: IProgress) {
+    static async prepare(workerPath: string, fetcher: IFetcher, debug: boolean, prog?: IProgress) {
         if (!pdfReady.started) {
             pdfReady.start();
             console.info(`PDF.js v${pdfjsVersion}`);
 
+            const uri = new URLBuilder(workerPath, location.href);
+            uri.query("v", pdfjsVersion);
+            workerPath = uri.toString();
+
             const { content: workerSrc } = await fetcher
                 .get(workerPath + "#" + pdfjsVersion)
-                .useCache()
+                .useCache(!debug)
                 .progress(prog)
                 .file();
 
