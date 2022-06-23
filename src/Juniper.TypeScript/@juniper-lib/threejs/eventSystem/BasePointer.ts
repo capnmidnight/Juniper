@@ -42,7 +42,9 @@ export abstract class BasePointer
         cursor: BaseCursor) {
 
         this._cursor = cursor;
-        this.enabled = false;
+        if (this.cursor) {
+            this.cursor.visible = false;
+        }
         this.canMoveView = false;
     }
 

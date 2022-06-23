@@ -18,6 +18,17 @@ export class PointerMultiTouch extends BaseScreenPointer {
         Object.seal(this);
     }
 
+    override get enabled() {
+        return super.enabled;
+    }
+
+    override set enabled(v) {
+        super.enabled = v;
+        if (!this.enabled) {
+            this.points.clear();
+        }
+    }
+
     protected override onCheckEvent(evt: PointerEvent) {
         return evt.pointerType === this.type;
     }
