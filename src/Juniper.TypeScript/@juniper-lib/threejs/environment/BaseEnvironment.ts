@@ -12,7 +12,8 @@ import {
     width
 } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
-import type { IFetcher } from "@juniper-lib/fetcher";
+import { AssetCustom, BaseAsset, IFetcher } from "@juniper-lib/fetcher";
+import { MediaType, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import {
     arrayRemove, arraySortByKeyInPlace, IProgress, isDefined,
     isDesktop,
@@ -101,6 +102,8 @@ export class BaseEnvironment<Events = unknown>
 
     constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, enableFullResolution: boolean, public DEBUG: boolean) {
         super();
+
+        this.getModel = this.getModel.bind(this);
 
         if (isHTMLCanvas(canvas)) {
             canvas.style.backgroundColor = "black";
@@ -382,6 +385,19 @@ export class BaseEnvironment<Events = unknown>
         }
     }
 
+    modelAsset(path: string): AssetCustom<THREE.Group> {
+        return new AssetCustom(path, Model_Gltf_Binary, this.getModel);
+    }
+
+    private getModel(fetcher: IFetcher, path: string, type: string | MediaType, prog?: IProgress) {
+        return fetcher
+            .get(path)
+            .useCache(true)
+            .progress(prog)
+            .file(type)
+            .then(response => this.loadModel(response.content));
+    }
+
     async loadModel(path: string, prog?: IProgress): Promise<THREE.Group> {
         const loader = new GLTFLoader();
         const model = await loader.loadAsync(path, (evt) => {
@@ -392,8 +408,7 @@ export class BaseEnvironment<Events = unknown>
         return model.scene;
     }
 
-    async load3DCursor(path: string, prog?: IProgress) {
-        const model = await this.loadModel(path, prog);
+    private set3DCursor(model: THREE.Group): void {
         const children = model.children.slice(0);
         for (const child of children) {
             this.cursor3D.add(child.name, child);
@@ -402,7 +417,22 @@ export class BaseEnvironment<Events = unknown>
         this.dispatchEvent(new TypedEvent("newcursorloaded"));
     }
 
-    async load(prog?: IProgress) {
-        await this.load3DCursor("/models/Cursors.glb", prog);
+    async load(prog: IProgress, ...assets: BaseAsset[]): Promise<void>;
+    async load(...assets: BaseAsset[]): Promise<void>;
+    async load(progOrAsset: IProgress | BaseAsset, ...assets: BaseAsset[]): Promise<void> {
+        let prog: IProgress = null;
+        if (progOrAsset instanceof BaseAsset) {
+            assets.push(progOrAsset);
+        }
+        else {
+            prog = progOrAsset
+        }
+
+        const cursor3d = this.modelAsset("/models/Cursors.glb");
+        assets.push(cursor3d);
+
+        await this.fetcher.assets(prog, ...assets);
+
+        this.set3DCursor(cursor3d.result);
     }
 }

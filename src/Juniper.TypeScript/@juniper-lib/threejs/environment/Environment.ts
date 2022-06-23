@@ -2,11 +2,12 @@ import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
 import type { CanvasTypes } from "@juniper-lib/dom/canvas";
 import { elementApply } from "@juniper-lib/dom/tags";
-import type { IFetcher } from "@juniper-lib/fetcher";
+import { AssetAudio, BaseAsset, IFetcher } from "@juniper-lib/fetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
 import { BatteryImage } from "@juniper-lib/graphics2d/BatteryImage";
 import { ClockImage } from "@juniper-lib/graphics2d/ClockImage";
-import { hasVR, IProgress, isDesktop, isMobile, isMobileVR, PriorityMap, progressTasks, rad2deg, TypedEvent } from "@juniper-lib/tslib";
+import { Audio_Mpeg } from "@juniper-lib/mediatypes";
+import { hasVR, IProgress, isDesktop, isMobile, isMobileVR, PriorityMap, rad2deg, TypedEvent } from "@juniper-lib/tslib";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
 import { ConfirmationDialog } from "../ConfirmationDialog";
 import { InteractionAudio } from "../eventSystem/InteractionAudio";
@@ -137,7 +138,7 @@ export class Environment
             this.devicesDialog,
             this.renderer.domElement);
 
-        this.uiButtons = new ButtonFactory(this.fetcher, uiImagePaths, 20);
+        this.uiButtons = new ButtonFactory(uiImagePaths, 20);
 
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
         this.quitButton = new ButtonImageWidget(this.uiButtons, "ui", "quit");
@@ -308,14 +309,32 @@ export class Environment
         widgetSetEnabled(this.lobbyButton, !showing, "primary");
     }
 
-    override async load(prog?: IProgress) {
-        await progressTasks(prog,
-            (prog) => super.load(prog),
-            (prog) => this.uiButtons.load(prog),
-            (prog) => this.audio.loadBasicClip("footsteps", "/audio/TransitionFootstepAudio.mp3", 0.5, prog),
-            (prog) => this.interactionAudio.load("enter", "/audio/basic_enter.mp3", 0.25, prog),
-            (prog) => this.interactionAudio.load("exit", "/audio/basic_exit.mp3", 0.25, prog),
-            (prog) => this.interactionAudio.load("error", "/audio/basic_error.mp3", 0.25, prog),
-            (prog) => this.interactionAudio.load("click", "/audio/vintage_radio_button_pressed.mp3", 1, prog));
+    override async load(prog: IProgress, ...assets: BaseAsset[]): Promise<void>;
+    override async load(...assets: BaseAsset[]): Promise<void>;
+    override async load(progOrAsset: IProgress | BaseAsset, ...assets: BaseAsset[]): Promise<void> {
+        let prog: IProgress = null;
+        if (progOrAsset instanceof BaseAsset) {
+            assets.push(progOrAsset);
+            prog = this.loadingBar;
+        }
+        else {
+            prog = progOrAsset
+        }
+
+        const footsteps = new AssetAudio("/audio/TransitionFootstepAudio.mp3", Audio_Mpeg);
+        const enter = new AssetAudio("/audio/basic_enter.mp3", Audio_Mpeg);
+        const exit = new AssetAudio("/audio/basic_exit.mp3", Audio_Mpeg);
+        const error = new AssetAudio("/audio/basic_error.mp3", Audio_Mpeg);
+        const click = new AssetAudio("/audio/vintage_radio_button_pressed.mp3", Audio_Mpeg);
+
+        assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click);
+
+        await super.load(prog, ...assets);
+
+        this.audio.createBasicClip("footsteps", footsteps.result, 0.5);
+        this.interactionAudio.create("enter", enter.result, 0.25);
+        this.interactionAudio.create("exit", exit.result, 0.25);
+        this.interactionAudio.create("error", error.result, 0.25);
+        this.interactionAudio.create("click", click.result, 1);
     }
 }

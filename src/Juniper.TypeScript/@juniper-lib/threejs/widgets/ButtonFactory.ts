@@ -1,26 +1,15 @@
 import { src, title } from "@juniper-lib/dom/attrs";
-import { CanvasImageTypes, CanvasTypes, createUICanvas } from "@juniper-lib/dom/canvas";
+import { CanvasTypes, createUICanvas } from "@juniper-lib/dom/canvas";
 import { Img } from "@juniper-lib/dom/tags";
-import type { IFetcher } from "@juniper-lib/fetcher";
-import { Exception, IProgress, nextPowerOf2, PoppableParentProgressCallback, PriorityMap, progressPopper, Task } from "@juniper-lib/tslib";
+import { AssetImage } from "@juniper-lib/fetcher";
+import { Image_Png } from "@juniper-lib/mediatypes";
+import { Exception, nextPowerOf2, PriorityMap, Task } from "@juniper-lib/tslib";
 
 interface UVRect {
     u: number;
     v: number;
     du: number;
     dv: number;
-}
-
-async function loadIcon(fetcher: IFetcher, setName: string, iconName: string, iconPath: string, popper: PoppableParentProgressCallback): Promise<[string, string, CanvasImageTypes]> {
-    const { content } = await fetcher
-        .get(iconPath)
-        .progress(popper.pop())
-        .image();
-    return [
-        setName,
-        iconName,
-        content
-    ];
 }
 
 export class ButtonFactory {
@@ -34,17 +23,26 @@ export class ButtonFactory {
     private enabledMaterial: THREE.MeshBasicMaterial = null;
     private disabledMaterial: THREE.MeshBasicMaterial = null;
 
-    constructor(private readonly fetcher: IFetcher, private readonly imagePaths: PriorityMap<string, string, string>, private readonly padding: number) {
+    readonly assets: AssetImage[];
+
+    private readonly assetSets: PriorityMap<string, string, AssetImage>;
+
+    constructor(private readonly imagePaths: PriorityMap<string, string, string>, private readonly padding: number) {
         this.readyTask = new Task();
+        this.assetSets = new PriorityMap(Array.from(this.imagePaths.entries())
+                .map(([setName, iconName, path]) =>
+                    [
+                        setName,
+                        iconName,
+                        new AssetImage(path, Image_Png)
+                    ]));
+        this.assets = Array.from(this.assetSets.values());
+        Promise.all(this.assets)
+            .then(() => this.finish());
     }
 
-    async load(prog?: IProgress) {
-        const popper = progressPopper(prog);
-        const imageSets = new PriorityMap(await Promise.all(
-            Array.from(this.imagePaths.entries())
-                .map(([setName, iconName, path]) =>
-                    loadIcon(this.fetcher, setName, iconName, path, popper))));
-        const images = Array.from(imageSets.values());
+    private finish() {
+        const images = Array.from(this.assets.map(asset => asset.result));
         const iconWidth = Math.max(...images.map((img) => img.width));
         const iconHeight = Math.max(...images.map((img) => img.height));
         const area = iconWidth * iconHeight * images.length;
@@ -67,7 +65,8 @@ export class ButtonFactory {
         g.fillRect(0, 0, canvWidth, canvHeight);
 
         let i = 0;
-        for (const [setName, imgName, img] of imageSets.entries()) {
+        for (const [setName, imgName, asset] of this.assetSets.entries()) {
+            const img = asset.result;
             const c = i % cols;
             const r = (i - c) / cols;
             const u = widthRatio * (c * iconWidth / width);
