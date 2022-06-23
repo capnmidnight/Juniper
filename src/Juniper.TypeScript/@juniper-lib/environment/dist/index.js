@@ -6058,9 +6058,9 @@ var DeviceManagerAudioOutputChangedEvent = class extends TypedEvent {
   }
 };
 var DeviceManagerAudioInputChangedEvent = class extends TypedEvent {
-  constructor(audio) {
+  constructor(audio2) {
     super("audioinputchanged");
-    this.audio = audio;
+    this.audio = audio2;
   }
 };
 var DeviceManagerVideoInputChangedEvent = class extends TypedEvent {
@@ -7208,8 +7208,8 @@ var AudioPlayer = class extends BaseAudioSource {
       arraySortByKeyInPlace(data.audios, (f) => -f.resolution);
       arrayReplace(this.sources, ...data.audios);
     }
-    for (const audio of this.sources) {
-      this.sourcesByURL.set(audio.url, audio);
+    for (const audio2 of this.sources) {
+      this.sourcesByURL.set(audio2.url, audio2);
     }
     if (!this.hasSources) {
       throw new Error("No audio sources");
@@ -7318,6 +7318,103 @@ var AudioPlayer = class extends BaseAudioSource {
   restart() {
     this.stop();
     return this.play();
+  }
+};
+
+// ../fetcher-base/Asset.ts
+var BaseAsset = class {
+  constructor(path, type2) {
+    this.path = path;
+    this.type = type2;
+    this.promise = new Promise((resolve, reject) => {
+      this.resolve = (value2) => {
+        this._result = value2;
+        this._finished = true;
+        resolve(value2);
+      };
+      this.reject = (reason) => {
+        this._error = reason;
+        this._finished = true;
+        reject(reason);
+      };
+    });
+  }
+  promise;
+  _result = null;
+  _error = null;
+  _started = false;
+  _finished = false;
+  get result() {
+    if (isDefined(this.error)) {
+      throw this.error;
+    }
+    return this._result;
+  }
+  get error() {
+    return this._error;
+  }
+  get started() {
+    return this._started;
+  }
+  get finished() {
+    return this._finished;
+  }
+  resolve = null;
+  reject = null;
+  getSize(fetcher) {
+    return fetcher.head(this.path).exec().then((response) => [this, response.contentLength]);
+  }
+  async fetch(fetcher, prog) {
+    try {
+      const result = await this.getResult(fetcher, prog);
+      this.resolve(result);
+    } catch (err) {
+      this.reject(err);
+    }
+  }
+  get [Symbol.toStringTag]() {
+    return this.promise.toString();
+  }
+  then(onfulfilled, onrejected) {
+    return this.promise.then(onfulfilled, onrejected);
+  }
+  catch(onrejected) {
+    return this.promise.catch(onrejected);
+  }
+  finally(onfinally) {
+    return this.promise.finally(onfinally);
+  }
+};
+var AssetCustom = class extends BaseAsset {
+  constructor(path, type2, getter) {
+    super(path, type2);
+    this.getter = getter;
+  }
+  getResult(fetcher, prog) {
+    return this.getter(fetcher, this.path, this.type, prog);
+  }
+};
+var BaseFetchedAsset = class extends BaseAsset {
+  constructor(path, type2) {
+    super(path, type2);
+  }
+  async getResult(fetcher, prog) {
+    const response = await this.getRequest(fetcher, prog);
+    return response.content;
+  }
+  getRequest(fetcher, prog) {
+    const request = fetcher.get(this.path).progress(prog);
+    return this.getResponse(request);
+  }
+};
+var AssetAudio = class extends BaseFetchedAsset {
+  getResponse(request) {
+    return request.audio(false, false, this.type);
+  }
+};
+var AssetImage = class extends BaseFetchedAsset {
+  getResponse(request) {
+    return request.image(this.type);
   }
 };
 
@@ -8195,6 +8292,182 @@ var ClockImage = class extends TextImage {
     this.value = value2;
   }
 };
+
+// ../mediatypes/util.ts
+var typePattern = /([^\/]+)\/(.+)/;
+var subTypePattern = /(?:([^\.]+)\.)?([^\+;]+)(?:\+([^;]+))?((?:; *([^=]+)=([^;]+))*)/;
+var MediaType = class {
+  constructor(_type, _fullSubType, extensions) {
+    this._type = _type;
+    this._fullSubType = _fullSubType;
+    this._primaryExtension = null;
+    this.depMessage = null;
+    const parameters = /* @__PURE__ */ new Map();
+    this._parameters = parameters;
+    const subTypeParts = this._fullSubType.match(subTypePattern);
+    this._tree = subTypeParts[1];
+    this._subType = subTypeParts[2];
+    this._suffix = subTypeParts[3];
+    const paramStr = subTypeParts[4];
+    this._value = this._fullValue = this._type + "/";
+    if (isDefined(this._tree)) {
+      this._value = this._fullValue += this._tree + ".";
+    }
+    this._value = this._fullValue += this._subType;
+    if (isDefined(this._suffix)) {
+      this._value = this._fullValue += "+" + this._suffix;
+    }
+    if (isDefined(paramStr)) {
+      const pairs = paramStr.split(";").map((p) => p.trim()).filter((p) => p.length > 0).map((p) => p.split("="));
+      for (const [key, ...values] of pairs) {
+        const value2 = values.join("=");
+        parameters.set(key, value2);
+        const slug = `; ${key}=${value2}`;
+        this._fullValue += slug;
+        if (key !== "q") {
+          this._value += slug;
+        }
+      }
+    }
+    this._extensions = extensions || [];
+    this._primaryExtension = this._extensions[0] || null;
+  }
+  static parse(value2) {
+    if (!value2) {
+      return null;
+    }
+    const match = value2.match(typePattern);
+    if (!match) {
+      return null;
+    }
+    const type2 = match[1];
+    const subType = match[2];
+    return new MediaType(type2, subType);
+  }
+  deprecate(message) {
+    this.depMessage = message;
+    return this;
+  }
+  check() {
+    if (isDefined(this.depMessage)) {
+      console.warn(`${this._value} is deprecated ${this.depMessage}`);
+    }
+  }
+  matches(value2) {
+    if (isNullOrUndefined(value2)) {
+      return false;
+    }
+    if (this.typeName === "*" && this.subTypeName === "*") {
+      return true;
+    }
+    let typeName = null;
+    let subTypeName = null;
+    if (isString(value2)) {
+      const match = value2.match(typePattern);
+      if (!match) {
+        return false;
+      }
+      typeName = match[1];
+      subTypeName = match[2];
+    } else {
+      typeName = value2.typeName;
+      subTypeName = value2._fullSubType;
+    }
+    return this.typeName === typeName && (this._fullSubType === "*" || this._fullSubType === subTypeName);
+  }
+  withParameter(key, value2) {
+    const newSubType = `${this._fullSubType}; ${key}=${value2}`;
+    return new MediaType(this.typeName, newSubType, this.extensions);
+  }
+  get typeName() {
+    this.check();
+    return this._type;
+  }
+  get tree() {
+    this.check();
+    return this._tree;
+  }
+  get suffix() {
+    return this._suffix;
+  }
+  get subTypeName() {
+    this.check();
+    return this._subType;
+  }
+  get value() {
+    this.check();
+    return this._value;
+  }
+  __getValueUnsafe() {
+    return this._value;
+  }
+  get fullValue() {
+    this.check();
+    return this._fullValue;
+  }
+  get parameters() {
+    this.check();
+    return this._parameters;
+  }
+  get extensions() {
+    this.check();
+    return this._extensions;
+  }
+  __getExtensionsUnsafe() {
+    return this._extensions;
+  }
+  get primaryExtension() {
+    this.check();
+    return this._primaryExtension;
+  }
+  toString() {
+    if (this.parameters.get("q") === "1") {
+      return this.value;
+    } else {
+      return this.fullValue;
+    }
+  }
+  addExtension(fileName) {
+    if (!fileName) {
+      throw new Error("File name is not defined");
+    }
+    if (this.primaryExtension) {
+      const idx = fileName.lastIndexOf(".");
+      if (idx > -1) {
+        const currentExtension = fileName.substring(idx + 1);
+        ;
+        if (this.extensions.indexOf(currentExtension) > -1) {
+          fileName = fileName.substring(0, idx);
+        }
+      }
+      fileName = `${fileName}.${this.primaryExtension}`;
+    }
+    return fileName;
+  }
+};
+function create2(group2, value2, ...extensions) {
+  return new MediaType(group2, value2, extensions);
+}
+function specialize(group2) {
+  return create2.bind(null, group2);
+}
+
+// ../mediatypes/audio.ts
+var audio = /* @__PURE__ */ specialize("audio");
+var Audio_Mpeg = /* @__PURE__ */ audio("mpeg", "mp3", "mp2", "mp2a", "mpga", "m2a", "m3a");
+
+// ../mediatypes/image.ts
+var image = /* @__PURE__ */ specialize("image");
+var Image_Png = /* @__PURE__ */ image("png", "png");
+var Image_Vendor_Google_StreetView_Pano = image("vnd.google.streetview.pano");
+
+// ../mediatypes/model.ts
+var model = /* @__PURE__ */ specialize("model");
+var Model_Gltf_Binary = /* @__PURE__ */ model("gltf-binary", "glb");
+
+// ../mediatypes/video.ts
+var video = /* @__PURE__ */ specialize("video");
+var Video_Vendor_Mpeg_Dash_Mpd = video("vnd.mpeg.dash.mpd", "mpd");
 
 // ../webrtc/constants.ts
 var DEFAULT_LOCAL_USER_ID = "local-user";
@@ -9609,8 +9882,8 @@ function makeClipName(type2, isDisabled) {
   return `InteractionAudio-${type2}`;
 }
 var InteractionAudio = class {
-  constructor(audio, eventSys) {
-    this.audio = audio;
+  constructor(audio2, eventSys) {
+    this.audio = audio2;
     this.eventSys = eventSys;
     this.enabled = true;
     const playClip = (evt) => {
@@ -9629,6 +9902,9 @@ var InteractionAudio = class {
   }
   async load(type2, path, volume, prog) {
     return await this.audio.loadClip(makeClipName(type2, false), path, false, false, true, false, volume, [], prog);
+  }
+  create(type2, element, volume) {
+    return this.audio.createClip(makeClipName(type2, false), element, false, true, false, volume, []);
   }
 };
 
@@ -9690,173 +9966,6 @@ var SpaceUI = class extends THREE.Object3D {
     }
   }
 };
-
-// ../mediatypes/util.ts
-var typePattern = /([^\/]+)\/(.+)/;
-var subTypePattern = /(?:([^\.]+)\.)?([^\+;]+)(?:\+([^;]+))?((?:; *([^=]+)=([^;]+))*)/;
-var MediaType = class {
-  constructor(_type, _fullSubType, extensions) {
-    this._type = _type;
-    this._fullSubType = _fullSubType;
-    this._primaryExtension = null;
-    this.depMessage = null;
-    const parameters = /* @__PURE__ */ new Map();
-    this._parameters = parameters;
-    const subTypeParts = this._fullSubType.match(subTypePattern);
-    this._tree = subTypeParts[1];
-    this._subType = subTypeParts[2];
-    this._suffix = subTypeParts[3];
-    const paramStr = subTypeParts[4];
-    this._value = this._fullValue = this._type + "/";
-    if (isDefined(this._tree)) {
-      this._value = this._fullValue += this._tree + ".";
-    }
-    this._value = this._fullValue += this._subType;
-    if (isDefined(this._suffix)) {
-      this._value = this._fullValue += "+" + this._suffix;
-    }
-    if (isDefined(paramStr)) {
-      const pairs = paramStr.split(";").map((p) => p.trim()).filter((p) => p.length > 0).map((p) => p.split("="));
-      for (const [key, ...values] of pairs) {
-        const value2 = values.join("=");
-        parameters.set(key, value2);
-        const slug = `; ${key}=${value2}`;
-        this._fullValue += slug;
-        if (key !== "q") {
-          this._value += slug;
-        }
-      }
-    }
-    this._extensions = extensions || [];
-    this._primaryExtension = this._extensions[0] || null;
-  }
-  static parse(value2) {
-    if (!value2) {
-      return null;
-    }
-    const match = value2.match(typePattern);
-    if (!match) {
-      return null;
-    }
-    const type2 = match[1];
-    const subType = match[2];
-    return new MediaType(type2, subType);
-  }
-  deprecate(message) {
-    this.depMessage = message;
-    return this;
-  }
-  check() {
-    if (isDefined(this.depMessage)) {
-      console.warn(`${this._value} is deprecated ${this.depMessage}`);
-    }
-  }
-  matches(value2) {
-    if (isNullOrUndefined(value2)) {
-      return false;
-    }
-    if (this.typeName === "*" && this.subTypeName === "*") {
-      return true;
-    }
-    let typeName = null;
-    let subTypeName = null;
-    if (isString(value2)) {
-      const match = value2.match(typePattern);
-      if (!match) {
-        return false;
-      }
-      typeName = match[1];
-      subTypeName = match[2];
-    } else {
-      typeName = value2.typeName;
-      subTypeName = value2._fullSubType;
-    }
-    return this.typeName === typeName && (this._fullSubType === "*" || this._fullSubType === subTypeName);
-  }
-  withParameter(key, value2) {
-    const newSubType = `${this._fullSubType}; ${key}=${value2}`;
-    return new MediaType(this.typeName, newSubType, this.extensions);
-  }
-  get typeName() {
-    this.check();
-    return this._type;
-  }
-  get tree() {
-    this.check();
-    return this._tree;
-  }
-  get suffix() {
-    return this._suffix;
-  }
-  get subTypeName() {
-    this.check();
-    return this._subType;
-  }
-  get value() {
-    this.check();
-    return this._value;
-  }
-  __getValueUnsafe() {
-    return this._value;
-  }
-  get fullValue() {
-    this.check();
-    return this._fullValue;
-  }
-  get parameters() {
-    this.check();
-    return this._parameters;
-  }
-  get extensions() {
-    this.check();
-    return this._extensions;
-  }
-  __getExtensionsUnsafe() {
-    return this._extensions;
-  }
-  get primaryExtension() {
-    this.check();
-    return this._primaryExtension;
-  }
-  toString() {
-    if (this.parameters.get("q") === "1") {
-      return this.value;
-    } else {
-      return this.fullValue;
-    }
-  }
-  addExtension(fileName) {
-    if (!fileName) {
-      throw new Error("File name is not defined");
-    }
-    if (this.primaryExtension) {
-      const idx = fileName.lastIndexOf(".");
-      if (idx > -1) {
-        const currentExtension = fileName.substring(idx + 1);
-        ;
-        if (this.extensions.indexOf(currentExtension) > -1) {
-          fileName = fileName.substring(0, idx);
-        }
-      }
-      fileName = `${fileName}.${this.primaryExtension}`;
-    }
-    return fileName;
-  }
-};
-function create2(group2, value2, ...extensions) {
-  return new MediaType(group2, value2, extensions);
-}
-function specialize(group2) {
-  return create2.bind(null, group2);
-}
-
-// ../mediatypes/image.ts
-var image = /* @__PURE__ */ specialize("image");
-var Image_Vendor_Google_StreetView_Pano = image("vnd.google.streetview.pano");
-
-// ../mediatypes/video.ts
-var video = /* @__PURE__ */ specialize("video");
-var Video_Vendor_Mpeg_Dash_Mpd = video("vnd.mpeg.dash.mpd", "mpd");
 
 // ../video/data.ts
 function isVideoRecord(obj2) {
@@ -10574,17 +10683,8 @@ function rot(def) {
 }
 
 // ../threejs/widgets/ButtonFactory.ts
-async function loadIcon(fetcher, setName, iconName, iconPath, popper) {
-  const { content } = await fetcher.get(iconPath).progress(popper.pop()).image();
-  return [
-    setName,
-    iconName,
-    content
-  ];
-}
 var ButtonFactory = class {
-  constructor(fetcher, imagePaths, padding2) {
-    this.fetcher = fetcher;
+  constructor(imagePaths, padding2) {
     this.imagePaths = imagePaths;
     this.padding = padding2;
     this.uvDescrips = new PriorityMap();
@@ -10594,11 +10694,16 @@ var ButtonFactory = class {
     this.enabledMaterial = null;
     this.disabledMaterial = null;
     this.readyTask = new Task();
+    this.assetSets = new PriorityMap(Array.from(this.imagePaths.entries()).map(([setName, iconName, path]) => [
+      setName,
+      iconName,
+      new AssetImage(path, Image_Png)
+    ]));
+    this.assets = Array.from(this.assetSets.values());
+    Promise.all(this.assets).then(() => this.finish());
   }
-  async load(prog) {
-    const popper = progressPopper(prog);
-    const imageSets = new PriorityMap(await Promise.all(Array.from(this.imagePaths.entries()).map(([setName, iconName, path]) => loadIcon(this.fetcher, setName, iconName, path, popper))));
-    const images = Array.from(imageSets.values());
+  finish() {
+    const images = Array.from(this.assets.map((asset) => asset.result));
     const iconWidth = Math.max(...images.map((img) => img.width));
     const iconHeight = Math.max(...images.map((img) => img.height));
     const area = iconWidth * iconHeight * images.length;
@@ -10618,7 +10723,8 @@ var ButtonFactory = class {
     g.fillStyle = "#1e4388";
     g.fillRect(0, 0, canvWidth, canvHeight);
     let i = 0;
-    for (const [setName, imgName, img] of imageSets.entries()) {
+    for (const [setName, imgName, asset] of this.assetSets.entries()) {
+      const img = asset.result;
       const c = i % cols;
       const r = (i - c) / cols;
       const u = widthRatio * (c * iconWidth / width2);
@@ -11412,7 +11518,7 @@ var AvatarLocal = class extends TypedEventBase {
     return this.head.parent;
   }
   snapTurn(direction) {
-    this.setHeading(this.heading + MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction);
+    this.setHeading(this.heading - MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction);
   }
   get keyboardControlEnabled() {
     return this._keyboardControlEnabled;
@@ -19703,7 +19809,7 @@ var Skybox = class {
         if (this.env.avatar.heading !== this.stageHeading) {
           this.rotationNeedsUpdate = true;
           this.stageHeading = this.env.avatar.heading;
-          this.stageRotation.setFromAxisAngle(U, this.env.avatar.heading);
+          this.stageRotation.setFromAxisAngle(U, -this.env.avatar.heading);
         }
       } else {
         this.rotationNeedsUpdate = this.imageNeedsUpdate = this.imageNeedsUpdate || this.rotationNeedsUpdate;
@@ -19839,6 +19945,7 @@ var BaseEnvironment = class extends TypedEventBase {
     this._xrMediaBinding = null;
     this._hasXRMediaLayers = null;
     this._hasXRCompositionLayers = null;
+    this.getModel = this.getModel.bind(this);
     if (isHTMLCanvas(canvas)) {
       canvas.style.backgroundColor = "black";
     }
@@ -20034,26 +20141,40 @@ var BaseEnvironment = class extends TypedEventBase {
       await this.fader.fadeIn();
     }
   }
+  modelAsset(path) {
+    return new AssetCustom(path, Model_Gltf_Binary, this.getModel);
+  }
+  getModel(fetcher, path, type2, prog) {
+    return fetcher.get(path).useCache(true).progress(prog).file(type2).then((response) => this.loadModel(response.content));
+  }
   async loadModel(path, prog) {
     const loader = new GLTFLoader();
-    const model = await loader.loadAsync(path, (evt) => {
+    const model2 = await loader.loadAsync(path, (evt) => {
       if (isDefined(prog)) {
         prog.report(evt.loaded, evt.total, path);
       }
     });
-    return model.scene;
+    return model2.scene;
   }
-  async load3DCursor(path, prog) {
-    const model = await this.loadModel(path, prog);
-    const children = model.children.slice(0);
+  set3DCursor(model2) {
+    const children = model2.children.slice(0);
     for (const child of children) {
       this.cursor3D.add(child.name, child);
     }
     this.eventSystem.refreshCursors();
     this.dispatchEvent(new TypedEvent("newcursorloaded"));
   }
-  async load(prog) {
-    await this.load3DCursor("/models/Cursors.glb", prog);
+  async load(progOrAsset, ...assets) {
+    let prog = null;
+    if (progOrAsset instanceof BaseAsset) {
+      assets.push(progOrAsset);
+    } else {
+      prog = progOrAsset;
+    }
+    const cursor3d = this.modelAsset("/models/Cursors.glb");
+    assets.push(cursor3d);
+    await this.fetcher.assets(prog, ...assets);
+    this.set3DCursor(cursor3d.result);
   }
 };
 
@@ -20406,7 +20527,7 @@ var Environment = class extends BaseEnvironment {
     this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
     this.devicesDialog = new DeviceDialog(this);
     elementApply(this.renderer.domElement.parentElement, this.screenUISpace, this.confirmationDialog, this.devicesDialog, this.renderer.domElement);
-    this.uiButtons = new ButtonFactory(this.fetcher, uiImagePaths, 20);
+    this.uiButtons = new ButtonFactory(uiImagePaths, 20);
     this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
     this.quitButton = new ButtonImageWidget(this.uiButtons, "ui", "quit");
     this.lobbyButton = new ButtonImageWidget(this.uiButtons, "ui", "lobby");
@@ -20522,8 +20643,26 @@ var Environment = class extends BaseEnvironment {
     widgetSetEnabled(this.quitButton, !showing, "primary");
     widgetSetEnabled(this.lobbyButton, !showing, "primary");
   }
-  async load(prog) {
-    await progressTasks(prog, (prog2) => super.load(prog2), (prog2) => this.uiButtons.load(prog2), (prog2) => this.audio.loadBasicClip("footsteps", "/audio/TransitionFootstepAudio.mp3", 0.5, prog2), (prog2) => this.interactionAudio.load("enter", "/audio/basic_enter.mp3", 0.25, prog2), (prog2) => this.interactionAudio.load("exit", "/audio/basic_exit.mp3", 0.25, prog2), (prog2) => this.interactionAudio.load("error", "/audio/basic_error.mp3", 0.25, prog2), (prog2) => this.interactionAudio.load("click", "/audio/vintage_radio_button_pressed.mp3", 1, prog2));
+  async load(progOrAsset, ...assets) {
+    let prog = null;
+    if (progOrAsset instanceof BaseAsset) {
+      assets.push(progOrAsset);
+      prog = this.loadingBar;
+    } else {
+      prog = progOrAsset;
+    }
+    const footsteps = new AssetAudio("/audio/TransitionFootstepAudio.mp3", Audio_Mpeg);
+    const enter = new AssetAudio("/audio/basic_enter.mp3", Audio_Mpeg);
+    const exit = new AssetAudio("/audio/basic_exit.mp3", Audio_Mpeg);
+    const error = new AssetAudio("/audio/basic_error.mp3", Audio_Mpeg);
+    const click = new AssetAudio("/audio/vintage_radio_button_pressed.mp3", Audio_Mpeg);
+    assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click);
+    await super.load(prog, ...assets);
+    this.audio.createBasicClip("footsteps", footsteps.result, 0.5);
+    this.interactionAudio.create("enter", enter.result, 0.25);
+    this.interactionAudio.create("exit", exit.result, 0.25);
+    this.interactionAudio.create("error", error.result, 0.25);
+    this.interactionAudio.create("click", click.result, 1);
   }
 };
 
