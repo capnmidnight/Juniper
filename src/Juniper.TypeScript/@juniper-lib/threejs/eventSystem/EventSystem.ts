@@ -128,10 +128,10 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                 {
                     const moveEvt = this.getEvent(pointer, "move", curHit);
 
-                    if (isDefined(draggedHit)) {
+                    if (isDefined(drgTarget)) {
                         drgTarget.dispatchEvent(moveEvt);
                     }
-                    else if (isDefined(pressedHit)) {
+                    else if (isDefined(prsTarget)) {
                         prsTarget.dispatchEvent(moveEvt);
                     }
                     else if (pointer.buttons === 0) {
@@ -200,7 +200,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     const dragStartEvt = this.getEvent(pointer, "dragstart", pressedHit, curHit);
                     this.dispatchEvent(dragStartEvt);
 
-                    if (isDefined(pressedHit)) {
+                    if (isDefined(prsTarget)) {
                         pointer.draggedHit = pressedHit;
                         prsTarget.dispatchEvent(dragStartEvt);
                     }
@@ -212,7 +212,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     const dragEvt = this.getEvent(pointer, "drag", draggedHit, curHit);
                     this.dispatchEvent(dragEvt);
 
-                    if (isDefined(draggedHit)) {
+                    if (isDefined(drgTarget)) {
                         drgTarget.dispatchEvent(dragEvt);
                     }
                 }
@@ -223,7 +223,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     const dragCancelEvt = this.getEvent(pointer, "dragcancel", draggedHit, curHit);
                     this.dispatchEvent(dragCancelEvt);
 
-                    if (isDefined(draggedHit)) {
+                    if (isDefined(drgTarget)) {
                         pointer.draggedHit = null;
                         drgTarget.dispatchEvent(dragCancelEvt);
                     }
@@ -235,7 +235,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     const dragEndEvt = this.getEvent(pointer, "dragend", draggedHit, curHit);
                     this.dispatchEvent(dragEndEvt);
 
-                    if (isDefined(draggedHit)) {
+                    if (isDefined(drgTarget)) {
                         pointer.draggedHit = null;
                         drgTarget.dispatchEvent(dragEndEvt);
                     }
@@ -324,10 +324,16 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
             }
         }
 
-        if (pointer.curHit
-            && pointer.hoveredHit
-            && pointer.curHit.object === pointer.hoveredHit.object) {
-            pointer.hoveredHit = pointer.curHit;
+        if (pointer.curHit) {
+            if (pointer.hoveredHit
+                && pointer.curHit.object === pointer.hoveredHit.object) {
+                pointer.hoveredHit = pointer.curHit;
+            }
+
+            if (pointer.draggedHit
+                && pointer.curHit.object === pointer.draggedHit.object) {
+                pointer.draggedHit = pointer.curHit;
+            }
         }
     }
 
