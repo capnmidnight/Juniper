@@ -8,10 +8,10 @@ export class SetTimeoutTimer extends BaseTimer<number> {
 
     start() {
         const updater = () => {
-            this.timer = setTimeout(updater, this.targetFrameTime) as any as number;
+            this.timer = setTimeout(updater, this.targetFrameTime);
             this.onTick(performance.now());
         };
-        this.timer = setTimeout(updater, this.targetFrameTime) as any as number;
+        this.timer = setTimeout(updater, this.targetFrameTime);
     }
 
     override stop() {
