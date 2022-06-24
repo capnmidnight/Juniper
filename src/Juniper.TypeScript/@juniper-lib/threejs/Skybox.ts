@@ -74,14 +74,16 @@ export class Skybox {
     lc = true;
     v = 0;
 
-    next() {
+    nextState() {
         this.a = bit(this.v, 0);
         this.b = bit(this.v, 1);
         this.c = bit(this.v, 2);
+        ++this.v;
+    }
 
+    logState() {
         const { a, b, c } = this;
         console.log({ a, b, c });
-        ++this.v;
     }
 
     constructor(private readonly env: BaseEnvironment<unknown>) {
@@ -127,7 +129,7 @@ export class Skybox {
         this.flipper.translate(-FACE_SIZE, 0);
 
         this.setImages("", this.canvases);
-        this.next();
+        this.nextState();
         Object.seal(this);
     }
 
