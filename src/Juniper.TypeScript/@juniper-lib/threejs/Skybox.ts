@@ -260,12 +260,11 @@ export class Skybox {
                     : black;
 
             if (this.rotationNeedsUpdate) {
-                this.layerRotation.copy(this.rotation);
+                this.layerRotation
+                    .copy(this.rotation)
+                    .invert();
 
                 if (this.layer) {
-                    if (this.enableOpenXR) {
-                        this.layerRotation.invert();
-                    }
 
                     const s = this.enableOpenXR ? -1 : 1;
                     this.stageRotation.setFromAxisAngle(U, s * this.env.avatar.heading);
