@@ -60,6 +60,8 @@ export class Skybox {
     private stageHeading = 0;
     private rotationNeedsUpdate = false;
     private imageNeedsUpdate = false;
+    private wasOpenXREnabled = false;
+    enableOpenXR = false;
     webXRLayerEnabled = true;
 
     visible = true;
@@ -211,6 +213,7 @@ export class Skybox {
 
             const visibleChanged = this.visible !== this.wasVisible;
             const headingChanged = this.env.avatar.heading !== this.stageHeading;
+            const openXRChanged = this.enableOpenXR !== this.wasOpenXREnabled;
 
             if (isWebXRLayerAvailable !== this.wasWebXRLayerAvailable) {
                 if (isWebXRLayerAvailable) {
@@ -248,10 +251,11 @@ export class Skybox {
                     this.imageNeedsUpdate = true;
                 }
 
-                if (headingChanged) {
+                if (headingChanged || openXRChanged) {
                     this.rotationNeedsUpdate = true;
                     this.stageHeading = this.env.avatar.heading;
-                    this.stageRotation.setFromAxisAngle(U, this.env.avatar.heading);
+                    const s = this.enableOpenXR ? -1 : 1;
+                    this.stageRotation.setFromAxisAngle(U, s * this.env.avatar.heading);
                 }
             }
             else {
@@ -263,6 +267,10 @@ export class Skybox {
 
             if (this.rotationNeedsUpdate) {
                 this.layerRotation.copy(this.rotation);
+
+                if (this.enableOpenXR) {
+                    this.layerRotation.invert();
+                }
 
                 if (this.layer) {
                     this.layerRotation.multiply(this.stageRotation);
@@ -318,6 +326,7 @@ export class Skybox {
             this.rotationNeedsUpdate = false;
             this.wasVisible = this.visible;
             this.wasWebXRLayerAvailable = isWebXRLayerAvailable;
+            this.wasOpenXREnabled = false;
         }
     }
 }
