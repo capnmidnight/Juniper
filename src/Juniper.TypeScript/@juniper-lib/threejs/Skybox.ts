@@ -1,6 +1,6 @@
-import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/CubeMapFaceIndex";
 import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper-lib/dom/canvas";
 import { createUtilityCanvas } from "@juniper-lib/dom/canvas";
+import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/CubeMapFaceIndex";
 import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
@@ -52,7 +52,7 @@ export class Skybox {
     private cube: THREE.CubeTexture;
     private readonly flipped: CanvasTypes;
     private readonly flipper: Context2D;
-    
+
     private curImagePath: string = null;
     private layer: XRCubeLayer = null;
     private wasVisible = false;
@@ -60,7 +60,7 @@ export class Skybox {
     private stageHeading = 0;
     private rotationNeedsUpdate = false;
     private imageNeedsUpdate = false;
-    private webXRLayerEnabled = true;
+    webXRLayerEnabled = true;
 
     visible = true;
 
@@ -209,6 +209,9 @@ export class Skybox {
                 && isDefined(frame)
                 && isDefined(this.env.xrBinding);
 
+            const visibleChanged = this.visible !== this.wasVisible;
+            const headingChanged = this.env.avatar.heading !== this.stageHeading;
+
             if (isWebXRLayerAvailable !== this.wasWebXRLayerAvailable) {
                 if (isWebXRLayerAvailable) {
                     const space = this.env.renderer.xr.getReferenceSpace();
@@ -241,15 +244,14 @@ export class Skybox {
                     : black;
 
             if (this.layer) {
-                if (this.visible !== this.wasVisible
-                    || this.layer.needsRedraw) {
+                if (visibleChanged || this.layer.needsRedraw) {
                     this.imageNeedsUpdate = true;
                 }
 
-                if (this.env.avatar.heading !== this.stageHeading) {
+                if (headingChanged) {
                     this.rotationNeedsUpdate = true;
                     this.stageHeading = this.env.avatar.heading;
-                    this.stageRotation.setFromAxisAngle(U, -this.env.avatar.heading);
+                    this.stageRotation.setFromAxisAngle(U, this.env.avatar.heading);
                 }
             }
             else {
@@ -260,8 +262,7 @@ export class Skybox {
             }
 
             if (this.rotationNeedsUpdate) {
-                this.layerRotation
-                    .copy(this.rotation);
+                this.layerRotation.copy(this.rotation);
 
                 if (this.layer) {
                     this.layerRotation.multiply(this.stageRotation);
@@ -272,7 +273,7 @@ export class Skybox {
                         this.layerRotation.w);
                 }
                 else {
-                    this.rtCamera.quaternion.copy(this.layerRotation.invert());
+                    this.rtCamera.quaternion.copy(this.layerRotation);
                 }
             }
 
