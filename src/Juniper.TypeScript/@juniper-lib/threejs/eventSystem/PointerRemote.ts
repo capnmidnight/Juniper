@@ -55,7 +55,7 @@ export class PointerRemote
         up: THREE.Vector3,
         offset: THREE.Vector3) {
 
-        this.origin.copy(position);
+        this.origin.copy(this.env.avatar.worldPos);
         this.direction.copy(forward);
         this.cursor.visible = true;
         this.env.eventSystem.fireRay(this);

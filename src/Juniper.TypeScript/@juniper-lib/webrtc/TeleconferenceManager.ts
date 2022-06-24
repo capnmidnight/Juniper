@@ -12,9 +12,7 @@ import {
 import adapter from 'webrtc-adapter';
 import {
     ConferenceErrorEvent,
-    ConferenceEvents,
-    ConferenceEventTypes,
-    ConferenceServerConnectedEvent,
+    ConferenceEvents, ConferenceServerConnectedEvent,
     ConferenceServerDisconnectedEvent,
     RoomJoinedEvent,
     RoomLeftEvent,
@@ -24,9 +22,7 @@ import {
     UserAudioStreamRemovedEvent,
     UserChatEvent,
     UserJoinedEvent,
-    UserLeftEvent,
-    UserPoseEvent,
-    UserVideoMutedEvent,
+    UserLeftEvent, UserVideoMutedEvent,
     UserVideoStreamAddedEvent,
     UserVideoStreamRemovedEvent
 } from "./ConferenceEvents";
@@ -420,16 +416,6 @@ export class TeleconferenceManager
             user.addEventListener("trackMuted", this.onTrackMuted.bind(this));
             user.addEventListener("trackRemoved", this.onTrackRemoved.bind(this));
             user.addEventListener("userLeft", (evt) => this.onUserLeft(evt.user));
-            user.addEventListener("userPosed", (evt) => {
-                this.onRemoteUserPosed(evt);
-                const { p, f, u } = evt.pose;
-                this.audio.setUserPose(
-                    evt.user.userID,
-                    p[0], p[1], p[2],
-                    f[0], f[1], f[2],
-                    u[0], u[1], u[2]);
-            });
-            user.addEventListener("userPointer", (evt) => this.onRemoteUserPosed(evt));
 
             this.toUser("greet", user.userID, this.localUserName);
 
@@ -575,13 +561,6 @@ export class TeleconferenceManager
                         user.sendPointer(name, px, py, pz, fx, fy, fz, ux, uy, uz)));
         }
     }
-
-    private onRemoteUserPosed<T extends ConferenceEventTypes>(evt: UserPoseEvent<T>): void {
-        const offset = this.audio.getUserOffset(evt.user.userID);
-        if (offset) {
-            evt.pose.setOffset(offset[0], offset[1], offset[2]);
-        }
-    };
 
     chat(text: string): void {
         if (this.conferenceState === ConnectionState.Connected) {

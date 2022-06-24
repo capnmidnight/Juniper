@@ -7,7 +7,7 @@ import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import type { IDisposable } from "@juniper-lib/tslib";
 import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
-import { UserPointerEvent, UserPosedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
+import { ConferenceEventTypes, UserPointerEvent, UserPosedEvent, UserPoseEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading } from "./animation/lookAngles";
@@ -81,10 +81,21 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
 
         objGraph(this, this.nameTag);
 
-        user.addEventListener("userPosed", (evt: UserPosedEvent) =>
-            this.setPose(evt.pose, evt.height));
+        user.addEventListener("userPosed", (evt: UserPosedEvent) => {
+            this.onRemoteUserPosed(evt);
+            const { p, f, u } = evt.pose;
+            this.env.audio.setUserPose(
+                evt.user.userID,
+                p[0], p[1], p[2],
+                f[0], f[1], f[2],
+                u[0], u[1], u[2]);
+
+            this.setPose(evt.pose, evt.height);
+        });
+
 
         user.addEventListener("userPointer", (evt: UserPointerEvent) => {
+            this.onRemoteUserPosed(evt);
             this.setPointer(this.env.avatar.worldPos, evt.name, evt.pose);
         });
 
@@ -94,6 +105,13 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             connect(evt.source, this.activity);
         });
     }
+
+    private onRemoteUserPosed<T extends ConferenceEventTypes>(evt: UserPoseEvent<T>): void {
+        const offset = this.env.audio.getUserOffset(evt.user.userID);
+        if (offset) {
+            evt.pose.setOffset(offset[0], offset[1], offset[2]);
+        }
+    };
 
     dispose() {
         for (const pointerName of this.pointers.keys()) {
