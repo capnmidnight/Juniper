@@ -508,16 +508,17 @@ export class AvatarLocal
             this.M.copy(this.stage.matrixWorld)
                 .invert();
 
-            this.head.position.copy(cam.position)
+            this.head.position
+                .copy(cam.position)
                 .applyMatrix4(this.M);
 
-            this.head.quaternion.copy(this.stage.quaternion)
+            this.head.quaternion
+                .copy(this.stage.quaternion)
                 .invert()
                 .multiply(cam.quaternion);
         }
         else {
             this.head.position.set(this.headX, this._height, this.headZ);
-
             this.E.set(this._pitch, 0, this._roll, "XYZ");
             this.head.quaternion.setFromEuler(this.E)
                 .premultiply(this.deviceQ);

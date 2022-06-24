@@ -137,7 +137,7 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
 
     private invocationCount = 0;
     private readonly invocations = new Map<number, () => void>();
-    private readonly locks = new Locker<Message>();
+    private readonly locks = new Locker<string>();
 
     private readonly connection: RTCPeerConnection;
     private channel: RTCDataChannel = null;
@@ -321,7 +321,10 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
     private async sendMessage(msgName: Message.Pointer, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerName: PointerName): Promise<void>;
     private async sendMessage(msgName: Message, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerNameOrHeight: number | PointerName): Promise<void> {
         if (this.channel && this.channel.readyState === "open") {
-            this.locks.withSkipLock(msgName, async () => {
+            let lockName = msgName === Message.Pose
+                ? msgName.toString()
+                : `${msgName}${pointerNameOrHeight}`;
+            this.locks.withSkipLock(lockName, async () => {
                 const buffer = msgName === Message.Pose ? this.sendPoseBuffer : this.sendPointerBuffer;
                 const invocationID = ++this.invocationCount;
 

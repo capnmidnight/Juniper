@@ -13,7 +13,7 @@ import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading } from "./animation/lookAngles";
 import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/PointerRemote";
-import { objGraph } from "./objects";
+import { objectRemove, objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
 import { TextMesh } from "./widgets/TextMesh";
 
@@ -184,17 +184,6 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         }
     }
 
-    private removeArm(name: PointerName): void {
-        const pointer = this.pointers.get(name);
-        if (pointer) {
-            this.body.remove(pointer.object);
-            this.pointers.delete(name);
-            if (pointer.cursor) {
-                this.env.stage.remove(pointer.cursor.object);
-            }
-        }
-    }
-
     refreshCursors() {
         for (const pointer of this.pointers.values()) {
             if (pointer.cursor) {
@@ -238,7 +227,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.nameTag.lookAt(this.env.avatar.worldPos);
     }
 
-    setPose(pose: Pose, height: number): void {
+    private setPose(pose: Pose, height: number): void {
         O.fromArray(pose.o);
         P.fromArray(pose.p)
             .add(O);
@@ -249,7 +238,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.height = height;
     }
 
-    setPointer(avatarHeadPos: THREE.Vector3, name: PointerName, pose: Pose): void {
+    private setPointer(avatarHeadPos: THREE.Vector3, name: PointerName, pose: Pose): void {
         let pointer = this.pointers.get(name);
 
         if (!pointer) {
@@ -267,28 +256,12 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
                 objGraph(this.env.stage, pointer.cursor);
             }
 
-            if (name === PointerName.Mouse) {
-                this.removeArm(PointerName.MotionController);
-                this.removeArm(PointerName.MotionControllerLeft);
-                this.removeArm(PointerName.MotionControllerRight);
-            }
-            else if (name === PointerName.MotionController
-                || name === PointerName.MotionControllerLeft
+            if (name === PointerName.MotionControllerLeft
                 || name === PointerName.MotionControllerRight) {
-                this.removeArm(PointerName.Mouse);
-                this.removeArm(PointerName.Pen);
-                this.removeArm(PointerName.Touch0);
-                this.removeArm(PointerName.Touch1);
-                this.removeArm(PointerName.Touch2);
-                this.removeArm(PointerName.Touch3);
-                this.removeArm(PointerName.Touch4);
-                this.removeArm(PointerName.Touch5);
-                this.removeArm(PointerName.Touch6);
-                this.removeArm(PointerName.Touch7);
-                this.removeArm(PointerName.Touch8);
-                this.removeArm(PointerName.Touch9);
-                this.removeArm(PointerName.Touch10);
-                this.removeArm(PointerName.Touches);
+                this.removeArmsExcept(PointerName.MotionControllerLeft, PointerName.MotionControllerRight);
+            }
+            else {
+                this.removeArmsExcept(name);
             }
         }
 
@@ -312,5 +285,24 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         O.add(E);
 
         pointer.setState(avatarHeadPos, P, F, U, O);
+    }
+
+    private removeArmsExcept(...names: PointerName[]): void {
+        for (const name of this.pointers.keys()) {
+            if (names.indexOf(name) === -1) {
+                this.removeArm(name);
+            }
+        }
+    }
+
+    private removeArm(name: PointerName): void {
+        const pointer = this.pointers.get(name);
+        if (pointer) {
+            objectRemove(this.body, pointer);
+            this.pointers.delete(name);
+            if (pointer.cursor) {
+                objectRemove(this.env.stage, pointer.cursor);
+            }
+        }
     }
 }

@@ -12,7 +12,7 @@ export class ObjectMovedEvent extends TypedEvent<"objectMoved"> {
     uy = 0;
     uz = 0;
 
-    constructor(public name: PointerName = null) {
+    constructor(public readonly name: PointerName = null) {
         super("objectMoved");
     }
 

@@ -32,7 +32,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
     readonly hands = new Array<PointerHand>();
 
     private readonly pointers: IPointer[];
-    private readonly localPointerMovedEvt = new ObjectMovedEvent();
+    private readonly pointerMovedEvts = new Map<PointerName, ObjectMovedEvent>();
 
     private readonly hits = new Array<THREE.Intersection>();
 
@@ -142,13 +142,17 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                         }
                     }
 
-                    this.localPointerMovedEvt.name = pointer.name;
-                    this.localPointerMovedEvt.set(
+                    let evt = this.pointerMovedEvts.get(pointer.name);
+                    if (!evt) {
+                        this.pointerMovedEvts.set(pointer.name, evt = new ObjectMovedEvent(pointer.name));
+                    }
+
+                    evt.set(
                         pointer.origin.x, pointer.origin.y, pointer.origin.z,
                         pointer.direction.x, pointer.direction.y, pointer.direction.z,
                         0, 1, 0);
 
-                    this.dispatchEvent(this.localPointerMovedEvt);
+                    this.dispatchEvent(evt);
                 }
                 break;
 
