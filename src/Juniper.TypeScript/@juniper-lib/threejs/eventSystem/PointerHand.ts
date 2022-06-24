@@ -103,6 +103,12 @@ export class PointerHand
             }
         });
 
+        this.gamepad.addEventListener("gamepadbuttonup", (evt) => {
+            if (evt.button === OculusQuestButtons.X_A) {
+                this.env.skybox.next();
+            }
+        })
+
         this.controller.addEventListener("connected", (evt: XRControllerConnectionEvent<"connected">) => {
             if (evt.target === this.controller) {
                 this.inputSource = evt.data;
