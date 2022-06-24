@@ -66,7 +66,7 @@ export class Skybox {
 
     visible = true;
 
-    
+
     constructor(private readonly env: BaseEnvironment<unknown>) {
 
         this.webXRLayerEnabled &&= this.env.hasXRCompositionLayers;
@@ -210,14 +210,15 @@ export class Skybox {
                 && this.env.renderer.xr.isPresenting
                 && isDefined(frame)
                 && isDefined(this.env.xrBinding);
-
+            const webXRLayerChanged = isWebXRLayerAvailable !== this.wasWebXRLayerAvailable;
             const visibleChanged = this.visible !== this.wasVisible;
             const headingChanged = this.env.avatar.heading !== this.stageHeading;
             const openXRChanged = this.enableOpenXR !== this.wasOpenXREnabled;
 
-            this.rotationNeedsUpdate = headingChanged || openXRChanged;
+            this.imageNeedsUpdate = this.imageNeedsUpdate || webXRLayerChanged;
+            this.rotationNeedsUpdate = this.rotationNeedsUpdate || webXRLayerChanged;
 
-            if (isWebXRLayerAvailable !== this.wasWebXRLayerAvailable) {
+            if (webXRLayerChanged) {
                 if (isWebXRLayerAvailable) {
                     const space = this.env.renderer.xr.getReferenceSpace();
 
@@ -236,10 +237,20 @@ export class Skybox {
                     this.layer.destroy();
                     this.layer = null;
                 }
+            }
 
+            if (this.layer) {
+                this.imageNeedsUpdate = this.imageNeedsUpdate
+                    || visibleChanged
+                    || this.layer.needsRedraw;
+                this.rotationNeedsUpdate = this.rotationNeedsUpdate
+                    || headingChanged
+                    || openXRChanged;
+            }
+            else {
                 this.imageNeedsUpdate
                     = this.rotationNeedsUpdate
-                    = true;
+                    = this.imageNeedsUpdate || this.rotationNeedsUpdate;
             }
 
             this.env.scene.background = this.layer
@@ -248,34 +259,18 @@ export class Skybox {
                     ? this.rt.texture
                     : black;
 
-            if (this.layer) {
-                if (visibleChanged || this.layer.needsRedraw) {
-                    this.imageNeedsUpdate = true;
-                }
-
-                if (headingChanged || openXRChanged) {
-                    this.stageHeading = this.env.avatar.heading;
-                    const s = this.enableOpenXR ? -1 : 1;
-                    this.stageRotation.setFromAxisAngle(U, s * this.env.avatar.heading);
-                }
-            }
-            else {
-                this.rotationNeedsUpdate
-                    = this.imageNeedsUpdate
-                    = this.imageNeedsUpdate
-                    || this.rotationNeedsUpdate;
-            }
-
             if (this.rotationNeedsUpdate) {
                 this.layerRotation.copy(this.rotation);
 
                 if (this.layer) {
                     if (this.enableOpenXR) {
-                        this.layerRotation.multiply(this.stageRotation);
+                        this.layerRotation.invert();
                     }
-                    else {
-                        this.layerRotation.premultiply(this.stageRotation);
-                    }
+
+                    const s = this.enableOpenXR ? -1 : 1;
+                    this.stageRotation.setFromAxisAngle(U, s * this.env.avatar.heading);
+
+                    this.layerRotation.multiply(this.stageRotation);
                     this.layer.orientation = new DOMPointReadOnly(
                         this.layerRotation.x,
                         this.layerRotation.y,
@@ -323,6 +318,7 @@ export class Skybox {
                 }
             }
 
+            this.stageHeading = this.env.avatar.heading;
             this.imageNeedsUpdate = false;
             this.rotationNeedsUpdate = false;
             this.wasVisible = this.visible;
