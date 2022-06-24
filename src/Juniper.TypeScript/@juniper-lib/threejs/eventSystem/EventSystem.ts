@@ -3,6 +3,7 @@ import { ObjectMovedEvent } from "@juniper-lib/threejs/eventSystem/ObjectMovedEv
 import { PointerEventTypes, SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
 import { arrayClear, arrayScan, assertNever, isDefined, TypedEventBase } from "@juniper-lib/tslib";
+import { PointerName } from "@juniper-lib/tslib/events/PointerName";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";
