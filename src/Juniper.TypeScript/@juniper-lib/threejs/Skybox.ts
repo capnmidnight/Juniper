@@ -43,6 +43,7 @@ export class Skybox {
     private readonly rtCamera = new THREE.CubeCamera(0.01, 10, this.rt);
     private readonly _rotation = new THREE.Quaternion();
     private readonly layerRotation = new THREE.Quaternion().identity();
+    private layerOrientation: DOMPointReadOnly = null;
     private readonly stageRotation = new THREE.Quaternion().identity();
 
     private images: CanvasImageTypes[] = null;
@@ -64,8 +65,11 @@ export class Skybox {
 
     visible = true;
 
-    constructor(private readonly env: BaseEnvironment<unknown>) {
+    private onNeedsRedraw: () => void = null;
+    framecount = 0;
 
+    constructor(private readonly env: BaseEnvironment<unknown>) {
+        this.onNeedsRedraw = () => this.imageNeedsUpdate = true;
         this.webXRLayerEnabled &&= this.env.hasXRCompositionLayers;
 
         this.env.scene.background = black;
@@ -202,6 +206,7 @@ export class Skybox {
     }
 
     update(frame: XRFrame) {
+        this.framecount++;
         if (this.cube) {
             const isWebXRLayerAvailable = this.webXRLayerEnabled
                 && this.env.renderer.xr.isPresenting
@@ -211,6 +216,8 @@ export class Skybox {
             const webXRLayerChanged = isWebXRLayerAvailable !== this.wasWebXRLayerAvailable;
             if (webXRLayerChanged) {
                 if (isWebXRLayerAvailable) {
+                    console.log("Layer created on frame " + this.framecount);
+
                     const space = this.env.renderer.xr.getReferenceSpace();
 
                     this.layer = this.env.xrBinding.createCubeLayer({
@@ -220,12 +227,13 @@ export class Skybox {
                         viewPixelWidth: FACE_SIZE,
                         viewPixelHeight: FACE_SIZE
                     });
-
+                    this.layer.addEventListener("redraw", this.onNeedsRedraw);
                     this.env.addWebXRLayer(this.layer, Number.MAX_VALUE);
                     this.rotationNeedsUpdate = true;
                 }
                 else if (this.layer) {
                     this.env.removeWebXRLayer(this.layer);
+                    this.layer.removeEventListener("redraw", this.onNeedsRedraw);
                     this.layer.destroy();
                     this.layer = null;
                 }
@@ -233,84 +241,91 @@ export class Skybox {
                 this.imageNeedsUpdate = true;
             }
 
-            const visibleChanged = this.visible !== this.wasVisible;
-            const headingChanged = this.env.avatar.heading !== this.stageHeading;
+            if (!this.layer || !webXRLayerChanged) {
+                const visibleChanged = this.visible !== this.wasVisible;
+                const headingChanged = this.env.avatar.heading !== this.stageHeading;
 
-            this.imageNeedsUpdate = this.imageNeedsUpdate
-                || visibleChanged
-                || this.layer && this.layer.needsRedraw;
+                this.imageNeedsUpdate = this.imageNeedsUpdate
+                    || visibleChanged
+                    || this.layer && this.layer.needsRedraw;
 
-            this.rotationNeedsUpdate = this.rotationNeedsUpdate
-                || headingChanged;
+                this.rotationNeedsUpdate = this.rotationNeedsUpdate
+                    || headingChanged;
 
-            this.env.scene.background = this.layer
-                ? null
-                : this.visible
-                    ? this.rt.texture
-                    : black;
+                this.env.scene.background = this.layer
+                    ? null
+                    : this.visible
+                        ? this.rt.texture
+                        : black;
 
-            if (this.rotationNeedsUpdate) {
-                this.layerRotation
-                    .copy(this.rotation)
-                    .invert();
+                if (this.rotationNeedsUpdate) {
+                    this.layerRotation
+                        .copy(this.rotation)
+                        .invert();
 
-                this.stageRotation.setFromAxisAngle(U, this.env.avatar.heading);
+                    this.stageRotation
+                        .setFromAxisAngle(U, this.env.avatar.heading)
+                        .premultiply(this.layerRotation);
+
+                    this.layerOrientation = new DOMPointReadOnly(
+                        this.stageRotation.x,
+                        this.stageRotation.y,
+                        this.stageRotation.z,
+                        this.stageRotation.w);
 
 
-                if (this.layer) {
-                    this.layerRotation.multiply(this.stageRotation);
-                    this.layer.orientation = new DOMPointReadOnly(
-                        this.layerRotation.x,
-                        this.layerRotation.y,
-                        this.layerRotation.z,
-                        this.layerRotation.w);
+                    if (this.layer) {
+                        this.layer.orientation = this.layerOrientation;
+                    }
+                    else {
+                        this.rtCamera.quaternion.copy(this.layerRotation);
+                        this.imageNeedsUpdate = true;
+                    }
                 }
-                else {
-                    this.rtCamera.quaternion.copy(this.layerRotation);
-                    this.imageNeedsUpdate = true;
-                }
-            }
 
-            if (this.imageNeedsUpdate) {
-                if (this.layer) {
-                    const gl = this.env.renderer.getContext();
-                    const gLayer = this.env.xrBinding.getSubImage(this.layer, frame);
-                    const imgs = this.cube.images as CanvasImageTypes[];
+                if (this.imageNeedsUpdate) {
+                    if (this.layer) {
+                        console.log("layer rendering on frame " + this.framecount);
+                        const gl = this.env.renderer.getContext();
+                        const gLayer = this.env.xrBinding.getSubImage(this.layer, frame);
+                        const imgs = this.cube.images as CanvasImageTypes[];
 
-                    this.flipper.fillRect(0, 0, FACE_SIZE, FACE_SIZE);
+                        this.flipper.fillRect(0, 0, FACE_SIZE, FACE_SIZE);
 
-                    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-                    gl.bindTexture(gl.TEXTURE_CUBE_MAP, gLayer.colorTexture);
+                        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+                        gl.bindTexture(gl.TEXTURE_CUBE_MAP, gLayer.colorTexture);
 
-                    for (let i = 0; i < imgs.length; ++i) {
-                        if (this.visible) {
-                            const img = imgs[FACES[i]];
-                            this.flipper.drawImage(
-                                img,
-                                0, 0, img.width, img.height,
-                                0, 0, FACE_SIZE, FACE_SIZE);
+                        for (let i = 0; i < imgs.length; ++i) {
+                            if (this.visible) {
+                                const img = imgs[FACES[i]];
+                                this.flipper.drawImage(
+                                    img,
+                                    0, 0, img.width, img.height,
+                                    0, 0, FACE_SIZE, FACE_SIZE);
+                            }
+
+                            gl.texSubImage2D(
+                                gl.TEXTURE_CUBE_MAP_POSITIVE_X + i,
+                                0,
+                                0, 0,
+                                gl.RGBA,
+                                gl.UNSIGNED_BYTE,
+                                this.flipped);
                         }
 
-                        gl.texSubImage2D(
-                            gl.TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                            0,
-                            0, 0,
-                            gl.RGBA,
-                            gl.UNSIGNED_BYTE,
-                            this.flipped);
+                        gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
                     }
+                    else {
+                        this.rtCamera.update(this.env.renderer, this.rtScene);
+                    }
+                }
 
-                    gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
-                }
-                else {
-                    this.rtCamera.update(this.env.renderer, this.rtScene);
-                }
+                this.stageHeading = this.env.avatar.heading;
+                this.imageNeedsUpdate = false;
+                this.rotationNeedsUpdate = false;
+                this.wasVisible = this.visible;
             }
 
-            this.stageHeading = this.env.avatar.heading;
-            this.imageNeedsUpdate = false;
-            this.rotationNeedsUpdate = false;
-            this.wasVisible = this.visible;
             this.wasWebXRLayerAvailable = isWebXRLayerAvailable;
         }
     }
