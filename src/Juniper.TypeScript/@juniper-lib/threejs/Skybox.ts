@@ -56,13 +56,13 @@ export class Skybox {
     private curImagePath: string = null;
     private layer: XRCubeLayer = null;
     private wasVisible = false;
-    private wasWebXRLayerAvailable: boolean = null;
     private stageHeading = 0;
     private rotationNeedsUpdate = false;
     private imageNeedsUpdate = false;
-    private wasOpenXREnabled = true;
-    enableOpenXR = false;
     webXRLayerEnabled = true;
+    private wasWebXRLayerAvailable: boolean = null;
+    enableOpenXR = false;
+    private wasOpenXREnabled: boolean = null;
 
     visible = true;
 
@@ -260,15 +260,18 @@ export class Skybox {
                     : black;
 
             if (this.rotationNeedsUpdate) {
-                this.layerRotation
-                    .copy(this.rotation)
-                    .invert();
+                this.layerRotation.copy(this.rotation);
+                const s = this.enableOpenXR ? -1 : 1;
+                this.stageRotation.setFromAxisAngle(U, s * this.env.avatar.heading);
+
+                if (this.enableOpenXR) {
+                    this.stageRotation.invert();
+                }
+                else {
+                    this.layerRotation.invert();
+                }
 
                 if (this.layer) {
-
-                    const s = this.enableOpenXR ? -1 : 1;
-                    this.stageRotation.setFromAxisAngle(U, s * this.env.avatar.heading);
-
                     this.layerRotation.multiply(this.stageRotation);
                     this.layer.orientation = new DOMPointReadOnly(
                         this.layerRotation.x,
