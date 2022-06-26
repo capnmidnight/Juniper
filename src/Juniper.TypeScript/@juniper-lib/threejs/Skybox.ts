@@ -43,34 +43,29 @@ export class Skybox {
     private readonly rtCamera = new THREE.CubeCamera(0.01, 10, this.rt);
     private readonly _rotation = new THREE.Quaternion();
     private readonly layerRotation = new THREE.Quaternion().identity();
-    private layerOrientation: DOMPointReadOnly = null;
     private readonly stageRotation = new THREE.Quaternion().identity();
-
-    private images: CanvasImageTypes[] = null;
     private readonly canvases = new Array<CanvasTypes>(6);
     private readonly contexts = new Array<Context2D>(6);
-
-    private cube: THREE.CubeTexture;
     private readonly flipped: CanvasTypes;
     private readonly flipper: Context2D;
+    private readonly onNeedsRedraw: () => void = null;
 
+    private layerOrientation: DOMPointReadOnly = null;
+    private images: CanvasImageTypes[] = null;
+    private cube: THREE.CubeTexture;
     private curImagePath: string = null;
     private layer: XRCubeLayer = null;
     private wasVisible = false;
     private stageHeading = 0;
     private rotationNeedsUpdate = false;
     private imageNeedsUpdate = false;
-    webXRLayerEnabled = true;
     private wasWebXRLayerAvailable: boolean = null;
 
     visible = true;
-
-    private onNeedsRedraw: () => void = null;
     framecount = 0;
 
     constructor(private readonly env: BaseEnvironment<unknown>) {
         this.onNeedsRedraw = () => this.imageNeedsUpdate = true;
-        this.webXRLayerEnabled &&= this.env.hasXRCompositionLayers;
 
         this.env.scene.background = black;
 
@@ -208,10 +203,9 @@ export class Skybox {
     update(frame: XRFrame) {
         this.framecount++;
         if (this.cube) {
-            const isWebXRLayerAvailable = this.webXRLayerEnabled
-                && this.env.renderer.xr.isPresenting
-                && isDefined(frame)
-                && isDefined(this.env.xrBinding);
+            const isWebXRLayerAvailable = this.env.hasXRCompositionLayers
+                && !!this.env.xrBinding
+                && !!frame;
 
             const webXRLayerChanged = isWebXRLayerAvailable !== this.wasWebXRLayerAvailable;
             if (webXRLayerChanged) {
@@ -225,11 +219,11 @@ export class Skybox {
                         layout: "mono",
                         isStatic: false,
                         viewPixelWidth: FACE_SIZE,
-                        viewPixelHeight: FACE_SIZE
+                        viewPixelHeight: FACE_SIZE,
+                        orientation: this.layerOrientation
                     });
                     this.layer.addEventListener("redraw", this.onNeedsRedraw);
-                    this.env.addWebXRLayer(this.layer, Number.MAX_VALUE);
-                    this.rotationNeedsUpdate = true;
+                    this.env.addWebXRLayer(this.layer, Number.MAX_VALUE); 
                 }
                 else if (this.layer) {
                     this.env.removeWebXRLayer(this.layer);
