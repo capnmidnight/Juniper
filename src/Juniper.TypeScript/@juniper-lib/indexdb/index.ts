@@ -139,7 +139,7 @@ export class IDexDB implements IDisposable {
             }
         }
 
-        const upgrading = new Task<boolean, Event>();
+        const upgrading = new Task<boolean>();
         const openRequest = isDefined(version)
             ? indexedDB.open(name, version)
             : indexedDB.open(name);

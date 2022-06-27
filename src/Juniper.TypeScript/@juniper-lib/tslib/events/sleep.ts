@@ -1,7 +1,31 @@
+import { isDefined } from "../typeChecks";
 import { Task } from "./Task";
 
-export function sleep(milliseconds: number): Promise<void> {
-    const task = new Task();
-    setTimeout(task.resolve, milliseconds);
-    return task;
+export class SleepTask extends Task {
+
+    private _timer: number = null;
+
+    constructor(private readonly milliseconds: number) {
+        super(false);
+    }
+
+    override start(): void {
+        super.start();
+        this._timer = setTimeout(() => {
+            this._timer = null;
+            this.resolve();
+        }, this.milliseconds);
+    }
+
+    override reset(): void {
+        super.reset();
+        if (isDefined(this._timer)) {
+            clearTimeout(this._timer);
+            this._timer = null;
+        }
+    }
+}
+
+export function sleep(milliseconds: number): SleepTask {
+    return new SleepTask(milliseconds);
 }

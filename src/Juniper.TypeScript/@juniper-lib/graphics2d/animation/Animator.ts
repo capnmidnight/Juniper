@@ -2,6 +2,7 @@ import { arrayClear, Task } from "@juniper-lib/tslib";
 
 export class Animator {
     private animations = new Array<(dt: number) => void>();
+    private readonly complete = new Task();
 
     update(dt: number) {
         dt = 0.001 * dt;
@@ -17,17 +18,17 @@ export class Animator {
     start(delay: number, duration: number, update: (t: number) => void): Promise<void> {
         let time = -delay;
         update(0);
-        const animationComplete = new Task();
+        this.complete.reset();
         this.animations.push((dt: number) => {
             time += dt / duration;
             if (time >= 1) {
                 update(1);
-                animationComplete.resolve();
+                this.complete.resolve();
             }
             else if (time >= 0) {
                 update(time);
             }
         });
-        return animationComplete;
+        return this.complete;
     }
 }
