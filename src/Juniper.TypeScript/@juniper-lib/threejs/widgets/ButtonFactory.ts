@@ -3,7 +3,7 @@ import { CanvasTypes, createUICanvas } from "@juniper-lib/dom/canvas";
 import { Img } from "@juniper-lib/dom/tags";
 import { AssetImage } from "@juniper-lib/fetcher";
 import { Image_Png } from "@juniper-lib/mediatypes";
-import { Exception, nextPowerOf2, PriorityMap, Task } from "@juniper-lib/tslib";
+import { Exception, nextPowerOf2, PriorityMap } from "@juniper-lib/tslib";
 
 interface UVRect {
     u: number;
@@ -15,8 +15,7 @@ interface UVRect {
 export class ButtonFactory {
     private readonly uvDescrips = new PriorityMap<string, string, UVRect>();
     private readonly geoms = new PriorityMap<string, string, THREE.BufferGeometry>();
-
-    private readonly readyTask: Task<void>;
+    private readonly ready: Promise<void>;
 
     private canvas: CanvasTypes = null;
     private texture: THREE.Texture = null;
@@ -28,7 +27,6 @@ export class ButtonFactory {
     private readonly assetSets: PriorityMap<string, string, AssetImage>;
 
     constructor(private readonly imagePaths: PriorityMap<string, string, string>, private readonly padding: number, debug: boolean) {
-        this.readyTask = new Task();
         this.assetSets = new PriorityMap(Array.from(this.imagePaths.entries())
                 .map(([setName, iconName, path]) =>
                     [
@@ -37,12 +35,12 @@ export class ButtonFactory {
                         new AssetImage(path, Image_Png, !debug)
                     ]));
         this.assets = Array.from(this.assetSets.values());
-        Promise.all(this.assets)
+        this.ready = Promise.all(this.assets)
             .then(() => this.finish());
     }
 
     private finish() {
-        const images = Array.from(this.assets.map(asset => asset.result));
+        const images = this.assets.map(asset => asset.result);
         const iconWidth = Math.max(...images.map((img) => img.width));
         const iconHeight = Math.max(...images.map((img) => img.height));
         const area = iconWidth * iconHeight * images.length;
@@ -95,8 +93,6 @@ export class ButtonFactory {
             opacity: 0.5
         });
         this.disabledMaterial.needsUpdate = true;
-
-        this.readyTask.resolve();
     }
 
     getSets() {
@@ -112,14 +108,14 @@ export class ButtonFactory {
     }
 
     async getMaterial(enabled: boolean) {
-        await this.readyTask;
+        await this.ready;
         return enabled
             ? this.enabledMaterial
             : this.disabledMaterial;
     }
 
     async getGeometry(setName: string, iconName: string) {
-        await this.readyTask;
+        await this.ready;
         const uvSet = this.uvDescrips.get(setName);
         const uv = uvSet && uvSet.get(iconName);
         if (!uvSet || !uv) {

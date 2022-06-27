@@ -13,9 +13,9 @@ function targetValidateEvent(target: EventTarget, type: string) {
  * @param [rejectEvt] - the name of the event that could reject the Promise this method creates.
  * @param [timeout] - the number of milliseconds to wait for the resolveEvt, before rejecting.
  */
-export function once<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, timeout: number, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt], EventsT[keyof EventsT]>;
-export function once<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt], EventsT[keyof EventsT]>;
-export function once<EventsT>(target: EventTarget, resolveEvt: keyof EventsT & string, rejectEvtOrTimeout?: number | (keyof EventsT & string), ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt], EventsT[keyof EventsT]> {
+export function once<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, timeout: number, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt]>;
+export function once<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt]>;
+export function once<EventsT>(target: EventTarget, resolveEvt: keyof EventsT & string, rejectEvtOrTimeout?: number | (keyof EventsT & string), ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt]> {
 
     if (isNullOrUndefined(rejectEvts)) {
         rejectEvts = [];
@@ -41,7 +41,7 @@ export function once<EventsT>(target: EventTarget, resolveEvt: keyof EventsT & s
         }
     }
 
-    const task = new Task<EventsT[typeof resolveEvt], EventsT[keyof EventsT]>();
+    const task = new Task<EventsT[typeof resolveEvt]>();
 
     if (isNumber(timeout)) {
         const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
@@ -64,7 +64,7 @@ export function once<EventsT>(target: EventTarget, resolveEvt: keyof EventsT & s
     return task;
 }
 
-export function success<T, E>(task: Task<T, E>): Promise<boolean> {
+export function success<T>(task: Task<T>): Promise<boolean> {
     return task.then(alwaysTrue)
         .catch(alwaysFalse);
 };
