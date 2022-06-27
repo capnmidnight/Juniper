@@ -79,6 +79,10 @@ export class ConfirmationDialog extends DialogBox implements Widget {
 
     private readonly animator = new Animator();
 
+    private a = 0;
+    private b = 0;
+    private readonly onTick: (t: number) => void;
+
     constructor(private readonly env: Environment, fontFamily: string) {
         super("Confirm action");
 
@@ -117,6 +121,10 @@ export class ConfirmationDialog extends DialogBox implements Widget {
 
         objectSetVisible(this.root, false);
         this.root.scale.setScalar(0);
+        this.onTick = (t: number) => {
+            const scale = jump(this.a + this.b * t, JUMP_FACTOR);
+            this.root.scale.set(scale, scale, 0.01);
+        };
     }
 
     get visible() {
@@ -133,10 +141,9 @@ export class ConfirmationDialog extends DialogBox implements Widget {
     }
 
     private async showHide(a: number, b: number): Promise<void> {
-        await this.animator.start(0, 0.25, (t) => {
-            const scale = jump(a + b * t, JUMP_FACTOR);
-            this.root.scale.set(scale, scale, 0.01);
-        });
+        this.a = a;
+        this.b = b;
+        await this.animator.start(0, 0.25, this.onTick);
         this.animator.clear();
     }
 
