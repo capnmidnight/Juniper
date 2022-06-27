@@ -18,29 +18,8 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
     private _errored = false;
     private _finished = false;
 
-    get result(): ResultsT {
-        if (isDefined(this.error)) {
-            throw this.error;
-        }
-
-        return this._result;
-    }
-
-    get error(): any {
-        return this._error;
-    }
-
-    get started(): boolean {
-        return this._started;
-    }
-
-    get finished(): boolean {
-        return this._finished;
-    }
-
-    get errored(): boolean {
-        return this._errored;
-    }
+    readonly resolve: (value: ResultsT) => void;
+    readonly reject: (reason: any) => void;
 
     constructor(autoStart?: boolean);
     constructor(resolveTest: Predicate<ResultsT>, autoStart?: boolean)
@@ -76,13 +55,40 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
         if (this.autoStart) {
             this.start();
         }
+
+        this.resolve = this._resolve.bind(this);
+        this.reject = this._reject.bind(this);
+    }
+
+    get result(): ResultsT {
+        if (isDefined(this.error)) {
+            throw this.error;
+        }
+
+        return this._result;
+    }
+
+    get error(): any {
+        return this._error;
+    }
+
+    get started(): boolean {
+        return this._started;
+    }
+
+    get finished(): boolean {
+        return this._finished;
+    }
+
+    get errored(): boolean {
+        return this._errored;
     }
 
     start() {
         this._started = true;
     }
 
-    resolve(value: ResultsT): void {
+    private _resolve(value: ResultsT): void {
         if (this.started
             && !this.finished
             && this.resolveTest(value)) {
@@ -94,7 +100,7 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
         }
     }
 
-    reject(reason: any): void {
+    private _reject(reason: any): void {
         if (this.started
             && !this.finished
             && this.rejectTest(reason)) {
