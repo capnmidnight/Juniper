@@ -60,7 +60,7 @@ export class PointerMultiTouch extends BaseScreenPointer {
                 const [a, b] = Array.from(this.points.values());
                 const pinchDist = dist(a, b);
                 if (evt.type === "pointermove") {
-                    this.env.fovControl.zoom((pinchDist - this.lastPinchDist) * 5);
+                    this.env.avatar.zoom((pinchDist - this.lastPinchDist) * 5);
                 }
 
                 this.lastPinchDist = pinchDist;

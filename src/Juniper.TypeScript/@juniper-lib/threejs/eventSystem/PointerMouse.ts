@@ -10,7 +10,7 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
 
         this.element.addEventListener("wheel", (evt: WheelEvent) => {
             evt.preventDefault();
-            this.env.fovControl.zoom(-evt.deltaY * 0.5);
+            this.env.avatar.zoom(-evt.deltaY * 0.5);
         }, { passive: false });
 
         this.element.addEventListener("contextmenu", (evt: Event) => {

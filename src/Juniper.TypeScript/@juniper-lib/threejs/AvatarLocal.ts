@@ -1,7 +1,7 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
 import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
-import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isMobile, isMobileVR, isNullOrUndefined, isString, TypedEventBase } from "@juniper-lib/tslib";
+import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isMobile, isMobileVR, isNullOrUndefined, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading, getLookPitch } from "./animation/lookAngles";
 import { BaseScreenPointer } from "./eventSystem/BaseScreenPointer";
@@ -11,7 +11,6 @@ import type { Fader } from "./Fader";
 import { ErsatzObject, obj } from "./objects";
 import { resolveCamera } from "./resolveCamera";
 import { setRightUpFwdPosFromMatrix } from "./setRightUpFwdPosFromMatrix";
-
 /**
  * The mouse is not as sensitive as the gamepad, so we have to bump up the
  * sensitivity quite a bit.
@@ -77,16 +76,27 @@ export class AvatarLocal
     private readonly motion = new THREE.Vector2();
     private readonly rotStage = new THREE.Matrix4();
     private readonly userMovedEvt = new AvatarMovedEvent();
+    private readonly acceleration = new THREE.Vector2(2, 2);
+    private readonly speed = new THREE.Vector2(3, 2);
+    private readonly axisControl = new THREE.Vector2(0, 0);
+    private readonly deviceQ = new THREE.Quaternion().identity();
+    private readonly uv = new THREE.Vector2();
+    private readonly duv = new THREE.Vector2();
+    private readonly move = new THREE.Vector3();
+    private readonly move2 = new THREE.Vector3();
+    private readonly followers = new Array<BodyFollower>();
+    private readonly onKeyDown: (evt: any) => void;
+    private readonly onKeyUp: (evt: any) => void;
 
-
-
+    private dz = 0;
     private _heading = 0;
     private _pitch = 0;
     private _roll = 0;
-
     private headX = 0;
     private headZ = 0;
-
+    private _worldHeading = 0;
+    private _worldPitch = 0;
+    private lastTouchInputTime = Number.MIN_SAFE_INTEGER;
     private fwrd = false;
     private back = false;
     private left = false;
@@ -99,35 +109,28 @@ export class AvatarLocal
     private down = false;
     private grow = false;
     private shrk = false;
+    private _keyboardControlEnabled = false;
 
-    private readonly move = new THREE.Vector3();
-    private readonly move2 = new THREE.Vector3();
-
-    private readonly followers = new Array<BodyFollower>();
+    private _height: number;
+    private _disableHorizontal: boolean;
+    private _disableVertical: boolean;
+    private _invertHorizontal: boolean;
+    private _invertVertical: boolean;
 
     readonly head: THREE.Object3D;
 
     readonly worldPos = new THREE.Vector3();
 
-    private _worldHeading: number = 0;
-    private _worldPitch: number = 0;
-    private lastTouchInputTime: number = Number.MIN_SAFE_INTEGER;
-
-    get worldHeading() {
-        return this._worldHeading;
-    }
-
-    get worldPitch() {
-        return this._worldPitch;
-    }
-
     evtSys: EventSystem = null;
-    requiredTouchCount = 1;
-    private _disableHorizontal: boolean;
-    private _disableVertical: boolean;
-    private _invertHorizontal: boolean;
-    private _invertVertical: boolean;
-    private axisControl = new THREE.Vector2(0, 0);
+
+    fovZoomEnabled = true;
+    minFOV = 15;
+    maxFOV = 120;
+    minimumX = -85 * Math.PI / 180;
+    maximumX = 85 * Math.PI / 180;
+
+    edgeFactor = 1 / 3;
+
 
     set disableVertical(v: boolean) {
         this._disableVertical = v;
@@ -149,33 +152,32 @@ export class AvatarLocal
         this.axisControl.y = this._disableHorizontal ? 0 : this._invertHorizontal ? 1 : -1;
     }
 
-
-    minimumX = -85 * Math.PI / 180;
-    maximumX = 85 * Math.PI / 180;
-
-    target = new THREE.Quaternion(0, 0, 0, 1);
-
-    edgeFactor = 1 / 3;
-    private readonly acceleration = new THREE.Vector2(2, 2);
-    private readonly speed = new THREE.Vector2(3, 2);
-
-    private deviceQ = new THREE.Quaternion().identity();
-
-    private _height: number;
     get height(): number {
         return this.head.position.y;
     }
-
-    private readonly uv = new THREE.Vector2();
-    private readonly duv = new THREE.Vector2();
 
     get object() {
         return this.head;
     }
 
-    private _keyboardControlEnabled = false;
-    private readonly onKeyDown: (evt: any) => void;
-    private readonly onKeyUp: (evt: any) => void;
+    get worldHeading() {
+        return this._worldHeading;
+    }
+
+    get worldPitch() {
+        return this._worldPitch;
+    }
+
+    get fov() {
+        return this.camera.fov;
+    }
+
+    set fov(v) {
+        if (v !== this.fov) {
+            this.camera.fov = v;
+            this.camera.updateProjectionMatrix();
+        }
+    }
 
     get stage() {
         return this.head.parent;
@@ -367,7 +369,17 @@ export class AvatarLocal
         this.updateOrientation();
     }
 
+    zoom(dz: number) {
+        this.dz = dz;
+    }
+
     update(dt: number) {
+        if (this.fovZoomEnabled
+            && Math.abs(this.dz) > 0) {
+            const factor = Math.pow(0.95, 5 * dt);
+            this.dz = truncate(factor * this.dz);
+            this.fov = clamp(this.camera.fov - this.dz, this.minFOV, this.maxFOV);
+        }
 
         dt *= 0.001;
 

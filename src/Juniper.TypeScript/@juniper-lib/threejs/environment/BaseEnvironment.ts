@@ -23,7 +23,6 @@ import { feet2Meters } from "@juniper-lib/tslib/units/length";
 import { BodyFollower } from "../animation/BodyFollower";
 import { updateScalings } from "../animation/scaleOnHover";
 import { AvatarLocal } from "../AvatarLocal";
-import { CameraControl } from "../CameraFOVControl";
 import { cleanup } from "../cleanup";
 import { Cursor3D } from "../eventSystem/Cursor3D";
 import { EventSystem } from "../eventSystem/EventSystem";
@@ -94,7 +93,6 @@ export class BaseEnvironment<Events = unknown>
     readonly worldUISpace: BodyFollower;
     readonly skybox: Skybox;
     readonly avatar: AvatarLocal;
-    readonly fovControl: CameraControl;
     readonly screenControl: ScreenControl;
     readonly eventSystem: EventSystem;
 
@@ -123,8 +121,6 @@ export class BaseEnvironment<Events = unknown>
         });
 
         this.renderer.domElement.tabIndex = 1;
-
-        this.fovControl = new CameraControl(this.camera);
 
         this.screenControl = new ScreenControl(
             this.renderer,
@@ -232,7 +228,6 @@ export class BaseEnvironment<Events = unknown>
 
             this.screenControl.resize();
             this.eventSystem.update();
-            this.fovControl.update(evt.dt);
             this.avatar.update(evt.dt);
             this.worldUISpace.update(this.avatar.height, this.avatar.worldPos, this.avatar.worldHeading, evt.dt);
             this.fader.update(evt.dt);
