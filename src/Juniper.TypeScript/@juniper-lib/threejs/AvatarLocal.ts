@@ -41,7 +41,7 @@ enum CameraControlMode {
     None = "none",
     MouseFPS = "mousefirstperson",
     MouseDrag = "mousedrag",
-    MouseScreenEdge = "mouseedge",
+    ScreenEdge = "mouseedge",
     Touch = "touchswipe",
     Gamepad = "gamepad",
     MagicWindow = "magicwindow"
@@ -284,7 +284,13 @@ export class AvatarLocal
     }
 
     setMode(pointer: IPointer) {
-        if (pointer.type === "touch" || pointer.type === "pen") {
+        if (pointer.type === "hand" || pointer.type === "remote") {
+            this.controlMode = CameraControlMode.None;
+        }
+        else if (pointer.draggedHit) {
+            this.controlMode = CameraControlMode.ScreenEdge;
+        }
+        else if (pointer.type === "touch" || pointer.type === "pen") {
             this.lastTouchInputTime = performance.now();
             this.controlMode = CameraControlMode.Touch;
         }
@@ -297,10 +303,7 @@ export class AvatarLocal
         else if (this.evtSys.mouse.isPointerLocked) {
             this.controlMode = CameraControlMode.MouseFPS;
         }
-        else if (pointer.draggedHit) {
-            this.controlMode = CameraControlMode.MouseScreenEdge;
-        }
-        else {
+        else  {
             this.controlMode = CameraControlMode.MouseDrag;
         }
     }
@@ -308,7 +311,7 @@ export class AvatarLocal
     private gestureSatisfied(pointer: IPointer) {
         const button = this.requiredMouseButton.get(this.controlMode);
         if (isNullOrUndefined(button)) {
-            return this.controlMode === CameraControlMode.MouseScreenEdge
+            return this.controlMode === CameraControlMode.ScreenEdge
                 || this.controlMode === CameraControlMode.MouseFPS
                 || this.controlMode === CameraControlMode.Touch
                 || this.controlMode === CameraControlMode.Gamepad;
@@ -399,7 +402,7 @@ export class AvatarLocal
                     .multiply(this.Q2); // adjust for screen orientation
             }
         }
-        else if (this.controlMode === CameraControlMode.MouseScreenEdge) {
+        else if (this.controlMode === CameraControlMode.ScreenEdge) {
             if (this.uv.manhattanLength() > 0) {
                 this.motion
                     .set(
