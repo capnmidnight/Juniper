@@ -76,14 +76,23 @@ export function getRayTarget<T = void>(obj: Objects | THREE.Intersection): RayTa
     }
 
     if (isRayTarget<T>(obj)) {
-        return obj;
+        if (obj.object.visible) {
+            return obj;
+        }
+
+        return null;
     }
-    else if (isIntersection(obj)
+
+    if (isIntersection(obj)
         || isErsatzObject(obj)) {
         obj = obj.object;
     }
 
-    return obj && obj.userData[RAY_TARGET_KEY] as RayTarget<T>;
+    if (!obj || !obj.visible) {
+        return null;
+    }
+
+    return obj.userData[RAY_TARGET_KEY] as RayTarget<T>;
 }
 
 export function assureRayTarget<T = void>(obj: Objects): RayTarget<T> {
