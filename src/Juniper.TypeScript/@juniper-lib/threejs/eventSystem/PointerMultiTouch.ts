@@ -42,6 +42,7 @@ export class PointerMultiTouch extends BaseScreenPointer {
             this.points.delete(evt.pointerId);
         }
 
+        this.isActive = this.points.size > 0;
         this._buttons = 0;
         this.position.setScalar(0);
         this.motion.setScalar(0);
