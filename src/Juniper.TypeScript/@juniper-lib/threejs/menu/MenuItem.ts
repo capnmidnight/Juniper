@@ -61,7 +61,7 @@ export class MenuItem extends RayTarget
     }
 
     private updateHover() {
-        scaleOnHover(this.object, this.clickable && this.enabled);
+        scaleOnHover(this, this.clickable && this.enabled);
     }
 
     update(dt: number, frame?: XRFrame) {

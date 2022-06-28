@@ -1,5 +1,5 @@
-import { isDefined, isNumber, TypedEventBase } from "@juniper-lib/tslib";
-import { ErsatzObject, isErsatzObject, objectResolve, Objects } from "../objects";
+import { TypedEventBase } from "@juniper-lib/tslib";
+import { ErsatzObject, objectIsFullyVisible, objectResolve, Objects } from "../objects";
 import { EventSystemEvents } from "./EventSystemEvent";
 
 const RAY_TARGET_KEY = "Juniper:ThreeJS:EventSystem:RayTarget";
@@ -62,44 +62,23 @@ export function isRayTarget<T = void>(obj: Objects): obj is RayTarget<T> {
     return obj instanceof RayTarget;
 }
 
-export function isIntersection(obj: any): obj is THREE.Intersection {
-    return isDefined(obj)
-        && isNumber(obj.distance)
-        && obj.point instanceof THREE.Vector3
-        && (obj.object === null
-            || obj.object instanceof THREE.Object3D);
-}
-
-export function getRayTarget<T = void>(obj: Objects | THREE.Intersection): RayTarget<T> {
-    if (!obj) {
-        return null;
-    }
-
-    if (isRayTarget<T>(obj)) {
-        if (obj.object.visible) {
-            return obj;
+export function getRayTarget<T = void>(obj: Objects): RayTarget<T> {
+    let target: RayTarget<T> = null;
+    if (obj) {
+        if (isRayTarget<T>(obj)) {
+            target = obj;
+        }
+        else {
+            obj = objectResolve(obj);
+            if (obj) {
+                target = obj.userData[RAY_TARGET_KEY] as RayTarget<T>;
+            }
         }
 
-        return null;
+        if (target && !objectIsFullyVisible(target)) {
+            target = null;
+        }
     }
 
-    if (isIntersection(obj)
-        || isErsatzObject(obj)) {
-        obj = obj.object;
-    }
-
-    if (!obj || !obj.visible) {
-        return null;
-    }
-
-    return obj.userData[RAY_TARGET_KEY] as RayTarget<T>;
-}
-
-export function assureRayTarget<T = void>(obj: Objects): RayTarget<T> {
-    if (!obj) {
-        throw new Error("object is not defined");
-    }
-
-    return getRayTarget<T>(obj)
-        || new RayTarget<T>(objectResolve(obj));
+    return target;
 }

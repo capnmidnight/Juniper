@@ -1,6 +1,6 @@
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { IDisposable, singleton } from "@juniper-lib/tslib";
-import { assureRayTarget, RayTarget } from "../eventSystem/RayTarget";
+import { RayTarget } from "../eventSystem/RayTarget";
 import { objectResolve, Objects } from "../objects";
 import { isMesh } from "../typeChecks";
 
@@ -14,7 +14,6 @@ const timeScale = 0.005;
 
 class ScaleState implements IDisposable {
     private readonly obj: THREE.Object3D;
-    private readonly target: RayTarget;
     private readonly base: THREE.Vector3;
     private readonly onEnter: () => void;
     private readonly onExit: () => void;
@@ -24,9 +23,8 @@ class ScaleState implements IDisposable {
     private running: boolean;
     private wasDisabled: boolean;
 
-    constructor(obj: Objects) {
-        this.target = assureRayTarget(obj);
-        this.obj = objectResolve(obj);
+    constructor(private readonly target: RayTarget) {
+        this.obj = objectResolve(this.target);
         this.base = this.obj.scale.clone();
         this.p = 0;
         this.dir = 0;
@@ -101,16 +99,16 @@ export function removeScaledObj(obj: THREE.Object3D) {
     }
 }
 
-export function scaleOnHover(obj: Objects, enabled: boolean) {
-    const has = scaledItems.has(obj);
+export function scaleOnHover(target: RayTarget, enabled: boolean) {
+    const has = scaledItems.has(target);
     if (enabled != has) {
         if (enabled) {
-            scaledItems.set(obj, new ScaleState(obj));;
+            scaledItems.set(target, new ScaleState(target));;
         }
         else {
-            const scaler = scaledItems.get(obj);
+            const scaler = scaledItems.get(target);
             scaler.dispose();
-            scaledItems.delete(obj);
+            scaledItems.delete(target);
         }
     }
 }

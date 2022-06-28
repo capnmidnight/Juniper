@@ -178,9 +178,10 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
                     if (pointer.buttons === 0) {
                         if (isDefined(prsTarget)) {
-                            pointer.pressedHit = null;
                             prsTarget.dispatchEvent(upEvt);
                         }
+
+                        pointer.pressedHit = null;
 
                         this.checkExit(curHit, hoveredHit, pointer);
                         this.checkEnter(curHit, hoveredHit, pointer);
@@ -229,9 +230,10 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     this.dispatchEvent(dragCancelEvt);
 
                     if (isDefined(drgTarget)) {
-                        pointer.draggedHit = null;
                         drgTarget.dispatchEvent(dragCancelEvt);
                     }
+
+                    pointer.draggedHit = null;
                 }
                 break;
 
@@ -241,9 +243,10 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     this.dispatchEvent(dragEndEvt);
 
                     if (isDefined(drgTarget)) {
-                        pointer.draggedHit = null;
                         drgTarget.dispatchEvent(dragEndEvt);
                     }
+
+                    pointer.draggedHit = null;
                 }
                 break;
 
@@ -279,14 +282,16 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
     }
 
     private checkExit(curHit: THREE.Intersection, hoveredHit: THREE.Intersection, pointer: IPointer) {
-        const curTarget = getRayTarget(curHit);
-        const hoveredTarget = getRayTarget(hoveredHit);
-        if (curTarget !== hoveredTarget && isDefined(hoveredTarget)) {
+        if (curHit !== hoveredHit) {
             pointer.hoveredHit = null;
 
-            const exitEvt = this.getEvent(pointer, "exit", hoveredHit);
-            this.dispatchEvent(exitEvt);
-            hoveredTarget.dispatchEvent(exitEvt);
+            const curTarget = getRayTarget(curHit);
+            const hoveredTarget = getRayTarget(hoveredHit);
+            if (curTarget !== hoveredTarget && isDefined(hoveredTarget)) {
+                const exitEvt = this.getEvent(pointer, "exit", hoveredHit);
+                this.dispatchEvent(exitEvt);
+                hoveredTarget.dispatchEvent(exitEvt);
+            }
         }
     }
 
