@@ -30,7 +30,6 @@ export interface IPointer {
     needsUpdate: boolean;
     update(): void;
     isPressed(buttons: VirtualButtons): boolean;
-    isActive: boolean;
 
     vibrate(): void;
     updateCursor(avatarHeadPos: THREE.Vector3, hit: THREE.Intersection, dist: number): void;

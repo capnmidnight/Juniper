@@ -14,11 +14,9 @@ export abstract class BaseScreenPointer extends BasePointer {
     protected readonly motion = new THREE.Vector2();
     private readonly uv = new THREE.Vector2();
     private readonly duv = new THREE.Vector2();
-    private readonly canvasSize = new THREE.Vector2();
     private readonly uvComp = new THREE.Vector2(1, -1);
     private readonly uvOff = new THREE.Vector2(-1, 1);
     private lastUV: THREE.Vector2 = null;
-    private lastPosition: THREE.Vector2 = null;
 
     constructor(
         type: PointerType,
@@ -78,50 +76,41 @@ export abstract class BaseScreenPointer extends BasePointer {
         if (this.checkEvent(evt)) {
             this.onReadEvent(evt);
 
-            if (evt.type === "pointermove"
-                && document.pointerLockElement
-                && this.lastPosition) {
-                this.position
-                    .copy(this.lastPosition)
-                    .add(this.motion);
-            }
-
             if (this.element.clientWidth > 0
                 && this.element.clientHeight > 0) {
-                this.canvasSize.set(
-                    this.element.clientWidth,
-                    this.element.clientHeight);
-
                 this.uv
                     .copy(this.position)
-                    .multiplyScalar(2)
-                    .divide(this.canvasSize)
+                    .multiplyScalar(2);
+
+                this.uv.x /= this.element.clientWidth;
+                this.uv.y /= this.element.clientHeight;
+
+                this.uv
                     .multiply(this.uvComp)
                     .add(this.uvOff);
             }
         }
     }
 
-    protected abstract onReadEvent(evt: PointerEvent): void;
+    protected override onPointerMove() {
+        super.onPointerMove();
 
-    protected override onPointerMove(): void {
         if (this.lastUV) {
             this.duv.copy(this.uv)
                 .sub(this.lastUV);
+
+            this.lastUV.copy(this.uv);
         }
 
-        if (this.duv.manhattanLength() > 0) {
-            this.env.avatar.onMove(this, this.uv, this.duv);
-        }
-
-        super.onPointerMove();
+        this.env.avatar.onMove(this, this.uv, this.duv);
 
         if (!this.lastUV) {
-            this.lastUV = new THREE.Vector2();
+            this.lastUV = new THREE.Vector2()
+                .copy(this.uv);
         }
-
-        this.lastUV.copy(this.uv);
     }
+
+    protected abstract onReadEvent(evt: PointerEvent): void;
 
     protected onUpdate(): void {
         const cam = resolveCamera(this.env.renderer, this.env.camera);
@@ -132,11 +121,5 @@ export abstract class BaseScreenPointer extends BasePointer {
             .unproject(cam)
             .sub(this.origin)
             .normalize();
-
-        if (!this.lastPosition) {
-            this.lastPosition = new THREE.Vector2();
-        }
-
-        this.lastPosition.copy(this.position);
     }
 }

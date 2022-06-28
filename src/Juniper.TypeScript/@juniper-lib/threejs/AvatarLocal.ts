@@ -287,24 +287,28 @@ export class AvatarLocal
         if (pointer.type === "hand" || pointer.type === "remote") {
             this.controlMode = CameraControlMode.None;
         }
-        else if (pointer.draggedHit) {
-            this.controlMode = CameraControlMode.ScreenEdge;
+        else if (pointer.type === "mouse") {
+            if (this.evtSys.mouse.isPointerLocked) {
+                this.controlMode = CameraControlMode.MouseFPS;
+            }
+            else if (pointer.draggedHit) {
+                this.controlMode = CameraControlMode.ScreenEdge;
+            }
+            else {
+                this.controlMode = CameraControlMode.MouseDrag;
+            }
         }
         else if (pointer.type === "touch" || pointer.type === "pen") {
             this.lastTouchInputTime = performance.now();
-            this.controlMode = CameraControlMode.Touch;
+            if (pointer.draggedHit) {
+                this.controlMode = CameraControlMode.ScreenEdge;
+            }
+            else {
+                this.controlMode = CameraControlMode.Touch;
+            }
         }
         else if (pointer.type === "gamepad") {
             this.controlMode = CameraControlMode.Gamepad;
-        }
-        else if (pointer.type !== "mouse") {
-            this.controlMode = CameraControlMode.None;
-        }
-        else if (this.evtSys.mouse.isPointerLocked) {
-            this.controlMode = CameraControlMode.MouseFPS;
-        }
-        else  {
-            this.controlMode = CameraControlMode.MouseDrag;
         }
     }
 

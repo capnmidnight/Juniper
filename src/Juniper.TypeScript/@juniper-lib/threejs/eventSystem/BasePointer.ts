@@ -25,7 +25,7 @@ export abstract class BasePointer
     private wasDragging = false;
     private dragDistance = 0;
 
-    isActive = false;
+    protected isActive = false;
     readonly origin = new THREE.Vector3();
     readonly direction = new THREE.Vector3();
     readonly delta = new THREE.Vector3();

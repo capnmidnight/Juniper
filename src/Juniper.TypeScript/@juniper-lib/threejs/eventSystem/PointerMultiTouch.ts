@@ -43,31 +43,26 @@ export class PointerMultiTouch extends BaseScreenPointer {
         }
 
         this._buttons = 0;
+        this.position.setScalar(0);
+        this.motion.setScalar(0);
 
-        this.isActive = this.points.size > 0;
+        const K = 1 / this.points.size;
+        for (const point of this.points.values()) {
+            this._buttons |= point.buttons << (this.points.size - 1);
+            this.position.x += K * point.offsetX;
+            this.position.y += K * point.offsetY;
+            this.motion.x += K * point.movementX;
+            this.motion.y += K * point.movementY;
+        }
 
-        if (this.isActive) {
-            this.position.setScalar(0);
-            this.motion.setScalar(0);
-
-            const K = 1 / this.points.size;
-            for (const point of this.points.values()) {
-                this._buttons |= point.buttons << (this.points.size - 1);
-                this.position.x += K * point.offsetX;
-                this.position.y += K * point.offsetY;
-                this.motion.x += K * point.movementX;
-                this.motion.y += K * point.movementY;
+        if (this.points.size === 2) {
+            const [a, b] = Array.from(this.points.values());
+            const pinchDist = dist(a, b);
+            if (evt.type === "pointermove") {
+                this.env.avatar.zoom((pinchDist - this.lastPinchDist) * 5);
             }
 
-            if (this.points.size === 2) {
-                const [a, b] = Array.from(this.points.values());
-                const pinchDist = dist(a, b);
-                if (evt.type === "pointermove") {
-                    this.env.avatar.zoom((pinchDist - this.lastPinchDist) * 5);
-                }
-
-                this.lastPinchDist = pinchDist;
-            }
+            this.lastPinchDist = pinchDist;
         }
     }
 
