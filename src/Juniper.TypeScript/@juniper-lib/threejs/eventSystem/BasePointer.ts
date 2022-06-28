@@ -26,8 +26,9 @@ export abstract class BasePointer
     private dragDistance = 0;
 
     isActive = false;
-    origin = new THREE.Vector3();
-    direction = new THREE.Vector3();
+    readonly origin = new THREE.Vector3();
+    readonly direction = new THREE.Vector3();
+    readonly delta = new THREE.Vector3();
 
     curHit: THREE.Intersection = null;
     hoveredHit: THREE.Intersection = null;
@@ -143,7 +144,21 @@ export abstract class BasePointer
 
     update(): void {
         if (this.needsUpdate) {
+            this.delta
+                .copy(this.origin)
+                .add(this.direction);
             this.onUpdate();
+
+            this.delta.sub(this.origin)
+                .sub(this.direction);
+
+            const move = 1000 * this.delta.length();
+            this.moveDistance = move;
+
+            if (move > 0.00001) {
+                this.onPointerMove();
+            }
+
             this.lastButtons = this.buttons;
             this.wasDragging = this.dragging;
         }
@@ -165,7 +180,6 @@ export abstract class BasePointer
     }
 
     protected onPointerMove() {
-        this.setEventState("move");
         if (this.buttons !== MouseButtons.None) {
             const target = getRayTarget(this.pressedHit);
             const canDrag = !target || target.draggable;
@@ -182,6 +196,7 @@ export abstract class BasePointer
                 }
             }
         }
+        this.setEventState("move");
     }
 
     private onDragStart() {

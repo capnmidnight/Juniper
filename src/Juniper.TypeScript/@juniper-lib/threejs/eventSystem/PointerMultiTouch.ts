@@ -46,6 +46,7 @@ export class PointerMultiTouch extends BaseScreenPointer {
 
         if (this.points.size > 0) {
             this.position.setScalar(0);
+            this.motion.setScalar(0);
 
             const K = 1 / this.points.size;
             for (const point of this.points.values()) {

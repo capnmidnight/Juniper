@@ -14,7 +14,7 @@ export abstract class BaseScreenPointer extends BasePointer {
     protected readonly motion = new THREE.Vector2();
     private readonly uv = new THREE.Vector2();
     private readonly duv = new THREE.Vector2();
-    private readonly sizeInv = new THREE.Vector2();
+    private readonly canvasSize = new THREE.Vector2();
     private readonly uvComp = new THREE.Vector2(1, -1);
     private readonly uvOff = new THREE.Vector2(-1, 1);
     private lastPosition: THREE.Vector2 = null;
@@ -85,20 +85,23 @@ export abstract class BaseScreenPointer extends BasePointer {
                     .add(this.motion);
             }
 
-            this.moveDistance = this.motion.length();
+            if (this.element.clientWidth > 0
+                && this.element.clientHeight > 0) {
+                this.canvasSize.set(
+                    this.element.clientWidth,
+                    this.element.clientHeight);
 
-            this.sizeInv.set(this.element.clientWidth, this.element.clientHeight);
-            if (this.sizeInv.manhattanLength() > 0) {
                 this.uv
                     .copy(this.position)
                     .multiplyScalar(2)
-                    .divide(this.sizeInv)
+                    .divide(this.canvasSize)
                     .multiply(this.uvComp)
                     .add(this.uvOff);
+
                 this.duv
                     .copy(this.motion)
                     .multiplyScalar(2)
-                    .divide(this.sizeInv)
+                    .divide(this.canvasSize)
                     .multiply(this.uvComp);
             }
         }
@@ -114,28 +117,17 @@ export abstract class BaseScreenPointer extends BasePointer {
     protected onUpdate(): void {
         const cam = resolveCamera(this.env.renderer, this.env.camera);
 
-        this.updateRay(cam);
-
-        if (this.motion.manhattanLength() > 0) {
-            this.onPointerMove();
-            this.updateRay(cam);
-        }
-
-        if (!this.lastPosition) {
-            this.lastPosition = new THREE.Vector2();
-        }
-
-        this.lastPosition.copy(this.position);
-        this.motion.setScalar(0);
-        this.duv.setScalar(0);
-    }
-
-    private updateRay(cam: THREE.Camera) {
         this.origin.setFromMatrixPosition(cam.matrixWorld);
         this.direction
             .set(this.uv.x, this.uv.y, 0.5)
             .unproject(cam)
             .sub(this.origin)
             .normalize();
+
+        if (!this.lastPosition) {
+            this.lastPosition = new THREE.Vector2();
+        }
+
+        this.lastPosition.copy(this.position);
     }
 }

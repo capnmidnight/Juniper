@@ -21,7 +21,6 @@ const handModelFactory = new XRHandModelFactory();
 const riftSCorrection = new THREE.Matrix4().makeRotationX(-7 * Math.PI / 9);
 const newOrigin = new THREE.Vector3();
 const newDirection = new THREE.Vector3();
-const delta = new THREE.Vector3();
 const buttonIndices = new PriorityMap<XRHandedness, VirtualButtons, number>([
     ["left", VirtualButtons.Primary, 0],
     ["left", VirtualButtons.Secondary, 1],
@@ -209,19 +208,11 @@ export class PointerHand
         this.laser.getWorldDirection(newDirection)
             .multiplyScalar(-1);
 
-        delta.copy(this.origin)
-            .add(this.direction);
-
         this.origin.lerp(newOrigin, 0.9);
         this.direction.lerp(newDirection, 0.9)
             .normalize();
 
-        delta.sub(this.origin)
-            .sub(this.direction);
-
-        this.moveDistance = 1000 * delta.length();
         this.gamepad.pad = this.inputSource && this.inputSource.gamepad || null;
-        this.onPointerMove();
     }
 
     isPressed(button: VirtualButtons): boolean {
