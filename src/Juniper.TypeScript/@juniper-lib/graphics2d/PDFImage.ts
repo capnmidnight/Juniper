@@ -20,7 +20,7 @@ export class PDFImage extends CanvasImage {
             workerPath = uri.toString();
 
             const { content: workerSrc } = await fetcher
-                .get(workerPath + "#" + pdfjsVersion)
+                .get(workerPath)
                 .useCache(!debug)
                 .progress(prog)
                 .file();
