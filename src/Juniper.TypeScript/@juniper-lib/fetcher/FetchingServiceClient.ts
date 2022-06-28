@@ -1,8 +1,6 @@
-import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
-import { IRequest, IRequestWithBody } from "@juniper-lib/fetcher-base/IRequest";
-import { IResponse } from "@juniper-lib/fetcher-base/IResponse";
+import { IFetchingService, IRequest, IRequestWithBody, IResponse } from "@juniper-lib/fetcher";
 import { IProgress } from "@juniper-lib/tslib";
-import { WorkerClient } from "@juniper-lib/worker-client";
+import { WorkerClient } from "@juniper-lib/workers";
 
 function isDOMParsersSupportedType(type: string): type is DOMParserSupportedType {
     return type === "application/xhtml+xml"

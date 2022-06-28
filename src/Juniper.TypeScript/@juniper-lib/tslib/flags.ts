@@ -1,3 +1,6 @@
+export function isWorkerSupported() {
+    return "Worker" in globalThis;
+}
 
 export function isChrome() {
     return "chrome" in globalThis && !navigator.userAgent.match("CriOS");
@@ -61,16 +64,16 @@ export function isDesktop() {
 
 const oculusBrowserPattern = /OculusBrowser\/(\d+)\.(\d+)\.(\d+)/i;
 const oculusMatch = navigator.userAgent.match(oculusBrowserPattern);
-export const isOculusBrowser = !!oculusMatch;
-export const oculusBrowserVersion: { major: number, minor: number, patch: number } = isOculusBrowser && {
+export const isOculusBrowser = /*@__PURE__*/ !!oculusMatch;
+export const oculusBrowserVersion: { major: number, minor: number, patch: number } = /*@__PURE__*/ isOculusBrowser && {
     major: parseFloat(oculusMatch[1]),
     minor: parseFloat(oculusMatch[2]),
     patch: parseFloat(oculusMatch[3])
 };
 
-export const isOculusGo = isOculusBrowser && /pacific/i.test(navigator.userAgent);
-export const isOculusQuest = isOculusBrowser && /quest/i.test(navigator.userAgent);
-export const isOculusQuest2 = isOculusBrowser && /quest 2/i.test(navigator.userAgent);
-export const isOculusQuest1 = isOculusBrowser && !isOculusQuest2;
+export const isOculusGo = /*@__PURE__*/ isOculusBrowser && /pacific/i.test(navigator.userAgent);
+export const isOculusQuest = /*@__PURE__*/ isOculusBrowser && /quest/i.test(navigator.userAgent);
+export const isOculusQuest2 = /*@__PURE__*/ isOculusBrowser && /quest 2/i.test(navigator.userAgent);
+export const isOculusQuest1 = /*@__PURE__*/ isOculusBrowser && !isOculusQuest2;
 
-export const isWorker = !("Document" in globalThis);
+export const isWorker = /*@__PURE__*/ !("Document" in globalThis);

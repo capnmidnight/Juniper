@@ -1,19 +1,14 @@
 import { type } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { BackgroundAudio, BackgroundVideo, Img, Script } from "@juniper-lib/dom/tags";
-import { HTTPMethods } from "@juniper-lib/fetcher-base/HTTPMethods";
 import {
-    IFetcherBasic,
+    HTTPMethods, IFetcherBasic,
     IFetcherBodiedResult,
     IFetcherBodilessResult,
     IFetcherResult,
     IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec,
-    IFetcherSendProgressTimeoutCredentialsCacheGetBody
-} from "@juniper-lib/fetcher-base/IFetcher";
-import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
-import { IRequestWithBody } from "@juniper-lib/fetcher-base/IRequest";
-import { IResponse } from "@juniper-lib/fetcher-base/IResponse";
-import { translateResponse } from "@juniper-lib/fetcher-base/ResponseTranslator";
+    IFetcherSendProgressTimeoutCredentialsCacheGetBody, IFetchingService, IRequestWithBody, IResponse, translateResponse
+} from "@juniper-lib/fetcher";
 import { Application_Javascript, Application_Json, Application_Wasm, MediaType, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
 import { assertNever, dispose, Exception, IProgress, isDefined, isString, isWorker, once, waitFor } from "@juniper-lib/tslib";
 

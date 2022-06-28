@@ -1,10 +1,10 @@
-import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, progressSplit, Task, using } from "@juniper-lib/tslib";
 import { IDexDB, IDexStore } from "@juniper-lib/indexdb";
-import { HTTPMethods } from "./HTTPMethods";
-import { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
-import { IRequest, IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
-import { translateResponse } from "./ResponseTranslator";
+import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, progressSplit, Task, using } from "@juniper-lib/tslib";
+import type { HTTPMethods } from "./HTTPMethods";
+import type { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
+import type { IRequest, IRequestWithBody } from "./IRequest";
+import type { IResponse } from "./IResponse";
+import { translateResponse } from "./translateResponse";
 
 function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
     return isString(obj)

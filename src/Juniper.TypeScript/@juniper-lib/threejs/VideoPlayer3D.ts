@@ -16,7 +16,7 @@ export type SphereEncodingName = "N/A"
     | "Half Equirectangular"
     | "Panoramic";
 
-export const SphereEncodingNames: SphereEncodingName[] = [
+export const SphereEncodingNames: /*@__PURE__*/ SphereEncodingName[] = [
     "N/A",
     "Cubemap",
     "Cubemap Strips",
@@ -32,7 +32,7 @@ export type StereoLayoutName = "mono"
     | "top-bottom"
     | "bottom-top";
 
-export const StereoLayoutNames: StereoLayoutName[] = [
+export const StereoLayoutNames: /*@__PURE__*/ StereoLayoutName[] = [
     "mono",
     "left-right",
     "right-left",

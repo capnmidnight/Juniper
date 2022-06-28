@@ -19,7 +19,7 @@ const FACES = [1,
     5
 ];
 
-export const CUBEMAP_PATTERN = {
+export const CUBEMAP_PATTERN = /*@__PURE__*/ {
     rows: 3,
     columns: 4,
     indices: [

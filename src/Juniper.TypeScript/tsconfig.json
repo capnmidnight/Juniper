@@ -8,7 +8,7 @@
   "compileOnSave": true,
 
   "compilerOptions": {
-    "lib": [ "ESNext", "DOM", "WebWorker" ],
+    "lib": [ "ESNext", "DOM", "WebWorker", "DOM.Iterable" ],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",

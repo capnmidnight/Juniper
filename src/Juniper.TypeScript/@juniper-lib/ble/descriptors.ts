@@ -23,7 +23,7 @@ import { makeLookup } from "./makeLookup";
   the higher value ranges so you don't step on anyone else's toes.
 */
 
-export const Descriptors = makeLookup({
+export const Descriptors = /*@__PURE__*/ makeLookup({
     "00002905": "Characteristic Aggregate Format",
     "00002900": "Characteristic Extended Properties",
     "00002904": "Characteristic Presentation Format",

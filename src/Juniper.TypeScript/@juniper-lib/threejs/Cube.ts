@@ -1,10 +1,10 @@
 import type { SolidMaterial } from "./materials";
 import { setGeometryUVsForCubemaps } from "./setGeometryUVsForCubemaps";
 
-export const cube = new THREE.BoxBufferGeometry(1, 1, 1, 1, 1, 1);
+export const cube = /*@__PURE__*/ new THREE.BoxBufferGeometry(1, 1, 1, 1, 1, 1);
 cube.name = "CubeGeom";
 
-export const invCube = cube.clone() as THREE.BoxBufferGeometry;
+export const invCube = /*@__PURE__*/ cube.clone() as THREE.BoxBufferGeometry;
 invCube.name = "InvertedCubeGeom";
 setGeometryUVsForCubemaps(invCube);
 

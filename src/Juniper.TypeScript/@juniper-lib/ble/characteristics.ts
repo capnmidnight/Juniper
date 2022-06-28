@@ -33,7 +33,7 @@ import { makeLookup } from "./makeLookup";
   else's toes.
 */
 
-export const Characteristics = makeLookup({
+export const Characteristics = /*@__PURE__*/ makeLookup({
     "00002A7E": "Aerobic Heart Rate Lower Limit",
     "00002A84": "Aerobic Heart Rate Upper Limit",
     "00002A7F": "Aerobic Threshold",

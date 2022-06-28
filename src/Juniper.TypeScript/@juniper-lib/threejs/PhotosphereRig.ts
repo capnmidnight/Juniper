@@ -7,7 +7,7 @@ import { objGraph } from "./objects";
 import { CUBEMAP_PATTERN } from "./Skybox";
 
 const QUAD_SIZE = 2;
-export const FACE_SIZE = 1 << 11;
+export const FACE_SIZE = /*@__PURE__*/ 1 << 11;
 const E = new THREE.Euler();
 
 export enum PhotosphereCaptureResolution {

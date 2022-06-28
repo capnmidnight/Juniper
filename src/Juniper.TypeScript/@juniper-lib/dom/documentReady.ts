@@ -1,4 +1,4 @@
-export const documentReady = (document.readyState === "complete"
+export const documentReady = /*@__PURE__*/ (document.readyState === "complete"
     ? Promise.resolve("already")
     : new Promise((resolve) => {
         document.addEventListener("readystatechange", () => {

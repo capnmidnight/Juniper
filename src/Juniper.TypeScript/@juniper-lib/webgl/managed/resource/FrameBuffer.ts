@@ -5,7 +5,7 @@ import { FrameBufferTexture, FrameBufferTextureMultiview, FrameBufferTextureMult
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
 import { RenderBufferMultisampled } from "./RenderBuffer";
 
-export const DefaultRenderBufferFormats = new Map([
+export const DefaultRenderBufferFormats = /*@__PURE__*/ new Map([
     [FrameAndRenderBuffers.COLOR_ATTACHMENT0, FrameAndRenderBuffers.RGBA8],
     [FrameAndRenderBuffers.COLOR_ATTACHMENT1, FrameAndRenderBuffers.RGBA8],
     [FrameAndRenderBuffers.COLOR_ATTACHMENT2, FrameAndRenderBuffers.RGBA8],

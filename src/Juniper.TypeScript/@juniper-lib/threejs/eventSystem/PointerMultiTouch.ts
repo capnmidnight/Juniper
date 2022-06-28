@@ -44,7 +44,9 @@ export class PointerMultiTouch extends BaseScreenPointer {
 
         this._buttons = 0;
 
-        if (this.points.size > 0) {
+        this.isActive = this.points.size > 0;
+
+        if (this.isActive) {
             this.position.setScalar(0);
             this.motion.setScalar(0);
 

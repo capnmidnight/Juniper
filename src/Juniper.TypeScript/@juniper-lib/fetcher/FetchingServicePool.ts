@@ -1,9 +1,7 @@
-import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
-import { IRequest, IRequestWithBody } from "@juniper-lib/fetcher-base/IRequest";
-import { IResponse } from "@juniper-lib/fetcher-base/IResponse";
+import { IFetchingService, IRequest, IRequestWithBody, IResponse } from "@juniper-lib/fetcher";
 import { IProgress } from "@juniper-lib/tslib";
-import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "@juniper-lib/worker-client";
-import { WorkerPool } from "@juniper-lib/worker-client";
+import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "@juniper-lib/workers";
+import { WorkerPool } from "@juniper-lib/workers";
 import { FetchingServiceClient } from "./FetchingServiceClient";
 
 export abstract class BaseFetchingServicePool<

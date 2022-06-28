@@ -13,7 +13,7 @@ import * as _allVideo from "./video";
 import * as _allXConference from "./xConference";
 import * as _allXShader from "./xShader";
 
-export const MediaTypeDB = singleton("Juniper:TSLib:MediaTypeDB", () => {
+export const MediaTypeDB = /*@__PURE__*/ singleton("Juniper:TSLib:MediaTypeDB", () => {
 
     const byExtension = new Map<string, MediaType[]>();
 

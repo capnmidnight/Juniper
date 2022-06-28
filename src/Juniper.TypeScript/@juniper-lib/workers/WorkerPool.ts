@@ -7,7 +7,6 @@ export type WorkerConstructorT<EventsT, WorkerClientT extends WorkerClient<Event
 export class WorkerPool<EventsT, WorkerClientT extends WorkerClient<EventsT>>
     extends TypedEventBase<EventsT>
     implements IDisposable {
-    static isSupported = "Worker" in globalThis;
 
     private scriptPath: string;
     private taskCounter: number;

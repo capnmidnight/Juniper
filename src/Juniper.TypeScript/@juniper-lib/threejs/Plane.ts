@@ -1,6 +1,6 @@
 import { SolidMaterial } from "./materials";
 
-export const plane = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
+export const plane = /*@__PURE__*/ new THREE.PlaneBufferGeometry(1, 1, 1, 1);
 plane.name = "PlaneGeom";
 
 export class Plane extends THREE.Mesh {

@@ -1,7 +1,7 @@
-import { TestCase } from "@juniper-lib/testing/tdd";
-import { haxMethod, haxClass } from "@juniper-lib/hax";
+import { FetchingService, FetchingServiceImplXHR } from "@juniper-lib/fetcher";
 import { Fetcher } from "@juniper-lib/fetcher/Fetcher";
-import { FetchingService, FetchingServiceImplXHR } from "@juniper-lib/fetcher/impl";
+import { haxClass, haxMethod } from "@juniper-lib/hax";
+import { TestCase } from "@juniper-lib/testing/tdd";
 import { using, usingAsync } from "@juniper-lib/tslib";
 
 export class haxTests extends TestCase {

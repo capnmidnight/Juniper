@@ -1,8 +1,5 @@
 import { getInput } from "@juniper-lib/dom/tags";
-import { BaseAsset } from "@juniper-lib/fetcher-base/Asset";
-import { HTTPMethods } from "@juniper-lib/fetcher-base/HTTPMethods";
-import { IFetcher } from "@juniper-lib/fetcher-base/IFetcher";
-import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
+import { BaseAsset, HTTPMethods, IFetcher, IFetchingService } from "@juniper-lib/fetcher";
 import { IProgress, isDefined, isWorker, progressTasksWeighted } from "@juniper-lib/tslib";
 import { RequestBuilder } from "./RequestBuilder";
 

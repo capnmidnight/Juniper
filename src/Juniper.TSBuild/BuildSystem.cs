@@ -1,6 +1,5 @@
 using Juniper.Logging;
 using Juniper.Processes;
-using Juniper.Units;
 
 namespace Juniper.TSBuild
 {
@@ -14,12 +13,8 @@ namespace Juniper.TSBuild
     public struct BuildSystemOptions
     {
         public bool IncludeThreeJS { get; set; }
-        public bool IncludeEnvironment { get; set; }
         public bool IncludePDFJS { get; set; }
         public bool IncludeJQuery { get; set; }
-        public bool IncludeFetcher { get; set; }
-        public bool IncludeTeleconferencing { get; set; }
-        public bool SourceBuildJuniperTS { get; set; }
     }
 
     public class BuildSystem : ILoggingSource, IDisposable
@@ -132,8 +127,8 @@ namespace Juniper.TSBuild
         private readonly List<DirectoryInfo> TSProjects = new();
         private readonly List<DirectoryInfo> ESBuildProjects = new();
         private readonly List<DirectoryInfo> NPMProjects = new();
+        private readonly List<DirectoryInfo> NPMInstallProjects = new();
 
-        private readonly bool sourceBuildTS;
         private readonly bool hasNPM;
 
         private Timer? timer;
@@ -151,8 +146,6 @@ namespace Juniper.TSBuild
 
         public BuildSystem(string projectName, BuildSystemOptions options, bool isDev, DirectoryInfo? workingDir)
         {
-            sourceBuildTS = options.SourceBuildJuniperTS;
-
             workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
             var startDir = workingDir;
 
@@ -184,17 +177,11 @@ namespace Juniper.TSBuild
                     projectDir
                 };
 
-                foreach (var project in npmProjects)
-                {
-                    CheckNPMProject(project, options);
-                }
+                CheckNPMProject(projectDir);
+                CheckTSProject(projectDir);
 
-                var tsProjects = JuniperSubNPMProjects.Append(projectDir);
-
-                foreach (var project in tsProjects)
-                {
-                    CheckTSProject(project, options);
-                }
+                NPMInstallProjects.AddRange(NPMProjects);
+                NPMInstallProjects.Add(juniperTsDir);
 
                 if (options.IncludeThreeJS)
                 {
@@ -214,28 +201,6 @@ namespace Juniper.TSBuild
                     AddDependency("JQuery", From("jquery", "dist", "jquery.js"), To("jquery", "index.js"));
                     AddDependency("JQuery min", From("jquery", "dist", "jquery.min.js"), To("jquery", "index.min.js"));
                 }
-
-                var sourceDir = ((isDev && options.SourceBuildJuniperTS)
-                    ? juniperTsDir
-                    : projectNodeModules).CD("@juniper-lib");
-
-                if (sourceDir.Exists)
-                {
-                    if (options.IncludeEnvironment)
-                    {
-                        AddJuniperDependency(sourceDir, "environment");
-                    }
-
-                    if (options.IncludeFetcher)
-                    {
-                        AddJuniperDependency(sourceDir, "fetcher-worker");
-                    }
-
-                    if (options.IncludeTeleconferencing)
-                    {
-                        AddJuniperDependency(sourceDir, "tele");
-                    }
-                }
             }
 
             Info += (sender, e) => WriteInfo(e.Value);
@@ -243,44 +208,27 @@ namespace Juniper.TSBuild
             Err += (sender, e) => WriteError(e.Value.Unroll());
         }
 
-        private void CheckNPMProject(DirectoryInfo project, BuildSystemOptions options)
+        private void CheckNPMProject(DirectoryInfo project)
         {
-            var includeInBuild = project == projectDir || options.SourceBuildJuniperTS;
-            if (includeInBuild)
+            var pkgFile = project.Touch("package.json");
+            if (pkgFile.Exists)
             {
-                var pkgFile = project.Touch("package.json");
-                if (pkgFile.Exists)
-                {
-                    NPMProjects.Add(project);
-                }
+                NPMProjects.Add(project);
             }
         }
 
-        private void CheckTSProject(DirectoryInfo project, BuildSystemOptions options)
+        private void CheckTSProject(DirectoryInfo project)
         {
-            var includeInBuild = project == projectDir || options.SourceBuildJuniperTS;
-            var includeInESBuild = project == projectDir
-                    || (options.SourceBuildJuniperTS
-                        && ((project.Name == "environment" && options.IncludeEnvironment)
-                            || (project.Name == "fetcher-worker" && options.IncludeFetcher)
-                            || (project.Name == "tele" && options.IncludeTeleconferencing)));
-
-            if (includeInBuild)
+            var tsConfigFile = project.Touch("tsconfig.json");
+            if (tsConfigFile.Exists)
             {
-                var tsConfigFile = project.Touch("tsconfig.json");
-                if (tsConfigFile.Exists)
-                {
-                    TSProjects.Add(project);
-                }
+                TSProjects.Add(project);
+            }
 
-                if (includeInESBuild)
-                {
-                    var esbuildFile = project.Touch("esbuild.config.js");
-                    if (esbuildFile.Exists)
-                    {
-                        ESBuildProjects.Add(project);
-                    }
-                }
+            var esbuildFile = project.Touch("esbuild.config.js");
+            if (esbuildFile.Exists)
+            {
+                ESBuildProjects.Add(project);
             }
         }
 
@@ -303,18 +251,6 @@ namespace Juniper.TSBuild
         public BuildSystem AddDependency(string name, FileInfo from, FileInfo to)
         {
             dependencies.Add(from, (name, to));
-            return this;
-        }
-
-        private BuildSystem AddJuniperDependency(DirectoryInfo sourceDir, string name)
-        {
-            var from = sourceDir.CD(name, "dist");
-            var to = projectJsDir.CD(name);
-            var msg = "Juniper " + name;
-            AddDependency(msg, from.Touch("index.js"), to.Touch("index.js"));
-            AddDependency(msg + " map", from.Touch("index.js.map"), to.Touch("index.js.map"));
-            AddDependency(msg + " min", from.Touch("index.min.js"), to.Touch("index.min.js"));
-            AddDependency(msg + " min map", from.Touch("index.min.js.map"), to.Touch("index.min.js.map"));
             return this;
         }
 
@@ -490,7 +426,7 @@ namespace Juniper.TSBuild
         private IEnumerable<NPMInstallCommand> GetInstallCommands()
         {
             return TryMake(
-                NPMProjects,
+                NPMInstallProjects,
                 dir => new NPMInstallCommand(dir, true)
             );
         }
@@ -565,14 +501,8 @@ namespace Juniper.TSBuild
 
                 commands
                     .AddCommands(new MessageCommand("Starting build"))
-                    .AddCommands(GetInstallCommands());
-
-                if (sourceBuildTS)
-                {
-                    commands.AddCommands(new ShellCommand(juniperTsDir, "npm", "run", "build", "--workspaces", "--if-present"));
-                }
-
-                commands.AddCommands(copyCommands);
+                    .AddCommands(GetInstallCommands())
+                    .AddCommands(copyCommands);
 
                 if (projES.Length > 0)
                 {
@@ -604,7 +534,7 @@ namespace Juniper.TSBuild
 
             var copyCommands = GetDependecies();
             var bundles = TryMake(
-                ESBuildProjects.Where(dir => dir == projectDir || sourceBuildTS),
+                ESBuildProjects,
                 dir => MakeWatchCommand(proxy, dir)
             ).ToArray();
 

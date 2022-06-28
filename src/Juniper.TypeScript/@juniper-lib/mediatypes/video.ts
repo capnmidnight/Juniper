@@ -88,7 +88,7 @@ export const Video_Vendor_YoutubeYt = /*@__PURE__*/ video("vnd.youtube.yt");
 /**
  * This is actually an XML file format that describes adaptive media playback
  **/
-export const Video_Vendor_Mpeg_Dash_Mpd = video("vnd.mpeg.dash.mpd", "mpd");
+export const Video_Vendor_Mpeg_Dash_Mpd = /*@__PURE__*/ video("vnd.mpeg.dash.mpd", "mpd");
 export const Video_VP8 = /*@__PURE__*/ video("vp8");
 export const Video_Webm = /*@__PURE__*/ video("webm", "webm");
 export const Video_X_F4v = /*@__PURE__*/ video("x-f4v", "f4v");

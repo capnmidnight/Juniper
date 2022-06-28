@@ -30,7 +30,7 @@ const delta: number[] = [
     56 * n * n * n / 15
 ];
 
-export const DatumWGS_84 = {
+export const DatumWGS_84 = /*@__PURE__*/ {
     FalseNorthing,
     equatorialRadius,
     pointScaleFactor,

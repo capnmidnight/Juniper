@@ -19,7 +19,7 @@ import { makeLookup } from "./makeLookup";
   you don't step on anyone else's toes.
 */
 
-export const Services = makeLookup({
+export const Services = /*@__PURE__*/ makeLookup({
     "00001811": "Alert Notification Service",
     "00001815": "Automation IO",
     "0000180F": "Battery Service",

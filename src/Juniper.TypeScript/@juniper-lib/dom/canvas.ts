@@ -7,11 +7,11 @@ export type CanvasImageTypes = HTMLImageElement | HTMLCanvasElement | OffscreenC
 export type Context2D = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 export type GraphicsContext = RenderingContext | OffscreenCanvasRenderingContext2D;
 
-export const hasHTMLCanvas = "HTMLCanvasElement" in globalThis;
-export const hasHTMLImage = "HTMLImageElement" in globalThis;
-export const disableAdvancedSettings = false;
-export const hasOffscreenCanvas = !disableAdvancedSettings && "OffscreenCanvas" in globalThis;
-export const hasImageBitmap = !disableAdvancedSettings && "createImageBitmap" in globalThis;
+export const hasHTMLCanvas = /*@__PURE__*/ "HTMLCanvasElement" in globalThis;
+export const hasHTMLImage = /*@__PURE__*/ "HTMLImageElement" in globalThis;
+export const disableAdvancedSettings = /*@__PURE__*/ false;
+export const hasOffscreenCanvas = /*@__PURE__*/ !disableAdvancedSettings && "OffscreenCanvas" in globalThis;
+export const hasImageBitmap = /*@__PURE__*/ !disableAdvancedSettings && "createImageBitmap" in globalThis;
 
 export function isHTMLCanvas(obj: any): obj is HTMLCanvasElement {
     return hasHTMLCanvas && obj instanceof HTMLCanvasElement;
@@ -70,13 +70,13 @@ function testOffscreen2D() {
     }
 }
 
-export const hasOffscreenCanvasRenderingContext2D = hasOffscreenCanvas && testOffscreen2D();
+export const hasOffscreenCanvasRenderingContext2D = /*@__PURE__*/ hasOffscreenCanvas && testOffscreen2D();
 
-export const createUtilityCanvas = hasOffscreenCanvasRenderingContext2D && createOffscreenCanvas
+export const createUtilityCanvas = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvas
     || hasHTMLCanvas && createCanvas
     || null;
 
-export const createUICanvas = hasHTMLCanvas
+export const createUICanvas = /*@__PURE__*/ hasHTMLCanvas
     ? createCanvas
     : createUtilityCanvas;
 
@@ -91,7 +91,7 @@ function testOffscreen3D() {
     }
 }
 
-export const hasOffscreenCanvasRenderingContext3D = hasOffscreenCanvas && testOffscreen3D();
+export const hasOffscreenCanvasRenderingContext3D = /*@__PURE__*/ hasOffscreenCanvas && testOffscreen3D();
 
 function testBitmapRenderer() {
     if (!hasHTMLCanvas && !hasOffscreenCanvas) {
@@ -108,9 +108,9 @@ function testBitmapRenderer() {
     }
 }
 
-export const hasImageBitmapRenderingContext = hasImageBitmap && testBitmapRenderer();
+export const hasImageBitmapRenderingContext = /*@__PURE__*/ hasImageBitmap && testBitmapRenderer();
 
-export const drawImageBitmapToCanvas = hasImageBitmapRenderingContext
+export const drawImageBitmapToCanvas = /*@__PURE__*/ hasImageBitmapRenderingContext
     ? copyImageBitmapToCanvas
     : drawImageBitmapToCanvas2D;
 
@@ -134,7 +134,7 @@ export function createCanvasFromImageBitmap(img: ImageBitmap): HTMLCanvasElement
     return canv;
 }
 
-export const createUtilityCanvasFromImageBitmap = hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImageBitmap
+export const createUtilityCanvasFromImageBitmap = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImageBitmap
     || hasHTMLCanvas && createCanvasFromImageBitmap
     || null;
 
@@ -164,7 +164,7 @@ export function createCanvasFromImage(img: HTMLImageElement): HTMLCanvasElement 
     return canv;
 }
 
-export const createUtilityCanvasFromImage = hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImage
+export const createUtilityCanvasFromImage = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImage
     || hasHTMLCanvas && createCanvasFromImage
     || null;
 

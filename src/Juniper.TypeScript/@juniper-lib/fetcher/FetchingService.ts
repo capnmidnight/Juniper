@@ -3,7 +3,7 @@ import { IFetchingService } from "./IFetchingService";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
 import { IResponse } from "./IResponse";
-import { translateResponse } from "./ResponseTranslator";
+import { translateResponse } from "./translateResponse";
 
 
 export class FetchingService implements IFetchingService {

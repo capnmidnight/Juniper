@@ -1,10 +1,10 @@
 import type { SolidMaterial } from "./materials";
 import { setGeometryUVsForCubemaps } from "./setGeometryUVsForCubemaps";
 
-export const sphere = new THREE.SphereBufferGeometry(0.5);
+export const sphere = /*@__PURE__*/ new THREE.SphereBufferGeometry(0.5);
 sphere.name = "SphereGeom";
 
-export const invSphere = sphere.clone() as THREE.SphereBufferGeometry;
+export const invSphere = /*@__PURE__*/ sphere.clone() as THREE.SphereBufferGeometry;
 invSphere.name = "InvertedSphereGeom";
 setGeometryUVsForCubemaps(invSphere);
 

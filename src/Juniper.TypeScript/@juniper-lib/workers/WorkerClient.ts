@@ -1,4 +1,4 @@
-import { IProgress, isProgressCallback, Task, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { IProgress, isProgressCallback, isWorkerSupported, Task, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { assertNever, isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
 import type { IDisposable } from "@juniper-lib/tslib/using";
 import type {
@@ -18,7 +18,6 @@ interface WorkerInvocation {
 }
 
 export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implements IDisposable {
-    static isSupported = "Worker" in globalThis;
 
     private taskCounter = 0;
     private invocations = new Map<number, WorkerInvocation>();
@@ -30,7 +29,7 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
     constructor(private worker: Worker) {
         super();
 
-        if (!WorkerClient.isSupported) {
+        if (!isWorkerSupported()) {
             console.warn("Workers are not supported on this system.");
         }
 
@@ -140,7 +139,7 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
      * @param prog - a callback for receiving progress reports on long-running invocations.
      */
     callMethod<T>(methodName: string, parameters?: any[] | IProgress, transferables?: (Transferable | OffscreenCanvas)[] | IProgress, prog?: IProgress): Promise<T | undefined> {
-        if (!WorkerClient.isSupported) {
+        if (!isWorkerSupported()) {
             return Promise.reject(new Error("Workers are not supported on this system."));
         }
 

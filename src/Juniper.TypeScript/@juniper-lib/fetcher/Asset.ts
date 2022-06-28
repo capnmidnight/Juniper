@@ -1,4 +1,4 @@
-import { IFetcher, IFetcherBodiedResult } from "@juniper-lib/fetcher-base/IFetcher";
+import { IFetcher, IFetcherBodiedResult } from "@juniper-lib/fetcher";
 import { Application_Json, MediaType } from "@juniper-lib/mediatypes";
 import { IProgress, isBoolean, isDefined } from "@juniper-lib/tslib";
 import { IResponse } from "./IResponse";

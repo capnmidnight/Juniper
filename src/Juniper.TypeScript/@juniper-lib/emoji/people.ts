@@ -3,13 +3,13 @@ import { female, male, transgenderSymbol, lightSkinTone, mediumLightSkinTone, me
 
 
 
-export const sexes = [
+export const sexes = /*@__PURE__*/[
     female,
     male,
     transgenderSymbol
 ];
 
-export const skinTones = [
+export const skinTones = /*@__PURE__*/[
     lightSkinTone,
     mediumLightSkinTone,
     mediumSkinTone,
@@ -17,14 +17,14 @@ export const skinTones = [
     darkSkinTone
 ];
 
-export const hairStyles = [
+export const hairStyles = /*@__PURE__*/[
     redHair,
     curlyHair,
     whiteHair,
     bald
 ];
 
-export const allFrowning = [
+export const allFrowning = /*@__PURE__*/[
     frowning,
     frowningLightSkinTone,
     frowningMediumLightSkinTone,
@@ -35,7 +35,7 @@ export const allFrowning = [
 
 export const allFrowningGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64D}\uDE4D", "Frowning", ...allFrowning);
 
-export const allFrowningMale = [
+export const allFrowningMale = /*@__PURE__*/ [
     frowningMale,
     frowningLightSkinToneMale,
     frowningMediumLightSkinToneMale,
@@ -46,7 +46,7 @@ export const allFrowningMale = [
 
 export const allFrowningMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64D}\uDE4D\u200D\u2642\uFE0F", "Frowning: Male", ...allFrowningMale);
 
-export const allFrowningFemale = [
+export const allFrowningFemale = /*@__PURE__*/[
     frowningFemale,
     frowningLightSkinToneFemale,
     frowningMediumLightSkinToneFemale,
@@ -57,7 +57,7 @@ export const allFrowningFemale = [
 
 export const allFrowningFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64D}\uDE4D\u200D\u2640\uFE0F", "Frowning: Female", ...allFrowningFemale);
 
-export const allFrowners = [
+export const allFrowners = /*@__PURE__*/[
     allFrowningGroup,
     allFrowningMaleGroup,
     allFrowningFemaleGroup
@@ -65,7 +65,7 @@ export const allFrowners = [
 
 export const allFrownersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64D}\uDE4D", "Frowning", ...allFrowners);
 
-export const allPouting = [
+export const allPouting = /*@__PURE__*/[
     pouting,
     poutingLightSkinTone,
     poutingMediumLightSkinTone,
@@ -76,7 +76,7 @@ export const allPouting = [
 
 export const allPoutingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64E}\uDE4E", "Pouting", ...allPouting);
 
-export const allPoutingMale = [
+export const allPoutingMale = /*@__PURE__*/[
     poutingMale,
     poutingLightSkinToneMale,
     poutingMediumLightSkinToneMale,
@@ -87,7 +87,7 @@ export const allPoutingMale = [
 
 export const allPoutingMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64E}\uDE4E\u200D\u2642\uFE0F", "Pouting: Male", ...allPoutingMale);
 
-export const allPoutingFemale = [
+export const allPoutingFemale = /*@__PURE__*/[
     poutingFemale,
     poutingLightSkinToneFemale,
     poutingMediumLightSkinToneFemale,
@@ -98,7 +98,7 @@ export const allPoutingFemale = [
 
 export const allPoutingFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64E}\uDE4E\u200D\u2640\uFE0F", "Pouting: Female", ...allPoutingFemale);
 
-export const allPouters = [
+export const allPouters = /*@__PURE__*/ [
     allPoutingGroup,
     allPoutingMaleGroup,
     allPoutingFemaleGroup
@@ -106,7 +106,7 @@ export const allPouters = [
 
 export const allPoutersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64E}\uDE4E", "Pouting", ...allPouters);
 
-export const allGesturingNO = [
+export const allGesturingNO = /*@__PURE__*/[
     gesturingNO,
     gesturingNOLightSkinTone,
     gesturingNOMediumLightSkinTone,
@@ -117,7 +117,7 @@ export const allGesturingNO = [
 
 export const allGesturingNOGroup = /*@__PURE__*/ new EmojiGroup("\u{1F645}\uDE45", "Gesturing NO", ...allGesturingNO);
 
-export const allGesturingNOMale = [
+export const allGesturingNOMale = /*@__PURE__*/[
     gesturingNOMale,
     gesturingNOLightSkinToneMale,
     gesturingNOMediumLightSkinToneMale,
@@ -128,7 +128,7 @@ export const allGesturingNOMale = [
 
 export const allGesturingNOMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F645}\uDE45\u200D\u2642\uFE0F", "Gesturing NO: Male", ...allGesturingNOMale);
 
-export const allGesturingNOFemale = [
+export const allGesturingNOFemale = /*@__PURE__*/[
     gesturingNOFemale,
     gesturingNOLightSkinToneFemale,
     gesturingNOMediumLightSkinToneFemale,
@@ -139,7 +139,7 @@ export const allGesturingNOFemale = [
 
 export const allGesturingNOFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F645}\uDE45\u200D\u2640\uFE0F", "Gesturing NO: Female", ...allGesturingNOFemale);
 
-export const allNoGuesturerersGroup = [
+export const allNoGuesturerersGroup = /*@__PURE__*/[
     allGesturingNOGroup,
     allGesturingNOMaleGroup,
     allGesturingNOFemaleGroup
@@ -147,7 +147,7 @@ export const allNoGuesturerersGroup = [
 
 export const allNoGuesturerersGroupGroup = /*@__PURE__*/ new EmojiGroup("\u{1F645}\uDE45", "Gesturing NO", ...allNoGuesturerersGroup);
 
-export const allGesturingOK = [
+export const allGesturingOK = /*@__PURE__*/[
     gesturingOK,
     gesturingOKLightSkinTone,
     gesturingOKMediumLightSkinTone,
@@ -158,7 +158,7 @@ export const allGesturingOK = [
 
 export const allGesturingOKGroup = /*@__PURE__*/ new EmojiGroup("\u{1F646}\uDE46", "Gesturing OK", ...allGesturingOK);
 
-export const allGesturingOKMale = [
+export const allGesturingOKMale = /*@__PURE__*/[
     gesturingOKMale,
     gesturingOKLightSkinToneMale,
     gesturingOKMediumLightSkinToneMale,
@@ -169,7 +169,7 @@ export const allGesturingOKMale = [
 
 export const allGesturingOKMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F646}\uDE46\u200D\u2642\uFE0F", "Gesturing OK: Male", ...allGesturingOKMale);
 
-export const allGesturingOKFemale = [
+export const allGesturingOKFemale = /*@__PURE__*/[
     gesturingOKFemale,
     gesturingOKLightSkinToneFemale,
     gesturingOKMediumLightSkinToneFemale,
@@ -180,7 +180,7 @@ export const allGesturingOKFemale = [
 
 export const allGesturingOKFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F646}\uDE46\u200D\u2640\uFE0F", "Gesturing OK: Female", ...allGesturingOKFemale);
 
-export const allOKGesturerersGroup = [
+export const allOKGesturerersGroup = /*@__PURE__*/[
     allGesturingOKGroup,
     allGesturingOKMaleGroup,
     allGesturingOKFemaleGroup
@@ -188,7 +188,7 @@ export const allOKGesturerersGroup = [
 
 export const allOKGesturerersGroupGroup = /*@__PURE__*/ new EmojiGroup("\u{1F646}\uDE46", "Gesturing OK", ...allOKGesturerersGroup);
 
-export const allTippingHand = [
+export const allTippingHand = /*@__PURE__*/[
     tippingHand,
     tippingHandLightSkinTone,
     tippingHandMediumLightSkinTone,
@@ -199,7 +199,7 @@ export const allTippingHand = [
 
 export const allTippingHandGroup = /*@__PURE__*/ new EmojiGroup("\u{1F481}\uDC81", "Tipping Hand", ...allTippingHand);
 
-export const allTippingHandMale = [
+export const allTippingHandMale = /*@__PURE__*/[
     tippingHandMale,
     tippingHandLightSkinToneMale,
     tippingHandMediumLightSkinToneMale,
@@ -210,7 +210,7 @@ export const allTippingHandMale = [
 
 export const allTippingHandMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F481}\uDC81\u200D\u2642\uFE0F", "Tipping Hand: Male", ...allTippingHandMale);
 
-export const allTippingHandFemale = [
+export const allTippingHandFemale = /*@__PURE__*/[
     tippingHandFemale,
     tippingHandLightSkinToneFemale,
     tippingHandMediumLightSkinToneFemale,
@@ -221,7 +221,7 @@ export const allTippingHandFemale = [
 
 export const allTippingHandFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F481}\uDC81\u200D\u2640\uFE0F", "Tipping Hand: Female", ...allTippingHandFemale);
 
-export const allHandTippersGroup = [
+export const allHandTippersGroup = /*@__PURE__*/[
     allTippingHandGroup,
     allTippingHandMaleGroup,
     allTippingHandFemaleGroup
@@ -229,7 +229,7 @@ export const allHandTippersGroup = [
 
 export const allHandTippersGroupGroup = /*@__PURE__*/ new EmojiGroup("\u{1F481}\uDC81", "Tipping Hand", ...allHandTippersGroup);
 
-export const allRaisingHand = [
+export const allRaisingHand = /*@__PURE__*/[
     raisingHand,
     raisingHandLightSkinTone,
     raisingHandMediumLightSkinTone,
@@ -240,7 +240,7 @@ export const allRaisingHand = [
 
 export const allRaisingHandGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64B}\uDE4B", "Raising Hand", ...allRaisingHand);
 
-export const allRaisingHandMale = [
+export const allRaisingHandMale = /*@__PURE__*/[
     raisingHandMale,
     raisingHandLightSkinToneMale,
     raisingHandMediumLightSkinToneMale,
@@ -251,7 +251,7 @@ export const allRaisingHandMale = [
 
 export const allRaisingHandMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64B}\uDE4B\u200D\u2642\uFE0F", "Raising Hand: Male", ...allRaisingHandMale);
 
-export const allRaisingHandFemale = [
+export const allRaisingHandFemale = /*@__PURE__*/[
     raisingHandFemale,
     raisingHandLightSkinToneFemale,
     raisingHandMediumLightSkinToneFemale,
@@ -262,7 +262,7 @@ export const allRaisingHandFemale = [
 
 export const allRaisingHandFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64B}\uDE4B\u200D\u2640\uFE0F", "Raising Hand: Female", ...allRaisingHandFemale);
 
-export const allHandRaisers = [
+export const allHandRaisers = /*@__PURE__*/ [
     allRaisingHandGroup,
     allRaisingHandMaleGroup,
     allRaisingHandFemaleGroup
@@ -270,7 +270,7 @@ export const allHandRaisers = [
 
 export const allHandRaisersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F64B}\uDE4B", "Raising Hand", ...allHandRaisers);
 
-export const allBowing = [
+export const allBowing = /*@__PURE__*/ [
     bowing,
     bowingLightSkinTone,
     bowingMediumLightSkinTone,
@@ -281,7 +281,7 @@ export const allBowing = [
 
 export const allBowingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F647}\uDE47", "Bowing", ...allBowing);
 
-export const allBowingMale = [
+export const allBowingMale = /*@__PURE__*/ [
     bowingMale,
     bowingLightSkinToneMale,
     bowingMediumLightSkinToneMale,
@@ -292,7 +292,7 @@ export const allBowingMale = [
 
 export const allBowingMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F647}\uDE47\u200D\u2642\uFE0F", "Bowing: Male", ...allBowingMale);
 
-export const allBowingFemale = [
+export const allBowingFemale = /*@__PURE__*/ [
     bowingFemale,
     bowingLightSkinToneFemale,
     bowingMediumLightSkinToneFemale,
@@ -303,7 +303,7 @@ export const allBowingFemale = [
 
 export const allBowingFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F647}\uDE47\u200D\u2640\uFE0F", "Bowing: Female", ...allBowingFemale);
 
-export const allBowers = [
+export const allBowers = /*@__PURE__*/ [
     allBowingGroup,
     allBowingMaleGroup,
     allBowingFemaleGroup
@@ -311,7 +311,7 @@ export const allBowers = [
 
 export const allBowersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F647}\uDE47", "Bowing", ...allBowers);
 
-export const allFacepalming = [
+export const allFacepalming = /*@__PURE__*/ [
     facepalming,
     facepalmingLightSkinTone,
     facepalmingMediumLightSkinTone,
@@ -322,7 +322,7 @@ export const allFacepalming = [
 
 export const allFacepalmingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F926}\uDD26", "Facepalming", ...allFacepalming);
 
-export const allFacepalmingMale = [
+export const allFacepalmingMale = /*@__PURE__*/ [
     facepalmingMale,
     facepalmingLightSkinToneMale,
     facepalmingMediumLightSkinToneMale,
@@ -333,7 +333,7 @@ export const allFacepalmingMale = [
 
 export const allFacepalmingMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F926}\uDD26\u200D\u2642\uFE0F", "Facepalming: Male", ...allFacepalmingMale);
 
-export const allFacepalmingFemale = [
+export const allFacepalmingFemale = /*@__PURE__*/ [
     facepalmingFemale,
     facepalmingLightSkinToneFemale,
     facepalmingMediumLightSkinToneFemale,
@@ -344,7 +344,7 @@ export const allFacepalmingFemale = [
 
 export const allFacepalmingFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F926}\uDD26\u200D\u2640\uFE0F", "Facepalming: Female", ...allFacepalmingFemale);
 
-export const allFacepalmers = [
+export const allFacepalmers = /*@__PURE__*/ [
     allFacepalmingGroup,
     allFacepalmingMaleGroup,
     allFacepalmingFemaleGroup
@@ -352,7 +352,7 @@ export const allFacepalmers = [
 
 export const allFacepalmersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F926}\uDD26", "Facepalming", ...allFacepalmers);
 
-export const allShrugging = [
+export const allShrugging = /*@__PURE__*/ [
     shrugging,
     shruggingLightSkinTone,
     shruggingMediumLightSkinTone,
@@ -363,7 +363,7 @@ export const allShrugging = [
 
 export const allShruggingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F937}\uDD37", "Shrugging", ...allShrugging);
 
-export const allShruggingMale = [
+export const allShruggingMale = /*@__PURE__*/ [
     shruggingMale,
     shruggingLightSkinToneMale,
     shruggingMediumLightSkinToneMale,
@@ -374,7 +374,7 @@ export const allShruggingMale = [
 
 export const allShruggingMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F937}\uDD37\u200D\u2642\uFE0F", "Shrugging: Male", ...allShruggingMale);
 
-export const allShruggingFemale = [
+export const allShruggingFemale = /*@__PURE__*/ [
     shruggingFemale,
     shruggingLightSkinToneFemale,
     shruggingMediumLightSkinToneFemale,
@@ -385,7 +385,7 @@ export const allShruggingFemale = [
 
 export const allShruggingFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F937}\uDD37\u200D\u2640\uFE0F", "Shrugging: Female", ...allShruggingFemale);
 
-export const allShruggers = [
+export const allShruggers = /*@__PURE__*/ [
     allShruggingGroup,
     allShruggingMaleGroup,
     allShruggingFemaleGroup
@@ -393,7 +393,7 @@ export const allShruggers = [
 
 export const allShruggersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F937}\uDD37", "Shrugging", ...allShruggers);
 
-export const allCantHear = [
+export const allCantHear = /*@__PURE__*/ [
     cantHear,
     cantHearLightSkinTone,
     cantHearMediumLightSkinTone,
@@ -404,7 +404,7 @@ export const allCantHear = [
 
 export const allCantHearGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CF}\uDDCF", "Can't Hear", ...allCantHear);
 
-export const allCantHearMale = [
+export const allCantHearMale = /*@__PURE__*/ [
     cantHearMale,
     cantHearLightSkinToneMale,
     cantHearMediumLightSkinToneMale,
@@ -415,7 +415,7 @@ export const allCantHearMale = [
 
 export const allCantHearMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CF}\uDDCF\u200D\u2642\uFE0F", "Can't Hear: Male", ...allCantHearMale);
 
-export const allCantHearFemale = [
+export const allCantHearFemale = /*@__PURE__*/ [
     cantHearFemale,
     cantHearLightSkinToneFemale,
     cantHearMediumLightSkinToneFemale,
@@ -426,7 +426,7 @@ export const allCantHearFemale = [
 
 export const allCantHearFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CF}\uDDCF\u200D\u2640\uFE0F", "Can't Hear: Female", ...allCantHearFemale);
 
-export const allCantHearers = [
+export const allCantHearers = /*@__PURE__*/ [
     allCantHearGroup,
     allCantHearMaleGroup,
     allCantHearFemaleGroup
@@ -434,7 +434,7 @@ export const allCantHearers = [
 
 export const allCantHearersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CF}\uDDCF", "Can't Hear", ...allCantHearers);
 
-export const allGettingMassage = [
+export const allGettingMassage = /*@__PURE__*/ [
     gettingMassage,
     gettingMassageLightSkinTone,
     gettingMassageMediumLightSkinTone,
@@ -445,7 +445,7 @@ export const allGettingMassage = [
 
 export const allGettingMassageGroup = /*@__PURE__*/ new EmojiGroup("\u{1F486}\uDC86", "Getting Massage", ...allGettingMassage);
 
-export const allGettingMassageMale = [
+export const allGettingMassageMale = /*@__PURE__*/ [
     gettingMassageMale,
     gettingMassageLightSkinToneMale,
     gettingMassageMediumLightSkinToneMale,
@@ -456,7 +456,7 @@ export const allGettingMassageMale = [
 
 export const allGettingMassageMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F486}\uDC86\u200D\u2642\uFE0F", "Getting Massage: Male", ...allGettingMassageMale);
 
-export const allGettingMassageFemale = [
+export const allGettingMassageFemale = /*@__PURE__*/ [
     gettingMassageFemale,
     gettingMassageLightSkinToneFemale,
     gettingMassageMediumLightSkinToneFemale,
@@ -467,7 +467,7 @@ export const allGettingMassageFemale = [
 
 export const allGettingMassageFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F486}\uDC86\u200D\u2640\uFE0F", "Getting Massage: Female", ...allGettingMassageFemale);
 
-export const allGettingMassaged = [
+export const allGettingMassaged = /*@__PURE__*/ [
     allGettingMassageGroup,
     allGettingMassageMaleGroup,
     allGettingMassageFemaleGroup
@@ -475,7 +475,7 @@ export const allGettingMassaged = [
 
 export const allGettingMassagedGroup = /*@__PURE__*/ new EmojiGroup("\u{1F486}\uDC86", "Getting Massage", ...allGettingMassaged);
 
-export const allGettingHaircut = [
+export const allGettingHaircut = /*@__PURE__*/ [
     gettingHaircut,
     gettingHaircutLightSkinTone,
     gettingHaircutMediumLightSkinTone,
@@ -486,7 +486,7 @@ export const allGettingHaircut = [
 
 export const allGettingHaircutGroup = /*@__PURE__*/ new EmojiGroup("\u{1F487}\uDC87", "Getting Haircut", ...allGettingHaircut);
 
-export const allGettingHaircutMale = [
+export const allGettingHaircutMale = /*@__PURE__*/ [
     gettingHaircutMale,
     gettingHaircutLightSkinToneMale,
     gettingHaircutMediumLightSkinToneMale,
@@ -497,7 +497,7 @@ export const allGettingHaircutMale = [
 
 export const allGettingHaircutMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F487}\uDC87\u200D\u2642\uFE0F", "Getting Haircut: Male", ...allGettingHaircutMale);
 
-export const allGettingHaircutFemale = [
+export const allGettingHaircutFemale = /*@__PURE__*/ [
     gettingHaircutFemale,
     gettingHaircutLightSkinToneFemale,
     gettingHaircutMediumLightSkinToneFemale,
@@ -508,7 +508,7 @@ export const allGettingHaircutFemale = [
 
 export const allGettingHaircutFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F487}\uDC87\u200D\u2640\uFE0F", "Getting Haircut: Female", ...allGettingHaircutFemale);
 
-export const allHairCutters = [
+export const allHairCutters = /*@__PURE__*/ [
     allGettingHaircutGroup,
     allGettingHaircutMaleGroup,
     allGettingHaircutFemaleGroup
@@ -516,7 +516,7 @@ export const allHairCutters = [
 
 export const allHairCuttersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F487}\uDC87", "Getting Haircut", ...allHairCutters);
 
-export const allConstructionWorker = [
+export const allConstructionWorker = /*@__PURE__*/ [
     constructionWorker,
     constructionWorkerLightSkinTone,
     constructionWorkerMediumLightSkinTone,
@@ -527,7 +527,7 @@ export const allConstructionWorker = [
 
 export const allConstructionWorkerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F477}\uDC77", "Construction Worker", ...allConstructionWorker);
 
-export const allConstructionWorkerMale = [
+export const allConstructionWorkerMale = /*@__PURE__*/ [
     constructionWorkerMale,
     constructionWorkerLightSkinToneMale,
     constructionWorkerMediumLightSkinToneMale,
@@ -538,7 +538,7 @@ export const allConstructionWorkerMale = [
 
 export const allConstructionWorkerMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F477}\uDC77\u200D\u2642\uFE0F", "Construction Worker: Male", ...allConstructionWorkerMale);
 
-export const allConstructionWorkerFemale = [
+export const allConstructionWorkerFemale = /*@__PURE__*/ [
     constructionWorkerFemale,
     constructionWorkerLightSkinToneFemale,
     constructionWorkerMediumLightSkinToneFemale,
@@ -549,7 +549,7 @@ export const allConstructionWorkerFemale = [
 
 export const allConstructionWorkerFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F477}\uDC77\u200D\u2640\uFE0F", "Construction Worker: Female", ...allConstructionWorkerFemale);
 
-export const allConstructionWorkers = [
+export const allConstructionWorkers = /*@__PURE__*/ [
     allConstructionWorkerGroup,
     allConstructionWorkerMaleGroup,
     allConstructionWorkerFemaleGroup
@@ -557,7 +557,7 @@ export const allConstructionWorkers = [
 
 export const allConstructionWorkersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F477}\uDC77", "Construction Worker", ...allConstructionWorkers);
 
-export const allGuard = [
+export const allGuard = /*@__PURE__*/ [
     guard,
     guardLightSkinTone,
     guardMediumLightSkinTone,
@@ -568,7 +568,7 @@ export const allGuard = [
 
 export const allGuardGroup = /*@__PURE__*/ new EmojiGroup("\u{1F482}\uDC82", "Guard", ...allGuard);
 
-export const allGuardMale = [
+export const allGuardMale = /*@__PURE__*/ [
     guardMale,
     guardLightSkinToneMale,
     guardMediumLightSkinToneMale,
@@ -579,7 +579,7 @@ export const allGuardMale = [
 
 export const allGuardMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F482}\uDC82\u200D\u2642\uFE0F", "Guard: Male", ...allGuardMale);
 
-export const allGuardFemale = [
+export const allGuardFemale = /*@__PURE__*/ [
     guardFemale,
     guardLightSkinToneFemale,
     guardMediumLightSkinToneFemale,
@@ -590,7 +590,7 @@ export const allGuardFemale = [
 
 export const allGuardFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F482}\uDC82\u200D\u2640\uFE0F", "Guard: Female", ...allGuardFemale);
 
-export const allGuards = [
+export const allGuards = /*@__PURE__*/ [
     allGuardGroup,
     allGuardMaleGroup,
     allGuardFemaleGroup
@@ -598,7 +598,7 @@ export const allGuards = [
 
 export const allGuardsGroup = /*@__PURE__*/ new EmojiGroup("\u{1F482}\uDC82", "Guard", ...allGuards);
 
-export const allSpy = [
+export const allSpy = /*@__PURE__*/ [
     spy,
     spyLightSkinTone,
     spyMediumLightSkinTone,
@@ -609,7 +609,7 @@ export const allSpy = [
 
 export const allSpyGroup = /*@__PURE__*/ new EmojiGroup("\u{1F575}\uDD75", "Spy", ...allSpy);
 
-export const allSpyMale = [
+export const allSpyMale = /*@__PURE__*/ [
     spyMale,
     spyLightSkinToneMale,
     spyMediumLightSkinToneMale,
@@ -620,7 +620,7 @@ export const allSpyMale = [
 
 export const allSpyMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F575}\uDD75\u200D\u2642\uFE0F", "Spy: Male", ...allSpyMale);
 
-export const allSpyFemale = [
+export const allSpyFemale = /*@__PURE__*/ [
     spyFemale,
     spyLightSkinToneFemale,
     spyMediumLightSkinToneFemale,
@@ -631,7 +631,7 @@ export const allSpyFemale = [
 
 export const allSpyFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F575}\uDD75\u200D\u2640\uFE0F", "Spy: Female", ...allSpyFemale);
 
-export const allSpies = [
+export const allSpies = /*@__PURE__*/ [
     allSpyGroup,
     allSpyMaleGroup,
     allSpyFemaleGroup
@@ -639,7 +639,7 @@ export const allSpies = [
 
 export const allSpiesGroup = /*@__PURE__*/ new EmojiGroup("\u{1F575}\uDD75", "Spy", ...allSpies);
 
-export const allPolice = [
+export const allPolice = /*@__PURE__*/ [
     police,
     policeLightSkinTone,
     policeMediumLightSkinTone,
@@ -650,7 +650,7 @@ export const allPolice = [
 
 export const allPoliceGroup = /*@__PURE__*/ new EmojiGroup("\u{1F46E}\uDC6E", "Police", ...allPolice);
 
-export const allPoliceMale = [
+export const allPoliceMale = /*@__PURE__*/ [
     policeMale,
     policeLightSkinToneMale,
     policeMediumLightSkinToneMale,
@@ -661,7 +661,7 @@ export const allPoliceMale = [
 
 export const allPoliceMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F46E}\uDC6E\u200D\u2642\uFE0F", "Police: Male", ...allPoliceMale);
 
-export const allPoliceFemale = [
+export const allPoliceFemale = /*@__PURE__*/ [
     policeFemale,
     policeLightSkinToneFemale,
     policeMediumLightSkinToneFemale,
@@ -672,7 +672,7 @@ export const allPoliceFemale = [
 
 export const allPoliceFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F46E}\uDC6E\u200D\u2640\uFE0F", "Police: Female", ...allPoliceFemale);
 
-export const allCops = [
+export const allCops = /*@__PURE__*/ [
     allPoliceGroup,
     allPoliceMaleGroup,
     allPoliceFemaleGroup
@@ -680,7 +680,7 @@ export const allCops = [
 
 export const allCopsGroup = /*@__PURE__*/ new EmojiGroup("\u{1F46E}\uDC6E", "Police", ...allCops);
 
-export const allWearingTurban = [
+export const allWearingTurban = /*@__PURE__*/ [
     wearingTurban,
     wearingTurbanLightSkinTone,
     wearingTurbanMediumLightSkinTone,
@@ -691,7 +691,7 @@ export const allWearingTurban = [
 
 export const allWearingTurbanGroup = /*@__PURE__*/ new EmojiGroup("\u{1F473}\uDC73", "Wearing Turban", ...allWearingTurban);
 
-export const allWearingTurbanMale = [
+export const allWearingTurbanMale = /*@__PURE__*/ [
     wearingTurbanMale,
     wearingTurbanLightSkinToneMale,
     wearingTurbanMediumLightSkinToneMale,
@@ -702,7 +702,7 @@ export const allWearingTurbanMale = [
 
 export const allWearingTurbanMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F473}\uDC73\u200D\u2642\uFE0F", "Wearing Turban: Male", ...allWearingTurbanMale);
 
-export const allWearingTurbanFemale = [
+export const allWearingTurbanFemale = /*@__PURE__*/ [
     wearingTurbanFemale,
     wearingTurbanLightSkinToneFemale,
     wearingTurbanMediumLightSkinToneFemale,
@@ -713,7 +713,7 @@ export const allWearingTurbanFemale = [
 
 export const allWearingTurbanFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F473}\uDC73\u200D\u2640\uFE0F", "Wearing Turban: Female", ...allWearingTurbanFemale);
 
-export const allTurbanWearers = [
+export const allTurbanWearers = /*@__PURE__*/ [
     allWearingTurbanGroup,
     allWearingTurbanMaleGroup,
     allWearingTurbanFemaleGroup
@@ -721,7 +721,7 @@ export const allTurbanWearers = [
 
 export const allTurbanWearersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F473}\uDC73", "Wearing Turban", ...allTurbanWearers);
 
-export const allSuperhero = [
+export const allSuperhero = /*@__PURE__*/ [
     superhero,
     superheroLightSkinTone,
     superheroMediumLightSkinTone,
@@ -732,7 +732,7 @@ export const allSuperhero = [
 
 export const allSuperheroGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9B8}\uDDB8", "Superhero", ...allSuperhero);
 
-export const allSuperheroMale = [
+export const allSuperheroMale = /*@__PURE__*/ [
     superheroMale,
     superheroLightSkinToneMale,
     superheroMediumLightSkinToneMale,
@@ -743,7 +743,7 @@ export const allSuperheroMale = [
 
 export const allSuperheroMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9B8}\uDDB8\u200D\u2642\uFE0F", "Superhero: Male", ...allSuperheroMale);
 
-export const allSuperheroFemale = [
+export const allSuperheroFemale = /*@__PURE__*/ [
     superheroFemale,
     superheroLightSkinToneFemale,
     superheroMediumLightSkinToneFemale,
@@ -754,7 +754,7 @@ export const allSuperheroFemale = [
 
 export const allSuperheroFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9B8}\uDDB8\u200D\u2640\uFE0F", "Superhero: Female", ...allSuperheroFemale);
 
-export const allSuperheroes = [
+export const allSuperheroes = /*@__PURE__*/ [
     allSuperheroGroup,
     allSuperheroMaleGroup,
     allSuperheroFemaleGroup
@@ -762,7 +762,7 @@ export const allSuperheroes = [
 
 export const allSuperheroesGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9B8}\uDDB8", "Superhero", ...allSuperheroes);
 
-export const allSupervillain = [
+export const allSupervillain = /*@__PURE__*/ [
     supervillain,
     supervillainLightSkinTone,
     supervillainMediumLightSkinTone,
@@ -773,7 +773,7 @@ export const allSupervillain = [
 
 export const allSupervillainGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9B9}\uDDB9", "Supervillain", ...allSupervillain);
 
-export const allSupervillainMale = [
+export const allSupervillainMale = /*@__PURE__*/ [
     supervillainMale,
     supervillainLightSkinToneMale,
     supervillainMediumLightSkinToneMale,
@@ -784,7 +784,7 @@ export const allSupervillainMale = [
 
 export const allSupervillainMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9B9}\uDDB9\u200D\u2642\uFE0F", "Supervillain: Male", ...allSupervillainMale);
 
-export const allSupervillainFemale = [
+export const allSupervillainFemale = /*@__PURE__*/ [
     supervillainFemale,
     supervillainLightSkinToneFemale,
     supervillainMediumLightSkinToneFemale,
@@ -795,7 +795,7 @@ export const allSupervillainFemale = [
 
 export const allSupervillainFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9B9}\uDDB9\u200D\u2640\uFE0F", "Supervillain: Female", ...allSupervillainFemale);
 
-export const allSupervillains = [
+export const allSupervillains = /*@__PURE__*/ [
     allSupervillainGroup,
     allSupervillainMaleGroup,
     allSupervillainFemaleGroup
@@ -803,7 +803,7 @@ export const allSupervillains = [
 
 export const allSupervillainsGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9B9}\uDDB9", "Supervillain", ...allSupervillains);
 
-export const allMage = [
+export const allMage = /*@__PURE__*/ [
     mage,
     mageLightSkinTone,
     mageMediumLightSkinTone,
@@ -814,7 +814,7 @@ export const allMage = [
 
 export const allMageGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D9}\uDDD9", "Mage", ...allMage);
 
-export const allMageMale = [
+export const allMageMale = /*@__PURE__*/ [
     mageMale,
     mageLightSkinToneMale,
     mageMediumLightSkinToneMale,
@@ -825,7 +825,7 @@ export const allMageMale = [
 
 export const allMageMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D9}\uDDD9\u200D\u2642\uFE0F", "Mage: Male", ...allMageMale);
 
-export const allMageFemale = [
+export const allMageFemale = /*@__PURE__*/ [
     mageFemale,
     mageLightSkinToneFemale,
     mageMediumLightSkinToneFemale,
@@ -836,7 +836,7 @@ export const allMageFemale = [
 
 export const allMageFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D9}\uDDD9\u200D\u2640\uFE0F", "Mage: Female", ...allMageFemale);
 
-export const allMages = [
+export const allMages = /*@__PURE__*/ [
     allMageGroup,
     allMageMaleGroup,
     allMageFemaleGroup
@@ -844,7 +844,7 @@ export const allMages = [
 
 export const allMagesGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D9}\uDDD9", "Mage", ...allMages);
 
-export const allFairy = [
+export const allFairy = /*@__PURE__*/ [
     fairy,
     fairyLightSkinTone,
     fairyMediumLightSkinTone,
@@ -855,7 +855,7 @@ export const allFairy = [
 
 export const allFairyGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DA}\uDDDA", "Fairy", ...allFairy);
 
-export const allFairyMale = [
+export const allFairyMale = /*@__PURE__*/ [
     fairyMale,
     fairyLightSkinToneMale,
     fairyMediumLightSkinToneMale,
@@ -866,7 +866,7 @@ export const allFairyMale = [
 
 export const allFairyMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DA}\uDDDA\u200D\u2642\uFE0F", "Fairy: Male", ...allFairyMale);
 
-export const allFairyFemale = [
+export const allFairyFemale = /*@__PURE__*/ [
     fairyFemale,
     fairyLightSkinToneFemale,
     fairyMediumLightSkinToneFemale,
@@ -877,7 +877,7 @@ export const allFairyFemale = [
 
 export const allFairyFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DA}\uDDDA\u200D\u2640\uFE0F", "Fairy: Female", ...allFairyFemale);
 
-export const allFairies = [
+export const allFairies = /*@__PURE__*/ [
     allFairyGroup,
     allFairyMaleGroup,
     allFairyFemaleGroup
@@ -885,7 +885,7 @@ export const allFairies = [
 
 export const allFairiesGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DA}\uDDDA", "Fairy", ...allFairies);
 
-export const allVampire = [
+export const allVampire = /*@__PURE__*/ [
     vampire,
     vampireLightSkinTone,
     vampireMediumLightSkinTone,
@@ -896,7 +896,7 @@ export const allVampire = [
 
 export const allVampireGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DB}\uDDDB", "Vampire", ...allVampire);
 
-export const allVampireMale = [
+export const allVampireMale = /*@__PURE__*/ [
     vampireMale,
     vampireLightSkinToneMale,
     vampireMediumLightSkinToneMale,
@@ -907,7 +907,7 @@ export const allVampireMale = [
 
 export const allVampireMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DB}\uDDDB\u200D\u2642\uFE0F", "Vampire: Male", ...allVampireMale);
 
-export const allVampireFemale = [
+export const allVampireFemale = /*@__PURE__*/ [
     vampireFemale,
     vampireLightSkinToneFemale,
     vampireMediumLightSkinToneFemale,
@@ -918,7 +918,7 @@ export const allVampireFemale = [
 
 export const allVampireFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DB}\uDDDB\u200D\u2640\uFE0F", "Vampire: Female", ...allVampireFemale);
 
-export const allVampires = [
+export const allVampires = /*@__PURE__*/ [
     allVampireGroup,
     allVampireMaleGroup,
     allVampireFemaleGroup
@@ -926,7 +926,7 @@ export const allVampires = [
 
 export const allVampiresGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DB}\uDDDB", "Vampire", ...allVampires);
 
-export const allMerperson = [
+export const allMerperson = /*@__PURE__*/ [
     merperson,
     merpersonLightSkinTone,
     merpersonMediumLightSkinTone,
@@ -937,7 +937,7 @@ export const allMerperson = [
 
 export const allMerpersonGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DC}\uDDDC", "Merperson", ...allMerperson);
 
-export const allMerpersonMale = [
+export const allMerpersonMale = /*@__PURE__*/ [
     merpersonMale,
     merpersonLightSkinToneMale,
     merpersonMediumLightSkinToneMale,
@@ -948,7 +948,7 @@ export const allMerpersonMale = [
 
 export const allMerpersonMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DC}\uDDDC\u200D\u2642\uFE0F", "Merperson: Male", ...allMerpersonMale);
 
-export const allMerpersonFemale = [
+export const allMerpersonFemale = /*@__PURE__*/ [
     merpersonFemale,
     merpersonLightSkinToneFemale,
     merpersonMediumLightSkinToneFemale,
@@ -959,7 +959,7 @@ export const allMerpersonFemale = [
 
 export const allMerpersonFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DC}\uDDDC\u200D\u2640\uFE0F", "Merperson: Female", ...allMerpersonFemale);
 
-export const allMerpeople = [
+export const allMerpeople = /*@__PURE__*/ [
     allMerpersonGroup,
     allMerpersonMaleGroup,
     allMerpersonFemaleGroup
@@ -967,7 +967,7 @@ export const allMerpeople = [
 
 export const allMerpeopleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DC}\uDDDC", "Merperson", ...allMerpeople);
 
-export const allElf = [
+export const allElf = /*@__PURE__*/ [
     elf,
     elfLightSkinTone,
     elfMediumLightSkinTone,
@@ -978,7 +978,7 @@ export const allElf = [
 
 export const allElfGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DD}\uDDDD", "Elf", ...allElf);
 
-export const allElfMale = [
+export const allElfMale = /*@__PURE__*/ [
     elfMale,
     elfLightSkinToneMale,
     elfMediumLightSkinToneMale,
@@ -989,7 +989,7 @@ export const allElfMale = [
 
 export const allElfMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DD}\uDDDD\u200D\u2642\uFE0F", "Elf: Male", ...allElfMale);
 
-export const allElfFemale = [
+export const allElfFemale = /*@__PURE__*/ [
     elfFemale,
     elfLightSkinToneFemale,
     elfMediumLightSkinToneFemale,
@@ -1000,7 +1000,7 @@ export const allElfFemale = [
 
 export const allElfFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DD}\uDDDD\u200D\u2640\uFE0F", "Elf: Female", ...allElfFemale);
 
-export const allElves = [
+export const allElves = /*@__PURE__*/ [
     allElfGroup,
     allElfMaleGroup,
     allElfFemaleGroup
@@ -1008,7 +1008,7 @@ export const allElves = [
 
 export const allElvesGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DD}\uDDDD", "Elf", ...allElves);
 
-export const allWalking = [
+export const allWalking = /*@__PURE__*/ [
     walking,
     walkingLightSkinTone,
     walkingMediumLightSkinTone,
@@ -1019,7 +1019,7 @@ export const allWalking = [
 
 export const allWalkingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B6}\uDEB6", "Walking", ...allWalking);
 
-export const allWalkingMale = [
+export const allWalkingMale = /*@__PURE__*/ [
     walkingMale,
     walkingLightSkinToneMale,
     walkingMediumLightSkinToneMale,
@@ -1030,7 +1030,7 @@ export const allWalkingMale = [
 
 export const allWalkingMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B6}\uDEB6\u200D\u2642\uFE0F", "Walking: Male", ...allWalkingMale);
 
-export const allWalkingFemale = [
+export const allWalkingFemale = /*@__PURE__*/ [
     walkingFemale,
     walkingLightSkinToneFemale,
     walkingMediumLightSkinToneFemale,
@@ -1041,7 +1041,7 @@ export const allWalkingFemale = [
 
 export const allWalkingFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B6}\uDEB6\u200D\u2640\uFE0F", "Walking: Female", ...allWalkingFemale);
 
-export const allWalkers = [
+export const allWalkers = /*@__PURE__*/ [
     allWalkingGroup,
     allWalkingMaleGroup,
     allWalkingFemaleGroup
@@ -1049,7 +1049,7 @@ export const allWalkers = [
 
 export const allWalkersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B6}\uDEB6", "Walking", ...allWalkers);
 
-export const allStanding = [
+export const allStanding = /*@__PURE__*/ [
     standing,
     standingLightSkinTone,
     standingMediumLightSkinTone,
@@ -1060,7 +1060,7 @@ export const allStanding = [
 
 export const allStandingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CD}\uDDCD", "Standing", ...allStanding);
 
-export const allStandingMale = [
+export const allStandingMale = /*@__PURE__*/ [
     standingMale,
     standingLightSkinToneMale,
     standingMediumLightSkinToneMale,
@@ -1071,7 +1071,7 @@ export const allStandingMale = [
 
 export const allStandingMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CD}\uDDCD\u200D\u2642\uFE0F", "Standing: Male", ...allStandingMale);
 
-export const allStandingFemale = [
+export const allStandingFemale = /*@__PURE__*/ [
     standingFemale,
     standingLightSkinToneFemale,
     standingMediumLightSkinToneFemale,
@@ -1082,7 +1082,7 @@ export const allStandingFemale = [
 
 export const allStandingFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CD}\uDDCD\u200D\u2640\uFE0F", "Standing: Female", ...allStandingFemale);
 
-export const allStanders = [
+export const allStanders = /*@__PURE__*/ [
     allStandingGroup,
     allStandingMaleGroup,
     allStandingFemaleGroup
@@ -1090,7 +1090,7 @@ export const allStanders = [
 
 export const allStandersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CD}\uDDCD", "Standing", ...allStanders);
 
-export const allKneeling = [
+export const allKneeling = /*@__PURE__*/ [
     kneeling,
     kneelingLightSkinTone,
     kneelingMediumLightSkinTone,
@@ -1101,7 +1101,7 @@ export const allKneeling = [
 
 export const allKneelingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CE}\uDDCE", "Kneeling", ...allKneeling);
 
-export const allKneelingMale = [
+export const allKneelingMale = /*@__PURE__*/ [
     kneelingMale,
     kneelingLightSkinToneMale,
     kneelingMediumLightSkinToneMale,
@@ -1112,7 +1112,7 @@ export const allKneelingMale = [
 
 export const allKneelingMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CE}\uDDCE\u200D\u2642\uFE0F", "Kneeling: Male", ...allKneelingMale);
 
-export const allKneelingFemale = [
+export const allKneelingFemale = /*@__PURE__*/ [
     kneelingFemale,
     kneelingLightSkinToneFemale,
     kneelingMediumLightSkinToneFemale,
@@ -1123,7 +1123,7 @@ export const allKneelingFemale = [
 
 export const allKneelingFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CE}\uDDCE\u200D\u2640\uFE0F", "Kneeling: Female", ...allKneelingFemale);
 
-export const allKneelers = [
+export const allKneelers = /*@__PURE__*/ [
     allKneelingGroup,
     allKneelingMaleGroup,
     allKneelingFemaleGroup
@@ -1131,7 +1131,7 @@ export const allKneelers = [
 
 export const allKneelersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9CE}\uDDCE", "Kneeling", ...allKneelers);
 
-export const allRunning = [
+export const allRunning = /*@__PURE__*/ [
     running,
     runningLightSkinTone,
     runningMediumLightSkinTone,
@@ -1142,7 +1142,7 @@ export const allRunning = [
 
 export const allRunningGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C3}\uDFC3", "Running", ...allRunning);
 
-export const allRunningMale = [
+export const allRunningMale = /*@__PURE__*/ [
     runningMale,
     runningLightSkinToneMale,
     runningMediumLightSkinToneMale,
@@ -1153,7 +1153,7 @@ export const allRunningMale = [
 
 export const allRunningMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C3}\uDFC3\u200D\u2642\uFE0F", "Running: Male", ...allRunningMale);
 
-export const allRunningFemale = [
+export const allRunningFemale = /*@__PURE__*/ [
     runningFemale,
     runningLightSkinToneFemale,
     runningMediumLightSkinToneFemale,
@@ -1164,7 +1164,7 @@ export const allRunningFemale = [
 
 export const allRunningFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C3}\uDFC3\u200D\u2640\uFE0F", "Running: Female", ...allRunningFemale);
 
-export const allRunners = [
+export const allRunners = /*@__PURE__*/ [
     allRunningGroup,
     allRunningMaleGroup,
     allRunningFemaleGroup
@@ -1172,7 +1172,7 @@ export const allRunners = [
 
 export const allRunnersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C3}\uDFC3", "Running", ...allRunners);
 
-export const allGesturing = [
+export const allGesturing = /*@__PURE__*/ [
     allFrownersGroup,
     allPoutersGroup,
     allNoGuesturerersGroupGroup,
@@ -1189,7 +1189,7 @@ export const allGesturing = [
 
 export const allGesturingGroup = /*@__PURE__*/ new EmojiGroup("\u0047\u0065\u0073\u0074\u0075\u0072\u0065\u0073", "Gestures", ...allGesturing);
 
-export const allBaby = [
+export const allBaby = /*@__PURE__*/ [
     baby,
     babyLightSkinTone,
     babyMediumLightSkinTone,
@@ -1200,7 +1200,7 @@ export const allBaby = [
 
 export const allBabyGroup = /*@__PURE__*/ new EmojiGroup("\u{1F476}\uDC76", "Baby", ...allBaby);
 
-export const allChild = [
+export const allChild = /*@__PURE__*/ [
     child,
     childLightSkinTone,
     childMediumLightSkinTone,
@@ -1211,7 +1211,7 @@ export const allChild = [
 
 export const allChildGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D2}\uDDD2", "Child", ...allChild);
 
-export const allBoy = [
+export const allBoy = /*@__PURE__*/ [
     boy,
     boyLightSkinTone,
     boyMediumLightSkinTone,
@@ -1222,7 +1222,7 @@ export const allBoy = [
 
 export const allBoyGroup = /*@__PURE__*/ new EmojiGroup("\u{1F466}\uDC66", "Boy", ...allBoy);
 
-export const allGirl = [
+export const allGirl = /*@__PURE__*/ [
     girl,
     girlLightSkinTone,
     girlMediumLightSkinTone,
@@ -1233,7 +1233,7 @@ export const allGirl = [
 
 export const allGirlGroup = /*@__PURE__*/ new EmojiGroup("\u{1F467}\uDC67", "Girl", ...allGirl);
 
-export const allChildren = [
+export const allChildren = /*@__PURE__*/ [
     allChildGroup,
     allBoyGroup,
     allGirlGroup
@@ -1241,7 +1241,7 @@ export const allChildren = [
 
 export const allChildrenGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D2}\uDDD2", "Child", ...allChildren);
 
-export const allBlondPerson = [
+export const allBlondPerson = /*@__PURE__*/ [
     blondPerson,
     blondPersonLightSkinTone,
     blondPersonMediumLightSkinTone,
@@ -1252,7 +1252,7 @@ export const allBlondPerson = [
 
 export const allBlondPersonGroup = /*@__PURE__*/ new EmojiGroup("\u{1F471}\uDC71", "Blond Person", ...allBlondPerson);
 
-export const allBlondPersonMale = [
+export const allBlondPersonMale = /*@__PURE__*/ [
     blondPersonMale,
     blondPersonLightSkinToneMale,
     blondPersonMediumLightSkinToneMale,
@@ -1263,7 +1263,7 @@ export const allBlondPersonMale = [
 
 export const allBlondPersonMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F471}\uDC71\u200D\u2642\uFE0F", "Blond Person: Male", ...allBlondPersonMale);
 
-export const allBlondPersonFemale = [
+export const allBlondPersonFemale = /*@__PURE__*/ [
     blondPersonFemale,
     blondPersonLightSkinToneFemale,
     blondPersonMediumLightSkinToneFemale,
@@ -1274,7 +1274,7 @@ export const allBlondPersonFemale = [
 
 export const allBlondPersonFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F471}\uDC71\u200D\u2640\uFE0F", "Blond Person: Female", ...allBlondPersonFemale);
 
-export const allBlondePeople = [
+export const allBlondePeople = /*@__PURE__*/ [
     allBlondPersonGroup,
     allBlondPersonMaleGroup,
     allBlondPersonFemaleGroup
@@ -1282,7 +1282,7 @@ export const allBlondePeople = [
 
 export const allBlondePeopleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F471}\uDC71", "Blond Person", ...allBlondePeople);
 
-export const allPerson = [
+export const allPerson = /*@__PURE__*/ [
     person,
     personLightSkinTone,
     personMediumLightSkinTone,
@@ -1295,7 +1295,7 @@ export const allPerson = [
 
 export const allPersonGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D1}\uDDD1", "Person", ...allPerson);
 
-export const allBeardedMan = [
+export const allBeardedMan = /*@__PURE__*/ [
     beardedMan,
     beardedManLightSkinTone,
     beardedManMediumLightSkinTone,
@@ -1306,7 +1306,7 @@ export const allBeardedMan = [
 
 export const allBeardedManGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D4}\uDDD4", "Bearded Man", ...allBeardedMan);
 
-export const allManWithChineseCap = [
+export const allManWithChineseCap = /*@__PURE__*/ [
     manWithChineseCap,
     manWithChineseCapLightSkinTone,
     manWithChineseCapMediumLightSkinTone,
@@ -1317,7 +1317,7 @@ export const allManWithChineseCap = [
 
 export const allManWithChineseCapGroup = /*@__PURE__*/ new EmojiGroup("\u{1F472}\uDC72", "Man With Chinese Cap", ...allManWithChineseCap);
 
-export const allManInTuxedo = [
+export const allManInTuxedo = /*@__PURE__*/ [
     manInTuxedo,
     manInTuxedoLightSkinTone,
     manInTuxedoMediumLightSkinTone,
@@ -1328,7 +1328,7 @@ export const allManInTuxedo = [
 
 export const allManInTuxedoGroup = /*@__PURE__*/ new EmojiGroup("\u{1F935}\uDD35", "Man in Tuxedo", ...allManInTuxedo);
 
-export const allMan = [
+export const allMan = /*@__PURE__*/ [
     man,
     manLightSkinTone,
     manMediumLightSkinTone,
@@ -1339,7 +1339,7 @@ export const allMan = [
 
 export const allManGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68", "Man", ...allMan);
 
-export const allManRedHair = [
+export const allManRedHair = /*@__PURE__*/ [
     manRedHair,
     manLightSkinToneRedHair,
     manMediumLightSkinToneRedHair,
@@ -1350,7 +1350,7 @@ export const allManRedHair = [
 
 export const allManRedHairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F9B0}\uDDB0", "Man: Red Hair", ...allManRedHair);
 
-export const allManCurlyHair = [
+export const allManCurlyHair = /*@__PURE__*/ [
     manCurlyHair,
     manLightSkinToneCurlyHair,
     manMediumLightSkinToneCurlyHair,
@@ -1361,7 +1361,7 @@ export const allManCurlyHair = [
 
 export const allManCurlyHairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F9B1}\uDDB1", "Man: Curly Hair", ...allManCurlyHair);
 
-export const allManWhiteHair = [
+export const allManWhiteHair = /*@__PURE__*/ [
     manWhiteHair,
     manLightSkinToneWhiteHair,
     manMediumLightSkinToneWhiteHair,
@@ -1372,7 +1372,7 @@ export const allManWhiteHair = [
 
 export const allManWhiteHairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F9B3}\uDDB3", "Man: White Hair", ...allManWhiteHair);
 
-export const allManBald = [
+export const allManBald = /*@__PURE__*/ [
     manBald,
     manLightSkinToneBald,
     manMediumLightSkinToneBald,
@@ -1383,7 +1383,7 @@ export const allManBald = [
 
 export const allManBaldGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F9B2}\uDDB2", "Man: Bald", ...allManBald);
 
-export const allMen = [
+export const allMen = /*@__PURE__*/ [
     allManGroup,
     allManRedHairGroup,
     allManCurlyHairGroup,
@@ -1399,7 +1399,7 @@ export const allMen = [
 
 export const allMenGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68", "Man", ...allMen);
 
-export const allPregnantWoman = [
+export const allPregnantWoman = /*@__PURE__*/ [
     pregnantWoman,
     pregnantWomanLightSkinTone,
     pregnantWomanMediumLightSkinTone,
@@ -1410,7 +1410,7 @@ export const allPregnantWoman = [
 
 export const allPregnantWomanGroup = /*@__PURE__*/ new EmojiGroup("\u{1F930}\uDD30", "Pregnant Woman", ...allPregnantWoman);
 
-export const allBreastFeeding = [
+export const allBreastFeeding = /*@__PURE__*/ [
     breastFeeding,
     breastFeedingLightSkinTone,
     breastFeedingMediumLightSkinTone,
@@ -1421,7 +1421,7 @@ export const allBreastFeeding = [
 
 export const allBreastFeedingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F931}\uDD31", "Breast-Feeding", ...allBreastFeeding);
 
-export const allWomanWithHeadscarf = [
+export const allWomanWithHeadscarf = /*@__PURE__*/ [
     womanWithHeadscarf,
     womanWithHeadscarfLightSkinTone,
     womanWithHeadscarfMediumLightSkinTone,
@@ -1432,7 +1432,7 @@ export const allWomanWithHeadscarf = [
 
 export const allWomanWithHeadscarfGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D5}\uDDD5", "Woman With Headscarf", ...allWomanWithHeadscarf);
 
-export const allBrideWithVeil = [
+export const allBrideWithVeil = /*@__PURE__*/ [
     brideWithVeil,
     brideWithVeilLightSkinTone,
     brideWithVeilMediumLightSkinTone,
@@ -1443,7 +1443,7 @@ export const allBrideWithVeil = [
 
 export const allBrideWithVeilGroup = /*@__PURE__*/ new EmojiGroup("\u{1F470}\uDC70", "Bride With Veil", ...allBrideWithVeil);
 
-export const allWoman = [
+export const allWoman = /*@__PURE__*/ [
     woman,
     womanLightSkinTone,
     womanMediumLightSkinTone,
@@ -1454,7 +1454,7 @@ export const allWoman = [
 
 export const allWomanGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69", "Woman", ...allWoman);
 
-export const allWomanRedHair = [
+export const allWomanRedHair = /*@__PURE__*/ [
     womanRedHair,
     womanLightSkinToneRedHair,
     womanMediumLightSkinToneRedHair,
@@ -1465,7 +1465,7 @@ export const allWomanRedHair = [
 
 export const allWomanRedHairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F9B0}\uDDB0", "Woman: Red Hair", ...allWomanRedHair);
 
-export const allWomanCurlyHair = [
+export const allWomanCurlyHair = /*@__PURE__*/ [
     womanCurlyHair,
     womanLightSkinToneCurlyHair,
     womanMediumLightSkinToneCurlyHair,
@@ -1476,7 +1476,7 @@ export const allWomanCurlyHair = [
 
 export const allWomanCurlyHairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F9B1}\uDDB1", "Woman: Curly Hair", ...allWomanCurlyHair);
 
-export const allWomanWhiteHair = [
+export const allWomanWhiteHair = /*@__PURE__*/ [
     womanWhiteHair,
     womanLightSkinToneWhiteHair,
     womanMediumLightSkinToneWhiteHair,
@@ -1487,7 +1487,7 @@ export const allWomanWhiteHair = [
 
 export const allWomanWhiteHairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F9B3}\uDDB3", "Woman: White Hair", ...allWomanWhiteHair);
 
-export const allWomanBald = [
+export const allWomanBald = /*@__PURE__*/ [
     womanBald,
     womanLightSkinToneBald,
     womanMediumLightSkinToneBald,
@@ -1498,7 +1498,7 @@ export const allWomanBald = [
 
 export const allWomanBaldGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F9B2}\uDDB2", "Woman: Bald", ...allWomanBald);
 
-export const allWomen = [
+export const allWomen = /*@__PURE__*/ [
     allWomanGroup,
     allWomanRedHairGroup,
     allWomanCurlyHairGroup,
@@ -1514,7 +1514,7 @@ export const allWomen = [
 
 export const allWomenGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69", "Woman", ...allWomen);
 
-export const allPersons = [
+export const allPersons = /*@__PURE__*/ [
     allPersonGroup,
     allMenGroup,
     allWomenGroup
@@ -1522,7 +1522,7 @@ export const allPersons = [
 
 export const allPersonsGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D1}\uDDD1", "Adult", ...allPersons);
 
-export const allOlderPerson = [
+export const allOlderPerson = /*@__PURE__*/ [
     olderPerson,
     olderPersonLightSkinTone,
     olderPersonMediumLightSkinTone,
@@ -1533,7 +1533,7 @@ export const allOlderPerson = [
 
 export const allOlderPersonGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D3}\uDDD3", "Older Person", ...allOlderPerson);
 
-export const allOldMan = [
+export const allOldMan = /*@__PURE__*/ [
     oldMan,
     oldManLightSkinTone,
     oldManMediumLightSkinTone,
@@ -1544,7 +1544,7 @@ export const allOldMan = [
 
 export const allOldManGroup = /*@__PURE__*/ new EmojiGroup("\u{1F474}\uDC74", "Old Man", ...allOldMan);
 
-export const allOldWoman = [
+export const allOldWoman = /*@__PURE__*/ [
     oldWoman,
     oldWomanLightSkinTone,
     oldWomanMediumLightSkinTone,
@@ -1555,7 +1555,7 @@ export const allOldWoman = [
 
 export const allOldWomanGroup = /*@__PURE__*/ new EmojiGroup("\u{1F475}\uDC75", "Old Woman", ...allOldWoman);
 
-export const allOlderPersons = [
+export const allOlderPersons = /*@__PURE__*/ [
     allOlderPersonGroup,
     allOldManGroup,
     allOldWomanGroup
@@ -1563,7 +1563,7 @@ export const allOlderPersons = [
 
 export const allOlderPersonsGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D3}\uDDD3", "Older Person", ...allOlderPersons);
 
-export const allManHealthCare = [
+export const allManHealthCare = /*@__PURE__*/ [
     manHealthCare,
     manLightSkinToneHealthCare,
     manMediumLightSkinToneHealthCare,
@@ -1574,7 +1574,7 @@ export const allManHealthCare = [
 
 export const allManHealthCareGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u2695\uFE0F", "Man: Health Care", ...allManHealthCare);
 
-export const allWomanHealthCare = [
+export const allWomanHealthCare = /*@__PURE__*/ [
     womanHealthCare,
     womanLightSkinToneHealthCare,
     womanMediumLightSkinToneHealthCare,
@@ -1585,7 +1585,7 @@ export const allWomanHealthCare = [
 
 export const allWomanHealthCareGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u2695\uFE0F", "Woman: Health Care", ...allWomanHealthCare);
 
-export const allMedical = [
+export const allMedical = /*@__PURE__*/ [
     medical,
     allManHealthCareGroup,
     allWomanHealthCareGroup
@@ -1593,7 +1593,7 @@ export const allMedical = [
 
 export const allMedicalGroup = /*@__PURE__*/ new EmojiGroup("\u2695\uFE0F", "Medical", ...allMedical);
 
-export const allManStudent = [
+export const allManStudent = /*@__PURE__*/ [
     manStudent,
     manLightSkinToneStudent,
     manMediumLightSkinToneStudent,
@@ -1604,7 +1604,7 @@ export const allManStudent = [
 
 export const allManStudentGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F393}\uDF93", "Man: Student", ...allManStudent);
 
-export const allWomanStudent = [
+export const allWomanStudent = /*@__PURE__*/ [
     womanStudent,
     womanLightSkinToneStudent,
     womanMediumLightSkinToneStudent,
@@ -1615,7 +1615,7 @@ export const allWomanStudent = [
 
 export const allWomanStudentGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F393}\uDF93", "Woman: Student", ...allWomanStudent);
 
-export const allGraduationCap = [
+export const allGraduationCap = /*@__PURE__*/ [
     graduationCap,
     allManStudentGroup,
     allWomanStudentGroup
@@ -1623,7 +1623,7 @@ export const allGraduationCap = [
 
 export const allGraduationCapGroup = /*@__PURE__*/ new EmojiGroup("\u{1F393}\uDF93", "Graduation Cap", ...allGraduationCap);
 
-export const allManTeacher = [
+export const allManTeacher = /*@__PURE__*/ [
     manTeacher,
     manLightSkinToneTeacher,
     manMediumLightSkinToneTeacher,
@@ -1634,7 +1634,7 @@ export const allManTeacher = [
 
 export const allManTeacherGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F3EB}\uDFEB", "Man: Teacher", ...allManTeacher);
 
-export const allWomanTeacher = [
+export const allWomanTeacher = /*@__PURE__*/ [
     womanTeacher,
     womanLightSkinToneTeacher,
     womanMediumLightSkinToneTeacher,
@@ -1645,7 +1645,7 @@ export const allWomanTeacher = [
 
 export const allWomanTeacherGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F3EB}\uDFEB", "Woman: Teacher", ...allWomanTeacher);
 
-export const allSchool = [
+export const allSchool = /*@__PURE__*/ [
     school,
     allManTeacherGroup,
     allWomanTeacherGroup
@@ -1653,7 +1653,7 @@ export const allSchool = [
 
 export const allSchoolGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3EB}\uDFEB", "School", ...allSchool);
 
-export const allManJudge = [
+export const allManJudge = /*@__PURE__*/ [
     manJudge,
     manLightSkinToneJudge,
     manMediumLightSkinToneJudge,
@@ -1664,7 +1664,7 @@ export const allManJudge = [
 
 export const allManJudgeGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u2696\uFE0F", "Man: Judge", ...allManJudge);
 
-export const allWomanJudge = [
+export const allWomanJudge = /*@__PURE__*/ [
     womanJudge,
     womanLightSkinToneJudge,
     womanMediumLightSkinToneJudge,
@@ -1675,7 +1675,7 @@ export const allWomanJudge = [
 
 export const allWomanJudgeGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u2696\uFE0F", "Woman: Judge", ...allWomanJudge);
 
-export const allBalanceScale = [
+export const allBalanceScale = /*@__PURE__*/ [
     balanceScale,
     allManJudgeGroup,
     allWomanJudgeGroup
@@ -1683,7 +1683,7 @@ export const allBalanceScale = [
 
 export const allBalanceScaleGroup = /*@__PURE__*/ new EmojiGroup("\u2696\uFE0F", "Balance Scale", ...allBalanceScale);
 
-export const allManFarmer = [
+export const allManFarmer = /*@__PURE__*/ [
     manFarmer,
     manLightSkinToneFarmer,
     manMediumLightSkinToneFarmer,
@@ -1694,7 +1694,7 @@ export const allManFarmer = [
 
 export const allManFarmerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F33E}\uDF3E", "Man: Farmer", ...allManFarmer);
 
-export const allWomanFarmer = [
+export const allWomanFarmer = /*@__PURE__*/ [
     womanFarmer,
     womanLightSkinToneFarmer,
     womanMediumLightSkinToneFarmer,
@@ -1705,7 +1705,7 @@ export const allWomanFarmer = [
 
 export const allWomanFarmerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F33E}\uDF3E", "Woman: Farmer", ...allWomanFarmer);
 
-export const allSheafOfRice = [
+export const allSheafOfRice = /*@__PURE__*/ [
     sheafOfRice,
     allManFarmerGroup,
     allWomanFarmerGroup
@@ -1713,7 +1713,7 @@ export const allSheafOfRice = [
 
 export const allSheafOfRiceGroup = /*@__PURE__*/ new EmojiGroup("\u{1F33E}\uDF3E", "Sheaf of Rice", ...allSheafOfRice);
 
-export const allManCook = [
+export const allManCook = /*@__PURE__*/ [
     manCook,
     manLightSkinToneCook,
     manMediumLightSkinToneCook,
@@ -1724,7 +1724,7 @@ export const allManCook = [
 
 export const allManCookGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F373}\uDF73", "Man: Cook", ...allManCook);
 
-export const allWomanCook = [
+export const allWomanCook = /*@__PURE__*/ [
     womanCook,
     womanLightSkinToneCook,
     womanMediumLightSkinToneCook,
@@ -1735,7 +1735,7 @@ export const allWomanCook = [
 
 export const allWomanCookGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F373}\uDF73", "Woman: Cook", ...allWomanCook);
 
-export const allCooking = [
+export const allCooking = /*@__PURE__*/ [
     cooking,
     allManCookGroup,
     allWomanCookGroup
@@ -1743,7 +1743,7 @@ export const allCooking = [
 
 export const allCookingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F373}\uDF73", "Cooking", ...allCooking);
 
-export const allManMechanic = [
+export const allManMechanic = /*@__PURE__*/ [
     manMechanic,
     manLightSkinToneMechanic,
     manMediumLightSkinToneMechanic,
@@ -1754,7 +1754,7 @@ export const allManMechanic = [
 
 export const allManMechanicGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F527}\uDD27", "Man: Mechanic", ...allManMechanic);
 
-export const allWomanMechanic = [
+export const allWomanMechanic = /*@__PURE__*/ [
     womanMechanic,
     womanLightSkinToneMechanic,
     womanMediumLightSkinToneMechanic,
@@ -1765,7 +1765,7 @@ export const allWomanMechanic = [
 
 export const allWomanMechanicGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F527}\uDD27", "Woman: Mechanic", ...allWomanMechanic);
 
-export const allWrench = [
+export const allWrench = /*@__PURE__*/ [
     wrench,
     allManMechanicGroup,
     allWomanMechanicGroup
@@ -1773,7 +1773,7 @@ export const allWrench = [
 
 export const allWrenchGroup = /*@__PURE__*/ new EmojiGroup("\u{1F527}\uDD27", "Wrench", ...allWrench);
 
-export const allManFactoryWorker = [
+export const allManFactoryWorker = /*@__PURE__*/ [
     manFactoryWorker,
     manLightSkinToneFactoryWorker,
     manMediumLightSkinToneFactoryWorker,
@@ -1784,7 +1784,7 @@ export const allManFactoryWorker = [
 
 export const allManFactoryWorkerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F3ED}\uDFED", "Man: Factory Worker", ...allManFactoryWorker);
 
-export const allWomanFactoryWorker = [
+export const allWomanFactoryWorker = /*@__PURE__*/ [
     womanFactoryWorker,
     womanLightSkinToneFactoryWorker,
     womanMediumLightSkinToneFactoryWorker,
@@ -1795,7 +1795,7 @@ export const allWomanFactoryWorker = [
 
 export const allWomanFactoryWorkerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F3ED}\uDFED", "Woman: Factory Worker", ...allWomanFactoryWorker);
 
-export const allFactory = [
+export const allFactory = /*@__PURE__*/ [
     factory,
     allManFactoryWorkerGroup,
     allWomanFactoryWorkerGroup
@@ -1803,7 +1803,7 @@ export const allFactory = [
 
 export const allFactoryGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3ED}\uDFED", "Factory", ...allFactory);
 
-export const allManOfficeWorker = [
+export const allManOfficeWorker = /*@__PURE__*/ [
     manOfficeWorker,
     manLightSkinToneOfficeWorker,
     manMediumLightSkinToneOfficeWorker,
@@ -1814,7 +1814,7 @@ export const allManOfficeWorker = [
 
 export const allManOfficeWorkerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F4BC}\uDCBC", "Man: Office Worker", ...allManOfficeWorker);
 
-export const allWomanOfficeWorker = [
+export const allWomanOfficeWorker = /*@__PURE__*/ [
     womanOfficeWorker,
     womanLightSkinToneOfficeWorker,
     womanMediumLightSkinToneOfficeWorker,
@@ -1825,7 +1825,7 @@ export const allWomanOfficeWorker = [
 
 export const allWomanOfficeWorkerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F4BC}\uDCBC", "Woman: Office Worker", ...allWomanOfficeWorker);
 
-export const allBriefcase = [
+export const allBriefcase = /*@__PURE__*/ [
     briefcase,
     allManOfficeWorkerGroup,
     allWomanOfficeWorkerGroup
@@ -1833,7 +1833,7 @@ export const allBriefcase = [
 
 export const allBriefcaseGroup = /*@__PURE__*/ new EmojiGroup("\u{1F4BC}\uDCBC", "Briefcase", ...allBriefcase);
 
-export const allManFireFighter = [
+export const allManFireFighter = /*@__PURE__*/ [
     manFireFighter,
     manLightSkinToneFireFighter,
     manMediumLightSkinToneFireFighter,
@@ -1844,7 +1844,7 @@ export const allManFireFighter = [
 
 export const allManFireFighterGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F692}\uDE92", "Man: Fire Fighter", ...allManFireFighter);
 
-export const allWomanFireFighter = [
+export const allWomanFireFighter = /*@__PURE__*/ [
     womanFireFighter,
     womanLightSkinToneFireFighter,
     womanMediumLightSkinToneFireFighter,
@@ -1855,7 +1855,7 @@ export const allWomanFireFighter = [
 
 export const allWomanFireFighterGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F692}\uDE92", "Woman: Fire Fighter", ...allWomanFireFighter);
 
-export const allFireEngine = [
+export const allFireEngine = /*@__PURE__*/ [
     fireEngine,
     allManFireFighterGroup,
     allWomanFireFighterGroup
@@ -1863,7 +1863,7 @@ export const allFireEngine = [
 
 export const allFireEngineGroup = /*@__PURE__*/ new EmojiGroup("\u{1F692}\uDE92", "Fire Engine", ...allFireEngine);
 
-export const allManAstronaut = [
+export const allManAstronaut = /*@__PURE__*/ [
     manAstronaut,
     manLightSkinToneAstronaut,
     manMediumLightSkinToneAstronaut,
@@ -1874,7 +1874,7 @@ export const allManAstronaut = [
 
 export const allManAstronautGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F680}\uDE80", "Man: Astronaut", ...allManAstronaut);
 
-export const allWomanAstronaut = [
+export const allWomanAstronaut = /*@__PURE__*/ [
     womanAstronaut,
     womanLightSkinToneAstronaut,
     womanMediumLightSkinToneAstronaut,
@@ -1885,7 +1885,7 @@ export const allWomanAstronaut = [
 
 export const allWomanAstronautGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F680}\uDE80", "Woman: Astronaut", ...allWomanAstronaut);
 
-export const allRocket = [
+export const allRocket = /*@__PURE__*/ [
     rocket,
     allManAstronautGroup,
     allWomanAstronautGroup
@@ -1893,7 +1893,7 @@ export const allRocket = [
 
 export const allRocketGroup = /*@__PURE__*/ new EmojiGroup("\u{1F680}\uDE80", "Rocket", ...allRocket);
 
-export const allManPilot = [
+export const allManPilot = /*@__PURE__*/ [
     manPilot,
     manLightSkinTonePilot,
     manMediumLightSkinTonePilot,
@@ -1904,7 +1904,7 @@ export const allManPilot = [
 
 export const allManPilotGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u2708\uFE0F", "Man: Pilot", ...allManPilot);
 
-export const allWomanPilot = [
+export const allWomanPilot = /*@__PURE__*/ [
     womanPilot,
     womanLightSkinTonePilot,
     womanMediumLightSkinTonePilot,
@@ -1915,7 +1915,7 @@ export const allWomanPilot = [
 
 export const allWomanPilotGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u2708\uFE0F", "Woman: Pilot", ...allWomanPilot);
 
-export const allAirplane = [
+export const allAirplane = /*@__PURE__*/ [
     airplane,
     allManPilotGroup,
     allWomanPilotGroup
@@ -1923,7 +1923,7 @@ export const allAirplane = [
 
 export const allAirplaneGroup = /*@__PURE__*/ new EmojiGroup("\u2708\uFE0F", "Airplane", ...allAirplane);
 
-export const allManArtist = [
+export const allManArtist = /*@__PURE__*/ [
     manArtist,
     manLightSkinToneArtist,
     manMediumLightSkinToneArtist,
@@ -1934,7 +1934,7 @@ export const allManArtist = [
 
 export const allManArtistGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F3A8}\uDFA8", "Man: Artist", ...allManArtist);
 
-export const allWomanArtist = [
+export const allWomanArtist = /*@__PURE__*/ [
     womanArtist,
     womanLightSkinToneArtist,
     womanMediumLightSkinToneArtist,
@@ -1945,7 +1945,7 @@ export const allWomanArtist = [
 
 export const allWomanArtistGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F3A8}\uDFA8", "Woman: Artist", ...allWomanArtist);
 
-export const allArtistPalette = [
+export const allArtistPalette = /*@__PURE__*/ [
     artistPalette,
     allManArtistGroup,
     allWomanArtistGroup
@@ -1953,7 +1953,7 @@ export const allArtistPalette = [
 
 export const allArtistPaletteGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3A8}\uDFA8", "Artist Palette", ...allArtistPalette);
 
-export const allManSinger = [
+export const allManSinger = /*@__PURE__*/ [
     manSinger,
     manLightSkinToneSinger,
     manMediumLightSkinToneSinger,
@@ -1964,7 +1964,7 @@ export const allManSinger = [
 
 export const allManSingerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F3A4}\uDFA4", "Man: Singer", ...allManSinger);
 
-export const allWomanSinger = [
+export const allWomanSinger = /*@__PURE__*/ [
     womanSinger,
     womanLightSkinToneSinger,
     womanMediumLightSkinToneSinger,
@@ -1975,7 +1975,7 @@ export const allWomanSinger = [
 
 export const allWomanSingerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F3A4}\uDFA4", "Woman: Singer", ...allWomanSinger);
 
-export const allMicrophone = [
+export const allMicrophone = /*@__PURE__*/ [
     microphone,
     allManSingerGroup,
     allWomanSingerGroup
@@ -1983,7 +1983,7 @@ export const allMicrophone = [
 
 export const allMicrophoneGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3A4}\uDFA4", "Microphone", ...allMicrophone);
 
-export const allManTechnologist = [
+export const allManTechnologist = /*@__PURE__*/ [
     manTechnologist,
     manLightSkinToneTechnologist,
     manMediumLightSkinToneTechnologist,
@@ -1994,7 +1994,7 @@ export const allManTechnologist = [
 
 export const allManTechnologistGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F4BB}\uDCBB", "Man: Technologist", ...allManTechnologist);
 
-export const allWomanTechnologist = [
+export const allWomanTechnologist = /*@__PURE__*/ [
     womanTechnologist,
     womanLightSkinToneTechnologist,
     womanMediumLightSkinToneTechnologist,
@@ -2005,7 +2005,7 @@ export const allWomanTechnologist = [
 
 export const allWomanTechnologistGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F4BB}\uDCBB", "Woman: Technologist", ...allWomanTechnologist);
 
-export const allLaptop = [
+export const allLaptop = /*@__PURE__*/ [
     laptop,
     allManTechnologistGroup,
     allWomanTechnologistGroup
@@ -2013,7 +2013,7 @@ export const allLaptop = [
 
 export const allLaptopGroup = /*@__PURE__*/ new EmojiGroup("\u{1F4BB}\uDCBB", "Laptop", ...allLaptop);
 
-export const allManScientist = [
+export const allManScientist = /*@__PURE__*/ [
     manScientist,
     manLightSkinToneScientist,
     manMediumLightSkinToneScientist,
@@ -2024,7 +2024,7 @@ export const allManScientist = [
 
 export const allManScientistGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F52C}\uDD2C", "Man: Scientist", ...allManScientist);
 
-export const allWomanScientist = [
+export const allWomanScientist = /*@__PURE__*/ [
     womanScientist,
     womanLightSkinToneScientist,
     womanMediumLightSkinToneScientist,
@@ -2035,7 +2035,7 @@ export const allWomanScientist = [
 
 export const allWomanScientistGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F52C}\uDD2C", "Woman: Scientist", ...allWomanScientist);
 
-export const allMicroscope = [
+export const allMicroscope = /*@__PURE__*/ [
     microscope,
     allManScientistGroup,
     allWomanScientistGroup
@@ -2043,7 +2043,7 @@ export const allMicroscope = [
 
 export const allMicroscopeGroup = /*@__PURE__*/ new EmojiGroup("\u{1F52C}\uDD2C", "Microscope", ...allMicroscope);
 
-export const allPrince = [
+export const allPrince = /*@__PURE__*/ [
     prince,
     princeLightSkinTone,
     princeMediumLightSkinTone,
@@ -2054,7 +2054,7 @@ export const allPrince = [
 
 export const allPrinceGroup = /*@__PURE__*/ new EmojiGroup("\u{1F934}\uDD34", "Prince", ...allPrince);
 
-export const allPrincess = [
+export const allPrincess = /*@__PURE__*/ [
     princess,
     princessLightSkinTone,
     princessMediumLightSkinTone,
@@ -2065,7 +2065,7 @@ export const allPrincess = [
 
 export const allPrincessGroup = /*@__PURE__*/ new EmojiGroup("\u{1F478}\uDC78", "Princess", ...allPrincess);
 
-export const allRoyalty = [
+export const allRoyalty = /*@__PURE__*/ [
     crown,
     allPrinceGroup,
     allPrincessGroup
@@ -2073,7 +2073,7 @@ export const allRoyalty = [
 
 export const allRoyaltyGroup = /*@__PURE__*/ new EmojiGroup("\u{1F451}\uDC51", "Crown", ...allRoyalty);
 
-export const allOccupation = [
+export const allOccupation = /*@__PURE__*/ [
     allMedicalGroup,
     allGraduationCapGroup,
     allSchoolGroup,
@@ -2098,7 +2098,7 @@ export const allOccupation = [
 
 export const allOccupationGroup = /*@__PURE__*/ new EmojiGroup("\u0052\u006F\u006C\u0065\u0073", "Depictions of people working", ...allOccupation);
 
-export const allCherub = [
+export const allCherub = /*@__PURE__*/ [
     cherub,
     cherubLightSkinTone,
     cherubMediumLightSkinTone,
@@ -2109,7 +2109,7 @@ export const allCherub = [
 
 export const allCherubGroup = /*@__PURE__*/ new EmojiGroup("\u{1F47C}\uDC7C", "Cherub", ...allCherub);
 
-export const allSantaClaus = [
+export const allSantaClaus = /*@__PURE__*/ [
     santaClaus,
     santaClausLightSkinTone,
     santaClausMediumLightSkinTone,
@@ -2120,7 +2120,7 @@ export const allSantaClaus = [
 
 export const allSantaClausGroup = /*@__PURE__*/ new EmojiGroup("\u{1F385}\uDF85", "Santa Claus", ...allSantaClaus);
 
-export const allMrsClaus = [
+export const allMrsClaus = /*@__PURE__*/ [
     mrsClaus,
     mrsClausLightSkinTone,
     mrsClausMediumLightSkinTone,
@@ -2131,7 +2131,7 @@ export const allMrsClaus = [
 
 export const allMrsClausGroup = /*@__PURE__*/ new EmojiGroup("\u{1F936}\uDD36", "Mrs. Claus", ...allMrsClaus);
 
-export const allGenie = [
+export const allGenie = /*@__PURE__*/ [
     genie,
     genieMale,
     genieFemale
@@ -2139,7 +2139,7 @@ export const allGenie = [
 
 export const allGenieGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DE}\uDDDE", "Genie", ...allGenie);
 
-export const allZombie = [
+export const allZombie = /*@__PURE__*/ [
     zombie,
     zombieMale,
     zombieFemale
@@ -2147,7 +2147,7 @@ export const allZombie = [
 
 export const allZombieGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9DF}\uDDDF", "Zombie", ...allZombie);
 
-export const allFantasy = [
+export const allFantasy = /*@__PURE__*/ [
     allCherubGroup,
     allSantaClausGroup,
     allMrsClausGroup,
@@ -2164,7 +2164,7 @@ export const allFantasy = [
 
 export const allFantasyGroup = /*@__PURE__*/ new EmojiGroup("\u0046\u0061\u006E\u0074\u0061\u0073\u0079", "Depictions of fantasy characters", ...allFantasy);
 
-export const allManProbing = [
+export const allManProbing = /*@__PURE__*/ [
     manProbing,
     manLightSkinToneProbing,
     manMediumLightSkinToneProbing,
@@ -2175,7 +2175,7 @@ export const allManProbing = [
 
 export const allManProbingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F9AF}\uDDAF", "Man: Probing", ...allManProbing);
 
-export const allWomanProbing = [
+export const allWomanProbing = /*@__PURE__*/ [
     womanProbing,
     womanLightSkinToneProbing,
     womanMediumLightSkinToneProbing,
@@ -2186,7 +2186,7 @@ export const allWomanProbing = [
 
 export const allWomanProbingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F9AF}\uDDAF", "Woman: Probing", ...allWomanProbing);
 
-export const allProbingCane = [
+export const allProbingCane = /*@__PURE__*/ [
     probingCane,
     allManProbingGroup,
     allWomanProbingGroup
@@ -2194,7 +2194,7 @@ export const allProbingCane = [
 
 export const allProbingCaneGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9AF}\uDDAF", "Probing Cane", ...allProbingCane);
 
-export const allManInMotorizedWheelchair = [
+export const allManInMotorizedWheelchair = /*@__PURE__*/ [
     manInMotorizedWheelchair,
     manLightSkinToneInMotorizedWheelchair,
     manMediumLightSkinToneInMotorizedWheelchair,
@@ -2205,7 +2205,7 @@ export const allManInMotorizedWheelchair = [
 
 export const allManInMotorizedWheelchairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F9BC}\uDDBC", "Man: In Motorized Wheelchair", ...allManInMotorizedWheelchair);
 
-export const allWomanInMotorizedWheelchair = [
+export const allWomanInMotorizedWheelchair = /*@__PURE__*/ [
     womanInMotorizedWheelchair,
     womanLightSkinToneInMotorizedWheelchair,
     womanMediumLightSkinToneInMotorizedWheelchair,
@@ -2216,7 +2216,7 @@ export const allWomanInMotorizedWheelchair = [
 
 export const allWomanInMotorizedWheelchairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F9BC}\uDDBC", "Woman: In Motorized Wheelchair", ...allWomanInMotorizedWheelchair);
 
-export const allMotorizedWheelchair = [
+export const allMotorizedWheelchair = /*@__PURE__*/ [
     motorizedWheelchair,
     allManInMotorizedWheelchairGroup,
     allWomanInMotorizedWheelchairGroup
@@ -2224,7 +2224,7 @@ export const allMotorizedWheelchair = [
 
 export const allMotorizedWheelchairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9BC}\uDDBC", "Motorized Wheelchair", ...allMotorizedWheelchair);
 
-export const allManInManualWheelchair = [
+export const allManInManualWheelchair = /*@__PURE__*/ [
     manInManualWheelchair,
     manLightSkinToneInManualWheelchair,
     manMediumLightSkinToneInManualWheelchair,
@@ -2235,7 +2235,7 @@ export const allManInManualWheelchair = [
 
 export const allManInManualWheelchairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F468}\uDC68\u200D\u{1F9BD}\uDDBD", "Man: In Manual Wheelchair", ...allManInManualWheelchair);
 
-export const allWomanInManualWheelchair = [
+export const allWomanInManualWheelchair = /*@__PURE__*/ [
     womanInManualWheelchair,
     womanLightSkinToneInManualWheelchair,
     womanMediumLightSkinToneInManualWheelchair,
@@ -2246,7 +2246,7 @@ export const allWomanInManualWheelchair = [
 
 export const allWomanInManualWheelchairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F469}\uDC69\u200D\u{1F9BD}\uDDBD", "Woman: In Manual Wheelchair", ...allWomanInManualWheelchair);
 
-export const allManualWheelchair = [
+export const allManualWheelchair = /*@__PURE__*/ [
     manualWheelchair,
     allManInManualWheelchairGroup,
     allWomanInManualWheelchairGroup
@@ -2254,7 +2254,7 @@ export const allManualWheelchair = [
 
 export const allManualWheelchairGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9BD}\uDDBD", "Manual Wheelchair", ...allManualWheelchair);
 
-export const allManDancing = [
+export const allManDancing = /*@__PURE__*/ [
     manDancing,
     manDancingLightSkinTone,
     manDancingMediumLightSkinTone,
@@ -2265,7 +2265,7 @@ export const allManDancing = [
 
 export const allManDancingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F57A}\uDD7A", "Man Dancing", ...allManDancing);
 
-export const allWomanDancing = [
+export const allWomanDancing = /*@__PURE__*/ [
     womanDancing,
     womanDancingLightSkinTone,
     womanDancingMediumLightSkinTone,
@@ -2276,14 +2276,14 @@ export const allWomanDancing = [
 
 export const allWomanDancingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F483}\uDC83", "Woman Dancing", ...allWomanDancing);
 
-export const allMenDancing = [
+export const allMenDancing = /*@__PURE__*/ [
     allManDancingGroup,
     allWomanDancingGroup
 ];
 
 export const allMenDancingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F57A}\uDD7A", "Dancing", ...allMenDancing);
 
-export const allJuggler = [
+export const allJuggler = /*@__PURE__*/ [
     juggler,
     jugglerLightSkinTone,
     jugglerMediumLightSkinTone,
@@ -2294,7 +2294,7 @@ export const allJuggler = [
 
 export const allJugglerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F939}\uDD39", "Juggler", ...allJuggler);
 
-export const allJugglerMale = [
+export const allJugglerMale = /*@__PURE__*/ [
     jugglerMale,
     jugglerLightSkinToneMale,
     jugglerMediumLightSkinToneMale,
@@ -2305,7 +2305,7 @@ export const allJugglerMale = [
 
 export const allJugglerMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F939}\uDD39\u200D\u2642\uFE0F", "Juggler: Male", ...allJugglerMale);
 
-export const allJugglerFemale = [
+export const allJugglerFemale = /*@__PURE__*/ [
     jugglerFemale,
     jugglerLightSkinToneFemale,
     jugglerMediumLightSkinToneFemale,
@@ -2316,7 +2316,7 @@ export const allJugglerFemale = [
 
 export const allJugglerFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F939}\uDD39\u200D\u2640\uFE0F", "Juggler: Female", ...allJugglerFemale);
 
-export const allJugglers = [
+export const allJugglers = /*@__PURE__*/ [
     allJugglerGroup,
     allJugglerMaleGroup,
     allJugglerFemaleGroup
@@ -2324,7 +2324,7 @@ export const allJugglers = [
 
 export const allJugglersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F939}\uDD39", "Juggler", ...allJugglers);
 
-export const allClimber = [
+export const allClimber = /*@__PURE__*/ [
     climber,
     climberLightSkinTone,
     climberMediumLightSkinTone,
@@ -2335,7 +2335,7 @@ export const allClimber = [
 
 export const allClimberGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D7}\uDDD7", "Climber", ...allClimber);
 
-export const allClimberMale = [
+export const allClimberMale = /*@__PURE__*/ [
     climberMale,
     climberLightSkinToneMale,
     climberMediumLightSkinToneMale,
@@ -2346,7 +2346,7 @@ export const allClimberMale = [
 
 export const allClimberMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D7}\uDDD7\u200D\u2642\uFE0F", "Climber: Male", ...allClimberMale);
 
-export const allClimberFemale = [
+export const allClimberFemale = /*@__PURE__*/ [
     climberFemale,
     climberLightSkinToneFemale,
     climberMediumLightSkinToneFemale,
@@ -2357,7 +2357,7 @@ export const allClimberFemale = [
 
 export const allClimberFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D7}\uDDD7\u200D\u2640\uFE0F", "Climber: Female", ...allClimberFemale);
 
-export const allClimbers = [
+export const allClimbers = /*@__PURE__*/ [
     allClimberGroup,
     allClimberMaleGroup,
     allClimberFemaleGroup
@@ -2365,7 +2365,7 @@ export const allClimbers = [
 
 export const allClimbersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D7}\uDDD7", "Climber", ...allClimbers);
 
-export const allJockey = [
+export const allJockey = /*@__PURE__*/ [
     jockey,
     jockeyLightSkinTone,
     jockeyMediumLightSkinTone,
@@ -2376,7 +2376,7 @@ export const allJockey = [
 
 export const allJockeyGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C7}\uDFC7", "Jockey", ...allJockey);
 
-export const allSnowboarder = [
+export const allSnowboarder = /*@__PURE__*/ [
     snowboarder,
     snowboarderLightSkinTone,
     snowboarderMediumLightSkinTone,
@@ -2387,7 +2387,7 @@ export const allSnowboarder = [
 
 export const allSnowboarderGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C2}\uDFC2", "Snowboarder", ...allSnowboarder);
 
-export const allGolfer = [
+export const allGolfer = /*@__PURE__*/ [
     golfer,
     golferLightSkinTone,
     golferMediumLightSkinTone,
@@ -2398,7 +2398,7 @@ export const allGolfer = [
 
 export const allGolferGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CC}\uDFCC\uFE0F", "Golfer", ...allGolfer);
 
-export const allGolferMale = [
+export const allGolferMale = /*@__PURE__*/ [
     golferMale,
     golferLightSkinToneMale,
     golferMediumLightSkinToneMale,
@@ -2409,7 +2409,7 @@ export const allGolferMale = [
 
 export const allGolferMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CC}\uDFCC\uFE0F\u200D\u2642\uFE0F", "Golfer: Male", ...allGolferMale);
 
-export const allGolferFemale = [
+export const allGolferFemale = /*@__PURE__*/ [
     golferFemale,
     golferLightSkinToneFemale,
     golferMediumLightSkinToneFemale,
@@ -2420,7 +2420,7 @@ export const allGolferFemale = [
 
 export const allGolferFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CC}\uDFCC\uFE0F\u200D\u2640\uFE0F", "Golfer: Female", ...allGolferFemale);
 
-export const allGolfers = [
+export const allGolfers = /*@__PURE__*/ [
     allGolferGroup,
     allGolferMaleGroup,
     allGolferFemaleGroup
@@ -2428,7 +2428,7 @@ export const allGolfers = [
 
 export const allGolfersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CC}\uDFCC\uFE0F", "Golfer", ...allGolfers);
 
-export const allSurfing = [
+export const allSurfing = /*@__PURE__*/ [
     surfing,
     surfingLightSkinTone,
     surfingMediumLightSkinTone,
@@ -2439,7 +2439,7 @@ export const allSurfing = [
 
 export const allSurfingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C4}\uDFC4", "Surfing", ...allSurfing);
 
-export const allSurfingMale = [
+export const allSurfingMale = /*@__PURE__*/ [
     surfingMale,
     surfingLightSkinToneMale,
     surfingMediumLightSkinToneMale,
@@ -2450,7 +2450,7 @@ export const allSurfingMale = [
 
 export const allSurfingMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C4}\uDFC4\u200D\u2642\uFE0F", "Surfing: Male", ...allSurfingMale);
 
-export const allSurfingFemale = [
+export const allSurfingFemale = /*@__PURE__*/ [
     surfingFemale,
     surfingLightSkinToneFemale,
     surfingMediumLightSkinToneFemale,
@@ -2461,7 +2461,7 @@ export const allSurfingFemale = [
 
 export const allSurfingFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C4}\uDFC4\u200D\u2640\uFE0F", "Surfing: Female", ...allSurfingFemale);
 
-export const allSurfers = [
+export const allSurfers = /*@__PURE__*/ [
     allSurfingGroup,
     allSurfingMaleGroup,
     allSurfingFemaleGroup
@@ -2469,7 +2469,7 @@ export const allSurfers = [
 
 export const allSurfersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3C4}\uDFC4", "Surfing", ...allSurfers);
 
-export const allRowingBoat = [
+export const allRowingBoat = /*@__PURE__*/ [
     rowingBoat,
     rowingBoatLightSkinTone,
     rowingBoatMediumLightSkinTone,
@@ -2480,7 +2480,7 @@ export const allRowingBoat = [
 
 export const allRowingBoatGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6A3}\uDEA3", "Rowing Boat", ...allRowingBoat);
 
-export const allRowingBoatMale = [
+export const allRowingBoatMale = /*@__PURE__*/ [
     rowingBoatMale,
     rowingBoatLightSkinToneMale,
     rowingBoatMediumLightSkinToneMale,
@@ -2491,7 +2491,7 @@ export const allRowingBoatMale = [
 
 export const allRowingBoatMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6A3}\uDEA3\u200D\u2642\uFE0F", "Rowing Boat: Male", ...allRowingBoatMale);
 
-export const allRowingBoatFemale = [
+export const allRowingBoatFemale = /*@__PURE__*/ [
     rowingBoatFemale,
     rowingBoatLightSkinToneFemale,
     rowingBoatMediumLightSkinToneFemale,
@@ -2502,7 +2502,7 @@ export const allRowingBoatFemale = [
 
 export const allRowingBoatFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6A3}\uDEA3\u200D\u2640\uFE0F", "Rowing Boat: Female", ...allRowingBoatFemale);
 
-export const allBoatRowers = [
+export const allBoatRowers = /*@__PURE__*/ [
     allRowingBoatGroup,
     allRowingBoatMaleGroup,
     allRowingBoatFemaleGroup
@@ -2510,7 +2510,7 @@ export const allBoatRowers = [
 
 export const allBoatRowersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6A3}\uDEA3", "Rowing Boat", ...allBoatRowers);
 
-export const allSwimming = [
+export const allSwimming = /*@__PURE__*/ [
     swimming,
     swimmingLightSkinTone,
     swimmingMediumLightSkinTone,
@@ -2521,7 +2521,7 @@ export const allSwimming = [
 
 export const allSwimmingGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CA}\uDFCA", "Swimming", ...allSwimming);
 
-export const allSwimmingMale = [
+export const allSwimmingMale = /*@__PURE__*/ [
     swimmingMale,
     swimmingLightSkinToneMale,
     swimmingMediumLightSkinToneMale,
@@ -2532,7 +2532,7 @@ export const allSwimmingMale = [
 
 export const allSwimmingMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CA}\uDFCA\u200D\u2642\uFE0F", "Swimming: Male", ...allSwimmingMale);
 
-export const allSwimmingFemale = [
+export const allSwimmingFemale = /*@__PURE__*/ [
     swimmingFemale,
     swimmingLightSkinToneFemale,
     swimmingMediumLightSkinToneFemale,
@@ -2543,7 +2543,7 @@ export const allSwimmingFemale = [
 
 export const allSwimmingFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CA}\uDFCA\u200D\u2640\uFE0F", "Swimming: Female", ...allSwimmingFemale);
 
-export const allSwimmers = [
+export const allSwimmers = /*@__PURE__*/ [
     allSwimmingGroup,
     allSwimmingMaleGroup,
     allSwimmingFemaleGroup
@@ -2551,7 +2551,7 @@ export const allSwimmers = [
 
 export const allSwimmersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CA}\uDFCA", "Swimming", ...allSwimmers);
 
-export const allBasketBaller = [
+export const allBasketBaller = /*@__PURE__*/ [
     basketBaller,
     basketBallerLightSkinTone,
     basketBallerMediumLightSkinTone,
@@ -2562,7 +2562,7 @@ export const allBasketBaller = [
 
 export const allBasketBallerGroup = /*@__PURE__*/ new EmojiGroup("\u26F9\uFE0F", "Basket Baller", ...allBasketBaller);
 
-export const allBasketBallerMale = [
+export const allBasketBallerMale = /*@__PURE__*/ [
     basketBallerMale,
     basketBallerLightSkinToneMale,
     basketBallerMediumLightSkinToneMale,
@@ -2573,7 +2573,7 @@ export const allBasketBallerMale = [
 
 export const allBasketBallerMaleGroup = /*@__PURE__*/ new EmojiGroup("\u26F9\uFE0F\u200D\u2642\uFE0F", "Basket Baller: Male", ...allBasketBallerMale);
 
-export const allBasketBallerFemale = [
+export const allBasketBallerFemale = /*@__PURE__*/ [
     basketBallerFemale,
     basketBallerLightSkinToneFemale,
     basketBallerMediumLightSkinToneFemale,
@@ -2584,7 +2584,7 @@ export const allBasketBallerFemale = [
 
 export const allBasketBallerFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u26F9\uFE0F\u200D\u2640\uFE0F", "Basket Baller: Female", ...allBasketBallerFemale);
 
-export const allBacketBallPlayers = [
+export const allBacketBallPlayers = /*@__PURE__*/ [
     allBasketBallerGroup,
     allBasketBallerMaleGroup,
     allBasketBallerFemaleGroup
@@ -2592,7 +2592,7 @@ export const allBacketBallPlayers = [
 
 export const allBacketBallPlayersGroup = /*@__PURE__*/ new EmojiGroup("\u26F9\uFE0F", "Basket Baller", ...allBacketBallPlayers);
 
-export const allWeightLifter = [
+export const allWeightLifter = /*@__PURE__*/ [
     weightLifter,
     weightLifterLightSkinTone,
     weightLifterMediumLightSkinTone,
@@ -2603,7 +2603,7 @@ export const allWeightLifter = [
 
 export const allWeightLifterGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CB}\uDFCB\uFE0F", "Weight Lifter", ...allWeightLifter);
 
-export const allWeightLifterMale = [
+export const allWeightLifterMale = /*@__PURE__*/ [
     weightLifterMale,
     weightLifterLightSkinToneMale,
     weightLifterMediumLightSkinToneMale,
@@ -2614,7 +2614,7 @@ export const allWeightLifterMale = [
 
 export const allWeightLifterMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CB}\uDFCB\uFE0F\u200D\u2642\uFE0F", "Weight Lifter: Male", ...allWeightLifterMale);
 
-export const allWeightLifterFemale = [
+export const allWeightLifterFemale = /*@__PURE__*/ [
     weightLifterFemale,
     weightLifterLightSkinToneFemale,
     weightLifterMediumLightSkinToneFemale,
@@ -2625,7 +2625,7 @@ export const allWeightLifterFemale = [
 
 export const allWeightLifterFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CB}\uDFCB\uFE0F\u200D\u2640\uFE0F", "Weight Lifter: Female", ...allWeightLifterFemale);
 
-export const allWeightLifters = [
+export const allWeightLifters = /*@__PURE__*/ [
     allWeightLifterGroup,
     allWeightLifterMaleGroup,
     allWeightLifterFemaleGroup
@@ -2633,7 +2633,7 @@ export const allWeightLifters = [
 
 export const allWeightLiftersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F3CB}\uDFCB\uFE0F", "Weight Lifter", ...allWeightLifters);
 
-export const allBiker = [
+export const allBiker = /*@__PURE__*/ [
     biker,
     bikerLightSkinTone,
     bikerMediumLightSkinTone,
@@ -2644,7 +2644,7 @@ export const allBiker = [
 
 export const allBikerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B4}\uDEB4", "Biker", ...allBiker);
 
-export const allBikerMale = [
+export const allBikerMale = /*@__PURE__*/ [
     bikerMale,
     bikerLightSkinToneMale,
     bikerMediumLightSkinToneMale,
@@ -2655,7 +2655,7 @@ export const allBikerMale = [
 
 export const allBikerMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B4}\uDEB4\u200D\u2642\uFE0F", "Biker: Male", ...allBikerMale);
 
-export const allBikerFemale = [
+export const allBikerFemale = /*@__PURE__*/ [
     bikerFemale,
     bikerLightSkinToneFemale,
     bikerMediumLightSkinToneFemale,
@@ -2666,7 +2666,7 @@ export const allBikerFemale = [
 
 export const allBikerFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B4}\uDEB4\u200D\u2640\uFE0F", "Biker: Female", ...allBikerFemale);
 
-export const allBikers = [
+export const allBikers = /*@__PURE__*/ [
     allBikerGroup,
     allBikerMaleGroup,
     allBikerFemaleGroup
@@ -2674,7 +2674,7 @@ export const allBikers = [
 
 export const allBikersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B4}\uDEB4", "Biker", ...allBikers);
 
-export const allMountainBiker = [
+export const allMountainBiker = /*@__PURE__*/ [
     mountainBiker,
     mountainBikerLightSkinTone,
     mountainBikerMediumLightSkinTone,
@@ -2685,7 +2685,7 @@ export const allMountainBiker = [
 
 export const allMountainBikerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B5}\uDEB5", "Mountain Biker", ...allMountainBiker);
 
-export const allMountainBikerMale = [
+export const allMountainBikerMale = /*@__PURE__*/ [
     mountainBikerMale,
     mountainBikerLightSkinToneMale,
     mountainBikerMediumLightSkinToneMale,
@@ -2696,7 +2696,7 @@ export const allMountainBikerMale = [
 
 export const allMountainBikerMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B5}\uDEB5\u200D\u2642\uFE0F", "Mountain Biker: Male", ...allMountainBikerMale);
 
-export const allMountainBikerFemale = [
+export const allMountainBikerFemale = /*@__PURE__*/ [
     mountainBikerFemale,
     mountainBikerLightSkinToneFemale,
     mountainBikerMediumLightSkinToneFemale,
@@ -2707,7 +2707,7 @@ export const allMountainBikerFemale = [
 
 export const allMountainBikerFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B5}\uDEB5\u200D\u2640\uFE0F", "Mountain Biker: Female", ...allMountainBikerFemale);
 
-export const allMountainBikers = [
+export const allMountainBikers = /*@__PURE__*/ [
     allMountainBikerGroup,
     allMountainBikerMaleGroup,
     allMountainBikerFemaleGroup
@@ -2715,7 +2715,7 @@ export const allMountainBikers = [
 
 export const allMountainBikersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6B5}\uDEB5", "Mountain Biker", ...allMountainBikers);
 
-export const allCartwheeler = [
+export const allCartwheeler = /*@__PURE__*/ [
     cartwheeler,
     cartwheelerLightSkinTone,
     cartwheelerMediumLightSkinTone,
@@ -2726,7 +2726,7 @@ export const allCartwheeler = [
 
 export const allCartwheelerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F938}\uDD38", "Cartwheeler", ...allCartwheeler);
 
-export const allCartwheelerMale = [
+export const allCartwheelerMale = /*@__PURE__*/ [
     cartwheelerMale,
     cartwheelerLightSkinToneMale,
     cartwheelerMediumLightSkinToneMale,
@@ -2737,7 +2737,7 @@ export const allCartwheelerMale = [
 
 export const allCartwheelerMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F938}\uDD38\u200D\u2642\uFE0F", "Cartwheeler: Male", ...allCartwheelerMale);
 
-export const allCartwheelerFemale = [
+export const allCartwheelerFemale = /*@__PURE__*/ [
     cartwheelerFemale,
     cartwheelerLightSkinToneFemale,
     cartwheelerMediumLightSkinToneFemale,
@@ -2748,7 +2748,7 @@ export const allCartwheelerFemale = [
 
 export const allCartwheelerFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F938}\uDD38\u200D\u2640\uFE0F", "Cartwheeler: Female", ...allCartwheelerFemale);
 
-export const allCartwheelers = [
+export const allCartwheelers = /*@__PURE__*/ [
     allCartwheelerGroup,
     allCartwheelerMaleGroup,
     allCartwheelerFemaleGroup
@@ -2756,7 +2756,7 @@ export const allCartwheelers = [
 
 export const allCartwheelersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F938}\uDD38", "Cartwheeler", ...allCartwheelers);
 
-export const allWrestler = [
+export const allWrestler = /*@__PURE__*/ [
     wrestler,
     wrestlerMale,
     wrestlerFemale
@@ -2764,7 +2764,7 @@ export const allWrestler = [
 
 export const allWrestlerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F93C}\uDD3C", "Wrestler", ...allWrestler);
 
-export const allWaterPoloPlayer = [
+export const allWaterPoloPlayer = /*@__PURE__*/ [
     waterPoloPlayer,
     waterPoloPlayerLightSkinTone,
     waterPoloPlayerMediumLightSkinTone,
@@ -2775,7 +2775,7 @@ export const allWaterPoloPlayer = [
 
 export const allWaterPoloPlayerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F93D}\uDD3D", "Water Polo Player", ...allWaterPoloPlayer);
 
-export const allWaterPoloPlayerMale = [
+export const allWaterPoloPlayerMale = /*@__PURE__*/ [
     waterPoloPlayerMale,
     waterPoloPlayerLightSkinToneMale,
     waterPoloPlayerMediumLightSkinToneMale,
@@ -2786,7 +2786,7 @@ export const allWaterPoloPlayerMale = [
 
 export const allWaterPoloPlayerMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F93D}\uDD3D\u200D\u2642\uFE0F", "Water Polo Player: Male", ...allWaterPoloPlayerMale);
 
-export const allWaterPoloPlayerFemale = [
+export const allWaterPoloPlayerFemale = /*@__PURE__*/ [
     waterPoloPlayerFemale,
     waterPoloPlayerLightSkinToneFemale,
     waterPoloPlayerMediumLightSkinToneFemale,
@@ -2797,7 +2797,7 @@ export const allWaterPoloPlayerFemale = [
 
 export const allWaterPoloPlayerFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F93D}\uDD3D\u200D\u2640\uFE0F", "Water Polo Player: Female", ...allWaterPoloPlayerFemale);
 
-export const allWaterPoloPlayers = [
+export const allWaterPoloPlayers = /*@__PURE__*/ [
     allWaterPoloPlayerGroup,
     allWaterPoloPlayerMaleGroup,
     allWaterPoloPlayerFemaleGroup
@@ -2805,7 +2805,7 @@ export const allWaterPoloPlayers = [
 
 export const allWaterPoloPlayersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F93D}\uDD3D", "Water Polo Player", ...allWaterPoloPlayers);
 
-export const allHandBaller = [
+export const allHandBaller = /*@__PURE__*/ [
     handBaller,
     handBallerLightSkinTone,
     handBallerMediumLightSkinTone,
@@ -2816,7 +2816,7 @@ export const allHandBaller = [
 
 export const allHandBallerGroup = /*@__PURE__*/ new EmojiGroup("\u{1F93E}\uDD3E", "Hand Baller", ...allHandBaller);
 
-export const allHandBallerMale = [
+export const allHandBallerMale = /*@__PURE__*/ [
     handBallerMale,
     handBallerLightSkinToneMale,
     handBallerMediumLightSkinToneMale,
@@ -2827,7 +2827,7 @@ export const allHandBallerMale = [
 
 export const allHandBallerMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F93E}\uDD3E\u200D\u2642\uFE0F", "Hand Baller: Male", ...allHandBallerMale);
 
-export const allHandBallerFemale = [
+export const allHandBallerFemale = /*@__PURE__*/ [
     handBallerFemale,
     handBallerLightSkinToneFemale,
     handBallerMediumLightSkinToneFemale,
@@ -2838,7 +2838,7 @@ export const allHandBallerFemale = [
 
 export const allHandBallerFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F93E}\uDD3E\u200D\u2640\uFE0F", "Hand Baller: Female", ...allHandBallerFemale);
 
-export const allHandBallers = [
+export const allHandBallers = /*@__PURE__*/ [
     allHandBallerGroup,
     allHandBallerMaleGroup,
     allHandBallerFemaleGroup
@@ -2846,7 +2846,7 @@ export const allHandBallers = [
 
 export const allHandBallersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F93E}\uDD3E", "Hand Baller", ...allHandBallers);
 
-export const allInMotion = [
+export const allInMotion = /*@__PURE__*/ [
     allWalkersGroup,
     allStandersGroup,
     allKneelersGroup,
@@ -2877,7 +2877,7 @@ export const allInMotion = [
 
 export const allInMotionGroup = /*@__PURE__*/ new EmojiGroup("\u0049\u006E\u0020\u004D\u006F\u0074\u0069\u006F\u006E", "Depictions of people in motion", ...allInMotion);
 
-export const allInLotusPosition = [
+export const allInLotusPosition = /*@__PURE__*/ [
     inLotusPosition,
     inLotusPositionLightSkinTone,
     inLotusPositionMediumLightSkinTone,
@@ -2888,7 +2888,7 @@ export const allInLotusPosition = [
 
 export const allInLotusPositionGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D8}\uDDD8", "In Lotus Position", ...allInLotusPosition);
 
-export const allInLotusPositionMale = [
+export const allInLotusPositionMale = /*@__PURE__*/ [
     inLotusPositionMale,
     inLotusPositionLightSkinToneMale,
     inLotusPositionMediumLightSkinToneMale,
@@ -2899,7 +2899,7 @@ export const allInLotusPositionMale = [
 
 export const allInLotusPositionMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D8}\uDDD8\u200D\u2642\uFE0F", "In Lotus Position: Male", ...allInLotusPositionMale);
 
-export const allInLotusPositionFemale = [
+export const allInLotusPositionFemale = /*@__PURE__*/ [
     inLotusPositionFemale,
     inLotusPositionLightSkinToneFemale,
     inLotusPositionMediumLightSkinToneFemale,
@@ -2910,7 +2910,7 @@ export const allInLotusPositionFemale = [
 
 export const allInLotusPositionFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D8}\uDDD8\u200D\u2640\uFE0F", "In Lotus Position: Female", ...allInLotusPositionFemale);
 
-export const allLotusSitters = [
+export const allLotusSitters = /*@__PURE__*/ [
     allInLotusPositionGroup,
     allInLotusPositionMaleGroup,
     allInLotusPositionFemaleGroup
@@ -2918,7 +2918,7 @@ export const allLotusSitters = [
 
 export const allLotusSittersGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D8}\uDDD8", "In Lotus Position", ...allLotusSitters);
 
-export const allInBath = [
+export const allInBath = /*@__PURE__*/ [
     inBath,
     inBathLightSkinTone,
     inBathMediumLightSkinTone,
@@ -2929,7 +2929,7 @@ export const allInBath = [
 
 export const allInBathGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6C0}\uDEC0", "In Bath", ...allInBath);
 
-export const allInBed = [
+export const allInBed = /*@__PURE__*/ [
     inBed,
     inBedLightSkinTone,
     inBedMediumLightSkinTone,
@@ -2940,7 +2940,7 @@ export const allInBed = [
 
 export const allInBedGroup = /*@__PURE__*/ new EmojiGroup("\u{1F6CC}\uDECC", "In Bed", ...allInBed);
 
-export const allInSauna = [
+export const allInSauna = /*@__PURE__*/ [
     inSauna,
     inSaunaLightSkinTone,
     inSaunaMediumLightSkinTone,
@@ -2951,7 +2951,7 @@ export const allInSauna = [
 
 export const allInSaunaGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D6}\uDDD6", "In Sauna", ...allInSauna);
 
-export const allInSaunaMale = [
+export const allInSaunaMale = /*@__PURE__*/ [
     inSaunaMale,
     inSaunaLightSkinToneMale,
     inSaunaMediumLightSkinToneMale,
@@ -2962,7 +2962,7 @@ export const allInSaunaMale = [
 
 export const allInSaunaMaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D6}\uDDD6\u200D\u2642\uFE0F", "In Sauna: Male", ...allInSaunaMale);
 
-export const allInSaunaFemale = [
+export const allInSaunaFemale = /*@__PURE__*/ [
     inSaunaFemale,
     inSaunaLightSkinToneFemale,
     inSaunaMediumLightSkinToneFemale,
@@ -2973,7 +2973,7 @@ export const allInSaunaFemale = [
 
 export const allInSaunaFemaleGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D6}\uDDD6\u200D\u2640\uFE0F", "In Sauna: Female", ...allInSaunaFemale);
 
-export const allSauna = [
+export const allSauna = /*@__PURE__*/ [
     allInSaunaGroup,
     allInSaunaMaleGroup,
     allInSaunaFemaleGroup
@@ -2981,7 +2981,7 @@ export const allSauna = [
 
 export const allSaunaGroup = /*@__PURE__*/ new EmojiGroup("\u{1F9D6}\uDDD6", "In Sauna", ...allSauna);
 
-export const allResting = [
+export const allResting = /*@__PURE__*/ [
     allLotusSittersGroup,
     allInBathGroup,
     allInBedGroup,
@@ -2990,14 +2990,14 @@ export const allResting = [
 
 export const allRestingGroup = /*@__PURE__*/ new EmojiGroup("\u0052\u0065\u0073\u0074\u0069\u006E\u0067", "Depictions of people at rest", ...allResting);
 
-export const allBabies = [
+export const allBabies = /*@__PURE__*/ [
     allBabyGroup,
     allCherubGroup
 ];
 
 export const allBabiesGroup = /*@__PURE__*/ new EmojiGroup("\u{1F476}\uDC76", "Baby", ...allBabies);
 
-export const allPeople = [
+export const allPeople = /*@__PURE__*/ [
     allBabiesGroup,
     allChildrenGroup,
     allPersonsGroup,
@@ -3006,7 +3006,7 @@ export const allPeople = [
 
 export const allPeopleGroup = /*@__PURE__*/ new EmojiGroup("\u0050\u0065\u006F\u0070\u006C\u0065", "People", ...allPeople);
 
-export const allCharacters = [
+export const allCharacters = /*@__PURE__*/ [
     allPeopleGroup,
     allGesturingGroup,
     allInMotionGroup,

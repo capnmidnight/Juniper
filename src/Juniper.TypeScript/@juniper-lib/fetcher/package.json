@@ -8,10 +8,10 @@
   },
   "dependencies": {
     "@juniper-lib/dom": "*",
-    "@juniper-lib/fetcher-base": "*",
+    "@juniper-lib/fetcher": "*",
     "@juniper-lib/mediatypes": "*",
     "@juniper-lib/tslib": "*",
-    "@juniper-lib/worker-client": "*",
+    "@juniper-lib/workers": "*",
     "@juniper-types/indexdb": "*",
     "@types/offscreencanvas": "2019.7.0"
   },

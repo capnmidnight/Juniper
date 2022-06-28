@@ -9,7 +9,7 @@ export interface ILogger {
 
 export type MessageType = "log" | "delete" | "clear";
 
-export const KEY = "XXX_QUAKE_LOGGER_XXX";
+export const KEY = /*@__PURE__*/ "XXX_QUAKE_LOGGER_XXX";
 
 export interface IWorkerLoggerMessageData {
     key: string;
