@@ -17,6 +17,7 @@ export abstract class BaseScreenPointer extends BasePointer {
     private readonly canvasSize = new THREE.Vector2();
     private readonly uvComp = new THREE.Vector2(1, -1);
     private readonly uvOff = new THREE.Vector2(-1, 1);
+    private lastUV: THREE.Vector2 = null;
     private lastPosition: THREE.Vector2 = null;
 
     constructor(
@@ -97,12 +98,6 @@ export abstract class BaseScreenPointer extends BasePointer {
                     .divide(this.canvasSize)
                     .multiply(this.uvComp)
                     .add(this.uvOff);
-
-                this.duv
-                    .copy(this.motion)
-                    .multiplyScalar(2)
-                    .divide(this.canvasSize)
-                    .multiply(this.uvComp);
             }
         }
     }
@@ -110,8 +105,22 @@ export abstract class BaseScreenPointer extends BasePointer {
     protected abstract onReadEvent(evt: PointerEvent): void;
 
     protected override onPointerMove(): void {
-        this.env.avatar.onMove(this, this.uv, this.duv);
+        if (this.lastUV) {
+            this.duv.copy(this.uv)
+                .sub(this.lastUV);
+        }
+
+        if (this.duv.manhattanLength() > 0) {
+            this.env.avatar.onMove(this, this.uv, this.duv);
+        }
+
         super.onPointerMove();
+
+        if (!this.lastUV) {
+            this.lastUV = new THREE.Vector2();
+        }
+
+        this.lastUV.copy(this.uv);
     }
 
     protected onUpdate(): void {
