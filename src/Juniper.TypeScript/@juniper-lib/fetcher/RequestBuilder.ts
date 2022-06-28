@@ -10,8 +10,9 @@ import {
     IFetcherSendProgressTimeoutCredentialsCacheGetBody, IFetchingService, IRequestWithBody, IResponse, translateResponse
 } from "@juniper-lib/fetcher";
 import { Application_Javascript, Application_Json, Application_Wasm, MediaType, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
-import { assertNever, dispose, Exception, IProgress, isDefined, isString, isWorker, once, waitFor } from "@juniper-lib/tslib";
+import { assertNever, dispose, Exception, IProgress, isDefined, isString, once, waitFor } from "@juniper-lib/tslib";
 
+declare const IS_WORKER: boolean;
 
 let testAudio: HTMLAudioElement = null;
 function canPlay(type: string): boolean {
@@ -316,7 +317,7 @@ export class RequestBuilder implements
     }
 
     async htmlCanvas(acceptType?: string | MediaType): Promise<IResponse<HTMLCanvasElement>> {
-        if (isWorker) {
+        if (IS_WORKER) {
             throw new Error("HTMLCanvasElement not supported in Workers.");
         }
 
@@ -328,7 +329,7 @@ export class RequestBuilder implements
                 return await translateResponse<void, HTMLCanvasElement>(response, () => canvas);
             }
             else {
-                const response: IResponse<HTMLImageElement | ImageBitmap> = await (isWorker
+                const response: IResponse<HTMLImageElement | ImageBitmap> = await (IS_WORKER
                     ? this.imageBitmap(acceptType)
                     : this.image(acceptType));
 
@@ -369,7 +370,7 @@ export class RequestBuilder implements
         }
 
         if (this.method === "GET") {
-            const response: IResponse<HTMLImageElement | ImageBitmap> = await (isWorker
+            const response: IResponse<HTMLImageElement | ImageBitmap> = await (IS_WORKER
                 ? this.imageBitmap(acceptType)
                 : this.image(acceptType));
 

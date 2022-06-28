@@ -1,7 +1,3 @@
-export function isWorkerSupported() {
-    return "Worker" in globalThis;
-}
-
 export function isChrome() {
     return "chrome" in globalThis && !navigator.userAgent.match("CriOS");
 }
@@ -76,4 +72,4 @@ export const isOculusQuest = /*@__PURE__*/ isOculusBrowser && /quest/i.test(navi
 export const isOculusQuest2 = /*@__PURE__*/ isOculusBrowser && /quest 2/i.test(navigator.userAgent);
 export const isOculusQuest1 = /*@__PURE__*/ isOculusBrowser && !isOculusQuest2;
 
-export const isWorker = /*@__PURE__*/ !("Document" in globalThis);
+export const isWorkerSupported = /*@__PURE__*/ "Worker" in globalThis;

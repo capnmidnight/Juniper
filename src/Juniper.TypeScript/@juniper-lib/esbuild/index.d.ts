@@ -3,6 +3,7 @@ declare type Define = [string, string];
 declare type DefineFactory = (minify: boolean) => Define;
 declare type PluginFactory = (minify: boolean) => Plugin;
 export declare class Build {
+    private readonly buildWorkers;
     private readonly browserEntries;
     private readonly minBrowserEntries;
     private readonly plugins;
@@ -15,7 +16,7 @@ export declare class Build {
     private outbase;
     private rootDirName;
     private outDirName;
-    constructor(args: string[]);
+    constructor(args: string[], buildWorkers: boolean);
     entryName(name: string): this;
     rootDir(name: string): this;
     outDir(name: string): this;
@@ -25,6 +26,7 @@ export declare class Build {
     external(extern: string): this;
     globalExternal(packageName: string, globalName: string): this;
     bundle(name: string): this;
+    bundles(names: string[]): this;
     run(): Promise<void>;
     private makeBundle;
 }

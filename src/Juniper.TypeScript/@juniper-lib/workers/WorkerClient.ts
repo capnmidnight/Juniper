@@ -29,7 +29,7 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
     constructor(private worker: Worker) {
         super();
 
-        if (!isWorkerSupported()) {
+        if (!isWorkerSupported) {
             console.warn("Workers are not supported on this system.");
         }
 
@@ -139,7 +139,7 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
      * @param prog - a callback for receiving progress reports on long-running invocations.
      */
     callMethod<T>(methodName: string, parameters?: any[] | IProgress, transferables?: (Transferable | OffscreenCanvas)[] | IProgress, prog?: IProgress): Promise<T | undefined> {
-        if (!isWorkerSupported()) {
+        if (!isWorkerSupported) {
             return Promise.reject(new Error("Workers are not supported on this system."));
         }
 

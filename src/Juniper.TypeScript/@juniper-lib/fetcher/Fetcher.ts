@@ -1,13 +1,14 @@
 import { getInput } from "@juniper-lib/dom/tags";
 import { BaseAsset, HTTPMethods, IFetcher, IFetchingService } from "@juniper-lib/fetcher";
-import { IProgress, isDefined, isWorker, progressTasksWeighted } from "@juniper-lib/tslib";
+import { IProgress, isDefined, progressTasksWeighted } from "@juniper-lib/tslib";
 import { RequestBuilder } from "./RequestBuilder";
 
 
+declare const IS_WORKER: boolean;
 
 export class Fetcher implements IFetcher {
     constructor(private readonly service: IFetchingService, private readonly useFileBlobsForModules: boolean = true) {
-        if (!isWorker) {
+        if (!IS_WORKER) {
             const antiforgeryToken = getInput("input[name=__RequestVerificationToken]");
             if (antiforgeryToken) {
                 this.service.setRequestVerificationToken(antiforgeryToken.value);

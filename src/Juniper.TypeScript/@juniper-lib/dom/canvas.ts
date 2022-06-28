@@ -7,18 +7,19 @@ export type CanvasImageTypes = HTMLImageElement | HTMLCanvasElement | OffscreenC
 export type Context2D = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 export type GraphicsContext = RenderingContext | OffscreenCanvasRenderingContext2D;
 
-export const hasHTMLCanvas = /*@__PURE__*/ "HTMLCanvasElement" in globalThis;
-export const hasHTMLImage = /*@__PURE__*/ "HTMLImageElement" in globalThis;
+declare const IS_WORKER: boolean;
+export const hasHTMLCanvas = /*@__PURE__*/ !IS_WORKER && "HTMLCanvasElement" in globalThis;
+export const hasHTMLImage = /*@__PURE__*/ !IS_WORKER && "HTMLImageElement" in globalThis;
 export const disableAdvancedSettings = /*@__PURE__*/ false;
 export const hasOffscreenCanvas = /*@__PURE__*/ !disableAdvancedSettings && "OffscreenCanvas" in globalThis;
 export const hasImageBitmap = /*@__PURE__*/ !disableAdvancedSettings && "createImageBitmap" in globalThis;
 
 export function isHTMLCanvas(obj: any): obj is HTMLCanvasElement {
-    return hasHTMLCanvas && obj instanceof HTMLCanvasElement;
+    return !IS_WORKER && hasHTMLCanvas && obj instanceof HTMLCanvasElement;
 }
 
 export function isHTMLImage(img: any): img is HTMLImageElement {
-    return hasHTMLImage && img instanceof HTMLImageElement;
+    return !IS_WORKER && hasHTMLImage && img instanceof HTMLImageElement;
 }
 
 export function isOffscreenCanvas(obj: any): obj is OffscreenCanvas {
@@ -43,20 +44,12 @@ export function isCanvasArray(arr: any): arr is CanvasTypes[] {
         && isCanvas(arr[0]);
 }
 
-export function drawImageBitmapToCanvas2D(canv: CanvasTypes, img: ImageBitmap): void {
+export function drawImageBitmapToCanvas(canv: CanvasTypes, img: ImageBitmap): void {
     const g = canv.getContext("2d");
     if (isNullOrUndefined(g)) {
         throw new Error("Could not create 2d context for canvas");
     }
     g.drawImage(img, 0, 0);
-}
-
-export function copyImageBitmapToCanvas(canv: CanvasTypes, img: ImageBitmap): void {
-    const g = canv.getContext("bitmaprenderer");
-    if (isNullOrUndefined(g)) {
-        throw new Error("Could not create bitmaprenderer context for canvas");
-    }
-    g.transferFromImageBitmap(img);
 }
 
 function testOffscreen2D() {
@@ -73,10 +66,10 @@ function testOffscreen2D() {
 export const hasOffscreenCanvasRenderingContext2D = /*@__PURE__*/ hasOffscreenCanvas && testOffscreen2D();
 
 export const createUtilityCanvas = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvas
-    || hasHTMLCanvas && createCanvas
+    || !IS_WORKER && hasHTMLCanvas && createCanvas
     || null;
 
-export const createUICanvas = /*@__PURE__*/ hasHTMLCanvas
+export const createUICanvas = /*@__PURE__*/ !IS_WORKER && hasHTMLCanvas
     ? createCanvas
     : createUtilityCanvas;
 
@@ -93,32 +86,15 @@ function testOffscreen3D() {
 
 export const hasOffscreenCanvasRenderingContext3D = /*@__PURE__*/ hasOffscreenCanvas && testOffscreen3D();
 
-function testBitmapRenderer() {
-    if (!hasHTMLCanvas && !hasOffscreenCanvas) {
-        return false;
-    }
-
-    try {
-        const canv = createUtilityCanvas(1, 1);
-        const g = canv.getContext("bitmaprenderer");
-        return g != null;
-    }
-    catch (exp) {
-        return false;
-    }
-}
-
-export const hasImageBitmapRenderingContext = /*@__PURE__*/ hasImageBitmap && testBitmapRenderer();
-
-export const drawImageBitmapToCanvas = /*@__PURE__*/ hasImageBitmapRenderingContext
-    ? copyImageBitmapToCanvas
-    : drawImageBitmapToCanvas2D;
-
 export function createOffscreenCanvas(width: number, height: number): OffscreenCanvas {
     return new OffscreenCanvas(width, height);
 }
 
 export function createCanvas(w: number, h: number): HTMLCanvasElement {
+    if (IS_WORKER) {
+        throw new Error("HTML Canvas is not supported in workers");
+    }
+
     return Canvas(htmlWidth(w), htmlHeight(h));
 }
 
@@ -129,16 +105,24 @@ export function createOffscreenCanvasFromImageBitmap(img: ImageBitmap): Offscree
 }
 
 export function createCanvasFromImageBitmap(img: ImageBitmap): HTMLCanvasElement {
+    if (IS_WORKER) {
+        throw new Error("HTML Canvas is not supported in workers");
+    }
+
     const canv = createCanvas(img.width, img.height);
-    drawImageBitmapToCanvas2D(canv, img);
+    drawImageBitmapToCanvas(canv, img);
     return canv;
 }
 
 export const createUtilityCanvasFromImageBitmap = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImageBitmap
-    || hasHTMLCanvas && createCanvasFromImageBitmap
+    || !IS_WORKER && hasHTMLCanvas && createCanvasFromImageBitmap
     || null;
 
 export function createCanvasFromOffscreenCanvas(canv: OffscreenCanvas): HTMLCanvasElement {
+    if (IS_WORKER) {
+        throw new Error("HTML Canvas is not supported in workers");
+    }
+
     const c = createCanvas(canv.width, canv.height);
     drawImageToCanvas(c, canv);
     return c;
@@ -159,16 +143,24 @@ export function createOffscreenCanvasFromImage(img: HTMLImageElement): Offscreen
 }
 
 export function createCanvasFromImage(img: HTMLImageElement): HTMLCanvasElement {
+    if (IS_WORKER) {
+        throw new Error("HTML Canvas is not supported in workers");
+    }
+
     const canv = createCanvas(img.width, img.height);
     drawImageToCanvas(canv, img);
     return canv;
 }
 
 export const createUtilityCanvasFromImage = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImage
-    || hasHTMLCanvas && createCanvasFromImage
+    || !IS_WORKER && hasHTMLCanvas && createCanvasFromImage
     || null;
 
 export async function createImageFromFile(file: string): Promise<HTMLImageElement> {
+    if (IS_WORKER) {
+        throw new Error("HTML Image is not supported in workers");
+    }
+
     const img = Img(src(file));
     await once<HTMLElementEventMap>(img, "load", "error");
     return img;
@@ -252,6 +244,10 @@ export function setContextSize(ctx: GraphicsContext, w: number, h: number, super
  * @returns true, if the canvas size changed, false if the given size (with super sampling) resulted in the same size.
  */
 export function resizeCanvas(canv: HTMLCanvasElement, superscale = 1) {
+    if (IS_WORKER) {
+        throw new Error("HTML Canvas is not supported in workers");
+    }
+
     return setCanvasSize(
         canv,
         canv.clientWidth,

@@ -33,7 +33,7 @@ export class Build {
     private rootDirName = "src/";
     private outDirName = "wwwroot/js/";
 
-    constructor(args: string[]) {
+    constructor(args: string[], private readonly buildWorkers: boolean) {
         this.isWatch = args.indexOf("--watch") !== -1;
     }
 
@@ -79,9 +79,17 @@ export class Build {
 
     bundle(name: string) {
         name = normalizeDirName(name);
-        const entry = this.rootDirName + name + "index.ts";
+        const entry = this.rootDirName + name + "index.ts"
         this.browserEntries.push(entry);
         this.minBrowserEntries.push(entry);
+        return this;
+    }
+
+    bundles(names: string[]) {
+        for (const name of names) {
+            console.log(this.buildType, this.buildWorkers ? "worker" : "bundle", name);
+            this.bundle(name);
+        }
         return this;
     }
 
@@ -105,7 +113,8 @@ export class Build {
         const entryNames = this.entryNames + JS_EXT;
         const define: DefMap = {
             DEBUG: JSON.stringify(!minify),
-            JS_EXT: JSON.stringify(JS_EXT + ".js")
+            JS_EXT: JSON.stringify(JS_EXT + ".js"),
+            IS_WORKER: JSON.stringify(this.buildWorkers)
         };
 
         for (const def of this.defines) {
@@ -140,6 +149,7 @@ export class Build {
             plugins,
             incremental: this.isWatch,
             legalComments: "none",
+            treeShaking: true,
             watch: this.isWatch && {
                 onRebuild(error, result) {
                     if (error) {

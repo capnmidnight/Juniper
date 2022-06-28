@@ -7,7 +7,8 @@ function normalizeDirName(dirName) {
     return dirName;
 }
 export class Build {
-    constructor(args) {
+    constructor(args, buildWorkers) {
+        this.buildWorkers = buildWorkers;
         this.browserEntries = new Array();
         this.minBrowserEntries = new Array();
         this.plugins = new Array();
@@ -62,6 +63,13 @@ export class Build {
         this.minBrowserEntries.push(entry);
         return this;
     }
+    bundles(names) {
+        for (const name of names) {
+            console.log(this.buildType, this.buildWorkers ? "worker" : "bundle", name);
+            this.bundle(name);
+        }
+        return this;
+    }
     async run() {
         const start = Date.now();
         const tasks = [
@@ -79,7 +87,8 @@ export class Build {
         const entryNames = this.entryNames + JS_EXT;
         const define = {
             DEBUG: JSON.stringify(!minify),
-            JS_EXT: JSON.stringify(JS_EXT + ".js")
+            JS_EXT: JSON.stringify(JS_EXT + ".js"),
+            IS_WORKER: JSON.stringify(this.buildWorkers)
         };
         for (const def of this.defines) {
             const [key, value] = def(minify);
@@ -111,6 +120,7 @@ export class Build {
             plugins,
             incremental: this.isWatch,
             legalComments: "none",
+            treeShaking: true,
             watch: this.isWatch && {
                 onRebuild(error, result) {
                     if (error) {

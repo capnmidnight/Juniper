@@ -1,12 +1,12 @@
-import { isWorker } from "@juniper-lib/tslib";
 import { ILogger } from "./models";
 import { WindowLogger } from "./WindowLogger";
 import { WorkerLogger } from "./WorkerLogger";
 
+declare const IS_WORKER: boolean;
 const G = globalThis as any;
 const X = Symbol(1124198212012021);
 const logger: ILogger = G[X] = (G[X] as ILogger
-    || isWorker && new WorkerLogger()
+    || IS_WORKER && new WorkerLogger()
     || new WindowLogger());
 
 export class Logger implements ILogger {
