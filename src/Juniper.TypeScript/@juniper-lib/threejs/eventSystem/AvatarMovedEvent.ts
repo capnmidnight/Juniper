@@ -12,6 +12,7 @@ export class AvatarMovedEvent extends TypedEvent<"avatarmoved"> {
     uy = 0;
     uz = 0;
     height = 0;
+    changed = false;
 
     public readonly name: PointerName = PointerName.LocalUser;
 
@@ -20,6 +21,15 @@ export class AvatarMovedEvent extends TypedEvent<"avatarmoved"> {
     }
 
     set(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number) {
+        this.changed = this.px !== px
+            || this.py !== py
+            || this.pz !== pz
+            || this.fx !== fx
+            || this.fy !== fy
+            || this.fz !== fz
+            || this.ux !== ux
+            || this.uy !== uy
+            || this.uz !== uz;
         this.px = px;
         this.py = py;
         this.pz = pz;
