@@ -177,7 +177,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                     this.dispatchEvent(upEvt);
 
                     if (pointer.buttons === 0) {
-                        if (isDefined(pressedHit)) {
+                        if (isDefined(prsTarget)) {
                             pointer.pressedHit = null;
                             prsTarget.dispatchEvent(upEvt);
                         }
