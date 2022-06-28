@@ -20,20 +20,20 @@ namespace Juniper
         public IDictionary<string, string> http_headers { get; set; }
         public int? asr { get; set; }
         public int? filesize { get; set; }
-        public int source_preference { get; set; }
+        public int? source_preference { get; set; }
         public int? fps { get; set; }
-        public int quality { get; set; }
-        public float tbr { get; set; }
+        public int? quality { get; set; }
+        public float? tbr { get; set; }
         public string language { get; set; }
-        public int language_preference { get; set; }
+        public int? language_preference { get; set; }
         public string dynamic_range { get; set; }
-        public float abr { get; set; }
+        public float? abr { get; set; }
 
         public YTMetadataDownloaderOptions downloader_options { get; set; }
 
         public string container { get; set; }
-        public float vbr { get; set; }
-        public float filesize_approx { get; set; }
+        public float? vbr { get; set; }
+        public float? filesize_approx { get; set; }
     }
 }
 

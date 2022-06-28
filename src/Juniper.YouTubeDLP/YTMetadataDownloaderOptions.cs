@@ -4,7 +4,7 @@ namespace Juniper
 {
     public class YTMetadataDownloaderOptions
     {
-        public int http_chunk_size { get; set; }
+        public int? http_chunk_size { get; set; }
     }
 }
 #pragma warning restore IDE1006 // Naming Styles
