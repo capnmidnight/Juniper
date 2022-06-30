@@ -14,7 +14,13 @@ export class PointerRemote
     implements ErsatzObject {
 
     readonly object: THREE.Object3D;
-    private laser: Laser;
+
+    private readonly laser: Laser = null;
+    private readonly dumpS = new THREE.Vector3();
+    private readonly M = new THREE.Matrix4();
+    private readonly MW = new THREE.Matrix4();
+    private readonly pTarget = new THREE.Vector3();
+    private readonly qTarget = new THREE.Quaternion().identity();
 
     constructor(
         env: BaseEnvironment,
@@ -49,45 +55,52 @@ export class PointerRemote
 
     setState(
         avatarHeadPos: THREE.Vector3,
-        position: THREE.Vector3,
-        forward: THREE.Vector3,
-        up: THREE.Vector3,
-        offset: THREE.Vector3) {
+        pointerPosition: THREE.Vector3,
+        pointerForward: THREE.Vector3,
+        pointerUp: THREE.Vector3,
+        comfortOffset: THREE.Vector3) {
 
         this.origin
             .copy(this.env.avatar.worldPos)
-            .add(position)
+            .add(pointerPosition)
             .sub(avatarHeadPos);
-        this.direction.copy(forward);
-        this.up.copy(up);
 
+        this.direction.copy(pointerForward);
+        this.up.copy(pointerUp);
         this.cursor.visible = true;
-        this.fireRay();
 
-        this.updateCursor(avatarHeadPos, this.curHit, this.curTarget, 3);
+        const curHit = this.fireRay();
 
-        position.add(offset);
+        this.updateCursor(avatarHeadPos, 3);
 
-        if (this.curHit) {
-            forward.copy(this.curHit.point)
-                .sub(position)
+        pointerPosition.add(comfortOffset);
+
+        if (curHit) {
+            pointerForward
+                .copy(curHit.point)
+                .sub(pointerPosition)
                 .normalize();
         }
 
-        setMatrixFromUpFwdPos(up, forward, position, MW);
-        M.copy(this.object.parent.matrixWorld)
+        setMatrixFromUpFwdPos(
+            pointerUp,
+            pointerForward,
+            pointerPosition,
+            this.MW);
+
+        this.M
+            .copy(this.object.parent.matrixWorld)
             .invert()
-            .multiply(MW)
+            .multiply(this.MW)
             .decompose(
                 this.pTarget,
                 this.qTarget,
-                dumpS);
+                this.dumpS);
     }
 
-    private readonly pTarget = new THREE.Vector3();
-    private readonly qTarget = new THREE.Quaternion().identity();
-
-    protected onUpdate(): void { }
+    protected onUpdate(): void {
+        // do nothing
+    }
 
     animate(dt: number) {
         this.object.position.lerp(this.pTarget, dt * 0.01);
@@ -102,7 +115,3 @@ export class PointerRemote
         // do nothing
     }
 }
-
-const dumpS = new THREE.Vector3();
-const M = new THREE.Matrix4();
-const MW = new THREE.Matrix4();

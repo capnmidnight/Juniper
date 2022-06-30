@@ -14,25 +14,25 @@ const MAX_DRAG_DISTANCE = 5;
 export abstract class BasePointer
     extends TypedEventBase<EventSystemEvents>
     implements IPointer {
-    private _cursor: BaseCursor;
-    canMoveView = false;
-    private _enabled = false;
 
-    protected buttons = 0;
-    private lastButtons = 0;
-
-    private canClick = false;
-    protected moveDistance = 0;
-    private dragDistance = 0;
-
-    protected isActive = false;
     readonly origin = new THREE.Vector3();
     readonly direction = new THREE.Vector3();
     readonly up = new THREE.Vector3();
 
-    private readonly pointerEvents = new Map<string, EventSystemEvent>();
+    canMoveView = false;
+
+    protected buttons = 0;
+    protected isActive = false;
+    protected moveDistance = 0;
 
     private readonly hits = new Array<THREE.Intersection>();
+    private readonly pointerEvents = new Map<string, EventSystemEvent>();
+
+    private lastButtons = 0;
+    private canClick = false;
+    private dragDistance = 0;
+    private _enabled = false;
+    private _cursor: BaseCursor = null;
     private _curHit: THREE.Intersection = null;
     private _curTarget: RayTarget = null;
     private _hoveredHit: THREE.Intersection = null;
@@ -53,15 +53,15 @@ export abstract class BasePointer
         this.canMoveView = false;
     }
 
-    get name() {
-        return PointerID[this.id];
-    }
+    abstract vibrate(): void;
+    protected abstract updatePointerOrientation(): void;
+    protected abstract onUpdate(): void;
 
-    get curHit() {
+    private get curHit() {
         return this._curHit;
     }
 
-    set curHit(v) {
+    private set curHit(v) {
         if (v !== this.curHit) {
             const t = getRayTarget(v);
             this._curHit = v;
@@ -69,15 +69,15 @@ export abstract class BasePointer
         }
     }
 
-    get curTarget() {
+    private get curTarget() {
         return this._curTarget;
     }
 
-    get hoveredHit() {
+    private get hoveredHit() {
         return this._hoveredHit;
     }
 
-    set hoveredHit(v) {
+    private set hoveredHit(v) {
         if (v !== this.hoveredHit) {
             const t = getRayTarget(v);
             this._hoveredHit = v;
@@ -85,11 +85,13 @@ export abstract class BasePointer
         }
     }
 
+    get name() {
+        return PointerID[this.id];
+    }
+
     get rayTarget() {
         return this._hoveredTarget;
     }
-
-    abstract vibrate(): void
 
     get cursor() {
         return this._cursor;
@@ -197,7 +199,7 @@ export abstract class BasePointer
             }
         }
 
-        this.curHit = minHit;
+        return this.curHit = minHit;
     }
 
     private getEvent(type: PointerEventTypes): EventSystemEvent {
@@ -252,9 +254,6 @@ export abstract class BasePointer
         }
     }
 
-    protected abstract updatePointerOrientation(): void;
-    protected abstract onUpdate(): void;
-
     private setEventState(eventType: SourcePointerEventTypes): void {
 
         this.fireRay();
@@ -304,19 +303,15 @@ export abstract class BasePointer
             evt.rayTarget.dispatchEvent(evt);
         }
 
-        this.updateCursor(
-            this.env.avatar.worldPos,
-            evt.hit,
-            evt.rayTarget,
-            2);
+        this.updateCursor(this.env.avatar.worldPos, 2);
     }
 
-    protected updateCursor(avatarHeadPos: THREE.Vector3, hit: THREE.Intersection, rayTarget: RayTarget, defaultDistance: number) {
+    protected updateCursor(avatarHeadPos: THREE.Vector3, defaultDistance: number) {
         if (this.cursor) {
             this.cursor.update(
                 avatarHeadPos,
-                hit,
-                rayTarget,
+                this.hoveredHit || this.curHit,
+                this.rayTarget || this.curTarget,
                 defaultDistance,
                 this.canMoveView,
                 this.origin,
