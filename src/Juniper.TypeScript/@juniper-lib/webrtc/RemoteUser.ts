@@ -1,5 +1,4 @@
-import { arrayClear, arrayRemove, arrayScan, IDisposable, isArrayBuffer, Task, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import { arrayClear, arrayRemove, arrayScan, IDisposable, isArrayBuffer, PointerID, Task, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { UserLeftEvent, UserPointerEvent, UserPosedEvent } from "./ConferenceEvents";
 
 class Locker<T> {
@@ -308,23 +307,23 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
         return this.sendMessage(Message.Pose, px, py, pz, fx, fy, fz, ux, uy, uz, height);
     }
 
-    recvPointer(pointerName: PointerName, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) {
-        this.userPointerEvt.name = pointerName;
+    recvPointer(pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) {
+        this.userPointerEvt.pointerID = pointerID;
         this.userPointerEvt.pose.set(px, py, pz, fx, fy, fz, ux, uy, uz);
         this.dispatchEvent(this.userPointerEvt);
     }
 
-    sendPointer(pointerName: PointerName, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) {
-        return this.sendMessage(Message.Pointer, px, py, pz, fx, fy, fz, ux, uy, uz, pointerName);
+    sendPointer(pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) {
+        return this.sendMessage(Message.Pointer, px, py, pz, fx, fy, fz, ux, uy, uz, pointerID);
     }
 
     private async sendMessage(msgName: Message.Pose, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number): Promise<void>;
-    private async sendMessage(msgName: Message.Pointer, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerName: PointerName): Promise<void>;
-    private async sendMessage(msgName: Message, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerNameOrHeight: number | PointerName): Promise<void> {
+    private async sendMessage(msgName: Message.Pointer, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerID: PointerID): Promise<void>;
+    private async sendMessage(msgName: Message, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerIDOrHeight: number | PointerID): Promise<void> {
         if (this.channel && this.channel.readyState === "open") {
             let lockName = msgName === Message.Pose
                 ? msgName.toString()
-                : `${msgName}${pointerNameOrHeight}`;
+                : `${msgName}${pointerIDOrHeight}`;
             if (!this.tasks.has(lockName)) {
                 this.tasks.set(lockName, new Task());
             }
@@ -342,7 +341,7 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
                 buffer[8] = ux;
                 buffer[9] = uy;
                 buffer[10] = uz;
-                buffer[11] = pointerNameOrHeight;
+                buffer[11] = pointerIDOrHeight;
 
                 if (!this.confirmReceipt) {
                     this.channel.send(buffer);

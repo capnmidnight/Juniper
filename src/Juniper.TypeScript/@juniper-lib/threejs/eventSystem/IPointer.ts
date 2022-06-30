@@ -1,36 +1,25 @@
-import type { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
-import type { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import type { VirtualButton } from "@juniper-lib/threejs/eventSystem/VirtualButton";
+import type { PointerID, PointerType, TypedEventBase } from "@juniper-lib/tslib";
 import type { BaseCursor } from "./BaseCursor";
-import type { MouseButtons } from "./MouseButton";
+import type { EventSystemEvents } from "./EventSystemEvent";
+import type { RayTarget } from "./RayTarget";
 
-export type PointerType = "mouse"
-    | "touch"
-    | "gamepad"
-    | "pen"
-    | "hand"
-    | "remote";
-
-export interface IPointer {
-    name: PointerName;
+export interface IPointer extends TypedEventBase<EventSystemEvents> {
+    id: PointerID;
     type: PointerType;
     cursor: BaseCursor;
     direction: THREE.Vector3;
     origin: THREE.Vector3;
+    up: THREE.Vector3;
     canMoveView: boolean;
     enabled: boolean;
 
-    curHit: THREE.Intersection;
-    hoveredHit: THREE.Intersection;
-    pressedHit: THREE.Intersection;
-    draggedHit: THREE.Intersection;
+    rayTarget: RayTarget;
 
-    buttons: MouseButtons;
-    dragging: boolean;
+    isPressed(button: VirtualButton): boolean;
 
     needsUpdate: boolean;
     update(): void;
-    isPressed(buttons: VirtualButtons): boolean;
 
     vibrate(): void;
-    updateCursor(avatarHeadPos: THREE.Vector3, hit: THREE.Intersection, dist: number): void;
 }

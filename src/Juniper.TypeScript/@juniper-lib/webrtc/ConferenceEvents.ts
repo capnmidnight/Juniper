@@ -1,6 +1,6 @@
 import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import { PointerID } from "@juniper-lib/tslib";
 import { RemoteUser } from "./RemoteUser";
 
 export type ConferenceEventTypes = "error"
@@ -197,7 +197,7 @@ export class UserPosedEvent extends UserPoseEvent<"userPosed"> {
 
 export class UserPointerEvent extends UserPoseEvent<"userPointer"> {
 
-    public name = PointerName.RemoteUser;
+    public pointerID = PointerID.RemoteUser;
 
     constructor(user: RemoteUser) {
         super("userPointer", user);

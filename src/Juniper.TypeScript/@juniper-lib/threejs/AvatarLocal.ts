@@ -1,31 +1,15 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
-import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
-import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isMobile, isMobileVR, isNullOrUndefined, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";
+import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isGoodNumber, isMobile, isMobileVR, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading, getLookPitch } from "./animation/lookAngles";
-import { BaseScreenPointer } from "./eventSystem/BaseScreenPointer";
 import type { EventSystem } from "./eventSystem/EventSystem";
 import { IPointer } from "./eventSystem/IPointer";
+import { VirtualButton } from "./eventSystem/VirtualButton";
 import type { Fader } from "./Fader";
 import { ErsatzObject, obj } from "./objects";
 import { resolveCamera } from "./resolveCamera";
 import { setRightUpFwdPosFromMatrix } from "./setRightUpFwdPosFromMatrix";
-/**
- * The mouse is not as sensitive as the gamepad, so we have to bump up the
- * sensitivity quite a bit.
- **/
-const MOUSE_SENSITIVITY_SCALE = 100;
-
-/**
- * The touch points are not as sensitive as the gamepad, so we have to bump up the
- * sensitivity quite a bit.
- **/
-const TOUCH_SENSITIVITY_SCALE = 50;
-
-const GAMEPAD_SENSITIVITY_SCALE = 1;
-
-const MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE = Math.PI / 3;
 
 interface DeviceOrientationEventWithPermissionRequest extends Function {
     requestPermission(): Promise<PermissionState>;
@@ -43,8 +27,7 @@ enum CameraControlMode {
     MouseDrag = "mousedrag",
     ScreenEdge = "mouseedge",
     Touch = "touchswipe",
-    Gamepad = "gamepad",
-    MagicWindow = "magicwindow"
+    Gamepad = "gamepad"
 }
 
 interface AvatarLocalEvents {
@@ -56,12 +39,22 @@ export class AvatarLocal
     implements ErsatzObject, IDisposable {
     private controlMode = CameraControlMode.None;
 
-    private requiredMouseButton = new Map<CameraControlMode, MouseButtons>([
-        [CameraControlMode.MouseDrag, MouseButtons.Mouse0],
-        [CameraControlMode.Touch, MouseButtons.Mouse0]
+    private snapTurnAngle = deg2rad(30);
+
+    private readonly sensitivities = new Map<CameraControlMode, number>([
+        /**
+         * The mouse is not as sensitive as the gamepad, so we have to bump up the
+         * sensitivity quite a bit.
+         **/
+        [CameraControlMode.MouseDrag, 100],
+        [CameraControlMode.MouseFPS, 100],
+        /**
+         * The touch points are not as sensitive as the gamepad, so we have to bump up the
+         * sensitivity quite a bit.
+         **/
+        [CameraControlMode.Touch, 50],
+        [CameraControlMode.Gamepad, 1]
     ]);
-
-
 
     private readonly B = new THREE.Vector3(0, 0, 1);
     private readonly R = new THREE.Vector3();
@@ -73,6 +66,7 @@ export class AvatarLocal
     private readonly Q1 = new THREE.Quaternion();
     private readonly Q2 = new THREE.Quaternion();
     private readonly Q3 = new THREE.Quaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
+    private readonly Q4 = new THREE.Quaternion();
     private readonly motion = new THREE.Vector2();
     private readonly rotStage = new THREE.Matrix4();
     private readonly userMovedEvt = new AvatarMovedEvent();
@@ -96,7 +90,6 @@ export class AvatarLocal
     private headZ = 0;
     private _worldHeading = 0;
     private _worldPitch = 0;
-    private lastTouchInputTime = Number.MIN_SAFE_INTEGER;
     private fwrd = false;
     private back = false;
     private left = false;
@@ -226,14 +219,6 @@ export class AvatarLocal
         if (globalThis.isSecureContext && isMobile() && !isMobileVR()) {
             this.onDeviceOrientationChangeEvent = (event: DeviceOrientationEvent) => {
                 this.deviceOrientation = event;
-                if (event
-                    && (event.alpha || event.beta || event.gamma)
-                    && this.motionEnabled) {
-                    const dt = performance.now() - this.lastTouchInputTime;
-                    if (dt > 1000) {
-                        this.controlMode = CameraControlMode.MagicWindow;
-                    }
-                }
             };
 
             this.onScreenOrientationChangeEvent = () => {
@@ -247,7 +232,7 @@ export class AvatarLocal
     }
 
     snapTurn(direction: number) {
-        this.setHeading(this.heading - MOTIONCONTROLLER_STICK_SENSITIVITY_SCALE * direction);
+        this.setHeading(this.heading - this.snapTurnAngle * direction);
     }
 
     get keyboardControlEnabled(): boolean {
@@ -272,63 +257,53 @@ export class AvatarLocal
         this.followers.push(follower);
     }
 
-    onMove(pointer: BaseScreenPointer, uv: THREE.Vector2, duv: THREE.Vector2) {
+    onMove(pointer: IPointer, uv: THREE.Vector2, duv: THREE.Vector2) {
         this.setMode(pointer);
         if (pointer.canMoveView
             && this.controlMode !== CameraControlMode.None
-            && this.gestureSatisfied(pointer)
-            && this.dragSatisfied(pointer)) {
+            && this.gestureSatisfied(pointer)) {
             this.uv.copy(uv);
             this.duv.copy(duv);
         }
     }
 
     setMode(pointer: IPointer) {
-        if (pointer.type === "hand" || pointer.type === "remote") {
+        if (pointer.type === "remote") {
+            // do nothing
+        }
+        else if (pointer.type === "hand") {
             this.controlMode = CameraControlMode.None;
-        }
-        else if (pointer.type === "mouse") {
-            if (this.evtSys.mouse.isPointerLocked) {
-                this.controlMode = CameraControlMode.MouseFPS;
-            }
-            else if (pointer.draggedHit) {
-                this.controlMode = CameraControlMode.ScreenEdge;
-            }
-            else {
-                this.controlMode = CameraControlMode.MouseDrag;
-            }
-        }
-        else if (pointer.type === "touch" || pointer.type === "pen") {
-            this.lastTouchInputTime = performance.now();
-            if (pointer.draggedHit) {
-                this.controlMode = CameraControlMode.ScreenEdge;
-            }
-            else {
-                this.controlMode = CameraControlMode.Touch;
-            }
         }
         else if (pointer.type === "gamepad") {
             this.controlMode = CameraControlMode.Gamepad;
         }
+        else if (pointer.rayTarget
+            && pointer.rayTarget.draggable
+            && pointer.isPressed(VirtualButton.Primary)) {
+            this.controlMode = CameraControlMode.ScreenEdge;
+        }
+        else if (pointer.type === "touch" || pointer.type === "pen") {
+            this.controlMode = CameraControlMode.Touch;
+        }
+        else if (pointer.type === "mouse") {
+            this.controlMode = this.evtSys.mouse.isPointerLocked
+                ? CameraControlMode.MouseFPS
+                : CameraControlMode.MouseDrag;
+        }
+        else {
+            assertNever(pointer.type);
+        }
     }
 
     private gestureSatisfied(pointer: IPointer) {
-        const button = this.requiredMouseButton.get(this.controlMode);
-        if (isNullOrUndefined(button)) {
-            return this.controlMode === CameraControlMode.ScreenEdge
-                || this.controlMode === CameraControlMode.MouseFPS
-                || this.controlMode === CameraControlMode.Touch
-                || this.controlMode === CameraControlMode.Gamepad;
+        if (this.controlMode === CameraControlMode.None) {
+            return false;
         }
-        else {
-            return pointer.buttons === button;
-        }
-    }
 
-    private dragSatisfied(pointer: IPointer) {
-        return !this.requiredMouseButton.has(this.controlMode)
-            || this.requiredMouseButton.get(this.controlMode) == MouseButtons.None
-            || pointer.dragging;
+        return this.controlMode === CameraControlMode.Gamepad
+            || this.controlMode === CameraControlMode.MouseFPS
+            || this.controlMode === CameraControlMode.ScreenEdge
+            || pointer.isPressed(VirtualButton.Primary);
     }
 
     get name(): string {
@@ -383,66 +358,50 @@ export class AvatarLocal
     update(dt: number) {
         if (this.fovZoomEnabled
             && Math.abs(this.dz) > 0) {
-            const factor = Math.pow(0.95, 5 * dt);
-            this.dz = truncate(factor * this.dz);
+            const smoothing = Math.pow(0.95, 5 * dt);
+            this.dz = truncate(smoothing * this.dz);
             this.fov = clamp(this.camera.fov - this.dz, this.minFOV, this.maxFOV);
         }
 
         dt *= 0.001;
 
-        if (this.controlMode === CameraControlMode.MagicWindow) {
-            const device = this.deviceOrientation;
-
-            if (device) {
-                const alpha = device.alpha ? deg2rad(device.alpha) + this.alphaOffset : 0;
-                const beta = device.beta ? deg2rad(device.beta) : 0;
-                const gamma = device.gamma ? deg2rad(device.gamma) : 0;
-                const orient = this.screenOrientation ? deg2rad(this.screenOrientation) : 0;
-                this.E.set(beta, alpha, -gamma, "YXZ");
-                this.Q2.setFromAxisAngle(this.B, -orient);
-                this.deviceQ
-                    .setFromEuler(this.E) // orient the device
-                    .multiply(this.Q3) // camera looks out the back of the device, not the top
-                    .multiply(this.Q2); // adjust for screen orientation
-            }
+        const device = this.deviceOrientation;
+        if (device
+            && isGoodNumber(device.alpha)
+            && isGoodNumber(device.beta)
+            && isGoodNumber(device.gamma)) {
+            const alpha = deg2rad(device.alpha) + this.alphaOffset;
+            const beta = deg2rad(device.beta);
+            const gamma = deg2rad(device.gamma);
+            const orient = this.screenOrientation ? deg2rad(this.screenOrientation) : 0;
+            this.E.set(beta, alpha, -gamma, "YXZ");
+            this.Q2.setFromAxisAngle(this.B, -orient);
+            this.Q4
+                .setFromEuler(this.E) // orient the device
+                .multiply(this.Q3) // camera looks out the back of the device, not the top
+                .multiply(this.Q2); // adjust for screen orientation
+            this.deviceQ.slerp(this.Q4, .8);
         }
-        else if (this.controlMode === CameraControlMode.ScreenEdge) {
+
+        if (this.controlMode === CameraControlMode.ScreenEdge) {
             if (this.uv.manhattanLength() > 0) {
                 this.motion
                     .set(
                         this.scaleRadialComponent(-this.uv.x, this.speed.x, this.acceleration.x),
                         this.scaleRadialComponent(this.uv.y, this.speed.y, this.acceleration.y))
                     .multiplyScalar(dt);
-
                 this.setHeading(this.heading + this.motion.x);
                 this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
                 this.setRoll(0);
             }
         }
-        else if (this.controlMode === CameraControlMode.MouseFPS) {
+        else if (this.sensitivities.has(this.controlMode)) {
             if (this.duv.manhattanLength() > 0) {
-                this.motion
-                    .copy(this.duv)
-                    .multiply(this.axisControl);
-                this.setHeading(this.heading + this.motion.x);
-                this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
-                this.setRoll(0);
-            }
-        }
-        else if (this.controlMode !== CameraControlMode.None) {
-            if (this.duv.manhattanLength() > 0) {
-                const sensitivity = this.controlMode === CameraControlMode.MouseDrag
-                    ? MOUSE_SENSITIVITY_SCALE
-                    : this.controlMode === CameraControlMode.Touch
-                        ? TOUCH_SENSITIVITY_SCALE
-                        : this.controlMode === CameraControlMode.Gamepad
-                            ? GAMEPAD_SENSITIVITY_SCALE
-                            : assertNever(this.controlMode);
+                const sensitivity = this.sensitivities.get(this.controlMode) || 1;
                 this.motion
                     .copy(this.duv)
                     .multiplyScalar(sensitivity * dt)
                     .multiply(this.axisControl);
-
                 this.setHeading(this.heading + this.motion.x);
                 this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
                 this.setRoll(0);

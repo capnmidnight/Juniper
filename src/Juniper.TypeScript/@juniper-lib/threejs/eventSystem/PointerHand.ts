@@ -1,12 +1,12 @@
-import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
-import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
+import { VirtualButton } from "@juniper-lib/threejs/eventSystem/VirtualButton";
 import {
     isChrome,
     isDefined,
-    isDesktop, isOculusBrowser, PriorityMap
+    isDesktop,
+    isOculusBrowser,
+    PointerID
 } from "@juniper-lib/tslib";
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
-import { EventedGamepad } from "@juniper-lib/widgets/EventedGamepad";
+import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/EventedGamepad";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { XRControllerModelFactory } from "../examples/webxr/XRControllerModelFactory";
 import { XRHandModelFactory } from "../examples/webxr/XRHandModelFactory";
@@ -19,32 +19,27 @@ import { Laser } from "./Laser";
 const mcModelFactory = new XRControllerModelFactory();
 const handModelFactory = new XRHandModelFactory();
 const riftSCorrection = new THREE.Matrix4().makeRotationX(-7 * Math.PI / 9);
-const newOrigin = new THREE.Vector3();
-const newDirection = new THREE.Vector3();
-const buttonIndices = new PriorityMap<XRHandedness, VirtualButtons, number>([
-    ["left", VirtualButtons.Primary, 0],
-    ["left", VirtualButtons.Secondary, 1],
-    ["left", VirtualButtons.Menu, 2],
-    ["left", VirtualButtons.Info, 3],
-    ["right", VirtualButtons.Primary, 0],
-    ["right", VirtualButtons.Secondary, 1],
-    ["right", VirtualButtons.Menu, 2],
-    ["right", VirtualButtons.Info, 3]
+
+const pointerIDs = new Map<XRHandedness, PointerID>([
+    ["none", PointerID.MotionController],
+    ["left", PointerID.MotionControllerLeft],
+    ["right", PointerID.MotionControllerRight]
 ]);
 
-const pointerNames = new Map<XRHandedness, PointerName>([
-    ["none", PointerName.MotionController],
-    ["left", PointerName.MotionControllerLeft],
-    ["right", PointerName.MotionControllerRight]
-]);
-
-export enum OculusQuestButtons {
+export enum OculusQuestButton {
     Trigger = 0,
     Grip = 1,
     Stick = 3,
     X_A = 4,
     Y_B = 5
 }
+
+const questToVirtualMap = new Map<OculusQuestButton, VirtualButton>([
+    //[OculusQuestButton.Trigger, VirtualButton.Primary],
+    //[OculusQuestButton.Grip, VirtualButton.Secondary],
+    [OculusQuestButton.Y_B, VirtualButton.Menu],
+    [OculusQuestButton.X_A, VirtualButton.Info]
+]);
 
 type XRControllerConnectionEventTypes = "connected" | "disconnected";
 type XRControllerConnectionEvent<T extends XRControllerConnectionEventTypes> = THREE.Event & {
@@ -62,14 +57,22 @@ export class PointerHand
     private _handedness: XRHandedness = "none";
     private _isHand = false;
     private inputSource: XRInputSource = null;
+
     private readonly _gamepad = new EventedGamepad();
 
     private readonly controller: THREE.XRTargetRaySpace;
     private readonly grip: THREE.XRGripSpace;
     private readonly hand: THREE.XRHandSpace;
 
+    private readonly delta = new THREE.Vector3();
+    private readonly newOrigin = new THREE.Vector3();
+    private readonly quaternion = new THREE.Quaternion();
+    private readonly newQuat = new THREE.Quaternion();
+
     constructor(env: BaseEnvironment, index: number) {
-        super("hand", PointerName.MotionController, env, new CursorColor());
+        super("hand", PointerID.MotionController, env, new CursorColor());
+
+        this.quaternion.identity();
 
         objGraph(this,
             this.controller = this.env.renderer.xr.getController(index),
@@ -102,13 +105,32 @@ export class PointerHand
             }
         });
 
+        const setButton = (pressed: boolean) => {
+            return (evt: GamepadButtonEvent) => {
+                if (questToVirtualMap.has(evt.button)) {
+                    this.setButton(questToVirtualMap.get(evt.button), pressed);
+                }
+            };
+        };
+
+        this.gamepad.addEventListener("gamepadbuttondown", setButton(true));
+        this.gamepad.addEventListener("gamepadbuttonup", setButton(false));
+
+        const setHandButton = (btn: VirtualButton, pressed: boolean) =>
+            () => this.setButton(btn, pressed);
+
+        this.controller.addEventListener("selectstart", setHandButton(VirtualButton.Primary, true));
+        this.controller.addEventListener("selectend", setHandButton(VirtualButton.Primary, false));
+        this.controller.addEventListener("squeezestart", setHandButton(VirtualButton.Secondary, true));
+        this.controller.addEventListener("squeezeend", setHandButton(VirtualButton.Secondary, false));
+
         this.controller.addEventListener("connected", (evt: XRControllerConnectionEvent<"connected">) => {
             if (evt.target === this.controller) {
                 this.inputSource = evt.data;
                 this.gamepad.pad = this.inputSource.gamepad;
                 this._isHand = isDefined(this.inputSource.hand);
                 this._handedness = this.inputSource.handedness;
-                this.name = pointerNames.get(this.handedness);
+                this.id = pointerIDs.get(this.handedness);
                 this.updateCursorSide();
 
                 this.grip.visible = !this.isHand;
@@ -117,7 +139,8 @@ export class PointerHand
 
                 this.enabled = true;
                 this.isActive = true;
-                this.env.eventSystem.onConnected(this);
+                this.env.eventSystem.checkXRMouse();
+                console.log(this.handedness, "connected")
             }
         });
 
@@ -127,7 +150,7 @@ export class PointerHand
                 this.gamepad.pad = null;
                 this._isHand = false;
                 this._handedness = "none";
-                this.name = pointerNames.get(this.handedness);
+                this.id = pointerIDs.get(this.handedness);
                 this.updateCursorSide();
 
                 this.grip.visible = false;
@@ -136,24 +159,10 @@ export class PointerHand
 
                 this.enabled = false;
                 this.isActive = false;
-                this.env.eventSystem.onDisconnected(this);
+                this.env.eventSystem.checkXRMouse();
+                console.log(this.handedness, "disconnected")
             }
         });
-
-        const buttonDown = (btn: MouseButtons) => {
-            this._buttons = this.buttons | btn;
-            this.onPointerDown();
-        };
-
-        const buttonUp = (btn: MouseButtons) => {
-            this._buttons = this.buttons & ~btn;
-            this.onPointerUp();
-        };
-
-        this.controller.addEventListener("selectstart", () => buttonDown(MouseButtons.Mouse0));
-        this.controller.addEventListener("selectend", () => buttonUp(MouseButtons.Mouse0));
-        this.controller.addEventListener("squeezestart", () => buttonDown(MouseButtons.Mouse1));
-        this.controller.addEventListener("squeezeend", () => buttonUp(MouseButtons.Mouse1));
     }
 
     override vibrate(): void {
@@ -203,26 +212,26 @@ export class PointerHand
         }
     }
 
-    protected onUpdate(): void {
-        this.laser.getWorldPosition(newOrigin);
-        this.laser.getWorldDirection(newDirection)
-            .multiplyScalar(-1);
+    protected updatePointerOrientation() {
+        this.laser.getWorldPosition(this.newOrigin);
+        this.laser.getWorldQuaternion(this.newQuat);
+        this.origin.lerp(this.newOrigin, 0.9);
+        this.quaternion.slerp(this.newQuat, 0.9);
 
-        this.origin.lerp(newOrigin, 0.9);
-        this.direction.lerp(newDirection, 0.9)
-            .normalize();
+        this.delta
+            .copy(this.origin)
+            .add(this.direction);
+        this.direction.set(0, 0, -1).applyQuaternion(this.quaternion);
+        this.up.set(0, 1, 0).applyQuaternion(this.quaternion);
+        this.delta
+            .sub(this.direction)
+            .sub(this.origin);
 
-        this.gamepad.pad = this.inputSource && this.inputSource.gamepad || null;
+        this.moveDistance += 50 * this.delta.length();
+        console.log(this.moveDistance);
     }
 
-    isPressed(button: VirtualButtons): boolean {
-        if (!buttonIndices.has(this.handedness)
-            || !buttonIndices.get(this.handedness).has(button)) {
-            return false;
-        }
-
-        const index = buttonIndices.get(this.handedness).get(button);
-        return index < this.gamepad.buttons.length
-            && this.gamepad.buttons[index].pressed;
+    protected onUpdate() {
+        this.gamepad.pad = this.inputSource && this.inputSource.gamepad || null;
     }
 }

@@ -1,77 +1,95 @@
-import { MouseButtons } from "@juniper-lib/threejs/eventSystem/MouseButton";
-import { SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
-import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import { PointerEventTypes, SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
+import { VirtualButton } from "@juniper-lib/threejs/eventSystem/VirtualButton";
+import { arrayClear, PointerID, PointerType, TypedEventBase } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objGraph } from "../objects";
 import type { BaseCursor } from "./BaseCursor";
 import { CursorXRMouse } from "./CursorXRMouse";
-import type { IPointer, PointerType } from "./IPointer";
-import { getRayTarget } from "./RayTarget";
+import { EventSystemEvent, EventSystemEvents } from "./EventSystemEvent";
+import type { IPointer } from "./IPointer";
+import { getRayTarget, RayTarget } from "./RayTarget";
 
 const MAX_DRAG_DISTANCE = 5;
 
 export abstract class BasePointer
+    extends TypedEventBase<EventSystemEvents>
     implements IPointer {
     private _cursor: BaseCursor;
-    private _canMoveView = false;
+    canMoveView = false;
     private _enabled = false;
 
-    private canClick = false;
-    protected _buttons = MouseButtons.None;
+    protected buttons = 0;
     private lastButtons = 0;
+
+    private canClick = false;
     protected moveDistance = 0;
-    private _dragging = false;
-    private wasDragging = false;
     private dragDistance = 0;
 
     protected isActive = false;
     readonly origin = new THREE.Vector3();
     readonly direction = new THREE.Vector3();
-    readonly delta = new THREE.Vector3();
+    readonly up = new THREE.Vector3();
 
-    curHit: THREE.Intersection = null;
-    hoveredHit: THREE.Intersection = null;
-    private _pressedHit: THREE.Intersection = null;
-    draggedHit: THREE.Intersection = null;
+    private readonly pointerEvents = new Map<string, EventSystemEvent>();
 
+    private readonly hits = new Array<THREE.Intersection>();
+    private _curHit: THREE.Intersection = null;
+    private _curTarget: RayTarget = null;
+    private _hoveredHit: THREE.Intersection = null;
+    private _hoveredTarget: RayTarget = null;
 
     constructor(
         public readonly type: PointerType,
-        public name: PointerName,
+        public id: PointerID,
         protected readonly env: BaseEnvironment,
         cursor: BaseCursor) {
+        super();
 
         this._cursor = cursor;
         if (this.cursor) {
             this.cursor.visible = false;
         }
+
         this.canMoveView = false;
     }
 
-    get pressedHit(): THREE.Intersection {
-        return this._pressedHit;
+    get name() {
+        return PointerID[this.id];
     }
 
-    set pressedHit(v: THREE.Intersection) {
-        this._pressedHit = v;
-        const target = getRayTarget(v);
-        if (target && target.draggable && !target.clickable) {
-            this.onDragStart();
+    get curHit() {
+        return this._curHit;
+    }
+
+    set curHit(v) {
+        if (v !== this.curHit) {
+            const t = getRayTarget(v);
+            this._curHit = v;
+            this._curTarget = t;
         }
     }
 
-    get canMoveView() {
-        return this._canMoveView;
+    get curTarget() {
+        return this._curTarget;
     }
 
-    set canMoveView(v) {
-        this._canMoveView = v;
+    get hoveredHit() {
+        return this._hoveredHit;
     }
 
-    vibrate(): void {
-        // nothing to do in the base case.
+    set hoveredHit(v) {
+        if (v !== this.hoveredHit) {
+            const t = getRayTarget(v);
+            this._hoveredHit = v;
+            this._hoveredTarget = t;
+        }
     }
+
+    get rayTarget() {
+        return this._hoveredTarget;
+    }
+
+    abstract vibrate(): void
 
     get cursor() {
         return this._cursor;
@@ -109,6 +127,11 @@ export abstract class BasePointer
         }
     }
 
+    get needsUpdate() {
+        return this.enabled
+            && this.isActive;
+    }
+
     get enabled() {
         return this._enabled;
     }
@@ -120,112 +143,186 @@ export abstract class BasePointer
         }
     }
 
-    get buttons() {
-        return this._buttons;
+    protected setButton(button: VirtualButton, pressed: boolean) {
+        this.lastButtons = this.buttons;
+
+        const mask = 1 << button;
+        if (pressed) {
+            this.buttons |= mask;
+        }
+        else {
+            this.buttons &= ~mask;
+        }
+
+        if (pressed) {
+            this.canClick = true;
+            this.dragDistance = 0;
+            this.env.avatar.setMode(this);
+            this.setEventState("down");
+        }
+        else {
+            if (this.canClick) {
+                const curButtons = this.buttons;
+                this.buttons = this.lastButtons;
+                this.setEventState("click");
+                this.buttons = curButtons;
+            }
+
+            this.setEventState("up");
+        }
     }
 
-    get dragging() {
-        return this._dragging;
+    isPressed(button: VirtualButton): boolean {
+        const mask = 1 << button;
+        return (this.buttons & mask) !== 0;
     }
 
-    set dragging(v) {
-        this._dragging = v;
-        this.dragDistance = 0;
+    wasPressed(button: VirtualButton): boolean {
+        const mask = 1 << button;
+        return (this.lastButtons & mask) !== 0;
     }
 
-    get needsUpdate() {
-        return this.enabled
-            && this.isActive;
+    protected fireRay() {
+        arrayClear(this.hits);
+        this.env.eventSystem.fireRay(this.origin, this.direction, this.hits);
+
+        let minHit: THREE.Intersection = null;
+        let minDist = Number.MAX_VALUE;
+        for (const hit of this.hits) {
+            const rayTarget = getRayTarget(hit);
+            if (rayTarget
+                && hit.distance < minDist) {
+                minHit = hit;
+                minDist = hit.distance;
+            }
+        }
+
+        this.curHit = minHit;
     }
 
-    protected setEventState(type: SourcePointerEventTypes): void {
-        this.env.eventSystem.checkPointer(this, type);
+    private getEvent(type: PointerEventTypes): EventSystemEvent {
+        if (!this.pointerEvents.has(type)) {
+            this.pointerEvents.set(type, new EventSystemEvent(type, this));
+        }
+
+        const evt = this.pointerEvents.get(type);
+
+        if (this.hoveredHit) {
+            evt.set(this.hoveredHit, this.rayTarget);
+        }
+        else if (this.curHit) {
+            evt.set(this.curHit, this.curTarget);
+        }
+        else {
+            evt.set(null, null);
+        }
+
+        if (evt.hit) {
+            const lastHit = this.curHit || this.hoveredHit;
+            if (lastHit && evt.hit !== lastHit) {
+                evt.hit.uv = lastHit.uv;
+            }
+        }
+
+        return evt;
     }
 
     update(): void {
         if (this.needsUpdate) {
-            this.delta
-                .copy(this.origin)
-                .add(this.direction);
-            this.onUpdate();
+            this.updatePointerOrientation();
 
-            this.delta.sub(this.origin)
-                .sub(this.direction);
+            const isDragging = this.rayTarget
+                && this.rayTarget.draggable
+                && this.isPressed(VirtualButton.Primary);
 
-            const move = 1000 * this.delta.length();
-            this.moveDistance = move;
-
-            if (move > 0.00001) {
-                this.onPointerMove();
-            }
-
-            this.lastButtons = this.buttons;
-            this.wasDragging = this.dragging;
-        }
-    }
-
-    protected abstract onUpdate(): void;
-
-    updateCursor(avatarHeadPos: THREE.Vector3, curHit: THREE.Intersection, defaultDistance: number) {
-        if (this.cursor) {
-            this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.origin, this.direction, this.buttons, this.dragging);
-        }
-    }
-
-    protected onPointerDown(): void {
-        this.dragging = false;
-        this.canClick = true;
-        this.env.avatar.setMode(this);
-        this.setEventState("down");
-    }
-
-    protected onPointerMove() {
-        if (this.buttons !== MouseButtons.None) {
-            const target = getRayTarget(this.pressedHit);
-            const canDrag = !target || target.draggable;
-            if (canDrag) {
-                if (this.buttons === this.lastButtons) {
+            if (this.moveDistance > 0 || isDragging) {
+                if (this.isPressed(VirtualButton.Primary)) {
                     this.dragDistance += this.moveDistance;
                     if (this.dragDistance > MAX_DRAG_DISTANCE) {
-                        this.onDragStart();
+                        this.canClick = false;
                     }
                 }
-                else if (this.dragging) {
-                    this.dragging = false;
-                    this.setEventState("dragcancel");
+
+                this.setEventState("move");
+            }
+
+            this.moveDistance = 0;
+
+            this.onUpdate();
+        }
+    }
+
+    protected abstract updatePointerOrientation(): void;
+    protected abstract onUpdate(): void;
+
+    private setEventState(eventType: SourcePointerEventTypes): void {
+
+        this.fireRay();
+
+        if (this.curTarget === this.rayTarget) {
+            this.hoveredHit = this.curHit;
+        }
+        else {
+            const isPressed = this.isPressed(VirtualButton.Primary);
+            const wasPressed = this.wasPressed(VirtualButton.Primary);
+            const openMove = eventType === "move" && !isPressed;
+            const primaryDown = eventType === "down" && isPressed && !wasPressed;
+            const primaryUp = eventType === "up" && !isPressed && wasPressed;
+            if (openMove
+                || primaryDown
+                || primaryUp) {
+
+                if (this.rayTarget) {
+                    const upEvt = this.getEvent("up");
+                    this.rayTarget.dispatchEvent(upEvt);
+                    const exitEvt = this.getEvent("exit");
+                    this.rayTarget.dispatchEvent(exitEvt);
+                }
+
+                this.hoveredHit = this.curHit;
+
+                if (this.rayTarget) {
+                    const enterEvt = this.getEvent("enter");
+                    this.rayTarget.dispatchEvent(enterEvt);
                 }
             }
+
+            if (this.hoveredHit) {
+                this.hoveredHit.point
+                    .copy(this.direction)
+                    .multiplyScalar(this.hoveredHit.distance)
+                    .add(this.origin);
+            }
         }
-        this.setEventState("move");
+
+        const evt = this.getEvent(eventType);
+        this.dispatchEvent(evt);
+        if (evt.rayTarget) {
+            if (eventType === "click" && evt.rayTarget.clickable) {
+                this.vibrate();
+            }
+            evt.rayTarget.dispatchEvent(evt);
+        }
+
+        this.updateCursor(
+            this.env.avatar.worldPos,
+            evt.hit,
+            evt.rayTarget,
+            2);
     }
 
-    private onDragStart() {
-        this.dragging = true;
-
-        if (!this.wasDragging) {
-            this.setEventState("dragstart");
-        }
-
-        this.canClick = false;
-        this.setEventState("drag");
-    }
-
-    protected onPointerUp() {
-        if (this.canClick) {
-            const curButtons = this.buttons;
-            this._buttons = this.lastButtons;
-            this.setEventState("click");
-            this._buttons = curButtons;
-        }
-
-        this.setEventState("up");
-
-        this.dragging = false;
-        if (this.wasDragging) {
-            this.setEventState("dragend");
+    protected updateCursor(avatarHeadPos: THREE.Vector3, hit: THREE.Intersection, rayTarget: RayTarget, defaultDistance: number) {
+        if (this.cursor) {
+            this.cursor.update(
+                avatarHeadPos,
+                hit,
+                rayTarget,
+                defaultDistance,
+                this.canMoveView,
+                this.origin,
+                this.direction,
+                this.isPressed(VirtualButton.Primary));
         }
     }
-
-    abstract isPressed(button: VirtualButtons): boolean;
 }
 

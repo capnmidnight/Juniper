@@ -1,9 +1,8 @@
-import { PointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
+import type { PointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { TypedEvent } from "@juniper-lib/tslib";
-import { FlickEvent } from "./FlickEvent";
+import type { FlickEvent } from "./FlickEvent";
 import type { IPointer } from "./IPointer";
-import { ObjectMovedEvent } from "./ObjectMovedEvent";
-import { getRayTarget, RayTarget } from "./RayTarget";
+import type { RayTarget } from "./RayTarget";
 
 export class EventSystemEvent<T extends PointerEventTypes = PointerEventTypes> extends TypedEvent<T> {
     private _hit: THREE.Intersection = null;
@@ -18,23 +17,25 @@ export class EventSystemEvent<T extends PointerEventTypes = PointerEventTypes> e
         Object.seal(this);
     }
 
-    get hit(): THREE.Intersection {
-        return this._hit;
-    }
-
-    set hit(v: THREE.Intersection) {
+    set(v: THREE.Intersection, t: RayTarget) {
         if (v !== this.hit) {
             this._hit = v;
-            this._point = null;
-            this._distance = Number.POSITIVE_INFINITY;
-            this._rayTarget = null;
 
             if (v) {
                 this._point = v.point;
                 this._distance = v.distance;
-                this._rayTarget = getRayTarget(v);
+            }
+            else {
+                this._point = null;
+                this._distance = Number.POSITIVE_INFINITY;
             }
         }
+
+        this._rayTarget = t;
+    }
+
+    get hit(): THREE.Intersection {
+        return this._hit;
     }
 
     get rayTarget(): RayTarget {
@@ -57,10 +58,5 @@ export interface EventSystemEvents {
     up: EventSystemEvent<"up">;
     down: EventSystemEvent<"down">;
     click: EventSystemEvent<"click">;
-    dragstart: EventSystemEvent<"dragstart">;
-    drag: EventSystemEvent<"drag">;
-    dragcancel: EventSystemEvent<"dragcancel">;
-    dragend: EventSystemEvent<"dragend">;
-    objectMoved: ObjectMovedEvent;
     flick: FlickEvent;
 }

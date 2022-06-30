@@ -1,5 +1,4 @@
-import { TypedEvent } from "@juniper-lib/tslib";
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import { PointerID, TypedEvent } from "@juniper-lib/tslib";
 
 export class AvatarMovedEvent extends TypedEvent<"avatarmoved"> {
     px = 0;
@@ -14,7 +13,7 @@ export class AvatarMovedEvent extends TypedEvent<"avatarmoved"> {
     height = 0;
     changed = false;
 
-    public readonly name: PointerName = PointerName.LocalUser;
+    public readonly pointerID: PointerID = PointerID.LocalUser;
 
     constructor() {
         super("avatarmoved");

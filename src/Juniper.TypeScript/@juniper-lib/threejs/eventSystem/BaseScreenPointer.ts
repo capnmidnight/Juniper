@@ -1,13 +1,10 @@
-import { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import { PointerID, PointerType } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { resolveCamera } from "../resolveCamera";
 import type { BaseCursor } from "./BaseCursor";
 import { BasePointer } from "./BasePointer";
-import type { PointerType } from "./IPointer";
 
 export abstract class BaseScreenPointer extends BasePointer {
-    id: number = null;
     element: HTMLCanvasElement;
 
     protected readonly position = new THREE.Vector2();
@@ -16,42 +13,27 @@ export abstract class BaseScreenPointer extends BasePointer {
     private readonly duv = new THREE.Vector2();
     private readonly uvComp = new THREE.Vector2(1, -1);
     private readonly uvOff = new THREE.Vector2(-1, 1);
-    private lastUV: THREE.Vector2 = null;
 
     constructor(
         type: PointerType,
-        name: PointerName,
+        id: PointerID,
         env: BaseEnvironment,
         cursor: BaseCursor) {
-        super(type, name, env, cursor);
+        super(type, id, env, cursor);
 
-        const onPointerDown = (evt: PointerEvent) => {
+        this.canMoveView = true;
+
+        const onPointerEvent = (evt: PointerEvent) => {
             if (this.checkEvent(evt)) {
                 this.readEvent(evt);
-                this.onPointerDown();
             }
         };
 
         this.element = this.env.renderer.domElement;
-        this.element.addEventListener("pointerdown", onPointerDown);
-
-        const onPointerMove = (evt: PointerEvent) => {
-            if (this.checkEvent(evt)) {
-                this.readEvent(evt);
-            }
-        };
-
-        this.element.addEventListener("pointermove", onPointerMove);
-
-        const onPointerUp = (evt: PointerEvent) => {
-            if (this.checkEvent(evt)) {
-                this.readEvent(evt);
-                this.onPointerUp();
-            }
-        };
-
-        this.element.addEventListener("pointerup", onPointerUp);
-        this.element.addEventListener("pointercancel", onPointerUp);
+        this.element.addEventListener("pointerdown", onPointerEvent);
+        this.element.addEventListener("pointermove", onPointerEvent);
+        this.element.addEventListener("pointerup", onPointerEvent);
+        this.element.addEventListener("pointercancel", onPointerEvent);
     }
 
     private checkEvent(evt: PointerEvent): boolean {
@@ -59,67 +41,55 @@ export abstract class BaseScreenPointer extends BasePointer {
     }
 
     protected onCheckEvent(evt: PointerEvent): boolean {
-        return evt.pointerType === this.type
-            && evt.pointerId === this.id;
-    }
-
-    get isTracking() {
-        return this.id != null;
-    }
-
-    isPressed(button: VirtualButtons): boolean {
-        const mask = 1 << button;
-        return this.buttons === mask;
+        return evt.pointerType === this.type;
     }
 
     private readEvent(evt: PointerEvent): void {
         if (this.checkEvent(evt)) {
             this.onReadEvent(evt);
-
-            if (this.element.clientWidth > 0
-                && this.element.clientHeight > 0) {
-                this.uv
-                    .copy(this.position)
-                    .multiplyScalar(2);
-
-                this.uv.x /= this.element.clientWidth;
-                this.uv.y /= this.element.clientHeight;
-
-                this.uv
-                    .multiply(this.uvComp)
-                    .add(this.uvOff);
-            }
         }
     }
 
-    protected override onPointerMove() {
-        super.onPointerMove();
+    protected onReadEvent(_evt: PointerEvent): void {
+        if (this.element.clientWidth > 0
+            && this.element.clientHeight > 0) {
+            this.uv.copy(this.position);
+            this.uv.x /= this.element.clientWidth;
+            this.uv.y /= this.element.clientHeight;
 
-        if (this.lastUV) {
-            this.duv.copy(this.uv)
-                .sub(this.lastUV);
+            this.uv
+                .multiplyScalar(2)
+                .multiply(this.uvComp)
+                .add(this.uvOff);
 
-            this.lastUV.copy(this.uv);
+            this.duv.copy(this.motion);
+            this.duv.x /= this.element.clientWidth;
+            this.duv.y /= this.element.clientHeight;
+            this.duv
+                .multiplyScalar(2)
+                .multiply(this.uvComp);
+
+            this.moveDistance = this.duv.length();
         }
 
-        this.env.avatar.onMove(this, this.uv, this.duv);
-
-        if (!this.lastUV) {
-            this.lastUV = new THREE.Vector2()
-                .copy(this.uv);
-        }
+        this.updatePointerOrientation();
     }
 
-    protected abstract onReadEvent(evt: PointerEvent): void;
-
-    protected onUpdate(): void {
+    protected updatePointerOrientation() {
         const cam = resolveCamera(this.env.renderer, this.env.camera);
-
         this.origin.setFromMatrixPosition(cam.matrixWorld);
         this.direction
             .set(this.uv.x, this.uv.y, 0.5)
             .unproject(cam)
             .sub(this.origin)
             .normalize();
+    }
+
+    protected onUpdate(): void {
+        this.env.avatar.onMove(this, this.uv, this.duv);
+
+        this.motion.setScalar(0);
+        this.duv.setScalar(0);
+        this.moveDistance = 0;
     }
 }

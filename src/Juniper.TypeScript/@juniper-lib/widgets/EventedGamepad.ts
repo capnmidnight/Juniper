@@ -1,6 +1,6 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 
-class GamepadButtonEvent<T extends string> extends TypedEvent<T> {
+export class GamepadButtonEvent<T extends "gamepadbuttondown" | "gamepadbuttonup" = "gamepadbuttondown" | "gamepadbuttonup"> extends TypedEvent<T> {
     constructor(type: T, public button: number) {
         super(type);
     }

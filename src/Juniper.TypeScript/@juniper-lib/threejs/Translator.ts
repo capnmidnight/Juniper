@@ -1,6 +1,7 @@
 import { TypedEvent } from "@juniper-lib/tslib";
 import { Cube } from "./Cube";
 import { RayTarget } from "./eventSystem/RayTarget";
+import { VirtualButton } from "./eventSystem/VirtualButton";
 import { obj } from "./objects";
 import { Sphere } from "./Sphere";
 
@@ -54,17 +55,15 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
         this.enabled = true;
         this.draggable = true;
 
-        this.addEventListener("dragstart", (evt) => {
-            dragging = true;
-            start.copy(evt.point);
+        this.addEventListener("down", (evt) => {
+            if (evt.pointer.isPressed(VirtualButton.Primary)) {
+                dragging = true;
+                start.copy(evt.point);
+            }
         });
 
-        this.addEventListener("dragend", () => {
-            dragging = false;
-        });
-
-        this.addEventListener("drag", (evt) => {
-            if (dragging) {
+        this.addEventListener("move", (evt) => {
+            if (dragging && evt.point) {
 
                 deltaIn
                     .copy(evt.point)
@@ -80,6 +79,12 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
 
                     this.dispatchEvent(dragEvt);
                 }
+            }
+        });
+
+        this.addEventListener("up", (evt) => {
+            if (!evt.pointer.isPressed(VirtualButton.Primary)) {
+                dragging = false;
             }
         });
 

@@ -1,23 +1,25 @@
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import { PointerID, PointerType } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { BaseScreenPointer } from "./BaseScreenPointer";
 import { CursorXRMouse } from "./CursorXRMouse";
-import { PointerType } from "./IPointer";
 
 export abstract class BaseScreenPointerSinglePoint extends BaseScreenPointer {
-    constructor(type: PointerType, name: PointerName, env: BaseEnvironment) {
+
+    protected pointerID: number = null;
+
+    constructor(type: PointerType, id: PointerID, env: BaseEnvironment) {
 
         const onPrep = (evt: PointerEvent) => {
             if (evt.pointerType === type
-                && this.id == null) {
-                this.id = evt.pointerId;
+                && this.pointerID == null) {
+                this.pointerID = evt.pointerId;
             }
         };
 
         const unPrep = (evt: PointerEvent) => {
             if (evt.pointerType === type
-                && this.id != null) {
-                this.id = null;
+                && this.pointerID != null) {
+                this.pointerID = null;
             }
         };
 
@@ -25,7 +27,7 @@ export abstract class BaseScreenPointerSinglePoint extends BaseScreenPointer {
         element.addEventListener("pointerdown", onPrep);
         element.addEventListener("pointermove", onPrep);
 
-        super(type, name, env, new CursorXRMouse(env.renderer));
+        super(type, id, env, new CursorXRMouse(env.renderer));
 
         element.addEventListener("pointerup", unPrep);
         element.addEventListener("pointercancel", unPrep);
@@ -33,9 +35,21 @@ export abstract class BaseScreenPointerSinglePoint extends BaseScreenPointer {
         this.canMoveView = true;
     }
 
-    protected onReadEvent(evt: PointerEvent) {
-        this._buttons = evt.buttons;
+    protected override onCheckEvent(evt: PointerEvent) {
+        return super.onCheckEvent(evt)
+            && evt.pointerId === this.pointerID;
+    }
+
+    protected override onReadEvent(evt: PointerEvent) {
         this.position.set(evt.offsetX, evt.offsetY);
         this.motion.set(evt.movementX, evt.movementY);
+
+        super.onReadEvent(evt);
+
+        if (evt.type === "pointerdown"
+            || evt.type === "pointerup"
+            || evt.type === "pointercancel") {
+            this.setButton(evt.button, evt.type === "pointerdown");
+        }
     }
 }

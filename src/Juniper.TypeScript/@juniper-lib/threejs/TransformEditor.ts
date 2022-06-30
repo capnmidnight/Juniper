@@ -101,7 +101,7 @@ export class TransformEditor
             this.dispatchEvent(this.movingEvt);
         });
 
-        translator.addEventListener("dragend", () =>
+        translator.addEventListener("up", () =>
             this.dispatchEvent(this.movedEvt));
 
         return translator;

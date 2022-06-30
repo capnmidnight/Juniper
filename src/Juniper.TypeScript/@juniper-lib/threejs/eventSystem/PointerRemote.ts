@@ -1,5 +1,4 @@
-import type { VirtualButtons } from "@juniper-lib/threejs/eventSystem/VirtualButtons";
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import { PointerID } from "@juniper-lib/tslib";
 import { Cube } from "../Cube";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { green, litGrey, yellow } from "../materials";
@@ -21,9 +20,9 @@ export class PointerRemote
         env: BaseEnvironment,
         userName: string,
         isInstructor: boolean,
-        pointerName: PointerName,
+        id: PointerID,
         cursor: Cursor3D) {
-        super("remote", PointerName.RemoteUser, env, cursor || new CursorColor());
+        super("remote", PointerID.RemoteUser, env, cursor || new CursorColor());
         this.laser = new Laser(
             isInstructor ? green : yellow,
             0.002);
@@ -34,14 +33,14 @@ export class PointerRemote
 
         const elbow = new Cube(0.05, 0.05, 0.05, litGrey);
 
-        this.object = obj(`remote:${userName}:${PointerName[pointerName]}`, hand, elbow);
+        this.object = obj(`remote:${userName}:${this.name}`, hand, elbow);
 
-        if (pointerName === PointerName.Mouse) {
+        if (id === PointerID.Mouse) {
             hand.position.set(0, 0, -0.2);
         }
-        else if (pointerName === PointerName.MotionController
-            || pointerName === PointerName.MotionControllerLeft
-            || pointerName === PointerName.MotionControllerRight) {
+        else if (id === PointerID.MotionController
+            || id === PointerID.MotionControllerLeft
+            || id === PointerID.MotionControllerRight) {
             elbow.position.set(0, 0, 0.2);
         }
 
@@ -55,12 +54,17 @@ export class PointerRemote
         up: THREE.Vector3,
         offset: THREE.Vector3) {
 
-        this.origin.copy(this.env.avatar.worldPos);
+        this.origin
+            .copy(this.env.avatar.worldPos)
+            .add(position)
+            .sub(avatarHeadPos);
         this.direction.copy(forward);
-        this.cursor.visible = true;
-        this.env.eventSystem.fireRay(this);
+        this.up.copy(up);
 
-        this.updateCursor(avatarHeadPos, this.curHit, 3);
+        this.cursor.visible = true;
+        this.fireRay();
+
+        this.updateCursor(avatarHeadPos, this.curHit, this.curTarget, 3);
 
         position.add(offset);
 
@@ -90,8 +94,12 @@ export class PointerRemote
         this.object.quaternion.slerp(this.qTarget, dt * 0.01);
     }
 
-    isPressed(_button: VirtualButtons): boolean {
-        return false;
+    updatePointerOrientation() {
+        // do nothing
+    }
+
+    vibrate() {
+        // do nothing
     }
 }
 

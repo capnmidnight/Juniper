@@ -2,11 +2,7 @@ export type SourcePointerEventTypes =
     | "down"
     | "move"
     | "up"
-    | "click"
-    | "drag"
-    | "dragcancel"
-    | "dragend"
-    | "dragstart";
+    | "click";
 
 export type PointerEventTypes =
     | SourcePointerEventTypes

@@ -56,12 +56,13 @@ export class Tele extends Application {
                 evt.ux, evt.uy, evt.uz,
                 evt.height));
 
-        this.env.eventSystem.addEventListener("objectMoved", (evt) => {
+        this.env.eventSystem.addEventListener("move", (evt) => {
+            const { id, origin, direction, up } = evt.pointer;
             this.conference.setLocalPointer(
-                evt.name,
-                evt.px, evt.py, evt.pz,
-                evt.fx, evt.fy, evt.fz,
-                evt.ux, evt.uy, evt.uz);
+                id,
+                origin.x, origin.y, origin.z,
+                direction.x, direction.y, direction.z,
+                up.x, up.y, up.z);
         });
 
         this.env.addEventListener("newcursorloaded", () => {

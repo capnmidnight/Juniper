@@ -1,6 +1,7 @@
 export * from "./add";
 export * from "./EventBase";
 export * from "./once";
+export * from "./Pointers";
 export * from "./Predicate";
 export * from "./Promisifier";
 export * from "./RefreshEvent";

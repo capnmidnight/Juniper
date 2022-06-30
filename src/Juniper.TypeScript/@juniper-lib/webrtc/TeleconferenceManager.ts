@@ -1,8 +1,7 @@
 import type { AudioManager } from "@juniper-lib/audio/AudioManager";
 import type { DeviceManagerAudioInputChangedEvent } from "@juniper-lib/audio/DeviceManager";
 import { MediaStreamSource, removeVertex } from "@juniper-lib/audio/nodes";
-import { assertNever, IDisposable, singleton, TypedEventBase } from "@juniper-lib/tslib";
-import { PointerName } from "@juniper-lib/tslib/events/PointerName";
+import { assertNever, IDisposable, PointerID, singleton, TypedEventBase } from "@juniper-lib/tslib";
 import {
     HttpTransportType,
     HubConnection,
@@ -196,11 +195,11 @@ export class TeleconferenceManager
             });
 
         this.hub.on("userPointer",
-            (fromUserID: string, name: PointerName, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) => {
+            (fromUserID: string, pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) => {
                 const user = this.users.get(fromUserID);
                 if (user) {
                     user.recvPointer(
-                        name,
+                        pointerID,
                         px, py, pz,
                         fx, fy, fz,
                         ux, uy, uz);
@@ -553,12 +552,12 @@ export class TeleconferenceManager
         }
     }
 
-    async setLocalPointer(name: PointerName, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): Promise<void> {
+    async setLocalPointer(pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): Promise<void> {
         if (this.conferenceState === ConnectionState.Connected) {
             await Promise.all(
                 Array.from(this.users.values())
                     .map((user) =>
-                        user.sendPointer(name, px, py, pz, fx, fy, fz, ux, uy, uz)));
+                        user.sendPointer(pointerID, px, py, pz, fx, fy, fz, ux, uy, uz)));
         }
     }
 
