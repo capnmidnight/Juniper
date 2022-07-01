@@ -69,7 +69,7 @@ export abstract class BaseScreenPointer extends BasePointer {
                 .multiplyScalar(2)
                 .multiply(this.uvComp);
 
-            this.moveDistance = this.duv.length();
+            this.moveDistance = 200 * this.duv.length();
         }
 
         this.updatePointerOrientation();
