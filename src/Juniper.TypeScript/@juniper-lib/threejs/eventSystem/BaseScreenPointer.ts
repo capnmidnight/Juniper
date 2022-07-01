@@ -85,11 +85,12 @@ export abstract class BaseScreenPointer extends BasePointer {
             .normalize();
     }
 
-    protected onUpdate(): void {
+    protected override onUpdate(): void {
         this.env.avatar.onMove(this, this.uv, this.duv);
+
+        super.onUpdate();
 
         this.motion.setScalar(0);
         this.duv.setScalar(0);
-        this.moveDistance = 0;
     }
 }

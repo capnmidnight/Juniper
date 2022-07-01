@@ -94,8 +94,10 @@ export class PointerTouch
     }
 
     protected override onUpdate(): void {
-        super.onUpdate();
         this.env.avatar.zoom(this.dz);
+
+        super.onUpdate();
+
         this.dz = 0;
     }
 

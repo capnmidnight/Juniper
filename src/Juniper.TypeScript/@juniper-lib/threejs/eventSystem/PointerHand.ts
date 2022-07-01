@@ -231,7 +231,9 @@ export class PointerHand
         console.log(this.moveDistance);
     }
 
-    protected onUpdate() {
+    protected override onUpdate() {
         this.gamepad.pad = this.inputSource && this.inputSource.gamepad || null;
+
+        super.onUpdate();
     }
 }

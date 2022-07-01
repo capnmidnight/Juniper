@@ -98,7 +98,7 @@ export class PointerRemote
                 this.dumpS);
     }
 
-    protected onUpdate(): void {
+    protected override onUpdate(): void {
         // do nothing
     }
 

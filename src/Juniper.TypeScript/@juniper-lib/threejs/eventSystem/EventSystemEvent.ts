@@ -1,6 +1,5 @@
 import type { PointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { TypedEvent } from "@juniper-lib/tslib";
-import type { FlickEvent } from "./FlickEvent";
 import type { IPointer } from "./IPointer";
 import type { RayTarget } from "./RayTarget";
 
@@ -58,5 +57,4 @@ export interface EventSystemEvents {
     up: EventSystemEvent<"up">;
     down: EventSystemEvent<"down">;
     click: EventSystemEvent<"click">;
-    flick: FlickEvent;
 }

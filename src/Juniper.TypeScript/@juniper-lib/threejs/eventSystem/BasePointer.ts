@@ -55,7 +55,6 @@ export abstract class BasePointer
 
     abstract vibrate(): void;
     protected abstract updatePointerOrientation(): void;
-    protected abstract onUpdate(): void;
 
     private get curHit() {
         return this._curHit;
@@ -231,27 +230,28 @@ export abstract class BasePointer
 
     update(): void {
         if (this.needsUpdate) {
-            this.updatePointerOrientation();
-
-            const isDragging = this.rayTarget
-                && this.rayTarget.draggable
-                && this.isPressed(VirtualButton.Primary);
-
-            if (this.moveDistance > 0 || isDragging) {
-                if (this.isPressed(VirtualButton.Primary)) {
-                    this.dragDistance += this.moveDistance;
-                    if (this.dragDistance > MAX_DRAG_DISTANCE) {
-                        this.canClick = false;
-                    }
-                }
-
-                this.setEventState("move");
-            }
-
-            this.moveDistance = 0;
-
             this.onUpdate();
         }
+    }
+
+    protected onUpdate(): void {
+        this.updatePointerOrientation();
+
+        const primaryPressed = this.isPressed(VirtualButton.Primary);
+
+        if (this.moveDistance > 0 || primaryPressed) {
+            if (primaryPressed) {
+                this.dragDistance += this.moveDistance;
+                console.log(this.moveDistance, this.dragDistance)
+                if (this.dragDistance > MAX_DRAG_DISTANCE) {
+                    this.canClick = false;
+                }
+            }
+
+            this.setEventState("move");
+        }
+
+        this.moveDistance = 0;
     }
 
     private setEventState(eventType: SourcePointerEventTypes): void {

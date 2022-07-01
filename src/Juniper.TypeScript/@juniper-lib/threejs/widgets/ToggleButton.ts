@@ -1,5 +1,6 @@
 import { buttonSetEnabled } from "@juniper-lib/dom/buttonSetEnabled";
 import { ButtonPrimary, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
+import { EventSystemEvents } from "../eventSystem/EventSystemEvent";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
@@ -17,6 +18,7 @@ export class ToggleButton implements Widget, EventTarget {
         return this.object.name;
     }
 
+    addEventListener(type: keyof EventSystemEvents, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
     addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
         this.element.addEventListener(type, listener, options);
     }
@@ -25,6 +27,7 @@ export class ToggleButton implements Widget, EventTarget {
         return this.element.dispatchEvent(event);
     }
 
+    removeEventListener(type: keyof EventSystemEvents, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
     removeEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void {
         this.element.removeEventListener(type, callback, options);
     }
