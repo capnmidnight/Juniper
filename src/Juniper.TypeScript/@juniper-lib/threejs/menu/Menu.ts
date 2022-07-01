@@ -405,10 +405,11 @@ export class Menu extends THREE.Object3D {
         button.clickable = item.clickable !== false;
         button.enabled = enabled;
 
-        if (button.enabled && isFunction(onClick)) {
+        if (button.clickable
+            && isFunction(onClick)) {
             button.addEventListener("click", () => {
-                this.curBlowout = this.blowOut(true);
-                onClick(item);
+                    this.curBlowout = this.blowOut(true);
+                    onClick(item);
             });
         }
 

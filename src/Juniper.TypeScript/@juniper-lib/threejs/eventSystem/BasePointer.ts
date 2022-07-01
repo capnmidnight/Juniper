@@ -297,10 +297,12 @@ export abstract class BasePointer
         const evt = this.getEvent(eventType);
         this.dispatchEvent(evt);
         if (evt.rayTarget) {
-            if (eventType === "click" && evt.rayTarget.clickable) {
+            if (eventType === "click") {
                 this.vibrate();
             }
-            evt.rayTarget.dispatchEvent(evt);
+            if (evt.rayTarget.enabled) {
+                evt.rayTarget.dispatchEvent(evt);
+            }
         }
 
         this.updateCursor(this.env.avatar.worldPos, 2);
