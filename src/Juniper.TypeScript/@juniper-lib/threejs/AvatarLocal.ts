@@ -451,9 +451,7 @@ export class AvatarLocal
             this.U.x, this.U.y, this.U.z,
             this.height);
 
-        if (this.userMovedEvt.changed) {
-            this.dispatchEvent(this.userMovedEvt);
-        }
+        this.dispatchEvent(this.userMovedEvt);
 
         const decay = Math.pow(0.95, 100 * dt);
         this.duv.multiplyScalar(decay);
