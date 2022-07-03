@@ -88,6 +88,8 @@ export class BodyFollower extends THREE.Object3D {
 
         this.getWorldPosition(curPos);
         this.getWorldDirection(curDir);
+        curDir.negate();
+
         curAngle = getLookHeading(curDir);
         dQuat.identity();
 

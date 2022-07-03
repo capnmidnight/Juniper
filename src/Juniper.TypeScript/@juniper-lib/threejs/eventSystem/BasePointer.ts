@@ -242,7 +242,6 @@ export abstract class BasePointer
         if (this.moveDistance > 0 || primaryPressed) {
             if (primaryPressed) {
                 this.dragDistance += this.moveDistance;
-                console.log(this.moveDistance, this.dragDistance)
                 if (this.dragDistance > MAX_DRAG_DISTANCE) {
                     this.canClick = false;
                 }

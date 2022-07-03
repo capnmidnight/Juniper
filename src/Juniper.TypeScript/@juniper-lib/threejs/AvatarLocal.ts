@@ -113,6 +113,7 @@ export class AvatarLocal
     readonly head: THREE.Object3D;
 
     readonly worldPos = new THREE.Vector3();
+    readonly worldQuat = new THREE.Quaternion()
 
     evtSys: EventSystem = null;
 
@@ -417,7 +418,8 @@ export class AvatarLocal
             this.move.set(dx, dy, dz);
             const d = this.move.length();
             if (d > 0) {
-                this.move.multiplyScalar(dt / d)
+                this.move
+                    .multiplyScalar(dt / d)
                     .applyQuaternion(this.Q1);
                 this.stage.position.add(this.move);
             }
@@ -429,11 +431,12 @@ export class AvatarLocal
             this.move2.set(dx, 0, dz);
             const d = this.move2.length();
             if (d > 0) {
-                this.move2.multiplyScalar(dt / d)
+                this.move2
+                    .multiplyScalar(dt / d)
                     .applyQuaternion(this.Q1);
 
                 this.headX += this.move2.x;
-                this.headZ += this.move2.y;
+                this.headZ += this.move2.z;
             }
         }
 
@@ -506,7 +509,12 @@ export class AvatarLocal
         this.camera.quaternion.copy(this.head.quaternion);
 
         this.head.getWorldPosition(this.worldPos);
-        this.head.getWorldDirection(this.F);
+        this.head.getWorldQuaternion(this.worldQuat);
+
+        this.F
+            .set(0, 0, -1)
+            .applyQuaternion(this.worldQuat);
+
         this._worldHeading = getLookHeading(this.F);
         this._worldPitch = getLookPitch(this.F);
         setRightUpFwdPosFromMatrix(this.head.matrixWorld, this.R, this.U, this.F, this.P);

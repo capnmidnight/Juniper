@@ -219,6 +219,8 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             this.head.quaternion.copy(this.qEnd);
             this.head.getWorldPosition(P);
             this.head.getWorldDirection(F);
+            F.negate();
+
             const angle = getLookHeading(F);
             this.headFollower.update(P.y - this.parent.position.y, P, angle, dt);
             const scale = this.height / this.defaultAvatarHeight;
