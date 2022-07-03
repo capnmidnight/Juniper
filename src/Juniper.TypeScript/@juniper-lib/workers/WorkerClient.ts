@@ -78,9 +78,11 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
 
     private progressReport(data: WorkerServerProgressMessage) {
         const invocation = this.invocations.get(data.taskID);
-        const { prog } = invocation;
-        if (prog) {
-            prog.report(data.soFar, data.total, data.msg, data.est);
+        if (invocation) {
+            const { prog } = invocation;
+            if (prog) {
+                prog.report(data.soFar, data.total, data.msg, data.est);
+            }
         }
     }
 
