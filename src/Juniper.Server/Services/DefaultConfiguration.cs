@@ -59,10 +59,10 @@ namespace Juniper.Services
 
                     console.AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug);
 
-                    if (config.UseSignalR)
-                    {
-                        console.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Debug);
-                    }
+                    //if (config.UseSignalR)
+                    //{
+                    //    console.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Debug);
+                    //}
                 });
             }
 
