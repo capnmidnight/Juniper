@@ -96,16 +96,17 @@ export class Tele extends Application {
         this.conference.addEventListener("roomLeft", onLocalUserIDChange);
 
         this.conference.addEventListener("userJoined", (evt: UserJoinedEvent) => {
+            const avatar = this.avatarModel
+                ? this.avatarModel.clone()
+                : new DebugObject(0xffff00);
             const user = new AvatarRemote(
                 this.env,
                 evt.user,
                 evt.source,
-                this.avatarNameTagFont,
-                this.defaultAvatarHeight);
-            const avatar = this.avatarModel
-                ? this.avatarModel.clone()
-                : new DebugObject(0xffff00);
-            user.setAvatar(avatar);
+                avatar,
+                this.defaultAvatarHeight,
+                this.avatarNameTagFont);
+
             user.userName = evt.user.userName;
             this.users.set(evt.user.userID, user);
             objGraph(this.remoteUsers, user);
@@ -144,12 +145,6 @@ export class Tele extends Application {
     async loadAvatar(path: string, prog?: IProgress) {
         this.avatarModel = await this.env.loadModel(path, prog);
         this.avatarModel = this.avatarModel.children[0];
-        for (const id of this.users.keys()) {
-            const user = this.users.get(id);
-            const oldAvatar = user.avatar;
-            user.setAvatar(this.avatarModel.clone());
-            cleanup(oldAvatar);
-        }
     }
 
     async setConferenceInfo(userType: string, userName: string, meetingID: string): Promise<void> {

@@ -4,7 +4,7 @@ import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource"
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import type { IDisposable } from "@juniper-lib/tslib";
+import { IDisposable, isNullOrUndefined } from "@juniper-lib/tslib";
 import { PointerID } from "@juniper-lib/tslib";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { ConferenceEventTypes, UserPointerEvent, UserPosedEvent, UserPoseEvent } from "@juniper-lib/webrtc/ConferenceEvents";
@@ -16,15 +16,6 @@ import { PointerRemote } from "./eventSystem/PointerRemote";
 import { objectRemove, objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
 import { TextMesh } from "./widgets/TextMesh";
-
-const P = new THREE.Vector3();
-const F = new THREE.Vector3();
-const U = new THREE.Vector3();
-const O = new THREE.Vector3();
-
-const E = new THREE.Vector3();
-
-const M = new THREE.Matrix4();
 
 const angle = Math.PI / 2;
 
@@ -51,15 +42,23 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     private isInstructor = false;
     private readonly pointers = new Map<PointerID, PointerRemote>();
 
-    private head: THREE.Object3D = null;
-    private body: THREE.Object3D = null;
     private height: number;
+    private readonly head: THREE.Object3D = null;
+    private readonly body: THREE.Object3D = null;
     private readonly nameTag: TextMesh;
     private readonly activity: ActivityDetector;
     private readonly pTarget = new THREE.Vector3();
     private readonly pEnd = new THREE.Vector3();
     private readonly qTarget = new THREE.Quaternion().identity();
     private readonly qEnd = new THREE.Quaternion().identity();
+    private readonly worldPos = new THREE.Vector3();
+    private readonly P = new THREE.Vector3();
+    private readonly F = new THREE.Vector3();
+    private readonly U = new THREE.Vector3();
+    private readonly comfortOffset = new THREE.Vector3();
+    private readonly E = new THREE.Vector3();
+    private readonly M = new THREE.Matrix4();
+
     private headFollower: BodyFollower = null;
     private _headSize = 1;
     private _headPulse = 1;
@@ -68,11 +67,37 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         private readonly env: Environment,
         user: RemoteUser,
         source: AudioStreamSource,
-        font: Partial<TextImageOptions>,
-        private defaultAvatarHeight: number) {
+        avatar: THREE.Object3D,
+        private defaultAvatarHeight: number,
+        font: Partial<TextImageOptions>) {
         super();
 
         this.height = this.defaultAvatarHeight;
+        if (isNullOrUndefined(avatar)) {
+            throw new Error("Avatar is required");
+        }
+
+        this.avatar = avatar;
+
+        const q = [this.avatar];
+        while (q.length > 0) {
+            const child = q.shift();
+            if (child.name === "Head") {
+                this.head = child;
+            }
+            else if (child.name === "Body") {
+                this.body = child;
+            }
+
+            if (this.head && this.body) {
+                break;
+            }
+            q.push(...child.children);
+        }
+
+        if (!this.head || !this.body) {
+            throw new Error("Avatar doesn't have a Head or Body element");
+        }
 
         this.name = user.userName;
         this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
@@ -96,7 +121,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
 
         user.addEventListener("userPointer", (evt: UserPointerEvent) => {
             this.onRemoteUserPosed(evt);
-            this.setPointer(this.env.avatar.worldPos, evt.pointerID, evt.pose);
+            this.setPointer(evt.pointerID, evt.pose);
         });
 
         this.activity = new ActivityDetector(`remote-user-activity-${user.userName}-${user.userID}`, this.env.audio.audioCtx);
@@ -104,6 +129,14 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         source.addEventListener("sourceadded", (evt) => {
             connect(evt.source, this.activity);
         });
+
+        this.headFollower = new BodyFollower("AvatarBody", 0.05, angle, 0, 5);
+
+        objGraph(this.body.parent,
+            objGraph(this.headFollower,
+                objGraph(this.body, this.nameTag)));
+
+        objGraph(this, this.avatar);
     }
 
     private onRemoteUserPosed<T extends ConferenceEventTypes>(evt: UserPoseEvent<T>): void {
@@ -173,35 +206,6 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         }
     }
 
-    setAvatar(obj: THREE.Object3D): void {
-        if (this.avatar) {
-            this.remove(this.avatar);
-            this.head = null;
-            this.body = null;
-        }
-
-        if (obj) {
-            this.avatar = obj;
-            this.avatar.traverse((child) => {
-                if (child.name === "Head") {
-                    this.head = child;
-                }
-                else if (child.name === "Body") {
-                    this.body = child;
-                }
-            });
-
-            if (this.head && this.body) {
-                this.headFollower = new BodyFollower("AvatarBody", 0.05, angle, 0, 5);
-                objGraph(this.body.parent,
-                    objGraph(this.headFollower,
-                        objGraph(this.body, this.nameTag)));
-            }
-
-            objGraph(this, this.avatar);
-        }
-    }
-
     refreshCursors() {
         for (const pointer of this.pointers.values()) {
             if (pointer.cursor) {
@@ -214,31 +218,25 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.headPulse = 0.2 * this.activity.level + 1;
         this.pEnd.lerp(this.pTarget, dt * 0.01);
         this.qEnd.slerp(this.qTarget, dt * 0.01);
-        if (this.head && this.body) {
             this.head.position.copy(this.pEnd);
             this.head.quaternion.copy(this.qEnd);
-            this.head.getWorldPosition(P);
-            this.head.getWorldDirection(F);
-            F.negate();
-
-            const angle = getLookHeading(F);
-            this.headFollower.update(P.y - this.parent.position.y, P, angle, dt);
+            this.head.getWorldPosition(this.worldPos);
+            this.head.getWorldDirection(this.F);
+            this.F.negate();
+            
+            const angle = getLookHeading(this.F);
+            this.headFollower.update(this.worldPos.y - this.parent.position.y, this.worldPos, angle, dt);
             const scale = this.height / this.defaultAvatarHeight;
             this.headSize = scale;
             this.body.scale.setScalar(scale);
 
-            F.copy(this.env.avatar.worldPos);
-            this.body.worldToLocal(F);
-            F.sub(this.body.position)
+            this.F.copy(this.env.avatar.worldPos);
+            this.body.worldToLocal(this.F);
+            this.F.sub(this.body.position)
                 .normalize()
                 .multiplyScalar(0.25);
             this.nameTag.position.set(0, -0.25, 0)
-                .add(F);
-        }
-        else {
-            this.position.copy(this.pEnd);
-            this.quaternion.copy(this.qEnd);
-        }
+                .add(this.F);
 
         for (const pointer of this.pointers.values()) {
             pointer.animate(dt);
@@ -248,17 +246,17 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     }
 
     private setPose(pose: Pose, height: number): void {
-        O.fromArray(pose.o);
-        P.fromArray(pose.p)
-            .add(O);
-        F.fromArray(pose.f);
-        U.fromArray(pose.u);
-        setMatrixFromUpFwdPos(U, F, P, M);
-        M.decompose(this.pTarget, this.qTarget, this.scale);
+        this.comfortOffset.fromArray(pose.o);
+        this.P.fromArray(pose.p)
+            .add(this.comfortOffset);
+        this.F.fromArray(pose.f);
+        this.U.fromArray(pose.u);
+        setMatrixFromUpFwdPos(this.U, this.F, this.P, this.M);
+        this.M.decompose(this.pTarget, this.qTarget, this.scale);
         this.height = height;
     }
 
-    private setPointer(avatarHeadPos: THREE.Vector3, id: PointerID, pose: Pose): void {
+    private setPointer(id: PointerID, pose: Pose): void {
         let pointer = this.pointers.get(id);
 
         if (!pointer) {
@@ -285,26 +283,26 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             }
         }
 
-        P.fromArray(pose.p);
-        F.fromArray(pose.f);
-        U.fromArray(pose.u);
-        O.fromArray(pose.o);
+        this.P.fromArray(pose.p);
+        this.F.fromArray(pose.f);
+        this.U.fromArray(pose.u);
+        this.comfortOffset.fromArray(pose.o);
 
         if (id === PointerID.Mouse && this.body) {
-            E.set(0.2, -0.6, 0)
+            this.E.set(0.2, -0.6, 0)
                 .applyQuaternion(this.body.quaternion);
         }
         else if (PointerID[id].startsWith("Touch") && this.body) {
-            E.set(0, -0.5, 0)
+            this.E.set(0, -0.5, 0)
                 .applyQuaternion(this.body.quaternion);
         }
         else {
-            E.setScalar(0);
+            this.E.setScalar(0);
         }
 
-        O.add(E);
+        this.comfortOffset.add(this.E);
 
-        pointer.setState(avatarHeadPos, P, F, U, O);
+        pointer.setState(this.worldPos, this.P, this.F, this.U, this.comfortOffset);
     }
 
     private removeArmsExcept(...names: PointerID[]): void {
