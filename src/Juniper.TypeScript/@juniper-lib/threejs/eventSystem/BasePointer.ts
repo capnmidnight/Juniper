@@ -17,7 +17,7 @@ export abstract class BasePointer
 
     readonly origin = new THREE.Vector3();
     readonly direction = new THREE.Vector3();
-    readonly up = new THREE.Vector3();
+    readonly up = new THREE.Vector3(0, 1, 0);
 
     canMoveView = false;
 
@@ -183,9 +183,10 @@ export abstract class BasePointer
         return (this.lastButtons & mask) !== 0;
     }
 
-    protected fireRay() {
+    protected fireRay(origin: THREE.Vector3, direction: THREE.Vector3) {
         arrayClear(this.hits);
-        this.env.eventSystem.fireRay(this.origin, this.direction, this.hits);
+
+        this.env.eventSystem.fireRay(origin, direction, this.hits);
 
         let minHit: THREE.Intersection = null;
         let minDist = Number.MAX_VALUE;
@@ -255,7 +256,7 @@ export abstract class BasePointer
 
     private setEventState(eventType: SourcePointerEventTypes): void {
 
-        this.fireRay();
+        this.fireRay(this.origin, this.direction);
 
         if (this.curTarget === this.rayTarget) {
             this.hoveredHit = this.curHit;
@@ -304,13 +305,13 @@ export abstract class BasePointer
             }
         }
 
-        this.updateCursor(this.env.avatar.worldPos, 2);
+        this.updateCursor(2);
     }
 
-    protected updateCursor(avatarHeadPos: THREE.Vector3, defaultDistance: number) {
+    protected updateCursor(defaultDistance: number) {
         if (this.cursor) {
             this.cursor.update(
-                avatarHeadPos,
+                this.env.avatar.worldPos,
                 this.hoveredHit || this.curHit,
                 this.rayTarget || this.curTarget,
                 defaultDistance,

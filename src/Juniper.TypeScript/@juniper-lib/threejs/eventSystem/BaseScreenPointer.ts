@@ -83,6 +83,10 @@ export abstract class BaseScreenPointer extends BasePointer {
             .unproject(cam)
             .sub(this.origin)
             .normalize();
+
+        this.up
+            .set(0, 1, 0)
+            .applyQuaternion(this.env.avatar.worldQuat)
     }
 
     protected override onUpdate(): void {

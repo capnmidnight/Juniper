@@ -54,33 +54,25 @@ export class PointerRemote
     }
 
     setState(
-        avatarHeadPos: THREE.Vector3,
+        _avatarHeadPos: THREE.Vector3,
         pointerPosition: THREE.Vector3,
         pointerForward: THREE.Vector3,
         pointerUp: THREE.Vector3,
         comfortOffset: THREE.Vector3) {
 
-        this.origin
-            .copy(this.env.avatar.worldPos)
-            .add(pointerPosition)
-            .sub(avatarHeadPos);
-
+        this.origin.copy(pointerPosition);
         this.direction.copy(pointerForward);
         this.up.copy(pointerUp);
+
+        if (!this.fireRay(this.origin, this.direction)) {
+            this.origin.copy(this.env.avatar.worldPos);
+            this.fireRay(this.origin, this.direction);
+        }
+
         this.cursor.visible = true;
-
-        const curHit = this.fireRay();
-
-        this.updateCursor(avatarHeadPos, 3);
+        this.updateCursor(3);
 
         pointerPosition.add(comfortOffset);
-
-        if (curHit) {
-            pointerForward
-                .copy(curHit.point)
-                .sub(pointerPosition)
-                .normalize();
-        }
 
         setMatrixFromUpFwdPos(
             pointerUp,
