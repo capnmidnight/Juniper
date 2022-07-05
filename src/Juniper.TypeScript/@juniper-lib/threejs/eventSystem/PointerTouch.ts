@@ -14,7 +14,7 @@ export class PointerTouch
     private readonly points = new Array<PointerEvent>();
 
     constructor(env: BaseEnvironment) {
-        super("touch", PointerID.Touches, env, null);
+        super("touch", PointerID.Touch, env, null);
 
         Object.seal(this);
     }

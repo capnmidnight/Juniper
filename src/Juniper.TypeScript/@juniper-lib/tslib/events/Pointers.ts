@@ -10,7 +10,6 @@ export enum PointerID {
     Mouse,
     Pen,
     Touch,
-    Touches,
     MotionController,
     MotionControllerLeft,
     MotionControllerRight,
