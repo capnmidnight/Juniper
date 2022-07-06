@@ -1,5 +1,6 @@
 import { isNullOrUndefined, singleton } from "@juniper-lib/tslib";
 import { LineMaterial, LineMaterialParameters } from "./examples/lines/LineMaterial";
+import { isMaterial, isMesh } from "./typeChecks";
 
 const materials = singleton("Juniper:Three:Materials", () => new Map<string, THREE.Material>());
 
@@ -69,7 +70,26 @@ export function spriteTransparent(options: THREE.SpriteMaterialParameters): THRE
     return makeMaterial("spriteTransparent", THREE.SpriteMaterial, trans(options));
 }
 
-export function materialStandardToBasic(oldMat: THREE.MeshStandardMaterial, transparent?: boolean): THREE.MeshBasicMaterial {
+export type MaterialConverter<OldMatT extends THREE.Material, NewMatT extends THREE.Material> = (oldMat: OldMatT) => NewMatT;
+export function convertMaterials<OldMatT extends THREE.Material, NewMatT extends THREE.Material>(root: THREE.Object3D, convertMaterial: MaterialConverter<OldMatT, NewMatT>): void {
+    const oldMats = new Set<THREE.Material>();
+    root.traverse(obj => {
+        if (isMesh(obj) && isMaterial(obj.material)) {
+            const oldMat = obj.material;
+            const newMat = convertMaterial(oldMat as any);
+            if (oldMat !== newMat) {
+                oldMats.add(oldMat);
+                obj.material = newMat;
+            }
+        }
+    });
+
+    for (const oldMat of oldMats) {
+        oldMat.dispose();
+    }
+}
+
+export function materialStandardToBasic(oldMat: THREE.MeshStandardMaterial): THREE.MeshBasicMaterial {
 
     const params: THREE.MeshBasicMaterialParameters = {
         alphaMap: oldMat.alphaMap,
@@ -97,8 +117,8 @@ export function materialStandardToBasic(oldMat: THREE.MeshStandardMaterial, tran
         fog: oldMat.fog,
         lightMap: oldMat.lightMap,
         lightMapIntensity: oldMat.lightMapIntensity,
-        map: oldMat.map,
-        name: oldMat.name + "-Basic",
+        map: oldMat.emissiveMap || oldMat.map,
+        name: oldMat.name + "-Standard-To-Basic",
         opacity: oldMat.opacity,
         polygonOffset: oldMat.polygonOffset,
         polygonOffsetFactor: oldMat.polygonOffsetFactor,
@@ -116,7 +136,7 @@ export function materialStandardToBasic(oldMat: THREE.MeshStandardMaterial, tran
         stencilZFail: oldMat.stencilZFail,
         stencilZPass: oldMat.stencilZPass,
         toneMapped: oldMat.toneMapped,
-        transparent: isNullOrUndefined(transparent) ? oldMat.transparent : transparent,
+        transparent: oldMat.transparent,
         userData: oldMat.userData,
         vertexColors: oldMat.vertexColors,
         visible: oldMat.visible,
@@ -133,7 +153,7 @@ export function materialStandardToBasic(oldMat: THREE.MeshStandardMaterial, tran
     return new THREE.MeshBasicMaterial(params);
 }
 
-export function materialStandardToPhong(oldMat: THREE.MeshStandardMaterial, transparent?: boolean): THREE.MeshPhongMaterial {
+export function materialStandardToPhong(oldMat: THREE.MeshStandardMaterial): THREE.MeshPhongMaterial {
 
     const params: THREE.MeshPhongMaterialParameters = {
         alphaMap: oldMat.alphaMap,
@@ -171,7 +191,7 @@ export function materialStandardToPhong(oldMat: THREE.MeshStandardMaterial, tran
         lightMap: oldMat.lightMap,
         lightMapIntensity: oldMat.lightMapIntensity,
         map: oldMat.map,
-        name: oldMat.name + "-Basic",
+        name: oldMat.name + "-Standard-To-Phong",
         normalMap: oldMat.normalMap,
         normalMapType: oldMat.normalMapType,
         normalScale: oldMat.normalScale,
@@ -192,7 +212,7 @@ export function materialStandardToPhong(oldMat: THREE.MeshStandardMaterial, tran
         stencilZFail: oldMat.stencilZFail,
         stencilZPass: oldMat.stencilZPass,
         toneMapped: oldMat.toneMapped,
-        transparent: isNullOrUndefined(transparent) ? oldMat.transparent : transparent,
+        transparent: oldMat.transparent,
         userData: oldMat.userData,
         vertexColors: oldMat.vertexColors,
         visible: oldMat.visible,
@@ -210,7 +230,7 @@ export function materialStandardToPhong(oldMat: THREE.MeshStandardMaterial, tran
 }
 
 
-export function materialPhongToBasic(oldMat: THREE.MeshPhongMaterial, transparent?: boolean): THREE.MeshBasicMaterial {
+export function materialPhongToBasic(oldMat: THREE.MeshPhongMaterial): THREE.MeshBasicMaterial {
 
     const params: THREE.MeshBasicMaterialParameters = {
         alphaMap: oldMat.alphaMap,
@@ -238,8 +258,8 @@ export function materialPhongToBasic(oldMat: THREE.MeshPhongMaterial, transparen
         fog: oldMat.fog,
         lightMap: oldMat.lightMap,
         lightMapIntensity: oldMat.lightMapIntensity,
-        map: oldMat.map,
-        name: oldMat.name + "-Basic",
+        map: oldMat.emissiveMap || oldMat.map,
+        name: oldMat.name + "-Phong-To-Basic",
         opacity: oldMat.opacity,
         polygonOffset: oldMat.polygonOffset,
         polygonOffsetFactor: oldMat.polygonOffsetFactor,
@@ -260,7 +280,7 @@ export function materialPhongToBasic(oldMat: THREE.MeshPhongMaterial, transparen
         stencilZFail: oldMat.stencilZFail,
         stencilZPass: oldMat.stencilZPass,
         toneMapped: oldMat.toneMapped,
-        transparent: isNullOrUndefined(transparent) ? oldMat.transparent : transparent,
+        transparent: oldMat.transparent,
         userData: oldMat.userData,
         vertexColors: oldMat.vertexColors,
         visible: oldMat.visible,
@@ -288,6 +308,16 @@ export const magenta = /*@__PURE__*/ 0xff00ff;
 export const yellow = /*@__PURE__*/ 0xffff00;
 export const grey = /*@__PURE__*/ 0xc0c0c0;
 export const white = /*@__PURE__*/ 0xffffff;
+
+export const colorBlack = /*@__PURE__*/ new THREE.Color(black);
+export const colorBlue = /*@__PURE__*/ new THREE.Color(blue);
+export const colorGreen = /*@__PURE__*/ new THREE.Color(green);
+export const colorCyan = /*@__PURE__*/ new THREE.Color(cyan);
+export const colorRed = /*@__PURE__*/ new THREE.Color(red);
+export const colorMagenta = /*@__PURE__*/ new THREE.Color(magenta);
+export const colorYellow = /*@__PURE__*/ new THREE.Color(yellow);
+export const colorGrey = /*@__PURE__*/ new THREE.Color(grey);
+export const colorWhite = /*@__PURE__*/ new THREE.Color(white);
 
 export const solidBlack = /*@__PURE__*/ solid({ color: black });
 export const solidBlue = /*@__PURE__*/ solid({ color: blue });

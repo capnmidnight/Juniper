@@ -7,6 +7,7 @@ import { cleanup } from "./cleanup";
 import { DebugObject } from "./DebugObject";
 import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
+import { convertMaterials, materialStandardToPhong } from "./materials";
 import { objGraph } from "./objects";
 
 export class Tele extends Application {
@@ -143,7 +144,8 @@ export class Tele extends Application {
     }
 
     async loadAvatar(path: string, prog?: IProgress) {
-        this.avatarModel = await this.env.loadModel(path, true, prog);
+        this.avatarModel = await this.env.loadModel(path, prog);
+        convertMaterials(this.avatarModel, materialStandardToPhong);
         this.avatarModel = this.avatarModel.children[0];
     }
 

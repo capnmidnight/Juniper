@@ -55,10 +55,11 @@ export class PointerRemote
 
     setState(
         _avatarHeadPos: THREE.Vector3,
+        avatarComfortOffset: THREE.Vector3,
         pointerPosition: THREE.Vector3,
         pointerForward: THREE.Vector3,
         pointerUp: THREE.Vector3,
-        comfortOffset: THREE.Vector3) {
+        pointerComfortOffset: THREE.Vector3) {
 
         this.origin.copy(pointerPosition);
         this.direction.copy(pointerForward);
@@ -72,7 +73,7 @@ export class PointerRemote
         this.cursor.visible = true;
         this.updateCursor(3);
 
-        pointerPosition.add(comfortOffset);
+        pointerPosition.add(pointerComfortOffset);
 
         setMatrixFromUpFwdPos(
             pointerUp,

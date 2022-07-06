@@ -54,9 +54,15 @@ export abstract class BaseCursor implements ErsatzObject {
                 .add(this.position);
         }
         else {
-            this.position.copy(direction)
+            this.position
+                .copy(direction)
+                .multiplyScalar(2)
+                .add(origin)
+                .sub(avatarHeadPos)
+                .normalize()
                 .multiplyScalar(defaultDistance)
-                .add(origin);
+                .add(avatarHeadPos);
+
             V.copy(avatarHeadPos);
         }
 

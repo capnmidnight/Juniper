@@ -33,7 +33,12 @@ export function isMeshPhysicalMaterial(obj: any): obj is THREE.MeshPhysicalMater
 
 export function isTexture(obj: any): obj is THREE.Texture {
     return isDefined(obj)
-        && obj.isTexture;
+        && (obj as THREE.Texture).isTexture;
+}
+
+export function isColor(obj: any): obj is THREE.Color {
+    return isDefined(obj)
+        && (obj as THREE.Color).isColor;
 }
 
 export function isCubeTexture(obj: any): obj is THREE.CubeTexture {
@@ -43,15 +48,15 @@ export function isCubeTexture(obj: any): obj is THREE.CubeTexture {
 
 export function isObject3D(obj: any): obj is THREE.Object3D {
     return isDefined(obj)
-        && obj.isObject3D;
+        && (obj as THREE.Object3D).isObject3D;
 }
 
 export function isQuaternion(obj: any): obj is THREE.Quaternion {
     return isDefined(obj)
-        && obj.isQuaternion;
+        && (obj as THREE.Quaternion).isQuaternion;
 }
 
 export function isEuler(obj: any): obj is THREE.Euler {
     return isDefined(obj)
-        && obj.isEuler;
+        && (obj as THREE.Euler).isEuler;
 }
