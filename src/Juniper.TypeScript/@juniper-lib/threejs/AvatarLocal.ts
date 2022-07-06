@@ -409,9 +409,9 @@ export class AvatarLocal
         this.Q1.setFromAxisAngle(this.stage.up, this.worldHeading);
 
         if (this.fwrd || this.back || this.left || this.rght || this.up || this.down) {
-            const dx = (this.left ? -1 : 0) + (this.rght ? 1 : 0);
-            const dy = (this.down ? -1 : 0) + (this.up ? 1 : 0);
-            const dz = (this.fwrd ? -1 : 0) + (this.back ? 1 : 0);
+            const dx = (this.left ? 1 : 0) + (this.rght ? -1 : 0);
+            const dy = (this.down ? 1 : 0) + (this.up ? -1 : 0);
+            const dz = (this.fwrd ? 1 : 0) + (this.back ? -1 : 0);
             this.move.set(dx, dy, dz);
             const d = this.move.length();
             if (d > 0) {
@@ -423,8 +423,8 @@ export class AvatarLocal
         }
 
         if (this.fwrd2 || this.back2 || this.left2 || this.rght2) {
-            const dx = (this.left2 ? -1 : 0) + (this.rght2 ? 1 : 0);
-            const dz = (this.fwrd2 ? -1 : 0) + (this.back2 ? 1 : 0);
+            const dx = (this.left2 ? 1 : 0) + (this.rght2 ? -1 : 0);
+            const dz = (this.fwrd2 ? 1 : 0) + (this.back2 ? -1 : 0);
             this.move2.set(dx, 0, dz);
             const d = this.move2.length();
             if (d > 0) {
