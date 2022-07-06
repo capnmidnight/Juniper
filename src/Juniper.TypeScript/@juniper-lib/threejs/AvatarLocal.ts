@@ -3,7 +3,7 @@ import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEv
 import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isGoodNumber, isMobile, isMobileVR, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading, getLookPitch } from "./animation/lookAngles";
-import type { EventSystem } from "./eventSystem/EventSystem";
+import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { IPointer } from "./eventSystem/IPointer";
 import { VirtualButton } from "./eventSystem/VirtualButton";
 import type { Fader } from "./Fader";
@@ -115,8 +115,6 @@ export class AvatarLocal
     readonly worldPos = new THREE.Vector3();
     readonly worldQuat = new THREE.Quaternion()
 
-    evtSys: EventSystem = null;
-
     fovZoomEnabled = true;
     minFOV = 15;
     maxFOV = 120;
@@ -162,14 +160,14 @@ export class AvatarLocal
         return this._worldPitch;
     }
 
-    get fov() {
-        return this.camera.fov;
+    private get fov() {
+        return this.env.camera.fov;
     }
 
-    set fov(v) {
+    private set fov(v) {
         if (v !== this.fov) {
-            this.camera.fov = v;
-            this.camera.updateProjectionMatrix();
+            this.env.camera.fov = v;
+            this.env.camera.updateProjectionMatrix();
         }
     }
 
@@ -177,8 +175,7 @@ export class AvatarLocal
         return this.head.parent;
     }
 
-    constructor(private readonly renderer: THREE.WebGLRenderer,
-        private readonly camera: THREE.PerspectiveCamera,
+    constructor(private readonly env: BaseEnvironment,
         fader: Fader,
         defaultAvatarHeight: number) {
         super();
@@ -287,7 +284,7 @@ export class AvatarLocal
             this.controlMode = CameraControlMode.Touch;
         }
         else if (pointer.type === "mouse") {
-            this.controlMode = this.evtSys.mouse.isPointerLocked
+            this.controlMode = this.env.pointers.mouse.isPointerLocked
                 ? CameraControlMode.MouseFPS
                 : CameraControlMode.MouseDrag;
         }
@@ -361,7 +358,7 @@ export class AvatarLocal
             && Math.abs(this.dz) > 0) {
             const smoothing = Math.pow(0.95, 5 * dt);
             this.dz = truncate(smoothing * this.dz);
-            this.fov = clamp(this.camera.fov - this.dz, this.minFOV, this.maxFOV);
+            this.fov = clamp(this.env.camera.fov - this.dz, this.minFOV, this.maxFOV);
         }
 
         dt *= 0.001;
@@ -469,7 +466,7 @@ export class AvatarLocal
     }
 
     private updateOrientation() {
-        const cam = resolveCamera(this.renderer, this.camera);
+        const cam = resolveCamera(this.env.renderer, this.env.camera);
 
         this.rotStage.makeRotationY(this._heading);
 
@@ -484,7 +481,7 @@ export class AvatarLocal
             this.stage.quaternion,
             this.stage.scale);
 
-        if (this.renderer.xr.isPresenting) {
+        if (this.env.renderer.xr.isPresenting) {
             this.M.copy(this.stage.matrixWorld)
                 .invert();
 
@@ -505,8 +502,8 @@ export class AvatarLocal
         }
 
 
-        this.camera.position.copy(this.head.position);
-        this.camera.quaternion.copy(this.head.quaternion);
+        this.env.camera.position.copy(this.head.position);
+        this.env.camera.quaternion.copy(this.head.quaternion);
 
         this.head.getWorldPosition(this.worldPos);
         this.head.getWorldQuaternion(this.worldQuat);

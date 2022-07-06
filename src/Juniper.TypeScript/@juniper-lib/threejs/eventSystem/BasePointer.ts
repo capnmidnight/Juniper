@@ -5,14 +5,14 @@ import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objGraph } from "../objects";
 import type { BaseCursor } from "./BaseCursor";
 import { CursorXRMouse } from "./CursorXRMouse";
-import { EventSystemEvent, EventSystemEvents } from "./EventSystemEvent";
+import { Pointer3DEvent, Pointer3DEvents } from "./Pointer3DEvent";
 import type { IPointer } from "./IPointer";
 import { getRayTarget, RayTarget } from "./RayTarget";
 
 const MAX_DRAG_DISTANCE = 5;
 
 export abstract class BasePointer
-    extends TypedEventBase<EventSystemEvents>
+    extends TypedEventBase<Pointer3DEvents>
     implements IPointer {
 
     readonly origin = new THREE.Vector3();
@@ -26,7 +26,7 @@ export abstract class BasePointer
     protected moveDistance = 0;
 
     private readonly hits = new Array<THREE.Intersection>();
-    private readonly pointerEvents = new Map<string, EventSystemEvent>();
+    private readonly pointerEvents = new Map<string, Pointer3DEvent>();
 
     private lastButtons = 0;
     private canClick = false;
@@ -186,7 +186,7 @@ export abstract class BasePointer
     protected fireRay(origin: THREE.Vector3, direction: THREE.Vector3) {
         arrayClear(this.hits);
 
-        this.env.eventSystem.fireRay(origin, direction, this.hits);
+        this.env.pointers.fireRay(origin, direction, this.hits);
 
         let minHit: THREE.Intersection = null;
         let minDist = Number.MAX_VALUE;
@@ -202,9 +202,9 @@ export abstract class BasePointer
         return this.curHit = minHit;
     }
 
-    private getEvent(type: PointerEventTypes): EventSystemEvent {
+    private getEvent(type: PointerEventTypes): Pointer3DEvent {
         if (!this.pointerEvents.has(type)) {
-            this.pointerEvents.set(type, new EventSystemEvent(type, this));
+            this.pointerEvents.set(type, new Pointer3DEvent(type, this));
         }
 
         const evt = this.pointerEvents.get(type);

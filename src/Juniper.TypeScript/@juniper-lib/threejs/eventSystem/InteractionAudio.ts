@@ -1,7 +1,7 @@
 import type { AudioManager } from "@juniper-lib/audio/AudioManager";
 import type { IProgress } from "@juniper-lib/tslib";
-import type { EventSystem } from "./EventSystem";
-import type { EventSystemEvent } from "./EventSystemEvent";
+import type { PointerManager } from "./PointerManager";
+import type { Pointer3DEvent } from "./Pointer3DEvent";
 
 function makeClipName(type: string, isDisabled: boolean) {
     if (type === "click" && isDisabled) {
@@ -13,15 +13,15 @@ function makeClipName(type: string, isDisabled: boolean) {
 
 export class InteractionAudio {
     audio: AudioManager;
-    eventSys: EventSystem;
+    pointers: PointerManager;
     enabled: boolean;
 
-    constructor(audio: AudioManager, eventSys: EventSystem) {
+    constructor(audio: AudioManager, pointers: PointerManager) {
         this.audio = audio;
-        this.eventSys = eventSys;
+        this.pointers = pointers;
         this.enabled = true;
 
-        const playClip = (evt: EventSystemEvent<"enter" | "exit" | "click">) => {
+        const playClip = (evt: Pointer3DEvent<"enter" | "exit" | "click">) => {
             if (this.enabled
                 && evt.rayTarget
                 && evt.rayTarget.clickable) {
@@ -34,9 +34,9 @@ export class InteractionAudio {
             }
         };
 
-        this.eventSys.addEventListener("enter", playClip);
-        this.eventSys.addEventListener("exit", playClip);
-        this.eventSys.addEventListener("click", playClip);
+        this.pointers.addEventListener("enter", playClip);
+        this.pointers.addEventListener("exit", playClip);
+        this.pointers.addEventListener("click", playClip);
     }
 
     async load(type: string, path: string, volume: number, prog?: IProgress) {

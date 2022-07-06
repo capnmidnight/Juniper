@@ -56,7 +56,7 @@ export class Tele extends Application {
                 evt.ux, evt.uy, evt.uz,
                 evt.height));
 
-        this.env.eventSystem.addEventListener("move", (evt) => {
+        this.env.pointers.addEventListener("move", (evt) => {
             const { id, origin, direction, up } = evt.pointer;
             this.conference.setLocalPointer(
                 id,

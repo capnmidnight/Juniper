@@ -16,6 +16,6 @@ export * from "./truncate";
 export * from "./unproject";
 export * from "./warnOnNaN";
 
-export const RIGHT = vec3.fromValues(1, 0, 0);
-export const UP = vec3.fromValues(0, 1, 0);
-export const FWD = vec3.fromValues(0, 0, -1);
+export const RIGHT = /*@__PURE__*/ vec3.fromValues(1, 0, 0);
+export const UP = /*@__PURE__*/ vec3.fromValues(0, 1, 0);
+export const FWD = /*@__PURE__*/ vec3.fromValues(0, 0, -1);

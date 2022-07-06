@@ -139,7 +139,7 @@ export class PointerHand
 
                 this.enabled = true;
                 this.isActive = true;
-                this.env.eventSystem.checkXRMouse();
+                this.env.pointers.checkXRMouse();
                 console.log(this.handedness, "connected")
             }
         });
@@ -159,7 +159,7 @@ export class PointerHand
 
                 this.enabled = false;
                 this.isActive = false;
-                this.env.eventSystem.checkXRMouse();
+                this.env.pointers.checkXRMouse();
                 console.log(this.handedness, "disconnected")
             }
         });

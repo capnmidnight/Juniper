@@ -2,14 +2,14 @@ import { TypedEventBase } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";
-import { EventSystemEvents } from "./EventSystemEvent";
+import { Pointer3DEvents } from "./Pointer3DEvent";
 import type { IPointer } from "./IPointer";
 import { PointerHand } from "./PointerHand";
 import { PointerMouse } from "./PointerMouse";
 import { PointerTouch } from "./PointerTouch";
 import { PointerPen } from "./PointerPen";
 
-export class EventSystem extends TypedEventBase<EventSystemEvents> {
+export class PointerManager extends TypedEventBase<Pointer3DEvents> {
     private readonly raycaster = new THREE.Raycaster();
 
     public readonly mouse: PointerMouse;
@@ -50,8 +50,6 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                 objGraph(this.env.stage, pointer.cursor);
             }
         }
-
-        this.env.avatar.evtSys = this;
 
         this.checkXRMouse();
     }

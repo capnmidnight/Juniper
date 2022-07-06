@@ -126,7 +126,7 @@ export class Environment
         this.videoPlayer = new VideoPlayer3D(this, this.audio.audioCtx);
         this.videoPlayer.object.visible = false;
 
-        this.interactionAudio = new InteractionAudio(this.audio, this.eventSystem);
+        this.interactionAudio = new InteractionAudio(this.audio, this.pointers);
 
         this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
         this.devicesDialog = new DeviceDialog(this);

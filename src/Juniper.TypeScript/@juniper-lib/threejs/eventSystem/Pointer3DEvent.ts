@@ -3,7 +3,7 @@ import { TypedEvent } from "@juniper-lib/tslib";
 import type { IPointer } from "./IPointer";
 import type { RayTarget } from "./RayTarget";
 
-export class EventSystemEvent<T extends PointerEventTypes = PointerEventTypes> extends TypedEvent<T> {
+export class Pointer3DEvent<T extends PointerEventTypes = PointerEventTypes> extends TypedEvent<T> {
     private _hit: THREE.Intersection = null;
     private _point: THREE.Vector3 = null;
     private _distance: number = Number.POSITIVE_INFINITY;
@@ -50,11 +50,11 @@ export class EventSystemEvent<T extends PointerEventTypes = PointerEventTypes> e
     }
 }
 
-export interface EventSystemEvents {
-    move: EventSystemEvent<"move">;
-    enter: EventSystemEvent<"enter">;
-    exit: EventSystemEvent<"exit">;
-    up: EventSystemEvent<"up">;
-    down: EventSystemEvent<"down">;
-    click: EventSystemEvent<"click">;
+export interface Pointer3DEvents {
+    move: Pointer3DEvent<"move">;
+    enter: Pointer3DEvent<"enter">;
+    exit: Pointer3DEvent<"exit">;
+    up: Pointer3DEvent<"up">;
+    down: Pointer3DEvent<"down">;
+    click: Pointer3DEvent<"click">;
 }

@@ -1,11 +1,11 @@
 import { TypedEventBase } from "@juniper-lib/tslib";
 import { ErsatzObject, objectIsFullyVisible, objectResolve, Objects } from "../objects";
-import { EventSystemEvents } from "./EventSystemEvent";
+import { Pointer3DEvents } from "./Pointer3DEvent";
 
 const RAY_TARGET_KEY = "Juniper:ThreeJS:EventSystem:RayTarget";
 
 export class RayTarget<EventsT = void>
-    extends TypedEventBase<EventsT & EventSystemEvents>
+    extends TypedEventBase<EventsT & Pointer3DEvents>
     implements ErsatzObject {
 
     private readonly meshes = new Array<THREE.Mesh>();

@@ -25,7 +25,7 @@ import { updateScalings } from "../animation/scaleOnHover";
 import { AvatarLocal } from "../AvatarLocal";
 import { cleanup } from "../cleanup";
 import { Cursor3D } from "../eventSystem/Cursor3D";
-import { EventSystem } from "../eventSystem/EventSystem";
+import { PointerManager } from "../eventSystem/PointerManager";
 import { GLTFLoader } from "../examples/loaders/GLTFLoader";
 import { Fader } from "../Fader";
 import { IModelLoader } from "../IModelLoader";
@@ -94,7 +94,7 @@ export class BaseEnvironment<Events = unknown>
     readonly skybox: Skybox;
     readonly avatar: AvatarLocal;
     readonly screenControl: ScreenControl;
-    readonly eventSystem: EventSystem;
+    readonly pointers: PointerManager;
 
     enableSpectator = false;
 
@@ -134,13 +134,12 @@ export class BaseEnvironment<Events = unknown>
         this.worldUISpace = new BodyFollower("WorldUISpace", 0.2, 20, 0.125);
 
         this.avatar = new AvatarLocal(
-            this.renderer,
-            this.camera,
+            this,
             this.fader,
             defaultAvatarHeight);
 
 
-        this.eventSystem = new EventSystem(this);
+        this.pointers = new PointerManager(this);
 
         this.skybox = new Skybox(this);
 
@@ -176,7 +175,7 @@ export class BaseEnvironment<Events = unknown>
                 this.ground,
                 this.camera,
                 this.avatar,
-                ...this.eventSystem.hands
+                ...this.pointers.hands
             ),
             this.foreground,
             objGraph(this.worldUISpace,
@@ -227,7 +226,7 @@ export class BaseEnvironment<Events = unknown>
             }
 
             this.screenControl.resize();
-            this.eventSystem.update();
+            this.pointers.update();
             this.avatar.update(evt.dt);
             this.worldUISpace.update(this.avatar.height, this.avatar.worldPos, this.avatar.worldHeading, evt.dt);
             this.fader.update(evt.dt);
@@ -407,7 +406,7 @@ export class BaseEnvironment<Events = unknown>
         for (const child of children) {
             this.cursor3D.add(child.name, child);
         }
-        this.eventSystem.refreshCursors();
+        this.pointers.refreshCursors();
         this.dispatchEvent(new TypedEvent("newcursorloaded"));
     }
 
