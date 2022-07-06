@@ -400,11 +400,17 @@ export class BaseEnvironment<Events = unknown>
             }
         });
         if (convertMaterials) {
+            const oldMats = new Set<THREE.Material>();
             model.scene.traverse(obj => {
                 if (isMesh(obj) && isMeshStandardMaterial(obj.material)) {
+                    oldMats.add(obj.material);
                     obj.material = materialStandardToPhong(obj.material);
                 }
-            })
+            });
+
+            for (const oldMat of oldMats.values()) {
+                oldMat.dispose();
+            }
         }
         return model.scene;
     }
