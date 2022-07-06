@@ -143,7 +143,7 @@ export class Tele extends Application {
     }
 
     async loadAvatar(path: string, prog?: IProgress) {
-        this.avatarModel = await this.env.loadModel(path, prog);
+        this.avatarModel = await this.env.loadModel(path, true, prog);
         this.avatarModel = this.avatarModel.children[0];
     }
 

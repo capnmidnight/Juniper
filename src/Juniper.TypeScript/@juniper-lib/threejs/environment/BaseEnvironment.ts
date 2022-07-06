@@ -32,10 +32,12 @@ import { IModelLoader } from "../IModelLoader";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { FOREGROUND, PURGATORY } from "../layers";
 import { LoadingBar } from "../LoadingBar";
+import { materialStandardToPhong } from "../materials";
 import { obj, objGraph } from "../objects";
 import { resolveCamera } from "../resolveCamera";
 import { ScreenControl } from "../ScreenControl";
 import { Skybox } from "../Skybox";
+import { isMesh, isMeshStandardMaterial } from "../typeChecks";
 import { XRTimer, XRTimerTickEvent } from "./XRTimer";
 
 
@@ -100,8 +102,6 @@ export class BaseEnvironment<Events = unknown>
 
     constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, enableFullResolution: boolean, public DEBUG: boolean) {
         super();
-
-        this.getModel = this.getModel.bind(this);
 
         if (isHTMLCanvas(canvas)) {
             canvas.style.backgroundColor = "black";
@@ -378,26 +378,34 @@ export class BaseEnvironment<Events = unknown>
         }
     }
 
-    modelAsset(path: string): AssetCustom<THREE.Group> {
-        return new AssetCustom(path, Model_Gltf_Binary, this.getModel);
+    modelAsset(path: string, convertMaterials = true): AssetCustom<THREE.Group> {
+        return new AssetCustom(path, Model_Gltf_Binary, (fetcher: IFetcher, path: string, type: string | MediaType, prog?: IProgress) =>
+            this.getModel(fetcher, path, type, convertMaterials, prog));
     }
 
-    private getModel(fetcher: IFetcher, path: string, type: string | MediaType, prog?: IProgress) {
+    private getModel(fetcher: IFetcher, path: string, type: string | MediaType, convertMaterials: boolean, prog?: IProgress) {
         return fetcher
             .get(path)
             .useCache(!this.DEBUG)
             .progress(prog)
             .file(type)
-            .then(response => this.loadModel(response.content));
+            .then(response => this.loadModel(response.content, convertMaterials));
     }
 
-    async loadModel(path: string, prog?: IProgress): Promise<THREE.Group> {
+    async loadModel(path: string, convertMaterials = true, prog?: IProgress): Promise<THREE.Group> {
         const loader = new GLTFLoader();
         const model = await loader.loadAsync(path, (evt) => {
             if (isDefined(prog)) {
                 prog.report(evt.loaded, evt.total, path);
             }
         });
+        if (convertMaterials) {
+            model.scene.traverse(obj => {
+                if (isMesh(obj) && isMeshStandardMaterial(obj.material)) {
+                    obj.material = materialStandardToPhong(obj.material);
+                }
+            })
+        }
         return model.scene;
     }
 
