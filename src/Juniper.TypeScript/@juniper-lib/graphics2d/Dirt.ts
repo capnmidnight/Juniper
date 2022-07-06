@@ -5,11 +5,6 @@ import { isDefined, singleton, TypedEvent, TypedEventBase } from "@juniper-lib/t
 
 type ActionTypes = "down" | "move" | "up";
 const actionTypes = singleton("Juniper:Graphics2D:Dirt:StopTypes", () => new Map<string, ActionTypes>([
-    ["drag", "move"],
-    ["dragcancel", "up"],
-    ["dragend", "up"],
-    ["dragstart", "down"],
-
     ["mousedown", "down"],
     ["mouseenter", "move"],
     ["mouseleave", "up"],
@@ -113,7 +108,7 @@ ZAGkADoAEAAZ5QkTf/PN/ACV4rJ9AdCf3AAAAAElFTkSuQmCC"));
     }
 
     checkPointer(id: number | string, x: number, y: number, type: string) {
-        const action = actionTypes.get(type) || "up";
+        const action = actionTypes.get(type) || type;
         const start = action === "down"
             && this.pointerId === null;
         const sustain = action === "move"
@@ -128,7 +123,6 @@ ZAGkADoAEAAZ5QkTf/PN/ACV4rJ9AdCf3AAAAAElFTkSuQmCC"));
         }
 
         this.pressed = start || sustain;
-
         if (this.pressed) {
             this.pointerId = id;
 
