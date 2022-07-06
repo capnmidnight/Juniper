@@ -10,19 +10,25 @@ export function isMaterial(obj: any): obj is THREE.Material {
         && obj.isMaterial;
 }
 
-export function isMeshBasicMaterial(obj: any): obj is THREE.MeshBasicMaterial {
+function isNamedMaterial<T extends THREE.Material>(name: string, obj: any): obj is T {
     return isMaterial(obj)
-        && obj.type === "MeshBasicMaterial";
+        && obj.type === name;
+}
+
+export function isMeshBasicMaterial(obj: any): obj is THREE.MeshBasicMaterial {
+    return isNamedMaterial("MeshBasicMaterial", obj);
 }
 
 export function isMeshStandardMaterial(obj: any): obj is THREE.MeshStandardMaterial {
-    return isMaterial(obj)
-        && obj.type === "MeshStandardMaterial";
+    return isNamedMaterial("MeshStandardMaterial", obj);
+}
+
+export function isMeshPhongMaterial(obj: any): obj is THREE.MeshPhongMaterial {
+    return isNamedMaterial("MeshPhongMaterial", obj);
 }
 
 export function isMeshPhysicalMaterial(obj: any): obj is THREE.MeshPhysicalMaterial {
-    return isMaterial(obj)
-        && obj.type === "MeshPhysicalMaterial";
+    return isNamedMaterial("MeshPhysicalMaterial", obj);
 }
 
 export function isTexture(obj: any): obj is THREE.Texture {
