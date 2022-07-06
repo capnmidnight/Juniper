@@ -56,6 +56,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     private readonly F = new THREE.Vector3();
     private readonly U = new THREE.Vector3();
     private readonly comfortOffset = new THREE.Vector3();
+    private readonly O = new THREE.Vector3();
     private readonly E = new THREE.Vector3();
     private readonly M = new THREE.Matrix4();
 
@@ -218,25 +219,26 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.headPulse = 0.2 * this.activity.level + 1;
         this.pEnd.lerp(this.pTarget, dt * 0.01);
         this.qEnd.slerp(this.qTarget, dt * 0.01);
-            this.head.position.copy(this.pEnd);
-            this.head.quaternion.copy(this.qEnd);
-            this.head.getWorldPosition(this.worldPos);
-            this.head.getWorldDirection(this.F);
-            this.F.negate();
-            
-            const angle = getLookHeading(this.F);
-            this.headFollower.update(this.worldPos.y - this.parent.position.y, this.worldPos, angle, dt);
-            const scale = this.height / this.defaultAvatarHeight;
-            this.headSize = scale;
-            this.body.scale.setScalar(scale);
+        this.head.position.copy(this.pEnd);
+        this.head.quaternion.copy(this.qEnd);
+        this.head.getWorldPosition(this.worldPos);
 
-            this.F.copy(this.env.avatar.worldPos);
-            this.body.worldToLocal(this.F);
-            this.F.sub(this.body.position)
-                .normalize()
-                .multiplyScalar(0.25);
-            this.nameTag.position.set(0, -0.25, 0)
-                .add(this.F);
+        this.head.getWorldDirection(this.F);
+        this.F.negate();
+
+        const angle = getLookHeading(this.F);
+        this.headFollower.update(this.worldPos.y - this.parent.position.y, this.worldPos, angle, dt);
+        const scale = this.height / this.defaultAvatarHeight;
+        this.headSize = scale;
+        this.body.scale.setScalar(scale);
+
+        this.F.copy(this.env.avatar.worldPos);
+        this.body.worldToLocal(this.F);
+        this.F.sub(this.body.position)
+            .normalize()
+            .multiplyScalar(0.25);
+        this.nameTag.position.set(0, -0.25, 0)
+            .add(this.F);
 
         for (const pointer of this.pointers.values()) {
             pointer.animate(dt);
@@ -300,9 +302,11 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             this.E.setScalar(0);
         }
 
-        this.comfortOffset.add(this.E);
+        this.O
+            .copy(this.comfortOffset)
+            .add(this.E);
 
-        pointer.setState(this.worldPos, this.P, this.F, this.U, this.comfortOffset);
+        pointer.setState(this.worldPos, this.comfortOffset, this.P, this.F, this.U, this.O);
     }
 
     private removeArmsExcept(...names: PointerID[]): void {
