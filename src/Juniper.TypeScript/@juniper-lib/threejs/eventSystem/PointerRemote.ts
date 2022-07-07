@@ -26,7 +26,7 @@ export class PointerRemote
         env: BaseEnvironment,
         userName: string,
         isInstructor: boolean,
-        id: PointerID,
+        private readonly remoteID: PointerID,
         cursor: Cursor3D) {
         super("remote", PointerID.RemoteUser, env, cursor || new CursorColor());
 
@@ -37,13 +37,16 @@ export class PointerRemote
             hand,
             elbow);
 
-        if (id === PointerID.Mouse) {
-            hand.position.set(0, 0, -0.2);
-        }
-        else if (id === PointerID.MotionController
-            || id === PointerID.MotionControllerLeft
-            || id === PointerID.MotionControllerRight) {
+        // Fakey "inverse kinematics" arm model. Doesn't actually
+        // do any IK, just make an elbow that sits behind the hand
+        // which is good enough for most work.
+        if (this.remoteID === PointerID.MotionController
+            || this.remoteID === PointerID.MotionControllerLeft
+            || this.remoteID === PointerID.MotionControllerRight) {
             elbow.position.set(0, 0, 0.2);
+        }
+        else {
+            hand.position.set(0, 0, -0.2);
         }
 
         this.laser = new Laser(
@@ -53,41 +56,54 @@ export class PointerRemote
         objGraph(elbow, this.laser);
 
         this.cursor.object.name = `${this.object.name}:cursor`;
+        this.cursor.visible = true;
+
+        Object.seal(this);
     }
 
     setState(
-        _avatarHeadPos: THREE.Vector3,
-        _avatarComfortOffset: THREE.Vector3,
         pointerPosition: THREE.Vector3,
         pointerForward: THREE.Vector3,
         pointerUp: THREE.Vector3,
-        pointerComfortOffset: THREE.Vector3) {
+        comfortOffset: THREE.Vector3) {
 
+        // Target the pointer based on the remote user's perspective
+        this.up.copy(pointerUp);
         this.origin.copy(pointerPosition);
         this.direction.copy(pointerForward);
-        this.up.copy(pointerUp);
 
-        if (!this.fireRay(this.origin, this.direction)) {
-            this.origin.copy(this.env.avatar.worldPos);
+        // position the pointer graphics origin
+        pointerPosition.add(comfortOffset);
+
+        this.cursor.visible = this.env.avatar.worldPos.distanceTo(pointerPosition) < 10;
+        if (this.cursor.visible) {
+            // See if anything was hit...
+            if (!this.fireRay(this.origin, this.direction)) {
+                // ... if nothing was hit, target the background from
+                // the local user's perspective.
+                this.origin.copy(this.env.avatar.worldPos);
+            }
+
+            // Move the cursor to wherever the pointer is pointing.
+            this.updateCursor(3);
+
+            // point the pointer at the cursor
+            this.cursor.object.getWorldPosition(pointerForward);
+            pointerForward.sub(pointerPosition);
+            // ... but first, use the pointer length to set the laser length
+            this.laser.length = 19 * pointerForward.length();
+            pointerForward.normalize();
+        }
+        else {
+            this.laser.length = 57;
         }
 
-        this.cursor.visible = true;
-        this.updateCursor(3);
-
-        pointerPosition.add(pointerComfortOffset);
-
-        this.cursor.object.getWorldPosition(pointerForward);
-        pointerForward.sub(pointerPosition);
-
-        this.laser.length = 20 * pointerForward.length();
-        pointerForward.normalize();
-
+        // construct the LERPing targets for the pointer graphics
         setMatrixFromUpFwdPos(
             pointerUp,
             pointerForward,
             pointerPosition,
             this.MW);
-
         this.M
             .copy(this.object.parent.matrixWorld)
             .invert()

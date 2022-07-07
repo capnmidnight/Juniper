@@ -296,7 +296,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
 
         this.O.add(this.comfortOffset);
 
-        pointer.setState(this.worldPos, this.comfortOffset, this.P, this.F, this.U, this.O);
+        pointer.setState(this.P, this.F, this.U, this.O);
     }
 
     private removeArmsExcept(...names: PointerID[]): void {
