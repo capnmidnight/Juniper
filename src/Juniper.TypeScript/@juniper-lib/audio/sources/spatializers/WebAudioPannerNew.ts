@@ -1,3 +1,4 @@
+import { isGoodNumber } from "@juniper-lib/tslib";
 import { BaseWebAudioPanner } from "./BaseWebAudioPanner";
 
 /**
@@ -15,15 +16,25 @@ export class WebAudioPannerNew extends BaseWebAudioPanner {
     }
 
     override setPosition(x: number, y: number, z: number, t: number) {
+        if (isGoodNumber(x)
+            && isGoodNumber(y)
+            && isGoodNumber(z)
+            && isGoodNumber(t)) {
             this.panner.positionX.setValueAtTime(x, t);
             this.panner.positionY.setValueAtTime(y, t);
             this.panner.positionZ.setValueAtTime(z, t);
+        }
     }
 
     override setOrientation(x: number, y: number, z: number, t: number) {
-        this.panner.orientationX.setValueAtTime(-x, t);
-        this.panner.orientationY.setValueAtTime(-y, t);
-        this.panner.orientationZ.setValueAtTime(-z, t);
+        if (isGoodNumber(x)
+            && isGoodNumber(y)
+            && isGoodNumber(z)
+            && isGoodNumber(t)) {
+            this.panner.orientationX.setValueAtTime(-x, t);
+            this.panner.orientationY.setValueAtTime(-y, t);
+            this.panner.orientationZ.setValueAtTime(-z, t);
+        }
     }
 }
 
