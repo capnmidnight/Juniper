@@ -1,14 +1,14 @@
 import type { ErsatzObject } from "../objects";
 import type { RayTarget } from "./RayTarget";
 
-const T = new THREE.Vector3();
-const V = new THREE.Vector3();
-const Q = new THREE.Quaternion();
-
 export abstract class BaseCursor implements ErsatzObject {
     private _object: THREE.Object3D = null;
     private _visible: boolean = true;
     private _style: string = "default";
+
+    private readonly T = new THREE.Vector3();
+    private readonly V = new THREE.Vector3();
+    private readonly Q = new THREE.Quaternion();
 
     get object() {
         return this._object;
@@ -41,34 +41,34 @@ export abstract class BaseCursor implements ErsatzObject {
         if (hit && hit.face) {
             this.position.copy(hit.point);
 
-            hit.object.getWorldQuaternion(Q);
-            T.copy(hit.face.normal)
-                .applyQuaternion(Q);
+            hit.object.getWorldQuaternion(this.Q);
+            this.T.copy(hit.face.normal)
+                .applyQuaternion(this.Q);
 
-            V.copy(T)
+            this.V.copy(this.T)
                 .multiplyScalar(0.02);
-            this.position.add(V);
+            this.position.add(this.V);
 
-            V.copy(T)
+            this.V.copy(this.T)
                 .multiplyScalar(10)
                 .add(this.position);
         }
         else {
             this.position
                 .copy(direction)
-                .multiplyScalar(2)
+                .multiplyScalar(10000)
                 .add(origin)
                 .sub(avatarHeadPos)
                 .normalize()
                 .multiplyScalar(defaultDistance)
                 .add(avatarHeadPos);
 
-            V.copy(avatarHeadPos);
+            this.V.copy(avatarHeadPos);
         }
 
         this.object.parent.worldToLocal(this.position);
 
-        this.lookAt(V);
+        this.lookAt(this.V);
 
         this.style = target
             ? !target.enabled
