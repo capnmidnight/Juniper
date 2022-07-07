@@ -57,7 +57,6 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     private readonly F = new THREE.Vector3();
     private readonly U = new THREE.Vector3();
     private readonly O = new THREE.Vector3();
-    private readonly E = new THREE.Vector3();
     private readonly M = new THREE.Matrix4();
 
     private headFollower: BodyFollower = null;
@@ -283,21 +282,19 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.F.fromArray(pose.f);
         this.U.fromArray(pose.u);
 
-        if (id === PointerID.Mouse && this.body) {
-            this.E.set(0.2, -0.6, 0)
+        if (id === PointerID.Mouse) {
+            this.O.set(0.2, -0.6, 0)
                 .applyQuaternion(this.body.quaternion);
         }
-        else if (PointerID[id].startsWith("Touch") && this.body) {
-            this.E.set(0, -0.5, 0)
+        else if (id === PointerID.Touch) {
+            this.O.set(0, -0.5, 0)
                 .applyQuaternion(this.body.quaternion);
         }
         else {
-            this.E.setScalar(0);
+            this.O.setScalar(0);
         }
 
-        this.O
-            .copy(this.comfortOffset)
-            .add(this.E);
+        this.O.add(this.comfortOffset);
 
         pointer.setState(this.worldPos, this.comfortOffset, this.P, this.F, this.U, this.O);
     }

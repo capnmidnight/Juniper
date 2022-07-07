@@ -52,6 +52,8 @@ export class PointerManager extends TypedEventBase<Pointer3DEvents> {
         }
 
         this.checkXRMouse();
+
+        Object.seal(this);
     }
 
     checkXRMouse() {

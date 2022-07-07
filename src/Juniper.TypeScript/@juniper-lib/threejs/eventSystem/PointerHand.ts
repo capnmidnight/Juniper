@@ -163,6 +163,8 @@ export class PointerHand
                 console.log(this.handedness, "disconnected");
             }
         });
+
+        Object.seal(this);
     }
 
     override vibrate(): void {

@@ -183,7 +183,7 @@ export abstract class BasePointer
         return (this.lastButtons & mask) !== 0;
     }
 
-    protected fireRay(origin: THREE.Vector3, direction: THREE.Vector3) {
+    protected fireRay(origin: THREE.Vector3, direction: THREE.Vector3): boolean {
         arrayClear(this.hits);
 
         this.env.pointers.fireRay(origin, direction, this.hits);
@@ -199,7 +199,8 @@ export abstract class BasePointer
             }
         }
 
-        return this.curHit = minHit;
+        this.curHit = minHit;
+        return !!minHit;
     }
 
     private getEvent(type: PointerEventTypes): Pointer3DEvent {

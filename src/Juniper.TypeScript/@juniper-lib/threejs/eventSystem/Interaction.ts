@@ -38,12 +38,12 @@ export type Interaction =
     | "clickeddisabled"
 
     /**
-     * The first time dragging occured.
+     * The first time dragging occurred.
      **/
     | "draggingstarted"
 
     /**
-     * The first time dragging occured on a contral that has been disabled.
+     * The first time dragging occurred on a control that has been disabled.
      **/
     | "draggingstarteddisabled"
 
@@ -53,7 +53,7 @@ export type Interaction =
     | "dragged"
 
     /**
-     * The last time dragging occured.
+     * The last time dragging occurred.
      **/
     | "draggingended"
 
