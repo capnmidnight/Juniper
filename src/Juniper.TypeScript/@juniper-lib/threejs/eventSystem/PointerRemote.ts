@@ -28,7 +28,7 @@ export class PointerRemote
         isInstructor: boolean,
         private readonly remoteID: PointerID,
         cursor: Cursor3D) {
-        super("remote", PointerID.RemoteUser, env, cursor || new CursorColor());
+        super("remote", PointerID.RemoteUser, env, cursor || new CursorColor(env));
 
         const hand = new Cube(0.05, 0.05, 0.05, litGrey);
         const elbow = new Cube(0.05, 0.05, 0.05, litGrey);

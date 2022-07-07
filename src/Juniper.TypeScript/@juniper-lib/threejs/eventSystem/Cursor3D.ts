@@ -1,4 +1,5 @@
 import { arrayScan } from "@juniper-lib/tslib";
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { deepEnableLayer, PURGATORY } from "../layers";
 import { ErsatzObject, objectIsVisible, objectSetVisible, objGraph } from "../objects";
 import { BaseCursor } from "./BaseCursor";
@@ -10,8 +11,8 @@ export class Cursor3D
 
     private readonly cursorSystem: CursorSystem = null;
 
-    constructor(cursorSystem?: CursorSystem) {
-        super();
+    constructor(env: BaseEnvironment, cursorSystem?: CursorSystem) {
+        super(env);
         this.object = new THREE.Object3D();
         this.cursorSystem = cursorSystem;
     }
@@ -68,7 +69,7 @@ export class Cursor3D
     }
 
     clone() {
-        const obj = new Cursor3D();
+        const obj = new Cursor3D(this.env);
         for (const child of this.object.children) {
             obj.add(child.name, child.clone());
         }

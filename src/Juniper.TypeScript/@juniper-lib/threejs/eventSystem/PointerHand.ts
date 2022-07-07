@@ -70,7 +70,7 @@ export class PointerHand
     private readonly newQuat = new THREE.Quaternion();
 
     constructor(env: BaseEnvironment, index: number) {
-        super("hand", PointerID.MotionController, env, new CursorColor());
+        super("hand", PointerID.MotionController, env, new CursorColor(env));
 
         this.quaternion.identity();
 

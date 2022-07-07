@@ -1,3 +1,4 @@
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objectSetVisible } from "../objects";
 import { BaseCursor } from "./BaseCursor";
 import { CursorColor } from "./CursorColor";
@@ -5,12 +6,13 @@ import { CursorSystem } from "./CursorSystem";
 
 export class CursorXRMouse extends BaseCursor {
     private readonly system: CursorSystem;
-    private xr: BaseCursor = new CursorColor();
+    private xr: BaseCursor;
 
-    constructor(private readonly renderer: THREE.WebGLRenderer) {
-        super();
+    constructor(env: BaseEnvironment) {
+        super(env);
 
-        this.system = new CursorSystem(this.renderer.domElement);
+        this.xr = new CursorColor(this.env);
+        this.system = new CursorSystem(this.env, this.env.renderer.domElement);
         this.visible = false;
     }
 
@@ -36,9 +38,9 @@ export class CursorXRMouse extends BaseCursor {
     }
 
     override get visible() {
-        return this.renderer.xr.isPresenting
+        return this.env.renderer.xr.isPresenting
             && this.xr.visible
-            || !this.renderer.xr.isPresenting
+            || !this.env.renderer.xr.isPresenting
             && this.system.visible;
     }
 
@@ -55,7 +57,7 @@ export class CursorXRMouse extends BaseCursor {
 
     _refresh() {
         objectSetVisible(this.xr, this.visible
-            && (this.renderer.xr.isPresenting
+            && (this.env.renderer.xr.isPresenting
                 || document.pointerLockElement != null));
     }
 

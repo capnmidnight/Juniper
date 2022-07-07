@@ -27,7 +27,7 @@ export abstract class BaseScreenPointerSinglePoint extends BaseScreenPointer {
         element.addEventListener("pointerdown", onPrep);
         element.addEventListener("pointermove", onPrep);
 
-        super(type, id, env, new CursorXRMouse(env.renderer));
+        super(type, id, env, new CursorXRMouse(env));
 
         element.addEventListener("pointerup", unPrep);
         element.addEventListener("pointercancel", unPrep);

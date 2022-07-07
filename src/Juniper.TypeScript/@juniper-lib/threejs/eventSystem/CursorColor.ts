@@ -1,5 +1,6 @@
 import { isArray } from "@juniper-lib/tslib";
 import { Cube } from "../Cube";
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { solid } from "../materials";
 import { objectIsVisible, objectSetVisible } from "../objects";
 import { isMesh } from "../typeChecks";
@@ -9,8 +10,8 @@ export class CursorColor extends BaseCursor {
     private _currentStyle: string;
     private material: THREE.MeshBasicMaterial;
 
-    constructor() {
-        super();
+    constructor(env: BaseEnvironment) {
+        super(env);
         this.material = solid({
             name: "CursorMat",
             color: 0xffff00

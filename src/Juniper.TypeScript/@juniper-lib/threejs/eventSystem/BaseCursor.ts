@@ -1,3 +1,4 @@
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import type { ErsatzObject } from "../objects";
 import type { RayTarget } from "./RayTarget";
 
@@ -32,6 +33,10 @@ export abstract class BaseCursor implements ErsatzObject {
 
     set visible(v) {
         this._visible = v;
+    }
+
+    constructor(protected readonly env: BaseEnvironment) {
+
     }
 
     abstract get position(): THREE.Vector3;

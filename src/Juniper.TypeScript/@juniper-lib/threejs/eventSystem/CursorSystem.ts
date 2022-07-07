@@ -1,10 +1,11 @@
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { BaseCursor } from "./BaseCursor";
 
 export class CursorSystem extends BaseCursor {
     private _hidden = false;
 
-    constructor(public element: HTMLElement) {
-        super();
+    constructor(env: BaseEnvironment, public element: HTMLElement) {
+        super(env);
 
         this.visible = true;
         this.style = "default";

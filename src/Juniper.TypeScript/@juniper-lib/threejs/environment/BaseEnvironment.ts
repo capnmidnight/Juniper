@@ -79,7 +79,7 @@ export class BaseEnvironment<Events = unknown>
     private readonly fader: Fader;
     private fadeDepth = 0;
 
-    readonly cursor3D = new Cursor3D();
+    readonly cursor3D: Cursor3D;
     readonly camera = new THREE.PerspectiveCamera(50, 1, 0.01, 1000);
     readonly scene = new THREE.Scene();
     readonly stage = obj("Stage");
@@ -101,6 +101,8 @@ export class BaseEnvironment<Events = unknown>
 
     constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, enableFullResolution: boolean, public DEBUG: boolean) {
         super();
+
+        this.cursor3D = new Cursor3D(this);
 
         if (isHTMLCanvas(canvas)) {
             canvas.style.backgroundColor = "black";
