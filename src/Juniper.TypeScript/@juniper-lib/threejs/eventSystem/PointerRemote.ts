@@ -1,11 +1,11 @@
 import { PointerID } from "@juniper-lib/tslib";
+import { AvatarRemote } from "../AvatarRemote";
 import { Cube } from "../Cube";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { green, litGrey, yellow } from "../materials";
 import { ErsatzObject, obj, objGraph } from "../objects";
 import { setMatrixFromUpFwdPos } from "../setMatrixFromUpFwdPos";
 import { BasePointer } from "./BasePointer";
-import type { Cursor3D } from "./Cursor3D";
 import { CursorColor } from "./CursorColor";
 import { Laser } from "./Laser";
 
@@ -16,24 +16,25 @@ export class PointerRemote
     readonly object: THREE.Object3D;
 
     private readonly laser: Laser = null;
-    private readonly dumpS = new THREE.Vector3();
+    private readonly O = new THREE.Vector3();
     private readonly M = new THREE.Matrix4();
     private readonly MW = new THREE.Matrix4();
     private readonly pTarget = new THREE.Vector3();
     private readonly qTarget = new THREE.Quaternion().identity();
 
     constructor(
+        private readonly avatar: AvatarRemote,
         env: BaseEnvironment,
-        userName: string,
-        isInstructor: boolean,
-        private readonly remoteID: PointerID,
-        cursor: Cursor3D) {
-        super("remote", PointerID.RemoteUser, env, cursor || new CursorColor(env));
+        private readonly remoteID: PointerID) {
+
+        const cursor = env.cursor3D && env.cursor3D.clone() || new CursorColor(env);
+
+        super("remote", PointerID.RemoteUser, env, cursor);
 
         const hand = new Cube(0.05, 0.05, 0.05, litGrey);
         const elbow = new Cube(0.05, 0.05, 0.05, litGrey);
 
-        this.object = obj(`remote:${userName}:${this.name}`,
+        this.object = obj(`remote:${this.avatar.userName}:${this.name}`,
             hand,
             elbow);
 
@@ -50,7 +51,7 @@ export class PointerRemote
         }
 
         this.laser = new Laser(
-            isInstructor ? green : yellow,
+            this.avatar.isInstructor ? green : yellow,
             0.002);
         this.laser.length = 30;
         objGraph(elbow, this.laser);
@@ -64,32 +65,40 @@ export class PointerRemote
     setState(
         pointerPosition: THREE.Vector3,
         pointerForward: THREE.Vector3,
-        pointerUp: THREE.Vector3,
-        comfortOffset: THREE.Vector3) {
+        pointerUp: THREE.Vector3) {
 
         // Target the pointer based on the remote user's perspective
         this.up.copy(pointerUp);
         this.origin.copy(pointerPosition);
         this.direction.copy(pointerForward);
 
-        // position the pointer graphics origin
-        pointerPosition.add(comfortOffset);
+        if (this.remoteID === PointerID.Mouse) {
+            this.O.set(0.2, -0.6, 0)
+                .applyQuaternion(this.avatar.body.quaternion);
+        }
+        else if (this.remoteID === PointerID.Touch) {
+            this.O.set(0, -0.5, 0)
+                .applyQuaternion(this.avatar.body.quaternion);
+        }
+        else {
+            this.O.setScalar(0);
+        }
+
+        this.O.add(this.avatar.comfortOffset);
 
         this.cursor.visible = this.env.avatar.worldPos.distanceTo(pointerPosition) < 10;
         if (this.cursor.visible) {
             // See if anything was hit...
-            if (!this.fireRay(this.origin, this.direction)) {
-                // ... if nothing was hit, target the background from
-                // the local user's perspective.
-                this.origin.copy(this.env.avatar.worldPos);
-            }
+            this.fireRay(this.origin, this.direction);
 
             // Move the cursor to wherever the pointer is pointing.
-            this.updateCursor(3);
+            this.updateCursor(this.avatar.worldPos, 4);
 
             // point the pointer at the cursor
             this.cursor.object.getWorldPosition(pointerForward);
-            pointerForward.sub(pointerPosition);
+            pointerForward
+                .sub(pointerPosition)
+                .sub(this.O);
             // ... but first, use the pointer length to set the laser length
             this.laser.length = 19 * pointerForward.length();
             pointerForward.normalize();
@@ -102,7 +111,7 @@ export class PointerRemote
         setMatrixFromUpFwdPos(
             pointerUp,
             pointerForward,
-            pointerPosition,
+            pointerPosition.add(this.O),
             this.MW);
         this.M
             .copy(this.object.parent.matrixWorld)
@@ -111,7 +120,7 @@ export class PointerRemote
             .decompose(
                 this.pTarget,
                 this.qTarget,
-                this.dumpS);
+                this.O);
     }
 
     protected override onUpdate(): void {

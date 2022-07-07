@@ -306,13 +306,13 @@ export abstract class BasePointer
             }
         }
 
-        this.updateCursor(2);
+        this.updateCursor(this.env.avatar.worldPos, 2);
     }
 
-    protected updateCursor(defaultDistance: number) {
+    protected updateCursor(avatarHeadPos: THREE.Vector3, defaultDistance: number) {
         if (this.cursor) {
             this.cursor.update(
-                this.env.avatar.worldPos,
+                avatarHeadPos,
                 this.hoveredHit || this.curHit,
                 this.rayTarget || this.curTarget,
                 defaultDistance,

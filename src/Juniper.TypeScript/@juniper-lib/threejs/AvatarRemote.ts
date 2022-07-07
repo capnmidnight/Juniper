@@ -38,25 +38,24 @@ const nameTagFont: Partial<TextImageOptions> = {
 export class AvatarRemote extends THREE.Object3D implements IDisposable {
     avatar: THREE.Object3D = null;
 
-    private isInstructor = false;
+    private _isInstructor = false;
     private readonly pointers = new Map<PointerID, PointerRemote>();
 
     private height: number;
     private readonly userID: string = null;
     private readonly head: THREE.Object3D = null;
-    private readonly body: THREE.Object3D = null;
+    readonly body: THREE.Object3D = null;
     private readonly nameTag: TextMesh;
     private readonly activity: ActivityDetector;
     private readonly pTarget = new THREE.Vector3();
     private readonly pEnd = new THREE.Vector3();
     private readonly qTarget = new THREE.Quaternion().identity();
     private readonly qEnd = new THREE.Quaternion().identity();
-    private readonly worldPos = new THREE.Vector3();
-    private readonly worldQuat = new THREE.Quaternion();
+    readonly worldPos = new THREE.Vector3();
+    readonly worldQuat = new THREE.Quaternion();
     private readonly P = new THREE.Vector3();
     private readonly F = new THREE.Vector3();
     private readonly U = new THREE.Vector3();
-    private readonly O = new THREE.Vector3();
     private readonly M = new THREE.Matrix4();
 
     private headFollower: BodyFollower = null;
@@ -139,6 +138,10 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.activity.dispose();
     }
 
+    get isInstructor() {
+        return this._isInstructor;
+    }
+
     private get headSize() {
         return this._headSize;
     }
@@ -175,7 +178,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
                     this.nameTag.image.value = words[1];
                 }
                 else if (words.length === 3) {
-                    this.isInstructor = words[1]
+                    this._isInstructor = words[1]
                         && words[1].toLocaleLowerCase() === "instructor";
                     if (this.isInstructor) {
                         this.nameTag.image.value = star.value + words[2];
@@ -255,12 +258,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         let pointer = this.pointers.get(id);
 
         if (!pointer) {
-            pointer = new PointerRemote(
-                this.env,
-                this.userName,
-                this.isInstructor,
-                id,
-                this.env.cursor3D && this.env.cursor3D.clone());
+            pointer = new PointerRemote(this, this.env, id);
 
             this.pointers.set(id, pointer);
 
@@ -282,21 +280,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.F.fromArray(pose.f);
         this.U.fromArray(pose.u);
 
-        if (id === PointerID.Mouse) {
-            this.O.set(0.2, -0.6, 0)
-                .applyQuaternion(this.body.quaternion);
-        }
-        else if (id === PointerID.Touch) {
-            this.O.set(0, -0.5, 0)
-                .applyQuaternion(this.body.quaternion);
-        }
-        else {
-            this.O.setScalar(0);
-        }
-
-        this.O.add(this.comfortOffset);
-
-        pointer.setState(this.P, this.F, this.U, this.O);
+        pointer.setState(this.P, this.F, this.U);
     }
 
     private removeArmsExcept(...names: PointerID[]): void {

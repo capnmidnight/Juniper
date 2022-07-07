@@ -41,7 +41,15 @@ export abstract class BaseCursor implements ErsatzObject {
 
     abstract get position(): THREE.Vector3;
 
-    update(avatarHeadPos: THREE.Vector3, hit: THREE.Intersection, target: RayTarget, defaultDistance: number, canMoveView: boolean, origin: THREE.Vector3, direction: THREE.Vector3, isPrimaryPressed: boolean) {
+    update(
+        avatarHeadPos: THREE.Vector3,
+        hit: THREE.Intersection,
+        target: RayTarget,
+        defaultDistance: number,
+        canMoveView: boolean,
+        origin: THREE.Vector3,
+        direction: THREE.Vector3,
+        isPrimaryPressed: boolean) {
 
         if (hit && hit.face) {
             this.position.copy(hit.point);
