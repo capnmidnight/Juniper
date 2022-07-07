@@ -10,6 +10,7 @@ import type { IPointer } from "./IPointer";
 import { getRayTarget, RayTarget } from "./RayTarget";
 
 const MAX_DRAG_DISTANCE = 5;
+const ZERO = new THREE.Vector3();
 
 export abstract class BasePointer
     extends TypedEventBase<Pointer3DEvents>
@@ -306,16 +307,18 @@ export abstract class BasePointer
             }
         }
 
-        this.updateCursor(this.env.avatar.worldPos, 2);
+        this.updateCursor(this.env.avatar.worldPos, ZERO, true, 2);
     }
 
-    protected updateCursor(avatarHeadPos: THREE.Vector3, defaultDistance: number) {
+    protected updateCursor(avatarHeadPos: THREE.Vector3, comfortOffset: THREE.Vector3, isLocal: boolean, defaultDistance: number) {
         if (this.cursor) {
             this.cursor.update(
                 avatarHeadPos,
+                comfortOffset,
                 this.hoveredHit || this.curHit,
                 this.rayTarget || this.curTarget,
                 defaultDistance,
+                isLocal,
                 this.canMoveView,
                 this.origin,
                 this.direction,

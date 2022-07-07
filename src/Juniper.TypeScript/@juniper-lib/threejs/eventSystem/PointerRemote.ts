@@ -16,11 +16,13 @@ export class PointerRemote
     readonly object: THREE.Object3D;
 
     private readonly laser: Laser = null;
+    private readonly P = new THREE.Vector3();
+    private readonly F = new THREE.Vector3();
     private readonly O = new THREE.Vector3();
+    private readonly S = new THREE.Vector3();
     private readonly M = new THREE.Matrix4();
     private readonly MW = new THREE.Matrix4();
     private readonly pTarget = new THREE.Vector3();
-    private readonly qTarget = new THREE.Quaternion().identity();
 
     constructor(
         private readonly avatar: AvatarRemote,
@@ -69,7 +71,7 @@ export class PointerRemote
 
         // Target the pointer based on the remote user's perspective
         this.up.copy(pointerUp);
-        this.origin.copy(pointerPosition);
+        this.pTarget.copy(pointerPosition).sub(this.avatar.worldPos);
         this.direction.copy(pointerForward);
 
         if (this.remoteID === PointerID.Mouse) {
@@ -85,42 +87,6 @@ export class PointerRemote
         }
 
         this.O.add(this.avatar.comfortOffset);
-
-        this.cursor.visible = this.env.avatar.worldPos.distanceTo(pointerPosition) < 10;
-        if (this.cursor.visible) {
-            // See if anything was hit...
-            this.fireRay(this.origin, this.direction);
-
-            // Move the cursor to wherever the pointer is pointing.
-            this.updateCursor(this.avatar.worldPos, 4);
-
-            // point the pointer at the cursor
-            this.cursor.object.getWorldPosition(pointerForward);
-            pointerForward
-                .sub(pointerPosition)
-                .sub(this.O);
-            // ... but first, use the pointer length to set the laser length
-            this.laser.length = 19 * pointerForward.length();
-            pointerForward.normalize();
-        }
-        else {
-            this.laser.length = 57;
-        }
-
-        // construct the LERPing targets for the pointer graphics
-        setMatrixFromUpFwdPos(
-            pointerUp,
-            pointerForward,
-            pointerPosition.add(this.O),
-            this.MW);
-        this.M
-            .copy(this.object.parent.matrixWorld)
-            .invert()
-            .multiply(this.MW)
-            .decompose(
-                this.pTarget,
-                this.qTarget,
-                this.O);
     }
 
     protected override onUpdate(): void {
@@ -128,8 +94,49 @@ export class PointerRemote
     }
 
     animate(dt: number) {
-        this.object.position.lerp(this.pTarget, dt * 0.01);
-        this.object.quaternion.slerp(this.qTarget, dt * 0.01);
+        this.origin.lerp(this.pTarget, dt * 0.01);
+
+        this.origin.add(this.avatar.worldPos);
+
+        this.P.copy(this.origin);
+        this.F.copy(this.direction);        
+
+        this.cursor.visible = this.env.avatar.worldPos.distanceTo(this.P) < 10;
+        if (this.cursor.visible) {
+            // See if anything was hit...
+            this.fireRay(this.origin, this.direction);
+
+            // Move the cursor to wherever the pointer is pointing.
+            this.updateCursor(this.avatar.worldPos, this.avatar.comfortOffset, false, 4);
+
+            // point the pointer at the cursor
+            this.cursor.object.getWorldPosition(this.F)
+                .sub(this.P)
+                .sub(this.O);
+            // ... but first, use the pointer length to set the laser length
+            this.laser.length = 19 * this.F.length();
+            this.F.normalize();
+        }
+        else {
+            this.laser.length = 57;
+        }
+
+        // construct the LERPing targets for the pointer graphics
+        setMatrixFromUpFwdPos(
+            this.up,
+            this.F,
+            this.P.add(this.O),
+            this.MW);
+        this.M
+            .copy(this.object.parent.matrixWorld)
+            .invert()
+            .multiply(this.MW)
+            .decompose(
+                this.object.position,
+                this.object.quaternion,
+                this.S);
+
+        this.origin.sub(this.avatar.worldPos);
     }
 
     updatePointerOrientation() {

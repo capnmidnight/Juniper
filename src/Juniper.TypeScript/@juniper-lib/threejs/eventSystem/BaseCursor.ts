@@ -43,9 +43,11 @@ export abstract class BaseCursor implements ErsatzObject {
 
     update(
         avatarHeadPos: THREE.Vector3,
+        comfortOffset: THREE.Vector3,
         hit: THREE.Intersection,
         target: RayTarget,
         defaultDistance: number,
+        isLocal: boolean,
         canMoveView: boolean,
         origin: THREE.Vector3,
         direction: THREE.Vector3,
@@ -67,16 +69,30 @@ export abstract class BaseCursor implements ErsatzObject {
                 .add(this.position);
         }
         else {
-            this.position
-                .copy(direction)
-                .multiplyScalar(10000)
-                .add(origin)
-                .sub(avatarHeadPos)
-                .normalize()
-                .multiplyScalar(defaultDistance)
-                .add(avatarHeadPos);
+            if (isLocal) {
+                this.position
+                    .copy(direction)
+                    .multiplyScalar(2)
+                    .add(origin)
+                    .sub(this.env.avatar.worldPos)
+                    .normalize()
+                    .multiplyScalar(defaultDistance)
+                    .add(this.env.avatar.worldPos);
+            }
+            else {
+                this.V.copy(origin)
+                    .add(comfortOffset)
+                    .sub(avatarHeadPos)
+                    .multiplyScalar(2); // why 2? I don't know.
 
-            this.V.copy(avatarHeadPos);
+                this.position
+                    .copy(direction)
+                    .multiplyScalar(defaultDistance)
+                    .add(this.V)
+                    .add(this.env.avatar.worldPos);
+            }
+
+            this.V.copy(this.env.avatar.worldPos);
         }
 
         this.object.parent.worldToLocal(this.position);
