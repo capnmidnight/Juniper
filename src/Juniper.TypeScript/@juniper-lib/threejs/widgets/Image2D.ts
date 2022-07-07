@@ -1,6 +1,6 @@
 import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher";
-import { arrayCompare, IDisposable, inches2Meters, IProgress, isDefined, isNullOrUndefined, isNumber, meters2Inches } from "@juniper-lib/tslib";
+import { arrayCompare, arrayScan, IDisposable, inches2Meters, IProgress, isDefined, isNullOrUndefined, isNumber, meters2Inches } from "@juniper-lib/tslib";
 import { cleanup } from "../cleanup";
 import { IUpdatable } from "../IUpdatable";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
@@ -8,7 +8,7 @@ import { solidTransparent } from "../materials";
 import { objectGetRelativePose } from "../objectGetRelativePose";
 import { objectIsFullyVisible, objGraph } from "../objects";
 import { plane } from "../Plane";
-import { isMeshBasicMaterial } from "../typeChecks";
+import { isMesh, isMeshBasicMaterial } from "../typeChecks";
 import { StereoLayoutName } from "../VideoPlayer3D";
 
 const P = new THREE.Vector4();
@@ -57,6 +57,20 @@ export class Image2D
             this.mesh = new THREE.Mesh(plane, material);
             objGraph(this, this.mesh);
         }
+    }
+
+    override copy(source: this, recursive = true) {
+        super.copy(source, recursive);
+        this.setImageSize(source.imageWidth, source.imageHeight);
+        this.setEnvAndName(source.env, source.name + (++copyCounter));
+        this.mesh = arrayScan(this.children, isMesh) as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
+        if (isNullOrUndefined(this.mesh)) {
+            this.mesh = source.mesh.clone();
+        }
+
+        objGraph(this, this.mesh);
+
+        return this;
     }
 
     dispose(): void {
@@ -124,25 +138,6 @@ export class Image2D
         this.env = env;
         this.name = name;
         this.tryWebXRLayers &&= this.env && this.env.hasXRCompositionLayers;
-    }
-
-    override copy(source: this, recursive = true) {
-        super.copy(source, recursive);
-        this.setImageSize(source.imageWidth, source.imageHeight);
-        this.setEnvAndName(source.env, source.name + (++copyCounter));
-        for (let i = this.children.length - 1; i >= 0; --i) {
-            const child = this.children[i];
-            if (child.parent instanceof Image2D
-                && child instanceof THREE.Mesh) {
-                child.removeFromParent();
-                this.mesh = new THREE.Mesh(child.geometry, child.material);
-            }
-        }
-        if (isNullOrUndefined(this.mesh)) {
-            this.mesh = source.mesh.clone();
-            objGraph(this, this.mesh);
-        }
-        return this;
     }
 
     private get needsLayer(): boolean {
