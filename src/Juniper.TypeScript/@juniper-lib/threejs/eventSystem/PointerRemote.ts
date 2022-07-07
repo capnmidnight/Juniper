@@ -57,7 +57,7 @@ export class PointerRemote
 
     setState(
         _avatarHeadPos: THREE.Vector3,
-        avatarComfortOffset: THREE.Vector3,
+        _avatarComfortOffset: THREE.Vector3,
         pointerPosition: THREE.Vector3,
         pointerForward: THREE.Vector3,
         pointerUp: THREE.Vector3,
@@ -69,7 +69,6 @@ export class PointerRemote
 
         if (!this.fireRay(this.origin, this.direction)) {
             this.origin.copy(this.env.avatar.worldPos);
-            this.fireRay(this.origin, this.direction);
         }
 
         this.cursor.visible = true;
