@@ -1,4 +1,4 @@
-import { PointerID, PointerType } from "@juniper-lib/tslib";
+import { isFunction, PointerID, PointerType } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { resolveCamera } from "../resolveCamera";
 import type { BaseCursor } from "./BaseCursor";
@@ -27,13 +27,23 @@ export abstract class BaseScreenPointer extends BasePointer {
             if (this.checkEvent(evt)) {
                 this.readEvent(evt);
             }
-        };
+        }
+
+        let onPointerEvents: (evt: PointerEvent) => void = onPointerEvent;
+
+        if (isFunction(PointerEvent.prototype.getCoalescedEvents)) {
+            onPointerEvents = (evt: PointerEvent) => {
+                const evts = evt.getCoalescedEvents();
+                evts.forEach(onPointerEvent);
+                onPointerEvent(evt);
+            };
+        }
 
         this.element = this.env.renderer.domElement;
-        this.element.addEventListener("pointerdown", onPointerEvent);
-        this.element.addEventListener("pointermove", onPointerEvent);
-        this.element.addEventListener("pointerup", onPointerEvent);
-        this.element.addEventListener("pointercancel", onPointerEvent);
+        this.element.addEventListener("pointerdown", onPointerEvents);
+        this.element.addEventListener("pointermove", onPointerEvents);
+        this.element.addEventListener("pointerup", onPointerEvents);
+        this.element.addEventListener("pointercancel", onPointerEvents);
     }
 
     private checkEvent(evt: PointerEvent): boolean {
