@@ -29,17 +29,13 @@ export class PointerRemote
         id: PointerID,
         cursor: Cursor3D) {
         super("remote", PointerID.RemoteUser, env, cursor || new CursorColor());
-        this.laser = new Laser(
-            isInstructor ? green : yellow,
-            0.002);
-        this.laser.length = 30;
 
         const hand = new Cube(0.05, 0.05, 0.05, litGrey);
-        objGraph(hand, this.laser);
-
         const elbow = new Cube(0.05, 0.05, 0.05, litGrey);
 
-        this.object = obj(`remote:${userName}:${this.name}`, hand, elbow);
+        this.object = obj(`remote:${userName}:${this.name}`,
+            hand,
+            elbow);
 
         if (id === PointerID.Mouse) {
             hand.position.set(0, 0, -0.2);
@@ -49,6 +45,12 @@ export class PointerRemote
             || id === PointerID.MotionControllerRight) {
             elbow.position.set(0, 0, 0.2);
         }
+
+        this.laser = new Laser(
+            isInstructor ? green : yellow,
+            0.002);
+        this.laser.length = 30;
+        objGraph(elbow, this.laser);
 
         this.cursor.object.name = `${this.object.name}:cursor`;
     }
@@ -74,6 +76,12 @@ export class PointerRemote
         this.updateCursor(3);
 
         pointerPosition.add(pointerComfortOffset);
+
+        this.cursor.object.getWorldPosition(pointerForward);
+        pointerForward.sub(pointerPosition);
+
+        this.laser.length = 20 * pointerForward.length();
+        pointerForward.normalize();
 
         setMatrixFromUpFwdPos(
             pointerUp,
