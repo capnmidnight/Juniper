@@ -2,12 +2,11 @@ import { autoPlay, id, playsInline, src, srcObject } from "@juniper-lib/dom/attr
 import { display, styles } from "@juniper-lib/dom/css";
 import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "@juniper-lib/dom/tags";
 import {
-    arrayRemove, arraySortedInsert, IDisposable, IProgress, isDefined,
+    IDisposable, IProgress, isDefined,
     isMobileVR,
     isNullOrUndefined,
     isString, stringToName, TypedEvent, TypedEventBase
 } from "@juniper-lib/tslib";
-import type { vec3 } from "gl-matrix";
 import type { DestinationNode } from "./destinations/AudioDestination";
 import { AudioDestination } from "./destinations/AudioDestination";
 import { WebAudioListenerNew } from "./destinations/spatializers/WebAudioListenerNew";
@@ -59,7 +58,6 @@ export class AudioManager
     extends TypedEventBase<AudioManagerEvents>
     implements ErsatzElement, ErsatzAudioNode {
 
-    private readonly sortedUserIDs = new Array<string>();
     private readonly users = new Map<string, AudioStreamSource>();
     private readonly clips = new Map<string, AudioElementSource>();
     private readonly clipPaths = new Map<string, string>();
@@ -71,7 +69,6 @@ export class AudioManager
 
     private _minDistance = 1;
     private _maxDistance = 10;
-    private _offsetRadius = 0;
     private _useHeadphones = false;
 
     private _algorithm: DistanceModelType = "inverse";
@@ -177,7 +174,7 @@ export class AudioManager
     }
 
     dispose() {
-        for (const userID of this.sortedUserIDs) {
+        for (const userID of this.users.keys()) {
             this.removeUser(userID);
         }
 
@@ -201,15 +198,6 @@ export class AudioManager
             await this.element.play();
         }
         await this.devices.ready;
-    }
-
-    get offsetRadius() {
-        return this._offsetRadius;
-    }
-
-    set offsetRadius(v) {
-        this._offsetRadius = v;
-        this.updateUserOffsets();
     }
 
     get filter() {
@@ -300,8 +288,6 @@ export class AudioManager
             const spatializer = this.createSpatializer(id, true, true);
             const user = new AudioStreamSource(id, this.audioCtx, spatializer);
             this.users.set(userID, user);
-            arraySortedInsert(this.sortedUserIDs, userID);
-            this.updateUserOffsets();
         }
 
         return this.users.get(userID);
@@ -312,10 +298,7 @@ export class AudioManager
      */
     setLocalUserID(id: string): AudioDestination {
         if (this.audioDestination) {
-            arrayRemove(this.sortedUserIDs, this.localUserID);
             this.localUserID = id;
-            arraySortedInsert(this.sortedUserIDs, this.localUserID);
-            this.updateUserOffsets();
         }
 
         return this.audioDestination;
@@ -547,8 +530,6 @@ export class AudioManager
         if (isDefined(user.input)) {
             user.input = null;
         }
-        arrayRemove(this.sortedUserIDs, userID);
-        this.updateUserOffsets();
     }
 
     /**
@@ -575,23 +556,6 @@ export class AudioManager
             }
             else if (isDefined(user.input)) {
                 user.input = null;
-            }
-        }
-    }
-
-    updateUserOffsets(): void {
-        if (this.offsetRadius > 0) {
-            const idx = this.sortedUserIDs.indexOf(this.localUserID);
-            const dAngle = 2 * Math.PI / this.sortedUserIDs.length;
-            const localAngle = (idx + 1) * dAngle;
-            const dx = this.offsetRadius * Math.sin(localAngle);
-            const dy = this.offsetRadius * (Math.cos(localAngle) - 1);
-            for (let i = 0; i < this.sortedUserIDs.length; ++i) {
-                const id = this.sortedUserIDs[i];
-                const angle = (i + 1) * dAngle;
-                const x = this.offsetRadius * Math.sin(angle) - dx;
-                const z = this.offsetRadius * (Math.cos(angle) - 1) - dy;
-                this.setUserOffset(id, x, 0, z);
             }
         }
     }
@@ -645,27 +609,6 @@ export class AudioManager
      */
     private withUser<T>(id: string, poseCallback: withPoseCallback<T>): T {
         return this.withPose(this.users, id, poseCallback);
-    }
-
-    /**
-     * Set the comfort position offset for a given user.
-     * @param id - the id of the user for which to set the offset.
-     * @param x - the horizontal component of the offset.
-     * @param y - the vertical component of the offset.
-     * @param z - the lateral component of the offset.
-     */
-    private setUserOffset(id: string, x: number, y: number, z: number): void {
-        this.withUser(id, (pose) => {
-            pose.setOffset(x, y, z);
-        });
-    }
-
-    /**
-     * Get the comfort position offset for a given user.
-     * @param id - the id of the user for which to set the offset.
-     */
-    public getUserOffset(id: string): vec3 {
-        return this.withUser(id, (pose) => pose.o);
     }
 
     /**

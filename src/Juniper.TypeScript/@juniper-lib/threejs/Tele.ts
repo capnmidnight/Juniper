@@ -1,5 +1,5 @@
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import { IProgress, isDefined, progressTasks, TimerTickEvent } from "@juniper-lib/tslib";
+import { arrayRemove, arraySortedInsert, IProgress, isDefined, progressTasks, TimerTickEvent } from "@juniper-lib/tslib";
 import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
 import { AvatarRemote } from "./AvatarRemote";
@@ -12,6 +12,7 @@ import { objGraph } from "./objects";
 
 export class Tele extends Application {
 
+    private readonly sortedUserIDs = new Array<string>();
     readonly users = new Map<string, AvatarRemote>();
     readonly remoteUsers = new THREE.Object3D();
 
@@ -25,6 +26,7 @@ export class Tele extends Application {
     private userName: string = null;
     private meetingID: string = null;
     private roomName: string = null;
+    private _offsetRadius = 0;
 
     constructor(env: Environment) {
         super(env);
@@ -85,12 +87,15 @@ export class Tele extends Application {
 
         this.remoteUsers.name = "Remote Users";
 
-        this.env.audio.offsetRadius = 1.25;
+        this.offsetRadius = 1.25;
 
-        this.conference = new TeleconferenceManager(this.env.audio, this.hubName, false);
+        this.conference = new TeleconferenceManager(this.env.audio, this.hubName);
 
         const onLocalUserIDChange = (evt: RoomJoinedEvent | RoomLeftEvent) => {
+            arrayRemove(this.sortedUserIDs, this.env.avatar.name);
             this.env.avatar.name = evt.userID;
+            arraySortedInsert(this.sortedUserIDs, this.env.avatar.name);
+            this.updateUserOffsets();
         };
 
         this.conference.addEventListener("roomJoined", onLocalUserIDChange);
@@ -110,7 +115,10 @@ export class Tele extends Application {
 
             user.userName = evt.user.userName;
             this.users.set(evt.user.userID, user);
+            arraySortedInsert(this.sortedUserIDs, evt.user.userID);
             objGraph(this.remoteUsers, user);
+
+            this.updateUserOffsets();
             this.env.audio.playClip("join");
         });
 
@@ -126,7 +134,9 @@ export class Tele extends Application {
             if (user) {
                 this.remoteUsers.remove(user);
                 this.users.delete(evt.user.userID);
+                arrayRemove(this.sortedUserIDs, evt.user.userID);
                 cleanup(user);
+                this.updateUserOffsets();
                 this.env.audio.playClip("leave");
             }
         });
@@ -159,6 +169,63 @@ export class Tele extends Application {
     async join(roomName: string): Promise<void> {
         this.roomName = roomName;
         await this.checkConference();
+    }
+
+    private withUser<T>(id: string, action: (user: AvatarRemote) => T): T {
+        if (this.users.has(id)) {
+            const user = this.users.get(id);
+            if (isDefined(user)) {
+                return action(user);
+            }
+        }
+
+        return null;
+    }
+
+    get offsetRadius() {
+        return this._offsetRadius;
+    }
+
+    set offsetRadius(v) {
+        this._offsetRadius = v;
+        this.updateUserOffsets();
+    }
+
+    updateUserOffsets(): void {
+        if (this.offsetRadius > 0) {
+            const idx = this.sortedUserIDs.indexOf(this.env.avatar.name);
+            const dAngle = 2 * Math.PI / this.sortedUserIDs.length;
+            const localAngle = (idx + 1) * dAngle;
+            const dx = this.offsetRadius * Math.sin(localAngle);
+            const dy = this.offsetRadius * (Math.cos(localAngle) - 1);
+            for (let i = 0; i < this.sortedUserIDs.length; ++i) {
+                const id = this.sortedUserIDs[i];
+                const angle = (i + 1) * dAngle;
+                const x = this.offsetRadius * Math.sin(angle) - dx;
+                const z = this.offsetRadius * (Math.cos(angle) - 1) - dy;
+                this.setUserOffset(id, x, 0, z);
+            }
+        }
+    }
+
+    /**
+     * Set the comfort position offset for a given user.
+     * @param id - the id of the user for which to set the offset.
+     * @param x - the horizontal component of the offset.
+     * @param y - the vertical component of the offset.
+     * @param z - the lateral component of the offset.
+     */
+    private setUserOffset(id: string, x: number, y: number, z: number): void {
+        this.withUser(id, (user) =>
+            user.comfortOffset.set(x, y, z));
+    }
+
+    /**
+     * Get the comfort position offset for a given user.
+     * @param id - the id of the user for which to set the offset.
+     */
+    public getUserOffset(id: string): THREE.Vector3 {
+        return this.withUser(id, (user) => user.comfortOffset);
     }
 
     private async checkConference(): Promise<void> {

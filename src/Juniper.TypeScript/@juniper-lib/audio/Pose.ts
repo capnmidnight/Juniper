@@ -5,10 +5,9 @@ import { vec3 } from "gl-matrix";
  **/
 export class Pose {
     t = 0;
-    p = vec3.create();
-    f = vec3.set(vec3.create(), 0, 0, -1);
-    u = vec3.set(vec3.create(), 0, 1, 0);
-    o = vec3.create();
+    readonly p = vec3.create();
+    readonly f = vec3.set(vec3.create(), 0, 0, -1);
+    readonly u = vec3.set(vec3.create(), 0, 1, 0);
 
     /**
      * Creates a new position and orientation, at a given time.
@@ -16,7 +15,6 @@ export class Pose {
     constructor() {
         Object.seal(this);
     }
-
 
     /**
      * Sets the components of the pose.
@@ -35,10 +33,6 @@ export class Pose {
         vec3.set(this.u, ux, uy, uz);
     }
 
-    setOffset(ox: number, oy: number, oz: number) {
-        vec3.set(this.o, ox, oy, oz);
-    }
-
     /**
      * Copies the components of another pose into this pose.
      */
@@ -46,6 +40,5 @@ export class Pose {
         vec3.copy(this.p, other.p);
         vec3.copy(this.f, other.f);
         vec3.copy(this.u, other.u);
-        vec3.copy(this.o, other.o);
     }
 }

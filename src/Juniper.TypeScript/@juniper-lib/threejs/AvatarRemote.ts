@@ -4,10 +4,9 @@ import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource"
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import { IDisposable, isNullOrUndefined } from "@juniper-lib/tslib";
-import { PointerID } from "@juniper-lib/tslib";
+import { FWD, IDisposable, isNullOrUndefined, PointerID, UP } from "@juniper-lib/tslib";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
-import { ConferenceEventTypes, UserPointerEvent, UserPosedEvent, UserPoseEvent } from "@juniper-lib/webrtc/ConferenceEvents";
+import { UserPointerEvent, UserPosedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading } from "./animation/lookAngles";
@@ -43,6 +42,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     private readonly pointers = new Map<PointerID, PointerRemote>();
 
     private height: number;
+    private readonly userID: string = null;
     private readonly head: THREE.Object3D = null;
     private readonly body: THREE.Object3D = null;
     private readonly nameTag: TextMesh;
@@ -52,10 +52,10 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     private readonly qTarget = new THREE.Quaternion().identity();
     private readonly qEnd = new THREE.Quaternion().identity();
     private readonly worldPos = new THREE.Vector3();
+    private readonly worldQuat = new THREE.Quaternion();
     private readonly P = new THREE.Vector3();
     private readonly F = new THREE.Vector3();
     private readonly U = new THREE.Vector3();
-    private readonly comfortOffset = new THREE.Vector3();
     private readonly O = new THREE.Vector3();
     private readonly E = new THREE.Vector3();
     private readonly M = new THREE.Matrix4();
@@ -63,6 +63,8 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     private headFollower: BodyFollower = null;
     private _headSize = 1;
     private _headPulse = 1;
+
+    readonly comfortOffset = new THREE.Vector3();
 
     constructor(
         private readonly env: Environment,
@@ -100,6 +102,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             throw new Error("Avatar doesn't have a Head or Body element");
         }
 
+        this.userID = user.userID;
         this.name = user.userName;
         this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
         this.nameTag.position.y = 0.25;
@@ -107,23 +110,12 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
 
         objGraph(this, this.nameTag);
 
-        user.addEventListener("userPosed", (evt: UserPosedEvent) => {
-            this.onRemoteUserPosed(evt);
-            const { p, f, u } = evt.pose;
-            this.env.audio.setUserPose(
-                evt.user.userID,
-                p[0], p[1], p[2],
-                f[0], f[1], f[2],
-                u[0], u[1], u[2]);
-
-            this.setPose(evt.pose, evt.height);
-        });
+        user.addEventListener("userPosed", (evt: UserPosedEvent) =>
+            this.setPose(evt.pose, evt.height));
 
 
-        user.addEventListener("userPointer", (evt: UserPointerEvent) => {
-            this.onRemoteUserPosed(evt);
-            this.setPointer(evt.pointerID, evt.pose);
-        });
+        user.addEventListener("userPointer", (evt: UserPointerEvent) =>
+            this.setPointer(evt.pointerID, evt.pose));
 
         this.activity = new ActivityDetector(`remote-user-activity-${user.userName}-${user.userID}`, this.env.audio.audioCtx);
 
@@ -138,13 +130,6 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
                 objGraph(this.body, this.nameTag)));
 
         objGraph(this, this.avatar);
-    }
-
-    private onRemoteUserPosed<T extends ConferenceEventTypes>(evt: UserPoseEvent<T>): void {
-        const offset = this.env.audio.getUserOffset(evt.user.userID);
-        if (offset) {
-            evt.pose.setOffset(offset[0], offset[1], offset[2]);
-        }
     }
 
     dispose() {
@@ -222,11 +207,21 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.head.position.copy(this.pEnd);
         this.head.quaternion.copy(this.qEnd);
         this.head.getWorldPosition(this.worldPos);
+        this.head.getWorldQuaternion(this.worldQuat);
 
-        this.head.getWorldDirection(this.F);
-        this.F.negate();
+        this.F.fromArray(FWD)
+            .applyQuaternion(this.worldQuat);
+        this.U.fromArray(UP)
+            .applyQuaternion(this.worldQuat);
 
         const angle = getLookHeading(this.F);
+
+        this.env.audio.setUserPose(
+            this.userID,
+            this.worldPos.x, this.worldPos.y, this.worldPos.z,
+            this.F.x, this.F.y, this.F.z,
+            this.U.x, this.U.y, this.U.z);
+
         this.headFollower.update(this.worldPos.y - this.parent.position.y, this.worldPos, angle, dt);
         const scale = this.height / this.defaultAvatarHeight;
         this.headSize = scale;
@@ -248,7 +243,6 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     }
 
     private setPose(pose: Pose, height: number): void {
-        this.comfortOffset.fromArray(pose.o);
         this.P.fromArray(pose.p)
             .add(this.comfortOffset);
         this.F.fromArray(pose.f);
@@ -288,7 +282,6 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.P.fromArray(pose.p);
         this.F.fromArray(pose.f);
         this.U.fromArray(pose.u);
-        this.comfortOffset.fromArray(pose.o);
 
         if (id === PointerID.Mouse && this.body) {
             this.E.set(0.2, -0.6, 0)

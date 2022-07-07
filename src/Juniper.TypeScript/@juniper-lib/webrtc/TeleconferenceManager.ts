@@ -135,7 +135,6 @@ export class TeleconferenceManager
     constructor(
         public readonly audio: AudioManager,
         private readonly signalRPath: string,
-        private readonly autoSetPosition = true,
         public readonly needsVideoDevice = false) {
         super();
 
@@ -540,10 +539,6 @@ export class TeleconferenceManager
     }
 
     async setLocalPose(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number): Promise<void> {
-        if (this.autoSetPosition) {
-            this.audio.setUserPose(this.localUserID, px, py, pz, fx, fy, fz, ux, uy, uz);
-        }
-
         if (this.conferenceState === ConnectionState.Connected) {
             await Promise.all(
                 Array.from(this.users.values())

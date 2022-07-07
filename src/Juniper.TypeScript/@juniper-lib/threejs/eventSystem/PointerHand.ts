@@ -140,7 +140,7 @@ export class PointerHand
                 this.enabled = true;
                 this.isActive = true;
                 this.env.pointers.checkXRMouse();
-                console.log(this.handedness, "connected")
+                console.log(this.handedness, "connected");
             }
         });
 
@@ -160,7 +160,7 @@ export class PointerHand
                 this.enabled = false;
                 this.isActive = false;
                 this.env.pointers.checkXRMouse();
-                console.log(this.handedness, "disconnected")
+                console.log(this.handedness, "disconnected");
             }
         });
     }
@@ -228,7 +228,6 @@ export class PointerHand
             .sub(this.origin);
 
         this.moveDistance += 50 * this.delta.length();
-        console.log(this.moveDistance);
     }
 
     protected override onUpdate() {
