@@ -42,7 +42,8 @@ export abstract class BaseScreenPointerSinglePoint extends BaseScreenPointer {
 
     protected override onReadEvent(evt: PointerEvent) {
         this.position.set(evt.offsetX, evt.offsetY);
-        this.motion.set(evt.movementX, evt.movementY);
+        this.motion.x += evt.movementX;
+        this.motion.y += evt.movementY;
 
         super.onReadEvent(evt);
 

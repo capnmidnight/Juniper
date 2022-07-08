@@ -11,7 +11,7 @@ export class CursorXRMouse extends BaseCursor {
     constructor(env: BaseEnvironment) {
         super(env);
 
-        this.xr = new CursorColor(this.env);
+        this.xr = env.cursor3D && env.cursor3D.clone() || new CursorColor(this.env);
         this.system = new CursorSystem(this.env, this.env.renderer.domElement);
         this.visible = false;
     }
@@ -38,10 +38,7 @@ export class CursorXRMouse extends BaseCursor {
     }
 
     override get visible() {
-        return this.env.renderer.xr.isPresenting
-            && this.xr.visible
-            || !this.env.renderer.xr.isPresenting
-            && this.system.visible;
+        return super.visible;
     }
 
     override set visible(v) {
@@ -56,9 +53,15 @@ export class CursorXRMouse extends BaseCursor {
     }
 
     _refresh() {
-        objectSetVisible(this.xr, this.visible
-            && (this.env.renderer.xr.isPresenting
-                || document.pointerLockElement != null));
+        const isPointerLocked = this.env.pointers
+            && this.env.pointers.mouse
+            && this.env.pointers.mouse.isPointerLocked;
+
+        const showXR = this.env.renderer.xr.isPresenting
+            || isPointerLocked;
+
+        objectSetVisible(this.xr, this.visible && showXR);
+        this.system.visible = this.visible && !showXR;
     }
 
     override lookAt(v: THREE.Vector3) {

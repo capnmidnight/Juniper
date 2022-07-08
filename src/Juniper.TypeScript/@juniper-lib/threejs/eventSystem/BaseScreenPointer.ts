@@ -51,12 +51,15 @@ export abstract class BaseScreenPointer extends BasePointer {
     }
 
     protected onReadEvent(_evt: PointerEvent): void {
+        this.updatePointerOrientation();
+    }
+
+    protected updatePointerOrientation() {
         if (this.element.clientWidth > 0
             && this.element.clientHeight > 0) {
             this.uv.copy(this.position);
             this.uv.x /= this.element.clientWidth;
             this.uv.y /= this.element.clientHeight;
-
             this.uv
                 .multiplyScalar(2)
                 .multiply(this.uvComp)
@@ -72,10 +75,6 @@ export abstract class BaseScreenPointer extends BasePointer {
             this.moveDistance = 200 * this.duv.length();
         }
 
-        this.updatePointerOrientation();
-    }
-
-    protected updatePointerOrientation() {
         const cam = resolveCamera(this.env.renderer, this.env.camera);
         this.origin.setFromMatrixPosition(cam.matrixWorld);
         this.direction

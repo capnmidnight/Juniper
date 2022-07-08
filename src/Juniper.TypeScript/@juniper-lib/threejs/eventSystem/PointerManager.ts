@@ -42,9 +42,7 @@ export class PointerManager extends TypedEventBase<Pointer3DEvents> {
         ];
 
         for (const pointer of this.pointers) {
-            if (pointer instanceof TypedEventBase) {
-                pointer.addBubbler(this);
-            }
+            pointer.addBubbler(this);
 
             if (pointer.cursor) {
                 objGraph(this.env.stage, pointer.cursor);

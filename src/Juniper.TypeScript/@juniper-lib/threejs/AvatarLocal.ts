@@ -47,7 +47,7 @@ export class AvatarLocal
          * sensitivity quite a bit.
          **/
         [CameraControlMode.MouseDrag, 100],
-        [CameraControlMode.MouseFPS, 100],
+        [CameraControlMode.MouseFPS, -100],
         /**
          * The touch points are not as sensitive as the gamepad, so we have to bump up the
          * sensitivity quite a bit.
@@ -277,6 +277,7 @@ export class AvatarLocal
         }
         else if (pointer.rayTarget
             && pointer.rayTarget.draggable
+            && !this.env.pointers.mouse.isPointerLocked
             && pointer.isPressed(VirtualButton.Primary)) {
             this.controlMode = CameraControlMode.ScreenEdge;
         }

@@ -8,7 +8,6 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
     allowPointerLock: boolean = false;
 
     private dz = 0;
-    private lastPosition: THREE.Vector2 = null;
 
     private readonly keyMap = new Map<string, VirtualButton>([
         ["`", VirtualButton.Info],
@@ -36,12 +35,7 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
         });
 
         document.addEventListener("pointerlockchange", () => {
-            if (this.isPointerLocked) {
-                this.lastPosition = this.position.clone();
-            }
-            else {
-                this.lastPosition = null;
-            }
+            this.cursor.visible = true;
         });
 
         window.addEventListener("keydown", (evt) => {
@@ -59,16 +53,17 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
         Object.seal(this);
     }
 
-    protected override onReadEvent(evt: PointerEvent): void {
-        super.onReadEvent(evt);
-
-        if (this.lastPosition) {
+    protected override updatePointerOrientation() {
+        if (this.isPointerLocked) {
             this.position
-                .copy(this.lastPosition)
-                .add(this.motion);
-
-            this.lastPosition.copy(this.position);
+                .set(
+                    this.env.renderer.domElement.clientWidth,
+                    this.env.renderer.domElement.clientHeight
+                )
+                .multiplyScalar(0.5);
         }
+
+        super.updatePointerOrientation();
     }
 
     protected override onUpdate() {
