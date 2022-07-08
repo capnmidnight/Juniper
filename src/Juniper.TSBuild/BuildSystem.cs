@@ -10,11 +10,16 @@ namespace Juniper.TSBuild
         { }
     }
 
+    public struct BuildSystemDependency
+    {
+        public string Name { get; set; }
+        public string[] From { get; set; }
+        public string[] To { get; set; }
+    }
+
     public struct BuildSystemOptions
     {
-        public bool IncludeThreeJS { get; set; }
-        public bool IncludePDFJS { get; set; }
-        public bool IncludeJQuery { get; set; }
+        public BuildSystemDependency[] Dependencies;
     }
 
     public class BuildSystem : ILoggingSource, IDisposable
@@ -53,7 +58,6 @@ namespace Juniper.TSBuild
             using var build = new BuildSystem(
                 projectName,
                 options,
-                false,
                 opts.workingDir);
 
             do
@@ -117,8 +121,6 @@ namespace Juniper.TSBuild
         }
 
         private readonly DirectoryInfo projectDir;
-        private readonly DirectoryInfo projectJsDir;
-        private readonly DirectoryInfo projectNodeModules;
         private readonly DirectoryInfo juniperTsDir;
         private readonly FileInfo projectPackage;
         private readonly FileInfo projectAppSettings;
@@ -144,7 +146,7 @@ namespace Juniper.TSBuild
             return dir;
         }
 
-        public BuildSystem(string projectName, BuildSystemOptions options, bool isDev, DirectoryInfo? workingDir)
+        public BuildSystem(string projectName, BuildSystemOptions options, DirectoryInfo? workingDir = null)
         {
             workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
             var startDir = workingDir;
@@ -162,8 +164,6 @@ namespace Juniper.TSBuild
             juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
             projectDir = TestDir($"Couldn't find project {projectName} from {startDir}", startDir.CD(projectName));
 
-            projectJsDir = projectDir.MkDir("wwwroot", "js");
-            projectNodeModules = projectDir.CD("node_modules");
             projectPackage = projectDir.Touch("package.json");
             projectAppSettings = projectDir.Touch("appsettings.json");
 
@@ -183,23 +183,9 @@ namespace Juniper.TSBuild
                 NPMInstallProjects.AddRange(NPMProjects);
                 NPMInstallProjects.Add(juniperTsDir);
 
-                if (options.IncludeThreeJS)
+                foreach(var d in options.Dependencies)
                 {
-                    AddDependency("Three.js", From("three", "build", "three.js"), To("three", "index.js"));
-                    AddDependency("Three.js min", From("three", "build", "three.min.js"), To("three", "index.min.js"));
-                }
-
-                if (options.IncludePDFJS)
-                {
-                    AddDependency("PDFJS", From("pdfjs-dist", "build", "pdf.worker.js"), To("pdfjs", "index.js"));
-                    AddDependency("PDFJS map", From("pdfjs-dist", "build", "pdf.worker.js.map"), To("pdfjs", "index.js.map"));
-                    AddDependency("PDFJS min", From("pdfjs-dist", "build", "pdf.worker.min.js"), To("pdfjs", "index.min.js"));
-                }
-
-                if (options.IncludeJQuery)
-                {
-                    AddDependency("JQuery", From("jquery", "dist", "jquery.js"), To("jquery", "index.js"));
-                    AddDependency("JQuery min", From("jquery", "dist", "jquery.min.js"), To("jquery", "index.min.js"));
+                    AddDependency(d.Name, MapPath(d.From), MapPath(d.To));
                 }
             }
 
@@ -248,7 +234,7 @@ namespace Juniper.TSBuild
             throw new Exception("Couldn't find Juniper");
         }
 
-        public BuildSystem AddDependency(string name, FileInfo from, FileInfo to)
+        private BuildSystem AddDependency(string name, FileInfo from, FileInfo to)
         {
             dependencies.Add(from, (name, to));
             return this;
@@ -260,29 +246,9 @@ namespace Juniper.TSBuild
             .SelectMany(dir => dir.EnumerateDirectories())
             .Where(dir => dir.Touch("package.json").Exists);
 
-        private static FileInfo R(DirectoryInfo dir, params string[] parts)
+        private FileInfo MapPath(params string[] parts)
         {
-            return dir.CD(parts[0..^1]).Touch(parts[^1]);
-        }
-
-        public static FileInfo From(DirectoryInfo root, params string[] parts)
-        {
-            return R(root, parts);
-        }
-
-        public FileInfo From(params string[] parts)
-        {
-            return From(projectNodeModules, parts);
-        }
-
-        public static FileInfo To(DirectoryInfo root, params string[] parts)
-        {
-            return R(root, parts);
-        }
-
-        public FileInfo To(params string[] parts)
-        {
-            return To(projectJsDir, parts);
+            return projectDir.CD(parts[0..^1]).Touch(parts[^1]);
         }
 
         private async Task WithCommandTree(Action<CommandTree> buildTree)
