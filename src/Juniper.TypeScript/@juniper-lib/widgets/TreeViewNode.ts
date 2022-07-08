@@ -1,8 +1,7 @@
 import { className, draggable, title } from "@juniper-lib/dom/attrs";
-import { buttonSetEnabled } from "@juniper-lib/dom/buttonSetEnabled";
 import { onClick, onDblClick } from "@juniper-lib/dom/evts";
 import {
-    ButtonSmall,
+    buttonSetEnabled, ButtonSmall,
     Div,
     elementIsDisplayed,
     elementSetDisplay,

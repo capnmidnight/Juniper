@@ -1,7 +1,6 @@
-import { buttonSetEnabled } from "@juniper-lib/dom/buttonSetEnabled";
 import type { ElementChild, ErsatzElement } from "@juniper-lib/dom/tags";
 import {
-    elementApply,
+    buttonSetEnabled, elementApply,
     elementClearChildren,
     isElementChild,
     isErsatzElement
@@ -15,7 +14,7 @@ import {
     objGraph
 } from "../objects";
 
-export interface Widget extends ErsatzElement, ErsatzObject {
+export interface Widget<T extends HTMLElement = HTMLElement> extends ErsatzElement<T>, ErsatzObject {
     name: string;
     visible: boolean;
 }
@@ -31,7 +30,7 @@ export type WidgetChild = Widget
 
 export function widgetSetEnabled(obj: Widget, enabled: boolean, buttonType: string) {
     if (obj.element instanceof HTMLButtonElement) {
-        buttonSetEnabled(obj, enabled, buttonType);
+        buttonSetEnabled(obj as Widget<HTMLButtonElement>, enabled, buttonType);
     }
 
     objectSetEnabled(obj, enabled);

@@ -1,5 +1,4 @@
-import { buttonSetEnabled } from "@juniper-lib/dom/buttonSetEnabled";
-import { ButtonPrimary, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, buttonSetEnabled, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
 import { Pointer3DEvents } from "../eventSystem/Pointer3DEvent";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";

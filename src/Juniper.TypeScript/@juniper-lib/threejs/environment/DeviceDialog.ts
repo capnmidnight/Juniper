@@ -8,12 +8,10 @@ import {
     title,
     value
 } from "@juniper-lib/dom/attrs";
-import { buttonSetEnabled } from "@juniper-lib/dom/buttonSetEnabled";
 import { marginLeft, minWidth, styles } from "@juniper-lib/dom/css";
 import { onClick, onInput } from "@juniper-lib/dom/evts";
 import {
-    ButtonSecondary,
-    Div,
+    ButtonSecondary, buttonSetEnabled, Div,
     elementApply,
     elementSetDisplay,
     InputCheckbox,

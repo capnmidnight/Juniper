@@ -2,11 +2,11 @@ import { IProgress, isBoolean, isDate, isDefined, isFunction, isNumber, isObject
 import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
 import { CSSInJSRule, display, margin, styles } from "./css";
 
-export interface ErsatzElement {
-    element: HTMLElement;
+export interface ErsatzElement<T extends HTMLElement = HTMLElement> {
+    element: T;
 }
 
-export function isErsatzElement(obj: any): obj is ErsatzElement {
+export function isErsatzElement<T extends HTMLElement = HTMLElement>(obj: any): obj is ErsatzElement<T> {
     if (!isObject(obj)) {
         return false;
     }
@@ -15,7 +15,7 @@ export function isErsatzElement(obj: any): obj is ErsatzElement {
     return elem.element instanceof Node;
 }
 
-export type Elements = HTMLElement | ErsatzElement;
+export type Elements<T extends HTMLElement = HTMLElement> = T | ErsatzElement<T>;
 
 export interface ErsatzElements {
     elements: Elements[];
@@ -28,7 +28,7 @@ export function isErsatzElements(obj: any): obj is ErsatzElements {
 }
 
 
-export function resolveElement(elem: Elements): HTMLElement {
+export function resolveElement<T extends HTMLElement = HTMLElement>(elem: Elements<T>): T {
     if (isErsatzElement(elem)) {
         return elem.element;
     }
@@ -36,11 +36,11 @@ export function resolveElement(elem: Elements): HTMLElement {
     return elem;
 }
 
-export interface IElementAppliable {
-    applyToElement(x: Elements): void;
+export interface IElementAppliable<T extends HTMLElement = HTMLElement> {
+    applyToElement(x: Elements<T>): void;
 }
 
-export function isIElementAppliable(obj: any): obj is IElementAppliable {
+export function isIElementAppliable<T extends HTMLElement = HTMLElement>(obj: any): obj is IElementAppliable<T> {
     return isObject(obj)
         && "applyToElement" in obj
         && isFunction((obj as any).applyToElement);
@@ -231,6 +231,56 @@ export function elementSetTitle(elem: Elements, text: string): void {
     elem = resolveElement(elem);
     elem.title = text;
 }
+
+export function elementSetClass(elem: HTMLElement, enabled: boolean, className: string) {
+    const canEnable = isDefined(className);
+    const hasEnabled = canEnable && elem.classList.contains(className);
+
+    if (canEnable && hasEnabled !== enabled) {
+        if (enabled) {
+            elem.classList.add(className);
+        }
+        else {
+            elem.classList.remove(className);
+        }
+    }
+}
+
+const types = [
+    "danger",
+    "dark",
+    "info",
+    "light",
+    "primary",
+    "secondary",
+    "success",
+    "warning"
+];
+
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, btnType: string): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, btnType: string, label: string, title: string): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, btnType?: string, label?: string, title?: string) {
+    button = resolveElement(button);
+
+    if (isString(btnType)) {
+        for (const type of types) {
+            elementSetClass(button, enabled && type === btnType, `btn-${type}`);
+            elementSetClass(button, !enabled && type === btnType, `btn-outline-${type}`);
+        }
+    }
+
+    button.disabled = !enabled;
+
+    if (label) {
+        elementSetText(button, label);
+    }
+
+    if (title) {
+        elementSetTitle(button, title);
+    }
+}
+
 
 async function mediaElementCan(type: "canplay" | "canplaythrough", elem: HTMLMediaElement, prog?: IProgress): Promise<boolean> {
     if (isDefined(prog)) {
