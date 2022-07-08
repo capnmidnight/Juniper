@@ -164,6 +164,7 @@ export function onPointerLeave(callback: (evt: PointerEvent) => void, opts?: Eve
 export function onPointerLockChange(callback: (evt: PointerEvent) => void, opts?: EventListenerOpts) { return new HtmlEvt("pointerlockchange", callback, opts); }
 export function onPointerLockError(callback: (evt: PointerEvent) => void, opts?: EventListenerOpts) { return new HtmlEvt("pointerlockerror", callback, opts); }
 export function onPointerMove(callback: (evt: PointerEvent) => void, opts?: EventListenerOpts) { return new HtmlEvt("pointermove", callback, opts); }
+export function onPointerRawUpdate(callback: (evt: PointerEvent) => void, opts?: EventListenerOpts) { return new HtmlEvt("pointerrawupdate" as any, callback, opts); }
 export function onPointerOut(callback: (evt: PointerEvent) => void, opts?: EventListenerOpts) { return new HtmlEvt("pointerout", callback, opts); }
 export function onPointerOver(callback: (evt: PointerEvent) => void, opts?: EventListenerOpts) { return new HtmlEvt("pointerover", callback, opts); }
 export function onPointerUp(callback: (evt: PointerEvent) => void, opts?: EventListenerOpts) { return new HtmlEvt("pointerup", callback, opts); }
