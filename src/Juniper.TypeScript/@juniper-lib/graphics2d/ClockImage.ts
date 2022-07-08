@@ -1,12 +1,18 @@
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
+import { isNullOrUndefined } from "@juniper-lib/tslib";
 import { TextImage } from "./TextImage";
 
 export class ClockImage extends TextImage {
+
+    private fps: number = null;
+    private drawCalls: number = null;
+    private triangles: number = null;
+
     constructor() {
         super({
             textFillColor: "#ffffff",
-            textStrokeColor: "rgba(0, 0, 0, 0.25)",
-            textStrokeSize: 0.05,
+            textStrokeColor: "rgba(0, 0, 0, 0.5)",
+            textStrokeSize: 0.025,
             fontFamily: getMonospaceFonts(),
             fontSize: 20,
             minHeight: 1,
@@ -21,17 +27,11 @@ export class ClockImage extends TextImage {
         updater();
     }
 
-    private fps: number = null;
-    private drawCalls: number = null;
-    private triangles: number = null;
-
     setStats(fps: number, drawCalls: number, triangles: number): void {
         this.fps = fps;
         this.drawCalls = drawCalls;
         this.triangles = triangles;
     }
-
-    private lastLen: number = 0;
 
     protected update(): void {
         const time = new Date();
@@ -40,8 +40,8 @@ export class ClockImage extends TextImage {
             value += ` ${Math.round(this.fps).toFixed(0)}hz ${this.drawCalls}c ${this.triangles}t`;
         }
 
-        if (value.length !== this.lastLen) {
-            this.lastLen = value.length;
+        if (isNullOrUndefined(this.value)
+            || value.length !== this.value.length) {
             this.unfreeze();
         }
 

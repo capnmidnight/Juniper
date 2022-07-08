@@ -78,8 +78,8 @@ export class Image2D
     }
 
     private setImageSize(width: number, height: number) {
-        if (width !== this._imageWidth
-            || height !== this._imageHeight) {
+        if (width !== this.imageWidth
+            || height !== this.imageHeight) {
             const { objectWidth, objectHeight } = this;
             this._imageWidth = width;
             this._imageHeight = height;

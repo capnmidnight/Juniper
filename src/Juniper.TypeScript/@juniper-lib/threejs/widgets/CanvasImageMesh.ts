@@ -12,7 +12,7 @@ export class CanvasImageMesh<T extends CanvasImage>
     extends Image2D
     implements Widget {
 
-    private _image: T;
+    private _image: T = null;
 
     private readonly _onRedrawn: () => void;
 

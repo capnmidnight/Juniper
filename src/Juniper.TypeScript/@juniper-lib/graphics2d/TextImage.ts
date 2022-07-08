@@ -1,4 +1,4 @@
-import { Context2D, createUtilityCanvas, setContextSize } from "@juniper-lib/dom/canvas";
+import { createUtilityCanvas, setContextSize } from "@juniper-lib/dom/canvas";
 import { makeFont } from "@juniper-lib/dom/fonts";
 import { clamp, isDefined, isNullOrUndefined, isNumber, PaddingRect } from "@juniper-lib/tslib";
 import { CanvasImage, CanvasImageOptions } from "./CanvasImage";
@@ -386,13 +386,6 @@ export class TextImage extends CanvasImage {
         if (this.value !== v) {
             this._value = v;
             this.redraw();
-        }
-    }
-
-    draw(g: Context2D, x: number, y: number) {
-        if (this.canvas.width > 0
-            && this.canvas.height > 0) {
-            g.drawImage(this.canvas, x, y, this.width, this.height);
         }
     }
 
