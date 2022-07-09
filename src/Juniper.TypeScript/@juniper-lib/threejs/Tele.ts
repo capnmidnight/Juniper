@@ -158,9 +158,8 @@ export class Tele extends Application {
     async loadAvatar(path: string, type: string | MediaType, prog?: IProgress) {
         const avatarAsset = new AssetGltfModel(path, type, !this.env.DEBUG);
         await this.env.fetcher.assets(prog, avatarAsset);
-        this.avatarModel = avatarAsset.result.scene;
+        this.avatarModel = avatarAsset.result.scene.children[0];
         convertMaterials(this.avatarModel, materialStandardToPhong);
-        this.avatarModel = this.avatarModel.children[0];
     }
 
     async setConferenceInfo(userType: string, userName: string, meetingID: string): Promise<void> {

@@ -27,9 +27,7 @@ import { AvatarLocal } from "../AvatarLocal";
 import { cleanup } from "../cleanup";
 import { Cursor3D } from "../eventSystem/Cursor3D";
 import { PointerManager } from "../eventSystem/PointerManager";
-import { GLTFLoader } from "../examples/loaders/GLTFLoader";
 import { Fader } from "../Fader";
-import { IModelLoader } from "../IModelLoader";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { FOREGROUND, PURGATORY } from "../layers";
 import { LoadingBar } from "../LoadingBar";
@@ -71,7 +69,7 @@ Style(
 
 export class BaseEnvironment<Events = unknown>
     extends TypedEventBase<Events & BaseEnvironmentEvents>
-    implements IWebXRLayerManager, IModelLoader {
+    implements IWebXRLayerManager {
 
     private baseLayer: XRWebGLLayer | XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();
@@ -378,17 +376,6 @@ export class BaseEnvironment<Events = unknown>
             this.skybox.visible = true;
             await this.fader.fadeIn();
         }
-    }
-
-    async loadModel(path: string, prog?: IProgress): Promise<THREE.Group> {
-        const loader = new GLTFLoader();
-        const model = await loader.loadAsync(path, (evt) => {
-            if (isDefined(prog)) {
-                prog.report(evt.loaded, evt.total, path);
-            }
-        });
-
-        return model.scene;
     }
 
     private set3DCursor(model: THREE.Group): void {
