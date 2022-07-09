@@ -91,6 +91,10 @@ export function convertMaterials<OldMatT extends THREE.Material, NewMatT extends
 
 export function materialStandardToBasic(oldMat: THREE.MeshStandardMaterial): THREE.MeshBasicMaterial {
 
+    if (oldMat.type !== "MeshStandardMaterial") {
+        throw new Error("Input material is not MeshStandardMaterial");
+    }
+
     const params: THREE.MeshBasicMaterialParameters = {
         alphaMap: oldMat.alphaMap,
         alphaTest: oldMat.alphaTest,
@@ -154,6 +158,10 @@ export function materialStandardToBasic(oldMat: THREE.MeshStandardMaterial): THR
 }
 
 export function materialStandardToPhong(oldMat: THREE.MeshStandardMaterial): THREE.MeshPhongMaterial {
+
+    if (oldMat.type !== "MeshStandardMaterial") {
+        throw new Error("Input material is not MeshStandardMaterial");
+    }
 
     const params: THREE.MeshPhongMaterialParameters = {
         alphaMap: oldMat.alphaMap,
@@ -231,6 +239,10 @@ export function materialStandardToPhong(oldMat: THREE.MeshStandardMaterial): THR
 
 
 export function materialPhongToBasic(oldMat: THREE.MeshPhongMaterial): THREE.MeshBasicMaterial {
+
+    if (oldMat.type !== "MeshPhongMaterial") {
+        throw new Error("Input material is not MeshPhongMaterial");
+    }
 
     const params: THREE.MeshBasicMaterialParameters = {
         alphaMap: oldMat.alphaMap,
