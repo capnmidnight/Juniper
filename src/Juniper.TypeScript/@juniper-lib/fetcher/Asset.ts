@@ -35,7 +35,7 @@ export abstract class BaseAsset<ResultT = any, ErrorT = any> implements Promise<
     private resolve: (value: ResultT) => void = null;
     private reject: (reason: ErrorT) => void = null;
 
-    constructor(public readonly path: string, public readonly type: MediaType) {
+    constructor(public readonly path: string, public readonly type: string | MediaType) {
         this.promise = new Promise((resolve, reject) => {
             this.resolve = (value: ResultT) => {
                 this._result = value;
@@ -95,7 +95,7 @@ export abstract class BaseAsset<ResultT = any, ErrorT = any> implements Promise<
 }
 
 export class AssetCustom<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, ErrorT> {
-    constructor(path: string, type: MediaType, private readonly getter: (fetcher: IFetcher, path: string, type: MediaType, prog?: IProgress) => Promise<ResultT>) {
+    constructor(path: string, type: string | MediaType, private readonly getter: (fetcher: IFetcher, path: string, type: string | MediaType, prog?: IProgress) => Promise<ResultT>) {
         super(path, type);
     }
 
@@ -104,16 +104,16 @@ export class AssetCustom<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, E
     }
 }
 
-abstract class BaseFetchedAsset<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, ErrorT> {
+export abstract class BaseFetchedAsset<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, ErrorT> {
 
     private readonly useCache: boolean;
 
-    constructor(path: string, type: MediaType, useCache: boolean);
-    constructor(path: string, type: MediaType);
+    constructor(path: string, type: string | MediaType, useCache: boolean);
+    constructor(path: string, type: string | MediaType);
     constructor(path: string, useCache: boolean);
     constructor(path: string);
-    constructor(path: string, typeOrUseCache?: MediaType | boolean, useCache?: boolean) {
-        let type: MediaType;
+    constructor(path: string, typeOrUseCache?: string | MediaType | boolean, useCache?: boolean) {
+        let type: string | MediaType;
         if (isBoolean(typeOrUseCache)) {
             useCache = typeOrUseCache;
         }

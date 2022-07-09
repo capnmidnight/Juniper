@@ -1,7 +1,9 @@
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
+import { MediaType, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayRemove, arraySortedInsert, IProgress, isDefined, progressTasks, TimerTickEvent } from "@juniper-lib/tslib";
 import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
+import { AssetGltfModel } from "./AssetGltfModel";
 import { AvatarRemote } from "./AvatarRemote";
 import { cleanup } from "./cleanup";
 import { DebugObject } from "./DebugObject";
@@ -153,8 +155,10 @@ export class Tele extends Application {
         this.env.foreground.remove(this.remoteUsers);
     }
 
-    async loadAvatar(path: string, prog?: IProgress) {
-        this.avatarModel = await this.env.loadModel(path, prog);
+    async loadAvatar(path: string, type: string | MediaType, prog?: IProgress) {
+        const avatarAsset = new AssetGltfModel(path, type, !this.env.DEBUG);
+        await this.env.fetcher.assets(prog, avatarAsset);
+        this.avatarModel = avatarAsset.result.scene;
         convertMaterials(this.avatarModel, materialStandardToPhong);
         this.avatarModel = this.avatarModel.children[0];
     }
@@ -248,7 +252,7 @@ export class Tele extends Application {
         await progressTasks(prog,
             (prog) => this.env.audio.loadBasicClip("join", "/audio/door_open.mp3", 0.25, prog),
             (prog) => this.env.audio.loadBasicClip("leave", "/audio/door_close.mp3", 0.25, prog),
-            (prog) => this.loadAvatar("/models/Avatar.glb", prog));
+            (prog) => this.loadAvatar("/models/Avatar.glb", Model_Gltf_Binary, prog));
     }
 
     update(evt: TimerTickEvent) {

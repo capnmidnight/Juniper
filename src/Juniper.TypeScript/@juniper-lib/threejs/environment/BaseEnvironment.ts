@@ -12,8 +12,8 @@ import {
     width
 } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
-import { AssetCustom, BaseAsset, IFetcher } from "@juniper-lib/fetcher";
-import { MediaType, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
+import { BaseAsset, IFetcher } from "@juniper-lib/fetcher";
+import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import {
     arrayRemove, arraySortByKeyInPlace, IProgress, isDefined,
     isDesktop,
@@ -22,6 +22,7 @@ import {
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
 import { BodyFollower } from "../animation/BodyFollower";
 import { updateScalings } from "../animation/scaleOnHover";
+import { AssetGltfModel } from "../AssetGltfModel";
 import { AvatarLocal } from "../AvatarLocal";
 import { cleanup } from "../cleanup";
 import { Cursor3D } from "../eventSystem/Cursor3D";
@@ -379,19 +380,6 @@ export class BaseEnvironment<Events = unknown>
         }
     }
 
-    modelAsset(path: string): AssetCustom<THREE.Group> {
-        return new AssetCustom(path, Model_Gltf_Binary, (fetcher: IFetcher, path: string, type: string | MediaType, prog?: IProgress) => this.getModel(fetcher, path, type, prog));
-    }
-
-    private getModel(fetcher: IFetcher, path: string, type: string | MediaType, prog?: IProgress) {
-        return fetcher
-            .get(path)
-            .useCache(!this.DEBUG)
-            .progress(prog)
-            .file(type)
-            .then(response => this.loadModel(response.content));
-    }
-
     async loadModel(path: string, prog?: IProgress): Promise<THREE.Group> {
         const loader = new GLTFLoader();
         const model = await loader.loadAsync(path, (evt) => {
@@ -423,13 +411,13 @@ export class BaseEnvironment<Events = unknown>
             prog = progOrAsset
         }
 
-        const cursor3d = this.modelAsset("/models/Cursors.glb");
+        const cursor3d = new AssetGltfModel("/models/Cursors.glb", Model_Gltf_Binary, !this.DEBUG);
         assets.push(cursor3d);
 
         await this.fetcher.assets(prog, ...assets);
 
-        convertMaterials(cursor3d.result, materialStandardToBasic);
+        convertMaterials(cursor3d.result.scene, materialStandardToBasic);
 
-        this.set3DCursor(cursor3d.result);
+        this.set3DCursor(cursor3d.result.scene);
     }
 }
