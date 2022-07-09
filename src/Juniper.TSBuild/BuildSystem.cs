@@ -19,7 +19,7 @@ namespace Juniper.TSBuild
 
     public struct BuildSystemOptions
     {
-        public BuildSystemDependency[] Dependencies;
+        public Dictionary<string, (string From, string To)> Dependencies;
     }
 
     public class BuildSystem : ILoggingSource, IDisposable
@@ -185,7 +185,7 @@ namespace Juniper.TSBuild
 
                 foreach(var d in options.Dependencies)
                 {
-                    AddDependency(d.Name, MapPath(d.From), MapPath(d.To));
+                    AddDependency(d.Key, MapPath(d.Value.From), MapPath(d.Value.To));
                 }
             }
 
