@@ -1,6 +1,6 @@
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { MediaType, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { arrayRemove, arraySortedInsert, IProgress, isDefined, progressTasks, TimerTickEvent } from "@juniper-lib/tslib";
+import { arrayRemove, arraySortedInsert, IProgress, isDefined, progressTasks, Task, TimerTickEvent } from "@juniper-lib/tslib";
 import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
 import { AssetGltfModel } from "./AssetGltfModel";
@@ -34,9 +34,7 @@ export class Tele extends Application {
         super(env);
     }
 
-    get ready() {
-        return this.conference && this.conference.ready;
-    }
+    public readonly ready = new Task<void>();
 
     async init(params: Map<string, unknown>): Promise<void> {
         this.defaultAvatarHeight = params.get("defaultAvatarHeight") as number;
@@ -92,6 +90,7 @@ export class Tele extends Application {
         this.offsetRadius = 1.25;
 
         this.conference = new TeleconferenceManager(this.env.audio, this.hubName);
+        this.conference.ready.then(() => this.ready.resolve());
 
         const onLocalUserIDChange = (evt: RoomJoinedEvent | RoomLeftEvent) => {
             arrayRemove(this.sortedUserIDs, this.env.avatar.name);

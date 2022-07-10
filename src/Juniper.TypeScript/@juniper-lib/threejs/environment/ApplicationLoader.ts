@@ -80,6 +80,23 @@ export class ApplicationLoader
         return this.currentApps.get(name) as T;
     }
 
+    waitFor<T extends Application>(name: string): Promise<T> {
+        if (this.isLoaded(name)) {
+            return Promise.resolve(this.get<T>(name));
+        }
+
+        return new Promise((resolve) => {
+            const onLoaded = (evt: ApplicationLoaderAppLoadedEvent) => {
+                if (evt.appName === name) {
+                    this.removeEventListener("apploaded", onLoaded);
+                    resolve(evt.app as any as T);
+                }
+            };
+
+            this.addEventListener("apploaded", onLoaded);
+        });
+    }
+
     private async loadAppConstructor(name: string, prog?: IProgress): Promise<ApplicationConstructor> {
         if (!this.loadedModules.has(name)) {
 

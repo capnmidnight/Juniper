@@ -11,7 +11,7 @@ import type { DestinationNode } from "./destinations/AudioDestination";
 import { AudioDestination } from "./destinations/AudioDestination";
 import { WebAudioListenerNew } from "./destinations/spatializers/WebAudioListenerNew";
 import { WebAudioListenerOld } from "./destinations/spatializers/WebAudioListenerOld";
-import { canChangeAudioOutput, DeviceManager } from "./DeviceManager";
+import { canChangeAudioOutput, SpeakerManager } from "./SpeakerManager";
 import type { IPoseable } from "./IPoseable";
 import {
     audioReady,
@@ -77,7 +77,7 @@ export class AudioManager
     readonly element: HTMLAudioElement = null;
     readonly audioDestination: AudioDestination = null;
 
-    readonly devices: DeviceManager;
+    readonly speakers: SpeakerManager;
     readonly input: GainNode;
     readonly localAutoControlledGain: GainNode;
     readonly output: MediaStreamAudioDestinationNode;
@@ -112,7 +112,7 @@ export class AudioManager
             destination = this.audioCtx.destination;
         }
 
-        this.devices = new DeviceManager(this.element);
+        this.speakers = new SpeakerManager(this.element);
 
         this.input = Gain(
             "local-mic-user-gain",
@@ -197,7 +197,7 @@ export class AudioManager
         if (this.element) {
             await this.element.play();
         }
-        await this.devices.ready;
+        await this.speakers.ready;
     }
 
     get filter() {

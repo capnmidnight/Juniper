@@ -1,4 +1,4 @@
-import { canChangeAudioOutput } from "@juniper-lib/audio/DeviceManager";
+import { canChangeAudioOutput } from "@juniper-lib/audio/SpeakerManager";
 import { connect } from "@juniper-lib/audio/nodes";
 import {
     className,
@@ -13,6 +13,7 @@ import { onClick, onInput } from "@juniper-lib/dom/evts";
 import {
     ButtonSecondary, buttonSetEnabled, Div,
     elementApply,
+    elementClearChildren,
     elementSetDisplay,
     InputCheckbox,
     Meter,
@@ -25,6 +26,7 @@ import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { InputRangeWithNumber, InputRangeWithNumberElement } from "@juniper-lib/widgets/InputRangeWithNumber";
 import { group, PropertyList } from "@juniper-lib/widgets/PropertyList";
 import type { Environment } from "./Environment";
+import type { Tele } from "../Tele";
 
 const MIC_GROUP = "micFields" + stringRandom(8);
 
@@ -46,6 +48,8 @@ export class DeviceDialog extends DialogBox {
 
     private readonly timer = new SetTimeoutTimer(30);
 
+    private tele: Tele = null;
+
     constructor(private readonly env: Environment) {
         super("Configure devices");
 
@@ -66,9 +70,10 @@ export class DeviceDialog extends DialogBox {
                     ["Microphones",
                         this.microphones = Select(
                             onInput(async () => {
+                                const tele = this.env.apps.get<Tele>("tele");
                                 const deviceId = this.microphones.value;
                                 const device = this.micLookup.get(deviceId);
-                                await this.env.audio.devices.setAudioInputDevice(device);
+                                await tele.conference.microphones.setAudioInputDevice(device);
                             })
                         )],
 
@@ -90,10 +95,6 @@ export class DeviceDialog extends DialogBox {
             )
         );
 
-        this.env.audio.devices.addEventListener("audioinputchanged", (evt) => {
-            this.microphones.value = evt.audio && evt.audio.deviceId || "";
-        });
-
         if (canChangeAudioOutput) {
             this.properties.append(
                 ["Speakers",
@@ -101,12 +102,12 @@ export class DeviceDialog extends DialogBox {
                         onInput(async () => {
                             const deviceId = this.speakers.value;
                             const device = this.spkrLookup.get(deviceId);
-                            await this.env.audio.devices.setAudioOutputDevice(device);
+                            await this.env.audio.speakers.setAudioOutputDevice(device);
                         })
                     )]
             );
 
-            this.env.audio.devices.addEventListener("audiooutputchanged", (evt) => {
+            this.env.audio.speakers.addEventListener("audiooutputchanged", (evt) => {
                 this.speakers.value = evt.device && evt.device.deviceId || "";
             });
         }
@@ -154,29 +155,66 @@ export class DeviceDialog extends DialogBox {
         this.timer.addTickHandler(() => {
             this.micScenario.value = this.activity.level;
         });
+
+        this.properties.setGroupVisible(MIC_GROUP, false);
+
+        this.waitForTele();
+
+        Object.seal(this);
+    }
+
+    private async waitForTele() {
+        this.tele = await this.env.apps.waitFor<Tele>("tele");
+
+        this.properties.setGroupVisible(MIC_GROUP, true);
+
+        this.tele.conference.microphones.addEventListener("audioinputchanged", (evt) => {
+            this.microphones.value = evt.audio && evt.audio.deviceId || "";
+        });
+
+        connect(this.env.audio.input, this.activity);
     }
 
     private async load() {
         await this.env.audio.ready;
-        await this.env.audio.devices.ready;
+    }
 
-        const mics = await this.env.audio.devices.getAudioInputDevices();
-        this.micLookup = makeLookup(mics, (m) => m.deviceId);
+    protected override async onShowing(): Promise<void> {
+        if (this.ready === null) {
+            this.ready = this.load();
+        }
 
-        elementApply(this.microphones,
-            Option(value(""), "NONE"),
-            ...mics.map((device) =>
-                Option(
-                    value(device.deviceId),
-                    device.label
+        await this.ready;
+
+        if (this.tele) {
+            await this.tele.ready;
+            await this.tele.conference.microphones.ready;
+
+            const mics = await this.tele.conference.microphones.getAudioInputDevices();
+            this.micLookup = makeLookup(mics, (m) => m.deviceId);
+
+            elementClearChildren(this.microphones);
+            elementApply(this.microphones,
+                Option(value(""), "NONE"),
+                ...mics.map((device) =>
+                    Option(
+                        value(device.deviceId),
+                        device.label
+                    )
                 )
             )
-        );
+
+            const curMic = await this.tele.conference.microphones.getAudioInputDevice();
+            this.microphones.value = curMic && curMic.deviceId || "";
+            this.micVolumeControl.valueAsNumber = this.env.audio.input.gain.value * 100;
+        }
 
         if (canChangeAudioOutput) {
-            const spkrs = await this.env.audio.devices.getAudioOutputDevices();
+            await this.env.audio.speakers.ready;
+            const spkrs = await this.env.audio.speakers.getAudioOutputDevices();
             this.spkrLookup = makeLookup(spkrs, (device) => device.deviceId);
 
+            elementClearChildren(this.speakers);
             elementApply(this.speakers,
                 ...spkrs.map((device) =>
                     Option(
@@ -185,23 +223,12 @@ export class DeviceDialog extends DialogBox {
                     )
                 )
             );
-        }
 
-        connect(this.env.audio.input, this.activity);
-    }
-
-    protected override async onShowing(): Promise<void> {
-        if (this.ready === null) {
-            this.ready = this.load();
-        }
-        await this.ready;
-
-        const curMic = await this.env.audio.devices.getAudioInputDevice();
-        this.microphones.value = curMic && curMic.deviceId || "";
-        this.micVolumeControl.valueAsNumber = this.env.audio.input.gain.value * 100;
-
-        if (canChangeAudioOutput) {
-            const curSpker = await this.env.audio.devices.getAudioOutputDevice();
+            let curSpker = await this.env.audio.speakers.getAudioOutputDevice();
+            if (!curSpker) {
+                curSpker = await this.env.audio.speakers.getPreferredAudioOutput();
+                await this.env.audio.speakers.setAudioOutputDevice(curSpker);
+            }
             this.speakers.value = curSpker && curSpker.deviceId || "";
         }
 
@@ -218,17 +245,5 @@ export class DeviceDialog extends DialogBox {
     protected override onClosed() {
         this.timer.stop();
         super.onClosed();
-    }
-
-    private _showMic = true;
-    get showMic(): boolean {
-        return this._showMic;
-    }
-
-    set showMic(v: boolean) {
-        if (v !== this.showMic) {
-            this._showMic = v;
-            this.properties.setGroupVisible(MIC_GROUP, this.showMic);
-        }
     }
 }

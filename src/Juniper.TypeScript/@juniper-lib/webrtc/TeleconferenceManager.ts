@@ -1,5 +1,5 @@
-import type { AudioManager } from "@juniper-lib/audio/AudioManager";
-import type { DeviceManagerAudioInputChangedEvent } from "@juniper-lib/audio/DeviceManager";
+import { AudioManager } from "@juniper-lib/audio/AudioManager";
+import { AudioInputChangedEvent, MicrophoneManager } from "@juniper-lib/audio/MicrophoneManager";
 import { MediaStreamSource, removeVertex } from "@juniper-lib/audio/nodes";
 import { assertNever, IDisposable, PointerID, singleton, TypedEventBase } from "@juniper-lib/tslib";
 import {
@@ -123,6 +123,8 @@ export class TeleconferenceManager
     private readonly hub: HubConnection;
     private readonly remoteGainDecay: DecayingGain;
 
+    readonly microphones = new MicrophoneManager();
+
     private _ready: Promise<void> = null;
     public get ready(): Promise<void> {
         if (this._ready === null) {
@@ -149,7 +151,7 @@ export class TeleconferenceManager
 
         this.hub = hubBuilder.build();
 
-        this.audio.devices.addEventListener("audioinputchanged", (evt) =>
+        this.microphones.addEventListener("audioinputchanged", (evt) =>
             this.onAudioInputChanged(evt));
 
         this.hub.onclose(() => {
@@ -242,15 +244,15 @@ export class TeleconferenceManager
         window.addEventListener("unload", onWindowClosed);
         window.addEventListener("pagehide", onWindowClosed);
 
-        this.localStream = this.audio.devices.currentStream;
+        this.localStream = this.microphones.currentStream;
 
         Object.seal(this);
     }
 
     private async startInternal(): Promise<void> {
         await this.audio.ready;
-        await this.audio.devices.startPreferredAudioInput();
-        this.localStream = this.audio.devices.currentStream;
+        await this.microphones.startPreferredAudioInput();
+        this.localStream = this.microphones.currentStream;
     }
 
     get connectionState() {
@@ -571,7 +573,7 @@ export class TeleconferenceManager
             .map((u) => [u.userID, u.userName]);
     }
 
-    protected async onAudioInputChanged(evt: DeviceManagerAudioInputChangedEvent): Promise<void> {
+    protected async onAudioInputChanged(evt: AudioInputChangedEvent): Promise<void> {
         const deviceId = evt.audio && evt.audio.deviceId;
 
         await this.startStream(
@@ -598,7 +600,7 @@ export class TeleconferenceManager
     private async restartStream() {
         this.localStream = null;
         await this.startStream(
-            this.audio.devices.preferredAudioOutputID,
+            this.microphones.preferredAudioInputID,
             this.audio.useHeadphones);
     }
 
@@ -613,7 +615,7 @@ export class TeleconferenceManager
                 this.localStreamIn = null;
             }
 
-            this.audio.devices.currentStream = v;
+            this.microphones.currentStream = v;
 
             if (v) {
                 this.localStreamIn = MediaStreamSource(
