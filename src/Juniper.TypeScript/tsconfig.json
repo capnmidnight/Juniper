@@ -9,8 +9,8 @@
 
   "compilerOptions": {
     "lib": [ "ESNext", "DOM", "WebWorker", "DOM.Iterable" ],
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "ES2021",
+    "module": "ES2020",
     "moduleResolution": "Node",
 
     "declaration": true,

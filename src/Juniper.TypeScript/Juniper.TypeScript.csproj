@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Configuration">
-    <TypeScriptTarget>ESNext</TypeScriptTarget>
+    <TypeScriptTarget>ES2021</TypeScriptTarget>
   </PropertyGroup>
 
   <ItemGroup>

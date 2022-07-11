@@ -133,10 +133,10 @@ export class Build {
 
         return esbuild({
             platform: "browser",
-            color: true,
-            logLevel: "warning",
             format: "esm",
-            target: "esnext",
+            target: "es2021",
+            logLevel: "warning",
+            color: true,
             bundle: true,
             sourcemap: true,
             entryPoints,
