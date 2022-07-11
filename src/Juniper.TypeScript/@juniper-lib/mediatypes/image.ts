@@ -64,7 +64,6 @@ export const Image_Vendor_Fst = /*@__PURE__*/ image("vnd.fst", "fst");
 export const Image_Vendor_FujixeroxEdmics_Mmr = /*@__PURE__*/ image("vnd.fujixerox.edmics-mmr", "mmr");
 export const Image_Vendor_FujixeroxEdmics_Rlc = /*@__PURE__*/ image("vnd.fujixerox.edmics-rlc", "rlc");
 export const Image_Vendor_GlobalgraphicsPgb = /*@__PURE__*/ image("vnd.globalgraphics.pgb");
-export const Image_Vendor_Google_StreetView_Pano = /*@__PURE_*/ image("vnd.google.streetview.pano");
 export const Image_Vendor_MicrosoftIcon = /*@__PURE__*/ image("vnd.microsoft.icon");
 export const Image_Vendor_Mix = /*@__PURE__*/ image("vnd.mix");
 export const Image_Vendor_MozillaApng = /*@__PURE__*/ image("vnd.mozilla.apng");
