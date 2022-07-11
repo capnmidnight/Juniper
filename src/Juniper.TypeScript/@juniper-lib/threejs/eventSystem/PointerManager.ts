@@ -1,13 +1,14 @@
-import { TypedEventBase } from "@juniper-lib/tslib";
+import { arrayClear, TypedEventBase } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";
-import { Pointer3DEvents } from "./Pointer3DEvent";
 import type { IPointer } from "./IPointer";
+import { Pointer3DEvents } from "./Pointer3DEvent";
 import { PointerHand } from "./PointerHand";
 import { PointerMouse } from "./PointerMouse";
-import { PointerTouch } from "./PointerTouch";
 import { PointerPen } from "./PointerPen";
+import { PointerTouch } from "./PointerTouch";
+import { getRayTarget } from "./RayTarget";
 
 export class PointerManager extends TypedEventBase<Pointer3DEvents> {
     private readonly raycaster = new THREE.Raycaster();
@@ -15,6 +16,8 @@ export class PointerManager extends TypedEventBase<Pointer3DEvents> {
     public readonly mouse: PointerMouse;
     private readonly pen: PointerPen;
     private readonly touches: PointerTouch;
+    private readonly queue = new Array<THREE.Object3D>();
+    private readonly targets = new Array<THREE.Object3D>();
     readonly hands = new Array<PointerHand>();
 
     private readonly pointers: IPointer[];
@@ -79,10 +82,25 @@ export class PointerManager extends TypedEventBase<Pointer3DEvents> {
     fireRay(origin: THREE.Vector3, direction: THREE.Vector3, hits: THREE.Intersection[]): void {
         this.raycaster.ray.origin.copy(origin);
         this.raycaster.ray.direction.copy(direction);
-        this.raycaster.intersectObject(this.env.scene, true, hits);
+        this.raycaster.intersectObjects(this.targets, true, hits);
     }
 
     update() {
+
+        arrayClear(this.targets);
+
+        this.queue.push(this.env.scene);
+        while (this.queue.length > 0) {
+            const here = this.queue.shift();
+            const target = getRayTarget(here);
+            if (target) {
+                this.targets.push(target.object);
+            }
+            else if (here.children.length > 0) {
+                this.queue.push(...here.children);
+            }
+        }
+
         for (const pointer of this.pointers) {
             if (pointer.needsUpdate) {
                 pointer.update();
