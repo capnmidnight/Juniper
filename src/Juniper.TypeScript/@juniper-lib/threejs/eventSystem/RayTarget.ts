@@ -8,7 +8,7 @@ export class RayTarget<EventsT = void>
     extends TypedEventBase<EventsT & Pointer3DEvents>
     implements ErsatzObject {
 
-    private readonly meshes = new Array<THREE.Mesh>();
+    readonly meshes = new Array<THREE.Mesh>();
 
     private _disabled: boolean = false;
     private _clickable: boolean = false;

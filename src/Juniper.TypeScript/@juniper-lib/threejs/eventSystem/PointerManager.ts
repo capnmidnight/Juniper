@@ -8,7 +8,7 @@ import { PointerHand } from "./PointerHand";
 import { PointerMouse } from "./PointerMouse";
 import { PointerPen } from "./PointerPen";
 import { PointerTouch } from "./PointerTouch";
-import { getRayTarget } from "./RayTarget";
+import { getRayTarget, RayTarget } from "./RayTarget";
 
 export class PointerManager extends TypedEventBase<Pointer3DEvents> {
     private readonly raycaster = new THREE.Raycaster();
@@ -17,7 +17,8 @@ export class PointerManager extends TypedEventBase<Pointer3DEvents> {
     private readonly pen: PointerPen;
     private readonly touches: PointerTouch;
     private readonly queue = new Array<THREE.Object3D>();
-    private readonly targets = new Array<THREE.Object3D>();
+    private readonly targetsFound = new Set<RayTarget>();
+    private readonly targets = new Array<THREE.Mesh>();
     readonly hands = new Array<PointerHand>();
 
     private readonly pointers: IPointer[];
@@ -82,22 +83,25 @@ export class PointerManager extends TypedEventBase<Pointer3DEvents> {
     fireRay(origin: THREE.Vector3, direction: THREE.Vector3, hits: THREE.Intersection[]): void {
         this.raycaster.ray.origin.copy(origin);
         this.raycaster.ray.direction.copy(direction);
-        this.raycaster.intersectObjects(this.targets, true, hits);
+        this.raycaster.intersectObjects(this.targets, false, hits);
     }
 
     update() {
 
+        this.targetsFound.clear();
         arrayClear(this.targets);
 
         this.queue.push(this.env.scene);
         while (this.queue.length > 0) {
             const here = this.queue.shift();
-            const target = getRayTarget(here);
-            if (target) {
-                this.targets.push(target.object);
-            }
-            else if (here.children.length > 0) {
+            if (here.children.length > 0) {
                 this.queue.push(...here.children);
+            }
+
+            const target = getRayTarget(here);
+            if (target && !this.targetsFound.has(target)) {
+                this.targetsFound.add(target);
+                this.targets.push(...target.meshes);
             }
         }
 
