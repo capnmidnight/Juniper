@@ -216,10 +216,6 @@ export class AudioManager
         return this.localCompressor;
     }
 
-    get isReady(): boolean {
-        return this.audioCtx.state === "running";
-    }
-
     /**
      * Gets the current playback time.
      */
@@ -470,7 +466,7 @@ export class AudioManager
      * @param id - the name of the effect to play.
      */
     async playClip(id: string): Promise<void> {
-        if (this.isReady && this.hasClip(id)) {
+        if (this.hasClip(id)) {
             const clip = this.clips.get(id);
             await clip.play();
         }
@@ -481,14 +477,14 @@ export class AudioManager
      * @param id - the name of the effect to play.
      */
     async playClipThrough(id: string): Promise<void> {
-        if (this.isReady && this.hasClip(id)) {
+        if (this.hasClip(id)) {
             const clip = this.clips.get(id);
             await clip.playThrough();
         }
     }
 
     stopClip(id: string): void {
-        if (this.isReady && this.hasClip(id)) {
+        if (this.hasClip(id)) {
             const clip = this.clips.get(id);
             clip.stop();
         }

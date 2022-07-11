@@ -145,6 +145,8 @@ export class Environment
         this.lobbyButton = new ButtonImageWidget(this.uiButtons, "ui", "lobby");
         this.muteMicButton = new ToggleButton(this.uiButtons, "microphone", "mute", "unmute");
         this.muteEnvAudioButton = new ToggleButton(this.uiButtons, "environment-audio", "mute", "unmute");
+        this.muteEnvAudioButton.active = true;
+        this.audio.ready.then(() => this.muteEnvAudioButton.active = false)
 
         this.vrButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.VR);
         this.fullscreenButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.Fullscreen);

@@ -1,5 +1,5 @@
 import { AudioRecord } from "@juniper-lib/audio/data";
-import { Gain, MediaElementSource, removeVertex } from "@juniper-lib/audio/nodes";
+import { audioReady, Gain, MediaElementSource, removeVertex } from "@juniper-lib/audio/nodes";
 import { BaseAudioSource } from "@juniper-lib/audio/sources/BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper-lib/audio/sources/IPlayer";
@@ -98,6 +98,7 @@ export abstract class BaseVideoPlayer
 
             this.onSeeked();
             if (this.useAudioElement) {
+                await audioReady(this.audioCtx);
                 await this.audio.play();
             }
             this.dispatchEvent(this.playEvt)
@@ -128,6 +129,7 @@ export abstract class BaseVideoPlayer
 
         this.onCanPlay = async () => {
             if (this.useAudioElement && wasWaiting) {
+                await audioReady(this.audioCtx);
                 await this.audio.play();
                 wasWaiting = false;
             }
@@ -397,8 +399,9 @@ export abstract class BaseVideoPlayer
         return "playing";
     }
 
-    play(): Promise<void> {
-        return this.video.play();
+    async play(): Promise<void> {
+        await audioReady(this.audioCtx);
+        await this.video.play();
     }
 
     async playThrough(): Promise<void> {
