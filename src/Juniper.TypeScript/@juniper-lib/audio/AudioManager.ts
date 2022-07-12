@@ -1,5 +1,6 @@
 import { autoPlay, id, playsInline, src, srcObject } from "@juniper-lib/dom/attrs";
 import { display, styles } from "@juniper-lib/dom/css";
+import { waitForUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "@juniper-lib/dom/tags";
 import {
     IDisposable, IProgress, isDefined,
@@ -7,11 +8,9 @@ import {
     isNullOrUndefined,
     isString, stringToName, TypedEvent, TypedEventBase
 } from "@juniper-lib/tslib";
-import type { DestinationNode } from "./destinations/AudioDestination";
 import { AudioDestination } from "./destinations/AudioDestination";
 import { WebAudioListenerNew } from "./destinations/spatializers/WebAudioListenerNew";
 import { WebAudioListenerOld } from "./destinations/spatializers/WebAudioListenerOld";
-import { canChangeAudioOutput, SpeakerManager } from "./SpeakerManager";
 import type { IPoseable } from "./IPoseable";
 import {
     audioReady,
@@ -28,6 +27,7 @@ import { BaseEmitter } from "./sources/spatializers/BaseEmitter";
 import { NoSpatializationNode } from "./sources/spatializers/NoSpatializationNode";
 import { WebAudioPannerNew } from "./sources/spatializers/WebAudioPannerNew";
 import { WebAudioPannerOld } from "./sources/spatializers/WebAudioPannerOld";
+import { SpeakerManager } from "./SpeakerManager";
 
 if (!("AudioContext" in globalThis) && "webkitAudioContext" in globalThis) {
     globalThis.AudioContext = (globalThis as any).webkitAudioContext;
@@ -94,23 +94,17 @@ export class AudioManager
 
         this.audioCtx = new AudioContext();
 
-        let destination: DestinationNode = null;
-        if (canChangeAudioOutput) {
-            destination = MediaStreamDestination("final-destination", this.audioCtx);
+        const destination = MediaStreamDestination("final-destination", this.audioCtx);
 
-            this.element = Audio(
-                id("Audio-Device-Manager"),
-                playsInline(true),
+        this.element = Audio(
+            id("Audio-Device-Manager"),
+            playsInline(true),
                 autoPlay(true),
-                srcObject(destination.stream),
-                styles(
-                    display("none")));
+            srcObject(destination.stream),
+            styles(
+                display("none")));
 
-            elementApply(document.body, this);
-        }
-        else {
-            destination = this.audioCtx.destination;
-        }
+        elementApply(document.body, this);
 
         this.speakers = new SpeakerManager(this.element);
 
@@ -192,12 +186,13 @@ export class AudioManager
         this.audioCtx.suspend();
     }
 
-    private async start() {
-        await audioReady(this.audioCtx);
-        if (this.element) {
-            await this.element.play();
-        }
-        await this.speakers.ready;
+    private async start(): Promise<void> {
+        await Promise.all([
+            audioReady(this.audioCtx),
+            waitForUserGesture(() =>
+                this.element.play()),
+            this.speakers.ready
+        ]);
     }
 
     get filter() {
