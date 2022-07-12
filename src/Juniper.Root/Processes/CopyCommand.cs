@@ -24,16 +24,21 @@ namespace Juniper.Processes
         private void Check()
         {
             var fromRel = PathExt.Abs2Rel(from.FullName, Environment.CurrentDirectory);
+            var toRel = PathExt.Abs2Rel(to.FullName, Environment.CurrentDirectory);
             if (!from.Exists)
             {
                 OnWarning($"File does not exist! {fromRel}");
+            }
+            else if(to.Exists && to.LastWriteTime >= from.LastWriteTime)
+            {
+                lastWriteTime = from.LastWriteTime;
+                OnInfo($"Up to date: {toRel}");
             }
             else
             {
                 to.Directory?.Create();
                 File.Copy(from.FullName, to.FullName, overwrite);
                 lastWriteTime = from.LastWriteTime;
-                var toRel = PathExt.Abs2Rel(to.FullName, Environment.CurrentDirectory);
                 OnInfo($"Copied! {fromRel} -> {toRel}");
             }
         }
