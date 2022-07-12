@@ -30,28 +30,9 @@ namespace Juniper.Configuration
             return extTypes;
         }
 
-        private static Version? fakeVersion = null;
-
-        public static Version? GetVersion(this IConfiguration config, IWebHostEnvironment env)
+        public static Version? GetVersion(this IConfiguration config)
         {
-            if (env.IsDevelopment())
-            {
-                if (fakeVersion is null)
-                {
-                    var rand = new Random();
-                    fakeVersion = new Version(
-                        rand.Next(0, 1000),
-                        rand.Next(0, 1000),
-                        rand.Next(0, 1000),
-                        rand.Next(0, 1000));
-                }
-
-                return fakeVersion;
-            }
-            else
-            {
-                return config.GetValue<Version>("Version");
-            }
+            return config.GetValue<Version>("Version");
         }
     }
 }

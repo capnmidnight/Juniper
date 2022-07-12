@@ -70,7 +70,7 @@ namespace Juniper.TagHelpers
                     output.Attributes.SetAttribute("type", type);
                     if (Versioned && string.IsNullOrEmpty(Version))
                     {
-                        Version = config.GetVersion(env)?.ToString();
+                        Version = config.GetVersion()?.ToString();
                     }
 
                     if (!string.IsNullOrEmpty(Version))
