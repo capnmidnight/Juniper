@@ -40,7 +40,6 @@ export interface EnvironmentEvents {
 }
 
 export interface EnvironmentOptions {
-    JS_EXT: string;
     DEBUG: boolean;
 }
 
@@ -93,9 +92,8 @@ export class Environment
         this.clockImage.mesh.renderOrder = 5;
 
         options = options || {};
-        const JS_EXT = options.JS_EXT || ".js";
 
-        this.apps = new ApplicationLoader(this, JS_EXT);
+        this.apps = new ApplicationLoader(this);
         this.apps.addEventListener("apploading", (evt) => {
             evt.preLoadTask = this.fadeOut()
                 .then(() => {

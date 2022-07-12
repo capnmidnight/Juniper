@@ -64,7 +64,7 @@ export class ApplicationLoader
 
     cacheBustString: string = null;
 
-    constructor(private readonly env: Environment, private readonly JS_EXT: string) {
+    constructor(private readonly env: Environment) {
         super();
     }
 
@@ -99,8 +99,8 @@ export class ApplicationLoader
 
     private async loadAppConstructor(name: string, prog?: IProgress): Promise<ApplicationConstructor> {
         if (!this.loadedModules.has(name)) {
-
-            let url = `/js/${name}/index${this.JS_EXT}`;
+            const JS_EXT = this.env.DEBUG ? ".js" : ".min.js";
+            let url = `/js/${name}/index${JS_EXT}`;
             if (isDefined(this.cacheBustString)) {
                 const uri = new URLBuilder(url, location.href);
                 uri.query("v", this.cacheBustString);
