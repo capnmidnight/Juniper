@@ -57,6 +57,14 @@ export class EventedGamepad
         Object.seal(this);
     }
 
+    get displayId() {
+        if ("displayId" in this.pad) {
+            return (this.pad as any).displayId;
+        }
+
+        return undefined;
+    }
+
     get pad() {
         return this._pad;
     }

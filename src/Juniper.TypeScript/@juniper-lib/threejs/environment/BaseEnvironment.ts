@@ -120,6 +120,7 @@ export class BaseEnvironment<Events = unknown>
             preserveDrawingBuffer: false
         });
 
+        this.renderer.domElement.setAttribute("touch-action", "none");
         this.renderer.domElement.tabIndex = 1;
 
         this.screenControl = new ScreenControl(
@@ -189,7 +190,7 @@ export class BaseEnvironment<Events = unknown>
         (globalThis as any).env = this;
     }
 
-    get gl(): WebGLRenderingContext {
+    get gl(): WebGLRenderingContext | WebGL2RenderingContext {
         return this.renderer.getContext();
     }
 

@@ -82,7 +82,7 @@ export class RenderTargetManager implements IDisposable {
             if (session !== this.session) {
                 if (isDefined(session)
                     && views.length > 1) {
-                    this.binding = new XRWebGLBinding(session, this.gl);
+                    this.binding = new XRWebGLBinding(session, this.gl as any);
                 }
                 else {
                     this.binding = null;

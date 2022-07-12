@@ -3,7 +3,7 @@ export interface IWebXRLayerManager {
     xrBinding: XRWebGLBinding;
     xrMediaBinding: XRMediaBinding;
     stage: THREE.Object3D;
-    gl: WebGLRenderingContext;
+    gl: WebGLRenderingContext | WebGL2RenderingContext;
     referenceSpace: XRReferenceSpace;
 
     addWebXRLayer(layer: XRLayer, order: number): void;
