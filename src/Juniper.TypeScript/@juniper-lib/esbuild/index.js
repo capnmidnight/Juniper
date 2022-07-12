@@ -82,19 +82,19 @@ export class Build {
             console.log(`done in ${delta}s`);
         });
     }
-    makeBundle(entryPoints, name, minify) {
-        const JS_EXT = minify ? ".min" : "";
+    makeBundle(entryPoints, name, isRelease) {
+        const JS_EXT = isRelease ? ".min" : "";
         const entryNames = this.entryNames + JS_EXT;
         const define = {
-            DEBUG: JSON.stringify(!minify),
+            DEBUG: JSON.stringify(!isRelease),
             JS_EXT: JSON.stringify(JS_EXT + ".js"),
             IS_WORKER: JSON.stringify(this.buildWorkers)
         };
         for (const def of this.defines) {
-            const [key, value] = def(minify);
+            const [key, value] = def(isRelease);
             define[key] = value;
         }
-        const plugins = this.plugins.map((p) => p(minify));
+        const plugins = this.plugins.map((p) => p(isRelease));
         if (this.globalExternals.length > 0) {
             const config = {};
             for (const [packageName, globalName] of this.globalExternals) {
@@ -109,13 +109,13 @@ export class Build {
             logLevel: "warning",
             color: true,
             bundle: true,
-            sourcemap: true,
+            sourcemap: !isRelease,
             entryPoints,
             outbase: this.outbase,
             outdir: this.outDirName,
             entryNames,
             define,
-            minify,
+            minify: isRelease,
             external: this.externals,
             plugins,
             incremental: this.isWatch,
