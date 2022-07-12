@@ -64,7 +64,7 @@ export class CursorXRMouse extends BaseCursor {
         this.system.visible = this.visible && !showXR;
     }
 
-    override lookAt(v: THREE.Vector3) {
-        this.xr.lookAt(v);
+    override lookAt(p: THREE.Vector3, v: THREE.Vector3) {
+        this.xr.lookAt(p, v);
     }
 }

@@ -95,9 +95,7 @@ export abstract class BaseCursor implements ErsatzObject {
             this.V.copy(this.env.avatar.worldPos);
         }
 
-        this.object.parent.worldToLocal(this.position);
-
-        this.lookAt(this.V);
+        this.lookAt(this.position, this.V);
 
         this.style = target
             ? !target.enabled
@@ -116,6 +114,6 @@ export abstract class BaseCursor implements ErsatzObject {
                 : "default";
     }
 
-    lookAt(_v: THREE.Vector3) {
+    lookAt(_p: THREE.Vector3, _v: THREE.Vector3) {
     }
 }

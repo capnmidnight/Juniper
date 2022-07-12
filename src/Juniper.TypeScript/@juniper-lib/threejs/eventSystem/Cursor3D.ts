@@ -2,6 +2,7 @@ import { arrayScan } from "@juniper-lib/tslib";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { deepEnableLayer, PURGATORY } from "../layers";
 import { ErsatzObject, objectIsVisible, objectSetVisible, objGraph } from "../objects";
+import { setMatrixFromUpFwdPos } from "../setMatrixFromUpFwdPos";
 import { BaseCursor } from "./BaseCursor";
 import { CursorSystem } from "./CursorSystem";
 
@@ -15,6 +16,7 @@ export class Cursor3D
         super(env);
         this.object = new THREE.Object3D();
         this.cursorSystem = cursorSystem;
+        this.object.matrixAutoUpdate = false;
     }
 
     add(name: string, obj: THREE.Object3D) {
@@ -64,8 +66,17 @@ export class Cursor3D
         objectSetVisible(this, v);
     }
 
-    override lookAt(v: THREE.Vector3) {
-        this.object.lookAt(v);
+    override lookAt(p: THREE.Vector3, v: THREE.Vector3) {
+        const f = new THREE.Vector3().copy(v).sub(p).normalize();
+        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(this.env.avatar.worldQuat);
+        const right = new THREE.Vector3().crossVectors(up, f);
+        up.crossVectors(f, right);
+
+        setMatrixFromUpFwdPos(up, f, p, this.object.matrixWorld);
+        this.object.matrix.copy(this.object.parent.matrixWorld)
+            .invert()
+            .multiply(this.object.matrixWorld)
+            .decompose(this.object.position, this.object.quaternion, this.object.scale);
     }
 
     clone() {
