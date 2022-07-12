@@ -66,13 +66,24 @@ export class Cursor3D
         objectSetVisible(this, v);
     }
 
-    override lookAt(p: THREE.Vector3, v: THREE.Vector3) {
-        const f = new THREE.Vector3().copy(v).sub(p).normalize();
-        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(this.env.avatar.worldQuat);
-        const right = new THREE.Vector3().crossVectors(up, f);
-        up.crossVectors(f, right);
+    private readonly f = new THREE.Vector3();
+    private readonly up = new THREE.Vector3();
+    private readonly right = new THREE.Vector3();
 
-        setMatrixFromUpFwdPos(up, f, p, this.object.matrixWorld);
+    override lookAt(p: THREE.Vector3, v: THREE.Vector3) {
+        this.f
+            .copy(v)
+            .sub(p)
+            .normalize();
+
+        this.up
+            .set(0, 1, 0)
+            .applyQuaternion(this.env.avatar.worldQuat);
+
+        this.right.crossVectors(this.up, this.f);
+        this.up.crossVectors(this.f, this.right);
+
+        setMatrixFromUpFwdPos(this.up, this.f, p, this.object.matrixWorld);
         this.object.matrix.copy(this.object.parent.matrixWorld)
             .invert()
             .multiply(this.object.matrixWorld)
