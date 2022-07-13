@@ -7,11 +7,12 @@ import {
     PointerID
 } from "@juniper-lib/tslib";
 import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/EventedGamepad";
+import { Object3D } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { XRControllerModelFactory } from "../examples/webxr/XRControllerModelFactory";
 import { XRHandModelFactory } from "../examples/webxr/XRHandModelFactory";
 import { white } from "../materials";
-import { ErsatzObject, objGraph } from "../objects";
+import { ErsatzObject, obj, objGraph } from "../objects";
 import { BasePointer } from "./BasePointer";
 import { CursorColor } from "./CursorColor";
 import { Laser } from "./Laser";
@@ -52,7 +53,7 @@ export class PointerHand
     extends BasePointer
     implements ErsatzObject {
     private readonly laser = new Laser(white, 0.002);
-    readonly object = new THREE.Object3D();
+    readonly object: THREE.Object3D;
 
     private _handedness: XRHandedness = "none";
     private _isHand = false;
@@ -71,7 +72,7 @@ export class PointerHand
 
     constructor(env: BaseEnvironment, index: number) {
         super("hand", PointerID.MotionController, env, new CursorColor(env));
-
+        this.object = obj("PointerHand" + index);
         this.quaternion.identity();
 
         objGraph(this,

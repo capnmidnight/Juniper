@@ -1,7 +1,7 @@
 import { arrayScan } from "@juniper-lib/tslib";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { deepEnableLayer, PURGATORY } from "../layers";
-import { ErsatzObject, objectIsVisible, objectSetVisible, objGraph } from "../objects";
+import { ErsatzObject, obj, objectIsVisible, objectSetVisible, objGraph } from "../objects";
 import { setMatrixFromUpFwdPos } from "../setMatrixFromUpFwdPos";
 import { BaseCursor } from "./BaseCursor";
 import { CursorSystem } from "./CursorSystem";
@@ -14,7 +14,7 @@ export class Cursor3D
 
     constructor(env: BaseEnvironment, cursorSystem?: CursorSystem) {
         super(env);
-        this.object = new THREE.Object3D();
+        this.object = obj("Cursor3D");
         this.cursorSystem = cursorSystem;
         this.object.matrixAutoUpdate = false;
     }

@@ -1,7 +1,7 @@
 import { clamp, once, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { cube as geom } from "./Cube";
 import { solidTransparent } from "./materials";
-import { ErsatzObject } from "./objects";
+import { ErsatzObject, mesh } from "./objects";
 
 interface FaderEvents {
     fadecomplete: TypedEvent<"fadecomplete">;
@@ -27,9 +27,7 @@ export class Fader extends TypedEventBase<FaderEvents>
             color: 0x000000,
             side: THREE.BackSide
         });
-        this.object = new THREE.Mesh(geom, this.material);
-
-        this.object.name = name;
+        this.object = mesh(name, geom, this.material);
         this.object.renderOrder = Number.MAX_VALUE;
         this.speed = 1 / t;
         this.object.layers.enableAll();

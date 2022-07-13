@@ -2,7 +2,7 @@ import { BaseProgress, IProgress } from "@juniper-lib/tslib";
 import { Cube } from "./Cube";
 import { deepSetLayer, PURGATORY } from "./layers";
 import { litGrey, litWhite } from "./materials";
-import { ErsatzObject, objectIsVisible, objectSetVisible, objGraph } from "./objects";
+import { ErsatzObject, obj, objectIsVisible, objectSetVisible, objGraph } from "./objects";
 
 function chrome(x: number, y: number, z: number, w: number, h: number, d: number) {
     const chromeMesh = new Cube(w, h, d, litWhite);
@@ -18,7 +18,7 @@ export class LoadingBar
     private readonly valueBar: Cube;
     private value = 0;
     private targetValue = 0;
-    readonly object = new THREE.Object3D();
+    readonly object = obj("LoadingBar");
 
     constructor() {
         super();
@@ -26,7 +26,7 @@ export class LoadingBar
         this.valueBar = new Cube(0, 1, 1, litGrey);
         this.valueBar.scale.set(0, 1, 1);
 
-        const valueBarContainer = new THREE.Object3D();
+        const valueBarContainer = obj("ValueBarContainer");
         valueBarContainer.scale.set(1, 0.1, 0.1);
 
         objGraph(this,

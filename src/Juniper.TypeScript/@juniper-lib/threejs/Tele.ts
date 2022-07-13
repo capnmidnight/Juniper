@@ -10,13 +10,13 @@ import { DebugObject } from "./DebugObject";
 import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
 import { convertMaterials, materialStandardToPhong } from "./materials";
-import { objGraph } from "./objects";
+import { obj, objGraph } from "./objects";
 
 export class Tele extends Application {
 
     private readonly sortedUserIDs = new Array<string>();
     readonly users = new Map<string, AvatarRemote>();
-    readonly remoteUsers = new THREE.Object3D();
+    readonly remoteUsers = obj("RemoteUsers");
 
     conference: TeleconferenceManager = null;
 

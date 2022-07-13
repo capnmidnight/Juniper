@@ -3,7 +3,7 @@ import { IFetcher } from "@juniper-lib/fetcher";
 import { Image_Jpeg } from "@juniper-lib/mediatypes";
 import { deg2rad, IDisposable, IProgress, progressOfArray } from "@juniper-lib/tslib";
 import { cleanup } from "./cleanup";
-import { objGraph } from "./objects";
+import { mesh, objGraph } from "./objects";
 import { CUBEMAP_PATTERN } from "./Skybox";
 
 const QUAD_SIZE = 2;
@@ -186,15 +186,16 @@ export abstract class PhotosphereRig
             map: texture,
             side: THREE.DoubleSide
         });
-        const mesh = new THREE.Mesh(this.geometry, material);
+        const frame = mesh(`frame-${fov}-${heading}-${pitch}`, this.geometry, material);
         texture.needsUpdate = true;
         material.needsUpdate = true;
         E.set(deg2rad(pitch), -deg2rad(heading), 0, "YXZ");
-        mesh.scale.setScalar(size);
-        mesh.quaternion.setFromEuler(E);
-        mesh.position.set(0, 0, -dist)
-            .applyQuaternion(mesh.quaternion);
-        objGraph(this.photosphere, mesh)
+        frame.scale.setScalar(size);
+        frame.quaternion.setFromEuler(E);
+        frame.position
+            .set(0, 0, -dist)
+            .applyQuaternion(frame.quaternion);
+        objGraph(this.photosphere, frame)
     }
 
     private clear() {

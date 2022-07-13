@@ -17,7 +17,7 @@ import { jump } from "@juniper-lib/graphics2d/animation/tween";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import type { Environment } from "./environment/Environment";
-import { objectSetVisible, objGraph } from "./objects";
+import { obj, objectSetVisible, objGraph } from "./objects";
 import { TextMesh } from "./widgets/TextMesh";
 import { TextMeshButton } from "./widgets/TextMeshButton";
 import type { Widget } from "./widgets/widgets";
@@ -69,10 +69,9 @@ function newStyle(baseStyle: Partial<TextImageOptions>, fontFamily: string): Par
     return Object.assign({}, baseStyle, { fontFamily });
 }
 export class ConfirmationDialog extends DialogBox implements Widget {
-    readonly object = new THREE.Object3D();
-    readonly name = "ConfirmationDialog";
+    readonly object = obj("ConfirmationDialog");
 
-    private readonly root = new THREE.Object3D();
+    private readonly root = obj("Root");
     readonly mesh: TextMesh;
     private readonly confirmButton3D: TextMeshButton;
     private readonly cancelButton3D: TextMeshButton;
@@ -125,6 +124,10 @@ export class ConfirmationDialog extends DialogBox implements Widget {
             const scale = jump(this.a + this.b * t, JUMP_FACTOR);
             this.root.scale.set(scale, scale, 0.01);
         };
+    }
+
+    get name() {
+        return this.object.name;
     }
 
     get visible() {

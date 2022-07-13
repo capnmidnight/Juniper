@@ -103,3 +103,12 @@ export function objectSetWorldPosition(obj: Objects, pos: THREE.Vector3) {
         parent.attach(obj);
     }
 }
+
+export function mesh<
+    TGeometry extends THREE.BufferGeometry = THREE.BufferGeometry,
+    TMaterial extends THREE.Material | THREE.Material[] = THREE.Material | THREE.Material[]
+>(name: string, geom?: TGeometry, mat?: TMaterial): THREE.Mesh<TGeometry, TMaterial> {
+    const mesh = new THREE.Mesh(geom, mat);
+    mesh.name = name;
+    return mesh;
+}
