@@ -48,7 +48,7 @@ export abstract class BaseCursor implements ErsatzObject {
         target: RayTarget,
         defaultDistance: number,
         isLocal: boolean,
-        canMoveView: boolean,
+        canDragView: boolean,
         origin: THREE.Vector3,
         direction: THREE.Vector3,
         isPrimaryPressed: boolean) {
@@ -107,7 +107,7 @@ export abstract class BaseCursor implements ErsatzObject {
                     : target.clickable
                         ? "pointer"
                         : "default"
-            : canMoveView
+            : canDragView
                 ? isPrimaryPressed
                     ? "grabbing"
                     : "grab"

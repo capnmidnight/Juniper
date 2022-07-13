@@ -76,6 +76,10 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
         return document.pointerLockElement != null;
     }
 
+    override get canDragView() {
+        return super.canDragView && !this.isPointerLocked;
+    }
+
     lockPointer() {
         this.element.requestPointerLock();
     }

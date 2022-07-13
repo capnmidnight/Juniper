@@ -310,6 +310,10 @@ export abstract class BasePointer
         this.updateCursor(this.env.avatar.worldPos, ZERO, true, 2);
     }
 
+    get canDragView() {
+        return this.canMoveView;
+    }
+
     protected updateCursor(avatarHeadPos: THREE.Vector3, comfortOffset: THREE.Vector3, isLocal: boolean, defaultDistance: number) {
         if (this.cursor) {
             this.cursor.update(
@@ -319,7 +323,7 @@ export abstract class BasePointer
                 this.rayTarget || this.curTarget,
                 defaultDistance,
                 isLocal,
-                this.canMoveView,
+                this.canDragView,
                 this.origin,
                 this.direction,
                 this.isPressed(VirtualButton.Primary));
