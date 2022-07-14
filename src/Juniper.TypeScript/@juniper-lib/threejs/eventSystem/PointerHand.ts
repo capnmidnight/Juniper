@@ -7,7 +7,6 @@ import {
     PointerID
 } from "@juniper-lib/tslib";
 import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/EventedGamepad";
-import { Object3D } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { XRControllerModelFactory } from "../examples/webxr/XRControllerModelFactory";
 import { XRHandModelFactory } from "../examples/webxr/XRHandModelFactory";
