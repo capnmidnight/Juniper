@@ -182,8 +182,6 @@ export class Environment
 
         this.screenControl.setUI(this.screenUISpace, this.fullscreenButton, this.vrButton); //, this.arButton);
 
-        this.refreshSpaceUI();
-
         this.quitButton.addEventListener("click", () =>
             this.withConfirmation(
                 "Confirm quit",
@@ -215,10 +213,6 @@ export class Environment
             }
         });
 
-        const onSessionChange = () => this.refreshSpaceUI();
-        this.screenControl.addEventListener("sessionstarted", onSessionChange);
-        this.screenControl.addEventListener("sessionstopped", onSessionChange);
-
         this.muteEnvAudioButton.addEventListener("click", () => {
             this.muteEnvAudioButton.active = !this.muteEnvAudioButton.active;
             this.dispatchEvent(this.envAudioToggleEvt);
@@ -232,13 +226,6 @@ export class Environment
                 evt.ux, evt.uy, evt.uz));
     }
 
-    private refreshSpaceUI() {
-        this.xrUI.visible = this.renderer.xr.isPresenting
-            || this.testSpaceLayout;
-        this.clockImage.isVisible = this.xrUI.visible
-            || this.DEBUG;
-    }
-
     private _testSpaceLayout = false;
     get testSpaceLayout() {
         return this._testSpaceLayout;
@@ -247,7 +234,7 @@ export class Environment
     set testSpaceLayout(v) {
         if (v !== this.testSpaceLayout) {
             this._testSpaceLayout = v;
-            this.refreshSpaceUI();
+
         }
     }
 
@@ -260,6 +247,11 @@ export class Environment
 
         this.audio.update();
         this.videoPlayer.update(evt.dt, evt.frame);
+
+        this.xrUI.visible = this.renderer.xr.isPresenting
+            || this.testSpaceLayout;
+        this.clockImage.isVisible = this.xrUI.visible
+            || this.DEBUG;
 
         if (!this.renderer.xr.isPresenting) {
             this.compassImage.setPitchAndHeading(
