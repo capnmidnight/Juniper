@@ -15,6 +15,7 @@ export interface VideoRecord extends AudioRecord, ImageRecord {
 export interface FullVideoRecord extends FullAudioRecord {
     thumbnail: ImageRecord;
     videos: VideoRecord[];
+    startTime: number;
 }
 
 export function isVideoRecord(obj: MediaRecord): obj is VideoRecord {

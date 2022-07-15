@@ -30,6 +30,7 @@ export abstract class BaseVideoPlayer
     private readonly onTimeUpdate: () => Promise<void> = null;
 
     private wasUsingAudioElement: boolean = false;
+    private nextStartTime: number = null;
 
     private _data: FullVideoRecord | string = null;
     get data(): FullVideoRecord | string {
@@ -245,6 +246,13 @@ export abstract class BaseVideoPlayer
             (prog) => this.loadMediaElement(this.audio, prog),
             (prog) => this.loadMediaElement(this.video, prog));
 
+        if (isString(data)) {
+            this.nextStartTime = null;
+        }
+        else {
+            this.nextStartTime = data.startTime;
+        }
+
         if (!this.hasSources(this.video)) {
             throw new Error("No video playable sources");
         }
@@ -401,6 +409,12 @@ export abstract class BaseVideoPlayer
 
     async play(): Promise<void> {
         await audioReady(this.audioCtx);
+        if (isDefined(this.nextStartTime)) {
+            console.log(this.nextStartTime);
+            this.video.pause();
+            this.video.currentTime = this.nextStartTime;
+            this.nextStartTime = null;
+        }
         await this.video.play();
     }
 

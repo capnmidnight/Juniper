@@ -4,6 +4,12 @@ import { arrayScan, IProgress, isDefined, isNullOrUndefined, isString, PriorityL
 import { FullVideoRecord, ImageRecord, VideoRecord } from "./data";
 import { YTMetadata, YTMetadataFormat, YTMetadataThumbnail } from "./yt-dlp";
 
+export function isYouTube(url: URL): boolean {
+    return url.hostname === "www.youtube.com"
+        || url.hostname === "youtube.com"
+        || url.hostname === "youtu.be";
+}
+
 const codecReplaces = new Map([
     ["vp9", "vp09.00.10.08"]
 ]);
@@ -111,6 +117,13 @@ export class YouTubeProxy {
             metadata = pageURLOrMetadata;
         }
 
+        let startTime = 0;
+        if (isDefined(metadata.original_url)) {
+            const url = new URL(metadata.original_url);
+            if (isYouTube(url) && url.searchParams.has("t")) {
+                startTime = parseFloat(url.searchParams.get("t"));
+            }
+        }
         const formats = new PriorityList((await Promise.all(metadata.formats))
             .map((f) => [classifyFormat(f), f]));
 
@@ -124,7 +137,8 @@ export class YouTubeProxy {
             title,
             thumbnail,
             videos,
-            audios
+            audios,
+            startTime
         };
 
         return data;

@@ -38,7 +38,7 @@ export class PlaybackButton<T extends FullAudioRecord>
     private stopButton: MeshButton = null;
     private replayButton: MeshButton = null;
 
-    clickPlay: AsyncCallback = null;
+    readonly clickPlay: AsyncCallback = null;
 
     constructor(
         env: IWebXRLayerManager,
@@ -68,6 +68,13 @@ export class PlaybackButton<T extends FullAudioRecord>
         this.progressBar.position.y = -size / 2;
         this.progressBar.position.z = 0.01;
         this.progressBar.visible = false;
+
+        this.clickPlay = async () => {
+            if (player.data !== this.data) {
+                await player.load(this.data, this);
+            }
+            await player.play();
+        };
 
         this.load(buttonFactory, player);
     }
@@ -193,13 +200,6 @@ export class PlaybackButton<T extends FullAudioRecord>
         const onClick = (btn: MeshButton, callback: () => void) => {
             btn.addEventListener("click", callback);
         }
-
-        this.clickPlay = async () => {
-            if (player.data !== this.data) {
-                await player.load(this.data, this);
-            }
-            await player.play();
-        };
 
         onClick(this.playButton, this.clickPlay);
         onClick(this.pauseButton, () => player.pause());
