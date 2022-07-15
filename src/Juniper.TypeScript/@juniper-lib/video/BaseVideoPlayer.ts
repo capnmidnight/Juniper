@@ -409,8 +409,7 @@ export abstract class BaseVideoPlayer
 
     async play(): Promise<void> {
         await audioReady(this.audioCtx);
-        if (isDefined(this.nextStartTime)) {
-            console.log(this.nextStartTime);
+        if (isDefined(this.nextStartTime) && this.nextStartTime > 0) {
             this.video.pause();
             this.video.currentTime = this.nextStartTime;
             this.nextStartTime = null;
