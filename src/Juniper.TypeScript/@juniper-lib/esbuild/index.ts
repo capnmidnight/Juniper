@@ -113,7 +113,6 @@ export class Build {
         const entryNames = this.entryNames + JS_EXT;
         const define: DefMap = {
             DEBUG: JSON.stringify(!isRelease),
-            JS_EXT: JSON.stringify(JS_EXT + ".js"),
             IS_WORKER: JSON.stringify(this.buildWorkers)
         };
 

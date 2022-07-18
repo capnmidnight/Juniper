@@ -15,6 +15,7 @@ export * from "./Size";
 export * from "./truncate";
 export * from "./unproject";
 export * from "./warnOnNaN";
+export * from "./xy2i";
 
 export const RIGHT = /*@__PURE__*/ vec3.fromValues(1, 0, 0);
 export const UP = /*@__PURE__*/ vec3.fromValues(0, 1, 0);
