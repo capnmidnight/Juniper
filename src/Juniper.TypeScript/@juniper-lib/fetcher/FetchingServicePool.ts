@@ -1,20 +1,17 @@
 import { IFetchingService, IRequest, IRequestWithBody, IResponse } from "@juniper-lib/fetcher";
 import { IProgress } from "@juniper-lib/tslib";
-import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "@juniper-lib/workers";
+import type { FullWorkerClientOptions } from "@juniper-lib/workers";
 import { WorkerPool } from "@juniper-lib/workers";
 import { FetchingServiceClient } from "./FetchingServiceClient";
 
-export abstract class BaseFetchingServicePool<
-    EventsT,
-    FetcherWorkerClientT extends WorkerClient<EventsT> & IFetchingService>
-    extends WorkerPool<EventsT, FetcherWorkerClientT>
+export class FetchingServicePool
+    extends WorkerPool<void, FetchingServiceClient>
     implements IFetchingService {
 
     constructor(
         options: FullWorkerClientOptions,
-        WorkerClientClass: WorkerConstructorT<EventsT, FetcherWorkerClientT>,
         private readonly fetcher: IFetchingService) {
-        super(options, WorkerClientClass);
+        super(options, FetchingServiceClient);
     }
 
     private getFetcher(obj: any): IFetchingService {
@@ -104,9 +101,4 @@ export abstract class BaseFetchingServicePool<
     sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
         return this.getFetcher(request.body).sendObjectGetImageBitmap(request, progress);
     }
-}
-
-export class FetchingServicePool
-    extends BaseFetchingServicePool<void, FetchingServiceClient>{
-    // no additional functionality
 }

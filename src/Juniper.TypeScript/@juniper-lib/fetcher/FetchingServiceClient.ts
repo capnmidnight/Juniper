@@ -1,6 +1,6 @@
 import { IFetchingService, IRequest, IRequestWithBody, IResponse } from "@juniper-lib/fetcher";
-import { IProgress } from "@juniper-lib/tslib";
-import { WorkerClient } from "@juniper-lib/workers";
+import { assertNever, IProgress } from "@juniper-lib/tslib";
+import { WorkerClient, WorkerServerEventMessage } from "@juniper-lib/workers";
 
 function isDOMParsersSupportedType(type: string): type is DOMParserSupportedType {
     return type === "application/xhtml+xml"
@@ -106,6 +106,10 @@ export class FetchingServiceClient
 
     clearCache(): Promise<void> {
         return this.callMethod("clearCache");
+    }
+
+    protected propogateEvent(data: WorkerServerEventMessage<void>) {
+        assertNever(data.eventName);
     }
 
     private makeRequest<T>(methodName: string, request: IRequest, progress: IProgress): Promise<T> {

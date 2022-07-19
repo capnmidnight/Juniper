@@ -10,7 +10,7 @@ type Executor<T> = (...params: any[]) => Promise<T>;
 type VoidExecutor = (...params: any[]) => void;
 
 class WorkerServerProgress extends BaseProgress {
-    constructor(private readonly server: WorkerServer, private readonly taskID: number) {
+    constructor(private readonly server: WorkerServer<any>, private readonly taskID: number) {
         super();
     }
 
@@ -36,7 +36,7 @@ class WorkerServerProgress extends BaseProgress {
     }
 }
 
-export class WorkerServer {
+export class WorkerServer<EventsT> {
     private methods = new Map<string, workerServerMethod>();
 
     /**
@@ -50,7 +50,7 @@ export class WorkerServer {
         });
     }
 
-    postMessage(message: WorkerServerMessages, transferables?: (Transferable | OffscreenCanvas)[]): void {
+    postMessage(message: WorkerServerMessages<EventsT>, transferables?: (Transferable | OffscreenCanvas)[]): void {
         if (isDefined(transferables)) {
             this.self.postMessage(message, transferables);
         }
@@ -206,17 +206,14 @@ export class WorkerServer {
     }
 
 
-    addEvent<
-        EventsT,
-        TransferableT
-    >(
+    addEvent<TransferableT>(
         object: TypedEventBase<EventsT>,
         eventName: keyof EventsT & string,
         makePayload?: (evt: Event) => TransferableT,
         transferReturnValue?: createTransferableCallback<TransferableT>
     ): void {
         object.addEventListener(eventName, (evt: Event) => {
-            let message: WorkerServerEventMessage = null;
+            let message: WorkerServerEventMessage<EventsT> = null;
             if (isDefined(makePayload)) {
                 message = {
                     type: "event",

@@ -4,7 +4,7 @@ import type { IFetchingServiceImpl } from "@juniper-lib/fetcher";
 import type { IResponse } from "@juniper-lib/fetcher";
 import { WorkerServer } from "@juniper-lib/workers";
 
-export class FetchingServiceServer extends WorkerServer {
+export class FetchingServiceServer extends WorkerServer<void> {
     constructor(self: DedicatedWorkerGlobalScope, impl: IFetchingServiceImpl) {
         super(self);
         const fetcher = new FetchingService(impl);
@@ -16,7 +16,7 @@ function getContent<T extends Transferable | OffscreenCanvas>(response: IRespons
     return [response.content];
 }
 
-export function addFetcherMethods(server: WorkerServer, fetcher: IFetchingService) {
+export function addFetcherMethods(server: WorkerServer<void>, fetcher: IFetchingService) {
     server.addVoidMethod(fetcher, "setRequestVerificationToken", fetcher.setRequestVerificationToken);
 
     server.addMethod(fetcher, "clearCache", fetcher.clearCache);

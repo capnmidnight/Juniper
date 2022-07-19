@@ -21,9 +21,9 @@ interface WorkerServerTaskMessage<T extends WorkerServerMessageType>
     taskID: number;
 }
 
-export interface WorkerServerEventMessage
+export interface WorkerServerEventMessage<EventMap>
     extends WorkerServerMessage<"event"> {
-    eventName: string;
+    eventName: keyof EventMap;
     data?: any;
 }
 
@@ -45,7 +45,7 @@ export interface WorkerServerReturnMessage
     returnValue?: any;
 }
 
-export type WorkerServerMessages = WorkerServerErrorMessage
+export type WorkerServerMessages<EventMap> = WorkerServerErrorMessage
     | WorkerServerProgressMessage
     | WorkerServerReturnMessage
-    | WorkerServerEventMessage;
+    | WorkerServerEventMessage<EventMap>;

@@ -3,6 +3,7 @@ import {
     isChrome,
     isDefined,
     isDesktop,
+    isNullOrUndefined,
     isOculusBrowser,
     PointerID
 } from "@juniper-lib/tslib";
@@ -54,7 +55,6 @@ export class PointerHand
     private readonly laser = new Laser(white, 0.002);
     readonly object: THREE.Object3D;
 
-    private _handedness: XRHandedness = "none";
     private _isHand = false;
     private inputSource: XRInputSource = null;
 
@@ -129,7 +129,6 @@ export class PointerHand
                 this.inputSource = evt.data;
                 this.gamepad.pad = this.inputSource.gamepad;
                 this._isHand = isDefined(this.inputSource.hand);
-                this._handedness = this.inputSource.handedness;
                 this.id = pointerIDs.get(this.handedness);
                 this.updateCursorSide();
 
@@ -149,7 +148,6 @@ export class PointerHand
                 this.inputSource = null;
                 this.gamepad.pad = null;
                 this._isHand = false;
-                this._handedness = "none";
                 this.id = pointerIDs.get(this.handedness);
                 this.updateCursorSide();
 
@@ -190,7 +188,10 @@ export class PointerHand
     }
 
     get handedness() {
-        return this._handedness;
+        if (isNullOrUndefined(this.inputSource)) {
+            return null;
+        }
+        return this.inputSource.handedness;
     }
 
     get isHand() {
@@ -209,7 +210,7 @@ export class PointerHand
     private updateCursorSide() {
         const obj = this.cursor.object;
         if (obj) {
-            const sx = this.handedness === "left" ? -1 : 1;
+            const sx = this.handedness === "right" ? 1 : -1;
             obj.scale.set(sx, 1, 1);
         }
     }

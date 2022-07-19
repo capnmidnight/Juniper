@@ -1,4 +1,4 @@
-import { IProgress, isProgressCallback, isWorkerSupported, Task, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { arrayScan, IProgress, isProgressCallback, isWorkerSupported, Task, TypedEventBase } from "@juniper-lib/tslib";
 import { assertNever, isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
 import type { IDisposable } from "@juniper-lib/tslib/using";
 import type {
@@ -12,15 +12,15 @@ import type {
 
 interface WorkerInvocation {
     prog: IProgress;
-    resolve: (value: any) => void;
-    reject: (reason?: any) => void;
+    task: Task<any>;
     methodName: string;
 }
 
-export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implements IDisposable {
+export abstract class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implements IDisposable {
 
     private taskCounter = 0;
     private invocations = new Map<number, WorkerInvocation>();
+    private tasks = new Array<Task<any>>();
 
     /**
      * Creates a new pooled worker method executor.
@@ -33,7 +33,7 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
             console.warn("Workers are not supported on this system.");
         }
 
-        this.worker.addEventListener("message", (evt: MessageEvent<WorkerServerMessages>) => {
+        this.worker.addEventListener("message", (evt: MessageEvent<WorkerServerMessages<EventsT>>) => {
             const data = evt.data;
             switch (data.type) {
                 case "event":
@@ -71,10 +71,7 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
         this.worker.terminate();
     }
 
-    private propogateEvent(data: WorkerServerEventMessage) {
-        const evt = new TypedEvent(data.eventName);
-        this.dispatchEvent(Object.assign(evt, data.data));
-    }
+    protected abstract propogateEvent(data: WorkerServerEventMessage<EventsT>): void;
 
     private progressReport(data: WorkerServerProgressMessage) {
         const invocation = this.invocations.get(data.taskID);
@@ -88,14 +85,14 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
 
     private methodReturned(data: WorkerServerReturnMessage) {
         const messageHandler = this.removeInvocation(data.taskID);
-        const { resolve } = messageHandler;
-        resolve(data.returnValue);
+        const { task } = messageHandler;
+        task.resolve(data.returnValue);
     }
 
     private invocationError(data: WorkerServerErrorMessage) {
         const messageHandler = this.removeInvocation(data.taskID);
-        const { reject, methodName } = messageHandler;
-        reject(new Error(`${methodName} failed. Reason: ${data.errorMessage}`));
+        const { task, methodName } = messageHandler;
+        task.reject(new Error(`${methodName} failed. Reason: ${data.errorMessage}`));
     }
 
     /**
@@ -171,12 +168,18 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
 
         // taskIDs help us keep track of return values.
         const taskID = this.taskCounter++;
-        const task = new Task<T>();
+        let task = arrayScan(this.tasks, t => t.finished) as Task<T>;
+        if (task) {
+            task.reset();
+        }
+        else {
+            task = new Task<T>();
+            this.tasks.push(task);
+        }
         const invocation: WorkerInvocation = {
-            prog,
-            resolve: task.resolve,
-            reject: task.reject,
-            methodName
+            methodName,
+            task,
+            prog
         };
 
         this.invocations.set(taskID, invocation);
