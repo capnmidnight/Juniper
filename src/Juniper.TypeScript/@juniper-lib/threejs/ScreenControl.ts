@@ -88,16 +88,12 @@ export class ScreenControl
         this.refresh();
     }
 
-    setUI(screenUI: ScreenUI, fullscreenButton: ScreenModeToggleButton, vrButton: ScreenModeToggleButton, arButton?: ScreenModeToggleButton) {
+    setUI(screenUI: ScreenUI, fullscreenButton: ScreenModeToggleButton, vrButton: ScreenModeToggleButton, arButton: ScreenModeToggleButton) {
         this.screenUI = screenUI;
 
         this.buttons.set(fullscreenButton.mode, fullscreenButton);
         this.buttons.set(vrButton.mode, vrButton);
-
-        if (arButton) {
-            this.buttons.set(arButton.mode, arButton);
-            arButton.available = hasWebXR();
-        }
+        this.buttons.set(arButton.mode, arButton);
 
         for (const button of this.buttons.values()) {
             this.wasVisible.set(button, button.visible);
@@ -106,6 +102,7 @@ export class ScreenControl
 
         fullscreenButton.available = !isMobileVR() && hasFullscreenAPI();
         vrButton.available = hasVR();
+        arButton.available = hasWebXR();
     }
 
     get visible() {

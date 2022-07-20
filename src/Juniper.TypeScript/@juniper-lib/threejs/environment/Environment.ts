@@ -60,7 +60,7 @@ export class Environment
     readonly muteEnvAudioButton: ToggleButton;
     readonly quitButton: ButtonImageWidget;
     readonly lobbyButton: ButtonImageWidget;
-    //readonly arButton: ScreenModeToggleButton;
+    readonly arButton: ScreenModeToggleButton;
     readonly vrButton: ScreenModeToggleButton;
     readonly fullscreenButton: ScreenModeToggleButton;
     readonly devicesDialog: DeviceDialog;
@@ -148,7 +148,7 @@ export class Environment
 
         this.vrButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.VR);
         this.fullscreenButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.Fullscreen);
-        //this.arButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.AR);
+        this.arButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.AR);
 
         this.xrUI = new SpaceUI();
         this.xrUI.addItem(this.clockImage, { x: -1, y: 1, height: 0.1 });
@@ -160,14 +160,14 @@ export class Environment
         this.xrUI.addItem(this.lobbyButton, { x: -0.473, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.vrButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
-        //this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
+        this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
 
         objGraph(this.worldUISpace, this.xrUI);
 
         elementApply(this.screenUISpace.topRowLeft, this.compassImage, this.clockImage);
         elementApply(this.screenUISpace.topRowRight, this.quitButton);
         elementApply(this.screenUISpace.bottomRowLeft, this.settingsButton, this.muteMicButton, this.muteEnvAudioButton, this.lobbyButton);
-        elementApply(this.screenUISpace.bottomRowRight, this.fullscreenButton, this.vrButton); //, this.arButton);
+        elementApply(this.screenUISpace.bottomRowRight, this.fullscreenButton, this.vrButton, this.arButton);
 
         if (BatteryImage.isAvailable && isMobile()) {
             this.batteryImage = new CanvasImageMesh(this, "Battery", new BatteryImage());
@@ -177,10 +177,11 @@ export class Environment
         }
 
         this.vrButton.visible = isDesktop() && hasVR() || isMobileVR();
+        this.arButton.visible = false;
         this.lobbyButton.visible = false;
         this.muteMicButton.visible = false;
 
-        this.screenControl.setUI(this.screenUISpace, this.fullscreenButton, this.vrButton); //, this.arButton);
+        this.screenControl.setUI(this.screenUISpace, this.fullscreenButton, this.vrButton, this.arButton);
 
         this.quitButton.addEventListener("click", () =>
             this.withConfirmation(
