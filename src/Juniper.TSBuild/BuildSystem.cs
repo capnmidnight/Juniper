@@ -129,7 +129,6 @@ namespace Juniper.TSBuild
         private readonly List<DirectoryInfo> TSProjects = new();
         private readonly List<DirectoryInfo> ESBuildProjects = new();
         private readonly List<DirectoryInfo> NPMProjects = new();
-        private readonly List<DirectoryInfo> NPMInstallProjects = new();
 
         private readonly bool hasNPM;
 
@@ -171,19 +170,13 @@ namespace Juniper.TSBuild
 
             if (hasNPM)
             {
-                var npmProjects = new[]
-                {
-                    juniperTsDir,
-                    projectDir
-                };
-
                 CheckNPMProject(projectDir);
                 CheckTSProject(projectDir);
+                CheckESBuildProject(projectDir);
 
-                NPMInstallProjects.AddRange(NPMProjects);
-                NPMInstallProjects.Add(juniperTsDir);
+                CheckNPMProject(juniperTsDir);
 
-                foreach(var d in options.Dependencies)
+                foreach (var d in options.Dependencies)
                 {
                     AddDependency(d.Key, MapPath(d.Value.From), MapPath(d.Value.To));
                 }
@@ -210,7 +203,10 @@ namespace Juniper.TSBuild
             {
                 TSProjects.Add(project);
             }
+        }
 
+        private void CheckESBuildProject(DirectoryInfo project)
+        {
             var esbuildFile = project.Touch("esbuild.config.js");
             if (esbuildFile.Exists)
             {
@@ -348,14 +344,17 @@ namespace Juniper.TSBuild
             }
         }
 
-        private void DeleteNodeModuleDirs()
+        private void DeleteDirectories(IEnumerable<DirectoryInfo> dirs)
         {
-            foreach (var dir in NPMProjects
-                .Select(dir => dir.CD("node_modules"))
-                .Where(dir => dir.Exists))
+            foreach (var dir in dirs.Where(d => d.Exists))
             {
                 DeleteDir(dir);
             }
+        }
+
+        private void DeleteNodeModuleDirs()
+        {
+            DeleteDirectories(NPMProjects.Select(dir => dir.CD("node_modules")));
         }
 
         private void DeletePackageLockJsons()
@@ -392,7 +391,7 @@ namespace Juniper.TSBuild
         private IEnumerable<NPMInstallCommand> GetInstallCommands()
         {
             return TryMake(
-                NPMInstallProjects,
+                NPMProjects,
                 dir => new NPMInstallCommand(dir, true)
             );
         }
