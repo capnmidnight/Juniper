@@ -51,12 +51,13 @@ namespace Juniper.TSBuild
             Console.WriteLine(Colorize("warn", 33, format, values));
         }
 
-        public static async Task Run(string projectName, BuildSystemOptions options, string[] args)
+        public static async Task Run(string inProjectName, string outProjectName, BuildSystemOptions options, string[] args)
         {
             var opts = new Options(args);
 
             using var build = new BuildSystem(
-                projectName,
+                inProjectName,
+                outProjectName,
                 options,
                 opts.workingDir);
 
@@ -120,7 +121,8 @@ namespace Juniper.TSBuild
             Minified
         }
 
-        private readonly DirectoryInfo projectDir;
+        private readonly DirectoryInfo inProjectDir;
+        private readonly DirectoryInfo outProjectDir;
         private readonly DirectoryInfo juniperTsDir;
         private readonly FileInfo projectPackage;
         private readonly FileInfo projectAppSettings;
@@ -145,13 +147,13 @@ namespace Juniper.TSBuild
             return dir;
         }
 
-        public BuildSystem(string projectName, BuildSystemOptions options, DirectoryInfo? workingDir = null)
+        public BuildSystem(string inProjectName, string outProjectName, BuildSystemOptions options, DirectoryInfo? workingDir = null)
         {
             workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
             var startDir = workingDir;
 
             while (startDir != null
-                && !startDir.CD(projectName).Exists)
+                && !startDir.CD(inProjectName).Exists)
             {
                 startDir = startDir.Parent;
             }
@@ -161,24 +163,26 @@ namespace Juniper.TSBuild
             var juniperDir = FindJuniperDir(startDir);
 
             juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
-            projectDir = TestDir($"Couldn't find project {projectName} from {startDir}", startDir.CD(projectName));
+            inProjectDir = TestDir($"Couldn't find project {inProjectName} from {startDir}", startDir.CD(inProjectName));
+            outProjectDir = TestDir($"Couldn't find project {outProjectName} from {startDir}", startDir.CD(outProjectName));
 
-            projectPackage = projectDir.Touch("package.json");
-            projectAppSettings = projectDir.Touch("appsettings.json");
+            projectPackage = inProjectDir.Touch("package.json");
+            projectAppSettings = outProjectDir.Touch("appsettings.json");
 
             hasNPM = ShellCommand.IsAvailable("npm");
 
             if (hasNPM)
             {
-                CheckNPMProject(projectDir);
-                CheckTSProject(projectDir);
-                CheckESBuildProject(projectDir);
+                CheckNPMProject(inProjectDir);
+                CheckTSProject(inProjectDir);
+                CheckESBuildProject(inProjectDir);
 
                 CheckNPMProject(juniperTsDir);
+                CheckTSProject(juniperTsDir);
 
                 foreach (var d in options.Dependencies)
                 {
-                    AddDependency(d.Key, MapPath(d.Value.From), MapPath(d.Value.To));
+                    AddDependency(d.Key, MapPath(inProjectDir, d.Value.From), MapPath(outProjectDir, d.Value.To));
                 }
             }
 
@@ -242,9 +246,9 @@ namespace Juniper.TSBuild
             .SelectMany(dir => dir.EnumerateDirectories())
             .Where(dir => dir.Touch("package.json").Exists);
 
-        private FileInfo MapPath(params string[] parts)
+        private FileInfo MapPath(DirectoryInfo rootDir, params string[] parts)
         {
-            return projectDir.CD(parts[0..^1]).Touch(parts[^1]);
+            return rootDir.CD(parts[0..^1]).Touch(parts[^1]);
         }
 
         private async Task WithCommandTree(Action<CommandTree> buildTree)
@@ -354,17 +358,55 @@ namespace Juniper.TSBuild
 
         private void DeleteNodeModuleDirs()
         {
-            DeleteDirectories(NPMProjects.Select(dir => dir.CD("node_modules")));
+            DeleteDirectories(FindDirectories("node_modules", inProjectDir, outProjectDir, juniperTsDir));
         }
 
         private void DeletePackageLockJsons()
         {
-            DeleteFiles(NPMProjects.Select(dir => dir.Touch("package-lock.json")));
+            DeleteFiles(FindFiles("package-lock.json", inProjectDir, outProjectDir, juniperTsDir));
         }
 
         private void DeleteTSBuildInfos()
         {
-            DeleteFiles(TSProjects.Select(dir => dir.Touch("tsconfig.tsbuildinfo")));
+            DeleteFiles(FindFiles("tsconfig.tsbuildinfo", inProjectDir, outProjectDir, juniperTsDir));
+        }
+
+        private IEnumerable<FileInfo> FindFiles(string name, params DirectoryInfo[] dirs)
+        {
+            var q = new Queue<DirectoryInfo>();
+            q.AddRange(dirs);
+            while (q.Count > 0)
+            {
+                var here = q.Dequeue();
+                if (here.Name != "node_modules")
+                {
+                    q.AddRange(here.EnumerateDirectories());
+                    var file = here.Touch(name);
+                    if (file.Exists)
+                    {
+                        yield return file;
+                    }
+                }
+            }
+        }
+
+        private IEnumerable<DirectoryInfo> FindDirectories(string name, params DirectoryInfo[] dirs)
+        {
+            var q = new Queue<DirectoryInfo>();
+            q.AddRange(dirs);
+            while (q.Count > 0)
+            {
+                var here = q.Dequeue();
+                if (here.Name != "node_modules")
+                {
+                    q.AddRange(here.EnumerateDirectories());
+                    var dir = here.CD(name);
+                    if (dir.Exists)
+                    {
+                        yield return dir;
+                    }
+                }
+            }
         }
 
         private T? TryMake<T>(Func<T> make) where T : class
@@ -439,7 +481,7 @@ namespace Juniper.TSBuild
                     NPMProjects,
                     dir =>
                     {
-                        if (dir == projectDir)
+                        if (dir == inProjectDir)
                         {
                             return new ShellCommand(dir, "npm", "run", "check");
                         }
@@ -462,7 +504,7 @@ namespace Juniper.TSBuild
 
             await WithCommandTree(commands =>
             {
-                var projES = ESBuildProjects.Where(dir => dir == projectDir).ToArray();
+                var projES = ESBuildProjects.Where(dir => dir == inProjectDir).ToArray();
 
                 commands
                     .AddCommands(new MessageCommand("Starting build"))
@@ -491,7 +533,7 @@ namespace Juniper.TSBuild
 
         public async Task WatchAsync()
         {
-            var proxy = new CommandProxier(projectDir);
+            var proxy = new CommandProxier(inProjectDir);
             proxy.Info += Proxy_Info;
             proxy.Warning += Proxy_Warning;
             proxy.Err += Proxy_Err;
@@ -536,7 +578,7 @@ namespace Juniper.TSBuild
                 "watch"
             };
 
-            if (dir != projectDir)
+            if (dir != inProjectDir)
             {
                 args.Add("-w");
                 args.Add(string.Join("/", dir.Parent?.Name, dir.Name));
