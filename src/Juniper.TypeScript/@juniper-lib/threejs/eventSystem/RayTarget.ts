@@ -13,6 +13,7 @@ export class RayTarget<EventsT = void>
     private _disabled: boolean = false;
     private _clickable: boolean = false;
     private _draggable: boolean = false;
+    private _navigable: boolean = false;
 
     constructor(public readonly object: THREE.Object3D) {
         super();
@@ -55,6 +56,14 @@ export class RayTarget<EventsT = void>
 
     set draggable(v) {
         this._draggable = v;
+    }
+
+    get navigable() {
+        return this._navigable;
+    }
+
+    set navigable(v) {
+        this._navigable = v;
     }
 }
 

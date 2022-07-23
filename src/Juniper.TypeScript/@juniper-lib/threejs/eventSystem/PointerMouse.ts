@@ -50,6 +50,8 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
             }
         });
 
+        this.mayTeleport = true;
+
         Object.seal(this);
     }
 
@@ -78,6 +80,10 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
 
     override get canDragView() {
         return super.canDragView && !this.isPointerLocked;
+    }
+
+    override get canTeleport() {
+        return super.canTeleport && this.isPointerLocked;
     }
 
     lockPointer() {

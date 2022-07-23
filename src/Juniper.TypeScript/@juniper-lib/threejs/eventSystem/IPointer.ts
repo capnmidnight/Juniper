@@ -12,6 +12,8 @@ export interface IPointer extends TypedEventBase<Pointer3DEvents> {
     origin: THREE.Vector3;
     up: THREE.Vector3;
     canMoveView: boolean;
+    canDragView: boolean;
+    canTeleport: boolean;
     enabled: boolean;
 
     rayTarget: RayTarget;

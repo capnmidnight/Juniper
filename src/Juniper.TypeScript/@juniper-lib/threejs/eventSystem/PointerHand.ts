@@ -71,6 +71,9 @@ export class PointerHand
 
     constructor(env: BaseEnvironment, index: number) {
         super("hand", PointerID.MotionController, env, new CursorColor(env));
+
+        this.mayTeleport = true;
+
         this.object = obj("PointerHand" + index);
         this.quaternion.identity();
 

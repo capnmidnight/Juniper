@@ -21,6 +21,7 @@ export abstract class BasePointer
     readonly up = new THREE.Vector3(0, 1, 0);
 
     canMoveView = false;
+    mayTeleport = false;
 
     protected buttons = 0;
     protected isActive = false;
@@ -50,8 +51,6 @@ export abstract class BasePointer
         if (this.cursor) {
             this.cursor.visible = false;
         }
-
-        this.canMoveView = false;
     }
 
     abstract vibrate(): void;
@@ -298,10 +297,16 @@ export abstract class BasePointer
 
         const evt = this.getEvent(eventType);
         this.dispatchEvent(evt);
-        if (evt.rayTarget) {
-            if (eventType === "click") {
+        if (evt.rayTarget
+            && (eventType !== "click"
+                || evt.rayTarget.clickable
+                || evt.rayTarget.navigable)) {
+
+            if (eventType === "click"
+                && evt.rayTarget.clickable) {
                 this.vibrate();
             }
+
             if (evt.rayTarget.enabled) {
                 evt.rayTarget.dispatchEvent(evt);
             }
@@ -314,6 +319,10 @@ export abstract class BasePointer
         return this.canMoveView;
     }
 
+    get canTeleport() {
+        return this.mayTeleport;
+    }
+
     protected updateCursor(avatarHeadPos: THREE.Vector3, comfortOffset: THREE.Vector3, isLocal: boolean, defaultDistance: number) {
         if (this.cursor) {
             this.cursor.update(
@@ -324,6 +333,7 @@ export abstract class BasePointer
                 defaultDistance,
                 isLocal,
                 this.canDragView,
+                this.canTeleport,
                 this.origin,
                 this.direction,
                 this.isPressed(VirtualButton.Primary));

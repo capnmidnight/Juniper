@@ -31,8 +31,6 @@ export abstract class BaseScreenPointerSinglePoint extends BaseScreenPointer {
 
         element.addEventListener("pointerup", unPrep);
         element.addEventListener("pointercancel", unPrep);
-
-        this.canMoveView = true;
     }
 
     protected override onCheckEvent(evt: PointerEvent) {

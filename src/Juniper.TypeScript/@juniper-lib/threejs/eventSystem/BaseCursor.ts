@@ -49,6 +49,7 @@ export abstract class BaseCursor implements ErsatzObject {
         defaultDistance: number,
         isLocal: boolean,
         canDragView: boolean,
+        canTeleport: boolean,
         origin: THREE.Vector3,
         direction: THREE.Vector3,
         isPrimaryPressed: boolean) {
@@ -97,21 +98,23 @@ export abstract class BaseCursor implements ErsatzObject {
 
         this.lookAt(this.position, this.V);
 
-        this.style = target
-            ? !target.enabled
+        this.style = !target || (target.navigable && !canTeleport)
+            ? canDragView
+                ? isPrimaryPressed
+                    ? "grabbing"
+                    : "grab"
+                : "default"
+            : !target.enabled
                 ? "not-allowed"
                 : target.draggable
                     ? isPrimaryPressed
                         ? "grabbing"
                         : "move"
-                    : target.clickable
-                        ? "pointer"
-                        : "default"
-            : canDragView
-                ? isPrimaryPressed
-                    ? "grabbing"
-                    : "grab"
-                : "default";
+                    : target.navigable
+                        ? "cell"
+                        : target.clickable
+                            ? "pointer"
+                            : "default";
     }
 
     lookAt(_p: THREE.Vector3, _v: THREE.Vector3) {
