@@ -255,7 +255,7 @@ namespace Juniper.TSBuild
             .SelectMany(dir => dir.EnumerateDirectories())
             .Where(dir => dir.Touch("package.json").Exists);
 
-        private FileInfo MapPath(DirectoryInfo rootDir, params string[] parts)
+        private static FileInfo MapPath(DirectoryInfo rootDir, params string[] parts)
         {
             return rootDir.CD(parts[0..^1]).Touch(parts[^1]);
         }
@@ -380,7 +380,7 @@ namespace Juniper.TSBuild
             DeleteFiles(FindFiles("tsconfig.tsbuildinfo", inProjectDir, outProjectDir, juniperTsDir));
         }
 
-        private IEnumerable<FileInfo> FindFiles(string name, params DirectoryInfo[] dirs)
+        private static IEnumerable<FileInfo> FindFiles(string name, params DirectoryInfo[] dirs)
         {
             var q = new Queue<DirectoryInfo>();
             q.AddRange(dirs);
@@ -399,7 +399,7 @@ namespace Juniper.TSBuild
             }
         }
 
-        private IEnumerable<DirectoryInfo> FindDirectories(string name, params DirectoryInfo[] dirs)
+        private static IEnumerable<DirectoryInfo> FindDirectories(string name, params DirectoryInfo[] dirs)
         {
             var q = new Queue<DirectoryInfo>();
             q.AddRange(dirs);
