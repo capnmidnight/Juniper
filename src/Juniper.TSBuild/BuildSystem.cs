@@ -51,6 +51,11 @@ namespace Juniper.TSBuild
             Console.WriteLine(Colorize("warn", 33, format, values));
         }
 
+        public static Task Run(string projectName, BuildSystemOptions options, string[] args)
+        {
+            return Run(projectName, projectName, options, args);
+        }
+
         public static async Task Run(string inProjectName, string outProjectName, BuildSystemOptions options, string[] args)
         {
             var opts = new Options(args);
@@ -146,6 +151,10 @@ namespace Juniper.TSBuild
 
             return dir;
         }
+
+        public BuildSystem(string projectName, BuildSystemOptions options, DirectoryInfo? workingDir = null)
+            : this(projectName, projectName, options, workingDir)
+        { }
 
         public BuildSystem(string inProjectName, string outProjectName, BuildSystemOptions options, DirectoryInfo? workingDir = null)
         {
