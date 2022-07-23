@@ -71,7 +71,7 @@ export class Skybox {
 
         for (let i = 0; i < this.canvases.length; ++i) {
             const f = this.canvases[i] = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
-            this.contexts[i] = f.getContext("2d");
+            this.contexts[i] = f.getContext("2d", { alpha: false });
         }
 
         for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
@@ -100,7 +100,7 @@ export class Skybox {
         this.rtScene.add(this.rtCamera);
 
         this.flipped = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
-        this.flipper = this.flipped.getContext("2d");
+        this.flipper = this.flipped.getContext("2d", { alpha: false });
         this.flipper.fillStyle = black.getHexString();
         this.flipper.scale(-1, 1);
         this.flipper.translate(-FACE_SIZE, 0);
@@ -223,7 +223,7 @@ export class Skybox {
                         orientation: this.layerOrientation
                     });
                     this.layer.addEventListener("redraw", this.onNeedsRedraw);
-                    this.env.addWebXRLayer(this.layer, Number.MAX_VALUE); 
+                    this.env.addWebXRLayer(this.layer, Number.MAX_VALUE);
                 }
                 else if (this.layer) {
                     this.env.removeWebXRLayer(this.layer);

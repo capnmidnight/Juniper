@@ -58,7 +58,7 @@ export class ButtonFactory {
 
         this.canvas = createUICanvas(canvWidth, canvHeight);
 
-        const g = this.canvas.getContext("2d");
+        const g = this.canvas.getContext("2d", { alpha: false });
         g.fillStyle = "#1e4388";
         g.fillRect(0, 0, canvWidth, canvHeight);
 

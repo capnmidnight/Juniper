@@ -116,7 +116,7 @@ export abstract class PhotosphereRig
         this.clear();
 
         const canv = createUtilityCanvas(FACE_SIZE * 4, FACE_SIZE * 3);
-        const g = canv.getContext("2d");
+        const g = canv.getContext("2d", { alpha: false });
 
         await this.loadFrames(level, progress, getImagePath);
 
