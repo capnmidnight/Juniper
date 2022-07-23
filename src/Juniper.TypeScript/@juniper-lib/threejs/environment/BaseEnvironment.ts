@@ -20,6 +20,7 @@ import {
     isFirefox, isFunction, isOculusBrowser, oculusBrowserVersion, TimerTickEvent, TypedEvent, TypedEventBase
 } from "@juniper-lib/tslib";
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
+import { WebGLRenderTarget } from "three";
 import { BodyFollower } from "../animation/BodyFollower";
 import { updateScalings } from "../animation/scaleOnHover";
 import { AssetGltfModel } from "../AssetGltfModel";
@@ -37,11 +38,6 @@ import { resolveCamera } from "../resolveCamera";
 import { ScreenControl } from "../ScreenControl";
 import { Skybox } from "../Skybox";
 import { XRTimer, XRTimerTickEvent } from "./XRTimer";
-
-
-const spectator = new THREE.PerspectiveCamera();
-const lastViewport = new THREE.Vector4();
-const curViewport = new THREE.Vector4();
 
 const gridWidth = 15;
 const gridSize = feet2Meters(gridWidth);
@@ -74,6 +70,9 @@ export class BaseEnvironment<Events = unknown>
     private baseLayer: XRWebGLLayer | XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();
     private readonly layerSortOrder = new Map<XRLayer, number>();
+    private readonly spectator = new THREE.PerspectiveCamera();
+    private readonly lastViewport = new THREE.Vector4();
+    private readonly curViewport = new THREE.Vector4();
 
     private readonly fader: Fader;
     private fadeDepth = 0;
@@ -112,7 +111,7 @@ export class BaseEnvironment<Events = unknown>
             powerPreference: "high-performance",
             precision: "lowp",
             antialias: true,
-            alpha: true,
+            alpha: false,
             premultipliedAlpha: true,
             depth: true,
             logarithmicDepthBuffer: true,
@@ -254,25 +253,36 @@ export class BaseEnvironment<Events = unknown>
             this.renderer.render(this.scene, this.camera);
             if (this.enableSpectator) {
                 if (!this.renderer.xr.isPresenting) {
-                    lastViewport.copy(curViewport);
-                    this.renderer.getViewport(curViewport);
+                    this.lastViewport.copy(this.curViewport);
+                    this.renderer.getViewport(this.curViewport);
                 }
                 else if (isDesktop()
                     && !isFirefox()) {
-                    spectator.projectionMatrix.copy(this.camera.projectionMatrix);
-                    spectator.position.copy(cam.position);
-                    spectator.quaternion.copy(cam.quaternion);
-                    const curRT = this.renderer.getRenderTarget();
-                    this.renderer.xr.isPresenting = false;
-                    this.renderer.setRenderTarget(null);
-                    this.renderer.setViewport(lastViewport);
-                    this.renderer.clear();
-                    this.renderer.render(this.scene, spectator);
-                    this.renderer.setViewport(curViewport);
-                    this.renderer.setRenderTarget(curRT);
-                    this.renderer.xr.isPresenting = true;
+                    this.drawSnapshot();
                 }
             }
+        }
+    }
+
+    drawSnapshot() {
+        const isPresenting = this.renderer.xr.isPresenting;
+        let curRT: WebGLRenderTarget = null;
+        if (isPresenting) {
+            const cam = resolveCamera(this.renderer, this.camera);
+            this.spectator.projectionMatrix.copy(this.camera.projectionMatrix);
+            this.spectator.position.copy(cam.position);
+            this.spectator.quaternion.copy(cam.quaternion);
+            curRT = this.renderer.getRenderTarget();
+            this.renderer.xr.isPresenting = false;
+            this.renderer.setRenderTarget(null);
+            this.renderer.setViewport(this.lastViewport);
+        }
+        this.renderer.clear();
+        this.renderer.render(this.scene, isPresenting ? this.spectator : this.camera);
+        if (isPresenting) {
+            this.renderer.setViewport(this.curViewport);
+            this.renderer.setRenderTarget(curRT);
+            this.renderer.xr.isPresenting = true;
         }
     }
 
