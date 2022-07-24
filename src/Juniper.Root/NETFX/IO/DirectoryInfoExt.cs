@@ -60,6 +60,16 @@ namespace System.IO
             return file;
         }
 
+        public static string MaybeReadText(this FileInfo file)
+        {
+            if (!file.Exists)
+            {
+                return null;
+            }
+
+            return File.ReadAllText(file.FullName);
+        }
+
         /// <summary>
         /// Recursively deletes all files and subdirectories within a given directory, accumulating a list of
         /// errors along the way.
