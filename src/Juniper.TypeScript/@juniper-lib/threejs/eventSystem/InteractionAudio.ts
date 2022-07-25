@@ -1,7 +1,6 @@
 import type { AudioManager } from "@juniper-lib/audio/AudioManager";
-import type { IProgress } from "@juniper-lib/tslib";
-import type { PointerManager } from "./PointerManager";
 import type { Pointer3DEvent } from "./Pointer3DEvent";
+import type { PointerManager } from "./PointerManager";
 
 function makeClipName(type: string, isDisabled: boolean) {
     if (type === "click" && isDisabled) {
@@ -37,10 +36,6 @@ export class InteractionAudio {
         this.pointers.addEventListener("enter", playClip);
         this.pointers.addEventListener("exit", playClip);
         this.pointers.addEventListener("click", playClip);
-    }
-
-    async load(type: string, path: string, volume: number, prog?: IProgress) {
-        return await this.audio.loadClip(makeClipName(type, false), path, false, false, true, false, volume, [], prog);
     }
 
     create(type: string, element: HTMLAudioElement, volume: number) {

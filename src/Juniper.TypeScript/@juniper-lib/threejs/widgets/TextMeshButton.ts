@@ -1,4 +1,3 @@
-import { IFetcher } from "@juniper-lib/fetcher";
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { TextImage } from "@juniper-lib/graphics2d/TextImage";
 import { isDefined, stringRandom } from "@juniper-lib/tslib";
@@ -13,8 +12,7 @@ export class TextMeshButton extends RayTarget {
     readonly enabledImage: TextMesh;
     readonly disabledImage: TextMesh;
 
-    constructor(protected readonly fetcher: IFetcher,
-        protected readonly env: IWebXRLayerManager,
+    constructor(protected readonly env: IWebXRLayerManager,
         name: string,
         value: string,
         textImageOptions?: Partial<TextImageOptions>) {
