@@ -276,6 +276,7 @@ export abstract class BasePointer
                     const upEvt = this.getEvent("up");
                     this.rayTarget.dispatchEvent(upEvt);
                     const exitEvt = this.getEvent("exit");
+                    this.dispatchEvent(exitEvt);
                     this.rayTarget.dispatchEvent(exitEvt);
                 }
 
@@ -283,6 +284,7 @@ export abstract class BasePointer
 
                 if (this.rayTarget) {
                     const enterEvt = this.getEvent("enter");
+                    this.dispatchEvent(enterEvt);
                     this.rayTarget.dispatchEvent(enterEvt);
                 }
             }
