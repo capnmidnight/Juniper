@@ -19,7 +19,7 @@ namespace Juniper.TSBuild
 
     public struct BuildSystemOptions
     {
-        public Dictionary<string, (string From, string To)> Dependencies;
+        public Dictionary<string, (FileInfo From, FileInfo To)> Dependencies;
     }
 
     public class BuildSystem : ILoggingSource, IDisposable
@@ -191,7 +191,7 @@ namespace Juniper.TSBuild
 
                 foreach (var d in options.Dependencies)
                 {
-                    AddDependency(d.Key, MapPath(inProjectDir, d.Value.From), MapPath(outProjectDir, d.Value.To));
+                    AddDependency(d.Key, d.Value.From, d.Value.To);
                 }
             }
 
@@ -254,11 +254,6 @@ namespace Juniper.TSBuild
             .Where(dir => dir.Name.StartsWith("@juniper"))
             .SelectMany(dir => dir.EnumerateDirectories())
             .Where(dir => dir.Touch("package.json").Exists);
-
-        private static FileInfo MapPath(DirectoryInfo rootDir, params string[] parts)
-        {
-            return rootDir.CD(parts[0..^1]).Touch(parts[^1]);
-        }
 
         private async Task WithCommandTree(Action<CommandTree> buildTree)
         {
