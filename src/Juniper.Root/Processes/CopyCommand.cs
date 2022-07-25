@@ -32,7 +32,7 @@ namespace Juniper.Processes
             else if(to.Exists && to.LastWriteTime >= from.LastWriteTime)
             {
                 lastWriteTime = from.LastWriteTime;
-                OnInfo($"Up to date: {toRel}");
+                //OnInfo($"Up to date: {toRel}");
             }
             else
             {
