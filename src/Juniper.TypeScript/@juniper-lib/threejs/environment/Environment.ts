@@ -314,7 +314,7 @@ export class Environment
             prog = progOrAsset
         }
 
-        const footsteps = new AssetAudio("/audio/TransitionFootstepAudio.mp3", Audio_Mpeg, !this.DEBUG);
+        const footsteps = new AssetAudio("/audio/footsteps.mp3", Audio_Mpeg, !this.DEBUG);
         const enter = new AssetAudio("/audio/basic_enter.mp3", Audio_Mpeg, !this.DEBUG);
         const exit = new AssetAudio("/audio/basic_exit.mp3", Audio_Mpeg, !this.DEBUG);
         const error = new AssetAudio("/audio/basic_error.mp3", Audio_Mpeg, !this.DEBUG);
