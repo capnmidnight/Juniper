@@ -1,6 +1,6 @@
 import { IFetcher, IFetcherBodiedResult } from "@juniper-lib/fetcher";
 import { Application_Json, MediaType } from "@juniper-lib/mediatypes";
-import { IProgress, isBoolean, isDefined } from "@juniper-lib/tslib";
+import { IProgress, isBoolean, isDefined, isFunction } from "@juniper-lib/tslib";
 import { IResponse } from "./IResponse";
 
 export abstract class BaseAsset<ResultT = any, ErrorT = any> implements Promise<ResultT> {
@@ -92,6 +92,15 @@ export abstract class BaseAsset<ResultT = any, ErrorT = any> implements Promise<
     finally(onfinally?: () => void): Promise<ResultT> {
         return this.promise.finally(onfinally);
     }
+}
+
+export function isAsset(obj: any): obj is BaseAsset {
+    return isDefined(obj)
+        && isFunction(obj.then)
+        && isFunction(obj.catch)
+        && isFunction(obj.finally)
+        && isFunction(obj.fetch)
+        && isFunction(obj.getSize);
 }
 
 export class AssetCustom<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, ErrorT> {

@@ -12,7 +12,7 @@ import {
     width
 } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
-import { BaseAsset, IFetcher } from "@juniper-lib/fetcher";
+import { BaseAsset, IFetcher, isAsset } from "@juniper-lib/fetcher";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import {
     arrayRemove, arraySortByKeyInPlace, IProgress, isDefined,
@@ -23,11 +23,12 @@ import { feet2Meters } from "@juniper-lib/tslib/units/length";
 import { WebGLRenderTarget } from "three";
 import { BodyFollower } from "../animation/BodyFollower";
 import { updateScalings } from "../animation/scaleOnHover";
-import { AssetGltfModel } from "../AssetGltfModel";
+import { AssetGltfModel, isGltfAsset } from "../AssetGltfModel";
 import { AvatarLocal } from "../AvatarLocal";
 import { cleanup } from "../cleanup";
 import { Cursor3D } from "../eventSystem/Cursor3D";
 import { PointerManager } from "../eventSystem/PointerManager";
+import { GLTF, GLTFLoader } from "../examples/loaders/GLTFLoader";
 import { Fader } from "../Fader";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { FOREGROUND, PURGATORY } from "../layers";
@@ -73,6 +74,7 @@ export class BaseEnvironment<Events = unknown>
     private readonly spectator = new THREE.PerspectiveCamera();
     private readonly lastViewport = new THREE.Vector4();
     private readonly curViewport = new THREE.Vector4();
+    private readonly gltfLoader = new GLTFLoader();
 
     private readonly fader: Fader;
     private fadeDepth = 0;
@@ -402,7 +404,7 @@ export class BaseEnvironment<Events = unknown>
     async load(...assets: BaseAsset[]): Promise<void>;
     async load(progOrAsset: IProgress | BaseAsset, ...assets: BaseAsset[]): Promise<void> {
         let prog: IProgress = null;
-        if (progOrAsset instanceof BaseAsset) {
+        if (isAsset(progOrAsset)) {
             assets.push(progOrAsset);
         }
         else {
@@ -412,10 +414,20 @@ export class BaseEnvironment<Events = unknown>
         const cursor3d = new AssetGltfModel("/models/Cursors.glb", Model_Gltf_Binary, !this.DEBUG);
         assets.push(cursor3d);
 
+        for (const asset of assets) {
+            if (isGltfAsset(asset)) {
+                asset.setEnvironment(this);
+            }
+        }
+
         await this.fetcher.assets(prog, ...assets);
 
         convertMaterials(cursor3d.result.scene, materialStandardToBasic);
 
         this.set3DCursor(cursor3d.result.scene);
+    }
+
+    loadGltf(file: string): Promise<GLTF> {
+        return this.gltfLoader.loadAsync(file);
     }
 }

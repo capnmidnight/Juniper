@@ -1,11 +1,15 @@
-import { IFetcherBodiedResult, IResponse, translateResponse } from "@juniper-lib/fetcher";
-import { BaseFetchedAsset } from "@juniper-lib/fetcher/Asset";
-import { MediaType, Model_Gltf_Binary, Model_Gltf_Json } from "@juniper-lib/mediatypes";
-import { GLTF, GLTFLoader } from "./examples/loaders/GLTFLoader";
+import type { IFetcherBodiedResult, IResponse } from "@juniper-lib/fetcher";
+import { translateResponse } from "@juniper-lib/fetcher";
+import { BaseFetchedAsset, isAsset } from "@juniper-lib/fetcher/Asset";
+import type { MediaType } from "@juniper-lib/mediatypes";
+import { Model_Gltf_Binary, Model_Gltf_Json } from "@juniper-lib/mediatypes";
+import { isDefined, isFunction } from "@juniper-lib/tslib";
+import type { BaseEnvironment } from "./environment/BaseEnvironment";
+import { GLTF } from "./examples/loaders/GLTFLoader";
 
 export class AssetGltfModel<ErrorT = unknown> extends BaseFetchedAsset<GLTF, ErrorT> {
 
-    private static loader = new GLTFLoader();
+    private env: BaseEnvironment = null;
 
     constructor(path: string, type: string | MediaType, useCache?: boolean) {
         if (!Model_Gltf_Binary.matches(type)
@@ -16,9 +20,19 @@ export class AssetGltfModel<ErrorT = unknown> extends BaseFetchedAsset<GLTF, Err
         super(path, type, useCache);
     }
 
+    setEnvironment(env: BaseEnvironment) {
+        this.env = env;
+    }
+
     protected async getResponse(request: IFetcherBodiedResult): Promise<IResponse<GLTF>> {
         const response = await request.file();
         return translateResponse(response, (file) =>
-            AssetGltfModel.loader.loadAsync(file));
+            this.env.loadGltf(file));
     }
+}
+
+export function isGltfAsset(obj: any): obj is AssetGltfModel {
+    return isDefined(obj)
+        && isFunction(obj.setEnvironment)
+        && isAsset(obj);
 }

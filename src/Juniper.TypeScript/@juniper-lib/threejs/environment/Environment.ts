@@ -2,7 +2,7 @@ import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
 import type { CanvasTypes } from "@juniper-lib/dom/canvas";
 import { elementApply } from "@juniper-lib/dom/tags";
-import { AssetAudio, BaseAsset, IFetcher } from "@juniper-lib/fetcher";
+import { AssetAudio, BaseAsset, IFetcher, isAsset } from "@juniper-lib/fetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
 import { BatteryImage } from "@juniper-lib/graphics2d/BatteryImage";
 import { ClockImage } from "@juniper-lib/graphics2d/ClockImage";
@@ -306,7 +306,7 @@ export class Environment
     override async load(...assets: BaseAsset[]): Promise<void>;
     override async load(progOrAsset: IProgress | BaseAsset, ...assets: BaseAsset[]): Promise<void> {
         let prog: IProgress = null;
-        if (progOrAsset instanceof BaseAsset) {
+        if (isAsset(progOrAsset)) {
             assets.push(progOrAsset);
             prog = this.loadingBar;
         }

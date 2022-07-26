@@ -1,6 +1,5 @@
 import { title } from "@juniper-lib/dom/attrs";
 import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
-import { IFetcher } from "@juniper-lib/fetcher";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { obj, objectSetVisible } from "../objects";
@@ -14,12 +13,12 @@ export class ButtonTextWidget implements Widget, EventTarget {
     readonly object: THREE.Object3D;
     readonly mesh: TextMeshButton;
 
-    constructor(fetcher: IFetcher, protected readonly env: IWebXRLayerManager, name: string, text: string, textButtonStyle: Partial<TextImageOptions>) {
+    constructor(protected readonly env: IWebXRLayerManager, name: string, text: string, textButtonStyle: Partial<TextImageOptions>) {
         this.element = ButtonPrimary(
             title(name),
             text);
         this.object = obj(`${name}-button`,
-            this.mesh = new TextMeshButton(fetcher, this.env, `${name}-button`, text, textButtonStyle));
+            this.mesh = new TextMeshButton(this.env, `${name}-button`, text, textButtonStyle));
         this.mesh.addEventListener("click", () => {
             this.element.click();
         });
