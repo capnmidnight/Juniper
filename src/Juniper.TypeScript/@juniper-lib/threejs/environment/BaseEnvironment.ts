@@ -23,7 +23,7 @@ import { feet2Meters } from "@juniper-lib/tslib/units/length";
 import { WebGLRenderTarget } from "three";
 import { BodyFollower } from "../animation/BodyFollower";
 import { updateScalings } from "../animation/scaleOnHover";
-import { AssetGltfModel, isGltfAsset } from "../AssetGltfModel";
+import { AssetGltfModel } from "../AssetGltfModel";
 import { AvatarLocal } from "../AvatarLocal";
 import { cleanup } from "../cleanup";
 import { Cursor3D } from "../eventSystem/Cursor3D";
@@ -411,14 +411,8 @@ export class BaseEnvironment<Events = unknown>
             prog = progOrAsset
         }
 
-        const cursor3d = new AssetGltfModel("/models/Cursors.glb", Model_Gltf_Binary, !this.DEBUG);
+        const cursor3d = new AssetGltfModel(this, "/models/Cursors.glb", Model_Gltf_Binary, !this.DEBUG);
         assets.push(cursor3d);
-
-        for (const asset of assets) {
-            if (isGltfAsset(asset)) {
-                asset.setEnvironment(this);
-            }
-        }
 
         await this.fetcher.assets(prog, ...assets);
 

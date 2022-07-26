@@ -155,7 +155,7 @@ export class Tele extends Application {
     }
 
     async loadAvatar(path: string, type: string | MediaType, prog?: IProgress) {
-        const avatarAsset = new AssetGltfModel(path, type, !this.env.DEBUG);
+        const avatarAsset = new AssetGltfModel(this.env, path, type, !this.env.DEBUG);
         await this.env.fetcher.assets(prog, avatarAsset);
         this.avatarModel = avatarAsset.result.scene.children[0];
         convertMaterials(this.avatarModel, materialStandardToPhong);
