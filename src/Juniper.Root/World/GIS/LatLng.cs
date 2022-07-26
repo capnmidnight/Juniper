@@ -40,7 +40,7 @@ namespace Juniper.Units
         /// datum. The coordinate pair's units will be in meters, and should be usable to make
         /// distance calculations over short distances.
         /// </summary>
-        /// <seealso cref="http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm"/>
+        /// <seealso cref="https://web.archive.org/web/20160305211245/http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm"/>
         /// <param name="latlng">The point on Earth to convert to UTM</param>
         /// <returns>The UTM point</returns>
         public static UTMPoint ToUTM(this LatLngPoint latlng)

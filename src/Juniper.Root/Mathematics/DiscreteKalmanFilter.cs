@@ -19,7 +19,7 @@ namespace Juniper.Mathematics
     /// If the model is not linear then estimate transition matrix (and other parameters if necessary) in each step and update Kalman filter.
     /// This "dynamic" version of an Discrete Kalman filter is called Extended Kalman filter and it is used for non-linear models.
     /// If the model is highly non-linear an Unscented Kalman filter or particle filtering is used.
-    /// See: <a href="http://en.wikipedia.org/wiki/Kalman_filter"/> for details.
+    /// See: <a href="https://en.wikipedia.org/wiki/Kalman_filter"/> for details.
     /// </para>
     /// </summary>
     public class DiscreteKalmanFilter<TState, TMeasurement>

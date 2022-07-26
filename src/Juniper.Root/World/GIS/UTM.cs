@@ -9,7 +9,8 @@ namespace Juniper.Units
         /// <summary>
         /// Converts this UTMPoint to a Latitude/Longitude point using the WGS-84 datum. The
         /// coordinate pair's units will be in meters, and should be usable to make distance
-        /// calculations over short distances. /// reference: http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm
+        /// calculations over short distances.
+        /// reference: https://web.archive.org/web/20160305211245/http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm
         /// </summary>
         /// <param name="utm">The UTM point to convert</param>
         /// <returns>The latitude/longitude</returns>
