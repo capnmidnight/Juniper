@@ -20,6 +20,14 @@
     <Version>1.0.2</Version>
   </PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Juniper.ProcessManager\Juniper.ProcessManager.csproj">
       <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
