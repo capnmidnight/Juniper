@@ -206,13 +206,13 @@ export class WorkerServer<EventsT> {
     }
 
 
-    addEvent<TransferableT>(
+    addEvent<EventNameT extends keyof EventsT & string, TransferableT>(
         object: TypedEventBase<EventsT>,
-        eventName: keyof EventsT & string,
-        makePayload?: (evt: Event) => TransferableT,
+        eventName: EventNameT,
+        makePayload?: (evt: EventsT[EventNameT] & Event) => TransferableT,
         transferReturnValue?: createTransferableCallback<TransferableT>
     ): void {
-        object.addEventListener(eventName, (evt: Event) => {
+        object.addEventListener(eventName, (evt: EventsT[EventNameT] & Event) => {
             let message: WorkerServerEventMessage<EventsT> = null;
             if (isDefined(makePayload)) {
                 message = {
