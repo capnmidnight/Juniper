@@ -64,6 +64,13 @@ export class RequestBuilder implements
         return this;
     }
 
+    headers(headers: Headers) {
+        for (const [ name, value ] of headers.entries()) {
+            this.header(name, value);
+        }
+        return this;
+    }
+
     timeout(value: number) {
         this.request.timeout = value;
         return this;
