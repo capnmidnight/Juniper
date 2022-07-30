@@ -1,88 +1,34 @@
 import { IDexDB, IDexStore } from "@juniper-lib/indexdb";
-import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, progressSplit, Task, using } from "@juniper-lib/tslib";
+import { assertNever, identity, IProgress, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, using } from "@juniper-lib/tslib";
+import { isXHRBodyInit } from "./FetchingServiceImplXHR";
 import type { HTTPMethods } from "./HTTPMethods";
 import type { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
 import type { IRequest, IRequestWithBody } from "./IRequest";
 import type { IResponse } from "./IResponse";
 import { translateResponse } from "./translateResponse";
 
-export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
-    return isString(obj)
-        || isArrayBufferView(obj)
-        || obj instanceof Blob
-        || obj instanceof FormData
-        || isArrayBuffer(obj)
-        || "Document" in globalThis && obj instanceof Document;
+function isBodyInit(obj: any): obj is BodyInit {
+    return isXHRBodyInit(obj)
+        || obj instanceof ReadableStream;
 }
 
-function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpRequest | XMLHttpRequestUpload), prog: IProgress, skipLoading: boolean, prevTask?: Promise<void>): Promise<void> {
+function sendRequest(method: HTTPMethods, path: string, headers: Map<string, string>, body?: BodyInit): Promise<Response> {
+    const request: RequestInit = {
+        method
+    };
 
-    let prevDone = !prevTask;
-    if (prevTask) {
-        prevTask.then(() => prevDone = true);
-    }
-
-    let done = false;
-    let loaded = skipLoading;
-
-    const requestComplete = new Task(
-        () => loaded && done,
-        () => prevDone);
-
-    target.addEventListener("loadstart", () => {
-        if (prevDone && !done && prog) {
-            prog.start(name);
-        }
-    });
-
-    target.addEventListener("progress", (ev: Event) => {
-        if (prevDone && !done) {
-            const evt = ev as ProgressEvent<XMLHttpRequestEventTarget>;
-            if (prog) {
-                prog.report(evt.loaded, Math.max(evt.loaded, evt.total), name);
-            }
-            if (evt.loaded === evt.total) {
-                loaded = true;
-                requestComplete.resolve();
-            }
-        }
-    });
-
-    target.addEventListener("load", () => {
-        if (prevDone && !done) {
-            if (prog) {
-                prog.end(name);
-            }
-            done = true;
-            requestComplete.resolve();
-        }
-    });
-
-    const onError = (msg: string) => () => requestComplete.reject(`${msg} (${xhr.status})`);
-
-    target.addEventListener("error", onError("error"));
-    target.addEventListener("abort", onError("abort"));
-    target.addEventListener("timeout", onError("timeout"));
-
-    return requestComplete;
-}
-
-function sendRequest(xhr: XMLHttpRequest, method: HTTPMethods, path: string, timeout: number, headers: Map<string, string>, body?: XMLHttpRequestBodyInit): void {
-    xhr.open(method, path);
-    xhr.responseType = "blob";
-    xhr.timeout = timeout;
     if (headers) {
+        request.headers = {};
         for (const [key, value] of headers) {
-            xhr.setRequestHeader(key, value);
+            request.headers[key] = value;
         }
     }
 
     if (isDefined(body)) {
-        xhr.send(body);
+        request.body = body;
     }
-    else {
-        xhr.send();
-    }
+
+    return fetch(path, request);
 }
 
 function readResponseHeader<T>(headers: Map<string, string>, key: string, translate: (value: string) => T): T {
@@ -105,7 +51,7 @@ function readResponseHeader<T>(headers: Map<string, string>, key: string, transl
 const FILE_NAME_PATTERN = /filename=\"(.+)\"(;|$)/;
 const DB_NAME = "Juniper:Fetcher:Cache";
 
-export class FetchingServiceImplXHR implements IFetchingServiceImpl {
+export class FetchingServiceImplFetch implements IFetchingServiceImpl {
 
     private readonly cacheReady: Promise<void>;
     private cache: IDexDB = null;
@@ -145,18 +91,10 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         await this.store.clear();
     }
 
-    private async readResponseHeaders(path: string, xhr: XMLHttpRequest): Promise<IResponse> {
-        const headerParts = xhr
-            .getAllResponseHeaders()
-            .split(/[\r\n]+/)
-            .map((v) => v.trim())
-            .filter((v) => v.length > 0)
-            .map<[string, string]>((line) => {
-                const parts = line.split(": ");
-                const key = parts.shift().toLowerCase();
-                const value = parts.join(": ");
-                return [key, value];
-            });
+    private async readResponseHeaders(path: string, res: Response): Promise<IResponse> {
+        const headerParts = Array.from(res
+            .headers
+            .entries());
 
         const pList = new PriorityList<string, string>(headerParts);
         const normalizedHeaderParts = Array.from(pList.keys())
@@ -183,7 +121,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         });
 
         const response: IResponse = {
-            status: xhr.status,
+            status: res.status,
             path,
             content: undefined,
             contentType,
@@ -196,7 +134,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         return response;
     }
 
-    private async readResponse(path: string, xhr: XMLHttpRequest): Promise<IResponse<Blob>> {
+    private async readResponse(path: string, res: Response): Promise<IResponse<Blob>> {
         const {
             status,
             contentType,
@@ -204,7 +142,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             fileName,
             date,
             headers
-        } = await this.readResponseHeaders(path, xhr);
+        } = await this.readResponseHeaders(path, res);
 
         const response: IResponse<Blob> = {
             path,
@@ -214,7 +152,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             fileName,
             date,
             headers,
-            content: xhr.response as Blob
+            content: await res.blob()
         }
 
         if (isDefined(response.content)) {
@@ -295,14 +233,8 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
     sendNothingGetNothing(request: IRequest): Promise<IResponse> {
         return this.withCachedTask(request, async () => {
-            const xhr = new XMLHttpRequest();
-            const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, null, true);
-
-            sendRequest(xhr, request.method, request.path, request.timeout, request.headers);
-
-            await download;
-
-            return await this.readResponseHeaders(request.path, xhr);
+            const res = await sendRequest(request.method, request.path, request.headers);
+            return await this.readResponseHeaders(request.path, res);
         });
     }
 
@@ -323,14 +255,8 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             const noCachedResponse = isNullOrUndefined(response);
 
             if (noCachedResponse) {
-                const xhr = new XMLHttpRequest();
-                const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
-
-                sendRequest(xhr, request.method, request.path, request.timeout, request.headers);
-
-                await download;
-
-                response = await this.readResponse(request.path, xhr);
+                const res = await sendRequest(request.method, request.path, request.headers);
+                response = await this.readResponse(request.path, res);
 
                 if (useCache) {
                     await this.store.add(response);
@@ -347,8 +273,8 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         });
     }
 
-    async sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>> {
-        let body: XMLHttpRequestBodyInit = null;
+    async sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, _progress: IProgress): Promise<IResponse<T>> {
+        let body: BodyInit = null;
 
         const headers = mapJoin(new Map<string, string>(), defaultPostHeaders, request.headers);
 
@@ -365,27 +291,15 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             }
         }
 
-        if (isXHRBodyInit(request.body) && !isString(request.body)) {
+        if (isBodyInit(request.body) && !isString(request.body)) {
             body = request.body;
         }
         else if (isDefined(request.body)) {
             body = JSON.stringify(request.body);
         }
 
-        const progs = progressSplit(progress, 2);
-        const xhr = new XMLHttpRequest();
-        const upload = isDefined(body)
-            ? trackProgress("uploading", xhr, xhr.upload, progs.shift(), false)
-            : Promise.resolve();
-        const downloadProg = progs.shift();
-        const download = trackProgress("saving", xhr, xhr, downloadProg, true, upload);
-
-        sendRequest(xhr, request.method, request.path, request.timeout, headers, body);
-
-        await upload;
-        await download;
-
-        const response = await this.readResponse(request.path, xhr);
+        const res = await sendRequest(request.method, request.path, headers, body);
+        const response = await this.readResponse(request.path, res);
         return await this.decodeContent(xhrType, response);
     }
 }

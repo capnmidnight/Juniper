@@ -3,6 +3,7 @@ export * from "./Fetcher";
 export * from "./FetchingService";
 export * from "./FetchingServiceClient";
 export * from "./FetchingServiceImplXHR";
+export * from "./FetchingServiceImplFetch";
 export * from "./FetchingServicePool";
 export * from "./FetchingServiceServer";
 export * from "./HTTPMethods";
