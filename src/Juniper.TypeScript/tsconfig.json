@@ -8,7 +8,7 @@
   "compileOnSave": true,
 
   "compilerOptions": {
-    "lib": [ "ESNext", "DOM", "WebWorker", "DOM.Iterable" ],
+    "lib": [ "ES2021", "DOM", "WebWorker", "DOM.Iterable" ],
     "target": "ES2021",
     "module": "ES2020",
     "moduleResolution": "Node",
