@@ -3,6 +3,7 @@ import {
     backgroundColor,
     borderRadius,
     display,
+    filter,
     flexFlow,
     fontSize, gridColumn, gridRow,
     gridTemplateColumns,
@@ -85,8 +86,12 @@ Style(
         pointerEvents("initial")
     ),
 
-    rule("#controls .btn-primary img",
+    rule("#controls .btn img",
         height("calc(100% - 0.5em)")
+    ),
+
+    rule("#controls button:disabled img",
+        filter("invert(.5)")
     )
 );
 

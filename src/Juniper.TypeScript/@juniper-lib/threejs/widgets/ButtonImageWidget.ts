@@ -1,5 +1,5 @@
 import { title } from "@juniper-lib/dom/attrs";
-import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, buttonSetEnabled, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { obj, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
@@ -23,6 +23,7 @@ export class ButtonImageWidget implements Widget, EventTarget {
     private async load(buttons: ButtonFactory, setName: string, iconName: string) {
         const { geometry, enabledMaterial, disabledMaterial } = await buttons.getGeometryAndMaterials(setName, iconName);
         this.mesh = new MeshButton(iconName, geometry, enabledMaterial, disabledMaterial, 0.2);
+        this.mesh.disabled = this.disabled;
         objGraph(this, this.mesh);
         this.mesh.object.visible = this.visible;
         this.mesh.addEventListener("click", () => {
@@ -58,6 +59,17 @@ export class ButtonImageWidget implements Widget, EventTarget {
         elementSetDisplay(this, visible, "inline-block");
         if (this.mesh) {
             this.mesh.object.visible = visible;
+        }
+    }
+
+    get disabled() {
+        return this.element.disabled;
+    }
+
+    set disabled(v) {
+        buttonSetEnabled(this.element, !v, "primary");
+        if (this.mesh) {
+            this.mesh.disabled = v;
         }
     }
 }
