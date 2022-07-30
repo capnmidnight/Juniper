@@ -191,6 +191,7 @@ namespace Juniper
         public static readonly Application Application_Mac_Compactpro = new("mac-compactpro", "cpt");
         public static readonly Application Application_Macwriteii = new("macwriteii");
         public static readonly Application Application_MadsXml = new("mads+xml", "mads");
+        public static readonly Application Application_ManifestJson = new("manifest+json", "webmanifest");
         public static readonly Application Application_Marc = new("marc", "mrc");
         public static readonly Application Application_MarcxmlXml = new("marcxml+xml", "mrcx");
         public static readonly Application Application_Mathematica = new("mathematica", "ma", "nb", "mb");
