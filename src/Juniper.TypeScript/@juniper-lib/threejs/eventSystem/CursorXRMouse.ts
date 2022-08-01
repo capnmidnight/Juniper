@@ -13,11 +13,22 @@ export class CursorXRMouse extends BaseCursor {
 
         this.xr = env.cursor3D && env.cursor3D.clone() || new CursorColor(this.env);
         this.system = new CursorSystem(this.env, this.env.renderer.domElement);
+        this.xr.side = this.side;
         this.visible = false;
+
+        Object.seal(this);
     }
 
     override get object() {
         return this.xr.object;
+    }
+
+    override get side() {
+        return this.xr.side;
+    }
+
+    override set side(v) {
+        this.xr.side = v;
     }
 
     get cursor() {

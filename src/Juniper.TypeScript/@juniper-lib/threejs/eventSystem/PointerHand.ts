@@ -133,7 +133,6 @@ export class PointerHand
                 this.gamepad.pad = this.inputSource.gamepad;
                 this._isHand = isDefined(this.inputSource.hand);
                 this.id = pointerIDs.get(this.handedness);
-                this.updateCursorSide();
 
                 this.grip.visible = !this.isHand;
                 this.controller.visible = !this.isHand;
@@ -142,6 +141,7 @@ export class PointerHand
                 this.enabled = true;
                 this.isActive = true;
                 this.env.pointers.checkXRMouse();
+                this.updateCursorSide();
                 console.log(this.handedness, "connected");
             }
         });
@@ -152,7 +152,6 @@ export class PointerHand
                 this.gamepad.pad = null;
                 this._isHand = false;
                 this.id = pointerIDs.get(this.handedness);
-                this.updateCursorSide();
 
                 this.grip.visible = false;
                 this.controller.visible = false;
@@ -161,6 +160,7 @@ export class PointerHand
                 this.enabled = false;
                 this.isActive = false;
                 this.env.pointers.checkXRMouse();
+                this.updateCursorSide();
                 console.log(this.handedness, "disconnected");
             }
         });
@@ -211,11 +211,7 @@ export class PointerHand
     }
 
     private updateCursorSide() {
-        const obj = this.cursor.object;
-        if (obj) {
-            const sx = this.handedness === "right" ? 1 : -1;
-            obj.scale.set(sx, 1, 1);
-        }
+        this.cursor.side = this.handedness === "left" ? 1 : -1;
     }
 
     protected updatePointerOrientation() {

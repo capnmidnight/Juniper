@@ -11,6 +11,16 @@ export abstract class BaseCursor implements ErsatzObject {
     private readonly V = new THREE.Vector3();
     private readonly Q = new THREE.Quaternion();
 
+    private _side = -1;
+
+    get side() {
+        return this._side;
+    }
+
+    set side(v) {
+        this._side = v;
+    }
+
     get object() {
         return this._object;
     }

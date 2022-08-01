@@ -74,6 +74,7 @@ export class Cursor3D
         this.f
             .copy(v)
             .sub(p)
+            .multiplyScalar(this.side)
             .normalize();
 
         this.up
@@ -84,9 +85,12 @@ export class Cursor3D
         this.up.crossVectors(this.f, this.right);
 
         setMatrixFromUpFwdPos(this.up, this.f, p, this.object.matrixWorld);
-        this.object.matrix.copy(this.object.parent.matrixWorld)
+        this.object.matrix
+            .copy(this.object.parent.matrixWorld)
             .invert()
-            .multiply(this.object.matrixWorld)
+            .multiply(this.object.matrixWorld);
+
+        this.object.matrix
             .decompose(this.object.position, this.object.quaternion, this.object.scale);
     }
 
