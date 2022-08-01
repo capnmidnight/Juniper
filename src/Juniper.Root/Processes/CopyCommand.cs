@@ -4,15 +4,15 @@ namespace Juniper.Processes
     {
         private readonly FileInfo from;
         private readonly FileInfo to;
-        private readonly bool overwrite;
+        private readonly bool warnIfNotExists;
         private DateTime? lastWriteTime;
 
-        public CopyCommand(string name, FileInfo from, FileInfo to, bool overwrite = true)
+        public CopyCommand(string name, FileInfo from, FileInfo to, bool warnIfNotExists)
             : base("Copy " + name)
         {
             this.from = from;
             this.to = to;
-            this.overwrite = overwrite;
+            this.warnIfNotExists = warnIfNotExists;
         }
 
         public override Task RunAsync()
@@ -27,7 +27,10 @@ namespace Juniper.Processes
             var toRel = PathExt.Abs2Rel(to.FullName, Environment.CurrentDirectory);
             if (!from.Exists)
             {
-                OnWarning($"File does not exist! {fromRel}");
+                if (warnIfNotExists)
+                {
+                    OnWarning($"File does not exist! {fromRel}");
+                }
             }
             else if(to.Exists && to.LastWriteTime >= from.LastWriteTime)
             {
@@ -37,7 +40,7 @@ namespace Juniper.Processes
             else
             {
                 to.Directory?.Create();
-                File.Copy(from.FullName, to.FullName, overwrite);
+                File.Copy(from.FullName, to.FullName, true);
                 lastWriteTime = from.LastWriteTime;
                 OnInfo($"Copied! {fromRel} -> {toRel}");
             }

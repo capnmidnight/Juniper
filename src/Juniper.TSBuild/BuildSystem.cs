@@ -20,6 +20,7 @@ namespace Juniper.TSBuild
     public struct BuildSystemOptions
     {
         public Dictionary<string, (FileInfo From, FileInfo To)> Dependencies;
+        public Dictionary<string, (FileInfo From, FileInfo To)> OptionalDependencies;
     }
 
     public class BuildSystem : ILoggingSource, IDisposable
@@ -131,7 +132,7 @@ namespace Juniper.TSBuild
         private readonly DirectoryInfo juniperTsDir;
         private readonly FileInfo projectPackage;
         private readonly FileInfo projectAppSettings;
-        private readonly Dictionary<FileInfo, (string, FileInfo)> dependencies = new();
+        private readonly Dictionary<FileInfo, (string, FileInfo, bool)> dependencies = new();
 
         private readonly List<DirectoryInfo> TSProjects = new();
         private readonly List<DirectoryInfo> ESBuildProjects = new();
@@ -191,7 +192,12 @@ namespace Juniper.TSBuild
 
                 foreach (var d in options.Dependencies)
                 {
-                    AddDependency(d.Key, d.Value.From, d.Value.To);
+                    AddDependency(d.Key, d.Value.From, d.Value.To, true);
+                }
+
+                foreach (var d in options.OptionalDependencies)
+                {
+                    AddDependency(d.Key, d.Value.From, d.Value.To, false);
                 }
             }
 
@@ -243,9 +249,9 @@ namespace Juniper.TSBuild
             throw new Exception("Couldn't find Juniper");
         }
 
-        private BuildSystem AddDependency(string name, FileInfo from, FileInfo to)
+        private BuildSystem AddDependency(string name, FileInfo from, FileInfo to, bool warnIfNotExists)
         {
-            dependencies.Add(from, (name, to));
+            dependencies.Add(from, (name, to, warnIfNotExists));
             return this;
         }
 
@@ -499,7 +505,7 @@ namespace Juniper.TSBuild
 
         private CopyCommand[] GetDependecies() =>
             dependencies
-                .Select(kv => new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2))
+                .Select(kv => new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2, kv.Value.Item3))
                 .ToArray();
 
         private async Task BuildAsync()
