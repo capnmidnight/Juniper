@@ -4,6 +4,7 @@ import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/CubeMapFaceIndex";
 import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
+import { XRTimerTickEvent } from "./environment/XRTimer";
 import { isEuler, isQuaternion } from "./typeChecks";
 
 type SkyboxRotation = THREE.Quaternion | THREE.Euler | number[] | number;
@@ -49,6 +50,7 @@ export class Skybox {
     private readonly flipped: CanvasTypes;
     private readonly flipper: Context2D;
     private readonly onNeedsRedraw: () => void = null;
+    private readonly onTick: (evt: XRTimerTickEvent) => void;
 
     private layerOrientation: DOMPointReadOnly = null;
     private images: CanvasImageTypes[] = null;
@@ -59,6 +61,8 @@ export class Skybox {
     private stageHeading = 0;
     private rotationNeedsUpdate = false;
     private imageNeedsUpdate = false;
+
+    public useWebXRLayers = true;
     private wasWebXRLayerAvailable: boolean = null;
 
     visible = true;
@@ -66,7 +70,9 @@ export class Skybox {
 
     constructor(private readonly env: BaseEnvironment<unknown>) {
         this.onNeedsRedraw = () => this.imageNeedsUpdate = true;
+        this.onTick = (evt: XRTimerTickEvent) => this.checkWebXRLayer(evt.frame);
 
+        this.env.timer.addTickHandler(this.onTick);
         this.env.scene.background = black;
 
         for (let i = 0; i < this.canvases.length; ++i) {
@@ -200,12 +206,13 @@ export class Skybox {
             || this._rotation.w !== w;
     }
 
-    update(frame: XRFrame) {
+    private checkWebXRLayer(frame: XRFrame) {
         this.framecount++;
         if (this.cube) {
-            const isWebXRLayerAvailable = this.env.hasXRCompositionLayers
-                && !!this.env.xrBinding
-                && !!frame;
+            const isWebXRLayerAvailable = this.useWebXRLayers
+                && this.env.hasXRCompositionLayers
+                && isDefined(frame)
+                && isDefined(this.env.xrBinding);
 
             const webXRLayerChanged = isWebXRLayerAvailable !== this.wasWebXRLayerAvailable;
             if (webXRLayerChanged) {

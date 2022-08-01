@@ -2,11 +2,10 @@ import { and, arrayClear, PriorityMap } from "@juniper-lib/tslib";
 import { BaseVideoPlayer } from "@juniper-lib/video/BaseVideoPlayer";
 import { cleanup } from "./cleanup";
 import { createEACGeometry, createQuadGeometry, PosUV, QuadPosUV } from "./CustomGeometry";
-import { Image2D } from "./widgets/Image2D";
-import { IUpdatable } from "./IUpdatable";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { solidTransparent } from "./materials";
 import { ErsatzObject, obj } from "./objects";
+import { Image2D } from "./widgets/Image2D";
 
 export type SphereEncodingName = "N/A"
     | "Cubemap"
@@ -42,7 +41,7 @@ export const StereoLayoutNames: /*@__PURE__*/ StereoLayoutName[] = [
 
 export class VideoPlayer3D
     extends BaseVideoPlayer
-    implements ErsatzObject, IUpdatable {
+    implements ErsatzObject {
 
     private readonly material: THREE.MeshBasicMaterial;
     private readonly vidMeshes: Image2D[];
@@ -80,12 +79,6 @@ export class VideoPlayer3D
         arrayClear(this.vidMeshes);
     }
 
-    update(dt: number, frame?: XRFrame) {
-        for (const vidMesh of this.vidMeshes) {
-            vidMesh.update(dt, frame);
-        }
-    }
-
     isSupported(encoding: SphereEncodingName, layout: StereoLayoutName): boolean {
         return layout
             .split('-')
@@ -101,7 +94,7 @@ export class VideoPlayer3D
 
         for (let i = 0; i < this.vidMeshes.length; ++i) {
             const vidMesh = this.vidMeshes[i];
-            vidMesh.webXRLayersEnabled = false;
+            vidMesh.useWebXRLayers = false;
             vidMesh.mesh.layers.disable(1);
             vidMesh.mesh.layers.disable(2);
             if (layout === "left-right"
@@ -137,7 +130,7 @@ export class VideoPlayer3D
             const name = names[i];
             const geom = GeomPacks.get(encoding, name);
             const vidMesh = this.vidMeshes[i];
-            vidMesh.webXRLayersEnabled = true;
+            vidMesh.useWebXRLayers = true;
             vidMesh.visible = true;
             if (vidMesh.mesh.geometry !== geom) {
                 vidMesh.mesh.geometry.dispose();

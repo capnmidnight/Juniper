@@ -141,9 +141,9 @@ export class BaseEnvironment<Events = unknown>
 
         this.pointers = new PointerManager(this);
 
-        this.skybox = new Skybox(this);
-
         this.timer = new XRTimer(this.renderer);
+
+        this.skybox = new Skybox(this);
 
         this.renderer.xr.enabled = true;
         this.sun.name = "Sun";
@@ -234,8 +234,6 @@ export class BaseEnvironment<Events = unknown>
             this.loadingBar.update(evt.sdt);
 
             this.preRender(evt);
-
-            this.skybox.update(evt.frame);
 
             const cam = resolveCamera(this.renderer, this.camera);
             if (cam !== this.camera) {

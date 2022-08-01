@@ -247,7 +247,6 @@ export class Environment
         super.preRender(evt);
 
         this.audio.update();
-        this.videoPlayer.update(evt.dt, evt.frame);
 
         this.xrUI.visible = this.renderer.xr.isPresenting
             || this.testSpaceLayout;

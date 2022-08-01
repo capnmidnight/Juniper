@@ -2,8 +2,8 @@ import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscre
 import { IFetcher } from "@juniper-lib/fetcher";
 import { arrayCompare, arrayScan, IDisposable, inches2Meters, IProgress, isDefined, isNullOrUndefined, isNumber, meters2Inches } from "@juniper-lib/tslib";
 import { cleanup } from "../cleanup";
-import { IUpdatable } from "../IUpdatable";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
+import { XRTimerTickEvent } from "../environment/XRTimer";
 import { solidTransparent } from "../materials";
 import { objectGetRelativePose } from "../objectGetRelativePose";
 import { mesh, objectIsFullyVisible, objGraph } from "../objects";
@@ -23,26 +23,29 @@ export type Image2DObjectSizeMode = "none"
 
 export class Image2D
     extends THREE.Object3D
-    implements IDisposable, IUpdatable {
+    implements IDisposable {
     private readonly lastMatrixWorld = new THREE.Matrix4();
+    private readonly onTick: (evt: XRTimerTickEvent) => void;
     private layer: XRQuadLayer = null;
-    private tryWebXRLayers = true;
     private wasUsingLayer = false;
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
-    private lastImage: unknown = null;
+    private curImage: HTMLVideoElement | HTMLImageElement | HTMLCanvasElement = null;
+    private lastImage: HTMLVideoElement | HTMLImageElement | HTMLCanvasElement = null;
     private lastWidth: number = null;
     private lastHeight: number = null;
     stereoLayoutName: StereoLayoutName = "mono";
     protected env: BaseEnvironment = null;
     mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial> = null;
 
-    webXRLayersEnabled = true;
+    useWebXRLayers = true;
 
     sizeMode: Image2DObjectSizeMode = "none";
 
     constructor(env: BaseEnvironment, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
         super();
+
+        this.onTick = (evt: XRTimerTickEvent) => this.checkWebXRLayer(evt.frame);
 
         if (env) {
             this.setEnvAndName(env, name);
@@ -61,8 +64,8 @@ export class Image2D
 
     override copy(source: this, recursive = true) {
         super.copy(source, recursive);
-        this.setImageSize(source.imageWidth, source.imageHeight);
         this.setEnvAndName(source.env, source.name + (++copyCounter));
+        this.setTextureMap(this.curImage);
         this.mesh = arrayScan(this.children, isMesh) as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
         if (isNullOrUndefined(this.mesh)) {
             this.mesh = source.mesh.clone();
@@ -74,7 +77,10 @@ export class Image2D
     }
 
     dispose(): void {
-        cleanup(this.layer);
+        this.removeWebXRLayer();
+        if (this.env) {
+            this.env.timer.removeTickHandler(this.onTick);
+        }
     }
 
     private setImageSize(width: number, height: number) {
@@ -137,22 +143,21 @@ export class Image2D
     private setEnvAndName(env: BaseEnvironment, name: string) {
         this.env = env;
         this.name = name;
-        this.tryWebXRLayers &&= this.env && this.env.hasXRCompositionLayers;
+        this.env.timer.addTickHandler(this.onTick);
     }
 
     private get needsLayer(): boolean {
         if (!objectIsFullyVisible(this)
             || isNullOrUndefined(this.mesh.material.map)
-            || isNullOrUndefined(this.mesh.material.map.image)) {
+            || isNullOrUndefined(this.curImage)) {
             return false;
         }
 
-        const img = this.mesh.material.map.image;
-        if (!(img instanceof HTMLVideoElement)) {
+        if (!(this.curImage instanceof HTMLVideoElement)) {
             return true;
         }
 
-        return !img.paused || img.currentTime > 0;
+        return !this.curImage.paused || this.curImage.currentTime > 0;
     }
 
     removeWebXRLayer() {
@@ -178,19 +183,25 @@ export class Image2D
             img = img as any as HTMLCanvasElement;
         }
 
+        this.curImage = img;
+
         if (img instanceof HTMLVideoElement) {
-            this.mesh.material.map = new THREE.VideoTexture(img);
             this.setImageSize(img.videoWidth, img.videoHeight);
+            this.mesh.material.map = new THREE.VideoTexture(img);
         }
         else {
-            this.mesh.material.map = new THREE.Texture(img);
             this.setImageSize(img.width, img.height);
+            this.mesh.material.map = new THREE.Texture(img);
             this.mesh.material.map.needsUpdate = true;
         }
 
         this.mesh.material.needsUpdate = true;
 
         return this.mesh.material.map;
+    }
+
+    private get isVideo() {
+        return this.curImage instanceof HTMLVideoElement;
     }
 
     async loadTextureMap(fetcher: IFetcher, path: string, prog?: IProgress): Promise<void> {
@@ -203,38 +214,41 @@ export class Image2D
     }
 
     updateTexture() {
-        const img = this.mesh.material.map.image;
-        if (isNumber(img.width)
-            && isNumber(img.height)
-            && (this.imageWidth !== img.width
-                || this.imageHeight !== img.height)) {
-            this.mesh.material.map.dispose();
-            this.mesh.material.map = new THREE.Texture(img);
-            this.mesh.material.needsUpdate = true;
-            this.setImageSize(img.width, img.height);
+        if (isDefined(this.curImage)) {
+            const curVideo = this.curImage as HTMLVideoElement;
+            const newWidth = this.isVideo ? curVideo.videoWidth : this.curImage.width;
+            const newHeight = this.isVideo ? curVideo.videoHeight : this.curImage.height;
+            if (this.imageWidth !== newWidth
+                || this.imageHeight !== newHeight) {
+
+                this.removeWebXRLayer();
+                cleanup(this.mesh.material.map);
+
+                const img = this.curImage;
+                this.curImage = null;
+                this.setTextureMap(img);
+            }
         }
-        this.mesh.material.map.needsUpdate = true;
     }
 
-    update(_dt: number, frame?: XRFrame): void {
-        if (this.mesh.material.map && this.mesh.material.map.image) {
-            const isVideo = this.mesh.material.map instanceof THREE.VideoTexture;
-            const isLayersAvailable = this.tryWebXRLayers
-                && this.webXRLayersEnabled
+    private checkWebXRLayer(frame?: XRFrame): void {
+        if (this.mesh.material.map && this.curImage) {
+            const isLayersAvailable = this.useWebXRLayers
+                && this.env.hasXRCompositionLayers
                 && isDefined(frame)
-                && (isVideo && isDefined(this.env.xrMediaBinding)
-                    || !isVideo && isDefined(this.env.xrBinding));
+                && (this.isVideo && isDefined(this.env.xrMediaBinding)
+                    || !this.isVideo && isDefined(this.env.xrBinding));
             const useLayer = isLayersAvailable && this.needsLayer;
 
             const useLayerChanged = useLayer !== this.wasUsingLayer;
-            const imageChanged = this.mesh.material.map.image !== this.lastImage
+            const imageChanged = this.curImage !== this.lastImage
                 || this.mesh.material.needsUpdate
                 || this.mesh.material.map.needsUpdate;
             const sizeChanged = this.imageWidth !== this.lastWidth
                 || this.imageHeight !== this.lastHeight;
 
             this.wasUsingLayer = useLayer;
-            this.lastImage = this.mesh.material.map.image;
+            this.lastImage = this.curImage;
             this.lastWidth = this.imageWidth;
             this.lastHeight = this.imageHeight;
 
@@ -257,11 +271,11 @@ export class Image2D
                             ? "stereo-left-right"
                             : "stereo-top-bottom";
 
-                    if (isVideo) {
+                    if (this.isVideo) {
                         const invertStereo = this.stereoLayoutName === "right-left"
                             || this.stereoLayoutName === "bottom-top";
 
-                        this.layer = this.env.xrMediaBinding.createQuadLayer(this.mesh.material.map.image, {
+                        this.layer = this.env.xrMediaBinding.createQuadLayer(this.curImage as HTMLVideoElement, {
                             space,
                             layout,
                             invertStereo,
@@ -276,8 +290,8 @@ export class Image2D
                             layout,
                             textureType: "texture",
                             isStatic: this.isStatic,
-                            viewPixelWidth: this.imageWidth,
-                            viewPixelHeight: this.imageHeight,
+                            viewPixelWidth: this.curImage.width,
+                            viewPixelHeight: this.curImage.height,
                             transform,
                             width,
                             height
@@ -302,7 +316,7 @@ export class Image2D
                         0, 0,
                         gl.RGBA,
                         gl.UNSIGNED_BYTE,
-                        this.mesh.material.map.image);
+                        this.curImage);
                     gl.generateMipmap(gl.TEXTURE_2D);
 
                     gl.bindTexture(gl.TEXTURE_2D, null);
