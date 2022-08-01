@@ -190,15 +190,8 @@ namespace Juniper.TSBuild
                 CheckNPMProject(juniperTsDir);
                 CheckTSProject(juniperTsDir);
 
-                foreach (var d in options.Dependencies)
-                {
-                    AddDependency(d.Key, d.Value.From, d.Value.To, true);
-                }
-
-                foreach (var d in options.OptionalDependencies)
-                {
-                    AddDependency(d.Key, d.Value.From, d.Value.To, false);
-                }
+                AddDependencies(options.Dependencies, true);
+                AddDependencies(options.OptionalDependencies, false);
             }
 
             Info += (sender, e) => WriteInfo(e.Value);
@@ -247,6 +240,17 @@ namespace Juniper.TSBuild
             }
 
             throw new Exception("Couldn't find Juniper");
+        }
+
+        private void AddDependencies(Dictionary<string, (FileInfo From, FileInfo To)>? deps, bool warnIfNotExists)
+        {
+            if (deps is not null)
+            {
+                foreach (var d in deps)
+                {
+                    AddDependency(d.Key, d.Value.From, d.Value.To, warnIfNotExists);
+                }
+            }
         }
 
         private BuildSystem AddDependency(string name, FileInfo from, FileInfo to, bool warnIfNotExists)
