@@ -3,7 +3,7 @@ import { IFetcher } from "@juniper-lib/fetcher";
 import { arrayCompare, arrayScan, IDisposable, inches2Meters, IProgress, isDefined, isNullOrUndefined, isNumber, meters2Inches } from "@juniper-lib/tslib";
 import { cleanup } from "../cleanup";
 import { IUpdatable } from "../IUpdatable";
-import { IWebXRLayerManager } from "../IWebXRLayerManager";
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { solidTransparent } from "../materials";
 import { objectGetRelativePose } from "../objectGetRelativePose";
 import { mesh, objectIsFullyVisible, objGraph } from "../objects";
@@ -34,14 +34,14 @@ export class Image2D
     private lastWidth: number = null;
     private lastHeight: number = null;
     stereoLayoutName: StereoLayoutName = "mono";
-    protected env: IWebXRLayerManager = null;
+    protected env: BaseEnvironment = null;
     mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial> = null;
 
     webXRLayersEnabled = true;
 
     sizeMode: Image2DObjectSizeMode = "none";
 
-    constructor(env: IWebXRLayerManager, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
+    constructor(env: BaseEnvironment, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
         super();
 
         if (env) {
@@ -134,7 +134,7 @@ export class Image2D
         this.objectWidth = meters;
     }
 
-    private setEnvAndName(env: IWebXRLayerManager, name: string) {
+    private setEnvAndName(env: BaseEnvironment, name: string) {
         this.env = env;
         this.name = name;
         this.tryWebXRLayers &&= this.env && this.env.hasXRCompositionLayers;

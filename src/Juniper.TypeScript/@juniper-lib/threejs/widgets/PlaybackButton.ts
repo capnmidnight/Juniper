@@ -5,7 +5,7 @@ import { keycapDigits } from "@juniper-lib/emoji/numbers";
 import { AsyncCallback, BaseProgress, IDisposable, isDefined, TypedEvent } from "@juniper-lib/tslib";
 import { cleanup } from "../cleanup";
 import { Cube } from "../Cube";
-import { IWebXRLayerManager } from "../IWebXRLayerManager";
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { solidWhite } from "../materials";
 import { ErsatzObject, obj, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
@@ -41,7 +41,7 @@ export class PlaybackButton<T extends FullAudioRecord>
     readonly clickPlay: AsyncCallback = null;
 
     constructor(
-        env: IWebXRLayerManager,
+        env: BaseEnvironment,
         buttonFactory: ButtonFactory,
         private readonly data: T | string,
         name: string,

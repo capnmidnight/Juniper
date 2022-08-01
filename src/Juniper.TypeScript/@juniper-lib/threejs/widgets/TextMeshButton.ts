@@ -2,8 +2,8 @@ import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { TextImage } from "@juniper-lib/graphics2d/TextImage";
 import { isDefined, stringRandom } from "@juniper-lib/tslib";
 import { scaleOnHover } from "../animation/scaleOnHover";
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { RayTarget } from "../eventSystem/RayTarget";
-import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { obj, objGraph } from "../objects";
 import { TextMesh } from "./TextMesh";
 
@@ -12,7 +12,7 @@ export class TextMeshButton extends RayTarget {
     readonly enabledImage: TextMesh;
     readonly disabledImage: TextMesh;
 
-    constructor(protected readonly env: IWebXRLayerManager,
+    constructor(protected readonly env: BaseEnvironment,
         name: string,
         value: string,
         textImageOptions?: Partial<TextImageOptions>) {

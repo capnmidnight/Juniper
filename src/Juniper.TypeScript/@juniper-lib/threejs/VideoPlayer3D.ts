@@ -4,7 +4,7 @@ import { cleanup } from "./cleanup";
 import { createEACGeometry, createQuadGeometry, PosUV, QuadPosUV } from "./CustomGeometry";
 import { Image2D } from "./widgets/Image2D";
 import { IUpdatable } from "./IUpdatable";
-import { IWebXRLayerManager } from "./IWebXRLayerManager";
+import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { solidTransparent } from "./materials";
 import { ErsatzObject, obj } from "./objects";
 
@@ -49,14 +49,14 @@ export class VideoPlayer3D
 
     readonly object: THREE.Object3D;
 
-    constructor(layerMgr: IWebXRLayerManager, audioCtx: AudioContext) {
+    constructor(env: BaseEnvironment, audioCtx: AudioContext) {
         super(audioCtx);
 
         this.material = solidTransparent({ name: "videoPlayer-material" });
 
         this.vidMeshes = [];
         for (let i = 0; i < 2; ++i) {
-            const vidMesh = new Image2D(layerMgr, `videoPlayer-view${i + 1}`, false, this.material);
+            const vidMesh = new Image2D(env, `videoPlayer-view${i + 1}`, false, this.material);
             vidMesh.setTextureMap(this.video);
             vidMesh.mesh.renderOrder = 4;
             if (i > 0) {

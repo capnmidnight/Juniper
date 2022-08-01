@@ -30,7 +30,6 @@ import { Cursor3D } from "../eventSystem/Cursor3D";
 import { PointerManager } from "../eventSystem/PointerManager";
 import { GLTF, GLTFLoader } from "../examples/loaders/GLTFLoader";
 import { Fader } from "../Fader";
-import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { FOREGROUND, PURGATORY } from "../layers";
 import { LoadingBar } from "../LoadingBar";
 import { convertMaterials, materialStandardToBasic } from "../materials";
@@ -65,8 +64,7 @@ Style(
 );
 
 export class BaseEnvironment<Events = unknown>
-    extends TypedEventBase<Events & BaseEnvironmentEvents>
-    implements IWebXRLayerManager {
+    extends TypedEventBase<Events & BaseEnvironmentEvents> {
 
     private baseLayer: XRWebGLLayer | XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();
@@ -113,7 +111,7 @@ export class BaseEnvironment<Events = unknown>
             powerPreference: "high-performance",
             precision: "lowp",
             antialias: true,
-            alpha: false,
+            alpha: true,
             premultipliedAlpha: true,
             depth: true,
             logarithmicDepthBuffer: true,
