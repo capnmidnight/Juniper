@@ -2,10 +2,11 @@ import { and, arrayClear, PriorityMap } from "@juniper-lib/tslib";
 import { BaseVideoPlayer } from "@juniper-lib/video/BaseVideoPlayer";
 import { cleanup } from "./cleanup";
 import { createEACGeometry, createQuadGeometry, PosUV, QuadPosUV } from "./CustomGeometry";
+import { Image2D } from "./widgets/Image2D";
+import { IUpdatable } from "./IUpdatable";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { solidTransparent } from "./materials";
 import { ErsatzObject, obj } from "./objects";
-import { Image2D } from "./widgets/Image2D";
 
 export type SphereEncodingName = "N/A"
     | "Cubemap"
@@ -41,7 +42,7 @@ export const StereoLayoutNames: /*@__PURE__*/ StereoLayoutName[] = [
 
 export class VideoPlayer3D
     extends BaseVideoPlayer
-    implements ErsatzObject {
+    implements ErsatzObject, IUpdatable {
 
     private readonly material: THREE.MeshBasicMaterial;
     private readonly vidMeshes: Image2D[];
@@ -77,6 +78,12 @@ export class VideoPlayer3D
         super.onDisposing();
         cleanup(this.object);
         arrayClear(this.vidMeshes);
+    }
+
+    update(dt: number, frame?: XRFrame) {
+        for (const vidMesh of this.vidMeshes) {
+            vidMesh.update(dt, frame);
+        }
     }
 
     isSupported(encoding: SphereEncodingName, layout: StereoLayoutName): boolean {

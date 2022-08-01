@@ -1,10 +1,14 @@
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { RayTarget } from "../eventSystem/RayTarget";
+import { IUpdatable } from "../IUpdatable";
 import { obj, objGraph } from "../objects";
 import { Image2D } from "../widgets/Image2D";
 
-export class MenuItem extends RayTarget {
+export class MenuItem extends RayTarget
+    implements IUpdatable {
     startX: number = 0;
+
+    useWebXRLayers = false;
 
     constructor(width: number, height: number,
         name: string,
@@ -32,8 +36,6 @@ export class MenuItem extends RayTarget {
         this.back.scale.y = height;
 
         objGraph(this, this.back, this.front);
-
-        this.useWebXRLayers = false;
     }
 
     override get disabled() {
@@ -62,18 +64,15 @@ export class MenuItem extends RayTarget {
         scaleOnHover(this, this.clickable && this.enabled);
     }
 
-    get useWebXRLayers() {
-        return this.back && this.back.useWebXRLayers
-            || this.front && this.front.useWebXRLayers;
-    }
+    update(dt: number, frame?: XRFrame) {
+        if (this.useWebXRLayers) {
+            if (this.back) {
+                this.back.update(dt, frame);
+            }
 
-    set useWebXRLayers(v) {
-        if (this.back) {
-            this.back.useWebXRLayers = v;
-        }
-
-        if (this.front) {
-            this.front.useWebXRLayers = v;
+            if (this.front) {
+                this.front.update(dt, frame);
+            }
         }
     }
 

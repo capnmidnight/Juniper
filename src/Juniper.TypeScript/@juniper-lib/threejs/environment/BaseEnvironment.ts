@@ -235,6 +235,8 @@ export class BaseEnvironment<Events = unknown>
 
             this.preRender(evt);
 
+            this.skybox.update(evt.frame);
+
             const cam = resolveCamera(this.renderer, this.camera);
             if (cam !== this.camera) {
                 const vrCam = cam as THREE.WebXRArrayCamera;

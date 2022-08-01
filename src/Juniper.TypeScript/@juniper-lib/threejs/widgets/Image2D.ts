@@ -1,9 +1,9 @@
 import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher";
-import { arrayCompare, arrayScan, IDisposable, inches2Meters, IProgress, isDefined, isNullOrUndefined, isNumber, meters2Inches } from "@juniper-lib/tslib";
+import { arrayCompare, arrayScan, IDisposable, inches2Meters, IProgress, isDefined, isNullOrUndefined, meters2Inches } from "@juniper-lib/tslib";
 import { cleanup } from "../cleanup";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
-import { XRTimerTickEvent } from "../environment/XRTimer";
+import { IUpdatable } from "../IUpdatable";
 import { solidTransparent } from "../materials";
 import { objectGetRelativePose } from "../objectGetRelativePose";
 import { mesh, objectIsFullyVisible, objGraph } from "../objects";
@@ -23,9 +23,8 @@ export type Image2DObjectSizeMode = "none"
 
 export class Image2D
     extends THREE.Object3D
-    implements IDisposable {
+    implements IDisposable, IUpdatable {
     private readonly lastMatrixWorld = new THREE.Matrix4();
-    private readonly onTick: (evt: XRTimerTickEvent) => void;
     private layer: XRQuadLayer = null;
     private wasUsingLayer = false;
     private _imageWidth: number = 0;
@@ -45,8 +44,6 @@ export class Image2D
     constructor(env: BaseEnvironment, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
         super();
 
-        this.onTick = (evt: XRTimerTickEvent) => this.checkWebXRLayer(evt.frame);
-
         if (env) {
             this.setEnvAndName(env, name);
 
@@ -64,23 +61,22 @@ export class Image2D
 
     override copy(source: this, recursive = true) {
         super.copy(source, recursive);
+        this.setImageSize(source.imageWidth, source.imageHeight);
         this.setEnvAndName(source.env, source.name + (++copyCounter));
-        this.setTextureMap(this.curImage);
         this.mesh = arrayScan(this.children, isMesh) as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
         if (isNullOrUndefined(this.mesh)) {
             this.mesh = source.mesh.clone();
         }
 
         objGraph(this, this.mesh);
+        this.setTextureMap(source.curImage);
 
         return this;
     }
 
     dispose(): void {
         this.removeWebXRLayer();
-        if (this.env) {
-            this.env.timer.removeTickHandler(this.onTick);
-        }
+        cleanup(this.mesh);
     }
 
     private setImageSize(width: number, height: number) {
@@ -143,7 +139,6 @@ export class Image2D
     private setEnvAndName(env: BaseEnvironment, name: string) {
         this.env = env;
         this.name = name;
-        this.env.timer.addTickHandler(this.onTick);
     }
 
     private get needsLayer(): boolean {
@@ -231,7 +226,7 @@ export class Image2D
         }
     }
 
-    private checkWebXRLayer(frame?: XRFrame): void {
+    update(_dt: number, frame?: XRFrame): void {
         if (this.mesh.material.map && this.curImage) {
             const isLayersAvailable = this.useWebXRLayers
                 && this.env.hasXRCompositionLayers

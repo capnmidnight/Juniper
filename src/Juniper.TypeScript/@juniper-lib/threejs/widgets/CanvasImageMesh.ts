@@ -1,7 +1,7 @@
 import { isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import type { CanvasImage } from "@juniper-lib/graphics2d/CanvasImage";
-import { IWebXRLayerManager } from "../IWebXRLayerManager";
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objectSetVisible } from "../objects";
 import { Image2D } from "./Image2D";
 import type { Widget } from "./widgets";
@@ -29,7 +29,7 @@ export class CanvasImageMesh<T extends CanvasImage>
         }
     }
 
-    constructor(env: IWebXRLayerManager, name: string, image: T, materialOptions?: THREE.MeshBasicMaterialParameters) {
+    constructor(env: BaseEnvironment, name: string, image: T, materialOptions?: THREE.MeshBasicMaterialParameters) {
         super(env, name, false, materialOptions);
         this._onRedrawn = this.onRedrawn.bind(this);
         this.image = image;

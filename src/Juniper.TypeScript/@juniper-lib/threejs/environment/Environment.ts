@@ -246,8 +246,6 @@ export class Environment
     override preRender(evt: XRTimerTickEvent) {
         super.preRender(evt);
 
-        this.audio.update();
-
         this.xrUI.visible = this.renderer.xr.isPresenting
             || this.testSpaceLayout;
         this.clockImage.isVisible = this.xrUI.visible
@@ -276,7 +274,12 @@ export class Environment
             }
         }
 
-
+        this.audio.update();
+        this.videoPlayer.update(evt.dt, evt.frame);
+        this.clockImage.update(evt.dt, evt.frame);
+        if (this.batteryImage) {
+            this.batteryImage.update(evt.dt, evt.frame);
+        }
         this.confirmationDialog.update(evt.dt);
 
         for (const app of this.apps) {
