@@ -74,8 +74,8 @@ export class TreeViewNode<T, K>
         private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T, K>,
         private readonly getIndex: (v: T) => number,
         private readonly getIcon: (node: TreeNode<T>, isOpen: boolean) => string,
-        private readonly _getDescription: (value: T) => string,
-        private readonly _getChildDescription: (value: T) => string) {
+        private readonly getDescription: (value: T) => string,
+        private readonly getChildDescription: (value: T) => string) {
 
         super();
 
@@ -197,15 +197,11 @@ export class TreeViewNode<T, K>
         return (this.node.isLeaf
             ? "Select "
             : "Expand/collapse ")
-            + (this._getDescription
-                && this._getDescription(this.node.value)
-                || "section");
+            + this.getDescription(this.node.value);
     }
 
     private get adderTitle(): string {
-        return "Add " + (this._getChildDescription
-            && this._getChildDescription(this.node.value)
-            || "sub item");
+        return "Add " + this.getChildDescription(this.node.value);
     }
 
     private get canChangeOrder() {

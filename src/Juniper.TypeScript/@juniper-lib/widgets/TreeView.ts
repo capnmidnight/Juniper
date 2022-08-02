@@ -39,7 +39,6 @@ import {
     ErsatzElement,
     Style
 } from "@juniper-lib/dom/tags";
-import { fileFolder, label, openFileFolder } from "@juniper-lib/emoji";
 import { arrayClear, arrayRemove, buildTree, isDefined, isFunction, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { TreeViewNode, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
 
@@ -121,15 +120,16 @@ Style(
 );
 
 export interface TreeViewOptions<T, K> {
-    canAdd(value: T): boolean;
-    orderBy(value: T): number;
-    getIcon(node: TreeNode<T>, isOpen: boolean): string;
-    getDescription(value: T): string;
-    getChildDescription(value: T): string;
-    getKey(v: T): K;
-    getParentKey(v: T): K;
-    getOrder(v: T): number
-    replaceElement: HTMLElement;
+    getLabel: (node: TreeNode<T>) => string;
+    getIcon: (node: TreeNode<T>, isOpen: boolean) => string;
+    getKey: (v: T) => K;
+    getParentKey: (v: T) => K;
+    getDescription: (value: T) => string;
+    getChildDescription: (value: T) => string;
+    canAdd?: (value: T) => boolean;
+    orderBy?: (value: T) => number;
+    getOrder?: (v: T) => number;
+    replaceElement?: HTMLElement;
 }
 
 class TreeViewNodeEvent<EventT extends string, DataT> extends TypedEvent<EventT> {
@@ -174,27 +174,14 @@ export class TreeView<T, K>
     private locked = false;
 
     constructor(
-        private readonly getLabel: (node: TreeNode<T>) => string,
-        options?: Partial<TreeViewOptions<T, K>>,
+        options?: TreeViewOptions<T, K>,
         ...styleProps: CssProp[]) {
         super();
 
-        this.options = Object.assign<TreeViewOptions<T, K>, Partial<TreeViewOptions<T, K>>>({
+        this.options = Object.assign<Partial<TreeViewOptions<T, K>>, TreeViewOptions<T, K>>({
             canAdd: null,
             orderBy: null,
-            getKey: null,
-            getParentKey: null,
             getOrder: null,
-            getDescription: null,
-            getChildDescription: null,
-            getIcon: (node: TreeNode<T>, isOpen: boolean) => {
-                if (node.isLeaf) {
-                    return label.value;
-                }
-                else {
-                    return isOpen ? openFileFolder.value : fileFolder.value;
-                }
-            },
             replaceElement: null
         }, options);
 
@@ -549,7 +536,7 @@ export class TreeView<T, K>
         const element = new TreeViewNode(
             this,
             node,
-            this.getLabel,
+            this.options.getLabel,
             this.options.canAdd,
             !!this.options.canAdd,
             (v) => this.createElement(v),
