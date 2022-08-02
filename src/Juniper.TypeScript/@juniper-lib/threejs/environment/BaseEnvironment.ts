@@ -378,13 +378,17 @@ export class BaseEnvironment<Events = unknown>
     }
 
     async fadeIn() {
-        --this.fadeDepth;
-        if (this.fadeDepth === 0) {
+        if (this.fadeDepth === 1) {
             await this.fader.fadeOut();
             this.camera.layers.set(FOREGROUND);
             this.skybox.visible = true;
             await this.fader.fadeIn();
         }
+        --this.fadeDepth;
+    }
+
+    get showWebXRLayers() {
+        return this.fadeDepth === 0;
     }
 
     private set3DCursor(model: THREE.Group): void {

@@ -2,7 +2,7 @@ import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, i
 import { arrayCompare, arrayScan, IDisposable, inches2Meters, isDefined, isNullOrUndefined, meters2Inches } from "@juniper-lib/tslib";
 import { cleanup } from "../cleanup";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
-import { IUpdatable } from "../IUpdatable";
+import { XRTimerTickEvent } from "../environment/XRTimer";
 import { solidTransparent } from "../materials";
 import { objectGetRelativePose } from "../objectGetRelativePose";
 import { mesh, objectIsFullyVisible, objGraph } from "../objects";
@@ -24,7 +24,8 @@ export type WebXRLayerType = "none" | "static" | "dynamic";
 
 export class Image2D
     extends THREE.Object3D
-    implements IDisposable, IUpdatable {
+    implements IDisposable {
+    private readonly onTick: (evt: XRTimerTickEvent) => void;
     private readonly lastMatrixWorld = new THREE.Matrix4();
     private layer: XRQuadLayer = null;
     private wasUsingLayer = false;
@@ -42,6 +43,7 @@ export class Image2D
 
     constructor(env: BaseEnvironment, name: string, public webXRLayerType: WebXRLayerType, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
         super();
+        this.onTick = (evt) => this.checkWebXRLayer(evt.frame);
 
         if (env) {
             this.setEnvAndName(env, name);
@@ -60,6 +62,7 @@ export class Image2D
 
     override copy(source: this, recursive = true) {
         super.copy(source, recursive);
+        this.webXRLayerType = source.webXRLayerType;
         this.setImageSize(source.imageWidth, source.imageHeight);
         this.setEnvAndName(source.env, source.name + (++copyCounter));
         this.mesh = arrayScan(this.children, isMesh) as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
@@ -74,6 +77,7 @@ export class Image2D
     }
 
     dispose(): void {
+        this.env.timer.removeTickHandler(this.onTick);
         this.removeWebXRLayer();
         cleanup(this.mesh);
     }
@@ -138,6 +142,7 @@ export class Image2D
     private setEnvAndName(env: BaseEnvironment, name: string) {
         this.env = env;
         this.name = name;
+        this.env.timer.addTickHandler(this.onTick);
     }
 
     private get needsLayer(): boolean {
@@ -219,10 +224,11 @@ export class Image2D
         }
     }
 
-    update(_dt: number, frame?: XRFrame): void {
+    private checkWebXRLayer(frame?: XRFrame): void {
         if (this.mesh.material.map && this.curImage) {
             const isLayersAvailable = this.webXRLayerType !== "none"
                 && this.env.hasXRCompositionLayers
+                && this.env.showWebXRLayers
                 && isDefined(frame)
                 && (this.isVideo && isDefined(this.env.xrMediaBinding)
                     || !this.isVideo && isDefined(this.env.xrBinding));

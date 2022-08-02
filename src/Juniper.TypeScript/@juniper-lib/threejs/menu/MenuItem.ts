@@ -1,14 +1,10 @@
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { RayTarget } from "../eventSystem/RayTarget";
-import { IUpdatable } from "../IUpdatable";
 import { obj, objGraph } from "../objects";
 import { Image2D } from "../widgets/Image2D";
 
-export class MenuItem extends RayTarget
-    implements IUpdatable {
+export class MenuItem extends RayTarget {
     startX: number = 0;
-
-    useWebXRLayers = false;
 
     constructor(width: number, height: number,
         name: string,
@@ -62,18 +58,6 @@ export class MenuItem extends RayTarget
 
     private updateHover() {
         scaleOnHover(this, this.clickable && this.enabled);
-    }
-
-    update(dt: number, frame?: XRFrame) {
-        if (this.useWebXRLayers) {
-            if (this.back) {
-                this.back.update(dt, frame);
-            }
-
-            if (this.front) {
-                this.front.update(dt, frame);
-            }
-        }
     }
 
     get width() {

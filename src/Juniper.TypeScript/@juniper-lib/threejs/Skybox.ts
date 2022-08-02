@@ -70,7 +70,7 @@ export class Skybox {
     constructor(private readonly env: BaseEnvironment<unknown>) {
 
         this.onNeedsRedraw = () => this.imageNeedsUpdate = true;
-        this.onTick = (evt) => this.update(evt.frame);
+        this.onTick = (evt) => this.checkWebXRLayer(evt.frame);
 
         this.env.scene.background = black;
 
@@ -208,7 +208,7 @@ export class Skybox {
             || this._rotation.w !== w;
     }
 
-    private update(frame: XRFrame) {
+    private checkWebXRLayer(frame: XRFrame) {
         if (this.cube) {
             const isWebXRLayerAvailable = this.useWebXRLayers
                 && this.env.hasXRCompositionLayers

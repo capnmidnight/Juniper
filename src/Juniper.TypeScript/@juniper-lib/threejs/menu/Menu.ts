@@ -245,10 +245,6 @@ export class Menu extends THREE.Object3D {
             this.showMenuInternal(menuID, title, items, pageSize, index + pageSize, onClick, onBack);
         };
 
-        for (const button of this.buttons) {
-            button.update(0);
-        }
-
         const buttons = await progressOfArray(prog, displayItems, (item: MenuItemDescription, prog: IProgress) => {
             if (item === this.backButton) {
                 return this.createMenuItem(item, onBack, prog);
@@ -306,11 +302,8 @@ export class Menu extends THREE.Object3D {
         }
     }
 
-    update(dt: number, frame: XRFrame): void {
+    update(dt: number): void {
         this.animator.update(dt);
-        for (const button of this.buttons) {
-            button.update(dt, frame);
-        }
     }
 
     private setButtonPosition(button: MenuItem, a: number, radius: number) {
