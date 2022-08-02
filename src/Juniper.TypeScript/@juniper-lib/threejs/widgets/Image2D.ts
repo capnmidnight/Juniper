@@ -35,10 +35,10 @@ export class Image2D
     private lastImage: TexImageSource | OffscreenCanvas = null;
     private lastWidth: number = null;
     private lastHeight: number = null;
-    stereoLayoutName: StereoLayoutName = "mono";
     protected env: BaseEnvironment = null;
-    mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial> = null;
 
+    mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial> = null;
+    stereoLayoutName: StereoLayoutName = "mono";
     sizeMode: Image2DObjectSizeMode = "none";
 
     constructor(env: BaseEnvironment, name: string, public webXRLayerType: WebXRLayerType, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
@@ -68,9 +68,9 @@ export class Image2D
         this.mesh = arrayScan(this.children, isMesh) as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
         if (isNullOrUndefined(this.mesh)) {
             this.mesh = source.mesh.clone();
+            objGraph(this, this.mesh);
         }
 
-        objGraph(this, this.mesh);
         this.setTextureMap(source.curImage);
 
         return this;
@@ -78,8 +78,14 @@ export class Image2D
 
     dispose(): void {
         this.env.timer.removeTickHandler(this.onTick);
-        this.removeWebXRLayer();
+        this.disposeImage();
         cleanup(this.mesh);
+    }
+
+    private disposeImage() {
+        this.removeWebXRLayer();
+        cleanup(this.mesh.material.map);
+        this.curImage = null;
     }
 
     private setImageSize(width: number, height: number) {
@@ -163,43 +169,47 @@ export class Image2D
         if (isDefined(this.layer)) {
             this.wasUsingLayer = false;
             this.env.removeWebXRLayer(this.layer);
+            this.mesh.visible = true;
+
             const layer = this.layer;
             this.layer = null;
 
-            setTimeout(() => {
-                layer.destroy();
-                this.mesh.visible = true;
-            }, 100);
+            setTimeout(() => layer.destroy(), 100);
         }
     }
 
-    setTextureMap(img: TexImageSource | OffscreenCanvas): THREE.Texture {
-        if (isImageBitmap(img)) {
-            img = createUtilityCanvasFromImageBitmap(img);
-        }
-        else if (isImageData(img)) {
-            img = createUtilityCanvasFromImageData(img);
+    setTextureMap(img: TexImageSource | OffscreenCanvas): void {
+        if (this.curImage) {
+            this.disposeImage();
         }
 
-        if (isOffscreenCanvas(img)) {
-            img = img as any as HTMLCanvasElement;
-        }
+        if (img) {
+            if (isImageBitmap(img)) {
+                img = createUtilityCanvasFromImageBitmap(img);
+            }
+            else if (isImageData(img)) {
+                img = createUtilityCanvasFromImageData(img);
+            }
 
-        this.curImage = img;
+            if (isOffscreenCanvas(img)) {
+                img = img as any as HTMLCanvasElement;
+            }
 
-        if (img instanceof HTMLVideoElement) {
-            this.setImageSize(img.videoWidth, img.videoHeight);
-            this.mesh.material.map = new THREE.VideoTexture(img);
-        }
-        else {
-            this.setImageSize(img.width, img.height);
-            this.mesh.material.map = new THREE.Texture(img);
-            this.mesh.material.map.needsUpdate = true;
+            this.curImage = img;
+
+            if (img instanceof HTMLVideoElement) {
+                this.setImageSize(img.videoWidth, img.videoHeight);
+                this.mesh.material.map = new THREE.VideoTexture(img);
+            }
+            else {
+                this.setImageSize(img.width, img.height);
+                this.mesh.material.map = new THREE.Texture(img);
+                this.mesh.material.map.needsUpdate = true;
+            }
+
         }
 
         this.mesh.material.needsUpdate = true;
-
-        return this.mesh.material.map;
     }
 
     private get isVideo() {
@@ -214,11 +224,10 @@ export class Image2D
             if (this.imageWidth !== newWidth
                 || this.imageHeight !== newHeight) {
 
-                this.removeWebXRLayer();
-                cleanup(this.mesh.material.map);
-
                 const img = this.curImage;
-                this.curImage = null;
+
+                this.disposeImage();
+
                 this.setTextureMap(img);
             }
         }
