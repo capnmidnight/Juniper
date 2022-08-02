@@ -17,10 +17,12 @@ namespace Juniper.TSBuild
         public string[] To { get; set; }
     }
 
-    public struct BuildSystemOptions
+    public class BuildSystemOptions
     {
-        public Dictionary<string, (FileInfo From, FileInfo To)> Dependencies;
-        public Dictionary<string, (FileInfo From, FileInfo To)> OptionalDependencies;
+        public string? InProjectName;
+        public string? OutProjectName;
+        public Dictionary<string, (FileInfo From, FileInfo To)>? Dependencies;
+        public Dictionary<string, (FileInfo From, FileInfo To)>? OptionalDependencies;
     }
 
     public class BuildSystem : ILoggingSource, IDisposable
@@ -52,20 +54,11 @@ namespace Juniper.TSBuild
             Console.WriteLine(Colorize("warn", 33, format, values));
         }
 
-        public static Task Run(string projectName, BuildSystemOptions options, string[] args)
-        {
-            return Run(projectName, projectName, options, args);
-        }
-
-        public static async Task Run(string inProjectName, string outProjectName, BuildSystemOptions options, string[] args)
+        public static async Task Run(BuildSystemOptions options, string[] args)
         {
             var opts = new Options(args);
 
-            using var build = new BuildSystem(
-                inProjectName,
-                outProjectName,
-                options,
-                opts.workingDir);
+            using var build = new BuildSystem(options, opts.workingDir);
 
             do
             {
@@ -153,14 +146,13 @@ namespace Juniper.TSBuild
             return dir;
         }
 
-        public BuildSystem(string projectName, BuildSystemOptions options, DirectoryInfo? workingDir = null)
-            : this(projectName, projectName, options, workingDir)
-        { }
-
-        public BuildSystem(string inProjectName, string outProjectName, BuildSystemOptions options, DirectoryInfo? workingDir = null)
+        public BuildSystem(BuildSystemOptions options, DirectoryInfo? workingDir = null)
         {
             workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
             var startDir = workingDir;
+
+            var inProjectName = options.InProjectName ?? options.OutProjectName;
+            var outProjectName = options.OutProjectName ?? options.InProjectName;
 
             while (startDir != null
                 && !startDir.CD(inProjectName).Exists)
