@@ -56,7 +56,7 @@ export class VideoPlayer3D
 
         this.vidMeshes = [];
         for (let i = 0; i < 2; ++i) {
-            const vidMesh = new Image2D(env, `videoPlayer-view${i + 1}`, false, this.material);
+            const vidMesh = new Image2D(env, `videoPlayer-view${i + 1}`, "none", this.material);
             vidMesh.setTextureMap(this.video);
             vidMesh.mesh.renderOrder = 4;
             if (i > 0) {
@@ -101,7 +101,7 @@ export class VideoPlayer3D
 
         for (let i = 0; i < this.vidMeshes.length; ++i) {
             const vidMesh = this.vidMeshes[i];
-            vidMesh.useWebXRLayers = false;
+            vidMesh.webXRLayerType = "none";
             vidMesh.mesh.layers.disable(1);
             vidMesh.mesh.layers.disable(2);
             if (layout === "left-right"
@@ -137,7 +137,7 @@ export class VideoPlayer3D
             const name = names[i];
             const geom = GeomPacks.get(encoding, name);
             const vidMesh = this.vidMeshes[i];
-            vidMesh.useWebXRLayers = true;
+            vidMesh.webXRLayerType = "dynamic";
             vidMesh.visible = true;
             if (vidMesh.mesh.geometry !== geom) {
                 vidMesh.mesh.geometry.dispose();

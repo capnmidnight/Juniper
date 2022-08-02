@@ -38,11 +38,9 @@ export class Image2D
     protected env: BaseEnvironment = null;
     mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial> = null;
 
-    useWebXRLayers = true;
-
     sizeMode: Image2DObjectSizeMode = "none";
 
-    constructor(env: BaseEnvironment, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
+    constructor(env: BaseEnvironment, name: string, public webXRLayerType: WebXRLayerType, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
         super();
 
         if (env) {
@@ -223,7 +221,7 @@ export class Image2D
 
     update(_dt: number, frame?: XRFrame): void {
         if (this.mesh.material.map && this.curImage) {
-            const isLayersAvailable = this.useWebXRLayers
+            const isLayersAvailable = this.webXRLayerType !== "none"
                 && this.env.hasXRCompositionLayers
                 && isDefined(frame)
                 && (this.isVideo && isDefined(this.env.xrMediaBinding)
@@ -279,7 +277,7 @@ export class Image2D
                             space,
                             layout,
                             textureType: "texture",
-                            isStatic: this.isStatic,
+                            isStatic: this.webXRLayerType === "static",
                             viewPixelWidth: this.curImage.width,
                             viewPixelHeight: this.curImage.height,
                             transform,

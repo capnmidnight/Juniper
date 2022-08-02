@@ -13,7 +13,7 @@ export class TextMesh extends CanvasImageMesh<TextImage> {
             image = new TextImage(textOptions);
         }
 
-        super(env, name, image, materialOptions);
+        super(env, name, "none", image, materialOptions);
     }
 
     protected override onRedrawn() {

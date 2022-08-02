@@ -69,24 +69,24 @@ export class Menu extends THREE.Object3D {
 
         this.name = "Menu";
 
-        this.defaultButtonImage = new Image2D(this.env, "DefaultButton", true);
+        this.defaultButtonImage = new Image2D(this.env, "DefaultButton", "none");
 
         this.logo = {
             name: "Logo",
             noLabel: true,
-            back: new Image2D(this.env, "LogoBack", true),
+            back: new Image2D(this.env, "LogoBack", "none"),
             width: 1,
             clickable: false
         };
 
         this.backButton = {
             name: "Back",
-            back: new Image2D(this.env, "BackButton", true)
+            back: new Image2D(this.env, "BackButton", "none")
         };
 
         this.nextButton = {
             name: "Next",
-            back: new Image2D(this.env, "NextButton", true),
+            back: new Image2D(this.env, "NextButton", "none"),
             width: 0.25,
             textDirection: "vertical",
             textPosition: "middle",
@@ -96,7 +96,7 @@ export class Menu extends THREE.Object3D {
 
         this.prevButton = {
             name: "Previous",
-            back: new Image2D(this.env, "PrevButton", true),
+            back: new Image2D(this.env, "PrevButton", "none"),
             width: 0.25,
             height: 1,
             textDirection: "vertical",
@@ -107,7 +107,7 @@ export class Menu extends THREE.Object3D {
 
         this.menuTitle = {
             name: "Menu",
-            back: new Image2D(this.env, "MenuTitle", true),
+            back: new Image2D(this.env, "MenuTitle", "none"),
             width: 0.25,
             textDirection: "vertical",
             textPosition: "top",
@@ -128,7 +128,7 @@ export class Menu extends THREE.Object3D {
 
         if (imgs.logo.front) {
             logoFrontAsset = new AssetImage(imgs.logo.front, Image_Png, !this.env.DEBUG);
-            this.logo.front = new Image2D(this.env, "LogoFront", true, { transparent: true });
+            this.logo.front = new Image2D(this.env, "LogoFront", "none", { transparent: true });
         }
 
         await progressTasksWeighted(prog, [
@@ -326,7 +326,7 @@ export class Menu extends THREE.Object3D {
 
         if (!item.back) {
             if (item.filePath) {
-                item.back = new Image2D(this.env, `${item.name}-Background`, true);
+                item.back = new Image2D(this.env, `${item.name}-Background`, "none");
                 const { content: img } = await this.env.fetcher.get(item.filePath).progress(prog).image();
                 item.back.setTextureMap(img);
             }

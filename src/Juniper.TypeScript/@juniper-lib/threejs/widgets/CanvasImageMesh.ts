@@ -3,7 +3,7 @@ import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import type { CanvasImage } from "@juniper-lib/graphics2d/CanvasImage";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objectSetVisible } from "../objects";
-import { Image2D } from "./Image2D";
+import { Image2D, WebXRLayerType } from "./Image2D";
 import type { Widget } from "./widgets";
 
 const redrawnEvt = { type: "redrawn" };
@@ -29,8 +29,8 @@ export class CanvasImageMesh<T extends CanvasImage>
         }
     }
 
-    constructor(env: BaseEnvironment, name: string, image: T, materialOptions?: THREE.MeshBasicMaterialParameters) {
-        super(env, name, false, materialOptions);
+    constructor(env: BaseEnvironment, name: string, webXRLayerType: WebXRLayerType, image: T, materialOptions?: THREE.MeshBasicMaterialParameters) {
+        super(env, name, webXRLayerType, materialOptions);
         this._onRedrawn = this.onRedrawn.bind(this);
         this.image = image;
     }
