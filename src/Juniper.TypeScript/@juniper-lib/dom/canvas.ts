@@ -30,6 +30,10 @@ export function isImageBitmap(img: any): img is ImageBitmap {
     return hasImageBitmap && img instanceof ImageBitmap;
 }
 
+export function isImageData(img: any): img is ImageData {
+    return img instanceof ImageData;
+}
+
 /**
  * Returns true if the given object is either an HTMLCanvasElement or an OffscreenCanvas.
  */
@@ -50,6 +54,14 @@ export function drawImageBitmapToCanvas(canv: CanvasTypes, img: ImageBitmap): vo
         throw new Error("Could not create 2d context for canvas");
     }
     g.drawImage(img, 0, 0);
+}
+
+export function drawImageDataToCanvas(canv: CanvasTypes, img: ImageData): void {
+    const g = canv.getContext("2d");
+    if (isNullOrUndefined(g)) {
+        throw new Error("Could not create 2d context for canvas");
+    }
+    g.putImageData(img, 0, 0);
 }
 
 function testOffscreen2D() {
@@ -116,6 +128,26 @@ export function createCanvasFromImageBitmap(img: ImageBitmap): HTMLCanvasElement
 
 export const createUtilityCanvasFromImageBitmap = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImageBitmap
     || !IS_WORKER && hasHTMLCanvas && createCanvasFromImageBitmap
+    || null;
+
+export function createOffscreenCanvasFromImageData(img: ImageData): OffscreenCanvas {
+    const canv = createOffscreenCanvas(img.width, img.height);
+    drawImageDataToCanvas(canv, img);
+    return canv;
+}
+
+export function createCanvasFromImageData(img: ImageData): HTMLCanvasElement {
+    if (IS_WORKER) {
+        throw new Error("HTML Canvas is not supported in workers");
+    }
+
+    const canv = createCanvas(img.width, img.height);
+    drawImageDataToCanvas(canv, img);
+    return canv;
+}
+
+export const createUtilityCanvasFromImageData = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImageData
+    || !IS_WORKER && hasHTMLCanvas && createCanvasFromImageData
     || null;
 
 export function createCanvasFromOffscreenCanvas(canv: OffscreenCanvas): HTMLCanvasElement {

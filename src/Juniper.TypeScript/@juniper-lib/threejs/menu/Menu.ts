@@ -1,9 +1,11 @@
 import type { FontDescription } from "@juniper-lib/dom/fonts";
 import { loadFont } from "@juniper-lib/dom/fonts";
+import { AssetImage } from "@juniper-lib/fetcher";
 import { Animator } from "@juniper-lib/graphics2d/animation/Animator";
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted, TaskDef } from "@juniper-lib/tslib";
+import { Image_Jpeg, Image_Png } from "@juniper-lib/mediatypes";
+import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objGraph } from "../objects";
 import { Image2D } from "../widgets/Image2D";
@@ -117,26 +119,37 @@ export class Menu extends THREE.Object3D {
     async load(description: MenuDescription, prog?: IProgress) {
         this.menuFont = description.font;
 
-        let imgs = description.images;
-
-        const tasks: TaskDef[] = [
-            [1, (prog) => loadFont(this.menuFont, null, prog)],
-            [1, (prog) => this.backButton.back.loadTextureMap(this.env.fetcher, imgs.backButton, prog)],
-            [1, (prog) => this.defaultButtonImage.loadTextureMap(this.env.fetcher, imgs.defaultButton, prog)],
-            [1, (prog) => this.menuTitle.back.loadTextureMap(this.env.fetcher, imgs.title, prog)],
-            [1, (prog) => this.nextButton.back.loadTextureMap(this.env.fetcher, imgs.title, prog)],
-            [1, (prog) => this.prevButton.back.loadTextureMap(this.env.fetcher, imgs.title, prog)],
-            [1, (prog) => this.logo.back.loadTextureMap(this.env.fetcher, imgs.logo.back, prog)]
-        ];
+        const imgs = description.images;
+        const backButtonAsset = new AssetImage(imgs.backButton, Image_Jpeg, !this.env.DEBUG);
+        const defaultButtonAsset = new AssetImage(imgs.defaultButton, Image_Jpeg, !this.env.DEBUG);
+        const titleAsset = new AssetImage(imgs.title, Image_Jpeg, !this.env.DEBUG);
+        const logoBackAsset = new AssetImage(imgs.logo.back, Image_Png, !this.env.DEBUG);
+        let logoFrontAsset: AssetImage = null;
 
         if (imgs.logo.front) {
+            logoFrontAsset = new AssetImage(imgs.logo.front, Image_Png, !this.env.DEBUG);
             this.logo.front = new Image2D(this.env, "LogoFront", true, { transparent: true });
-            tasks.push([1, (prog) => this.logo.front.loadTextureMap(this.env.fetcher, imgs.logo.front, prog)]);
         }
 
-        await progressTasksWeighted(prog, tasks);
+        await progressTasksWeighted(prog, [
+            [1, (prog) => loadFont(this.menuFont, null, prog)],
+            [5, (prog) => this.env.fetcher.assets(prog,
+                backButtonAsset,
+                defaultButtonAsset,
+                titleAsset,
+                logoBackAsset,
+                logoFrontAsset)]
+        ]);
+
+        this.backButton.back.setTextureMap(backButtonAsset.result);
+        this.defaultButtonImage.setTextureMap(defaultButtonAsset.result);
+        this.menuTitle.back.setTextureMap(titleAsset.result);
+        this.nextButton.back.setTextureMap(titleAsset.result);
+        this.prevButton.back.setTextureMap(titleAsset.result);
+        this.logo.back.setTextureMap(logoBackAsset.result);
 
         if (imgs.logo.front) {
+            this.logo.front.setTextureMap(logoFrontAsset.result);
             this.logo.front.width = 1;
         }
     }
@@ -314,7 +327,8 @@ export class Menu extends THREE.Object3D {
         if (!item.back) {
             if (item.filePath) {
                 item.back = new Image2D(this.env, `${item.name}-Background`, true);
-                await item.back.loadTextureMap(this.env.fetcher, item.filePath, prog);
+                const { content: img } = await this.env.fetcher.get(item.filePath).progress(prog).image();
+                item.back.setTextureMap(img);
             }
             else {
                 item.back = this.defaultButtonImage.clone() as Image2D;
@@ -408,8 +422,8 @@ export class Menu extends THREE.Object3D {
         if (button.clickable
             && isFunction(onClick)) {
             button.addEventListener("click", () => {
-                    this.curBlowout = this.blowOut(true);
-                    onClick(item);
+                this.curBlowout = this.blowOut(true);
+                onClick(item);
             });
         }
 

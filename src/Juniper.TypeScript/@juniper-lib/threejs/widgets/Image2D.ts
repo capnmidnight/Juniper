@@ -1,6 +1,5 @@
-import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
-import { IFetcher } from "@juniper-lib/fetcher";
-import { arrayCompare, arrayScan, IDisposable, inches2Meters, IProgress, isDefined, isNullOrUndefined, meters2Inches } from "@juniper-lib/tslib";
+import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
+import { arrayCompare, arrayScan, IDisposable, inches2Meters, isDefined, isNullOrUndefined, meters2Inches } from "@juniper-lib/tslib";
 import { cleanup } from "../cleanup";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { IUpdatable } from "../IUpdatable";
@@ -21,6 +20,8 @@ export type Image2DObjectSizeMode = "none"
     | "fixed-height"
     | "fixed-width";
 
+export type WebXRLayerType = "none" | "static" | "dynamic";
+
 export class Image2D
     extends THREE.Object3D
     implements IDisposable, IUpdatable {
@@ -29,8 +30,8 @@ export class Image2D
     private wasUsingLayer = false;
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
-    private curImage: HTMLVideoElement | HTMLImageElement | HTMLCanvasElement = null;
-    private lastImage: HTMLVideoElement | HTMLImageElement | HTMLCanvasElement = null;
+    private curImage: TexImageSource | OffscreenCanvas = null;
+    private lastImage: TexImageSource | OffscreenCanvas = null;
     private lastWidth: number = null;
     private lastHeight: number = null;
     stereoLayoutName: StereoLayoutName = "mono";
@@ -169,9 +170,12 @@ export class Image2D
         }
     }
 
-    setTextureMap(img: CanvasImageTypes | HTMLVideoElement): THREE.Texture {
+    setTextureMap(img: TexImageSource | OffscreenCanvas): THREE.Texture {
         if (isImageBitmap(img)) {
-            img = createCanvasFromImageBitmap(img);
+            img = createUtilityCanvasFromImageBitmap(img);
+        }
+        else if (isImageData(img)) {
+            img = createUtilityCanvasFromImageData(img);
         }
 
         if (isOffscreenCanvas(img)) {
@@ -197,15 +201,6 @@ export class Image2D
 
     private get isVideo() {
         return this.curImage instanceof HTMLVideoElement;
-    }
-
-    async loadTextureMap(fetcher: IFetcher, path: string, prog?: IProgress): Promise<void> {
-        let { content: img } = await fetcher
-            .get(path)
-            .progress(prog)
-            .image();
-        const texture = this.setTextureMap(img);
-        texture.name = path;
     }
 
     updateTexture() {
