@@ -4,6 +4,7 @@ import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/CubeMapFaceIndex";
 import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
+import { XRTimerTickEvent } from "./environment/XRTimer";
 import { isEuler, isQuaternion } from "./typeChecks";
 
 type SkyboxRotation = THREE.Quaternion | THREE.Euler | number[] | number;
@@ -48,7 +49,8 @@ export class Skybox {
     private readonly contexts = new Array<Context2D>(6);
     private readonly flipped: CanvasTypes;
     private readonly flipper: Context2D;
-    private readonly onNeedsRedraw: () => void = null;
+    private readonly onNeedsRedraw: () => void;
+    private readonly onTick: (evt: XRTimerTickEvent) => void;
 
     private layerOrientation: DOMPointReadOnly = null;
     private images: CanvasImageTypes[] = null;
@@ -64,10 +66,11 @@ export class Skybox {
     private wasWebXRLayerAvailable: boolean = null;
 
     visible = true;
-    framecount = 0;
 
     constructor(private readonly env: BaseEnvironment<unknown>) {
+
         this.onNeedsRedraw = () => this.imageNeedsUpdate = true;
+        this.onTick = (evt) => this.update(evt.frame);
 
         this.env.scene.background = black;
 
@@ -108,6 +111,9 @@ export class Skybox {
         this.flipper.translate(-FACE_SIZE, 0);
 
         this.setImages("", this.canvases);
+
+        this.env.timer.addTickHandler(this.onTick);
+
         Object.seal(this);
     }
 
@@ -202,8 +208,7 @@ export class Skybox {
             || this._rotation.w !== w;
     }
 
-    update(frame: XRFrame) {
-        this.framecount++;
+    private update(frame: XRFrame) {
         if (this.cube) {
             const isWebXRLayerAvailable = this.useWebXRLayers
                 && this.env.hasXRCompositionLayers
@@ -213,8 +218,6 @@ export class Skybox {
             const webXRLayerChanged = isWebXRLayerAvailable !== this.wasWebXRLayerAvailable;
             if (webXRLayerChanged) {
                 if (isWebXRLayerAvailable) {
-                    console.log("Layer created on frame " + this.framecount);
-
                     const space = this.env.renderer.xr.getReferenceSpace();
 
                     this.layer = this.env.xrBinding.createCubeLayer({
@@ -282,7 +285,6 @@ export class Skybox {
 
                 if (this.imageNeedsUpdate) {
                     if (this.layer) {
-                        console.log("layer rendering on frame " + this.framecount);
                         const gl = this.env.renderer.getContext();
                         const gLayer = this.env.xrBinding.getSubImage(this.layer, frame);
                         const imgs = this.cube.images as CanvasImageTypes[];
