@@ -45,4 +45,8 @@ export function equal<T>(a: T, b: T): boolean {
     return a === b;
 }
 
+export function reflectValue<T>(v: T): () => T {
+    return () => v;
+}
+
 export type AsyncCallback = () => Promise<void>;
