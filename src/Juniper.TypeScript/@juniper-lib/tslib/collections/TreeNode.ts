@@ -1,3 +1,5 @@
+import { reflectValue } from "../identity";
+import { isDefined } from "../typeChecks";
 import { BaseGraphNode } from "./BaseGraphNode";
 
 export function buildTree<K, V>(
@@ -5,7 +7,7 @@ export function buildTree<K, V>(
     getKey: (v: V) => K,
     getParentKey: (v: V) => K,
     getOrder?: (v: V) => number): TreeNode<V> {
-    const rootNode = new TreeNode(null);
+    const rootNode = new TreeNode(null, 0);
     const nodes = new Map<K, TreeNode<V>>();
 
     for (const item of items) {
@@ -35,8 +37,25 @@ export function buildTree<K, V>(
 /**
  * A TreeNode is a GraphNode that can have only one parent.
  **/
-
 export class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
+    private readonly getDepth: () => number;
+    
+
+    constructor(v: ValueT, depth: number = null) {
+        super(v);
+
+        if (isDefined(depth)) {
+            this.getDepth = reflectValue(depth);
+        }
+        else {
+            this.getDepth = () => this.parent.depth + 1;
+        }
+    }
+
+    get depth() {
+        return this.getDepth();
+    }
+
     removeFromParent() {
         while (this.parent) {
             this.parent.disconnectFrom(this);

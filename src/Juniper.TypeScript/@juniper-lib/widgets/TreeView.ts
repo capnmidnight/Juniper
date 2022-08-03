@@ -39,7 +39,7 @@ import {
     ErsatzElement,
     Style
 } from "@juniper-lib/dom/tags";
-import { arrayClear, arrayRemove, buildTree, isDefined, isFunction, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { arrayClear, arrayRemove, buildTree, isDefined, isFunction, isNullOrUndefined, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { TreeViewNode, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
 
 Style(
@@ -682,9 +682,12 @@ export class TreeView<T, K>
         }
     }
 
-    expandAll() {
+    expandAll(maxDepth: number = null) {
         for (const element of this.elements) {
-            if (element.node !== this.rootNode && element.canAddChildren) {
+            if (element.node !== this.rootNode
+                && element.canAddChildren
+                && (isNullOrUndefined(maxDepth)
+                    || element.node.depth <= maxDepth)) {
                 element.isOpen = true;
             }
         }
