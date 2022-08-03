@@ -443,7 +443,7 @@ export class TreeView<T, K>
 
             this.rootNode = rootNode;
             if (this.rootNode) {
-                for (const node of this.rootNode.depthFirst()) {
+                for (const node of this.rootNode.breadthFirst()) {
                     this.createElement(node);
                 }
 

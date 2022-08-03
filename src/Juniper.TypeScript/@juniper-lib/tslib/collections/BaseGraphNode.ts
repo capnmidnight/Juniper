@@ -14,7 +14,7 @@ export abstract class BaseGraphNode<ValueT> {
     connectSorted<KeyT>(child: BaseGraphNode<ValueT>, keySelector: (value: ValueT) => KeyT): void {
         if (isDefined(keySelector)) {
             arraySortedInsert(this._forward, child, (n) => keySelector(n.value));
-            child._reverse.push(this);
+            arraySortedInsert(child._reverse, this, (n) => keySelector(n.value));
         }
         else {
             this.connectTo(child);
