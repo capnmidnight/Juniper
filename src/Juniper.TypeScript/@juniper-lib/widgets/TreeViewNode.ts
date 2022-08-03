@@ -107,7 +107,6 @@ export class TreeViewNode<T, K>
                 }),
 
                 this.collapser = ButtonSmall(
-                    title(this.collapserTitle),
                     onEnabledClick(() => {
                         if (this.canAddChildren) {
                             this.isOpen = !this.isOpen;
@@ -186,9 +185,11 @@ export class TreeViewNode<T, K>
     }
 
     private get collapserTitle(): string {
-        return (this.canAddChildren
-            ? "Expand/collapse "
-            : "Select ")
+        return (!this.canAddChildren
+            ? "Select "
+            : this.isOpen
+                ? "Collapse "
+                : "Expand ")
             + this.getDescription(this.node.value);
     }
 
