@@ -116,19 +116,24 @@ Style(
 
     rule(".tree-view-node .drag-buffer.highlighted",
         backgroundColor("#000")
+    ),
+
+    rule(".tree-view-node-label[draggable=true]",
+        cursor("grab")
     )
 );
 
 export interface TreeViewOptions<T, K> {
     getLabel: (node: TreeNode<T>) => string;
     getIcon: (node: TreeNode<T>, isOpen: boolean) => string;
-    getKey: (v: T) => K;
-    getParentKey: (v: T) => K;
+    getKey: (value: T) => K;
+    getParentKey: (value: T) => K;
     getDescription: (value: T) => string;
     getChildDescription: (value: T) => string;
-    canAdd?: (value: T) => boolean;
-    orderBy?: (value: T) => number;
-    getOrder?: (v: T) => number;
+    canAddChildren: (value: T) => boolean;
+    canParent: (parent: T, child: T) => boolean;
+    canReorder: (value: T) => boolean;
+    getOrder?: (value: T) => number;
     replaceElement?: HTMLElement;
 }
 
@@ -178,14 +183,14 @@ export class TreeView<T, K>
         ...styleProps: CssProp[]) {
         super();
 
+        this.createElement = this.createElement.bind(this);
+
         this.options = Object.assign<Partial<TreeViewOptions<T, K>>, TreeViewOptions<T, K>>({
-            canAdd: null,
-            orderBy: null,
             getOrder: null,
             replaceElement: null
         }, options);
 
-        this.canChangeOrder = isFunction(this.options.orderBy);
+        this.canChangeOrder = isFunction(this.options.getOrder);
 
         this.element = Div(
             className("tree-view"),
@@ -326,7 +331,7 @@ export class TreeView<T, K>
                         lastTarget = target;
                     }
 
-                    if (elem && canReparent(draggedElement, elem, target)) {
+                    if (elem && this.canReparent(elem, draggedElement, target)) {
                         dropElement = elem;
 
                         if (target === elem.upper) {
@@ -350,9 +355,7 @@ export class TreeView<T, K>
                 }),
 
                 onDrop((evt) => {
-                    if (dropElement
-                        && draggedElement
-                        && canReparent(draggedElement, dropElement, lastTarget)) {
+                    if (this.canReparent(dropElement, draggedElement, lastTarget)) {
                         evt.preventDefault();
                         this.reparentNode(draggedElement.node, dropElement.node, delta);
                     }
@@ -379,6 +382,17 @@ export class TreeView<T, K>
         if (this.options.replaceElement) {
             elementReplace(this.options.replaceElement, this);
         }
+    }
+
+    private canReparent(parent: TreeViewNode<T, K>, child: TreeViewNode<T, K>, target: HTMLElement) {
+        return isDefined(parent)
+            && isDefined(child)
+            && (parent.canAddChildren
+                && this.options.canParent(parent.node.value, child.node.value)
+                || target === parent.upper
+                || target === parent.lower)
+            && !child.node.contains(parent.node)
+            && child.node.parent !== parent.node;
     }
 
     get disabled(): boolean {
@@ -440,7 +454,7 @@ export class TreeView<T, K>
             this.locked = false;
 
             for (const elem of this.elements) {
-                if (!elem.node.isLeaf) {
+                if (elem.canAddChildren) {
                     this.reorderChildren(elem);
                 }
             }
@@ -521,7 +535,7 @@ export class TreeView<T, K>
                 const htmlElem = parentElement.children.children[i] as HTMLElement;
                 const node = this.htmlElements2Nodes.get(htmlElem);
                 const elem = this.nodes2Elements.get(node);
-                const index = this.options.orderBy(node.value);
+                const index = this.options.getOrder(node.value);
                 if (index !== i) {
                     this.dispatchEvent(new TreeViewNodeMovedEvent(node, i));
                 }
@@ -537,15 +551,12 @@ export class TreeView<T, K>
             this,
             node,
             this.options.getLabel,
-            this.options.canAdd,
-            !!this.options.canAdd,
-            (v) => this.createElement(v),
-            this.canChangeOrder
-                ? this.options.orderBy
-                : null,
             this.options.getIcon,
             this.options.getDescription,
-            this.options.getChildDescription);
+            this.options.getChildDescription,
+            this.options.canAddChildren,
+            this.options.canReorder,
+            this.createElement);
 
         element.addBubbler(this);
 
@@ -562,12 +573,12 @@ export class TreeView<T, K>
                     elementApply(parentElement.children, element);
                 }
                 else {
-                    const index = this.options.orderBy(node.value);
+                    const index = this.options.getOrder(node.value);
                     let nextNodeIndex = Number.MAX_SAFE_INTEGER;
                     let nextNode: TreeNode<T> = null;
                     for (const sibling of parentNode.children) {
                         if (sibling !== node) {
-                            const sibIndex = this.options.orderBy(sibling.value);
+                            const sibIndex = this.options.getOrder(sibling.value);
                             if (sibIndex > index && sibIndex < nextNodeIndex) {
                                 nextNode = sibling;
                                 nextNodeIndex = sibIndex;
@@ -625,12 +636,15 @@ export class TreeView<T, K>
         }
 
         elementInsertBefore(nextParentElement.children, curElement, nextSiblingElement);
-        this.reorderChildren(curParentElement);
 
         if (nextParentElement !== curParentElement) {
             newParentNode.connectTo(node);
+            this.reorderChildren(curParentElement);
             this.reorderChildren(nextParentElement);
             this.dispatchEvent(new TreeViewNodeReparentedEvent(node, newParentNode));
+        }
+        else {
+            this.reorderChildren(curParentElement);
         }
 
         nextParentElement.isOpen = true;
@@ -662,7 +676,7 @@ export class TreeView<T, K>
 
     collapseAll() {
         for (const element of this.elements) {
-            if (element.node !== this.rootNode && !element.node.isLeaf) {
+            if (element.node !== this.rootNode && element.canAddChildren) {
                 element.isOpen = false;
             }
         }
@@ -670,18 +684,9 @@ export class TreeView<T, K>
 
     expandAll() {
         for (const element of this.elements) {
-            if (element.node !== this.rootNode && !element.node.isLeaf) {
+            if (element.node !== this.rootNode && element.canAddChildren) {
                 element.isOpen = true;
             }
         }
     }
-}
-
-
-function canReparent<T, K>(child: TreeViewNode<T, K>, parent: TreeViewNode<T, K>, target: HTMLElement) {
-    return isDefined(parent)
-        && parent.canAddNode(target)
-        && isDefined(child)
-        && !child.node.contains(parent.node)
-        && child.node.parent !== parent.node;
 }

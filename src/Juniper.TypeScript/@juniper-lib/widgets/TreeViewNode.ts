@@ -11,7 +11,7 @@ import {
     Span
 } from "@juniper-lib/dom/tags";
 import { plus } from "@juniper-lib/emoji";
-import { isFunction, isNullOrUndefined, Task, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { Task, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { TreeView } from "./TreeView";
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {
@@ -60,7 +60,6 @@ export class TreeViewNode<T, K>
     private readonly label: HTMLSpanElement;
     private readonly adder: HTMLButtonElement;
 
-    private readonly _canChangeOrder: boolean;
     readonly upper: HTMLDivElement;
     readonly lower: HTMLDivElement;
     private wasLeaf = true;
@@ -69,17 +68,14 @@ export class TreeViewNode<T, K>
         private readonly treeView: TreeView<T, K>,
         public readonly node: TreeNode<T>,
         private readonly getLabel: (node: TreeNode<T>) => string,
-        private readonly getAddable: (v: T) => boolean,
-        private readonly _canAddNode: boolean,
-        private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T, K>,
-        private readonly getIndex: (v: T) => number,
         private readonly getIcon: (node: TreeNode<T>, isOpen: boolean) => string,
         private readonly getDescription: (value: T) => string,
-        private readonly getChildDescription: (value: T) => string) {
+        private readonly getChildDescription: (value: T) => string,
+        private readonly _canAddChildren: (value: T) => boolean,
+        private readonly _canChangeOrder: (value: T) => boolean,
+        private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T, K>) {
 
         super();
-
-        this._canChangeOrder = isFunction(this.getIndex);
 
         const onEnabledClick = (act: () => void) => onClick((evt: Event) => {
             if (!this.disabled && !this.treeView.disabled) {
@@ -103,7 +99,7 @@ export class TreeViewNode<T, K>
                 }),
 
                 onDblClick((evt) => {
-                    if (!this.disabled && !this.treeView.disabled && !this.node.isLeaf) {
+                    if (!this.disabled && !this.treeView.disabled && this.canAddChildren) {
                         evt.preventDefault();
                         evt.cancelBubble = true;
                         this.isOpen = !this.isOpen;
@@ -113,11 +109,11 @@ export class TreeViewNode<T, K>
                 this.collapser = ButtonSmall(
                     title(this.collapserTitle),
                     onEnabledClick(() => {
-                        if (this.node.isLeaf) {
-                            this.select();
+                        if (this.canAddChildren) {
+                            this.isOpen = !this.isOpen;
                         }
                         else {
-                            this.isOpen = !this.isOpen;
+                            this.select();
                         }
                     })
                 ),
@@ -180,23 +176,19 @@ export class TreeViewNode<T, K>
 
         elementSetText(this.label, this.getLabel(this.node));
 
-        elementSetDisplay(this.adder, this.canAddNode() && (this.isOpen || this.node.isLeaf), "inline-block");
+        elementSetDisplay(this.adder, this.canAddChildren && (this.isOpen || this.node.isLeaf), "inline-block");
         elementSetTitle(this.adder, this.adderTitle)
         buttonSetEnabled(this.adder, !this.disabled && !this.treeView.disabled);
     }
 
-    canAddNode(target: HTMLElement = null) {
-        return this._canAddNode && (
-            isNullOrUndefined(this.getAddable)
-            || this.getAddable(this.node.value)
-            || target === this.upper
-            || target === this.lower);
+    get canAddChildren() {
+        return this._canAddChildren(this.node.value)
     }
 
     private get collapserTitle(): string {
-        return (this.node.isLeaf
-            ? "Select "
-            : "Expand/collapse ")
+        return (this.canAddChildren
+            ? "Expand/collapse "
+            : "Select ")
             + this.getDescription(this.node.value);
     }
 
@@ -205,7 +197,7 @@ export class TreeViewNode<T, K>
     }
 
     private get canChangeOrder() {
-        return this._canChangeOrder && !this.node.isRoot;
+        return !this.node.isRoot && this._canChangeOrder(this.node.value);
     }
 
     get disabled(): boolean {
