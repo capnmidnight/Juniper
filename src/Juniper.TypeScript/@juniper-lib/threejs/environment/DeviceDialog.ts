@@ -24,7 +24,7 @@ import { makeLookup, SetTimeoutTimer, stringRandom } from "@juniper-lib/tslib";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { InputRangeWithNumber, InputRangeWithNumberElement } from "@juniper-lib/widgets/InputRangeWithNumber";
-import { group, PropertyList } from "@juniper-lib/widgets/PropertyList";
+import { group, PropertyList, PropList } from "@juniper-lib/widgets/PropertyList";
 import type { Environment } from "./Environment";
 import type { Tele } from "../Tele";
 
@@ -62,7 +62,7 @@ export class DeviceDialog extends DialogBox {
                 minWidth("max-content")));
 
         elementApply(this.contentArea,
-            this.properties = new PropertyList(
+            this.properties = PropList(
                 group(
                     MIC_GROUP,
                     "Input",
