@@ -10,7 +10,7 @@ import {
     ErsatzElement,
     Span
 } from "@juniper-lib/dom/tags";
-import { plus } from "@juniper-lib/emoji";
+import { blackMediumDownPointingTriangleCentred, blackMediumRightPointingTriangleCentred, plus, smallBlueDiamond } from "@juniper-lib/emoji";
 import { Task, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { TreeView } from "./TreeView";
 
@@ -68,7 +68,6 @@ export class TreeViewNode<T, K>
         private readonly treeView: TreeView<T, K>,
         public readonly node: TreeNode<T>,
         private readonly getLabel: (node: TreeNode<T>) => string,
-        private readonly getIcon: (node: TreeNode<T>, isOpen: boolean) => string,
         private readonly getDescription: (value: T) => string,
         private readonly getChildDescription: (value: T) => string,
         private readonly _canAddChildren: (value: T) => boolean,
@@ -170,7 +169,11 @@ export class TreeViewNode<T, K>
         }
 
         buttonSetEnabled(this.collapser, !this.disabled && !this.treeView.disabled);
-        elementSetText(this.collapser, this.getIcon(this.node, this.isOpen));
+        elementSetText(this.collapser, this.canAddChildren
+            ? this.isOpen
+                ? blackMediumDownPointingTriangleCentred.value
+                : blackMediumRightPointingTriangleCentred.value
+            : smallBlueDiamond.value);
         elementSetTitle(this.collapser, this.collapserTitle);
 
         elementSetText(this.label, this.getLabel(this.node));
@@ -179,6 +182,8 @@ export class TreeViewNode<T, K>
         elementSetTitle(this.adder, this.adderTitle)
         buttonSetEnabled(this.adder, !this.disabled && !this.treeView.disabled);
     }
+
+
 
     get canAddChildren() {
         return this._canAddChildren(this.node.value)

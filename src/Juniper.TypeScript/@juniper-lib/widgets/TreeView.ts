@@ -125,7 +125,6 @@ Style(
 
 export interface TreeViewOptions<T, K> {
     getLabel: (node: TreeNode<T>) => string;
-    getIcon: (node: TreeNode<T>, isOpen: boolean) => string;
     getKey: (value: T) => K;
     getParentKey: (value: T) => K;
     getDescription: (value: T) => string;
@@ -551,7 +550,6 @@ export class TreeView<T, K>
             this,
             node,
             this.options.getLabel,
-            this.options.getIcon,
             this.options.getDescription,
             this.options.getChildDescription,
             this.options.canAddChildren,
