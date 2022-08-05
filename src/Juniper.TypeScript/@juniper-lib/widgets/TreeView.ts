@@ -635,6 +635,16 @@ export class TreeView<T, K>
                 nextSiblingElement = this.htmlElements2Elements.get(nextSiblingHTMLElement);
             }
         }
+        else if(this.canChangeOrder) {
+            const curOrder = this.options.getOrder(node.value);
+            for (let i = 0; i < newParentNode.children.length && nextSiblingElement === null; ++i) {
+                const nextSiblingNode = newParentNode.children[i];
+                const nextOrder = this.options.getOrder(nextSiblingNode.value);
+                if (nextOrder > curOrder) {
+                    nextSiblingElement = this.nodes2Elements.get(nextSiblingNode);
+                }
+            }
+        }
 
         elementInsertBefore(nextParentElement.children, curElement, nextSiblingElement);
 
