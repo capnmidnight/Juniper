@@ -6,8 +6,10 @@ import {
     color,
     CssProp,
     cursor,
-    height,
-    opacity,
+    fontFamily,
+    fontSize,
+    getSystemFamily,
+    height, opacity,
     overflowWrap,
     overflowX,
     overflowY,
@@ -45,12 +47,13 @@ import { TreeViewNode, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./T
 Style(
     rule(".tree-view",
         border("inset 2px"),
-        backgroundColor("white"),
+        backgroundColor("#eee"),
         whiteSpace("nowrap"),
         overflowWrap("normal"),
         overflowX("hidden"),
         overflowY("scroll"),
-        height("100%")
+        height("100%"),
+        getSystemFamily()
     ),
 
     rule(".tree-view .btn-small",
@@ -120,6 +123,12 @@ Style(
 
     rule(".tree-view-node-label[draggable=true]",
         cursor("grab")
+    ),
+
+    rule(".tree-view-node-collapser, .tree-view-node-adder",
+        fontFamily("monospace"),
+        fontSize("80%"),
+        color("#777")
     )
 );
 
@@ -630,7 +639,7 @@ export class TreeView<T, K>
                 nextSiblingElement = this.htmlElements2Elements.get(nextSiblingHTMLElement);
             }
         }
-        else if(this.canChangeOrder) {
+        else if (this.canChangeOrder) {
             const curOrder = this.options.getOrder(node.value);
             for (let i = 0; i < newParentNode.children.length && nextSiblingElement === null; ++i) {
                 const nextSiblingNode = newParentNode.children[i];

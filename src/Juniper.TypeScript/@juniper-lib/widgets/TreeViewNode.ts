@@ -10,7 +10,7 @@ import {
     ErsatzElement,
     Span
 } from "@juniper-lib/dom/tags";
-import { blackMediumDownPointingTriangleCentred, blackMediumRightPointingTriangleCentred, plus, smallBlueDiamond } from "@juniper-lib/emoji";
+import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
 import { Task, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { TreeView } from "./TreeView";
 
@@ -62,7 +62,6 @@ export class TreeViewNode<T, K>
 
     readonly upper: HTMLDivElement;
     readonly lower: HTMLDivElement;
-    private wasLeaf = true;
 
     constructor(
         private readonly treeView: TreeView<T, K>,
@@ -106,6 +105,7 @@ export class TreeViewNode<T, K>
                 }),
 
                 this.collapser = ButtonSmall(
+                    className("tree-view-node-collapser"),
                     onEnabledClick(() => {
                         if (this.canAddChildren) {
                             this.isOpen = !this.isOpen;
@@ -116,9 +116,15 @@ export class TreeViewNode<T, K>
                     })
                 ),
 
-                this.label = Span(this.getLabel(this.node)),
+                this.label = Span(this.getLabel(this.node))
+            ),
+
+            this.subView = Div(
+                className("tree-view-node-children"),
+                this.children = Div(),
 
                 this.adder = ButtonSmall(
+                    className("tree-view-node-adder"),
                     title(this.adderTitle),
                     onEnabledClick(async () => {
                         buttonSetEnabled(this.adder, false);
@@ -138,11 +144,6 @@ export class TreeViewNode<T, K>
                 )
             ),
 
-            this.subView = Div(
-                className("tree-view-node-children"),
-                this.children = Div()
-            ),
-
             this.upper = Div(className("drag-buffer top")),
 
             this.lower = Div(className("drag-buffer bottom"))
@@ -158,24 +159,14 @@ export class TreeViewNode<T, K>
     }
 
     refresh() {
-        if (this.node.isLeaf !== this.wasLeaf) {
-            this.wasLeaf = this.node.isLeaf;
-            if (this.node.isLeaf) {
-                this.infoView.append(this.adder);
-            }
-            else {
-                this.subView.append(this.adder);
-            }
-        }
-
         const enabled = !this.disabled && !this.treeView.disabled;
 
         buttonSetEnabled(this.collapser, enabled);
         elementSetText(this.collapser, this.canAddChildren
             ? this.isOpen
-                ? blackMediumDownPointingTriangleCentred.value
-                : blackMediumRightPointingTriangleCentred.value
-            : smallBlueDiamond.value);
+                ? blackMediumDownPointingTriangleCentered.value
+                : blackMediumRightPointingTriangleCentered.value
+            : blackDiamondCentered.value);
         elementSetTitle(this.collapser, this.collapserTitle);
 
         elementSetText(this.label, this.getLabel(this.node));
