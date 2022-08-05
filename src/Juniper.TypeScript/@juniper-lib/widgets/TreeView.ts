@@ -176,6 +176,7 @@ export class TreeView<T, K>
 
     private rootNode: TreeNode<T> = null;
     private locked = false;
+    private _disabled = false;
 
     constructor(
         options?: TreeViewOptions<T, K>,
@@ -395,17 +396,13 @@ export class TreeView<T, K>
     }
 
     get disabled(): boolean {
-        return this.rootNode === null
-            || !this.nodes2Elements.has(this.rootNode)
-            || this.nodes2Elements.get(this.rootNode).disabled;
+        return this._disabled;
     }
 
     set disabled(v: boolean) {
-        if (this.rootNode) {
-            const rootElement = this.nodes2Elements.get(this.rootNode);
-            if (rootElement) {
-                rootElement.disabled = v;
-            }
+        this._disabled = v;
+        for (const element of this.elements) {
+            element.refresh();
         }
     }
 

@@ -168,7 +168,9 @@ export class TreeViewNode<T, K>
             }
         }
 
-        buttonSetEnabled(this.collapser, !this.disabled && !this.treeView.disabled);
+        const enabled = !this.disabled && !this.treeView.disabled;
+
+        buttonSetEnabled(this.collapser, enabled);
         elementSetText(this.collapser, this.canAddChildren
             ? this.isOpen
                 ? blackMediumDownPointingTriangleCentred.value
@@ -180,7 +182,9 @@ export class TreeViewNode<T, K>
 
         elementSetDisplay(this.adder, this.canAddChildren && (this.isOpen || this.node.isLeaf), "inline-block");
         elementSetTitle(this.adder, this.adderTitle)
-        buttonSetEnabled(this.adder, !this.disabled && !this.treeView.disabled);
+        buttonSetEnabled(this.adder, enabled);
+
+        this.element.style.opacity = enabled ? "1" : "0.67";
     }
 
 
