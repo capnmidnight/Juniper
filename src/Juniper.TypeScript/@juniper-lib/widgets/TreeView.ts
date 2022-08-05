@@ -626,15 +626,14 @@ export class TreeView<T, K>
 
         if (delta !== 0) {
             nextSiblingElement = nextParentElement;
-            nextParentElement = this.nodes2Elements.get(newParentNode.parent);
+            newParentNode = newParentNode.parent;
+            nextParentElement = this.nodes2Elements.get(newParentNode);
 
             if (delta === 1) {
                 const index = elementGetIndexInParent(nextSiblingElement) + 1;
                 const nextSiblingHTMLElement = nextParentElement.children.children[index] as HTMLElement;
                 nextSiblingElement = this.htmlElements2Elements.get(nextSiblingHTMLElement);
             }
-
-            newParentNode = nextParentElement.node;
         }
 
         elementInsertBefore(nextParentElement.children, curElement, nextSiblingElement);
