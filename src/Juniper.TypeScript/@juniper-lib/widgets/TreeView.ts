@@ -602,7 +602,9 @@ export class TreeView<T, K>
 
     addValue(value: T) {
         const parentID = this.options.getParentKey(value);
-        const parentNode = this.tree.search(n => this.options.getKey(n.value) === parentID);
+        const parentNode = isNullOrUndefined(parentID)
+            ? this.rootNode
+            : this.tree.search(n => this.options.getKey(n.value) === parentID);
         const parentElement = this.nodes2Elements.get(parentNode);
         parentElement.add(value);
     }
