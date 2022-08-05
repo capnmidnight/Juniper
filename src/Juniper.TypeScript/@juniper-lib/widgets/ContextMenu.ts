@@ -1,5 +1,5 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { backgroundColor, border, display, gridTemplateColumns, left, padding, position, rule, styles, top } from "@juniper-lib/dom/css";
+import { backgroundColor, border, display, getSystemFamily, gridTemplateColumns, left, margin, padding, position, rule, styles, textAlign, top } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
 import { Button, Div, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement, Style } from "@juniper-lib/dom/tags";
 import { isDefined, Task } from "@juniper-lib/tslib";
@@ -9,9 +9,20 @@ Style(
         position("absolute"),
         backgroundColor("white"),
         padding("5px"),
-        border("outset 2px #ccc"),
         display("grid"),
         gridTemplateColumns("auto")
+    ),
+
+    rule(".context-menu > button",
+        border("none"),
+        textAlign("left"),
+        backgroundColor("transparent"),
+        margin("2px"),
+        getSystemFamily()
+    ),
+
+    rule(".context-menu > button:hover",
+        backgroundColor("#ddd")
     )
 );
 
