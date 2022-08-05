@@ -1,7 +1,7 @@
 {
   "name": "@juniper-lib/emoji",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "A collection of all the UTF-8 Emoji code points that I could find",
   "main": "index.ts",
