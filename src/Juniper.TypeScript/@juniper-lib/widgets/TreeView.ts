@@ -205,10 +205,12 @@ export class TreeView<T, K>
             className("tree-view"),
             styles(...styleProps),
             tabIndex(0),
+
             onClick((evt) => {
                 if (!this.disabled && !evt.defaultPrevented) {
                     for (const element of this.elements) {
                         if (element.selected) {
+                            this.selectedNode = null;
                             this.dispatchEvent(new TreeViewNodeSelectedEvent(null));
                             return;
                         }
