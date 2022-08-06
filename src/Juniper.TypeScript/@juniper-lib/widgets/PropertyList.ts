@@ -1,8 +1,10 @@
-import { display, gridAutoFlow, gridColumn, gridTemplateColumns, margin, marginInlineStart, paddingRight, rule, textAlign, width } from "@juniper-lib/dom/css";
-import { DD, Div, DL, DT, elementApply, ElementChild, elementSetDisplay, ErsatzElement, H2, isErsatzElement, isErsatzElements, Label, Style } from "@juniper-lib/dom/tags";
+import { className } from "@juniper-lib/dom/attrs";
+import { color, display, gridAutoFlow, gridColumn, gridTemplateColumns, margin, marginInlineStart, paddingRight, rule, textAlign, width } from "@juniper-lib/dom/css";
+import { DD, Div, DL, DT, elementApply, ElementChild, elementSetClass, elementSetDisplay, ErsatzElement, H2, IDisableable, IElementAppliable, isDisableable, isErsatzElement, isErsatzElements, Label, resolveElement, Style } from "@juniper-lib/dom/tags";
 import { identity, isArray, isBoolean, isDate, isNumber, isString, stringRandom } from "@juniper-lib/tslib";
 
-type PropertyElement = [string, ...ElementChild[]] | string | ElementChild;
+type PropertyChild = Exclude<ElementChild, IElementAppliable>;
+type PropertyElement = [string, ...PropertyChild[]] | string | PropertyChild;
 
 class PropertyGroup {
     readonly properties: PropertyElement[];
@@ -17,35 +19,44 @@ export function group(name: string, ...properties: PropertyElement[]) {
 }
 
 type Property = PropertyElement | PropertyGroup;
-type RowElement = Exclude<ElementChild, string | number | boolean | Date>;
+type RowElement = Exclude<PropertyChild, string | number | boolean | Date>;
 type Row = Array<RowElement>;
 
 Style(
-    rule("dl",
+    rule("dl.properties",
         display("grid"),
         gridAutoFlow("row"),
         gridTemplateColumns("auto 1fr"),
         margin("1em")
     ),
 
-    rule("dt",
+    rule("dl.properties.disabled",
+        color("#ccc")
+    ),
+
+    rule("dl.properties > span, dl > div",
+        gridColumn(1, 3)
+    ),
+
+    rule("dl.properties .alert",
+        width("100%")
+    ),
+
+    rule("dl.properties > dt",
         gridColumn(1),
         textAlign("right"),
         paddingRight("1em")
     ),
 
-    rule("dd",
+    rule("dl.properties > dd",
         textAlign("left"),
         gridColumn(2),
         marginInlineStart("0")
     ),
 
-    rule("dl > span, dl > div",
-        gridColumn(1, 3)
-    ),
-
-    rule("dl .alert",
-        width("20em"))
+    rule("dl.properties > dd > *",
+        width("100%")
+    )
 );
 
 const DEFAULT_PROPERTY_GROUP = "DefaultPropertyGroup" + stringRandom(16);
@@ -55,19 +66,55 @@ export class PropertyList
 
     public readonly element: HTMLElement;
     private readonly rowGroups = new Map<string, Row[]>();
+    private readonly controls = new Array<IDisableable>();
+    private _disabled = false;
 
     constructor(...rest: Property[]) {
-        this.element = DL(...this.createElements(rest));
+        this.element = DL(
+            className("properties"),
+            ...this.createElements(rest));
     }
 
     append(...rest: Property[]): void {
         elementApply(this.element, ...this.createElements(rest));
     }
 
+    get disabled() {
+        return this._disabled;
+    }
+
+    set disabled(v) {
+        if (v !== this.disabled) {
+            this._disabled = v;
+            elementSetClass(this, v, "disabled");
+            for (const control of this.controls) {
+                control.disabled = v;
+            }
+        }
+    }
+
     private createElements(rest: Property[]) {
         return rest.flatMap((entry) =>
             this.createGroups(entry)
-                .flatMap(identity));
+                .flatMap(identity)
+                .map((elem) => this.registerControl(elem)));
+    }
+
+    private registerControl(rowElem: RowElement): RowElement {
+        const elems = new Array<HTMLElement>();
+        if (isErsatzElements(rowElem)) {
+            elems.push(...rowElem.elements.map(resolveElement));
+        }
+        else {
+            elems.push(resolveElement(rowElem));
+        }
+
+        for (const elem of elems) {
+            if (isDisableable(elem)) {
+                this.controls.push(elem);
+            }
+        }
+        return rowElem;
     }
 
     private createGroups(entry: Property): Row[] {
