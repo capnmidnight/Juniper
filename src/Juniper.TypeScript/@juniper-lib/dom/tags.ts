@@ -46,8 +46,7 @@ export function isIElementAppliable<T extends HTMLElement = HTMLElement>(obj: an
         && isFunction((obj as any).applyToElement);
 }
 
-export type ElementChild = Node
-    | Elements
+export type ElementChild = Elements
     | ErsatzElements
     | IElementAppliable
     | string
@@ -232,7 +231,8 @@ export function elementSetTitle(elem: Elements, text: string): void {
     elem.title = text;
 }
 
-export function elementSetClass(elem: HTMLElement, enabled: boolean, className: string) {
+export function elementSetClass(elem: Elements, enabled: boolean, className: string) {
+    elem = resolveElement(elem);
     const canEnable = isDefined(className);
     const hasEnabled = canEnable && elem.classList.contains(className);
 
