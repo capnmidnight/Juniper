@@ -32,6 +32,8 @@ import {
     onKeyDown
 } from "@juniper-lib/dom/evts";
 import {
+    ButtonPrimary,
+    buttonSetEnabled,
     Div,
     elementApply,
     elementClearChildren,
@@ -174,6 +176,9 @@ export class TreeView<T, K>
 
     readonly element: HTMLElement;
 
+    readonly expandButton: HTMLButtonElement;
+    readonly collapseButton: HTMLButtonElement;
+
     private readonly children: HTMLElement;
     private readonly options: TreeViewOptions<T, K>;
     private readonly canChangeOrder: boolean;
@@ -193,6 +198,16 @@ export class TreeView<T, K>
         super();
 
         this.createElement = this.createElement.bind(this);
+
+        this.collapseButton = ButtonPrimary(
+            onClick(() => this.collapseAll()),
+            "Collapse all"
+        );
+
+        this.expandButton = ButtonPrimary(
+            onClick(() => this.expandAll()),
+            "Expand all"
+        );
 
         this.options = Object.assign<Partial<TreeViewOptions<T, K>>, TreeViewOptions<T, K>>({
             getOrder: null,
@@ -412,6 +427,8 @@ export class TreeView<T, K>
 
     set disabled(v: boolean) {
         this._disabled = v;
+        buttonSetEnabled(this.expandButton, !v, "primary");
+        buttonSetEnabled(this.collapseButton, !v, "primary");
         for (const element of this.elements) {
             element.refresh();
         }
