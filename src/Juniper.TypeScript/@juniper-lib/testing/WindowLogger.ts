@@ -25,8 +25,7 @@ import {
     elementToggleDisplay,
     ErsatzElement
 } from "@juniper-lib/dom/tags";
-import { assertNever } from "@juniper-lib/tslib";
-import { ILogger, isWorkerLoggerMessageData } from "./models";
+import { ILogger, isWorkerLoggerMessageData, MessageType } from "./models";
 
 function track(a: number, b: number) {
     return styles(
@@ -35,13 +34,20 @@ function track(a: number, b: number) {
 }
 
 export class WindowLogger implements ILogger, ErsatzElement {
-    private logs = new Map<string, Array<any>>();
-    private rows = new Map<string, HTMLElement[]>();
-    readonly element: HTMLElement;
-    private grid: HTMLElement;
+    private readonly workerFunctions = new Map<MessageType, (slug: string, evt: MessageEvent<any>) => void>();
+    private readonly logs = new Map<string, Array<any>>();
+    private readonly rows = new Map<string, HTMLElement[]>();
+    private readonly grid: HTMLElement;
+
     private workerCount = 0;
 
+    readonly element: HTMLElement;
+
     constructor() {
+        this.workerFunctions.set("log", this.workerLog.bind(this));
+        this.workerFunctions.set("delete", this.workerDelete.bind(this));
+        this.workerFunctions.set("clear", this.workerClear.bind(this));
+
         this.element = Div(
             styles(
                 position("fixed"),
@@ -165,27 +171,28 @@ export class WindowLogger implements ILogger, ErsatzElement {
     addWorker(name: string, worker: Worker) {
         worker.addEventListener("message", (evt): void => {
             const slug = `worker:${name || this.workerCount.toFixed(0)}:`;
-            if (isWorkerLoggerMessageData(evt.data)) {
-                switch (evt.data.method) {
-                    case "log":
-                        this.log(slug + evt.data.id, ...evt.data.values);
-                        break;
-                    case "delete":
-                        this.delete(slug + evt.data.id);
-                        break;
-                    case "clear":
-                        for (const key of this.logs.keys()) {
-                            if (key.startsWith(slug)) {
-                                this.delete(key);
-                            }
-                        }
-                        break;
-                    default:
-                        assertNever(evt.data.method);
-                }
+            if (isWorkerLoggerMessageData(evt.data)
+                && this.workerFunctions.has(evt.data.method)) {
+                this.workerFunctions.get(evt.data.method)(slug, evt);
             }
         });
 
         ++this.workerCount;
+    }
+
+    private workerClear(slug: string) {
+        for (const key of this.logs.keys()) {
+            if (key.startsWith(slug)) {
+                this.delete(key);
+            }
+        }
+    }
+
+    private workerDelete(slug: string, evt: MessageEvent<any>) {
+        this.delete(slug + evt.data.id);
+    }
+
+    private workerLog(slug: string, evt: MessageEvent<any>) {
+        this.log(slug + evt.data.id, ...evt.data.values);
     }
 }

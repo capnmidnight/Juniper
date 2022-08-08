@@ -17,10 +17,10 @@ interface WorkerInvocation {
 }
 
 export abstract class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implements IDisposable {
+    private readonly invocations = new Map<number, WorkerInvocation>();
+    private readonly tasks = new Array<Task<any>>();
 
     private taskCounter = 0;
-    private invocations = new Map<number, WorkerInvocation>();
-    private tasks = new Array<Task<any>>();
 
     /**
      * Creates a new pooled worker method executor.

@@ -1,7 +1,7 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { AudioInputChangedEvent, MicrophoneManager } from "@juniper-lib/audio/MicrophoneManager";
 import { MediaStreamSource, removeVertex } from "@juniper-lib/audio/nodes";
-import { assertNever, IDisposable, PointerID, singleton, TypedEventBase } from "@juniper-lib/tslib";
+import { IDisposable, PointerID, singleton, TypedEventBase } from "@juniper-lib/tslib";
 import {
     HttpTransportType,
     HubConnection,
@@ -79,6 +79,14 @@ export enum ClientState {
     Prepairing = "prepairing",
     Unprepared = "unprepaired"
 }
+
+const hubStateTranslations = new Map<HubConnectionState, ConnectionState>([
+    [HubConnectionState.Connected, ConnectionState.Connected],
+    [HubConnectionState.Connecting, ConnectionState.Connecting],
+    [HubConnectionState.Reconnecting, ConnectionState.Connecting],
+    [HubConnectionState.Disconnected, ConnectionState.Disconnected],
+    [HubConnectionState.Disconnecting, ConnectionState.Disconnecting]
+]);
 
 export class TeleconferenceManager
     extends TypedEventBase<ConferenceEvents>
@@ -256,13 +264,7 @@ export class TeleconferenceManager
     }
 
     get connectionState() {
-        switch (this.hub.state) {
-            case HubConnectionState.Connected: return ConnectionState.Connected;
-            case HubConnectionState.Connecting: case HubConnectionState.Reconnecting: return ConnectionState.Connecting;
-            case HubConnectionState.Disconnected: return ConnectionState.Disconnected;
-            case HubConnectionState.Disconnecting: return ConnectionState.Disconnecting;
-            default: assertNever(this.hub.state);
-        }
+        return hubStateTranslations.get(this.hub.state);
     }
 
     get echoControl() {
