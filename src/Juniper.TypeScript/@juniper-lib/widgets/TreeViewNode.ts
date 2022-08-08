@@ -1,5 +1,5 @@
 import { className, draggable, title } from "@juniper-lib/dom/attrs";
-import { onClick, onDblClick } from "@juniper-lib/dom/evts";
+import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/evts";
 import {
     buttonSetEnabled, ButtonSmall,
     Div,
@@ -75,13 +75,32 @@ export class TreeViewNode<T, K>
 
         super();
 
-        const onEnabledClick = (act: () => void) => onClick((evt: Event) => {
+        const onEnabledClick = (act: (evt: Event) => void) => onClick((evt: Event) => {
             if (!this.disabled && !this.treeView.disabled) {
                 evt.preventDefault();
                 evt.cancelBubble = true;
-                act();
+                act(evt);
             }
         });
+
+        const addItem = async (evt: Event) => {
+            if (this.canAddChildren) {
+                evt.preventDefault();
+                evt.cancelBubble = true;
+                buttonSetEnabled(this.adder, false);
+                const addEvt = new TreeViewNodeAddEvent(this);
+                try {
+                    this.dispatchEvent(addEvt);
+                    await addEvt.finished;
+                }
+                catch {
+                    addEvt.complete();
+                }
+                finally {
+                    buttonSetEnabled(this.adder, true);
+                }
+            }
+        };
 
         this.element = Div(
             className("tree-view-node"),
@@ -116,7 +135,14 @@ export class TreeViewNode<T, K>
                     })
                 ),
 
-                this.label = Span(this.getLabel(this.node))
+                this.label = Span(
+                    this.getLabel(this.node),
+                    onContextMenu((evt) => {
+                        if (this.enabled) {
+                            addItem(evt);
+                        }
+                    })
+                )
             ),
 
             this.subView = Div(
@@ -126,20 +152,7 @@ export class TreeViewNode<T, K>
                 this.adder = ButtonSmall(
                     className("tree-view-node-adder"),
                     title(this.adderTitle),
-                    onEnabledClick(async () => {
-                        buttonSetEnabled(this.adder, false);
-                        const addEvt = new TreeViewNodeAddEvent(this);
-                        try {
-                            this.dispatchEvent(addEvt);
-                            await addEvt.finished;
-                        }
-                        catch {
-                            addEvt.complete();
-                        }
-                        finally {
-                            buttonSetEnabled(this.adder, true);
-                        }
-                    }),
+                    onEnabledClick(addItem),
                     plus.value
                 )
             ),
