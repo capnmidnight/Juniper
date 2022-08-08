@@ -518,7 +518,6 @@ export class TreeView<T, K>
                     elem.select();
                     isFirst = false;
                 }
-                elem.isOpen = true;
                 v = v.parent;
             }
         }
