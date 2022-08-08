@@ -508,13 +508,44 @@ export function fill(v: string) { return new CssProp("fill", v); }
 export function fillOpacity(v: string) { return new CssProp("fillOpacity", v); }
 export function fillRule(v: string) { return new CssProp("fillRule", v); }
 export function filter(v: string) { return new CssProp("filter", v); }
-export function flex(v: string) { return new CssProp("flex", v); }
-export function flexBasis(v: string) { return new CssProp("flexBasis", v); }
-export function flexDirection(v: string) { return new CssProp("flexDirection", v); }
-export function flexFlow(v: string) { return new CssProp("flexFlow", v); }
-export function flexGrow(v: string) { return new CssProp("flexGrow", v); }
-export function flexShrink(v: string) { return new CssProp("flexShrink", v); }
-export function flexWrap(v: string) { return new CssProp("flexWrap", v); }
+
+export type CSSFlexBasisValues = CSSGlobalValues
+    | CSSLengthPercentage
+    | "auto"
+    | "max-content"
+    | "min-content"
+    | "fit-content"
+export function flexBasis(v: CSSFlexBasisValues) { return new CssProp("flexBasis", v); }
+
+export type CSSFlexDirectionValues = CSSGlobalValues
+    | "row"
+    | "row-reverse"
+    | "column"
+    | "column-reverse";
+export function flexDirection(v: CSSFlexDirectionValues) { return new CssProp("flexDirection", v); }
+
+export type CSSFlexWrapValues = CSSGlobalValues
+    | "nowrap"
+    | "wrap"
+    | "wrap-reverse";
+export function flexWrap(v: CSSFlexWrapValues) { return new CssProp("flexWrap", v); }
+
+export type CSSFlexFlowValues = CSSFlexDirectionValues
+    | CSSFlexWrapValues
+    | `${CSSFlexDirectionValues} ${CSSFlexWrapValues}`;
+export function flexFlow(v: CSSFlexFlowValues) { return new CssProp("flexFlow", v); }
+
+export type CSSFlexValues = number
+    | CSSFlexBasisValues
+    | `${number} ${CSSFlexBasisValues}`
+    | `${number} ${number}`
+    | `${number} ${number} ${CSSFlexBasisValues}`;
+export function flex(v: CSSFlexValues) { return new CssProp("flex", v); }
+
+export function flexGrow(v: CSSGlobalValues | number) { return new CssProp("flexGrow", v); }
+
+export function flexShrink(v: CSSGlobalValues | number) { return new CssProp("flexShrink", v); }
+
 export function float(v: string) { return new CssProp("float", v); }
 export function floodColor(v: string) { return new CssProp("floodColor", v); }
 export function floodOpacity(v: string) { return new CssProp("floodOpacity", v); }
@@ -658,11 +689,19 @@ export function outlineColor(v: string) { return new CssProp("outlineColor", v);
 export function outlineOffset(v: string) { return new CssProp("outlineOffset", v); }
 export function outlineStyle(v: string) { return new CssProp("outlineStyle", v); }
 export function outlineWidth(v: string | 0) { return new CssProp("outlineWidth", v); }
-export function overflow(v: string) { return new CssProp("overflow", v); }
+
+export type CSSOverflowValues = CSSGlobalValues
+    | "visible"
+    | "hidden"
+    | "clip"
+    | "scroll"
+    | "auto";
+
+export function overflow(v: CSSOverflowValues | `${CSSOverflowValues} ${CSSOverflowValues}`) { return new CssProp("overflow", v); }
 export function overflowAnchor(v: string) { return new CssProp("overflowAnchor", v); }
 export function overflowWrap(v: string) { return new CssProp("overflowWrap", v); }
-export function overflowX(v: string) { return new CssProp("overflowX", v); }
-export function overflowY(v: string) { return new CssProp("overflowY", v); }
+export function overflowX(v: CSSOverflowValues) { return new CssProp("overflowX", v); }
+export function overflowY(v: CSSOverflowValues) { return new CssProp("overflowY", v); }
 export function overscrollBehavior(v: string) { return new CssProp("overscrollBehavior", v); }
 export function overscrollBehaviorBlock(v: string) { return new CssProp("overscrollBehaviorBlock", v); }
 export function overscrollBehaviorInline(v: string) { return new CssProp("overscrollBehaviorInline", v); }

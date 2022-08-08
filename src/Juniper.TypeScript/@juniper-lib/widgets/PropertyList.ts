@@ -93,6 +93,14 @@ export class PropertyList
         }
     }
 
+    get enabled() {
+        return !this.disabled;
+    }
+
+    set enabled(v) {
+        this.disabled = !v;
+    }
+
     private createElements(rest: Property[]) {
         return rest.flatMap((entry) =>
             this.createGroups(entry)
