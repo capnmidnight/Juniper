@@ -13,6 +13,7 @@ export * from "./arrayShuffle";
 export * from "./arraySortedInsert";
 export * from "./arrayZip";
 export * from "./BaseGraphNode";
+export * from "./coallesce";
 export * from "./flatten";
 export * from "./GraphNode";
 export * from "./makeLookup";
