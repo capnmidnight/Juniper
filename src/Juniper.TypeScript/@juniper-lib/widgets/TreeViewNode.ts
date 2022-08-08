@@ -76,7 +76,7 @@ export class TreeViewNode<T, K>
         super();
 
         const onEnabledClick = (act: (evt: Event) => void) => onClick((evt: Event) => {
-            if (!this.disabled && !this.treeView.disabled) {
+            if (this.enabled) {
                 evt.preventDefault();
                 evt.cancelBubble = true;
                 act(evt);
@@ -116,7 +116,7 @@ export class TreeViewNode<T, K>
                 }),
 
                 onDblClick((evt) => {
-                    if (!this.disabled && !this.treeView.disabled && this.canAddChildren) {
+                    if (this.enabled && this.canAddChildren) {
                         evt.preventDefault();
                         evt.cancelBubble = true;
                         this.isOpen = !this.isOpen;
@@ -172,9 +172,7 @@ export class TreeViewNode<T, K>
     }
 
     refresh() {
-        const enabled = !this.disabled && !this.treeView.disabled;
-
-        buttonSetEnabled(this.collapser, enabled);
+        buttonSetEnabled(this.collapser, this.enabled);
         elementSetText(this.collapser, this.canAddChildren
             ? this.isOpen
                 ? blackMediumDownPointingTriangleCentered.value
@@ -186,9 +184,9 @@ export class TreeViewNode<T, K>
 
         elementSetDisplay(this.adder, this.canAddChildren && (this.isOpen || this.node.isLeaf), "inline-block");
         elementSetTitle(this.adder, this.adderTitle)
-        buttonSetEnabled(this.adder, enabled);
+        buttonSetEnabled(this.adder, this.enabled);
 
-        this.element.style.opacity = enabled ? "1" : "0.67";
+        this.element.style.opacity = this.enabled ? "1" : "0.67";
     }
 
 
@@ -215,7 +213,7 @@ export class TreeViewNode<T, K>
     }
 
     get disabled(): boolean {
-        return this.element.classList.contains("disabled");
+        return this.element.classList.contains("disabled") && this.treeView.disabled;
     }
 
     set disabled(v: boolean) {
@@ -229,6 +227,14 @@ export class TreeViewNode<T, K>
 
             this.refresh();
         }
+    }
+
+    get enabled() {
+        return !this.disabled;
+    }
+
+    set enabled(v) {
+        this.disabled = !v;
     }
 
     get selected(): boolean {
@@ -300,7 +306,7 @@ export class TreeViewNode<T, K>
     }
 
     select() {
-        if (!this.disabled && !this.treeView.disabled) {
+        if (this.enabled) {
             this.dispatchEvent(new TreeViewNodeClickedEvent(this.node));
 
             if (!this.selected) {
