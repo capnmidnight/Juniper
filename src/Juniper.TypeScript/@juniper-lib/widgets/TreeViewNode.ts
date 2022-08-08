@@ -26,13 +26,13 @@ export class TreeViewNodeSelectedEvent<T> extends TypedEvent<"select"> {
     }
 }
 
-export class TreeViewNodeAddEvent<T, K> extends TypedEvent<"add"> {
+export class TreeViewNodeAddEvent<T> extends TypedEvent<"add"> {
     private readonly _finished = new Task();
     public get finished(): Promise<void> {
         return this._finished;
     }
 
-    constructor(public readonly parent: TreeViewNode<T, K>) {
+    constructor(public readonly parent: TreeViewNode<T>) {
         super("add");
     }
 
@@ -41,14 +41,14 @@ export class TreeViewNodeAddEvent<T, K> extends TypedEvent<"add"> {
     }
 }
 
-export interface TreeViewNodeEvents<T, K> {
+export interface TreeViewNodeEvents<T> {
     click: TreeViewNodeClickedEvent<T>;
     select: TreeViewNodeSelectedEvent<T>;
-    add: TreeViewNodeAddEvent<T, K>;
+    add: TreeViewNodeAddEvent<T>;
 }
 
-export class TreeViewNode<T, K>
-    extends TypedEventBase<TreeViewNodeEvents<T, K>>
+export class TreeViewNode<T>
+    extends TypedEventBase<TreeViewNodeEvents<T>>
     implements ErsatzElement {
 
     public readonly element: HTMLElement;
@@ -64,14 +64,14 @@ export class TreeViewNode<T, K>
     readonly lower: HTMLDivElement;
 
     constructor(
-        private readonly treeView: TreeView<T, K>,
+        private readonly treeView: TreeView<T>,
         public readonly node: TreeNode<T>,
         private readonly getLabel: (node: TreeNode<T>) => string,
         private readonly getDescription: (value: T) => string,
         private readonly getChildDescription: (value: T) => string,
         private readonly _canAddChildren: (value: T) => boolean,
         private readonly _canChangeOrder: (value: T) => boolean,
-        private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T, K>) {
+        private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T>) {
 
         super();
 

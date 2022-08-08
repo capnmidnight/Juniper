@@ -134,10 +134,10 @@ Style(
     )
 );
 
-export interface TreeViewOptions<T, K> {
+export interface TreeViewOptions<T> {
     getLabel: (node: TreeNode<T>) => string;
-    getKey: (value: T) => K;
-    getParentKey: (value: T) => K;
+    getKey: (value: T) => any;
+    getParentKey: (value: T) => any;
     getDescription: (value: T) => string;
     getChildDescription: (value: T) => string;
     canAddChildren: (value: T) => boolean;
@@ -170,8 +170,8 @@ interface TreeViewEvents<T> {
     reparented: TreeViewNodeReparentedEvent<T>;
 }
 
-export class TreeView<T, K>
-    extends TypedEventBase<TreeViewNodeEvents<T, K> & TreeViewEvents<T>>
+export class TreeView<T>
+    extends TypedEventBase<TreeViewNodeEvents<T> & TreeViewEvents<T>>
     implements ErsatzElement {
 
     readonly element: HTMLElement;
@@ -180,20 +180,20 @@ export class TreeView<T, K>
     readonly collapseButton: HTMLButtonElement;
 
     private readonly children: HTMLElement;
-    private readonly options: TreeViewOptions<T, K>;
+    private readonly options: TreeViewOptions<T>;
     private readonly canChangeOrder: boolean;
 
-    private readonly elements = new Array<TreeViewNode<T, K>>();
-    private readonly nodes2Elements = new Map<TreeNode<T>, TreeViewNode<T, K>>();
+    private readonly elements = new Array<TreeViewNode<T>>();
+    private readonly nodes2Elements = new Map<TreeNode<T>, TreeViewNode<T>>();
     private readonly htmlElements2Nodes = new Map<HTMLElement, TreeNode<T>>();
-    private readonly htmlElements2Elements = new Map<HTMLElement, TreeViewNode<T, K>>();
+    private readonly htmlElements2Elements = new Map<HTMLElement, TreeViewNode<T>>();
 
     private rootNode: TreeNode<T> = null;
     private locked = false;
     private _disabled = false;
 
     constructor(
-        options?: TreeViewOptions<T, K>,
+        options?: TreeViewOptions<T>,
         ...styleProps: CssProp[]) {
         super();
 
@@ -209,7 +209,7 @@ export class TreeView<T, K>
             "Expand all"
         );
 
-        this.options = Object.assign<Partial<TreeViewOptions<T, K>>, TreeViewOptions<T, K>>({
+        this.options = Object.assign<Partial<TreeViewOptions<T>>, TreeViewOptions<T>>({
             getOrder: null,
             replaceElement: null
         }, options);
@@ -318,8 +318,8 @@ export class TreeView<T, K>
 
         if (this.canChangeOrder) {
 
-            let draggedElement: TreeViewNode<T, K> = null;
-            let dropElement: TreeViewNode<T, K> = null;
+            let draggedElement: TreeViewNode<T> = null;
+            let dropElement: TreeViewNode<T> = null;
             let hoverTimer: number = null;
             let delta = 0;
             let lastTarget: HTMLElement = null;
@@ -410,7 +410,7 @@ export class TreeView<T, K>
         }
     }
 
-    private canReparent(parent: TreeViewNode<T, K>, child: TreeViewNode<T, K>, target: HTMLElement) {
+    private canReparent(parent: TreeViewNode<T>, child: TreeViewNode<T>, target: HTMLElement) {
         return isDefined(parent)
             && isDefined(child)
             && (parent.canAddChildren
@@ -523,7 +523,7 @@ export class TreeView<T, K>
         }
     }
 
-    private get selectedElement(): TreeViewNode<T, K> {
+    private get selectedElement(): TreeViewNode<T> {
         for (const elem of this.elements) {
             if (elem.selected) {
                 return elem;
@@ -551,7 +551,7 @@ export class TreeView<T, K>
         return null;
     }
 
-    private reorderChildren(parentElement: TreeViewNode<T, K>) {
+    private reorderChildren(parentElement: TreeViewNode<T>) {
         if (!this.locked && this.canChangeOrder) {
             const numChildren = parentElement.children.children.length;
             for (let i = 0; i < numChildren; ++i) {
@@ -569,7 +569,7 @@ export class TreeView<T, K>
         }
     }
 
-    private createElement(node: TreeNode<T>): TreeViewNode<T, K> {
+    private createElement(node: TreeNode<T>): TreeViewNode<T> {
         const element = new TreeViewNode(
             this,
             node,
@@ -644,7 +644,7 @@ export class TreeView<T, K>
         const curParentElement = this.nodes2Elements.get(curParent);
 
         let nextParentElement = this.nodes2Elements.get(newParentNode);
-        let nextSiblingElement: TreeViewNode<T, K> = null;
+        let nextSiblingElement: TreeViewNode<T> = null;
 
         if (delta !== 0) {
             nextSiblingElement = nextParentElement;
