@@ -12,7 +12,7 @@ import {
 } from "@juniper-lib/dom/tags";
 import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
 import { Task, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-import { TreeView } from "./TreeView";
+import { TreeView } from "./";
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {
     constructor(public readonly node: TreeNode<T>) {

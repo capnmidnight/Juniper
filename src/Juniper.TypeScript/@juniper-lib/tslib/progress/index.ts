@@ -3,6 +3,7 @@ export * from "./BaseProgress";
 export * from "./ChildProgressCallback";
 export * from "./IProgress";
 export * from "./progressCombine";
+export * from "./progressLogger";
 export * from "./progressOfArray";
 export * from "./progressPopper";
 export * from "./progressSplit";

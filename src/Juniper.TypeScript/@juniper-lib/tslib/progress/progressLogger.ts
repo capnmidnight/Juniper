@@ -1,4 +1,5 @@
-import { BaseProgress, IProgress } from "@juniper-lib/tslib";
+import { BaseProgress } from "./BaseProgress";
+import { IProgress } from "./IProgress";
 
 class ConsoleProgressCallback extends BaseProgress {
     constructor(private readonly name: string, private readonly prog: IProgress) {

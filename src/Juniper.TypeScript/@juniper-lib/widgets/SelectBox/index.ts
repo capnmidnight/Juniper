@@ -1,7 +1,8 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { backgroundColor, border, color, cursor, height, margin, opacity, overflow, overflowWrap, padding, rule, whiteSpace } from "@juniper-lib/dom/css";
-import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select, Style } from "@juniper-lib/dom/tags";
+import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey, isDefined, isFunction, isNullOrUndefined, isString, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+
+import "./styles";
 
 /**
  * Creates a string from a list item to use as the item's ID or label in a select box.
@@ -19,36 +20,6 @@ export class SelectBoxItemSelectedEvent<T> extends TypedEvent<"itemselected"> {
 interface SelectBoxEvents<T> {
     itemselected: SelectBoxItemSelectedEvent<T>;
 }
-
-Style(
-    rule(".SelectBox",
-        border("inset 2px"),
-        backgroundColor("white"),
-        whiteSpace("nowrap"),
-        overflowWrap("normal"),
-        overflow("hidden", "scroll"),
-        height("100%")),
-    rule(".SelectBoxContent",
-        height("0")),
-    rule(".SelectBoxRow",
-        whiteSpace("pre"),
-        color("black"),
-        padding("0", "2px", "1px"),
-        margin(0),
-        cursor("default")),
-    rule(".SelectBoxRow:hover",
-        backgroundColor("#eee")),
-    rule(".SelectBoxRow.disabled",
-        opacity(0.5),
-        cursor("not-allowed")),
-    rule(".SelectBoxRow.disabled:hover",
-        backgroundColor("unset")),
-    rule(".SelectBoxRow.selected",
-        border("solid 1px #488"),
-        backgroundColor("#dff")),
-    rule(".SelectBoxRow.selected.disabled",
-        border("solid 1px #444"),
-        backgroundColor("#ddd")));
 
 export function withDefault<T, V>(callback: readItemCallback<T, V>, defaultValue: V = null): readItemCallback<T, V> {
     return (value: T) => {

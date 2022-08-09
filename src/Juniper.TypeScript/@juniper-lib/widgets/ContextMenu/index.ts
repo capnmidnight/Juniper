@@ -1,30 +1,10 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { backgroundColor, border, display, getSystemFamily, gridTemplateColumns, left, margin, padding, position, rule, styles, textAlign, top } from "@juniper-lib/dom/css";
+import { left, styles, top } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
-import { Button, Div, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement, Style } from "@juniper-lib/dom/tags";
+import { Button, Div, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/tags";
 import { isDefined, Task } from "@juniper-lib/tslib";
 
-Style(
-    rule(".context-menu",
-        position("absolute"),
-        backgroundColor("white"),
-        padding("5px"),
-        display("grid"),
-        gridTemplateColumns("auto")
-    ),
-
-    rule(".context-menu > button",
-        border("none"),
-        textAlign("left"),
-        backgroundColor("transparent"),
-        margin("2px"),
-        getSystemFamily()
-    ),
-
-    rule(".context-menu > button:hover",
-        backgroundColor("#ddd")
-    )
-);
+import "./styles";
 
 export class ContextMenu<T> implements ErsatzElement {
 

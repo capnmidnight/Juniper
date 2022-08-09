@@ -1,44 +1,9 @@
 import { classList, className, customData } from "@juniper-lib/dom/attrs";
-import { backgroundColor, boxShadow, display, float, gridArea, gridTemplateColumns, gridTemplateRows, height, left, maxHeight, maxWidth, overflow, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "@juniper-lib/dom/css";
-import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1, Style } from "@juniper-lib/dom/tags";
+import { display, styles } from "@juniper-lib/dom/css";
+import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1 } from "@juniper-lib/dom/tags";
 import { once, success, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 
-Style(
-    rule(".dialog, .dialog-container",
-        position("fixed")),
-    rule(".dialog",
-        top(0),
-        left(0),
-        width("100%"),
-        height("100%"),
-        backgroundColor("rgba(0, 0, 0, 0.5)"),
-        zIndex(100)),
-    rule(".dialog-container",
-        top("50%"),
-        left("50%"),
-        maxWidth("100%"),
-        maxHeight("100%"),
-        transform("translateX(-50%) translateY(-50%)"),
-        backgroundColor("white"),
-        boxShadow("rgba(0,0,0,0.5) 0px 5px 30px"),
-        display("grid"),
-        gridTemplateColumns("2em auto 2em"),
-        gridTemplateRows("auto 1fr auto 2em")),
-    rule(".dialog .title-bar",
-        gridArea(1, 1, 2, -1),
-        padding("0.25em")),
-    rule(".dialog-content",
-        gridArea(2, 2, -4, -2),
-        overflow("auto")),
-    rule(".dialog-controls",
-        gridArea(-2, 2, -3, -2)),
-    rule(".dialog .confirm-button",
-        float("right")),
-    rule(".dialog h1, .dialog h2, .dialog h3, .dialog h4, .dialog h5, .dialog h6",
-        textAlign("left")),
-    rule(".dialog select",
-        maxWidth("10em"))
-);
+import "./styles";
 
 export abstract class DialogBox
     implements ErsatzElement {
