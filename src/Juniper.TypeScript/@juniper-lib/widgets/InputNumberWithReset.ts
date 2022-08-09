@@ -28,8 +28,8 @@ export class InputNumberWithReset extends TypedEventBase<InputNumberWithResetEve
 
         const fireEvt = (evt: Event) => () => this.dispatchEvent(evt);
 
-        let resetEvt: HtmlEvt<InputEvent> = null;
-        let inputEvt: HtmlEvt<TypedEvent<"reset">> = null;
+        let inputEvt: HtmlEvt<InputEvent> = null;
+        let resetEvt: HtmlEvt<TypedEvent<"reset">> = null;
 
         for (let i = rest.length - 1; i >= 0; --i) {
             const here = rest[i];
@@ -56,6 +56,14 @@ export class InputNumberWithReset extends TypedEventBase<InputNumberWithResetEve
                 onClick(fireEvt(new TypedEvent("reset")))
             )
         );
+
+        if (inputEvt) {
+            this.addEventListener("input", inputEvt.callback);
+        }
+
+        if (resetEvt) {
+            this.addEventListener("reset", resetEvt.callback);
+        }
 
         elementApply(this, inputEvt, resetEvt);
     }

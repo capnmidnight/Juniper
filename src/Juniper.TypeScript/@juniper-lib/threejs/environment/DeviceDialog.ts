@@ -23,7 +23,7 @@ import {
 import { makeLookup, SetTimeoutTimer, stringRandom } from "@juniper-lib/tslib";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
-import { InputRangeWithNumber, InputRangeWithNumberElement } from "@juniper-lib/widgets/InputRangeWithNumber";
+import { InputRangeWithNumber } from "@juniper-lib/widgets/InputRangeWithNumber";
 import { group, PropertyList } from "@juniper-lib/widgets/PropertyList";
 import type { Tele } from "../Tele";
 import type { Environment } from "./Environment";
@@ -37,8 +37,8 @@ export class DeviceDialog extends DialogBox {
     private readonly microphones: HTMLSelectElement;
     private readonly micScenario: HTMLMeterElement;
     private readonly activity: ActivityDetector;
-    private readonly micVolumeControl: InputRangeWithNumberElement;
-    private readonly spkrVolumeControl: InputRangeWithNumberElement = null;
+    private readonly micVolumeControl: InputRangeWithNumber;
+    private readonly spkrVolumeControl: InputRangeWithNumber = null;
     private ready: Promise<void> = null;
     private readonly speakers: HTMLSelectElement = null;
     private readonly properties: PropertyList;
@@ -80,7 +80,7 @@ export class DeviceDialog extends DialogBox {
                     ["Input level",
                         this.micScenario = Meter()],
 
-                    ["Volume", this.micVolumeControl = InputRangeWithNumber(
+                    ["Volume", this.micVolumeControl = new InputRangeWithNumber(
                         min(0),
                         max(100),
                         step(1),
@@ -139,7 +139,7 @@ export class DeviceDialog extends DialogBox {
             ),
 
             ["Volume",
-                this.spkrVolumeControl = InputRangeWithNumber(
+                this.spkrVolumeControl = new InputRangeWithNumber(
                     min(0),
                     max(100),
                     step(1),

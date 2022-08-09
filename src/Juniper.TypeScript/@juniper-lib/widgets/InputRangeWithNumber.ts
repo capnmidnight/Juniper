@@ -11,7 +11,7 @@ Style(
         gridTemplateColumns("1fr auto"))
 );
 
-export class InputRangeWithNumberElement
+export class InputRangeWithNumber
     extends TypedEventBase<{
         "input": TypedEvent<"input">;
     }>
@@ -73,8 +73,4 @@ export class InputRangeWithNumberElement
             = this.numberInput.disabled
             = v;
     }
-}
-
-export function InputRangeWithNumber(...rest: ElementChild[]) {
-    return new InputRangeWithNumberElement(...rest);
 }
