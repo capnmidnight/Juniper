@@ -26,7 +26,7 @@ Style(
     rule("dl.properties > dd",
         gridColumn(2),
         display("grid"),
-        gridAutoFlow("row")
+        gridAutoFlow("column")
     ),
 
     rule("dl.properties input[type=number]",
