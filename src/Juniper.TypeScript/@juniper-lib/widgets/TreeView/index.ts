@@ -23,20 +23,20 @@ import {
     ErsatzElement
 } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayRemove, buildTree, isDefined, isFunction, isNullOrUndefined, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import "./styles";
 import { TreeViewNode, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
 
-import "./styles";
 
 export interface TreeViewOptions<T> {
-    getLabel: (node: TreeNode<T>) => string;
+    getLabel: (value: T) => string;
     getKey: (value: T) => any;
     getParentKey: (value: T) => any;
-    getDescription: (value: T) => string;
-    getChildDescription: (value: T) => string;
-    canAddChildren: (value: T) => boolean;
-    canParent: (parent: T, child: T) => boolean;
-    canReorder: (value: T) => boolean;
     getOrder?: (value: T) => number;
+    getDescription: (value: T) => string;
+    canReorder: (node: T) => boolean;
+    getChildDescription: (node: TreeNode<T>) => string;
+    canAddChildren: (node: TreeNode<T>) => boolean;
+    canParent: (parent: TreeNode<T>, child: TreeNode<T>) => boolean;
     replaceElement?: HTMLElement;
 }
 
@@ -81,7 +81,7 @@ export class TreeView<T>
     private readonly htmlElements2Nodes = new Map<HTMLElement, TreeNode<T>>();
     private readonly htmlElements2Elements = new Map<HTMLElement, TreeViewNode<T>>();
 
-    private rootNode: TreeNode<T> = null;
+    private _rootNode: TreeNode<T> = null;
     private locked = false;
     private _disabled = false;
 
@@ -307,7 +307,7 @@ export class TreeView<T>
         return isDefined(parent)
             && isDefined(child)
             && (parent.canAddChildren
-                && this.options.canParent(parent.node.value, child.node.value)
+                && this.options.canParent(parent.node, child.node)
                 || target === parent.upper
                 || target === parent.lower)
             && !child.node.contains(parent.node)
@@ -328,56 +328,53 @@ export class TreeView<T>
     }
 
     get values(): T[] {
-        return Array.from(this.tree.breadthFirst())
+        return this.rootNode.children
+            .flatMap(f => Array.from(f.breadthFirst()))
             .map(n => n.value);
     }
 
     set values(arr: readonly T[]) {
-        this.tree = buildTree(
+        const rootNode = buildTree(
             arr,
             this.options.getKey,
             this.options.getParentKey,
             this.options.getOrder);
-    }
 
-    get tree() {
-        return this.rootNode;
-    }
+        this.locked = true;
 
-    set tree(rootNode: TreeNode<T>) {
-        if (rootNode !== this.tree) {
-            this.locked = true;
-
-            for (const element of this.elements) {
-                element.removeBubbler(this);
-            }
-
-            elementClearChildren(this.children);
-            arrayClear(this.elements);
-            this.nodes2Elements.clear();
-            this.htmlElements2Nodes.clear();
-            this.htmlElements2Elements.clear();
-
-            this.rootNode = rootNode;
-            if (this.rootNode) {
-                for (const node of this.rootNode.breadthFirst()) {
-                    this.createElement(node);
-                }
-
-                const rootElement = this.nodes2Elements.get(rootNode);
-                elementApply(this.children, rootElement);
-            }
-
-            this.locked = false;
-
-            for (const elem of this.elements) {
-                if (elem.canAddChildren) {
-                    this.reorderChildren(elem);
-                }
-            }
-
-            this.nodes2Elements.get(this.rootNode).refresh();
+        for (const element of this.elements) {
+            element.removeBubbler(this);
         }
+
+        elementClearChildren(this.children);
+        arrayClear(this.elements);
+        this.nodes2Elements.clear();
+        this.htmlElements2Nodes.clear();
+        this.htmlElements2Elements.clear();
+
+        this._rootNode = rootNode;
+        if (this.rootNode) {
+            for (const node of this.rootNode.breadthFirst()) {
+                this.createElement(node);
+            }
+
+            const rootElement = this.nodes2Elements.get(rootNode);
+            elementApply(this.children, rootElement);
+        }
+
+        this.locked = false;
+
+        for (const elem of this.elements) {
+            if (elem.canAddChildren) {
+                this.reorderChildren(elem);
+            }
+        }
+
+        this.nodes2Elements.get(this.rootNode).refresh();
+    }
+
+    get rootNode() {
+        return this._rootNode;
     }
 
     get selectedValue(): T {
@@ -390,7 +387,7 @@ export class TreeView<T>
     }
 
     set selectedValue(v: T) {
-        this.selectedNode = this.tree.find(v);
+        this.selectedNode = this.rootNode.find(v);
     }
 
     get selectedNode(): TreeNode<T> {
@@ -468,9 +465,9 @@ export class TreeView<T>
             node,
             this.options.getLabel,
             this.options.getDescription,
+            this.options.canReorder,
             this.options.getChildDescription,
             this.options.canAddChildren,
-            this.options.canReorder,
             this.createElement);
 
         element.addBubbler(this);
@@ -519,7 +516,7 @@ export class TreeView<T>
         const parentID = this.options.getParentKey(value);
         const parentNode = isNullOrUndefined(parentID)
             ? this.rootNode
-            : this.tree.search(n => this.options.getKey(n.value) === parentID);
+            : this.rootNode.search(n => this.options.getKey(n.value) === parentID);
         const parentElement = this.nodes2Elements.get(parentNode);
         parentElement.add(value);
     }
@@ -577,7 +574,7 @@ export class TreeView<T>
     }
 
     removeValue(value: T) {
-        this.removeNode(this.tree.find(value));
+        this.removeNode(this.rootNode.find(value));
     }
 
     removeNode(node: TreeNode<T>) {
@@ -602,7 +599,7 @@ export class TreeView<T>
 
     collapseAll() {
         for (const element of this.elements) {
-            if (element.node !== this.rootNode && element.canAddChildren) {
+            if (!element.node.isRoot && element.canAddChildren) {
                 element.isOpen = false;
             }
         }
@@ -610,7 +607,7 @@ export class TreeView<T>
 
     expandAll(maxDepth: number = null) {
         for (const element of this.elements) {
-            if (element.node !== this.rootNode
+            if (!element.node.isRoot
                 && element.canAddChildren
                 && (isNullOrUndefined(maxDepth)
                     || element.node.depth <= maxDepth)) {

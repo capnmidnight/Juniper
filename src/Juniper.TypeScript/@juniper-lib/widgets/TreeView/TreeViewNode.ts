@@ -66,11 +66,11 @@ export class TreeViewNode<T>
     constructor(
         private readonly treeView: TreeView<T>,
         public readonly node: TreeNode<T>,
-        private readonly getLabel: (node: TreeNode<T>) => string,
-        private readonly getDescription: (value: T) => string,
-        private readonly getChildDescription: (value: T) => string,
-        private readonly _canAddChildren: (value: T) => boolean,
+        private readonly _getLabel: (value: T) => string,
+        private readonly _getDescription: (value: T) => string,
         private readonly _canChangeOrder: (value: T) => boolean,
+        private readonly getChildDescription: (node: TreeNode<T>) => string,
+        private readonly _canAddChildren: (node: TreeNode<T>) => boolean,
         private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T>) {
 
         super();
@@ -189,23 +189,46 @@ export class TreeViewNode<T>
         this.element.style.opacity = this.enabled ? "1" : "0.67";
     }
 
-
-
     get canAddChildren() {
-        return this._canAddChildren(this.node.value)
+        return this._canAddChildren(this.node);
+    }
+
+    private getLabel(node: TreeNode<T>): string {
+        if (node.isRoot) {
+            return null;
+        }
+        else {
+            return this._getLabel(node.value);
+        }
+    }
+
+    private getDescription(node: TreeNode<T>): string {
+        if (node.isRoot) {
+            return null;
+        }
+        else {
+            return this._getDescription(node.value);
+        }
     }
 
     private get collapserTitle(): string {
-        return (!this.canAddChildren
-            ? "Select "
-            : this.isOpen
-                ? "Collapse "
-                : "Expand ")
-            + this.getDescription(this.node.value);
+        if (this.node.isRoot) {
+            return null;
+        }
+
+        if (!this.canAddChildren) {
+            return "Select " + this.getDescription(this.node);
+        }
+        else if (this.isOpen) {
+            return "Collapse " + this.getDescription(this.node);
+        }
+        else {
+            return "Expand " + this.getDescription(this.node)
+        }
     }
 
     private get adderTitle(): string {
-        return "Add " + this.getChildDescription(this.node.value);
+        return "Add " + this.getChildDescription(this.node);
     }
 
     private get canChangeOrder() {
