@@ -191,6 +191,7 @@ export function onStorage(callback: (evt: Event) => void, opts?: EventListenerOp
 export function onSubmit(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("submit", callback, opts); }
 export function onSuspend(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("suspend", callback, opts); }
 export function onTimeUpdate(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("timeupdate", callback, opts); }
+export function onToggle(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("toggle", callback, opts); }
 export function onTouchCancel(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("touchcancel", callback, opts); }
 export function onTouchEnd(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("touchend", callback, opts); }
 export function onTouchMove(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("touchmove", callback, opts); }

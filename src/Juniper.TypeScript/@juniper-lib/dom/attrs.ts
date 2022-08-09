@@ -718,7 +718,7 @@ export function noValidate(value: boolean) { return new Attr("novalidate", value
 /**
  * Indicates whether the details will be shown on page load.
   **/
-export function open(value: string) { return new Attr("open", value, false, "details"); }
+export function open(value: boolean) { return new Attr("open", value, false, "details"); }
 
 /**
  * Indicates the optimal numeric value.
