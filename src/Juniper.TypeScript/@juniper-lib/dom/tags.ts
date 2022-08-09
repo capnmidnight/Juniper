@@ -246,7 +246,17 @@ export function elementSetClass(elem: Elements, enabled: boolean, className: str
     }
 }
 
-const types = [
+export type ButtonTypes =
+    | "danger"
+    | "dark"
+    | "info"
+    | "light"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning";
+
+const types: ButtonTypes[] = [
     "danger",
     "dark",
     "info",
@@ -258,9 +268,9 @@ const types = [
 ];
 
 export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean): void;
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, btnType: string): void;
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, btnType: string, label: string, title: string): void;
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, btnType?: string, label?: string, title?: string) {
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, btnType: ButtonTypes): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, btnType: ButtonTypes, label: string, title: string): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, btnType?: ButtonTypes, label?: string, title?: string) {
     button = resolveElement(button);
 
     if (isString(btnType)) {
@@ -338,6 +348,9 @@ export function ButtonPrimary(...rest: ElementChild[]): HTMLButtonElement { retu
 export function ButtonSecondary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-secondary")); }
 export function ButtonDanger(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-danger")); }
 export function ButtonSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-small")); }
+export function ButtonSmallPrimary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-small", "btn-primary")); }
+export function ButtonSmallSecondary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-small", "btn-secondary")); }
+export function ButtonSmallDanger(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-small", "btn-danger")); }
 export function ButtonSubmit(...rest: ElementChild[]): HTMLButtonElement { return ButtonRaw(...rest, type("submit")); }
 export function ButtonReset(...rest: ElementChild[]): HTMLButtonElement { return ButtonRaw(...rest, type("reset")); }
 export function Canvas(...rest: ElementChild[]): HTMLCanvasElement { return tag("canvas", ...rest); }

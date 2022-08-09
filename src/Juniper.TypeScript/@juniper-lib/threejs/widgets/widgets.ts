@@ -1,4 +1,4 @@
-import type { ElementChild, ErsatzElement } from "@juniper-lib/dom/tags";
+import type { ButtonTypes, ElementChild, ErsatzElement } from "@juniper-lib/dom/tags";
 import {
     buttonSetEnabled, elementApply,
     elementClearChildren,
@@ -28,7 +28,7 @@ export type WidgetChild = Widget
     | ElementChild
     | Objects;
 
-export function widgetSetEnabled(obj: Widget, enabled: boolean, buttonType: string) {
+export function widgetSetEnabled(obj: Widget, enabled: boolean, buttonType: ButtonTypes) {
     if (obj.element instanceof HTMLButtonElement) {
         buttonSetEnabled(obj as Widget<HTMLButtonElement>, enabled, buttonType);
     }
