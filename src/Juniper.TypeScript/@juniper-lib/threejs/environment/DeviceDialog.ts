@@ -1,5 +1,5 @@
-import { canChangeAudioOutput } from "@juniper-lib/audio/SpeakerManager";
 import { connect } from "@juniper-lib/audio/nodes";
+import { canChangeAudioOutput } from "@juniper-lib/audio/SpeakerManager";
 import {
     className,
     max,
@@ -24,9 +24,9 @@ import { makeLookup, SetTimeoutTimer, stringRandom } from "@juniper-lib/tslib";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { InputRangeWithNumber, InputRangeWithNumberElement } from "@juniper-lib/widgets/InputRangeWithNumber";
-import { group, PropertyList, PropList } from "@juniper-lib/widgets/PropertyList";
-import type { Environment } from "./Environment";
+import { group, PropertyList } from "@juniper-lib/widgets/PropertyList";
 import type { Tele } from "../Tele";
+import type { Environment } from "./Environment";
 
 const MIC_GROUP = "micFields" + stringRandom(8);
 
@@ -62,7 +62,7 @@ export class DeviceDialog extends DialogBox {
                 minWidth("max-content")));
 
         elementApply(this.contentArea,
-            this.properties = PropList(
+            this.properties = new PropertyList(
                 group(
                     MIC_GROUP,
                     "Input",

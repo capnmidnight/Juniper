@@ -1,5 +1,5 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { color, display, gridAutoFlow, gridColumn, gridTemplateColumns, margin, marginInlineStart, paddingRight, rule, textAlign, width } from "@juniper-lib/dom/css";
+import { color, display, gridAutoFlow, gridColumn, gridColumnGap, gridTemplateColumns, rule, textAlign, width } from "@juniper-lib/dom/css";
 import { DD, Div, DL, DT, elementApply, ElementChild, elementSetClass, elementSetDisplay, ErsatzElement, H2, IDisableable, IElementAppliable, isDisableable, isErsatzElement, isErsatzElements, Label, resolveElement, Style } from "@juniper-lib/dom/tags";
 import { identity, isArray, isBoolean, isDate, isNumber, isString, stringRandom } from "@juniper-lib/tslib";
 
@@ -27,35 +27,31 @@ Style(
         display("grid"),
         gridAutoFlow("row"),
         gridTemplateColumns("auto 1fr"),
-        margin("1em")
+        gridColumnGap("1em")
     ),
 
     rule("dl.properties.disabled",
         color("#ccc")
     ),
 
-    rule("dl.properties > span, dl > div",
-        gridColumn(1, 3)
-    ),
-
-    rule("dl.properties .alert",
+    rule("dl.properties > span, dl.properties > div",
+        gridColumn(1, 3),
         width("100%")
     ),
 
     rule("dl.properties > dt",
         gridColumn(1),
-        textAlign("right"),
-        paddingRight("1em")
+        textAlign("right")
     ),
 
     rule("dl.properties > dd",
-        textAlign("left"),
         gridColumn(2),
-        marginInlineStart("0")
+        display("grid"),
+        gridAutoFlow("row")
     ),
 
-    rule("dl.properties > dd > *",
-        width("100%")
+    rule("dl.properties input[type=number]",
+        textAlign("right")
     )
 );
 
@@ -198,8 +194,4 @@ export class PropertyList
             }
         }
     }
-}
-
-export function PropList(...rest: Property[]) {
-    return new PropertyList(...rest);
 }
