@@ -704,7 +704,16 @@ export type CSSOverflowValues = CSSGlobalValues
     | "scroll"
     | "auto";
 
-export function overflow(v: CSSOverflowValues | `${CSSOverflowValues} ${CSSOverflowValues}`) { return new CssProp("overflow", v); }
+export function overflow(x: CSSOverflowValues, y: CSSOverflowValues): CssProp;
+export function overflow(v: CSSOverflowValues | `${CSSOverflowValues} ${CSSOverflowValues}`): CssProp;
+export function overflow(vOrX: CSSOverflowValues | `${CSSOverflowValues} ${CSSOverflowValues}`, y?: CSSOverflowValues): CssProp {
+    if (isDefined(y)) {
+        return new CssProp("overflow", vOrX + " " + y);
+    }
+    else {
+        return new CssProp("overflow", vOrX);
+    }
+}
 export function overflowAnchor(v: string) { return new CssProp("overflowAnchor", v); }
 export function overflowWrap(v: string) { return new CssProp("overflowWrap", v); }
 export function overflowX(v: CSSOverflowValues) { return new CssProp("overflowX", v); }

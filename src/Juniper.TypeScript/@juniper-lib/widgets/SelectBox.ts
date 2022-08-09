@@ -1,5 +1,5 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { backgroundColor, border, color, cursor, height, margin, opacity, overflowWrap, overflowX, overflowY, padding, rule, whiteSpace } from "@juniper-lib/dom/css";
+import { backgroundColor, border, color, cursor, height, margin, opacity, overflow, overflowWrap, padding, rule, whiteSpace } from "@juniper-lib/dom/css";
 import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select, Style } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey, isDefined, isFunction, isNullOrUndefined, isString, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 
@@ -26,8 +26,7 @@ Style(
         backgroundColor("white"),
         whiteSpace("nowrap"),
         overflowWrap("normal"),
-        overflowX("hidden"),
-        overflowY("scroll"),
+        overflow("hidden", "scroll"),
         height("100%")),
     rule(".SelectBoxContent",
         height("0")),
