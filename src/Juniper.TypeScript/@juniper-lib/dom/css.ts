@@ -47,6 +47,7 @@ type CSSImportant<T extends string | number> = T | `${T} !important`;
 type CSSGlobalValues = "inherit"
     | "initial"
     | "revert"
+    | "revert-layer"
     | "unset";
 
 type CSSUrl = `url(${string})`;
@@ -546,7 +547,13 @@ export function flexGrow(v: CSSGlobalValues | number) { return new CssProp("flex
 
 export function flexShrink(v: CSSGlobalValues | number) { return new CssProp("flexShrink", v); }
 
-export function float(v: string) { return new CssProp("float", v); }
+export type CSSFloatValues = CSSGlobalValues
+    | "left"
+    | "right"
+    | "none"
+    | "inline-start"
+    | "inline-end";
+export function float(v: CSSFloatValues) { return new CssProp("float", v); }
 export function floodColor(v: string) { return new CssProp("floodColor", v); }
 export function floodOpacity(v: string) { return new CssProp("floodOpacity", v); }
 export function font(v: string) { return new CssProp("font", v); }
