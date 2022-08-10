@@ -11,7 +11,7 @@ import {
 import { marginLeft, minWidth, styles } from "@juniper-lib/dom/css";
 import { onClick, onInput } from "@juniper-lib/dom/evts";
 import {
-    ButtonSecondary, buttonSetEnabled, Div,
+    ButtonSecondary, Div,
     elementApply,
     elementClearChildren,
     elementSetDisplay,
@@ -127,10 +127,10 @@ export class DeviceDialog extends DialogBox {
                         marginLeft("0.5em")
                     ),
                     onClick(async () => {
-                        buttonSetEnabled(this.testSpkrButton, false, "secondary");
+                        this.testSpkrButton.disabled = true;
                         await clipLoaded;
                         await this.env.audio.playClipThrough("test-audio");
-                        buttonSetEnabled(this.testSpkrButton, true, "secondary");
+                        this.testSpkrButton.disabled = false;
                     }))],
 
             this.headphoneWarning = Div(

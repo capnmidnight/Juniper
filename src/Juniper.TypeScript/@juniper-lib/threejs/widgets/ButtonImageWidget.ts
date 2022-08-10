@@ -1,5 +1,5 @@
 import { title } from "@juniper-lib/dom/attrs";
-import { ButtonPrimary, buttonSetEnabled, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { obj, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
@@ -67,7 +67,7 @@ export class ButtonImageWidget implements Widget, EventTarget {
     }
 
     set disabled(v) {
-        buttonSetEnabled(this.element, !v, "primary");
+        this.element.disabled = v;
         if (this.mesh) {
             this.mesh.disabled = v;
         }

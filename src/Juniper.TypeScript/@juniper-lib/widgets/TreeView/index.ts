@@ -12,9 +12,7 @@ import {
     onKeyDown
 } from "@juniper-lib/dom/evts";
 import {
-    ButtonPrimary,
-    buttonSetEnabled,
-    Div,
+    ButtonSmallPrimary, Div,
     elementApply,
     elementClearChildren,
     elementGetIndexInParent,
@@ -92,12 +90,12 @@ export class TreeView<T>
 
         this.createElement = this.createElement.bind(this);
 
-        this.collapseButton = ButtonPrimary(
+        this.collapseButton = ButtonSmallPrimary(
             onClick(() => this.collapseAll()),
             "Collapse all"
         );
 
-        this.expandButton = ButtonPrimary(
+        this.expandButton = ButtonSmallPrimary(
             onClick(() => this.expandAll()),
             "Expand all"
         );
@@ -319,9 +317,11 @@ export class TreeView<T>
     }
 
     set disabled(v: boolean) {
-        this._disabled = v;
-        buttonSetEnabled(this.expandButton, !v, "primary");
-        buttonSetEnabled(this.collapseButton, !v, "primary");
+        this.expandButton.disabled
+            = this.collapseButton.disabled
+            = this._disabled
+            = v;
+
         for (const element of this.elements) {
             element.refresh();
         }

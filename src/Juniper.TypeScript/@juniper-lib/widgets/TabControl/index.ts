@@ -1,8 +1,8 @@
 import { className, customData } from "@juniper-lib/dom/attrs";
-import { ButtonSecondary, buttonSetEnabled, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, ErsatzElements } from "@juniper-lib/dom/tags";
+import { ButtonSecondary, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, ErsatzElements } from "@juniper-lib/dom/tags";
 import { isString, mapBuild, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-
 import "./styles";
+
 
 export class TabControlTabSelectedEvent extends TypedEvent<"tabselected">{
     constructor(public tabname: string) {
@@ -126,10 +126,7 @@ export class TabControlElement
         this.curTab = name;
 
         for (const otherTabButton of this.tabButtons) {
-            buttonSetEnabled(
-                otherTabButton,
-                otherTabButton !== tabButton,
-                "secondary");
+            otherTabButton.disabled = otherTabButton === tabButton;
         }
 
         for (const view of this.views) {

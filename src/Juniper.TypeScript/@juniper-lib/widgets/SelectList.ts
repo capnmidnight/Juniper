@@ -66,12 +66,20 @@ export class SelectList<T>
         Object.seal(this);
     }
 
+    get diabled(): boolean {
+        return this.element.disabled;
+    }
+
+    set disabled(v: boolean) {
+        this.element.disabled = v;
+    }
+
     get enabled(): boolean {
-        return !this.element.disabled;
+        return !this.disabled;
     }
 
     set enabled(v: boolean) {
-        this.element.disabled = !v;
+        this.disabled = !v;
     }
 
     get count() {

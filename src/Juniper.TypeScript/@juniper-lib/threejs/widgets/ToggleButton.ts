@@ -1,4 +1,4 @@
-import { ButtonPrimary, buttonSetEnabled, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
 import { Pointer3DEvents } from "../eventSystem/Pointer3DEvent";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
@@ -122,7 +122,7 @@ export class ToggleButton implements Widget, EventTarget {
             = text;
         this.btnImage.src = this.buttons.getImageSrc(this.setName, type);
 
-        buttonSetEnabled(this, this.available && this.visible && this.enabled, "primary");
+        this.element.disabled = !this.available || !this.visible || !this.enabled;
         elementSetDisplay(this, this.available && this.visible, "inline-block");
 
         if (this.enterButton && this.exitButton) {

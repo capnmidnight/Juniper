@@ -1,7 +1,7 @@
 import { className, draggable, title } from "@juniper-lib/dom/attrs";
 import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/evts";
 import {
-    buttonSetEnabled, ButtonSmall,
+    ButtonSmall,
     Div,
     elementIsDisplayed,
     elementSetDisplay,
@@ -87,7 +87,7 @@ export class TreeViewNode<T>
             if (this.canAddChildren) {
                 evt.preventDefault();
                 evt.cancelBubble = true;
-                buttonSetEnabled(this.adder, false);
+                this.adder.disabled = true;
                 const addEvt = new TreeViewNodeAddEvent(this);
                 try {
                     this.dispatchEvent(addEvt);
@@ -97,7 +97,7 @@ export class TreeViewNode<T>
                     addEvt.complete();
                 }
                 finally {
-                    buttonSetEnabled(this.adder, true);
+                    this.adder.disabled = false;
                 }
             }
         };
@@ -172,7 +172,6 @@ export class TreeViewNode<T>
     }
 
     refresh() {
-        buttonSetEnabled(this.collapser, this.enabled);
         elementSetText(this.collapser, this.canAddChildren
             ? this.isOpen
                 ? blackMediumDownPointingTriangleCentered.value
@@ -184,8 +183,10 @@ export class TreeViewNode<T>
 
         elementSetDisplay(this.adder, this.canAddChildren && (this.isOpen || this.node.isLeaf), "inline-block");
         elementSetTitle(this.adder, this.adderTitle)
-        buttonSetEnabled(this.adder, this.enabled);
 
+        this.collapser.disabled
+            = this.adder.disabled
+            = !this.enabled;
         this.element.style.opacity = this.enabled ? "1" : "0.67";
     }
 

@@ -1,7 +1,7 @@
 import { className } from "@juniper-lib/dom/attrs";
 import { display, gridAutoFlow, rule } from "@juniper-lib/dom/css";
 import { HtmlEvt, onClick, onInput } from "@juniper-lib/dom/evts";
-import { buttonSetEnabled, ButtonSmallSecondary, Div, elementApply, ElementChild, ErsatzElement, InputNumber, Style } from "@juniper-lib/dom/tags";
+import { ButtonSmallSecondary, Div, elementApply, ElementChild, ErsatzElement, InputNumber, Style } from "@juniper-lib/dom/tags";
 import { arrayRemoveAt, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 
 Style(
@@ -89,7 +89,8 @@ export class InputNumberWithReset extends TypedEventBase<InputNumberWithResetEve
     }
 
     set disabled(v: boolean) {
-        this.numberInput.disabled = v;
-        buttonSetEnabled(this.resetButton, !v, "secondary");
+        this.numberInput.disabled
+            = this.resetButton.disabled
+            = v;
     }
 }

@@ -295,8 +295,8 @@ export class Environment
     }
 
     protected onConfirmationShowing(showing: boolean) {
-        widgetSetEnabled(this.quitButton, !showing, "primary");
-        widgetSetEnabled(this.lobbyButton, !showing, "primary");
+        widgetSetEnabled(this.quitButton, !showing);
+        widgetSetEnabled(this.lobbyButton, !showing);
     }
 
     override async load(prog: IProgress, ...assets: BaseAsset[]): Promise<void>;
