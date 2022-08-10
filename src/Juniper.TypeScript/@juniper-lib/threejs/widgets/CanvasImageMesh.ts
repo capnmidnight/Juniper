@@ -14,8 +14,6 @@ export class CanvasImageMesh<T extends CanvasImage>
 
     private _image: T = null;
 
-    private readonly _onRedrawn: () => void;
-
     get object() {
         return this;
     }
@@ -31,7 +29,6 @@ export class CanvasImageMesh<T extends CanvasImage>
 
     constructor(env: BaseEnvironment, name: string, webXRLayerType: WebXRLayerType, image: T, materialOptions?: THREE.MeshBasicMaterialParameters) {
         super(env, name, webXRLayerType, materialOptions);
-        this._onRedrawn = this.onRedrawn.bind(this);
         this.image = image;
     }
 
@@ -46,13 +43,13 @@ export class CanvasImageMesh<T extends CanvasImage>
 
     set image(v: T) {
         if (this.image) {
-            this.image.removeEventListener("redrawn", this._onRedrawn);
+            this.image.removeScope(this);
         }
 
         this._image = v;
 
         if (this.image) {
-            this.image.addEventListener("redrawn", this._onRedrawn);
+            this.image.addScopedEventListener(this, "redrawn", () => this.onRedrawn());
             this.setTextureMap(this.image.canvas);
             this.onRedrawn();
         }

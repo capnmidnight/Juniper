@@ -15,8 +15,6 @@ const timeScale = 0.005;
 class ScaleState implements IDisposable {
     private readonly obj: THREE.Object3D;
     private readonly base: THREE.Vector3;
-    private readonly onEnter: () => void;
-    private readonly onExit: () => void;
 
     private p: number;
     private dir: number;
@@ -30,12 +28,9 @@ class ScaleState implements IDisposable {
         this.dir = 0;
         this.running = false;
         this.wasDisabled = this.disabled;
-        this.onEnter = () => this.run(1);
-        this.onExit = () => this.run(-1);
 
-
-        this.target.addEventListener("enter", this.onEnter);
-        this.target.addEventListener("exit", this.onExit);
+        this.target.addScopedEventListener(this, "enter", () => this.run(1));
+        this.target.addScopedEventListener(this, "exit", () => this.run(-1));
 
         this.obj.traverse(child => {
             if (isMesh(child)) {
@@ -59,7 +54,7 @@ class ScaleState implements IDisposable {
         if (this.disabled !== this.wasDisabled) {
             this.wasDisabled = this.disabled;
             if (this.disabled) {
-                this.onExit();
+                this.run(-1);
             }
         }
 
@@ -79,8 +74,7 @@ class ScaleState implements IDisposable {
     }
 
     dispose() {
-        this.target.removeEventListener("enter", this.onEnter);
-        this.target.removeEventListener("exit", this.onExit);
+        this.target.removeScope(this);
     }
 }
 

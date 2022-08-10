@@ -144,8 +144,6 @@ export class SelectBox<T>
 
     public options = new Array<SelectBoxRow<T>>();
 
-    private setSelectedOption: (evt: SelectBoxItemSelectedEvent<T>) => void;
-
     /**
      * Creates a select box that can bind to collections
      * @param element - the select box to wrap.
@@ -250,11 +248,6 @@ export class SelectBox<T>
         this.makeID = withDefault(makeID);
         this.makeLabel = withDefault(makeLabel, "None");
         this.getSortKey = withDefault(getSortKey);
-
-        this.setSelectedOption = (evt) => {
-            this.selectedValue = evt.item;
-            this.dispatchEvent(new SelectBoxItemSelectedEvent(evt.item));
-        };
 
         this.noSelection = new SelectBoxRow(null, null, noSelectionText, null);
 
@@ -478,11 +471,14 @@ export class SelectBox<T>
     private addRow(option: SelectBoxRow<T>, index: number) {
         arrayInsertAt(this.options, option, index);
         this.itemToOption.set(this.makeID(option.value), option);
-        option.addEventListener("itemselected", this.setSelectedOption);
+        option.addScopedEventListener(this, "itemselected", (evt) => {
+            this.selectedValue = evt.item;
+            this.dispatchEvent(new SelectBoxItemSelectedEvent(evt.item));
+        });
     }
 
     private removeRow(option: SelectBoxRow<T>): void {
-        option.removeEventListener("itemselected", this.setSelectedOption);
+        option.removeScope(this);
         this.elementRows.removeChild(option.element);
         arrayRemove(this.options, option);
         this.itemToOption.delete(this.makeID(option.value));
