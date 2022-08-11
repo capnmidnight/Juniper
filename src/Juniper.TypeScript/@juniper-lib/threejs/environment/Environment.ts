@@ -129,13 +129,6 @@ export class Environment
         this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
         this.devicesDialog = new DeviceDialog(this);
 
-        elementApply(
-            this.renderer.domElement.parentElement,
-            this.screenUISpace,
-            this.confirmationDialog,
-            this.devicesDialog,
-            this.renderer.domElement);
-
         this.uiButtons = new ButtonFactory(uiImagePaths, 20, this.DEBUG);
 
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
@@ -310,6 +303,13 @@ export class Environment
         else {
             prog = progOrAsset
         }
+
+        elementApply(
+            this.renderer.domElement.parentElement,
+            this.screenUISpace,
+            this.confirmationDialog,
+            this.devicesDialog,
+            this.renderer.domElement);
 
         const footsteps = new AssetAudio("/audio/footsteps.mp3", Audio_Mpeg, !this.DEBUG);
         const enter = new AssetAudio("/audio/basic_enter.mp3", Audio_Mpeg, !this.DEBUG);
