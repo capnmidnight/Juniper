@@ -1,4 +1,4 @@
-import { borderBottom, borderBottomColor, borderRadius, boxShadow, display, flexDirection, marginBottom, paddingTop, rule, zIndex } from "@juniper-lib/dom/css";
+import { borderBottom, borderBottomColor, borderRadius, boxShadow, display, flexDirection, gridArea, gridTemplateColumns, gridTemplateRows, marginBottom, paddingTop, rule, zIndex } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
@@ -22,5 +22,15 @@ Style(
         borderBottomColor("white"),
         boxShadow("#ccc 0 -5px 10px"),
         zIndex(1)
+    ),
+
+    rule(".tab-container",
+        display("grid"),
+        gridTemplateColumns("auto"),
+        gridTemplateRows("auto")
+    ),
+
+    rule(".tab-container > *",
+        gridArea(1, 1, -1, -1)
     )
 );
