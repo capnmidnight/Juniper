@@ -1,8 +1,8 @@
 import { className } from "@juniper-lib/dom/attrs";
 import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey, isDefined, isFunction, isNullOrUndefined, isString, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-
 import "./styles";
+
 
 /**
  * Creates a string from a list item to use as the item's ID or label in a select box.

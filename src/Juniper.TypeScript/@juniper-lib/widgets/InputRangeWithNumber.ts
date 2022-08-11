@@ -73,4 +73,12 @@ export class InputRangeWithNumber
             = this.numberInput.disabled
             = v;
     }
+
+    get enabled() {
+        return !this.disabled;
+    }
+
+    set enabled(v) {
+        this.disabled = !v;
+    }
 }

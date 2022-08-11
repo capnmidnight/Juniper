@@ -7,8 +7,7 @@ Style(
         backgroundColor("white"),
         whiteSpace("nowrap"),
         overflowWrap("normal"),
-        overflow("hidden", "scroll"),
-        height("100%")
+        overflow("auto", "scroll")
     ),
 
     rule(".SelectBoxContent",

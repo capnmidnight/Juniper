@@ -66,7 +66,7 @@ export class SelectList<T>
         Object.seal(this);
     }
 
-    get diabled(): boolean {
+    get disabled(): boolean {
         return this.element.disabled;
     }
 

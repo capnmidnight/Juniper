@@ -1,8 +1,8 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { DD, Div, DL, DT, elementApply, ElementChild, elementSetClass, elementSetDisplay, ErsatzElement, H2, IDisableable, IElementAppliable, isDisableable, isErsatzElement, isErsatzElements, Label, resolveElement } from "@juniper-lib/dom/tags";
+import { DD, Div, DL, DT, elementApply, ElementChild, elementSetClass, elementSetDisplay, ErsatzElement, H2, IDisableable, IElementAppliable, isDisableable, isErsatzElement, isErsatzElements, Label } from "@juniper-lib/dom/tags";
 import { identity, isArray, isBoolean, isDate, isNumber, isString, stringRandom } from "@juniper-lib/tslib";
-
 import "./styles";
+
 
 type PropertyChild = Exclude<ElementChild, IElementAppliable>;
 type PropertyElement = [string, ...PropertyChild[]] | string | PropertyChild;
@@ -68,25 +68,7 @@ export class PropertyList
     private createElements(rest: Property[]) {
         return rest.flatMap((entry) =>
             this.createGroups(entry)
-                .flatMap(identity)
-                .map((elem) => this.registerControl(elem)));
-    }
-
-    private registerControl(rowElem: RowElement): RowElement {
-        const elems = new Array<HTMLElement>();
-        if (isErsatzElements(rowElem)) {
-            elems.push(...rowElem.elements.map(resolveElement));
-        }
-        else {
-            elems.push(resolveElement(rowElem));
-        }
-
-        for (const elem of elems) {
-            if (isDisableable(elem)) {
-                this.controls.push(elem);
-            }
-        }
-        return rowElem;
+                .flatMap(identity));
     }
 
     private createGroups(entry: Property): Row[] {
@@ -114,6 +96,10 @@ export class PropertyList
             const [labelText, ...fields] = entry;
             const label = Label(labelText);
             for (const field of fields) {
+                if (isDisableable(field)) {
+                    this.controls.push(field);
+                }
+
                 if (field instanceof HTMLInputElement
                     || field instanceof HTMLTextAreaElement
                     || field instanceof HTMLSelectElement) {
@@ -139,6 +125,9 @@ export class PropertyList
             ];
         }
         else {
+            if (isDisableable(entry)) {
+                this.controls.push(entry);
+            }
             return [
                 entry
             ];
