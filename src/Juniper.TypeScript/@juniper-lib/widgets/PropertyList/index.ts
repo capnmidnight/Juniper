@@ -1,10 +1,10 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { DD, Div, DL, DT, elementApply, ElementChild, elementSetClass, elementSetDisplay, ErsatzElement, H2, IDisableable, IElementAppliable, isDisableable, isErsatzElement, isErsatzElements, Label } from "@juniper-lib/dom/tags";
+import { DD, Div, DL, DT, elementApply, ElementChild, elementSetClass, elementSetDisplay, ErsatzElement, ErsatzElements, H2, IDisableable, IElementAppliable, isDisableable, isErsatzElement, isErsatzElements, Label } from "@juniper-lib/dom/tags";
 import { identity, isArray, isBoolean, isDate, isNumber, isString, stringRandom } from "@juniper-lib/tslib";
 import "./styles";
 
 
-type PropertyChild = Exclude<ElementChild, IElementAppliable>;
+type PropertyChild = Exclude<ElementChild, IElementAppliable | ErsatzElements>;
 type PropertyElement = [string, ...PropertyChild[]] | string | PropertyChild;
 
 class PropertyGroup {
@@ -92,6 +92,7 @@ export class PropertyList
     }
 
     private createRow(entry: PropertyElement): Row {
+
         if (isArray(entry)) {
             const [labelText, ...fields] = entry;
             const label = Label(labelText);
@@ -116,15 +117,15 @@ export class PropertyList
                 DD(...fields)
             ];
         }
-        else if (isString(entry)
-            || isNumber(entry)
-            || isBoolean(entry)
-            || isDate(entry)) {
-            return [
-                Div(H2(entry))
-            ];
-        }
         else {
+            if (isString(entry)
+                || isNumber(entry)
+                || isBoolean(entry)
+                || isDate(entry)) {
+                entry = Div(H2(entry));
+            }
+
+            elementSetClass(entry, true, "single-item");
             if (isDisableable(entry)) {
                 this.controls.push(entry);
             }
