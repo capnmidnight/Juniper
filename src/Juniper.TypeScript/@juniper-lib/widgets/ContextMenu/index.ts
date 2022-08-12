@@ -6,15 +6,20 @@ import { isDefined, Task } from "@juniper-lib/tslib";
 
 import "./styles";
 
-export class ContextMenu<T> implements ErsatzElement {
+export class ContextMenu<T extends string = string> implements ErsatzElement {
 
-    element: HTMLElement;
+    readonly element: HTMLElement;
+
+    private readonly displayNames: Map<T, string>
 
     private currentTask: Task<any>;
     private mouseX = 0;
     private mouseY = 0;
 
-    constructor(private readonly displayNames: Map<T, string>) {
+    constructor(displayNames?: Map<T, string>) {
+
+        this.displayNames = displayNames || new Map<T, string>();
+
         this.element = Div(
             className("context-menu")
         );
@@ -27,7 +32,7 @@ export class ContextMenu<T> implements ErsatzElement {
         });
     }
 
-    public async show(...options: readonly T[]): Promise<T | null> {
+    public async show(...options: readonly (T | HTMLHRElement)[]): Promise<T | null> {
         const hasTask = isDefined(this.currentTask);
         if (hasTask) {
             this.currentTask.resolve("cancel");
@@ -44,12 +49,18 @@ export class ContextMenu<T> implements ErsatzElement {
                 left(`${this.mouseX}px`),
                 top(`${this.mouseY}px`)
             ),
-            ...options.map(option =>
-                Button(
-                    this.displayNames.get(option),
-                    onClick(() => this.currentTask.resolve(option), true)
-                )
-            )
+            ...options.map(option => {
+                if (option instanceof HTMLHRElement) {
+                    option.style.width = "100%";
+                    return option;
+                }
+                else {
+                    return Button(
+                        this.displayNames.has(option) ? this.displayNames.get(option) : option,
+                        onClick(() => this.currentTask.resolve(option), true)
+                    );
+                }
+            })
         );
         elementSetDisplay(this.element, true, "grid");
         this.mouseY = Math.min(this.mouseY, window.innerHeight - this.element.clientHeight - 50);
