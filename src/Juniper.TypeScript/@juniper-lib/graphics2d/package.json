@@ -14,7 +14,7 @@
     "@juniper-types/dom-types": "*",
     "@types/offscreencanvas": "2019.7.0",
     "gl-matrix": "3.4.3",
-    "pdfjs-dist": "2.14.305"
+    "pdfjs-dist": "2.15.349"
   },
   "devDependencies": {
     "typescript": "4.7.4"

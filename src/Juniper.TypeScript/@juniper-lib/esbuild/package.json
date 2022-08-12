@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "2.1.2",
-    "esbuild": "0.14.51"
+    "esbuild": "0.15.1"
   },
   "devDependencies": {
     "typescript": "4.7.4"
