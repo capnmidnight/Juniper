@@ -1,7 +1,5 @@
 import { className, tabIndex } from "@juniper-lib/dom/attrs";
-import {
-    CssProp, styles
-} from "@juniper-lib/dom/css";
+import { CssProp } from "@juniper-lib/dom/css";
 import {
     isModifierless,
     onClick,
@@ -67,9 +65,8 @@ export class TreeView<T>
 
     readonly element: HTMLElement;
 
-    readonly expandButton: HTMLButtonElement;
-    readonly collapseButton: HTMLButtonElement;
-
+    private readonly expandButton: HTMLButtonElement;
+    private readonly collapseButton: HTMLButtonElement;
     private readonly children: HTMLElement;
     private readonly options: TreeViewOptions<T>;
     private readonly canChangeOrder: boolean;
@@ -90,16 +87,6 @@ export class TreeView<T>
 
         this.createElement = this.createElement.bind(this);
 
-        this.collapseButton = ButtonSmallPrimary(
-            onClick(() => this.collapseAll()),
-            "Collapse all"
-        );
-
-        this.expandButton = ButtonSmallPrimary(
-            onClick(() => this.expandAll()),
-            "Expand all"
-        );
-
         this.options = Object.assign<Partial<TreeViewOptions<T>>, TreeViewOptions<T>>({
             getOrder: null,
             replaceElement: null
@@ -109,101 +96,117 @@ export class TreeView<T>
 
         this.element = Div(
             className("tree-view"),
-            styles(...styleProps),
-            tabIndex(0),
+            ...styleProps,
+            Div(
+                className("tree-view-controls"),
 
-            onClick((evt) => {
-                if (!this.disabled && !evt.defaultPrevented) {
-                    for (const element of this.elements) {
-                        if (element.selected) {
-                            this.selectedNode = null;
-                            this.dispatchEvent(new TreeViewNodeSelectedEvent(null));
-                            return;
+                this.collapseButton = ButtonSmallPrimary(
+                    onClick(() => this.collapseAll()),
+                    "Collapse all"
+                ),
+
+                this.expandButton = ButtonSmallPrimary(
+                    onClick(() => this.expandAll()),
+                    "Expand all"
+                )
+            ),
+            Div(
+                className("tree-view-inner"),
+                tabIndex(0),
+
+                onClick((evt) => {
+                    if (!this.disabled && !evt.defaultPrevented) {
+                        for (const element of this.elements) {
+                            if (element.selected) {
+                                this.selectedNode = null;
+                                this.dispatchEvent(new TreeViewNodeSelectedEvent(null));
+                                return;
+                            }
                         }
                     }
-                }
-            }),
+                }),
 
-            onKeyDown((evt) => {
-                if (isModifierless(evt)) {
-                    const sel = this.selectedElement;
-                    if (sel) {
-                        if (evt.key === "ArrowUp") {
-                            const index = elementGetIndexInParent(sel);
-                            if (index > 0) {
-                                const nextHTMLElement = sel.element.parentElement.children[index - 1] as HTMLElement;
-                                const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
-                                nextElement.select();
-                            }
-                            else if (!sel.node.isRoot && !sel.node.parent.isRoot) {
-                                const nextNode = sel.node.parent;
-                                const nextElement = this.nodes2Elements.get(nextNode);
-                                nextElement.select();
-                            }
-                        }
-                        else if (evt.key === "ArrowDown") {
-                            const index = elementGetIndexInParent(sel);
-                            if (index < sel.element.parentElement.childElementCount - 1) {
-                                const nextHTMLElement = sel.element.parentElement.children[index + 1] as HTMLElement;
-                                const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
-                                nextElement.select();
-                            }
-                            else if (!sel.node.isRoot) {
-                                const parentNode = sel.node.parent;
-                                const parentElement = this.nodes2Elements.get(parentNode);
-                                const parentIndex = elementGetIndexInParent(parentElement);
-                                const nextHTMLElement = parentElement.element.parentElement.children[parentIndex + 1] as HTMLElement;
-                                if (nextHTMLElement) {
+                onKeyDown((evt) => {
+                    if (isModifierless(evt)) {
+                        const sel = this.selectedElement;
+                        if (sel) {
+                            if (evt.key === "ArrowUp") {
+                                const index = elementGetIndexInParent(sel);
+                                if (index > 0) {
+                                    const nextHTMLElement = sel.element.parentElement.children[index - 1] as HTMLElement;
                                     const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
                                     nextElement.select();
                                 }
-                            }
-                        }
-                        else if (evt.key === "ArrowRight") {
-                            if (!sel.node.isLeaf) {
-                                if (!sel.isOpen) {
-                                    sel.isOpen = true;
+                                else if (!sel.node.isRoot && !sel.node.parent.isRoot) {
+                                    const nextNode = sel.node.parent;
+                                    const nextElement = this.nodes2Elements.get(nextNode);
+                                    nextElement.select();
                                 }
-                                else {
-                                    const nextHTMLElem = sel.children.children[0] as HTMLElement;
-                                    if (nextHTMLElem) {
-                                        const elem = this.htmlElements2Elements.get(nextHTMLElem);
-                                        elem.select();
+                            }
+                            else if (evt.key === "ArrowDown") {
+                                const index = elementGetIndexInParent(sel);
+                                if (index < sel.element.parentElement.childElementCount - 1) {
+                                    const nextHTMLElement = sel.element.parentElement.children[index + 1] as HTMLElement;
+                                    const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
+                                    nextElement.select();
+                                }
+                                else if (!sel.node.isRoot) {
+                                    const parentNode = sel.node.parent;
+                                    const parentElement = this.nodes2Elements.get(parentNode);
+                                    const parentIndex = elementGetIndexInParent(parentElement);
+                                    const nextHTMLElement = parentElement.element.parentElement.children[parentIndex + 1] as HTMLElement;
+                                    if (nextHTMLElement) {
+                                        const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
+                                        nextElement.select();
                                     }
                                 }
                             }
-                        }
-                        else if (evt.key === "ArrowLeft") {
-                            const sel = this.selectedElement;
-                            if (sel.isOpen) {
-                                sel.isOpen = false;
+                            else if (evt.key === "ArrowRight") {
+                                if (!sel.node.isLeaf) {
+                                    if (!sel.isOpen) {
+                                        sel.isOpen = true;
+                                    }
+                                    else {
+                                        const nextHTMLElem = sel.children.children[0] as HTMLElement;
+                                        if (nextHTMLElem) {
+                                            const elem = this.htmlElements2Elements.get(nextHTMLElem);
+                                            elem.select();
+                                        }
+                                    }
+                                }
                             }
-                            else if (!sel.node.isRoot && !sel.node.parent.isRoot) {
-                                const parentElem = this.nodes2Elements.get(sel.node.parent);
-                                parentElem.select();
+                            else if (evt.key === "ArrowLeft") {
+                                const sel = this.selectedElement;
+                                if (sel.isOpen) {
+                                    sel.isOpen = false;
+                                }
+                                else if (!sel.node.isRoot && !sel.node.parent.isRoot) {
+                                    const parentElem = this.nodes2Elements.get(sel.node.parent);
+                                    parentElem.select();
+                                }
+                            }
+                        }
+                        else if (this.children.children.length > 0) {
+                            const rootElem = this.nodes2Elements.get(this.rootNode);
+                            let htmlElem: HTMLElement = null;
+                            if (evt.key === "ArrowUp") {
+                                htmlElem = rootElem.children.children[rootElem.children.children.length - 1] as HTMLElement;
+                            }
+                            else if (evt.key === "ArrowDown") {
+                                htmlElem = rootElem.children.children[0] as HTMLElement;
+                            }
+
+                            if (htmlElem) {
+                                const elem = this.htmlElements2Elements.get(htmlElem);
+                                elem.select();
                             }
                         }
                     }
-                    else if (this.children.children.length > 0) {
-                        const rootElem = this.nodes2Elements.get(this.rootNode);
-                        let htmlElem: HTMLElement = null;
-                        if (evt.key === "ArrowUp") {
-                            htmlElem = rootElem.children.children[rootElem.children.children.length - 1] as HTMLElement;
-                        }
-                        else if (evt.key === "ArrowDown") {
-                            htmlElem = rootElem.children.children[0] as HTMLElement;
-                        }
+                }),
 
-                        if (htmlElem) {
-                            const elem = this.htmlElements2Elements.get(htmlElem);
-                            elem.select();
-                        }
-                    }
-                }
-            }),
-
-            this.children = Div(
-                className("tree-view-children")
+                this.children = Div(
+                    className("tree-view-children")
+                )
             )
         );
 

@@ -3,9 +3,11 @@ import {
     border,
     bottom,
     color, cursor,
+    display,
     fontFamily,
     fontSize,
     getSystemFamily,
+    gridAutoFlow, gridTemplateRows,
     height, opacity,
     overflow,
     overflowWrap, padding,
@@ -20,18 +22,28 @@ import {
 } from "@juniper-lib/dom/tags";
 
 Style(
+
     rule(".tree-view",
+        display("grid"),
+        gridTemplateRows("auto 1fr")
+    ),
+
+    rule(".tree-view .btn-sm",
+        padding("0")
+    ),
+
+    rule(".tree-view-inner",
         border("inset 2px"),
         backgroundColor("#eee"),
         whiteSpace("nowrap"),
         overflowWrap("normal"),
         overflow("auto", "scroll"),
-        height("100%"),
         getSystemFamily()
     ),
 
-    rule(".tree-view .btn-small",
-        padding("0", "0.25em")
+    rule(".tree-view-controls",
+        display("grid"),
+        gridAutoFlow("column")
     ),
 
     rule(".tree-view-children",
@@ -39,7 +51,7 @@ Style(
     ),
 
     rule(".tree-view-node > .tree-view-node-children",
-        paddingLeft("1.5em")
+        paddingLeft("1.25em")
     ),
 
     rule(".tree-view-children > .tree-view-node > .tree-view-node-children",
@@ -47,10 +59,8 @@ Style(
     ),
 
     rule(".tree-view-node",
-        position("relative"),
         whiteSpace("pre"),
         color("black"),
-        padding("0", "2px", "1px"),
         cursor("default")
     ),
 
