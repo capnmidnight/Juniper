@@ -43,7 +43,7 @@ Style(
         gridTemplateColumns("auto")
     ),
 
-    rule("dl.properties > dd > input[type=number]",
+    rule("dl.properties > dd input[type=number]",
         textAlign("right")
     ),
 
