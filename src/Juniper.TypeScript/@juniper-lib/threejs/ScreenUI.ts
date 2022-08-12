@@ -47,7 +47,7 @@ Style(
 
     rule("#controls > .row",
         display("grid"),
-        margin("10px 5px"),
+        margin("10px", "5px"),
         gridTemplateColumns("repeat(2, auto)")
     ),
 
@@ -82,7 +82,7 @@ Style(
         height("58px !important"),
         width("58px"),
         padding("0.25em"),
-        margin("0 5px"),
+        margin("0", "5px"),
         pointerEvents("initial")
     ),
 

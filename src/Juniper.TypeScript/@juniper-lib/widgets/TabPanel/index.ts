@@ -1,5 +1,5 @@
 import { Attr, className } from "@juniper-lib/dom/attrs";
-import { CssProp, display, gridAutoFlow, gridTemplateRows } from "@juniper-lib/dom/css";
+import { CssProp, display, gridTemplateRows } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonSmallSecondary, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { isNullOrUndefined, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
@@ -76,7 +76,6 @@ export class TabPanel<TabNames>
             ...rules,
             display("grid"),
             gridTemplateRows("auto 1fr"),
-            gridAutoFlow("row"),
             Div(
                 className("tabs"),
                 ...views.map(p => p.button)

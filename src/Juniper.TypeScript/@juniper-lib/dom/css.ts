@@ -94,6 +94,9 @@ type CSSLengthPercentage = CSSLength
     | 0
     | "0";
 
+type CSSLengthPercentageAuto = CSSLengthPercentage
+    | "auto";
+
 type CSSCalcStatement = `calc(${string})`;
 
 type CSSSizePropertyValue = CSSGlobalValues
@@ -653,15 +656,22 @@ export function listStyle(v: string) { return new CssProp("listStyle", v); }
 export function listStyleImage(v: string) { return new CssProp("listStyleImage", v); }
 export function listStylePosition(v: string) { return new CssProp("listStylePosition", v); }
 export function listStyleType(v: string) { return new CssProp("listStyleType", v); }
-export function margin(v: string | 0) { return new CssProp("margin", v); }
-export function marginBlockEnd(v: string) { return new CssProp("marginBlockEnd", v); }
-export function marginBlockStart(v: string) { return new CssProp("marginBlockStart", v); }
-export function marginBottom(v: string | 0) { return new CssProp("marginBottom", v); }
-export function marginInlineEnd(v: string) { return new CssProp("marginInlineEnd", v); }
-export function marginInlineStart(v: string) { return new CssProp("marginInlineStart", v); }
-export function marginLeft(v: string | 0) { return new CssProp("marginLeft", v); }
-export function marginRight(v: string | 0) { return new CssProp("marginRight", v); }
-export function marginTop(v: string | 0) { return new CssProp("marginTop", v); }
+
+export function margin(v: CSSGlobalValues | CSSLengthPercentageAuto): CssProp;
+export function margin(vert: CSSGlobalValues | CSSLengthPercentageAuto, horiz: CSSGlobalValues | CSSLengthPercentageAuto): CssProp;
+export function margin(top: CSSGlobalValues | CSSLengthPercentageAuto, horiz: CSSGlobalValues | CSSLengthPercentageAuto, bot: CSSGlobalValues | CSSLengthPercentageAuto): CssProp;
+export function margin(top: CSSGlobalValues | CSSLengthPercentageAuto, right: CSSGlobalValues | CSSLengthPercentageAuto, bot: CSSGlobalValues | CSSLengthPercentageAuto, left: CSSGlobalValues | CSSLengthPercentageAuto): CssProp;
+export function margin(...v: (CSSGlobalValues | CSSLengthPercentageAuto)[]) { return new CssProp("margin", v.join(" ")); }
+
+export function marginBlockEnd(v: CSSLengthPercentageAuto) { return new CssProp("marginBlockEnd", v); }
+export function marginBlockStart(v: CSSLengthPercentageAuto) { return new CssProp("marginBlockStart", v); }
+export function marginBottom(v: CSSLengthPercentageAuto) { return new CssProp("marginBottom", v); }
+export function marginInlineEnd(v: CSSLengthPercentageAuto) { return new CssProp("marginInlineEnd", v); }
+export function marginInlineStart(v: CSSLengthPercentageAuto) { return new CssProp("marginInlineStart", v); }
+export function marginLeft(v: CSSLengthPercentageAuto) { return new CssProp("marginLeft", v); }
+export function marginRight(v: CSSLengthPercentageAuto) { return new CssProp("marginRight", v); }
+export function marginTop(v: CSSLengthPercentageAuto) { return new CssProp("marginTop", v); }
+
 export function marker(v: string) { return new CssProp("marker", v); }
 export function markerEnd(v: string) { return new CssProp("markerEnd", v); }
 export function markerMid(v: string) { return new CssProp("markerMid", v); }
@@ -704,34 +714,35 @@ export type CSSOverflowValues = CSSGlobalValues
     | "scroll"
     | "auto";
 
+export function overflow(v: CSSOverflowValues): CssProp;
 export function overflow(x: CSSOverflowValues, y: CSSOverflowValues): CssProp;
-export function overflow(v: CSSOverflowValues | `${CSSOverflowValues} ${CSSOverflowValues}`): CssProp;
-export function overflow(vOrX: CSSOverflowValues | `${CSSOverflowValues} ${CSSOverflowValues}`, y?: CSSOverflowValues): CssProp {
-    if (isDefined(y)) {
-        return new CssProp("overflow", vOrX + " " + y);
-    }
-    else {
-        return new CssProp("overflow", vOrX);
-    }
-}
-export function overflowAnchor(v: string) { return new CssProp("overflowAnchor", v); }
-export function overflowWrap(v: string) { return new CssProp("overflowWrap", v); }
+export function overflow(...v: CSSOverflowValues[]): CssProp { return new CssProp("overflow", v.join(" ")); }
 export function overflowX(v: CSSOverflowValues) { return new CssProp("overflowX", v); }
 export function overflowY(v: CSSOverflowValues) { return new CssProp("overflowY", v); }
+
+export function overflowAnchor(v: string) { return new CssProp("overflowAnchor", v); }
+export function overflowWrap(v: string) { return new CssProp("overflowWrap", v); }
 export function overscrollBehavior(v: string) { return new CssProp("overscrollBehavior", v); }
 export function overscrollBehaviorBlock(v: string) { return new CssProp("overscrollBehaviorBlock", v); }
 export function overscrollBehaviorInline(v: string) { return new CssProp("overscrollBehaviorInline", v); }
 export function overscrollBehaviorX(v: string) { return new CssProp("overscrollBehaviorX", v); }
 export function overscrollBehaviorY(v: string) { return new CssProp("overscrollBehaviorY", v); }
+
+export function padding(v: CSSLengthPercentage): CssProp;
+export function padding(vert: CSSLengthPercentage, horiz: CSSLengthPercentage): CssProp;
+export function padding(top: CSSLengthPercentage, horiz: CSSLengthPercentage, bot: CSSLengthPercentage): CssProp;
+export function padding(top: CSSLengthPercentage, right: CSSLengthPercentage, bot: CSSLengthPercentage, left: CSSLengthPercentage): CssProp;
 export function padding(...v: CSSLengthPercentage[]) { return new CssProp("padding", v.join(" ")); }
-export function paddingBlockEnd(v: string) { return new CssProp("paddingBlockEnd", v); }
-export function paddingBlockStart(v: string) { return new CssProp("paddingBlockStart", v); }
+
+export function paddingBlockEnd(v: CSSLengthPercentage) { return new CssProp("paddingBlockEnd", v); }
+export function paddingBlockStart(v: CSSLengthPercentage) { return new CssProp("paddingBlockStart", v); }
 export function paddingBottom(v: CSSLengthPercentage) { return new CssProp("paddingBottom", v); }
-export function paddingInlineEnd(v: string) { return new CssProp("paddingInlineEnd", v); }
-export function paddingInlineStart(v: string) { return new CssProp("paddingInlineStart", v); }
+export function paddingInlineEnd(v: CSSLengthPercentage) { return new CssProp("paddingInlineEnd", v); }
+export function paddingInlineStart(v: CSSLengthPercentage) { return new CssProp("paddingInlineStart", v); }
 export function paddingLeft(v: CSSLengthPercentage) { return new CssProp("paddingLeft", v); }
 export function paddingRight(v: CSSLengthPercentage) { return new CssProp("paddingRight", v); }
 export function paddingTop(v: CSSLengthPercentage) { return new CssProp("paddingTop", v); }
+
 export function pageBreakAfter(v: string) { return new CssProp("pageBreakAfter", v); }
 export function pageBreakBefore(v: string) { return new CssProp("pageBreakBefore", v); }
 export function pageBreakInside(v: string) { return new CssProp("pageBreakInside", v); }
