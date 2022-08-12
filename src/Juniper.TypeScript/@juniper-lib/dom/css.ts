@@ -817,8 +817,24 @@ export function strokeOpacity(v: string) { return new CssProp("strokeOpacity", v
 export function strokeWidth(v: string | 0) { return new CssProp("strokeWidth", v); }
 export function tabSize(v: string) { return new CssProp("tabSize", v); }
 export function tableLayout(v: string) { return new CssProp("tableLayout", v); }
-export function textAlign(v: string) { return new CssProp("textAlign", v); }
-export function textAlignLast(v: string) { return new CssProp("textAlignLast", v); }
+
+
+type CSSTextAlignLastValues = CSSGlobalValues
+    | "auto"
+    | "start"
+    | "end"
+    | "left"
+    | "right"
+    | "center"
+    | "justify"
+    | "match-parent";
+
+type CSSTextAlignValues = CSSTextAlignLastValues
+    | "justify-all";
+
+export function textAlign(v: CSSTextAlignValues) { return new CssProp("textAlign", v); }
+export function textAlignLast(v: CSSTextAlignLastValues) { return new CssProp("textAlignLast", v); }
+
 export function textAnchor(v: string) { return new CssProp("textAnchor", v); }
 export function textCombineUpright(v: string) { return new CssProp("textCombineUpright", v); }
 export function textDecoration(v: string) { return new CssProp("textDecoration", v); }
