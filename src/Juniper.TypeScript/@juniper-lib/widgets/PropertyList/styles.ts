@@ -4,9 +4,13 @@ import {
     gridColumn,
     gridColumnGap,
     gridTemplateColumns,
+    height,
+    margin,
     maxWidth,
+    padding,
     rule,
-    textAlign
+    textAlign,
+    verticalAlign
 } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
@@ -26,6 +30,13 @@ Style(
         textAlign("right")
     ),
 
+    rule("dl.properties > dt > label",
+        margin(0),
+        padding(0),
+        height("100%"),
+        verticalAlign("sub")
+    ),
+
     rule("dl.properties > dd",
         gridColumn(2, -1),
         display("grid"),
@@ -38,6 +49,10 @@ Style(
 
     rule("dl.properties > dd > img",
         maxWidth("10em")
+    ),
+
+    rule("dl.properties > dd > select",
+        height("30px")
     ),
 
     rule("dl.properties > .single-item",

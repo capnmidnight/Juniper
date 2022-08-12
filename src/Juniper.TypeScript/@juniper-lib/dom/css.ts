@@ -879,7 +879,19 @@ export function unicodeRange(v: string) { return new CssProp("unicodeRange", v);
 export function userSelect(v: string) { return new CssProp("userSelect", v); }
 export function userZoom(v: string) { return new CssProp("userZoom", v); }
 export function vectorEffect(v: string) { return new CssProp("vectorEffect", v); }
-export function verticalAlign(v: string) { return new CssProp("verticalAlign", v); }
+
+type CSSVerticalAlignValues = CSSGlobalValues
+    | CSSLengthPercentage
+    | "baseline"
+    | "sub"
+    | "super"
+    | "text-top"
+    | "text-bottom"
+    | "middle"
+    | "top"
+    | "bottom";
+export function verticalAlign(v: CSSVerticalAlignValues) { return new CssProp("verticalAlign", v); }
+
 export function visibility(v: string) { return new CssProp("visibility", v); }
 export function whiteSpace(v: string) { return new CssProp("whiteSpace", v); }
 export function widows(v: string) { return new CssProp("widows", v); }
