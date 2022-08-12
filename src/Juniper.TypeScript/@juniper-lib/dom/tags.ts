@@ -17,17 +17,6 @@ export function isErsatzElement<T extends HTMLElement = HTMLElement>(obj: any): 
 
 export type Elements<T extends HTMLElement = HTMLElement> = T | ErsatzElement<T>;
 
-export interface ErsatzElements {
-    elements: Elements[];
-}
-
-export function isErsatzElements(obj: any): obj is ErsatzElements {
-    return isObject(obj)
-        && "elements" in obj
-        && (obj as any).elements instanceof Array;
-}
-
-
 export function resolveElement<T extends HTMLElement = HTMLElement>(elem: Elements<T>): T {
     if (isErsatzElement(elem)) {
         return elem.element;
@@ -47,7 +36,6 @@ export function isIElementAppliable<T extends HTMLElement = HTMLElement>(obj: an
 }
 
 export type ElementChild = Elements
-    | ErsatzElements
     | IElementAppliable
     | string
     | number
@@ -57,7 +45,6 @@ export type ElementChild = Elements
 export function isElementChild(obj: any): obj is ElementChild {
     return obj instanceof Node
         || isErsatzElement(obj)
-        || isErsatzElements(obj)
         || isIElementAppliable(obj)
         || isString(obj)
         || isNumber(obj)
@@ -120,9 +107,6 @@ export function elementApply(elem: Elements, ...children: ElementChild[]): Eleme
             }
             else if (isErsatzElement(child)) {
                 elem.append(resolveElement(child));
-            }
-            else if (isErsatzElements(child)) {
-                elem.append(...child.elements.map(resolveElement));
             }
             else if (isIElementAppliable(child)) {
                 child.applyToElement(elem);

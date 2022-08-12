@@ -1,10 +1,10 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { DD, Div, DL, DT, elementApply, ElementChild, elementSetClass, elementSetDisplay, ErsatzElement, ErsatzElements, H2, IDisableable, IElementAppliable, isDisableable, isErsatzElement, isErsatzElements, Label } from "@juniper-lib/dom/tags";
+import { DD, Div, DL, DT, elementApply, ElementChild, elementSetClass, elementSetDisplay, ErsatzElement, H2, IDisableable, IElementAppliable, isDisableable, Label } from "@juniper-lib/dom/tags";
 import { identity, isArray, isBoolean, isDate, isNumber, isString, stringRandom } from "@juniper-lib/tslib";
 import "./styles";
 
 
-type PropertyChild = Exclude<ElementChild, IElementAppliable | ErsatzElements>;
+type PropertyChild = Exclude<ElementChild, IElementAppliable>;
 type PropertyElement = [string, ...PropertyChild[]] | string | PropertyChild;
 
 class PropertyGroup {
@@ -140,14 +140,7 @@ export class PropertyList
         if (rows) {
             for (const row of rows) {
                 for (const elem of row) {
-                    if (isErsatzElements(elem)) {
-                        for (const e of elem.elements) {
-                            elementSetDisplay(e, v);
-                        }
-                    }
-                    else if (isErsatzElement(elem) || elem instanceof HTMLElement) {
-                        elementSetDisplay(elem, v);
-                    }
+                    elementSetDisplay(elem, v);
                 }
             }
         }
