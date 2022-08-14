@@ -15,6 +15,5 @@
     "url": "github.com/capnmidnight/Juniper"
   },
   "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
-  "license": "MIT",
-  "typeScriptVersion": "4.7"
+  "license": "MIT"
 }

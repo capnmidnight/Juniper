@@ -58,8 +58,8 @@ export function isDesktop() {
     return !isMobile();
 }
 
-const oculusBrowserPattern = /OculusBrowser\/(\d+)\.(\d+)\.(\d+)/i;
-const oculusMatch = navigator.userAgent.match(oculusBrowserPattern);
+const oculusBrowserPattern = /*@__PURE__*/ /OculusBrowser\/(\d+)\.(\d+)\.(\d+)/i;
+const oculusMatch = /*@__PURE__*/ navigator.userAgent.match(oculusBrowserPattern);
 export const isOculusBrowser = /*@__PURE__*/ !!oculusMatch;
 export const oculusBrowserVersion: { major: number, minor: number, patch: number } = /*@__PURE__*/ isOculusBrowser && {
     major: parseFloat(oculusMatch[1]),

@@ -41,10 +41,10 @@ const base10Labels = new Map<number, Base10Units>([
     [4, "TB"]
 ]);
 
-const base2Sizes = mapInvert(base2Labels);
-const base10Sizes = mapInvert(base10Labels);
+const base2Sizes = /*@__PURE__*/ mapInvert(base2Labels);
+const base10Sizes = /*@__PURE__*/ mapInvert(base10Labels);
 
-const labels = new Map<Base, Map<number, Units>>([
+const labels = /*@__PURE__*/ new Map<Base, Map<number, Units>>([
     [2, base2Labels],
     [10, base10Labels]
 ]);
