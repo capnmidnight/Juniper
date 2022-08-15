@@ -1,8 +1,8 @@
-import { className } from "@juniper-lib/dom/attrs";
+import { Attr, className } from "@juniper-lib/dom/attrs";
 import { display, gridAutoFlow, rule } from "@juniper-lib/dom/css";
-import { HtmlEvt, onClick, onInput } from "@juniper-lib/dom/evts";
-import { ButtonSmallSecondary, Div, elementApply, ElementChild, ErsatzElement, InputNumber, Style } from "@juniper-lib/dom/tags";
-import { arrayRemoveAt, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { onClick, onInput } from "@juniper-lib/dom/evts";
+import { ButtonSmallSecondary, Div, elementApply, elementSetClass, elementSetText, ErsatzElement, InputNumber, Style } from "@juniper-lib/dom/tags";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 
 Style(
     rule(".input-number-with-reset",
@@ -23,49 +23,38 @@ export class InputNumberWithReset extends TypedEventBase<InputNumberWithResetEve
     private readonly numberInput: HTMLInputElement;
     private readonly resetButton: HTMLButtonElement;
 
-    constructor(...rest: ElementChild[]) {
+    constructor(onInputEvt: () => void, onReset: () => void, ...rest: Attr[]);
+    constructor(onInputEvt: () => void, resetButton: HTMLButtonElement, ...rest: Attr[]);
+    constructor(inputCallback: () => void, onResetOrResetButton: (() => void) | HTMLButtonElement, ...rest: Attr[]) {
         super();
 
-        const fireEvt = (evt: Event) => () => this.dispatchEvent(evt);
-
-        let inputEvt: HtmlEvt<InputEvent> = null;
-        let resetEvt: HtmlEvt<TypedEvent<"reset">> = null;
-
-        for (let i = rest.length - 1; i >= 0; --i) {
-            const here = rest[i];
-            if (here instanceof HtmlEvt) {
-                if (here.name === "input") {
-                    inputEvt = here;
-                    arrayRemoveAt(rest, i);
-                }
-                else if (here.name === "reset") {
-                    resetEvt = here;
-                    arrayRemoveAt(rest, i);
-                }
-            }
+        if (onResetOrResetButton instanceof HTMLButtonElement) {
+            this.resetButton = onResetOrResetButton;
+            elementSetText(this.resetButton, "Reset");
+            elementSetClass(this.resetButton, false, "btn-danger");
+            elementSetClass(this.resetButton, true, "btn-secondary");
         }
+        else {
+            this.resetButton = ButtonSmallSecondary(
+                "Reset",
+                onClick(onResetOrResetButton)
+            );
+        }
+
+        const fireEvt = (evt: Event) => () => this.dispatchEvent(evt);
 
         this.element = Div(
             className("input-number-with-reset"),
             this.numberInput = InputNumber(
                 ...rest,
+                onInput(inputCallback),
                 onInput(fireEvt(new InputEvent("input")))
             ),
-            this.resetButton = ButtonSmallSecondary(
-                "Reset",
+            elementApply(
+                this.resetButton,
                 onClick(fireEvt(new TypedEvent("reset")))
             )
         );
-
-        if (inputEvt) {
-            this.addEventListener("input", inputEvt.callback);
-        }
-
-        if (resetEvt) {
-            this.addEventListener("reset", resetEvt.callback);
-        }
-
-        elementApply(this, inputEvt, resetEvt);
     }
 
     get value(): string {
