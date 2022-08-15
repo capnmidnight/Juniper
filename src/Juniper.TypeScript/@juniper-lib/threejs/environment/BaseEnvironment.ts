@@ -17,7 +17,7 @@ import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import {
     arrayRemove, arraySortByKeyInPlace, IProgress, isDefined,
     isDesktop,
-    isFirefox, isFunction, isOculusBrowser, oculusBrowserVersion, TimerTickEvent, TypedEvent, TypedEventBase
+    isFirefox, isFunction, isNullOrUndefined, isOculusBrowser, oculusBrowserVersion, TimerTickEvent, TypedEvent, TypedEventBase
 } from "@juniper-lib/tslib";
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
 import { WebGLRenderTarget } from "three";
@@ -104,6 +104,9 @@ export class BaseEnvironment<Events = unknown>
 
         if (isHTMLCanvas(canvas)) {
             canvas.style.backgroundColor = "black";
+            if (isNullOrUndefined(canvas.parentElement)) {
+                throw new Error("The provided canvas must be included in a parent element before constructing the environment.");
+            }
         }
 
         this.renderer = new THREE.WebGLRenderer({
@@ -122,11 +125,13 @@ export class BaseEnvironment<Events = unknown>
         this.renderer.domElement.setAttribute("touch-action", "none");
         this.renderer.domElement.tabIndex = 1;
 
-        this.screenControl = new ScreenControl(
-            this.renderer,
-            this.camera,
-            this.renderer.domElement.parentElement,
-            enableFullResolution);
+        if (isHTMLCanvas(canvas)) {
+            this.screenControl = new ScreenControl(
+                this.renderer,
+                this.camera,
+                this.renderer.domElement.parentElement,
+                enableFullResolution);
+        }
 
 
         this.fader = new Fader("ViewFader");

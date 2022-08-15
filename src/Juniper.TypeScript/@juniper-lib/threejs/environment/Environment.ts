@@ -1,6 +1,6 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
-import type { CanvasTypes } from "@juniper-lib/dom/canvas";
+import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { elementApply } from "@juniper-lib/dom/tags";
 import { AssetAudio, BaseAsset, IFetcher, isAsset } from "@juniper-lib/fetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
@@ -304,12 +304,14 @@ export class Environment
             prog = progOrAsset
         }
 
-        elementApply(
-            this.renderer.domElement.parentElement,
-            this.screenUISpace,
-            this.confirmationDialog,
-            this.devicesDialog,
-            this.renderer.domElement);
+        if (isHTMLCanvas(this.renderer.domElement)) {
+            elementApply(
+                this.renderer.domElement.parentElement,
+                this.screenUISpace,
+                this.confirmationDialog,
+                this.devicesDialog,
+                this.renderer.domElement);
+        }
 
         const footsteps = new AssetAudio("/audio/footsteps.mp3", Audio_Mpeg, !this.DEBUG);
         const enter = new AssetAudio("/audio/basic_enter.mp3", Audio_Mpeg, !this.DEBUG);
