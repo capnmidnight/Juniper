@@ -19,7 +19,7 @@ export function group(name: string, ...properties: PropertyElement[]) {
     return new PropertyGroup(name, ...properties);
 }
 
-type Property = PropertyElement | PropertyGroup;
+export type Property = PropertyElement | PropertyGroup;
 type RowElement = Exclude<PropertyChild, string | number | boolean | Date>;
 type Row = Array<RowElement>;
 
