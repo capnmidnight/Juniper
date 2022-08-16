@@ -1,16 +1,17 @@
-import type { VirtualButton } from "@juniper-lib/threejs/eventSystem/VirtualButton";
 import type { PointerID, PointerType, TypedEventBase } from "@juniper-lib/tslib";
-import type { BaseCursor } from "./BaseCursor";
+import { Vector3 } from "three";
+import type { BaseCursor } from "../cursors/BaseCursor";
+import type { RayTarget } from "../RayTarget";
 import type { Pointer3DEvents } from "./Pointer3DEvent";
-import type { RayTarget } from "./RayTarget";
+import type { VirtualButton } from "./VirtualButton";
 
 export interface IPointer extends TypedEventBase<Pointer3DEvents> {
     id: PointerID;
     type: PointerType;
     cursor: BaseCursor;
-    direction: THREE.Vector3;
-    origin: THREE.Vector3;
-    up: THREE.Vector3;
+    direction: Vector3;
+    origin: Vector3;
+    up: Vector3;
     canMoveView: boolean;
     canDragView: boolean;
     canTeleport: boolean;

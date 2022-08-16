@@ -1,13 +1,14 @@
 import { TypedEvent } from "@juniper-lib/tslib";
 import { Cube } from "./Cube";
 import { RayTarget } from "./eventSystem/RayTarget";
-import { VirtualButton } from "./eventSystem/VirtualButton";
+import { VirtualButton } from "./eventSystem/devices/VirtualButton";
 import { obj } from "./objects";
 import { Sphere } from "./Sphere";
+import { MeshBasicMaterial, Vector3 } from "three";
 
 export class TranslatorDragDirEvent extends TypedEvent<"dragdir">{
 
-    public readonly delta = new THREE.Vector3();
+    public readonly delta = new Vector3();
 
     constructor() {
         super("dragdir");
@@ -19,18 +20,18 @@ export interface TranslatorDragDirEvents {
 }
 
 export class Translator extends RayTarget<TranslatorDragDirEvents> {
-    private static readonly small = new THREE.Vector3(0.1, 0.1, 0.1);
+    private static readonly small = new Vector3(0.1, 0.1, 0.1);
     private readonly bar: Cube;
     private readonly pad: Sphere;
     private _size: number = 1;
-    private readonly sel: THREE.Vector3;
+    private readonly sel: Vector3;
 
     constructor(
         name: string,
         sx: number,
         sy: number,
         sz: number,
-        color: THREE.MeshBasicMaterial) {
+        color: MeshBasicMaterial) {
         const cube = new Cube(1, 1, 1, color);
         const sphere = new Sphere(1, color);
         super(obj(
@@ -42,9 +43,9 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
         this.bar = cube;
         this.pad = sphere;
 
-        this.sel = new THREE.Vector3(sx, sy, sz);
-        const start = new THREE.Vector3();
-        const deltaIn = new THREE.Vector3();
+        this.sel = new Vector3(sx, sy, sz);
+        const start = new Vector3();
+        const deltaIn = new Vector3();
         const dragEvt = new TranslatorDragDirEvent();
 
         let dragging = false;

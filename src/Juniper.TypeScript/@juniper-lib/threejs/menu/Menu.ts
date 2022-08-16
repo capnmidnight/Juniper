@@ -6,13 +6,14 @@ import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Image_Jpeg, Image_Png } from "@juniper-lib/mediatypes";
 import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted } from "@juniper-lib/tslib";
+import { Object3D, Vector3 } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objGraph } from "../objects";
 import { Image2D } from "../widgets/Image2D";
 import { TextMesh } from "../widgets/TextMesh";
 import { MenuItem } from "./MenuItem";
 
-const zero = new THREE.Vector3(0, 0, 0);
+const zero = new Vector3(0, 0, 0);
 const PAGE_SIZE = 5;
 
 export type MenuImagesCollection = {
@@ -50,7 +51,7 @@ export interface MenuDescription {
 
 type menuItemCallback<T extends MenuItemDescription> = (item: T) => void;
 
-export class Menu extends THREE.Object3D {
+export class Menu extends Object3D {
     private readonly logo: MenuItemDescription = null;
     private readonly backButton: MenuItemDescription;
     private readonly nextButton: MenuItemDescription;

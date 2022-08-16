@@ -1,4 +1,5 @@
-import { BaseEnvironment } from "../environment/BaseEnvironment";
+import { Vector3 } from "three";
+import { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { BaseCursor } from "./BaseCursor";
 
 export class CursorSystem extends BaseCursor {
@@ -16,7 +17,7 @@ export class CursorSystem extends BaseCursor {
         });
     }
 
-    get position(): THREE.Vector3 {
+    get position(): Vector3 {
         throw new Error("BaseCursor::get_Position(): Method not implemented.");
     }
 

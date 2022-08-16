@@ -1,3 +1,5 @@
-export function meshToInstancedMesh(count: number, mesh: THREE.Mesh) {
-    return new THREE.InstancedMesh(mesh.geometry, mesh.material, count);
+import { InstancedMesh, Mesh } from "three";
+
+export function meshToInstancedMesh(count: number, mesh: Mesh) {
+    return new InstancedMesh(mesh.geometry, mesh.material, count);
 }

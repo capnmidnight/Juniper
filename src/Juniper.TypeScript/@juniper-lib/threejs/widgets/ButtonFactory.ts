@@ -4,6 +4,7 @@ import { Img } from "@juniper-lib/dom/tags";
 import { AssetImage } from "@juniper-lib/fetcher";
 import { Image_Png } from "@juniper-lib/mediatypes";
 import { Exception, nextPowerOf2, PriorityMap } from "@juniper-lib/tslib";
+import { BufferGeometry, CanvasTexture, MeshBasicMaterial, PlaneBufferGeometry, Texture } from "three";
 
 interface UVRect {
     u: number;
@@ -14,13 +15,13 @@ interface UVRect {
 
 export class ButtonFactory {
     private readonly uvDescrips = new PriorityMap<string, string, UVRect>();
-    private readonly geoms = new PriorityMap<string, string, THREE.BufferGeometry>();
+    private readonly geoms = new PriorityMap<string, string, BufferGeometry>();
     private readonly ready: Promise<void>;
 
     private canvas: CanvasTypes = null;
-    private texture: THREE.Texture = null;
-    private enabledMaterial: THREE.MeshBasicMaterial = null;
-    private disabledMaterial: THREE.MeshBasicMaterial = null;
+    private texture: Texture = null;
+    private enabledMaterial: MeshBasicMaterial = null;
+    private disabledMaterial: MeshBasicMaterial = null;
 
     readonly assets: AssetImage[];
 
@@ -82,12 +83,12 @@ export class ButtonFactory {
             ++i;
         }
 
-        this.texture = new THREE.CanvasTexture(this.canvas as any);
-        this.enabledMaterial = new THREE.MeshBasicMaterial({
+        this.texture = new CanvasTexture(this.canvas as any);
+        this.enabledMaterial = new MeshBasicMaterial({
             map: this.texture,
         });
         this.enabledMaterial.needsUpdate = true;
-        this.disabledMaterial = new THREE.MeshBasicMaterial({
+        this.disabledMaterial = new MeshBasicMaterial({
             map: this.texture,
             transparent: true,
             opacity: 0.5
@@ -125,7 +126,7 @@ export class ButtonFactory {
 
         let geom = this.geoms.get(setName, iconName);
         if (!geom) {
-            geom = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
+            geom = new PlaneBufferGeometry(1, 1, 1, 1)
             geom.name = `Geometry:${setName}/${iconName}`;
 
             this.geoms.add(setName, iconName, geom);

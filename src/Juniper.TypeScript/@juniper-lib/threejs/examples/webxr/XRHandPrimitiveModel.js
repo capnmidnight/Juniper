@@ -1,7 +1,9 @@
-const _matrix = new THREE.Matrix4();
-const _vector = new THREE.Vector3();
-const _oculusBrowserV14CorrectionRight = new THREE.Matrix4().identity();
-const _oculusBrowserV14CorrectionLeft = new THREE.Matrix4().identity();
+import { BoxGeometry, CylinderGeometry, DynamicDrawUsage, InstancedMesh, Matrix4, MeshStandardMaterial, SphereGeometry, Vector3 } from "three";
+
+const _matrix = new Matrix4();
+const _vector = new Vector3();
+const _oculusBrowserV14CorrectionRight = new Matrix4().identity();
+const _oculusBrowserV14CorrectionLeft = new Matrix4().identity();
 
 if (/OculusBrowser\/14\./.test(navigator.userAgent)) {
     _oculusBrowserV14CorrectionRight.makeRotationY(Math.PI / 2);
@@ -22,22 +24,22 @@ class XRHandPrimitiveModel {
 
         if (!options || !options.primitive || options.primitive === 'sphere') {
 
-            geometry = new THREE.SphereGeometry(1, 10, 10);
+            geometry = new SphereGeometry(1, 10, 10);
 
         } else if (options.primitive === 'box') {
 
-            geometry = new THREE.BoxGeometry(1, 1, 1);
+            geometry = new BoxGeometry(1, 1, 1);
 
         } else if (options.primitive === 'bone') {
 
-            geometry = new THREE.CylinderGeometry(0.5, 0.75, 2.25, 10, 1).rotateX(-Math.PI / 2);
+            geometry = new CylinderGeometry(0.5, 0.75, 2.25, 10, 1).rotateX(-Math.PI / 2);
 
         }
 
-        const material = new THREE.MeshStandardMaterial();
+        const material = new MeshStandardMaterial();
 
-        this.handMesh = new THREE.InstancedMesh(geometry, material, 30);
-        this.handMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // will be updated every frame
+        this.handMesh = new InstancedMesh(geometry, material, 30);
+        this.handMesh.instanceMatrix.setUsage(DynamicDrawUsage); // will be updated every frame
         this.handMesh.castShadow = true;
         this.handMesh.receiveShadow = true;
         this.handModel.add(this.handMesh);

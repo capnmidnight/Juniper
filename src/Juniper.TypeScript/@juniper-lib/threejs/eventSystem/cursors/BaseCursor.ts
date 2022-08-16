@@ -1,15 +1,16 @@
-import { BaseEnvironment } from "../environment/BaseEnvironment";
-import type { ErsatzObject } from "../objects";
-import type { RayTarget } from "./RayTarget";
+import { Intersection, Object3D, Quaternion, Vector3 } from "three";
+import { BaseEnvironment } from "../../environment/BaseEnvironment";
+import type { ErsatzObject } from "../../objects";
+import type { RayTarget } from "../RayTarget";
 
 export abstract class BaseCursor implements ErsatzObject {
-    private _object: THREE.Object3D = null;
+    private _object: Object3D = null;
     private _visible: boolean = true;
     private _style: string = "default";
 
-    private readonly T = new THREE.Vector3();
-    private readonly V = new THREE.Vector3();
-    private readonly Q = new THREE.Quaternion();
+    private readonly T = new Vector3();
+    private readonly V = new Vector3();
+    private readonly Q = new Quaternion();
 
     private _side = -1;
 
@@ -49,19 +50,19 @@ export abstract class BaseCursor implements ErsatzObject {
 
     }
 
-    abstract get position(): THREE.Vector3;
+    abstract get position(): Vector3;
 
     update(
-        avatarHeadPos: THREE.Vector3,
-        comfortOffset: THREE.Vector3,
-        hit: THREE.Intersection,
+        avatarHeadPos: Vector3,
+        comfortOffset: Vector3,
+        hit: Intersection,
         target: RayTarget,
         defaultDistance: number,
         isLocal: boolean,
         canDragView: boolean,
         canTeleport: boolean,
-        origin: THREE.Vector3,
-        direction: THREE.Vector3,
+        origin: Vector3,
+        direction: Vector3,
         isPrimaryPressed: boolean) {
 
         if (hit && hit.face) {
@@ -127,6 +128,6 @@ export abstract class BaseCursor implements ErsatzObject {
                             : "default";
     }
 
-    lookAt(_p: THREE.Vector3, _v: THREE.Vector3) {
+    lookAt(_p: Vector3, _v: Vector3) {
     }
 }

@@ -1,3 +1,5 @@
+import { Matrix4 } from "three";
+
 export function printMatrixElements(pre: string, m: number[]) {
     const rows = Math.floor(Math.sqrt(m.length));
     const cols = m.length / rows;
@@ -16,6 +18,6 @@ export function printMatrixElements(pre: string, m: number[]) {
     console.log(s);
 }
 
-export function printMatrix(pre: string, m: THREE.Matrix4) {
+export function printMatrix(pre: string, m: Matrix4) {
     printMatrixElements(pre, m.elements);
 }

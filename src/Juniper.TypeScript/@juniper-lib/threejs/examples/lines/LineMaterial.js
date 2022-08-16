@@ -1,3 +1,5 @@
+import { UniformsLib, ShaderLib, ShaderMaterial, Vector2, UniformsUtils } from "three";
+
 /**
  * parameters = {
  *  color: <hex>,
@@ -7,16 +9,16 @@
  *  dashSize: <float>,
  *  dashOffset: <float>,
  *  gapSize: <float>,
- *  resolution: <THREE.Vector2>, // to be set by renderer
+ *  resolution: <Vector2>, // to be set by renderer
  * }
  */
 
 
-THREE.UniformsLib.line = {
+UniformsLib.line = {
 
     worldUnits: { value: 1 },
-    linewidth: { value: 1 },
-    resolution: { value: new THREE.Vector2(1, 1) },
+	linewidth: { value: 1 },
+	resolution: { value: new Vector2(1, 1) },
     dashOffset: { value: 0 },
     dashScale: { value: 1 },
     dashSize: { value: 1 },
@@ -24,12 +26,12 @@ THREE.UniformsLib.line = {
 
 };
 
-THREE.ShaderLib['line'] = {
+ShaderLib['line'] = {
 
-    uniforms: THREE.UniformsUtils.merge([
-        THREE.UniformsLib.common,
-        THREE.UniformsLib.fog,
-        THREE.UniformsLib.line
+	uniforms: UniformsUtils.merge([
+        UniformsLib.common,
+        UniformsLib.fog,
+        UniformsLib.line
     ]),
 
     vertexShader:
@@ -426,7 +428,7 @@ THREE.ShaderLib['line'] = {
 		`
 };
 
-class LineMaterial extends THREE.ShaderMaterial {
+class LineMaterial extends ShaderMaterial {
 
     constructor(parameters) {
 
@@ -434,10 +436,10 @@ class LineMaterial extends THREE.ShaderMaterial {
 
             type: 'LineMaterial',
 
-            uniforms: THREE.UniformsUtils.clone(THREE.ShaderLib['line'].uniforms),
+            uniforms: UniformsUtils.clone(ShaderLib['line'].uniforms),
 
-            vertexShader: THREE.ShaderLib['line'].vertexShader,
-            fragmentShader: THREE.ShaderLib['line'].fragmentShader,
+            vertexShader: ShaderLib['line'].vertexShader,
+            fragmentShader: ShaderLib['line'].fragmentShader,
 
             clipping: true // required for clipping support
 

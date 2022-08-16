@@ -1,5 +1,6 @@
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { IDisposable, singleton } from "@juniper-lib/tslib";
+import { Object3D, Vector3 } from "three";
 import { RayTarget } from "../eventSystem/RayTarget";
 import { objectResolve, Objects } from "../objects";
 import { isMesh } from "../typeChecks";
@@ -13,8 +14,8 @@ const end = 1.1;
 const timeScale = 0.005;
 
 class ScaleState implements IDisposable {
-    private readonly obj: THREE.Object3D;
-    private readonly base: THREE.Vector3;
+    private readonly obj: Object3D;
+    private readonly base: Vector3;
 
     private p: number;
     private dir: number;
@@ -85,7 +86,7 @@ export function updateScalings(dt: number) {
     }
 }
 
-export function removeScaledObj(obj: THREE.Object3D) {
+export function removeScaledObj(obj: Object3D) {
     const state = scaledItems.get(obj);
     if (state) {
         scaledItems.delete(obj);

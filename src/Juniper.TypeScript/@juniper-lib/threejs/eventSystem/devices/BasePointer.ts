@@ -1,24 +1,25 @@
-import { PointerEventTypes, SourcePointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
-import { VirtualButton } from "@juniper-lib/threejs/eventSystem/VirtualButton";
 import { arrayClear, PointerID, PointerType, TypedEventBase } from "@juniper-lib/tslib";
-import type { BaseEnvironment } from "../environment/BaseEnvironment";
-import { objGraph } from "../objects";
-import type { BaseCursor } from "./BaseCursor";
-import { CursorXRMouse } from "./CursorXRMouse";
-import { Pointer3DEvent, Pointer3DEvents } from "./Pointer3DEvent";
+import { Intersection, Vector3 } from "three";
+import type { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { objGraph } from "../../objects";
+import type { BaseCursor } from "../cursors/BaseCursor";
+import { CursorXRMouse } from "../cursors/CursorXRMouse";
+import { getRayTarget, RayTarget } from "../RayTarget";
 import type { IPointer } from "./IPointer";
-import { getRayTarget, RayTarget } from "./RayTarget";
+import { Pointer3DEvent, Pointer3DEvents } from "./Pointer3DEvent";
+import { PointerEventTypes, SourcePointerEventTypes } from "./PointerEventTypes";
+import { VirtualButton } from "./VirtualButton";
 
 const MAX_DRAG_DISTANCE = 5;
-const ZERO = new THREE.Vector3();
+const ZERO = new Vector3();
 
 export abstract class BasePointer
     extends TypedEventBase<Pointer3DEvents>
     implements IPointer {
 
-    readonly origin = new THREE.Vector3();
-    readonly direction = new THREE.Vector3();
-    readonly up = new THREE.Vector3(0, 1, 0);
+    readonly origin = new Vector3();
+    readonly direction = new Vector3();
+    readonly up = new Vector3(0, 1, 0);
 
     canMoveView = false;
     mayTeleport = false;
@@ -27,7 +28,7 @@ export abstract class BasePointer
     protected isActive = false;
     protected moveDistance = 0;
 
-    private readonly hits = new Array<THREE.Intersection>();
+    private readonly hits = new Array<Intersection>();
     private readonly pointerEvents = new Map<string, Pointer3DEvent>();
 
     private lastButtons = 0;
@@ -35,9 +36,9 @@ export abstract class BasePointer
     private dragDistance = 0;
     private _enabled = false;
     private _cursor: BaseCursor = null;
-    private _curHit: THREE.Intersection = null;
+    private _curHit: Intersection = null;
     private _curTarget: RayTarget = null;
-    private _hoveredHit: THREE.Intersection = null;
+    private _hoveredHit: Intersection = null;
     private _hoveredTarget: RayTarget = null;
 
     constructor(
@@ -183,12 +184,12 @@ export abstract class BasePointer
         return (this.lastButtons & mask) !== 0;
     }
 
-    protected fireRay(origin: THREE.Vector3, direction: THREE.Vector3): boolean {
+    protected fireRay(origin: Vector3, direction: Vector3): boolean {
         arrayClear(this.hits);
 
-        this.env.pointers.fireRay(origin, direction, this.hits);
+        this.env.eventSys.fireRay(origin, direction, this.hits);
 
-        let minHit: THREE.Intersection = null;
+        let minHit: Intersection = null;
         let minDist = Number.MAX_VALUE;
         for (const hit of this.hits) {
             const rayTarget = getRayTarget(hit);
@@ -325,7 +326,7 @@ export abstract class BasePointer
         return this.mayTeleport;
     }
 
-    protected updateCursor(avatarHeadPos: THREE.Vector3, comfortOffset: THREE.Vector3, isLocal: boolean, defaultDistance: number) {
+    protected updateCursor(avatarHeadPos: Vector3, comfortOffset: Vector3, isLocal: boolean, defaultDistance: number) {
         if (this.cursor) {
             this.cursor.update(
                 avatarHeadPos,

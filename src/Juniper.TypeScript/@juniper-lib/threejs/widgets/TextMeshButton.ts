@@ -1,6 +1,7 @@
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { TextImage } from "@juniper-lib/graphics2d/TextImage";
 import { isDefined, stringRandom } from "@juniper-lib/tslib";
+import { FrontSide } from "three";
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { RayTarget } from "../eventSystem/RayTarget";
@@ -54,7 +55,7 @@ export class TextMeshButton extends RayTarget {
             `text-${id}`,
             this.image,
             {
-                side: THREE.FrontSide,
+                side: FrontSide,
                 opacity
             });
 

@@ -2,14 +2,15 @@ import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper-lib/dom/
 import { createUtilityCanvas } from "@juniper-lib/dom/canvas";
 import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/CubeMapFaceIndex";
 import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib";
+import { Color, CubeCamera, CubeTexture, Euler, Quaternion, Scene, Vector3, WebGLCubeRenderTarget } from "three";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { XRTimerTickEvent } from "./environment/XRTimer";
 import { isEuler, isQuaternion } from "./typeChecks";
 
-type SkyboxRotation = THREE.Quaternion | THREE.Euler | number[] | number;
+type SkyboxRotation = Quaternion | Euler | number[] | number;
 
-const U = new THREE.Vector3(0, 1, 0);
+const U = new Vector3(0, 1, 0);
 const FACE_SIZE = 2048;
 const FACE_SIZE_HALF = FACE_SIZE / 2;
 const FACES = [1,
@@ -35,16 +36,16 @@ export const CUBEMAP_PATTERN = /*@__PURE__*/ {
     ]
 };
 
-const black = new THREE.Color(0x000000);
+const black = new Color(0x000000);
 
 export class Skybox {
 
-    private readonly rt = new THREE.WebGLCubeRenderTarget(FACE_SIZE);
-    private readonly rtScene = new THREE.Scene();
-    private readonly rtCamera = new THREE.CubeCamera(0.01, 10, this.rt);
-    private readonly _rotation = new THREE.Quaternion();
-    private readonly layerRotation = new THREE.Quaternion().identity();
-    private readonly stageRotation = new THREE.Quaternion().identity();
+    private readonly rt = new WebGLCubeRenderTarget(FACE_SIZE);
+    private readonly rtScene = new Scene();
+    private readonly rtCamera = new CubeCamera(0.01, 10, this.rt);
+    private readonly _rotation = new Quaternion();
+    private readonly layerRotation = new Quaternion().identity();
+    private readonly stageRotation = new Quaternion().identity();
     private readonly canvases = new Array<CanvasTypes>(6);
     private readonly contexts = new Array<Context2D>(6);
     private readonly flipped: CanvasTypes;
@@ -54,7 +55,7 @@ export class Skybox {
 
     private layerOrientation: DOMPointReadOnly = null;
     private images: CanvasImageTypes[] = null;
-    private cube: THREE.CubeTexture;
+    private cube: CubeTexture;
     private curImagePath: string = null;
     private layer: XRCubeLayer = null;
     private wasVisible = false;
@@ -154,7 +155,7 @@ export class Skybox {
 
                 this.images = images;
 
-                this.rtScene.background = this.cube = new THREE.CubeTexture(this.images);
+                this.rtScene.background = this.cube = new CubeTexture(this.images);
                 this.cube.name = "SkyboxInput";
             }
         }
@@ -167,7 +168,7 @@ export class Skybox {
         this.imageNeedsUpdate = true;
     }
 
-    get rotation(): THREE.Quaternion {
+    get rotation(): Quaternion {
         return this._rotation;
     }
 

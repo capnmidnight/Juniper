@@ -2,13 +2,14 @@ import { canvasToBlob, CanvasTypes, createUtilityCanvas } from "@juniper-lib/dom
 import { IFetcher } from "@juniper-lib/fetcher";
 import { Image_Jpeg } from "@juniper-lib/mediatypes";
 import { deg2rad, IDisposable, IProgress, progressOfArray } from "@juniper-lib/tslib";
+import { AmbientLight, DoubleSide, Euler, Group, MeshBasicMaterial, PerspectiveCamera, PlaneGeometry, Scene, Texture, WebGLRenderer } from "three";
 import { cleanup } from "./cleanup";
 import { mesh, objGraph } from "./objects";
 import { CUBEMAP_PATTERN } from "./Skybox";
 
 const QUAD_SIZE = 2;
 export const FACE_SIZE = /*@__PURE__*/ 1 << 11;
-const E = new THREE.Euler();
+const E = new Euler();
 
 export enum PhotosphereCaptureResolution {
     Low = 90,
@@ -38,11 +39,11 @@ export abstract class PhotosphereRig
     private baseURL: string = null;
 
     private readonly canvas: CanvasTypes;
-    private readonly renderer: THREE.WebGLRenderer;
-    private readonly camera: THREE.PerspectiveCamera;
-    private readonly photosphere: THREE.Group;
-    private readonly scene: THREE.Scene;
-    private readonly geometry: THREE.PlaneGeometry;
+    private readonly renderer: WebGLRenderer;
+    private readonly camera: PerspectiveCamera;
+    private readonly photosphere: Group;
+    private readonly scene: Scene;
+    private readonly geometry: PlaneGeometry;
 
     private isDebug = false;
     private disposed = false;
@@ -51,7 +52,7 @@ export abstract class PhotosphereRig
         private readonly fetcher: IFetcher,
         private readonly fixWatermarks: boolean) {
         this.canvas = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
-        this.renderer = new THREE.WebGLRenderer({
+        this.renderer = new WebGLRenderer({
             canvas: this.canvas,
             alpha: false,
             antialias: false,
@@ -64,14 +65,14 @@ export abstract class PhotosphereRig
             preserveDrawingBuffer: false
         });
 
-        this.camera = new THREE.PerspectiveCamera(90);
-        this.photosphere = new THREE.Group();
-        this.scene = objGraph(new THREE.Scene(),
-            new THREE.AmbientLight(0xffffff, 1),
+        this.camera = new PerspectiveCamera(90);
+        this.photosphere = new Group();
+        this.scene = objGraph(new Scene(),
+            new AmbientLight(0xffffff, 1),
             this.camera,
             this.photosphere
         );
-        this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
+        this.geometry = new PlaneGeometry(1, 1, 1, 1);
     }
 
     init(baseURL: string, isDebug: boolean): void {
@@ -181,10 +182,10 @@ export abstract class PhotosphereRig
             .useCache(!this.isDebug)
             .canvas();
 
-        const texture = new THREE.Texture(canvas as any);
-        const material = new THREE.MeshBasicMaterial({
+        const texture = new Texture(canvas as any);
+        const material = new MeshBasicMaterial({
             map: texture,
-            side: THREE.DoubleSide
+            side: DoubleSide
         });
         const frame = mesh(`frame-${fov}-${heading}-${pitch}`, this.geometry, material);
         texture.needsUpdate = true;

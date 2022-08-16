@@ -1,4 +1,3 @@
-import { VirtualButton } from "@juniper-lib/threejs/eventSystem/VirtualButton";
 import {
     isChrome,
     isDefined,
@@ -8,18 +7,20 @@ import {
     PointerID
 } from "@juniper-lib/tslib";
 import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/EventedGamepad";
-import type { BaseEnvironment } from "../environment/BaseEnvironment";
-import { XRControllerModelFactory } from "../examples/webxr/XRControllerModelFactory";
-import { XRHandModelFactory } from "../examples/webxr/XRHandModelFactory";
-import { white } from "../materials";
-import { ErsatzObject, obj, objGraph } from "../objects";
+import { Event, Matrix4, Object3D, Quaternion, Vector3, XRGripSpace, XRHandSpace, XRTargetRaySpace } from "three";
+import type { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { XRControllerModelFactory } from "../../examples/webxr/XRControllerModelFactory";
+import { XRHandModelFactory } from "../../examples/webxr/XRHandModelFactory";
+import { white } from "../../materials";
+import { ErsatzObject, obj, objGraph } from "../../objects";
+import { CursorColor } from "../cursors/CursorColor";
+import { Laser } from "../Laser";
 import { BasePointer } from "./BasePointer";
-import { CursorColor } from "./CursorColor";
-import { Laser } from "./Laser";
+import { VirtualButton } from "./VirtualButton";
 
 const mcModelFactory = new XRControllerModelFactory();
 const handModelFactory = new XRHandModelFactory();
-const riftSCorrection = new THREE.Matrix4().makeRotationX(-7 * Math.PI / 9);
+const riftSCorrection = new Matrix4().makeRotationX(-7 * Math.PI / 9);
 
 const pointerIDs = new Map<XRHandedness, PointerID>([
     ["none", PointerID.MotionController],
@@ -43,9 +44,9 @@ const questToVirtualMap = new Map<OculusQuestButton, VirtualButton>([
 ]);
 
 type XRControllerConnectionEventTypes = "connected" | "disconnected";
-type XRControllerConnectionEvent<T extends XRControllerConnectionEventTypes> = THREE.Event & {
+type XRControllerConnectionEvent<T extends XRControllerConnectionEventTypes> = Event & {
     type: T,
-    target: THREE.XRTargetRaySpace,
+    target: XRTargetRaySpace,
     data?: XRInputSource
 };
 
@@ -53,21 +54,21 @@ export class PointerHand
     extends BasePointer
     implements ErsatzObject {
     private readonly laser = new Laser(white, 0.002);
-    readonly object: THREE.Object3D;
+    readonly object: Object3D;
 
     private _isHand = false;
     private inputSource: XRInputSource = null;
 
     private readonly _gamepad = new EventedGamepad();
 
-    private readonly controller: THREE.XRTargetRaySpace;
-    private readonly grip: THREE.XRGripSpace;
-    private readonly hand: THREE.XRHandSpace;
+    private readonly controller: XRTargetRaySpace;
+    private readonly grip: XRGripSpace;
+    private readonly hand: XRHandSpace;
 
-    private readonly delta = new THREE.Vector3();
-    private readonly newOrigin = new THREE.Vector3();
-    private readonly quaternion = new THREE.Quaternion();
-    private readonly newQuat = new THREE.Quaternion();
+    private readonly delta = new Vector3();
+    private readonly newOrigin = new Vector3();
+    private readonly quaternion = new Quaternion();
+    private readonly newQuat = new Quaternion();
 
     constructor(env: BaseEnvironment, index: number) {
         super("hand", PointerID.MotionController, env, new CursorColor(env));
@@ -140,7 +141,7 @@ export class PointerHand
 
                 this.enabled = true;
                 this.isActive = true;
-                this.env.pointers.checkXRMouse();
+                this.env.eventSys.checkXRMouse();
                 this.updateCursorSide();
                 console.log(this.handedness, "connected");
             }
@@ -159,7 +160,7 @@ export class PointerHand
 
                 this.enabled = false;
                 this.isActive = false;
-                this.env.pointers.checkXRMouse();
+                this.env.eventSys.checkXRMouse();
                 this.updateCursorSide();
                 console.log(this.handedness, "disconnected");
             }

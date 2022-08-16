@@ -1,6 +1,7 @@
 import { isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import type { CanvasImage } from "@juniper-lib/graphics2d/CanvasImage";
+import { MeshBasicMaterialParameters } from "three";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objectSetVisible } from "../objects";
 import { Image2D, WebXRLayerType } from "./Image2D";
@@ -27,7 +28,7 @@ export class CanvasImageMesh<T extends CanvasImage>
         }
     }
 
-    constructor(env: BaseEnvironment, name: string, webXRLayerType: WebXRLayerType, image: T, materialOptions?: THREE.MeshBasicMaterialParameters) {
+    constructor(env: BaseEnvironment, name: string, webXRLayerType: WebXRLayerType, image: T, materialOptions?: MeshBasicMaterialParameters) {
         super(env, name, webXRLayerType, materialOptions);
         this.image = image;
     }

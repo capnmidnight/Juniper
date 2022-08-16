@@ -1,13 +1,14 @@
 import { stringRandom } from "@juniper-lib/tslib";
+import { BufferGeometry, Material, Mesh } from "three";
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { RayTarget } from "../eventSystem/RayTarget";
 import { mesh, obj, objGraph } from "../objects";
 
 export class MeshButton extends RayTarget {
-    protected readonly enabledMesh: THREE.Mesh;
-    protected readonly disabledMesh: THREE.Mesh;
+    protected readonly enabledMesh: Mesh;
+    protected readonly disabledMesh: Mesh;
 
-    constructor(name: string, geometry: THREE.BufferGeometry, enabledMaterial: THREE.Material, disabledMaterial: THREE.Material, size: number) {
+    constructor(name: string, geometry: BufferGeometry, enabledMaterial: Material, disabledMaterial: Material, size: number) {
         name = name + stringRandom(16);
         super(obj(name));
 

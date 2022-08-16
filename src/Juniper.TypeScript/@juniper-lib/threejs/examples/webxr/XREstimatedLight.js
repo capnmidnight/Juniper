@@ -1,3 +1,5 @@
+import { DirectionalLight, Group, LightProbe, WebGLCubeRenderTarget } from "three";
+
 class SessionLightProbe {
 
     constructor(xrLight, renderer, lightProbe, environmentEstimation, estimationStartCallback) {
@@ -16,7 +18,7 @@ class SessionLightProbe {
         if (environmentEstimation && 'XRWebGLBinding' in window) {
 
             // This is the simplest way I know of to initialize a WebGL cubemap in Three.
-            const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(16);
+            const cubeRenderTarget = new WebGLCubeRenderTarget(16);
             xrLight.environment = cubeRenderTarget.texture;
 
             const gl = renderer.getContext();
@@ -126,17 +128,17 @@ class SessionLightProbe {
 
 }
 
-export class XREstimatedLight extends THREE.Group {
+export class XREstimatedLight extends Group {
 
     constructor(renderer, environmentEstimation = true) {
 
         super();
 
-        this.lightProbe = new THREE.LightProbe();
+        this.lightProbe = new LightProbe();
         this.lightProbe.intensity = 0;
         this.add(this.lightProbe);
 
-        this.directionalLight = new THREE.DirectionalLight();
+        this.directionalLight = new DirectionalLight();
         this.directionalLight.intensity = 0;
         this.add(this.directionalLight);
 

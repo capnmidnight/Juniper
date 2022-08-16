@@ -1,11 +1,12 @@
-import type { PointerEventTypes } from "@juniper-lib/threejs/eventSystem/PointerEventTypes";
 import { TypedEvent } from "@juniper-lib/tslib";
+import { Intersection, Vector3 } from "three";
+import type { RayTarget } from "../RayTarget";
 import type { IPointer } from "./IPointer";
-import type { RayTarget } from "./RayTarget";
+import type { PointerEventTypes } from "./PointerEventTypes";
 
 export class Pointer3DEvent<T extends PointerEventTypes = PointerEventTypes> extends TypedEvent<T> {
-    private _hit: THREE.Intersection = null;
-    private _point: THREE.Vector3 = null;
+    private _hit: Intersection = null;
+    private _point: Vector3 = null;
     private _distance: number = Number.POSITIVE_INFINITY;
     private _rayTarget: RayTarget = null;
 
@@ -16,7 +17,7 @@ export class Pointer3DEvent<T extends PointerEventTypes = PointerEventTypes> ext
         Object.seal(this);
     }
 
-    set(v: THREE.Intersection, t: RayTarget) {
+    set(v: Intersection, t: RayTarget) {
         if (v !== this.hit) {
             this._hit = v;
 
@@ -33,7 +34,7 @@ export class Pointer3DEvent<T extends PointerEventTypes = PointerEventTypes> ext
         this._rayTarget = t;
     }
 
-    get hit(): THREE.Intersection {
+    get hit(): Intersection {
         return this._hit;
     }
 
@@ -41,7 +42,7 @@ export class Pointer3DEvent<T extends PointerEventTypes = PointerEventTypes> ext
         return this._rayTarget;
     }
 
-    get point(): THREE.Vector3 {
+    get point(): Vector3 {
         return this._point;
     }
 

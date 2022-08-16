@@ -1,4 +1,6 @@
-export function isVisible(obj: THREE.Object3D) {
+import { Object3D } from "three";
+
+export function isVisible(obj: Object3D) {
     while (obj != null) {
         if (!obj.visible) {
             return false;

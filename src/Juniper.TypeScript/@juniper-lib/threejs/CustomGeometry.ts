@@ -1,3 +1,5 @@
+import { BufferAttribute, BufferGeometry, Vector3 } from "three";
+
 type UV = [number, number];
 type Pos = [number, number, number];
 export type PosUV = [number, number, number, number, number];
@@ -36,9 +38,9 @@ function normalizeQuads(quads: QuadPosUV[]): ITrianglePosUVNormal[] {
     return quads.map(normalizeQuad).flat();
 }
 
-const A = new THREE.Vector3();
-const B = new THREE.Vector3();
-const C = new THREE.Vector3();
+const A = new Vector3();
+const B = new Vector3();
+const C = new Vector3();
 
 function normalizeTriangle(tria: TrianglePosUV): ITrianglePosUVNormal {
     const positions: [Pos, Pos, Pos] = [
@@ -70,11 +72,11 @@ function createGeometry(nFaces: ITrianglePosUVNormal[]) {
     const positions = nFaces.map((f) => f.positions).flat(2);
     const uvs = nFaces.map((f) => f.uvs).flat(2);
     const normals = nFaces.flatMap((f) => f.normal);
-    const geom = new THREE.BufferGeometry();
+    const geom = new BufferGeometry();
 
-    geom.setAttribute("position", new THREE.BufferAttribute(new Float32Array(positions), 3, false));
-    geom.setAttribute("uv", new THREE.BufferAttribute(new Float32Array(uvs), 2, false));
-    geom.setAttribute("normal", new THREE.BufferAttribute(new Float32Array(normals), 3, true));
+    geom.setAttribute("position", new BufferAttribute(new Float32Array(positions), 3, false));
+    geom.setAttribute("uv", new BufferAttribute(new Float32Array(uvs), 2, false));
+    geom.setAttribute("normal", new BufferAttribute(new Float32Array(normals), 3, true));
 
     return geom;
 }

@@ -1,9 +1,10 @@
 import { isDisableable } from "@juniper-lib/dom/tags";
 import { isDefined } from "@juniper-lib/tslib";
+import { BufferGeometry, Material, Mesh, Object3D, Vector3 } from "three";
 import { isObject3D } from "./typeChecks";
 
 export interface ErsatzObject {
-    object: THREE.Object3D;
+    object: Object3D;
 }
 
 export function isErsatzObject(obj: any): obj is ErsatzObject {
@@ -11,14 +12,14 @@ export function isErsatzObject(obj: any): obj is ErsatzObject {
         && isObject3D(obj.object);
 }
 
-export type Objects = THREE.Object3D | ErsatzObject;
+export type Objects = Object3D | ErsatzObject;
 
 export function isObjects(obj: any): obj is Objects {
     return isErsatzObject(obj)
         || isObject3D(obj);
 }
 
-export function objectResolve(obj: Objects): THREE.Object3D {
+export function objectResolve(obj: Objects): Object3D {
     if (isErsatzObject(obj)) {
         return obj.object;
     }
@@ -75,8 +76,8 @@ export function objectRemove(obj: Objects, ...children: Objects[]): void {
     }
 }
 
-export function obj(name: string, ...rest: Objects[]): THREE.Object3D {
-    const obj = new THREE.Object3D();
+export function obj(name: string, ...rest: Objects[]): Object3D {
+    const obj = new Object3D();
     obj.name = name;
     objGraph(obj, ...rest);
     return obj;
@@ -94,7 +95,7 @@ export function objectSetEnabled(obj: Objects, enabled: boolean) {
     }
 }
 
-export function objectSetWorldPosition(obj: Objects, pos: THREE.Vector3) {
+export function objectSetWorldPosition(obj: Objects, pos: Vector3) {
     obj = objectResolve(obj);
     const parent = obj.parent;
     obj.removeFromParent();
@@ -105,10 +106,10 @@ export function objectSetWorldPosition(obj: Objects, pos: THREE.Vector3) {
 }
 
 export function mesh<
-    TGeometry extends THREE.BufferGeometry = THREE.BufferGeometry,
-    TMaterial extends THREE.Material | THREE.Material[] = THREE.Material | THREE.Material[]
->(name: string, geom?: TGeometry, mat?: TMaterial): THREE.Mesh<TGeometry, TMaterial> {
-    const mesh = new THREE.Mesh(geom, mat);
+    TGeometry extends BufferGeometry = BufferGeometry,
+    TMaterial extends Material | Material[] = Material | Material[]
+>(name: string, geom?: TGeometry, mat?: TMaterial): Mesh<TGeometry, TMaterial> {
+    const mesh = new Mesh(geom, mat);
     mesh.name = name;
     return mesh;
 }

@@ -1,5 +1,7 @@
-import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
+import { globalExternals, ModuleInfo } from "@fal-works/esbuild-plugin-global-externals";
 import { build as esbuild, Plugin } from "esbuild";
+import * as fs from "fs";
+
 
 type Define = [string, string];
 type DefineFactory = (minify: boolean) => Define;
@@ -20,7 +22,7 @@ export class Build {
     private readonly plugins = new Array<PluginFactory>();
     private readonly defines = new Array<DefineFactory>();
     private readonly externals = new Array<string>();
-    private readonly globalExternals = new Array<[string, string]>();
+    private readonly globalExternals: Record<string, ModuleInfo> = {};
 
     private readonly isWatch: boolean;
 
@@ -72,8 +74,24 @@ export class Build {
         return this;
     }
 
-    globalExternal(packageName: string, globalName: string) {
-        this.globalExternals.push([packageName, globalName]);
+    globalExternal(packageName: string, info: ModuleInfo) {
+        this.globalExternals[packageName] = info;
+        return this;
+    }
+
+    addThreeJS() {
+        const threeJS = fs.readFileSync("node_modules/three/build/three.module.js", { encoding: "utf8" });
+        const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
+        const namedExports = match[1]
+            .replace(/\b\w+\s+as\s+/g, "")
+            .split(',')
+            .map(v => v.trim());
+
+        this.globalExternal("three", {
+            varName: "THREE",
+            namedExports,
+            defaultExport: false
+        });
         return this;
     }
 
@@ -122,12 +140,9 @@ export class Build {
         }
 
         const plugins = this.plugins.map((p) => p(isRelease));
-        if (this.globalExternals.length > 0) {
-            const config: Record<string, string> = {};
-            for (const [packageName, globalName] of this.globalExternals) {
-                config[packageName] = globalName;
-            }
-            plugins.unshift(globalExternals(config));
+
+        if (Object.keys(this.globalExternals).length > 0) {
+            plugins.unshift(globalExternals(this.globalExternals));
         }
 
         return esbuild({

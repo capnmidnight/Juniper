@@ -1,8 +1,9 @@
 import { BaseGraphDialog } from "@juniper-lib/graphics2d/BaseGraphDialog";
 import { GraphNode, isDefined } from "@juniper-lib/tslib";
+import { Object3D } from "three";
 import type { BaseEnvironment } from "./BaseEnvironment";
 
-export class SceneGraphDialog extends BaseGraphDialog<THREE.Object3D> {
+export class SceneGraphDialog extends BaseGraphDialog<Object3D> {
     constructor(private readonly env: BaseEnvironment<unknown>) {
         super("Scene graph", (obj) => obj.name);
 
@@ -14,7 +15,7 @@ export class SceneGraphDialog extends BaseGraphDialog<THREE.Object3D> {
     }
 
     override onShown() {
-        const nodes = new Map<THREE.Object3D, GraphNode<THREE.Object3D>>();
+        const nodes = new Map<Object3D, GraphNode<Object3D>>();
 
         this.env.scene.traverse((obj) => {
             nodes.set(obj, new GraphNode(obj));

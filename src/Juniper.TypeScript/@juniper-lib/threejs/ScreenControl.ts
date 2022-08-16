@@ -1,6 +1,7 @@
 import { hasFullscreenAPI } from "@juniper-lib/dom/fullscreen";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { hasVR, hasWebVR, hasWebXR, isDefined, isMobileVR, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { PerspectiveCamera, WebGLRenderer } from "three";
 import WebXRPolyfill from "webxr-polyfill/src/WebXRPolyfill";
 import { ScreenMode } from "./ScreenMode";
 import type { ScreenUI } from "./ScreenUI";
@@ -64,8 +65,8 @@ export class ScreenControl
     private readonly wasVisible = new Map<ScreenModeToggleButton, boolean>();
 
     constructor(
-        private readonly renderer: THREE.WebGLRenderer,
-        private readonly camera: THREE.PerspectiveCamera,
+        private readonly renderer: WebGLRenderer,
+        private readonly camera: PerspectiveCamera,
         private readonly fullscreenElement: HTMLElement,
         private readonly enableFullResolution: boolean) {
         super();

@@ -1,11 +1,12 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
 import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isGoodNumber, isMobile, isMobileVR, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";
+import { Euler, Matrix4, Object3D, Quaternion, Vector2, Vector3 } from "three";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading, getLookPitch } from "./animation/lookAngles";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
-import { IPointer } from "./eventSystem/IPointer";
-import { VirtualButton } from "./eventSystem/VirtualButton";
+import { IPointer } from "./eventSystem/devices/IPointer";
+import { VirtualButton } from "./eventSystem/devices/VirtualButton";
 import type { Fader } from "./Fader";
 import { ErsatzObject, obj } from "./objects";
 import { resolveCamera } from "./resolveCamera";
@@ -56,28 +57,28 @@ export class AvatarLocal
         [CameraControlMode.Gamepad, 1]
     ]);
 
-    private readonly B = new THREE.Vector3(0, 0, 1);
-    private readonly R = new THREE.Vector3();
-    private readonly F = new THREE.Vector3();
-    private readonly U = new THREE.Vector3();
-    private readonly P = new THREE.Vector3();
-    private readonly M = new THREE.Matrix4();
-    private readonly E = new THREE.Euler();
-    private readonly Q1 = new THREE.Quaternion();
-    private readonly Q2 = new THREE.Quaternion();
-    private readonly Q3 = new THREE.Quaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
-    private readonly Q4 = new THREE.Quaternion();
-    private readonly motion = new THREE.Vector2();
-    private readonly rotStage = new THREE.Matrix4();
+    private readonly B = new Vector3(0, 0, 1);
+    private readonly R = new Vector3();
+    private readonly F = new Vector3();
+    private readonly U = new Vector3();
+    private readonly P = new Vector3();
+    private readonly M = new Matrix4();
+    private readonly E = new Euler();
+    private readonly Q1 = new Quaternion();
+    private readonly Q2 = new Quaternion();
+    private readonly Q3 = new Quaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
+    private readonly Q4 = new Quaternion();
+    private readonly motion = new Vector2();
+    private readonly rotStage = new Matrix4();
     private readonly userMovedEvt = new AvatarMovedEvent();
-    private readonly acceleration = new THREE.Vector2(2, 2);
-    private readonly speed = new THREE.Vector2(3, 2);
-    private readonly axisControl = new THREE.Vector2(0, 0);
-    private readonly deviceQ = new THREE.Quaternion().identity();
-    private readonly uv = new THREE.Vector2();
-    private readonly duv = new THREE.Vector2();
-    private readonly move = new THREE.Vector3();
-    private readonly move2 = new THREE.Vector3();
+    private readonly acceleration = new Vector2(2, 2);
+    private readonly speed = new Vector2(3, 2);
+    private readonly axisControl = new Vector2(0, 0);
+    private readonly deviceQ = new Quaternion().identity();
+    private readonly uv = new Vector2();
+    private readonly duv = new Vector2();
+    private readonly move = new Vector3();
+    private readonly move2 = new Vector3();
     private readonly followers = new Array<BodyFollower>();
     private readonly onKeyDown: (evt: any) => void;
     private readonly onKeyUp: (evt: any) => void;
@@ -110,10 +111,10 @@ export class AvatarLocal
     private _invertHorizontal: boolean;
     private _invertVertical: boolean;
 
-    readonly head: THREE.Object3D;
+    readonly head: Object3D;
 
-    readonly worldPos = new THREE.Vector3();
-    readonly worldQuat = new THREE.Quaternion()
+    readonly worldPos = new Vector3();
+    readonly worldQuat = new Quaternion()
 
     fovZoomEnabled = true;
     minFOV = 15;
@@ -255,7 +256,7 @@ export class AvatarLocal
         this.followers.push(follower);
     }
 
-    onMove(pointer: IPointer, uv: THREE.Vector2, duv: THREE.Vector2) {
+    onMove(pointer: IPointer, uv: Vector2, duv: Vector2) {
         this.setMode(pointer);
         if (pointer.canMoveView
             && this.controlMode !== CameraControlMode.None
@@ -277,7 +278,7 @@ export class AvatarLocal
         }
         else if (pointer.rayTarget
             && pointer.rayTarget.draggable
-            && !this.env.pointers.mouse.isPointerLocked
+            && !this.env.eventSys.mouse.isPointerLocked
             && pointer.isPressed(VirtualButton.Primary)) {
             this.controlMode = CameraControlMode.ScreenEdge;
         }
@@ -285,7 +286,7 @@ export class AvatarLocal
             this.controlMode = CameraControlMode.Touch;
         }
         else if (pointer.type === "mouse") {
-            this.controlMode = this.env.pointers.mouse.isPointerLocked
+            this.controlMode = this.env.eventSys.mouse.isPointerLocked
                 ? CameraControlMode.MouseFPS
                 : CameraControlMode.MouseDrag;
         }

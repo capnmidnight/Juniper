@@ -1,13 +1,14 @@
 import { deg2rad } from "@juniper-lib/tslib";
+import { Object3D, Quaternion, Vector3 } from "three";
 import { getLookHeading } from "./lookAngles";
 
-const targetPos = new THREE.Vector3();
+const targetPos = new Vector3();
 let targetAngle = 0;
-const dPos = new THREE.Vector3();
+const dPos = new Vector3();
 
-const curPos = new THREE.Vector3();
-const curDir = new THREE.Vector3();
-const dQuat = new THREE.Quaternion();
+const curPos = new Vector3();
+const curDir = new Vector3();
+const dQuat = new Quaternion();
 let curAngle = 0;
 let copyCounter = 0;
 
@@ -29,7 +30,7 @@ function minRotAngle(to: number, from: number) {
     }
 }
 
-export class BodyFollower extends THREE.Object3D {
+export class BodyFollower extends Object3D {
     private lerp: boolean;
     private maxDistance: number;
     private minAngle: number;
@@ -63,19 +64,19 @@ export class BodyFollower extends THREE.Object3D {
         return this;
     }
 
-    update(height: number, position: THREE.Vector3, angle: number, dt: number) {
+    update(height: number, position: Vector3, angle: number, dt: number) {
         dt *= 0.001;
         this.clampTo(this.lerp, height, position, this.minDistance, this.maxDistance, angle, this.minAngle, this.maxAngle, dt);
     }
 
-    reset(height: number, position: THREE.Vector3, angle: number) {
+    reset(height: number, position: Vector3, angle: number) {
         this.clampTo(false, height, position, 0, 0, angle, 0, 0, 0);
     }
 
     private clampTo(
         lerp: boolean,
         height: number,
-        position: THREE.Vector3,
+        position: Vector3,
         minDistance: number,
         maxDistance: number,
         angle: number,

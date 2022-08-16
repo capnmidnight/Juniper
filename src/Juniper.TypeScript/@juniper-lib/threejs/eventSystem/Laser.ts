@@ -1,3 +1,4 @@
+import { Object3D } from "three";
 import { Line2 } from "../examples/lines/Line2";
 import { LineGeometry } from "../examples/lines/LineGeometry";
 import { line2 } from "../materials";
@@ -9,7 +10,7 @@ geom.setPositions([
     0, 0, -1
 ]);
 
-export class Laser extends THREE.Object3D {
+export class Laser extends Object3D {
     line: Line2;
     private _length = 1;
 

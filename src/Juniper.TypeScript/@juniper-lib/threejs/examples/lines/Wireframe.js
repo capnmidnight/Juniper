@@ -1,10 +1,11 @@
 import { LineSegmentsGeometry } from './LineSegmentsGeometry';
 import { LineMaterial } from './LineMaterial';
+import { InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, Vector3 } from 'three';
 
-const _start = new THREE.Vector3();
-const _end = new THREE.Vector3();
+const _start = new Vector3();
+const _end = new Vector3();
 
-class Wireframe extends THREE.Mesh {
+class Wireframe extends Mesh {
 
 	constructor( geometry = new LineSegmentsGeometry(), material = new LineMaterial( { color: Math.random() * 0xffffff } ) ) {
 
@@ -34,10 +35,10 @@ class Wireframe extends THREE.Mesh {
 
 		}
 
-		const instanceDistanceBuffer = new THREE.InstancedInterleavedBuffer( lineDistances, 2, 1 ); // d0, d1
+		const instanceDistanceBuffer = new InstancedInterleavedBuffer(lineDistances, 2, 1); // d0, d1
 
-		geometry.setAttribute( 'instanceDistanceStart', new THREE.InterleavedBufferAttribute( instanceDistanceBuffer, 1, 0 ) ); // d0
-		geometry.setAttribute( 'instanceDistanceEnd', new THREE.InterleavedBufferAttribute( instanceDistanceBuffer, 1, 1 ) ); // d1
+		geometry.setAttribute('instanceDistanceStart', new InterleavedBufferAttribute(instanceDistanceBuffer, 1, 0)); // d0
+		geometry.setAttribute( 'instanceDistanceEnd', new InterleavedBufferAttribute( instanceDistanceBuffer, 1, 1 ) ); // d1
 
 		return this;
 

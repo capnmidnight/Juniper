@@ -3,6 +3,7 @@ import { MediaElementSourceEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer } from "@juniper-lib/audio/sources/IPlayer";
 import { keycapDigits } from "@juniper-lib/emoji/numbers";
 import { AsyncCallback, BaseProgress, IDisposable, isDefined, TypedEvent } from "@juniper-lib/tslib";
+import { Object3D } from "three";
 import { cleanup } from "../cleanup";
 import { Cube } from "../Cube";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
@@ -29,10 +30,10 @@ export class PlaybackButton<T extends FullAudioRecord>
     extends BaseProgress<PlaybackButtonEvents>
     implements ErsatzObject, IDisposable {
 
-    readonly object: THREE.Object3D;
+    readonly object: Object3D;
 
     private readonly textLabel: TextMesh;
-    private readonly progressBar: THREE.Object3D;
+    private readonly progressBar: Object3D;
     private playButton: MeshButton = null;
     private pauseButton: MeshButton = null;
     private stopButton: MeshButton = null;

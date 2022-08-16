@@ -14,7 +14,7 @@ export class SleepTask extends Task {
         this._timer = setTimeout(() => {
             this._timer = null;
             this.resolve();
-        }, this.milliseconds);
+        }, this.milliseconds) as unknown as number;
     }
 
     override reset(): void {

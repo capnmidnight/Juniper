@@ -1,6 +1,7 @@
 import { title } from "@juniper-lib/dom/attrs";
 import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
+import { Object3D } from "three";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { obj, objectSetVisible } from "../objects";
 import { TextMeshButton } from "./TextMeshButton";
@@ -10,7 +11,7 @@ import type { Widget } from "./widgets";
 export class ButtonTextWidget implements Widget, EventTarget {
 
     readonly element: HTMLButtonElement;
-    readonly object: THREE.Object3D;
+    readonly object: Object3D;
     readonly mesh: TextMeshButton;
 
     constructor(protected readonly env: BaseEnvironment, name: string, text: string, textButtonStyle: Partial<TextImageOptions>) {

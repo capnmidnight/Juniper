@@ -1,5 +1,6 @@
 import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
 import { build as esbuild } from "esbuild";
+import * as fs from "fs";
 function normalizeDirName(dirName) {
     if (!dirName.endsWith('/')) {
         dirName += '/';
@@ -14,7 +15,7 @@ export class Build {
         this.plugins = new Array();
         this.defines = new Array();
         this.externals = new Array();
-        this.globalExternals = new Array();
+        this.globalExternals = {};
         this.entryNames = "[dir]/[name]";
         this.outbase = "src";
         this.rootDirName = "src/";
@@ -52,8 +53,22 @@ export class Build {
         this.externals.push(extern);
         return this;
     }
-    globalExternal(packageName, globalName) {
-        this.globalExternals.push([packageName, globalName]);
+    globalExternal(packageName, info) {
+        this.globalExternals[packageName] = info;
+        return this;
+    }
+    addThreeJS() {
+        const threeJS = fs.readFileSync("node_modules/three/build/three.module.js", { encoding: "utf8" });
+        const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
+        const namedExports = match[1]
+            .replace(/\b\w+\s+as\s+/g, "")
+            .split(',')
+            .map(v => v.trim());
+        this.globalExternal("three", {
+            varName: "THREE",
+            namedExports,
+            defaultExport: false
+        });
         return this;
     }
     bundle(name) {
@@ -94,12 +109,8 @@ export class Build {
             define[key] = value;
         }
         const plugins = this.plugins.map((p) => p(isRelease));
-        if (this.globalExternals.length > 0) {
-            const config = {};
-            for (const [packageName, globalName] of this.globalExternals) {
-                config[packageName] = globalName;
-            }
-            plugins.unshift(globalExternals(config));
+        if (Object.keys(this.globalExternals).length > 0) {
+            plugins.unshift(globalExternals(this.globalExternals));
         }
         return esbuild({
             platform: "browser",

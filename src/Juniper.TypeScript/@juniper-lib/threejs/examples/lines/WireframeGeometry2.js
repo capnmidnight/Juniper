@@ -1,3 +1,4 @@
+import { WireframeGeometry } from 'three';
 import { LineSegmentsGeometry } from './LineSegmentsGeometry';
 
 class WireframeGeometry2 extends LineSegmentsGeometry {
@@ -8,7 +9,7 @@ class WireframeGeometry2 extends LineSegmentsGeometry {
 
 		this.type = 'WireframeGeometry2';
 
-		this.fromWireframeGeometry( new THREE.WireframeGeometry( geometry ) );
+		this.fromWireframeGeometry(new WireframeGeometry(geometry));
 
 		// set colors, maybe
 

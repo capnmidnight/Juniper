@@ -1,14 +1,15 @@
 import { isArray } from "@juniper-lib/tslib";
-import { Cube } from "../Cube";
-import { BaseEnvironment } from "../environment/BaseEnvironment";
-import { solid } from "../materials";
-import { objectIsVisible, objectSetVisible } from "../objects";
-import { isMesh } from "../typeChecks";
+import { Color, MeshBasicMaterial } from "three";
+import { Cube } from "../../Cube";
+import { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { solid } from "../../materials";
+import { objectIsVisible, objectSetVisible } from "../../objects";
+import { isMesh } from "../../typeChecks";
 import { BaseCursor } from "./BaseCursor";
 
 export class CursorColor extends BaseCursor {
     private _currentStyle: string;
-    private material: THREE.MeshBasicMaterial;
+    private material: MeshBasicMaterial;
 
     constructor(env: BaseEnvironment) {
         super(env);
@@ -33,28 +34,28 @@ export class CursorColor extends BaseCursor {
             && !isArray(this.object.material)) {
             switch (this._currentStyle) {
                 case "pointer":
-                    this.material.color = new THREE.Color(0x00ff00);
+                    this.material.color = new Color(0x00ff00);
                     this.material.needsUpdate = true;
                     break;
                 case "not-allowed":
-                    this.material.color = new THREE.Color(0xff0000);
+                    this.material.color = new Color(0xff0000);
                     this.material.needsUpdate = true;
                     break;
                 case "move":
-                    this.material.color = new THREE.Color(0x0000ff);
+                    this.material.color = new Color(0x0000ff);
                     this.material.needsUpdate = true;
                     break;
                 case "grab":
-                    this.material.color = new THREE.Color(0xff00ff);
+                    this.material.color = new Color(0xff00ff);
                     this.material.needsUpdate = true;
                     break;
                 case "grabbing":
-                    this.material.color = new THREE.Color(0x00ffff);
+                    this.material.color = new Color(0x00ffff);
                     this.material.needsUpdate = true;
                     break;
                 default:
                     this._currentStyle = "default";
-                    this.material.color = new THREE.Color(0xffff00);
+                    this.material.color = new Color(0xffff00);
                     this.material.needsUpdate = true;
                     break;
             }

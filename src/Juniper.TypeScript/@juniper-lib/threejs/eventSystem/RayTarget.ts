@@ -1,6 +1,7 @@
 import { TypedEventBase } from "@juniper-lib/tslib";
+import { Mesh, Object3D } from "three";
 import { ErsatzObject, objectIsFullyVisible, objectResolve, Objects } from "../objects";
-import { Pointer3DEvents } from "./Pointer3DEvent";
+import { Pointer3DEvents } from "./devices/Pointer3DEvent";
 
 const RAY_TARGET_KEY = "Juniper:ThreeJS:EventSystem:RayTarget";
 
@@ -8,19 +9,19 @@ export class RayTarget<EventsT = void>
     extends TypedEventBase<EventsT & Pointer3DEvents>
     implements ErsatzObject {
 
-    readonly meshes = new Array<THREE.Mesh>();
+    readonly meshes = new Array<Mesh>();
 
     private _disabled: boolean = false;
     private _clickable: boolean = false;
     private _draggable: boolean = false;
     private _navigable: boolean = false;
 
-    constructor(public readonly object: THREE.Object3D) {
+    constructor(public readonly object: Object3D) {
         super();
         this.object.userData[RAY_TARGET_KEY] = this;
     }
 
-    addMesh(mesh: THREE.Mesh): this {
+    addMesh(mesh: Mesh): this {
         mesh.userData[RAY_TARGET_KEY] = this;
         this.meshes.push(mesh);
         return this;

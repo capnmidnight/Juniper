@@ -1,5 +1,6 @@
 import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { arrayCompare, arrayScan, IDisposable, inches2Meters, isDefined, isNullOrUndefined, meters2Inches } from "@juniper-lib/tslib";
+import { BufferGeometry, Matrix4, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Quaternion, Texture, Vector3, Vector4, VideoTexture } from "three";
 import { cleanup } from "../cleanup";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { XRTimerTickEvent } from "../environment/XRTimer";
@@ -10,9 +11,9 @@ import { plane } from "../Plane";
 import { isMesh, isMeshBasicMaterial } from "../typeChecks";
 import { StereoLayoutName } from "../VideoPlayer3D";
 
-const P = new THREE.Vector4();
-const Q = new THREE.Quaternion();
-const S = new THREE.Vector3();
+const P = new Vector4();
+const Q = new Quaternion();
+const S = new Vector3();
 
 let copyCounter = 0;
 
@@ -23,10 +24,10 @@ export type Image2DObjectSizeMode = "none"
 export type WebXRLayerType = "none" | "static" | "dynamic";
 
 export class Image2D
-    extends THREE.Object3D
+    extends Object3D
     implements IDisposable {
     private readonly onTick: (evt: XRTimerTickEvent) => void;
-    private readonly lastMatrixWorld = new THREE.Matrix4();
+    private readonly lastMatrixWorld = new Matrix4();
     private layer: XRQuadLayer = null;
     private wasUsingLayer = false;
     private _imageWidth: number = 0;
@@ -37,11 +38,11 @@ export class Image2D
     private lastHeight: number = null;
     protected env: BaseEnvironment = null;
 
-    mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial> = null;
+    mesh: Mesh<BufferGeometry, MeshBasicMaterial> = null;
     stereoLayoutName: StereoLayoutName = "mono";
     sizeMode: Image2DObjectSizeMode = "none";
 
-    constructor(env: BaseEnvironment, name: string, public webXRLayerType: WebXRLayerType, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
+    constructor(env: BaseEnvironment, name: string, public webXRLayerType: WebXRLayerType, materialOrOptions: MeshBasicMaterialParameters | MeshBasicMaterial = null) {
         super();
         this.onTick = (evt) => this.checkWebXRLayer(evt.frame);
 
@@ -65,7 +66,7 @@ export class Image2D
         this.webXRLayerType = source.webXRLayerType;
         this.setImageSize(source.imageWidth, source.imageHeight);
         this.setEnvAndName(source.env, source.name + (++copyCounter));
-        this.mesh = arrayScan(this.children, isMesh) as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
+        this.mesh = arrayScan(this.children, isMesh) as Mesh<BufferGeometry, MeshBasicMaterial>;
         if (isNullOrUndefined(this.mesh)) {
             this.mesh = source.mesh.clone();
             objGraph(this, this.mesh);
@@ -199,11 +200,11 @@ export class Image2D
 
             if (img instanceof HTMLVideoElement) {
                 this.setImageSize(img.videoWidth, img.videoHeight);
-                this.mesh.material.map = new THREE.VideoTexture(img);
+                this.mesh.material.map = new VideoTexture(img);
             }
             else {
                 this.setImageSize(img.width, img.height);
-                this.mesh.material.map = new THREE.Texture(img);
+                this.mesh.material.map = new Texture(img);
                 this.mesh.material.map.needsUpdate = true;
             }
 

@@ -1,7 +1,8 @@
 import { XRHandPrimitiveModel } from './XRHandPrimitiveModel';
 import { XRHandMeshModel } from './XRHandMeshModel';
+import { Object3D } from 'three';
 
-class XRHandModel extends THREE.Object3D {
+class XRHandModel extends Object3D {
 
     constructor(controller) {
 

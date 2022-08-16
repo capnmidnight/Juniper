@@ -1,5 +1,6 @@
 import { ButtonPrimary, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
-import { Pointer3DEvents } from "../eventSystem/Pointer3DEvent";
+import { Object3D } from "three";
+import { Pointer3DEvents } from "../eventSystem/devices/Pointer3DEvent";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
@@ -9,7 +10,7 @@ import type { Widget } from "./widgets";
 export class ToggleButton implements Widget, EventTarget {
 
     readonly element: HTMLButtonElement;
-    readonly object: THREE.Object3D;
+    readonly object: Object3D;
     private enterButton: MeshButton = null;
     private exitButton: MeshButton = null;
 

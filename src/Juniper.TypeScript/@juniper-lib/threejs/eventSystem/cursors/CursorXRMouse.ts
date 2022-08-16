@@ -1,5 +1,6 @@
-import { BaseEnvironment } from "../environment/BaseEnvironment";
-import { objectSetVisible } from "../objects";
+import { Vector3 } from "three";
+import { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { objectSetVisible } from "../../objects";
 import { BaseCursor } from "./BaseCursor";
 import { CursorColor } from "./CursorColor";
 import { CursorSystem } from "./CursorSystem";
@@ -64,9 +65,9 @@ export class CursorXRMouse extends BaseCursor {
     }
 
     _refresh() {
-        const isPointerLocked = this.env.pointers
-            && this.env.pointers.mouse
-            && this.env.pointers.mouse.isPointerLocked;
+        const isPointerLocked = this.env.eventSys
+            && this.env.eventSys.mouse
+            && this.env.eventSys.mouse.isPointerLocked;
 
         const showXR = this.env.renderer.xr.isPresenting
             || isPointerLocked;
@@ -75,7 +76,7 @@ export class CursorXRMouse extends BaseCursor {
         this.system.visible = this.visible && !showXR;
     }
 
-    override lookAt(p: THREE.Vector3, v: THREE.Vector3) {
+    override lookAt(p: Vector3, v: Vector3) {
         this.xr.lookAt(p, v);
     }
 }

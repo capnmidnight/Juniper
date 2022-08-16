@@ -1,5 +1,6 @@
 import { title } from "@juniper-lib/dom/attrs";
 import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
+import { Object3D } from "three";
 import { obj, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
@@ -8,7 +9,7 @@ import type { Widget } from "./widgets";
 export class ButtonImageWidget implements Widget, EventTarget {
 
     readonly element: HTMLButtonElement;
-    readonly object: THREE.Object3D;
+    readonly object: Object3D;
     private mesh: MeshButton = null;
 
     constructor(buttons: ButtonFactory, setName: string, iconName: string) {

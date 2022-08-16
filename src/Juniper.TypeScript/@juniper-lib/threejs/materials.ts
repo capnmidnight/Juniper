@@ -1,8 +1,9 @@
 import { isNullOrUndefined, singleton } from "@juniper-lib/tslib";
+import { Color, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, MeshPhongMaterial, MeshPhongMaterialParameters, MeshStandardMaterial, Object3D, SpriteMaterial, SpriteMaterialParameters } from "three";
 import { LineMaterial, LineMaterialParameters } from "./examples/lines/LineMaterial";
 import { isMaterial, isMesh } from "./typeChecks";
 
-const materials = singleton("Juniper:Three:Materials", () => new Map<string, THREE.Material>());
+const materials = singleton("Juniper:Three:Materials", () => new Map<string, Material>());
 
 function del(obj: any, name: string) {
     if (name in obj) {
@@ -10,10 +11,10 @@ function del(obj: any, name: string) {
     }
 }
 
-export type SolidMaterial = THREE.MeshBasicMaterial | THREE.MeshPhongMaterial;
-export type SolidMaterialOpts = THREE.MeshBasicMaterialParameters | THREE.MeshPhongMaterialParameters;
+export type SolidMaterial = MeshBasicMaterial | MeshPhongMaterial;
+export type SolidMaterialOpts = MeshBasicMaterialParameters | MeshPhongMaterialParameters;
 
-function makeMaterial<MaterialT extends THREE.Material, OptionsT extends THREE.MaterialParameters>(slug: string, material: (new (opts: OptionsT) => MaterialT), options: OptionsT): MaterialT {
+function makeMaterial<MaterialT extends Material, OptionsT extends MaterialParameters>(slug: string, material: (new (opts: OptionsT) => MaterialT), options: OptionsT): MaterialT {
 
     const key = `${slug}_${Object
         .keys(options)
@@ -34,45 +35,45 @@ function trans<T>(options: T): T {
     });
 }
 
-export function solid(options: THREE.MeshBasicMaterialParameters): THREE.MeshBasicMaterial {
-    return makeMaterial("solid", THREE.MeshBasicMaterial, options);
+export function solid(options: MeshBasicMaterialParameters): MeshBasicMaterial {
+    return makeMaterial("solid", MeshBasicMaterial, options);
 }
 
-export function solidTransparent(options: THREE.MeshBasicMaterialParameters): THREE.MeshBasicMaterial {
-    return makeMaterial("solidTransparent", THREE.MeshBasicMaterial, trans(options));
+export function solidTransparent(options: MeshBasicMaterialParameters): MeshBasicMaterial {
+    return makeMaterial("solidTransparent", MeshBasicMaterial, trans(options));
 }
 
-export function lit(options: THREE.MeshPhongMaterialParameters): THREE.MeshPhongMaterial {
-    return makeMaterial("lit", THREE.MeshPhongMaterial, options);
+export function lit(options: MeshPhongMaterialParameters): MeshPhongMaterial {
+    return makeMaterial("lit", MeshPhongMaterial, options);
 }
 
-export function litTransparent(options: THREE.MeshPhongMaterialParameters): THREE.MeshPhongMaterial {
-    return makeMaterial("litTransparent", THREE.MeshPhongMaterial, trans(options));
+export function litTransparent(options: MeshPhongMaterialParameters): MeshPhongMaterial {
+    return makeMaterial("litTransparent", MeshPhongMaterial, trans(options));
 }
 
-export function line(options: THREE.LineBasicMaterialParameters): THREE.LineBasicMaterial {
-    return makeMaterial("line", THREE.LineBasicMaterial, options);
+export function line(options: LineBasicMaterialParameters): LineBasicMaterial {
+    return makeMaterial("line", LineBasicMaterial, options);
 }
 
-export function lineTransparent(options: THREE.LineBasicMaterialParameters): THREE.LineBasicMaterial {
-    return makeMaterial("lineTransparent", THREE.LineBasicMaterial, trans(options));
+export function lineTransparent(options: LineBasicMaterialParameters): LineBasicMaterial {
+    return makeMaterial("lineTransparent", LineBasicMaterial, trans(options));
 }
 
 export function line2(options: LineMaterialParameters) {
     return makeMaterial("line2", LineMaterial, options);
 }
 
-export function sprite(options: THREE.SpriteMaterialParameters): THREE.SpriteMaterial {
-    return makeMaterial("sprite", THREE.SpriteMaterial, options);
+export function sprite(options: SpriteMaterialParameters): SpriteMaterial {
+    return makeMaterial("sprite", SpriteMaterial, options);
 }
 
-export function spriteTransparent(options: THREE.SpriteMaterialParameters): THREE.SpriteMaterial {
-    return makeMaterial("spriteTransparent", THREE.SpriteMaterial, trans(options));
+export function spriteTransparent(options: SpriteMaterialParameters): SpriteMaterial {
+    return makeMaterial("spriteTransparent", SpriteMaterial, trans(options));
 }
 
-export type MaterialConverter<OldMatT extends THREE.Material, NewMatT extends THREE.Material> = (oldMat: OldMatT) => NewMatT;
-export function convertMaterials<OldMatT extends THREE.Material, NewMatT extends THREE.Material>(root: THREE.Object3D, convertMaterial: MaterialConverter<OldMatT, NewMatT>): void {
-    const oldMats = new Set<THREE.Material>();
+export type MaterialConverter<OldMatT extends Material, NewMatT extends Material> = (oldMat: OldMatT) => NewMatT;
+export function convertMaterials<OldMatT extends Material, NewMatT extends Material>(root: Object3D, convertMaterial: MaterialConverter<OldMatT, NewMatT>): void {
+    const oldMats = new Set<Material>();
     root.traverse(obj => {
         if (isMesh(obj) && isMaterial(obj.material)) {
             const oldMat = obj.material;
@@ -89,13 +90,13 @@ export function convertMaterials<OldMatT extends THREE.Material, NewMatT extends
     }
 }
 
-export function materialStandardToBasic(oldMat: THREE.MeshStandardMaterial): THREE.MeshBasicMaterial {
+export function materialStandardToBasic(oldMat: MeshStandardMaterial): MeshBasicMaterial {
 
     if (oldMat.type !== "MeshStandardMaterial") {
         throw new Error("Input material is not MeshStandardMaterial");
     }
 
-    const params: THREE.MeshBasicMaterialParameters = {
+    const params: MeshBasicMaterialParameters = {
         alphaMap: oldMat.alphaMap,
         alphaTest: oldMat.alphaTest,
         alphaToCoverage: oldMat.alphaToCoverage,
@@ -154,16 +155,16 @@ export function materialStandardToBasic(oldMat: THREE.MeshStandardMaterial): THR
             delete (params as any)[key];
         }
     }
-    return new THREE.MeshBasicMaterial(params);
+    return new MeshBasicMaterial(params);
 }
 
-export function materialStandardToPhong(oldMat: THREE.MeshStandardMaterial): THREE.MeshPhongMaterial {
+export function materialStandardToPhong(oldMat: MeshStandardMaterial): MeshPhongMaterial {
 
     if (oldMat.type !== "MeshStandardMaterial") {
         throw new Error("Input material is not MeshStandardMaterial");
     }
 
-    const params: THREE.MeshPhongMaterialParameters = {
+    const params: MeshPhongMaterialParameters = {
         alphaMap: oldMat.alphaMap,
         alphaTest: oldMat.alphaTest,
         alphaToCoverage: oldMat.alphaToCoverage,
@@ -234,17 +235,17 @@ export function materialStandardToPhong(oldMat: THREE.MeshStandardMaterial): THR
             delete (params as any)[key];
         }
     }
-    return new THREE.MeshPhongMaterial(params);
+    return new MeshPhongMaterial(params);
 }
 
 
-export function materialPhongToBasic(oldMat: THREE.MeshPhongMaterial): THREE.MeshBasicMaterial {
+export function materialPhongToBasic(oldMat: MeshPhongMaterial): MeshBasicMaterial {
 
     if (oldMat.type !== "MeshPhongMaterial") {
         throw new Error("Input material is not MeshPhongMaterial");
     }
 
-    const params: THREE.MeshBasicMaterialParameters = {
+    const params: MeshBasicMaterialParameters = {
         alphaMap: oldMat.alphaMap,
         alphaTest: oldMat.alphaTest,
         alphaToCoverage: oldMat.alphaToCoverage,
@@ -306,10 +307,10 @@ export function materialPhongToBasic(oldMat: THREE.MeshPhongMaterial): THREE.Mes
             delete (params as any)[key];
         }
     }
-    return new THREE.MeshBasicMaterial(params);
+    return new MeshBasicMaterial(params);
 }
 
-export type ColorOpts = (THREE.Color | number | string);
+export type ColorOpts = (Color | number | string);
 
 export const black = /*@__PURE__*/ 0x000000;
 export const blue = /*@__PURE__*/ 0x0000ff;
@@ -321,15 +322,15 @@ export const yellow = /*@__PURE__*/ 0xffff00;
 export const grey = /*@__PURE__*/ 0xc0c0c0;
 export const white = /*@__PURE__*/ 0xffffff;
 
-export const colorBlack = /*@__PURE__*/ new THREE.Color(black);
-export const colorBlue = /*@__PURE__*/ new THREE.Color(blue);
-export const colorGreen = /*@__PURE__*/ new THREE.Color(green);
-export const colorCyan = /*@__PURE__*/ new THREE.Color(cyan);
-export const colorRed = /*@__PURE__*/ new THREE.Color(red);
-export const colorMagenta = /*@__PURE__*/ new THREE.Color(magenta);
-export const colorYellow = /*@__PURE__*/ new THREE.Color(yellow);
-export const colorGrey = /*@__PURE__*/ new THREE.Color(grey);
-export const colorWhite = /*@__PURE__*/ new THREE.Color(white);
+export const colorBlack = /*@__PURE__*/ new Color(black);
+export const colorBlue = /*@__PURE__*/ new Color(blue);
+export const colorGreen = /*@__PURE__*/ new Color(green);
+export const colorCyan = /*@__PURE__*/ new Color(cyan);
+export const colorRed = /*@__PURE__*/ new Color(red);
+export const colorMagenta = /*@__PURE__*/ new Color(magenta);
+export const colorYellow = /*@__PURE__*/ new Color(yellow);
+export const colorGrey = /*@__PURE__*/ new Color(grey);
+export const colorWhite = /*@__PURE__*/ new Color(white);
 
 export const solidBlack = /*@__PURE__*/ solid({ color: black });
 export const solidBlue = /*@__PURE__*/ solid({ color: blue });

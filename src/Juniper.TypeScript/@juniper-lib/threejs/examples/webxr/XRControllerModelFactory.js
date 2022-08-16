@@ -1,3 +1,4 @@
+import { Mesh, MeshBasicMaterial, Object3D, SphereGeometry } from 'three';
 import { GLTFLoader } from '../loaders/GLTFLoader';
 
 import {
@@ -9,7 +10,7 @@ import {
 const DEFAULT_PROFILES_PATH = 'https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles';
 const DEFAULT_PROFILE = 'generic-trigger';
 
-class XRControllerModel extends THREE.Object3D {
+class XRControllerModel extends Object3D {
 
 	constructor() {
 
@@ -116,9 +117,9 @@ function findNodes( motionController, scene ) {
 			if ( component.touchPointNode ) {
 
 				// Attach a touch dot to the touchpad.
-				const sphereGeometry = new THREE.SphereGeometry( 0.001 );
-				const material = new THREE.MeshBasicMaterial( { color: 0x0000FF } );
-				const sphere = new THREE.Mesh( sphereGeometry, material );
+				const sphereGeometry = new SphereGeometry(0.001);
+				const material = new MeshBasicMaterial({ color: 0x0000FF });
+				const sphere = new Mesh(sphereGeometry, material);
 				component.touchPointNode.add( sphere );
 
 			} else {

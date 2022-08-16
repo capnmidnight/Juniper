@@ -1,9 +1,11 @@
+import { ShapeBufferGeometry } from "three";
+
 /**
  * Recalculates the UV coordinates for a BufferGeometry
  * object to be able to map to a Cubemap that is packed as
  * a cross-configuration in a single image.
  */
-export function setGeometryUVsForCubemaps(geom: THREE.ShapeBufferGeometry) {
+export function setGeometryUVsForCubemaps(geom: ShapeBufferGeometry) {
     const positions = geom.attributes.position;
     const normals = geom.attributes.normal;
     const uvs = geom.attributes.uv;

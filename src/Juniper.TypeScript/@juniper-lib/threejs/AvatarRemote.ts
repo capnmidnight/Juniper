@@ -8,10 +8,11 @@ import { FWD, IDisposable, isNullOrUndefined, PointerID, UP } from "@juniper-lib
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { UserPointerEvent, UserPosedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
+import { Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading } from "./animation/lookAngles";
 import type { Environment } from "./environment/Environment";
-import { PointerRemote } from "./eventSystem/PointerRemote";
+import { PointerRemote } from "./eventSystem/devices/PointerRemote";
 import { objectRemove, objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
 import { TextMesh } from "./widgets/TextMesh";
@@ -35,40 +36,40 @@ const nameTagFont: Partial<TextImageOptions> = {
     maxHeight: 0.20
 };
 
-export class AvatarRemote extends THREE.Object3D implements IDisposable {
-    avatar: THREE.Object3D = null;
+export class AvatarRemote extends Object3D implements IDisposable {
+    avatar: Object3D = null;
 
     private _isInstructor = false;
     private readonly pointers = new Map<PointerID, PointerRemote>();
 
     private height: number;
     private readonly userID: string = null;
-    private readonly head: THREE.Object3D = null;
-    readonly body: THREE.Object3D = null;
+    private readonly head: Object3D = null;
+    readonly body: Object3D = null;
     private readonly nameTag: TextMesh;
     private readonly activity: ActivityDetector;
-    private readonly pTarget = new THREE.Vector3();
-    private readonly pEnd = new THREE.Vector3();
-    private readonly qTarget = new THREE.Quaternion().identity();
-    private readonly qEnd = new THREE.Quaternion().identity();
-    readonly worldPos = new THREE.Vector3();
-    readonly worldQuat = new THREE.Quaternion();
-    private readonly P = new THREE.Vector3();
-    private readonly F = new THREE.Vector3();
-    private readonly U = new THREE.Vector3();
-    private readonly M = new THREE.Matrix4();
+    private readonly pTarget = new Vector3();
+    private readonly pEnd = new Vector3();
+    private readonly qTarget = new Quaternion().identity();
+    private readonly qEnd = new Quaternion().identity();
+    readonly worldPos = new Vector3();
+    readonly worldQuat = new Quaternion();
+    private readonly P = new Vector3();
+    private readonly F = new Vector3();
+    private readonly U = new Vector3();
+    private readonly M = new Matrix4();
 
     private headFollower: BodyFollower = null;
     private _headSize = 1;
     private _headPulse = 1;
 
-    readonly comfortOffset = new THREE.Vector3();
+    readonly comfortOffset = new Vector3();
 
     constructor(
         private readonly env: Environment,
         user: RemoteUser,
         source: AudioStreamSource,
-        avatar: THREE.Object3D,
+        avatar: Object3D,
         private defaultAvatarHeight: number,
         font: Partial<TextImageOptions>) {
         super();

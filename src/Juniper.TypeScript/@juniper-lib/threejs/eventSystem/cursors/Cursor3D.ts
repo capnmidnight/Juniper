@@ -1,8 +1,9 @@
 import { arrayScan } from "@juniper-lib/tslib";
-import { BaseEnvironment } from "../environment/BaseEnvironment";
-import { deepEnableLayer, PURGATORY } from "../layers";
-import { ErsatzObject, obj, objectIsVisible, objectSetVisible, objGraph } from "../objects";
-import { setMatrixFromUpFwdPos } from "../setMatrixFromUpFwdPos";
+import { Object3D, Vector3 } from "three";
+import { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { deepEnableLayer, PURGATORY } from "../../layers";
+import { ErsatzObject, obj, objectIsVisible, objectSetVisible, objGraph } from "../../objects";
+import { setMatrixFromUpFwdPos } from "../../setMatrixFromUpFwdPos";
 import { BaseCursor } from "./BaseCursor";
 import { CursorSystem } from "./CursorSystem";
 
@@ -19,7 +20,7 @@ export class Cursor3D
         this.object.matrixAutoUpdate = false;
     }
 
-    add(name: string, obj: THREE.Object3D) {
+    add(name: string, obj: Object3D) {
         objGraph(this, obj);
         deepEnableLayer(obj, PURGATORY);
         obj.visible = name === "default";
@@ -66,11 +67,11 @@ export class Cursor3D
         objectSetVisible(this, v);
     }
 
-    private readonly f = new THREE.Vector3();
-    private readonly up = new THREE.Vector3();
-    private readonly right = new THREE.Vector3();
+    private readonly f = new Vector3();
+    private readonly up = new Vector3();
+    private readonly right = new Vector3();
 
-    override lookAt(p: THREE.Vector3, v: THREE.Vector3) {
+    override lookAt(p: Vector3, v: Vector3) {
         this.f
             .copy(v)
             .sub(p)

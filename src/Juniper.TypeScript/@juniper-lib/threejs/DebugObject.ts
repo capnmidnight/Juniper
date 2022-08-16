@@ -1,9 +1,10 @@
 import { isDefined } from "@juniper-lib/tslib";
+import { Color, Object3D } from "three";
 import { Cube } from "./Cube";
 import { lit, solidBlue, solidGreen, solidRed } from "./materials";
 import { objGraph } from "./objects";
 
-export class DebugObject extends THREE.Object3D {
+export class DebugObject extends Object3D {
     private center: Cube = null;
     private xp: Cube;
     private yp: Cube;
@@ -12,8 +13,8 @@ export class DebugObject extends THREE.Object3D {
     constructor();
     constructor(color: string);
     constructor(color: number);
-    constructor(color: THREE.Color);
-    constructor(private color?: (string | number | THREE.Color)) {
+    constructor(color: Color);
+    constructor(private color?: (string | number | Color)) {
         super();
 
         if (isDefined(this.color)) {

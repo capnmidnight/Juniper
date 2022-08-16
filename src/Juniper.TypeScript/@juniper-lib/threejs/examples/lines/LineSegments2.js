@@ -1,21 +1,22 @@
 import { LineSegmentsGeometry } from './LineSegmentsGeometry';
 import { LineMaterial } from './LineMaterial';
+import { Box3, InstancedInterleavedBuffer, InterleavedBufferAttribute, Line3, MathUtils, Matrix4, Mesh, Sphere, Vector3, Vector4 } from 'three';
 
-const _start = new THREE.Vector3();
-const _end = new THREE.Vector3();
+const _start = new Vector3();
+const _end = new Vector3();
 
-const _start4 = new THREE.Vector4();
-const _end4 = new THREE.Vector4();
+const _start4 = new Vector4();
+const _end4 = new Vector4();
 
-const _ssOrigin = new THREE.Vector4();
-const _ssOrigin3 = new THREE.Vector3();
-const _mvMatrix = new THREE.Matrix4();
-const _line = new THREE.Line3();
-const _closestPoint = new THREE.Vector3();
+const _ssOrigin = new Vector4();
+const _ssOrigin3 = new Vector3();
+const _mvMatrix = new Matrix4();
+const _line = new Line3();
+const _closestPoint = new Vector3();
 
-const _box = new THREE.Box3();
-const _sphere = new THREE.Sphere();
-const _clipToWorldVector = new THREE.Vector4();
+const _box = new Box3();
+const _sphere = new Sphere();
+const _clipToWorldVector = new Vector4();
 
 // Returns the margin required to expand by in world space given the distance from the camera,
 // line width, resolution, and camera projection
@@ -35,7 +36,7 @@ function getWorldSpaceHalfWidth(camera, distance, lineWidth, resolution) {
 
 }
 
-class LineSegments2 extends THREE.Mesh {
+class LineSegments2 extends Mesh {
 
     constructor(geometry = new LineSegmentsGeometry(), material = new LineMaterial({ color: Math.random() * 0xffffff })) {
 
@@ -65,10 +66,10 @@ class LineSegments2 extends THREE.Mesh {
 
         }
 
-        const instanceDistanceBuffer = new THREE.InstancedInterleavedBuffer(lineDistances, 2, 1); // d0, d1
+        const instanceDistanceBuffer = new InstancedInterleavedBuffer(lineDistances, 2, 1); // d0, d1
 
-        geometry.setAttribute('instanceDistanceStart', new THREE.InterleavedBufferAttribute(instanceDistanceBuffer, 1, 0)); // d0
-        geometry.setAttribute('instanceDistanceEnd', new THREE.InterleavedBufferAttribute(instanceDistanceBuffer, 1, 1)); // d1
+        geometry.setAttribute('instanceDistanceStart', new InterleavedBufferAttribute(instanceDistanceBuffer, 1, 0)); // d0
+        geometry.setAttribute('instanceDistanceEnd', new InterleavedBufferAttribute(instanceDistanceBuffer, 1, 1)); // d1
 
         return this;
 
@@ -233,7 +234,7 @@ class LineSegments2 extends THREE.Mesh {
             _line.at(param, _closestPoint);
 
             // check if the intersection point is within clip space
-            const zPos = THREE.MathUtils.lerp(_start4.z, _end4.z, param);
+            const zPos = MathUtils.lerp(_start4.z, _end4.z, param);
             const isInClipSpace = zPos >= - 1 && zPos <= 1;
 
             const isInside = _ssOrigin3.distanceTo(_closestPoint) < lineWidth * 0.5;
@@ -246,8 +247,8 @@ class LineSegments2 extends THREE.Mesh {
                 _line.start.applyMatrix4(matrixWorld);
                 _line.end.applyMatrix4(matrixWorld);
 
-                const pointOnLine = new THREE.Vector3();
-                const point = new THREE.Vector3();
+                const pointOnLine = new Vector3();
+                const point = new Vector3();
 
                 ray.distanceSqToSegment(_line.start, _line.end, point, pointOnLine);
 

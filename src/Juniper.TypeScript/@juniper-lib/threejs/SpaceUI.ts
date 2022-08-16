@@ -1,4 +1,5 @@
 import { deg2rad } from "@juniper-lib/tslib";
+import { Object3D, Vector3 } from "three";
 import { objectResolve, Objects, objGraph } from "./objects";
 
 interface BasePoint2D {
@@ -31,9 +32,9 @@ type Point2D = Point2DHeight | Point2DWidth | Point2DSquare;
 const radius = 1.25;
 const dAngleH = deg2rad(30);
 const dAngleV = deg2rad(32);
-const headPos = new THREE.Vector3(0, 0, 0);
+const headPos = new Vector3(0, 0, 0);
 
-export class SpaceUI extends THREE.Object3D {
+export class SpaceUI extends Object3D {
     constructor() {
         super();
         this.name = "SpaceUI";

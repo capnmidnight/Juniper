@@ -9,7 +9,7 @@ import { ClockImage } from "@juniper-lib/graphics2d/ClockImage";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { hasVR, IProgress, isDesktop, isMobile, isMobileVR, PriorityMap, rad2deg, TypedEvent } from "@juniper-lib/tslib";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
-import { ConfirmationDialog } from "../ConfirmationDialog";
+import { ConfirmationDialog } from "../widgets/ConfirmationDialog";
 import { InteractionAudio } from "../eventSystem/InteractionAudio";
 import { objGraph } from "../objects";
 import { ScreenMode } from "../ScreenMode";
@@ -124,7 +124,7 @@ export class Environment
         this.videoPlayer = new VideoPlayer3D(this, this.audio.audioCtx);
         this.videoPlayer.object.visible = false;
 
-        this.interactionAudio = new InteractionAudio(this.audio, this.pointers);
+        this.interactionAudio = new InteractionAudio(this.audio, this.eventSys);
 
         this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
         this.devicesDialog = new DeviceDialog(this);

@@ -65,7 +65,7 @@ class LineGeometry extends LineSegmentsGeometry {
 
 		if ( geometry.isGeometry ) {
 
-			console.error( 'THREE.LineGeometry no longer supports Geometry. Use THREE.BufferGeometry instead.' );
+			console.error( 'LineGeometry no longer supports Geometry. Use BufferGeometry instead.' );
 			return;
 
 		} else if ( geometry.isBufferGeometry ) {

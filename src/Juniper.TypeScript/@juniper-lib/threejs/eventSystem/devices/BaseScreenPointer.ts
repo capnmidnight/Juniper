@@ -1,18 +1,19 @@
 import { PointerID, PointerType } from "@juniper-lib/tslib";
-import type { BaseEnvironment } from "../environment/BaseEnvironment";
-import { resolveCamera } from "../resolveCamera";
-import type { BaseCursor } from "./BaseCursor";
+import { Vector2 } from "three";
+import type { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { resolveCamera } from "../../resolveCamera";
+import type { BaseCursor } from "../cursors/BaseCursor";
 import { BasePointer } from "./BasePointer";
 
 export abstract class BaseScreenPointer extends BasePointer {
     element: HTMLCanvasElement;
 
-    protected readonly position = new THREE.Vector2();
-    protected readonly motion = new THREE.Vector2();
-    private readonly uv = new THREE.Vector2();
-    private readonly duv = new THREE.Vector2();
-    private readonly uvComp = new THREE.Vector2(1, -1);
-    private readonly uvOff = new THREE.Vector2(-1, 1);
+    protected readonly position = new Vector2();
+    protected readonly motion = new Vector2();
+    private readonly uv = new Vector2();
+    private readonly duv = new Vector2();
+    private readonly uvComp = new Vector2(1, -1);
+    private readonly uvOff = new Vector2(-1, 1);
 
     constructor(
         type: PointerType,

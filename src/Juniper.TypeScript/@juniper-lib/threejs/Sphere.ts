@@ -1,21 +1,22 @@
+import { Mesh, SphereBufferGeometry } from "three";
 import type { SolidMaterial } from "./materials";
 import { setGeometryUVsForCubemaps } from "./setGeometryUVsForCubemaps";
 
-export const sphere = /*@__PURE__*/ new THREE.SphereBufferGeometry(0.5);
+export const sphere = /*@__PURE__*/ new SphereBufferGeometry(0.5);
 sphere.name = "SphereGeom";
 
-export const invSphere = /*@__PURE__*/ sphere.clone() as THREE.SphereBufferGeometry;
+export const invSphere = /*@__PURE__*/ sphere.clone() as SphereBufferGeometry;
 invSphere.name = "InvertedSphereGeom";
 setGeometryUVsForCubemaps(invSphere);
 
-export class Sphere extends THREE.Mesh {
+export class Sphere extends Mesh {
     constructor(size: number, material: SolidMaterial) {
         super(sphere, material);
         this.scale.setScalar(0.5 * size);
     }
 }
 
-export class InvSphere extends THREE.Mesh {
+export class InvSphere extends Mesh {
     constructor(size: number, material: SolidMaterial) {
         super(invSphere, material);
         this.scale.setScalar(0.5 * size);

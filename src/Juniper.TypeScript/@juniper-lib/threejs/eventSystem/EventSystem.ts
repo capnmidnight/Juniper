@@ -1,24 +1,25 @@
 import { arrayClear, TypedEventBase } from "@juniper-lib/tslib";
+import { Intersection, Mesh, Object3D, Raycaster, Vector3 } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";
-import type { IPointer } from "./IPointer";
-import { Pointer3DEvents } from "./Pointer3DEvent";
-import { PointerHand } from "./PointerHand";
-import { PointerMouse } from "./PointerMouse";
-import { PointerPen } from "./PointerPen";
-import { PointerTouch } from "./PointerTouch";
+import type { IPointer } from "./devices/IPointer";
+import { Pointer3DEvents } from "./devices/Pointer3DEvent";
+import { PointerHand } from "./devices/PointerHand";
+import { PointerMouse } from "./devices/PointerMouse";
+import { PointerPen } from "./devices/PointerPen";
+import { PointerTouch } from "./devices/PointerTouch";
 import { getRayTarget, RayTarget } from "./RayTarget";
 
-export class PointerManager extends TypedEventBase<Pointer3DEvents> {
-    private readonly raycaster = new THREE.Raycaster();
+export class EventSystem extends TypedEventBase<Pointer3DEvents> {
+    private readonly raycaster = new Raycaster();
 
     public readonly mouse: PointerMouse;
     private readonly pen: PointerPen;
     private readonly touches: PointerTouch;
-    private readonly queue = new Array<THREE.Object3D>();
+    private readonly queue = new Array<Object3D>();
     private readonly targetsFound = new Set<RayTarget>();
-    private readonly targets = new Array<THREE.Mesh>();
+    private readonly targets = new Array<Mesh>();
     readonly hands = new Array<PointerHand>();
 
     private readonly pointers: IPointer[];
@@ -80,14 +81,13 @@ export class PointerManager extends TypedEventBase<Pointer3DEvents> {
         }
     }
 
-    fireRay(origin: THREE.Vector3, direction: THREE.Vector3, hits: THREE.Intersection[]): void {
+    fireRay(origin: Vector3, direction: Vector3, hits: Intersection[]): void {
         this.raycaster.ray.origin.copy(origin);
         this.raycaster.ray.direction.copy(direction);
         this.raycaster.intersectObjects(this.targets, false, hits);
     }
 
     update() {
-
         this.targetsFound.clear();
         arrayClear(this.targets);
 

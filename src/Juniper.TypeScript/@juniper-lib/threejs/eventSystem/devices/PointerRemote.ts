@@ -1,28 +1,29 @@
 import { PointerID } from "@juniper-lib/tslib";
-import { AvatarRemote } from "../AvatarRemote";
-import { Cube } from "../Cube";
-import type { BaseEnvironment } from "../environment/BaseEnvironment";
-import { green, litGrey, yellow } from "../materials";
-import { ErsatzObject, obj, objGraph } from "../objects";
-import { setMatrixFromUpFwdPos } from "../setMatrixFromUpFwdPos";
+import { Matrix4, Object3D, Vector3 } from "three";
+import { AvatarRemote } from "../../AvatarRemote";
+import { Cube } from "../../Cube";
+import type { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { green, litGrey, yellow } from "../../materials";
+import { ErsatzObject, obj, objGraph } from "../../objects";
+import { setMatrixFromUpFwdPos } from "../../setMatrixFromUpFwdPos";
+import { CursorColor } from "../cursors/CursorColor";
+import { Laser } from "../Laser";
 import { BasePointer } from "./BasePointer";
-import { CursorColor } from "./CursorColor";
-import { Laser } from "./Laser";
 
 export class PointerRemote
     extends BasePointer
     implements ErsatzObject {
 
-    readonly object: THREE.Object3D;
+    readonly object: Object3D;
 
     private readonly laser: Laser = null;
-    private readonly P = new THREE.Vector3();
-    private readonly F = new THREE.Vector3();
-    private readonly O = new THREE.Vector3();
-    private readonly S = new THREE.Vector3();
-    private readonly M = new THREE.Matrix4();
-    private readonly MW = new THREE.Matrix4();
-    private readonly pTarget = new THREE.Vector3();
+    private readonly P = new Vector3();
+    private readonly F = new Vector3();
+    private readonly O = new Vector3();
+    private readonly S = new Vector3();
+    private readonly M = new Matrix4();
+    private readonly MW = new Matrix4();
+    private readonly pTarget = new Vector3();
 
     constructor(
         private readonly avatar: AvatarRemote,
@@ -65,9 +66,9 @@ export class PointerRemote
     }
 
     setState(
-        pointerPosition: THREE.Vector3,
-        pointerForward: THREE.Vector3,
-        pointerUp: THREE.Vector3) {
+        pointerPosition: Vector3,
+        pointerForward: Vector3,
+        pointerUp: Vector3) {
 
         // Target the pointer based on the remote user's perspective
         this.up.copy(pointerUp);

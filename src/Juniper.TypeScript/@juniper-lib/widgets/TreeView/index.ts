@@ -267,7 +267,7 @@ export class TreeView<T>
                         dropElement.highlighted = delta;
 
                         if (targetChanged && delta === 0 && !elem.isOpen) {
-                            hoverTimer = setTimeout(() => elem.isOpen = true, 1000);
+                            hoverTimer = setTimeout(() => elem.isOpen = true, 1000) as unknown as number;
                         }
 
                         evt.preventDefault();

@@ -1,4 +1,5 @@
 import { clamp, once, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { BackSide, Mesh, MeshBasicMaterial } from "three";
 import { cube as geom } from "./Cube";
 import { solidTransparent } from "./materials";
 import { ErsatzObject, mesh } from "./objects";
@@ -16,8 +17,8 @@ export class Fader extends TypedEventBase<FaderEvents>
 
     speed: number;
 
-    readonly object: THREE.Mesh;
-    private readonly material: THREE.MeshBasicMaterial;
+    readonly object: Mesh;
+    private readonly material: MeshBasicMaterial;
 
     constructor(name: string, t = 0.15) {
         super();
@@ -25,7 +26,7 @@ export class Fader extends TypedEventBase<FaderEvents>
         this.material = solidTransparent({
             name: "FaderMaterial",
             color: 0x000000,
-            side: THREE.BackSide
+            side: BackSide
         });
         this.object = mesh(name, geom, this.material);
         this.object.renderOrder = Number.MAX_VALUE;

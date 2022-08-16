@@ -1,6 +1,8 @@
-const R = new THREE.Vector3();
+import { Matrix4, Vector3 } from "three";
 
-export function setMatrixFromUpFwdPos(U: THREE.Vector3, F: THREE.Vector3, P: THREE.Vector3, matrix: THREE.Matrix4) {
+const R = new Vector3();
+
+export function setMatrixFromUpFwdPos(U: Vector3, F: Vector3, P: Vector3, matrix: Matrix4) {
     R.crossVectors(F, U);
     U.crossVectors(R, F);
     R.normalize();

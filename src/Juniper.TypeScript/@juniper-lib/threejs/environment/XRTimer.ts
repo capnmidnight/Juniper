@@ -1,4 +1,5 @@
 import { arrayRemove, BaseTimerTickEvent, isDefined, ITimer } from "@juniper-lib/tslib";
+import { WebGLRenderer } from "three";
 
 export class XRTimerTickEvent extends BaseTimerTickEvent {
     frame?: XRFrame = null;
@@ -21,7 +22,7 @@ export class XRTimer implements ITimer {
     private _onTick: (t: number, frame?: XRFrame) => void;
     private lt = -1;
 
-    constructor(private readonly renderer: THREE.WebGLRenderer) {
+    constructor(private readonly renderer: WebGLRenderer) {
         const tickEvt = new XRTimerTickEvent();
         let dt = 0;
         this._onTick = (t: number, frame?: XRFrame) => {

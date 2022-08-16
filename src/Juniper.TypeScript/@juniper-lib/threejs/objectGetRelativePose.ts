@@ -1,7 +1,9 @@
-const M = new THREE.Matrix4();
-const P = new THREE.Vector3();
+import { Matrix4, Object3D, Quaternion, Vector3, Vector4 } from "three";
 
-export function objectGetRelativePose(ref: THREE.Object3D, obj: THREE.Object3D, position: THREE.Vector4, quaternion: THREE.Quaternion, scale: THREE.Vector3): void {
+const M = new Matrix4();
+const P = new Vector3();
+
+export function objectGetRelativePose(ref: Object3D, obj: Object3D, position: Vector4, quaternion: Quaternion, scale: Vector3): void {
     M.copy(ref.matrixWorld)
         .invert()
         .multiply(obj.matrixWorld)

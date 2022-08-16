@@ -1,7 +1,9 @@
-const _box = new THREE.Box3();
-const _vector = new THREE.Vector3();
+import { Box3, Float32BufferAttribute, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Sphere, Vector3, WireframeGeometry } from "three";
 
-class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
+const _box = new Box3();
+const _vector = new Vector3();
+
+class LineSegmentsGeometry extends InstancedBufferGeometry {
 
 	constructor() {
 
@@ -13,9 +15,9 @@ class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
 		const uvs = [ - 1, 2, 1, 2, - 1, 1, 1, 1, - 1, - 1, 1, - 1, - 1, - 2, 1, - 2 ];
 		const index = [ 0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3, 4, 6, 5, 6, 7, 5 ];
 
-		this.setIndex( index );
-		this.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
-		this.setAttribute( 'uv', new THREE.Float32BufferAttribute( uvs, 2 ) );
+		this.setIndex(index);
+		this.setAttribute('position', new Float32BufferAttribute(positions, 3));
+		this.setAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
 
 	}
 
@@ -64,10 +66,10 @@ class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
 
 		}
 
-		const instanceBuffer = new THREE.InstancedInterleavedBuffer( lineSegments, 6, 1 ); // xyz, xyz
+		const instanceBuffer = new InstancedInterleavedBuffer(lineSegments, 6, 1); // xyz, xyz
 
-		this.setAttribute( 'instanceStart', new THREE.InterleavedBufferAttribute( instanceBuffer, 3, 0 ) ); // xyz
-		this.setAttribute( 'instanceEnd', new THREE.InterleavedBufferAttribute( instanceBuffer, 3, 3 ) ); // xyz
+		this.setAttribute('instanceStart', new InterleavedBufferAttribute(instanceBuffer, 3, 0)); // xyz
+		this.setAttribute( 'instanceEnd', new InterleavedBufferAttribute( instanceBuffer, 3, 3 ) ); // xyz
 
 		//
 
@@ -92,10 +94,10 @@ class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
 
 		}
 
-		const instanceColorBuffer = new THREE.InstancedInterleavedBuffer( colors, 6, 1 ); // rgb, rgb
+		const instanceColorBuffer = new InstancedInterleavedBuffer( colors, 6, 1 ); // rgb, rgb
 
-		this.setAttribute( 'instanceColorStart', new THREE.InterleavedBufferAttribute( instanceColorBuffer, 3, 0 ) ); // rgb
-		this.setAttribute( 'instanceColorEnd', new THREE.InterleavedBufferAttribute( instanceColorBuffer, 3, 3 ) ); // rgb
+		this.setAttribute( 'instanceColorStart', new InterleavedBufferAttribute( instanceColorBuffer, 3, 0 ) ); // rgb
+		this.setAttribute( 'instanceColorEnd', new InterleavedBufferAttribute( instanceColorBuffer, 3, 3 ) ); // rgb
 
 		return this;
 
@@ -119,7 +121,7 @@ class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
 
 	fromMesh( mesh ) {
 
-		this.fromWireframeGeometry( new THREE.WireframeGeometry( mesh.geometry ) );
+		this.fromWireframeGeometry(new WireframeGeometry(mesh.geometry));
 
 		// set colors, maybe
 
@@ -133,7 +135,7 @@ class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
 
 		if ( geometry.isGeometry ) {
 
-			console.error( 'THREE.LineSegmentsGeometry no longer supports Geometry. Use THREE.BufferGeometry instead.' );
+			console.error( 'LineSegmentsGeometry no longer supports Geometry. Use BufferGeometry instead.' );
 			return;
 
 		} else if ( geometry.isBufferGeometry ) {
@@ -152,7 +154,7 @@ class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
 
 		if ( this.boundingBox === null ) {
 
-			this.boundingBox = new THREE.Box3();
+			this.boundingBox = new Box3();
 
 		}
 
@@ -175,7 +177,7 @@ class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
 
 		if ( this.boundingSphere === null ) {
 
-			this.boundingSphere = new THREE.Sphere();
+			this.boundingSphere = new Sphere();
 
 		}
 
@@ -210,7 +212,7 @@ class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
 
 			if ( isNaN( this.boundingSphere.radius ) ) {
 
-				console.error( 'THREE.LineSegmentsGeometry.computeBoundingSphere(): Computed radius is NaN. The instanced position data is likely to have NaN values.', this );
+				console.error( 'LineSegmentsGeometry.computeBoundingSphere(): Computed radius is NaN. The instanced position data is likely to have NaN values.', this );
 
 			}
 
@@ -226,7 +228,7 @@ class LineSegmentsGeometry extends THREE.InstancedBufferGeometry {
 
 	applyMatrix( matrix ) {
 
-		console.warn( 'THREE.LineSegmentsGeometry: applyMatrix() has been renamed to applyMatrix4().' );
+		console.warn( 'LineSegmentsGeometry: applyMatrix() has been renamed to applyMatrix4().' );
 
 		return this.applyMatrix4( matrix );
 

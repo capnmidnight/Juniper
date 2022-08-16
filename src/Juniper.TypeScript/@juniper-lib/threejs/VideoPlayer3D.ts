@@ -1,5 +1,6 @@
 import { and, arrayClear, PriorityMap } from "@juniper-lib/tslib";
 import { BaseVideoPlayer } from "@juniper-lib/video/BaseVideoPlayer";
+import { BufferGeometry, MeshBasicMaterial, Object3D } from "three";
 import { cleanup } from "./cleanup";
 import { createEACGeometry, createQuadGeometry, PosUV, QuadPosUV } from "./CustomGeometry";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
@@ -43,10 +44,10 @@ export class VideoPlayer3D
     extends BaseVideoPlayer
     implements ErsatzObject {
 
-    private readonly material: THREE.MeshBasicMaterial;
+    private readonly material: MeshBasicMaterial;
     private readonly vidMeshes: Image2D[];
 
-    readonly object: THREE.Object3D;
+    readonly object: Object3D;
 
     constructor(env: BaseEnvironment, audioCtx: AudioContext) {
         super(audioCtx);
@@ -278,7 +279,7 @@ const EACGeom_Right = createEACGeometry(EACSubDivisions, ...CubeStripDef_Right);
 const EACGeom_Top = createEACGeometry(EACSubDivisions, ...CubeStripDef_Top);
 const EACGeom_Bottom = createEACGeometry(EACSubDivisions, ...CubeStripDef_Bottom);
 
-const GeomPacks = new PriorityMap<SphereEncodingName, string, THREE.BufferGeometry>([
+const GeomPacks = new PriorityMap<SphereEncodingName, string, BufferGeometry>([
     ["N/A", "mono", PlaneGeom_Mono],
     ["N/A", "left", PlaneGeom_Left],
     ["N/A", "right", PlaneGeom_Right],

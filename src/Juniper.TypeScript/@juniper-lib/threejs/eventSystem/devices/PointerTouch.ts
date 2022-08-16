@@ -1,5 +1,5 @@
 import { arrayClear, arrayRemoveByKey, PointerID } from "@juniper-lib/tslib";
-import type { BaseEnvironment } from "../environment/BaseEnvironment";
+import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { BaseScreenPointer } from "./BaseScreenPointer";
 
 function getPointerID(evt: PointerEvent) {

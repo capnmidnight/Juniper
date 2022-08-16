@@ -1,7 +1,8 @@
+import { Quaternion } from 'three';
 import { GLTFLoader } from '../loaders/GLTFLoader';
 
-const _oculusBrowserV14CorrectionRight = new THREE.Quaternion().identity();
-const _oculusBrowserV14CorrectionLeft = new THREE.Quaternion().identity();
+const _oculusBrowserV14CorrectionRight = new Quaternion().identity();
+const _oculusBrowserV14CorrectionLeft = new Quaternion().identity();
 
 if (/OculusBrowser\/14\./.test(navigator.userAgent)) {
     _oculusBrowserV14CorrectionRight.setFromAxisAngle({ x: 0, y: 1, z: 0 }, Math.PI / 2);

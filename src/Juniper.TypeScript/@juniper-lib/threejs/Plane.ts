@@ -1,9 +1,10 @@
+import { Mesh, PlaneBufferGeometry } from "three";
 import { SolidMaterial } from "./materials";
 
-export const plane = /*@__PURE__*/ new THREE.PlaneBufferGeometry(1, 1, 1, 1);
+export const plane = /*@__PURE__*/ new PlaneBufferGeometry(1, 1, 1, 1);
 plane.name = "PlaneGeom";
 
-export class Plane extends THREE.Mesh {
+export class Plane extends Mesh {
     constructor(sx: number, sy: number, material: SolidMaterial) {
         super(plane, material);
         this.scale.set(sx, sy, 1);

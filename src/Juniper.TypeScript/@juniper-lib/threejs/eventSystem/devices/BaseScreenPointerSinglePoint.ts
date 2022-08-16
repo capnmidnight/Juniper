@@ -1,7 +1,7 @@
 import { PointerID, PointerType } from "@juniper-lib/tslib";
-import type { BaseEnvironment } from "../environment/BaseEnvironment";
+import type { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { CursorXRMouse } from "../cursors/CursorXRMouse";
 import { BaseScreenPointer } from "./BaseScreenPointer";
-import { CursorXRMouse } from "./CursorXRMouse";
 
 export abstract class BaseScreenPointerSinglePoint extends BaseScreenPointer {
 

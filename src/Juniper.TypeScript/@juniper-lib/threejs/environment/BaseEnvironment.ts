@@ -15,19 +15,29 @@ import { Style } from "@juniper-lib/dom/tags";
 import { BaseAsset, IFetcher, isAsset } from "@juniper-lib/fetcher";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import {
-    arrayRemove, arraySortByKeyInPlace, IProgress, isDefined,
+    arrayRemove,
+    arraySortByKeyInPlace,
+    IProgress,
+    isDefined,
     isDesktop,
-    isFirefox, isFunction, isNullOrUndefined, isOculusBrowser, oculusBrowserVersion, TimerTickEvent, TypedEvent, TypedEventBase
+    isFirefox,
+    isFunction,
+    isNullOrUndefined,
+    isOculusBrowser,
+    oculusBrowserVersion,
+    TimerTickEvent,
+    TypedEvent,
+    TypedEventBase
 } from "@juniper-lib/tslib";
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
-import { WebGLRenderTarget } from "three";
+import { AmbientLight, DirectionalLight, GridHelper, Group, PerspectiveCamera, Scene, Vector4, WebGLRenderer, WebGLRenderTarget, WebXRArrayCamera } from "three";
 import { BodyFollower } from "../animation/BodyFollower";
 import { updateScalings } from "../animation/scaleOnHover";
 import { AssetGltfModel } from "../AssetGltfModel";
 import { AvatarLocal } from "../AvatarLocal";
 import { cleanup } from "../cleanup";
-import { Cursor3D } from "../eventSystem/Cursor3D";
-import { PointerManager } from "../eventSystem/PointerManager";
+import { Cursor3D } from "../eventSystem/cursors/Cursor3D";
+import { EventSystem } from "../eventSystem/EventSystem";
 import { GLTF, GLTFLoader } from "../examples/loaders/GLTFLoader";
 import { Fader } from "../Fader";
 import { FOREGROUND, PURGATORY } from "../layers";
@@ -69,31 +79,31 @@ export class BaseEnvironment<Events = unknown>
     private baseLayer: XRWebGLLayer | XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();
     private readonly layerSortOrder = new Map<XRLayer, number>();
-    private readonly spectator = new THREE.PerspectiveCamera();
-    private readonly lastViewport = new THREE.Vector4();
-    private readonly curViewport = new THREE.Vector4();
+    private readonly spectator = new PerspectiveCamera();
+    private readonly lastViewport = new Vector4();
+    private readonly curViewport = new Vector4();
     private readonly gltfLoader = new GLTFLoader();
 
     private readonly fader: Fader;
     private fadeDepth = 0;
 
     readonly cursor3D: Cursor3D;
-    readonly camera = new THREE.PerspectiveCamera(50, 1, 0.01, 1000);
-    readonly scene = new THREE.Scene();
+    readonly camera = new PerspectiveCamera(50, 1, 0.01, 1000);
+    readonly scene = new Scene();
     readonly stage = obj("Stage");
-    readonly ambient = new THREE.AmbientLight(0xffffff, 0.5);
-    readonly sun = new THREE.DirectionalLight(0xffffff, 0.75);
-    readonly ground = new THREE.GridHelper(gridSize, gridWidth, 0xc0c0c0, 0x808080);
+    readonly ambient = new AmbientLight(0xffffff, 0.5);
+    readonly sun = new DirectionalLight(0xffffff, 0.75);
+    readonly ground = new GridHelper(gridSize, gridWidth, 0xc0c0c0, 0x808080);
     readonly foreground = obj("Foreground");
     readonly loadingBar = new LoadingBar();
 
-    readonly renderer: THREE.WebGLRenderer;
+    readonly renderer: WebGLRenderer;
     readonly timer: XRTimer;
     readonly worldUISpace: BodyFollower;
     readonly skybox: Skybox;
     readonly avatar: AvatarLocal;
     readonly screenControl: ScreenControl;
-    readonly pointers: PointerManager;
+    readonly eventSys: EventSystem;
 
     enableSpectator = false;
 
@@ -109,7 +119,7 @@ export class BaseEnvironment<Events = unknown>
             }
         }
 
-        this.renderer = new THREE.WebGLRenderer({
+        this.renderer = new WebGLRenderer({
             canvas,
             powerPreference: "high-performance",
             precision: "lowp",
@@ -144,7 +154,7 @@ export class BaseEnvironment<Events = unknown>
             defaultAvatarHeight);
 
 
-        this.pointers = new PointerManager(this);
+        this.eventSys = new EventSystem(this);
 
         this.timer = new XRTimer(this.renderer);
 
@@ -180,7 +190,7 @@ export class BaseEnvironment<Events = unknown>
                 this.ground,
                 this.camera,
                 this.avatar,
-                ...this.pointers.hands
+                ...this.eventSys.hands
             ),
             this.foreground,
             objGraph(this.worldUISpace,
@@ -231,7 +241,7 @@ export class BaseEnvironment<Events = unknown>
             }
 
             this.screenControl.resize();
-            this.pointers.update();
+            this.eventSys.update();
             this.avatar.update(evt.dt);
             this.worldUISpace.update(this.avatar.height, this.avatar.worldPos, this.avatar.worldHeading, evt.dt);
             this.fader.update(evt.dt);
@@ -242,7 +252,7 @@ export class BaseEnvironment<Events = unknown>
 
             const cam = resolveCamera(this.renderer, this.camera);
             if (cam !== this.camera) {
-                const vrCam = cam as THREE.WebXRArrayCamera;
+                const vrCam = cam as WebXRArrayCamera;
                 vrCam.layers.mask = this.camera.layers.mask;
                 for (let i = 0; i < vrCam.cameras.length; ++i) {
                     const subCam = vrCam.cameras[i];
@@ -396,12 +406,12 @@ export class BaseEnvironment<Events = unknown>
         return this.fadeDepth === 0;
     }
 
-    private set3DCursor(model: THREE.Group): void {
+    private set3DCursor(model: Group): void {
         const children = model.children.slice(0);
         for (const child of children) {
             this.cursor3D.add(child.name, child);
         }
-        this.pointers.refreshCursors();
+        this.eventSys.refreshCursors();
         this.dispatchEvent(new TypedEvent("newcursorloaded"));
     }
 

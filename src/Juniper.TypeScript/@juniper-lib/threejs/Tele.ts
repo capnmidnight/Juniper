@@ -3,6 +3,7 @@ import { MediaType, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayRemove, arraySortedInsert, IProgress, isDefined, progressTasks, Task, TimerTickEvent } from "@juniper-lib/tslib";
 import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
+import { Object3D, Vector3 } from "three";
 import { AssetGltfModel } from "./AssetGltfModel";
 import { AvatarRemote } from "./AvatarRemote";
 import { cleanup } from "./cleanup";
@@ -21,7 +22,7 @@ export class Tele extends Application {
     conference: TeleconferenceManager = null;
 
     private defaultAvatarHeight = 1.75;
-    private avatarModel: THREE.Object3D = null;
+    private avatarModel: Object3D = null;
     private avatarNameTagFont: Partial<TextImageOptions> = null;
     private hubName: string = null;
     private userType: string = null;
@@ -59,7 +60,7 @@ export class Tele extends Application {
                 evt.ux, evt.uy, evt.uz,
                 evt.height));
 
-        this.env.pointers.addEventListener("move", (evt) => {
+        this.env.eventSys.addEventListener("move", (evt) => {
             const { id, origin, direction, up } = evt.pointer;
             this.conference.setLocalPointer(
                 id,
@@ -226,7 +227,7 @@ export class Tele extends Application {
      * Get the comfort position offset for a given user.
      * @param id - the id of the user for which to set the offset.
      */
-    public getUserOffset(id: string): THREE.Vector3 {
+    public getUserOffset(id: string): Vector3 {
         return this.withUser(id, (user) => user.comfortOffset);
     }
 

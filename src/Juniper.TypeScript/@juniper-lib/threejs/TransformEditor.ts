@@ -1,9 +1,10 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { MeshBasicMaterial, Object3D, Vector3 } from "three";
 import { solidBlue, solidGreen, solidRed } from "./materials";
 import { ErsatzObject, obj, objectIsVisible, objectSetVisible } from "./objects";
 import { Translator } from "./Translator";
 
-const P = new THREE.Vector3();
+const P = new Vector3();
 
 export class TransformEditorMovingEvent extends TypedEvent<"moving"> {
     constructor() {
@@ -25,7 +26,7 @@ interface TransformEditorEvents {
 export class TransformEditor
     extends TypedEventBase<TransformEditorEvents>
     implements ErsatzObject {
-    readonly object: THREE.Object3D;
+    readonly object: Object3D;
 
     private translators: Translator[];
 
@@ -74,7 +75,7 @@ export class TransformEditor
         }
     }
 
-    private setTranslator(name: string, sx: number, sy: number, sz: number, color: THREE.MeshBasicMaterial, defaultAvatarHeight: number): Translator {
+    private setTranslator(name: string, sx: number, sy: number, sz: number, color: MeshBasicMaterial, defaultAvatarHeight: number): Translator {
         const translator = new Translator(name, sx, sy, sz, color);
         translator.size = this.size * 0.5;
         translator.addEventListener("dragdir", (evt) => {

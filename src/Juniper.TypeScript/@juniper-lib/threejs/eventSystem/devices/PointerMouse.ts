@@ -1,6 +1,6 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { PointerID } from "@juniper-lib/tslib";
-import type { BaseEnvironment } from "../environment/BaseEnvironment";
+import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { BaseScreenPointerSinglePoint } from "./BaseScreenPointerSinglePoint";
 import { VirtualButton } from "./VirtualButton";
 
