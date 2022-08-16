@@ -8,7 +8,7 @@ import {
     HubConnectionBuilder,
     HubConnectionState
 } from "@microsoft/signalr";
-import adapter from 'webrtc-adapter';
+import "webrtc-adapter";
 import {
     ConferenceErrorEvent,
     ConferenceEvents, ConferenceServerConnectedEvent,
@@ -40,13 +40,8 @@ import {
     RemoteUserTrackRemovedEvent
 } from "./RemoteUser";
 
-
-let loggingEnabled = window.location.hostname === "localhost"
-    || /\bdebug\b/.test(window.location.search);
-
 const sockets = singleton("Juniper:Sockets", () => new Array<WebSocket>());
 function fakeSocket(...args: any[]): WebSocket {
-    console.log("New connection", ...args);
     const socket = new (WebSocket as any)(...args);
     sockets.push(socket);
     return socket;
@@ -91,10 +86,6 @@ const hubStateTranslations = new Map<HubConnectionState, ConnectionState>([
 export class TeleconferenceManager
     extends TypedEventBase<ConferenceEvents>
     implements IDisposable {
-
-    toggleLogging() {
-        loggingEnabled = !loggingEnabled;
-    }
 
     private _isAudioMuted: boolean = null;
     get isAudioMuted() { return this._isAudioMuted; }
@@ -147,10 +138,6 @@ export class TeleconferenceManager
         private readonly signalRPath: string,
         public readonly needsVideoDevice = false) {
         super();
-
-        if (loggingEnabled) {
-            console.log(adapter);
-        }
 
         let hubBuilder = new HubConnectionBuilder()
             .withAutomaticReconnect();

@@ -173,7 +173,6 @@ export class XRSessionManager extends TypedEventBase<{
     async startSession(type: XRSessionMode): Promise<void> {
         if (!this.inSession) {
             const xrSession = await this.requestSession(type);
-            console.log({ xrSession });
             this._sessionType = type;
 
             xrSession.addEventListener("end", () => {
