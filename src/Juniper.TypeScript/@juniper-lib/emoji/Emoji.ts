@@ -1,3 +1,4 @@
+
 /**
  * Unicode-standardized pictograms.
  **/
@@ -27,5 +28,22 @@ export class Emoji {
         else {
             return this.value.indexOf(e) >= 0;
         }
+    }
+
+    private changeStyle(expected: string, wanted: string): string {
+        let value = this.value;
+        if (value.endsWith(expected)) {
+            value = value.substring(0, value.length - expected.length);
+        }
+        value += wanted;
+        return value;
+    }
+
+    get textStyle(): string {
+        return this.changeStyle("\uFE0F", "\uFE0E");
+    }
+
+    get emojiStyle(): string {
+        return this.changeStyle("\uFE0E", "\uFE0F");
     }
 }
