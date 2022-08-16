@@ -1,4 +1,4 @@
-import { backgroundColor, border, display, getSystemFamily, gridTemplateColumns, margin, padding, position, rule, textAlign } from "@juniper-lib/dom/css";
+import { backgroundColor, border, borderRadius, boxShadow, display, getSystemFamily, gridTemplateColumns, margin, padding, position, rule, textAlign } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
@@ -7,7 +7,9 @@ Style(
         backgroundColor("white"),
         padding("5px"),
         display("grid"),
-        gridTemplateColumns("auto")
+        gridTemplateColumns("auto"),
+        borderRadius("5px"),
+        boxShadow("rgb(0 0 0 / 15%) 2px 2px 17px")
     ),
 
     rule(".context-menu > button",
@@ -15,6 +17,7 @@ Style(
         textAlign("left"),
         backgroundColor("transparent"),
         margin("2px"),
+        padding("0", "2em", "0", "0.5em"),
         getSystemFamily()
     ),
 
