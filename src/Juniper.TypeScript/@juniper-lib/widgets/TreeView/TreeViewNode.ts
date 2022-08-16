@@ -320,13 +320,13 @@ export class TreeViewNode<T>
         }
     }
 
-    add(value: T): void {
+    add(value: T): TreeViewNode<T> {
         this.isOpen = true;
         const node = new TreeNode(value);
         this.node.connectTo(node);
         const element = this.createElement(node);
-        element.select();
         this.refresh();
+        return element;
     }
 
     select() {

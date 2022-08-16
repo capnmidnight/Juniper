@@ -119,7 +119,7 @@ export class TreeView<T>
                         for (const element of this.elements) {
                             if (element.selected) {
                                 this.selectedNode = null;
-                                this.dispatchEvent(new TreeViewNodeSelectedEvent(null));
+                                this.dispatchEvent(new TreeViewNodeSelectedEvent<T>(null));
                                 return;
                             }
                         }
@@ -389,6 +389,10 @@ export class TreeView<T>
         return null;
     }
 
+    findNode(data: T): TreeNode<T> {
+        return this.rootNode.find(data);
+    }
+
     set selectedValue(v: T) {
         if (v !== this.selectedValue) {
             this.selectedNode = this.rootNode.find(v);
@@ -405,16 +409,8 @@ export class TreeView<T>
     }
 
     set selectedNode(v: TreeNode<T>) {
-        let isFirst = true;
-        while (isDefined(v) && v.isChild) {
-            const elem = this.nodes2Elements.get(v);
-            if (elem) {
-                if (isFirst) {
-                    elem.select();
-                    isFirst = false;
-                }
-                v = v.parent;
-            }
+        if (v !== this.selectedNode) {
+            this.selectedElement = this.nodes2Elements.get(v);
         }
     }
 
@@ -426,6 +422,15 @@ export class TreeView<T>
         }
 
         return null;
+    }
+
+    private set selectedElement(e: TreeViewNode<T>) {
+        if (isDefined(e) && e.node.isChild) {
+            e.select();
+        }
+        else {
+            this.dispatchEvent(new TreeViewNodeSelectedEvent<T>(null));
+        }
     }
 
     private findElement(target: EventTarget) {
@@ -517,7 +522,7 @@ export class TreeView<T>
         return element;
     }
 
-    addValue(value: T) {
+    addValue(value: T): TreeViewNode<T> {
         const parentID = this.options.getParentKey(value);
         const parentNode = isNullOrUndefined(parentID)
             ? this.rootNode
@@ -526,7 +531,7 @@ export class TreeView<T>
                 && this.options.getKey(n.value) === parentID);
 
         const parentElement = this.nodes2Elements.get(parentNode);
-        parentElement.add(value);
+        return parentElement.add(value);
     }
 
     updateNode(node: TreeNode<T>) {

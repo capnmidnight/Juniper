@@ -118,8 +118,8 @@ export class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
         return this.traverse((queue) => queue.pop());
     }
 
-    find(v: ValueT) {
-        return this.search((n) => n.value === v);
+    find(v: ValueT): TreeNode<ValueT> {
+        return this.search((n) => n.isChild && n.value === v);
     }
 
     search(predicate: (n: TreeNode<ValueT>) => boolean): TreeNode<ValueT> {
