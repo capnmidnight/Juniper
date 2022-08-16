@@ -390,7 +390,9 @@ export class TreeView<T>
     }
 
     set selectedValue(v: T) {
-        this.selectedNode = this.rootNode.find(v);
+        if (v !== this.selectedValue) {
+            this.selectedNode = this.rootNode.find(v);
+        }
     }
 
     get selectedNode(): TreeNode<T> {
