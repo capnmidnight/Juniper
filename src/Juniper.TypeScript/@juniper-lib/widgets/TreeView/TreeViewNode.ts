@@ -162,9 +162,9 @@ export class TreeViewNode<T>
             this.lower = Div(className("drag-buffer bottom"))
         );
 
-        elementSetDisplay(this.infoView, !this.node.isRoot);
-        elementSetDisplay(this.upper, !this.node.isRoot && this.canChangeOrder);
-        elementSetDisplay(this.lower, !this.node.isRoot && this.canChangeOrder);
+        elementSetDisplay(this.infoView, this.node.isChild);
+        elementSetDisplay(this.upper, this.node.isChild && this.canChangeOrder);
+        elementSetDisplay(this.lower, this.node.isChild && this.canChangeOrder);
 
         this.refresh();
 
@@ -233,7 +233,7 @@ export class TreeViewNode<T>
     }
 
     private get canChangeOrder() {
-        return !this.node.isRoot && this._canChangeOrder(this.node.value);
+        return this.node.isChild && this._canChangeOrder(this.node.value);
     }
 
     get disabled(): boolean {

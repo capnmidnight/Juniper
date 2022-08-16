@@ -137,7 +137,7 @@ export class TreeView<T>
                                     const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
                                     nextElement.select();
                                 }
-                                else if (!sel.node.isRoot && !sel.node.parent.isRoot) {
+                                else if (sel.node.isChild && sel.node.parent.isChild) {
                                     const nextNode = sel.node.parent;
                                     const nextElement = this.nodes2Elements.get(nextNode);
                                     nextElement.select();
@@ -150,7 +150,7 @@ export class TreeView<T>
                                     const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
                                     nextElement.select();
                                 }
-                                else if (!sel.node.isRoot) {
+                                else if (sel.node.isChild) {
                                     const parentNode = sel.node.parent;
                                     const parentElement = this.nodes2Elements.get(parentNode);
                                     const parentIndex = elementGetIndexInParent(parentElement);
@@ -162,16 +162,16 @@ export class TreeView<T>
                                 }
                             }
                             else if (evt.key === "ArrowRight") {
-                                if (!sel.node.isLeaf) {
-                                    if (!sel.isOpen) {
-                                        sel.isOpen = true;
-                                    }
-                                    else {
+                                if (sel.node.hasChildren) {
+                                    if (sel.isOpen) {
                                         const nextHTMLElem = sel.children.children[0] as HTMLElement;
                                         if (nextHTMLElem) {
                                             const elem = this.htmlElements2Elements.get(nextHTMLElem);
                                             elem.select();
                                         }
+                                    }
+                                    else {
+                                        sel.isOpen = true;
                                     }
                                 }
                             }
@@ -180,7 +180,7 @@ export class TreeView<T>
                                 if (sel.isOpen) {
                                     sel.isOpen = false;
                                 }
-                                else if (!sel.node.isRoot && !sel.node.parent.isRoot) {
+                                else if (sel.node.isChild && sel.node.parent.isChild) {
                                     const parentElem = this.nodes2Elements.get(sel.node.parent);
                                     parentElem.select();
                                 }
@@ -404,7 +404,7 @@ export class TreeView<T>
 
     set selectedNode(v: TreeNode<T>) {
         let isFirst = true;
-        while (isDefined(v) && !v.isRoot) {
+        while (isDefined(v) && v.isChild) {
             const elem = this.nodes2Elements.get(v);
             if (elem) {
                 if (isFirst) {
@@ -519,7 +519,10 @@ export class TreeView<T>
         const parentID = this.options.getParentKey(value);
         const parentNode = isNullOrUndefined(parentID)
             ? this.rootNode
-            : this.rootNode.search(n => this.options.getKey(n.value) === parentID);
+            : this.rootNode.search(n =>
+                n.isChild
+                && this.options.getKey(n.value) === parentID);
+
         const parentElement = this.nodes2Elements.get(parentNode);
         parentElement.add(value);
     }
@@ -602,7 +605,7 @@ export class TreeView<T>
 
     collapseAll() {
         for (const element of this.elements) {
-            if (!element.node.isRoot && element.canAddChildren) {
+            if (element.node.isChild && element.canAddChildren) {
                 element.isOpen = false;
             }
         }
@@ -610,7 +613,7 @@ export class TreeView<T>
 
     expandAll(maxDepth: number = null) {
         for (const element of this.elements) {
-            if (!element.node.isRoot
+            if (element.node.isChild
                 && element.canAddChildren
                 && (isNullOrUndefined(maxDepth)
                     || element.node.depth <= maxDepth)) {

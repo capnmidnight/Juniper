@@ -103,7 +103,7 @@ export class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
         const queue: TreeNode<ValueT>[] = [this];
         while (queue.length > 0) {
             const here = getNext(queue);
-            if (!here.isLeaf) {
+            if (here.hasChildren) {
                 queue.push(...here.children);
             }
             yield here;
@@ -148,7 +148,15 @@ export class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
         return this._isEntryPoint;
     }
 
+    get isChild() {
+        return !this._isEntryPoint;
+    }
+
     get isLeaf() {
         return this._isExitPoint;
+    }
+
+    get hasChildren() {
+        return !this._isExitPoint;
     }
 }
