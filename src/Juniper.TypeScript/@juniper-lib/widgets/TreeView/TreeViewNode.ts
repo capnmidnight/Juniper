@@ -26,14 +26,14 @@ export class TreeViewNodeSelectedEvent<T> extends TypedEvent<"select"> {
     }
 }
 
-export class TreeViewNodeAddEvent<T> extends TypedEvent<"add"> {
+export abstract class TreeViewNodeEvent<EventT extends string, ValueT> extends TypedEvent<EventT>{
     private readonly _finished = new Task();
     public get finished(): Promise<void> {
         return this._finished;
     }
 
-    constructor(public readonly parent: TreeViewNode<T>) {
-        super("add");
+    constructor(type: EventT, public readonly parent: TreeViewNode<ValueT>) {
+        super(type);
     }
 
     complete() {
@@ -41,10 +41,23 @@ export class TreeViewNodeAddEvent<T> extends TypedEvent<"add"> {
     }
 }
 
+export class TreeViewNodeAddEvent<T> extends TreeViewNodeEvent<"add", T> {
+    constructor(parent: TreeViewNode<T>) {
+        super("add", parent);
+    }
+}
+
+export class TreeViewNodeContextMenuEvent<T> extends TreeViewNodeEvent<"contextmenu", T> {
+    constructor(parent: TreeViewNode<T>) {
+        super("contextmenu", parent);
+    }
+}
+
 export interface TreeViewNodeEvents<T> {
     click: TreeViewNodeClickedEvent<T>;
     select: TreeViewNodeSelectedEvent<T>;
     add: TreeViewNodeAddEvent<T>;
+    contextmenu: TreeViewNodeContextMenuEvent<T>;
 }
 
 export class TreeViewNode<T>
@@ -83,25 +96,6 @@ export class TreeViewNode<T>
             }
         });
 
-        const addItem = async (evt: Event) => {
-            if (this.canAddChildren) {
-                evt.preventDefault();
-                evt.cancelBubble = true;
-                this.adder.disabled = true;
-                const addEvt = new TreeViewNodeAddEvent(this);
-                try {
-                    this.dispatchEvent(addEvt);
-                    await addEvt.finished;
-                }
-                catch {
-                    addEvt.complete();
-                }
-                finally {
-                    this.adder.disabled = false;
-                }
-            }
-        };
-
         this.element = Div(
             className("tree-view-node"),
             this.infoView = Div(
@@ -137,9 +131,9 @@ export class TreeViewNode<T>
 
                 this.label = Span(
                     this.getLabel(this.node),
-                    onContextMenu((evt) => {
+                    onContextMenu(async (evt) => {
                         if (this.enabled) {
-                            addItem(evt);
+                            await this.launchMenu(evt, new TreeViewNodeContextMenuEvent(this));
                         }
                     })
                 )
@@ -152,7 +146,11 @@ export class TreeViewNode<T>
                 this.adder = ButtonSmall(
                     className("tree-view-node-adder"),
                     title(this.adderTitle),
-                    onEnabledClick(addItem),
+                    onEnabledClick(async (evt: Event) => {
+                        if (this.canAddChildren) {
+                            await this.launchMenu(evt, new TreeViewNodeAddEvent(this));
+                        }
+                    }),
                     plus.value
                 )
             ),
@@ -169,6 +167,22 @@ export class TreeViewNode<T>
         this.refresh();
 
         this.isOpen = node.isRoot;
+    }
+
+    private async launchMenu(parentEvt: Event, evt: TreeViewNodeEvent<string, T>) {
+        parentEvt.preventDefault();
+        parentEvt.cancelBubble = true;
+        this.adder.disabled = true;
+        try {
+            this.dispatchEvent(evt);
+            await evt.finished;
+        }
+        catch {
+            evt.complete();
+        }
+        finally {
+            this.adder.disabled = false;
+        }
     }
 
     refresh() {
