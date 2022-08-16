@@ -12,7 +12,7 @@ export function isErsatzElement<T extends HTMLElement = HTMLElement>(obj: any): 
     }
 
     const elem = obj as ErsatzElement;
-    return elem.element instanceof Node;
+    return elem.element instanceof HTMLElement;
 }
 
 export type Elements<T extends HTMLElement = HTMLElement> = T | ErsatzElement<T>;
@@ -43,13 +43,18 @@ export type ElementChild = Elements
     | Date;
 
 export function isElementChild(obj: any): obj is ElementChild {
-    return obj instanceof Node
+    return obj instanceof HTMLElement
         || isErsatzElement(obj)
         || isIElementAppliable(obj)
         || isString(obj)
         || isNumber(obj)
         || isBoolean(obj)
         || isDate(obj);
+}
+
+export function isElements(child: ElementChild): child is Elements {
+    return isErsatzElement(child)
+        || child instanceof HTMLElement;
 }
 
 export interface IFocusable {
