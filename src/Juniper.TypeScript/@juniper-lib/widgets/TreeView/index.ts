@@ -3,6 +3,7 @@ import { CssProp } from "@juniper-lib/dom/css";
 import {
     isModifierless,
     onClick,
+    onContextMenu,
     onDragEnd,
     onDragOver,
     onDragStart,
@@ -20,7 +21,7 @@ import {
 } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayRemove, buildTree, isDefined, isFunction, isNullOrUndefined, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import "./styles";
-import { TreeViewNode, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
+import { TreeViewNode, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
 
 
 export interface TreeViewOptions<T> {
@@ -113,6 +114,13 @@ export class TreeView<T>
             Div(
                 className("tree-view-inner"),
                 tabIndex(0),
+
+                onContextMenu(async (evt) => {
+                    if (!this.disabled) {
+                        const rootElement = this.nodes2Elements.get(this.rootNode);
+                        await rootElement._launchMenu(evt, new TreeViewNodeContextMenuEvent<T>(rootElement));
+                    }
+                }),
 
                 onClick((evt) => {
                     if (!this.disabled && !evt.defaultPrevented) {

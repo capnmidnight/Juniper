@@ -3,8 +3,8 @@ import { left, styles, top } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
 import { Button, Div, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/tags";
 import { isDefined, Task } from "@juniper-lib/tslib";
-
 import "./styles";
+
 
 export class ContextMenu<T extends string = string> implements ErsatzElement {
 
@@ -32,12 +32,17 @@ export class ContextMenu<T extends string = string> implements ErsatzElement {
         });
     }
 
-    public async show(...options: readonly (T | HTMLHRElement)[]): Promise<T | null> {
-        const hasTask = isDefined(this.currentTask);
-        if (hasTask) {
+    public async cancel() {
+        if (isDefined(this.currentTask)) {
             this.currentTask.resolve("cancel");
             await this.currentTask;
             this.currentTask = null;
+        }
+    }
+
+    public async show(...options: readonly (T | HTMLHRElement)[]): Promise<T | null> {
+        if (isDefined(this.currentTask)) {
+            await this.cancel();
         }
 
         const task = new Task<T | null>();

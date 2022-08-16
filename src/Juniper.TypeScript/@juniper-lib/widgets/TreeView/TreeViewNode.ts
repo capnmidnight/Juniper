@@ -133,7 +133,7 @@ export class TreeViewNode<T>
                     this.getLabel(this.node),
                     onContextMenu(async (evt) => {
                         if (this.enabled) {
-                            await this.launchMenu(evt, new TreeViewNodeContextMenuEvent(this));
+                            await this._launchMenu(evt, new TreeViewNodeContextMenuEvent(this));
                         }
                     })
                 )
@@ -148,7 +148,7 @@ export class TreeViewNode<T>
                     title(this.adderTitle),
                     onEnabledClick(async (evt: Event) => {
                         if (this.canAddChildren) {
-                            await this.launchMenu(evt, new TreeViewNodeAddEvent(this));
+                            await this._launchMenu(evt, new TreeViewNodeAddEvent(this));
                         }
                     }),
                     plus.value
@@ -169,7 +169,7 @@ export class TreeViewNode<T>
         this.isOpen = node.isRoot;
     }
 
-    private async launchMenu(parentEvt: Event, evt: TreeViewNodeEvent<string, T>) {
+    async _launchMenu(parentEvt: Event, evt: TreeViewNodeEvent<string, T>) {
         parentEvt.preventDefault();
         parentEvt.cancelBubble = true;
         this.adder.disabled = true;
