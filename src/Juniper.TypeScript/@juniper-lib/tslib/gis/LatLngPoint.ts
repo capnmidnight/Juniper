@@ -149,16 +149,36 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
      * Pretty-print the Degrees/Minutes/Second version of the Latitude/Longitude angles.
      * @param sigfigs
      */
-    toDMS(sigfigs: number): string {
+    toDMS(sigfigs: number, withAltitude = true): string {
         const latStr = LatLngPoint.toDMS(this.lat, "S", "N", sigfigs);
         const lngStr = LatLngPoint.toDMS(this.lng, "W", "E", sigfigs);
-        if (this.alt) {
+        if (this.alt && withAltitude) {
             const altStr = `${this.alt.toFixed(sigfigs)}m`;
             return `<${latStr}, ${lngStr}> alt ${altStr}`;
         }
         else {
             return `<${latStr}, ${lngStr}>`;
         }
+    }
+
+    /**
+     * Pretty-print the Degrees/Minutes/Second version of the Latitude/Longitude angles.
+     * @param sigfigs
+     */
+    toDMSArray(sigfigs: number): [string, string];
+    toDMSArray(sigfigs: number, withAltitude: false): [string, string];
+    toDMSArray(sigfigs: number, withAltitude: true): [string, string, string];
+    toDMSArray(sigfigs: number, withAltitude = false): string[] {
+        const parts = [
+            LatLngPoint.toDMS(this.lat, "S", "N", sigfigs),
+            LatLngPoint.toDMS(this.lng, "W", "E", sigfigs)
+        ];
+
+        if (this.alt && withAltitude) {
+            parts.push(`${this.alt.toFixed(sigfigs)}m`);
+        }
+
+        return parts;
     }
 
     /**
@@ -183,7 +203,7 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
             secondsStr = `0${secondsStr}`;
         }
 
-        return `${hemisphere} ${degrees.toFixed(sigfigs)}° ${intMinutes.toFixed(sigfigs)}' ${secondsStr}"`;
+        return `${hemisphere} ${degrees.toFixed(0)}° ${intMinutes.toFixed(0)}' ${secondsStr}"`;
     }
 
     /**
