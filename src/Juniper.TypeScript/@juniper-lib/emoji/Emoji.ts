@@ -3,7 +3,7 @@
  * Unicode-standardized pictograms.
  **/
 export class Emoji {
-    props: any;
+    readonly props: any;
 
     /**
      * Creates a new Unicode-standardized pictograms.
@@ -11,7 +11,7 @@ export class Emoji {
      * @param desc - an English text description of the pictogram.
      * @param props - an optional set of properties to store with the emoji.
      */
-    constructor(public value: string, public desc: string, props: any = null) {
+    constructor(public readonly value: string, public readonly desc: string, props: any = null) {
         this.value = value;
         this.desc = desc;
         this.props = props || {};

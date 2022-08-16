@@ -151,7 +151,7 @@ export class TreeViewNode<T>
                             await this._launchMenu(evt, new TreeViewNodeAddEvent(this));
                         }
                     }),
-                    plus.value
+                    plus.emojiStyle
                 )
             ),
 
@@ -188,9 +188,9 @@ export class TreeViewNode<T>
     refresh() {
         elementSetText(this.collapser, this.canAddChildren
             ? this.isOpen
-                ? blackMediumDownPointingTriangleCentered.value
-                : blackMediumRightPointingTriangleCentered.value
-            : blackDiamondCentered.value);
+                ? blackMediumDownPointingTriangleCentered.emojiStyle
+                : blackMediumRightPointingTriangleCentered.emojiStyle
+            : blackDiamondCentered.emojiStyle);
         elementSetTitle(this.collapser, this.collapserTitle);
 
         elementSetText(this.label, this.getLabel(this.node));
