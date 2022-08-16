@@ -707,18 +707,19 @@ export function outlineOffset(v: string) { return new CssProp("outlineOffset", v
 export function outlineStyle(v: string) { return new CssProp("outlineStyle", v); }
 export function outlineWidth(v: string | 0) { return new CssProp("outlineWidth", v); }
 
-export type CSSOverflowValues = CSSGlobalValues
+export type CSSOverflowValues =
     | "visible"
     | "hidden"
     | "clip"
     | "scroll"
     | "auto";
 
-export function overflow(v: CSSOverflowValues): CssProp;
+export function overflow(v: CSSGlobalValues | CSSOverflowValues): CssProp;
 export function overflow(x: CSSOverflowValues, y: CSSOverflowValues): CssProp;
-export function overflow(...v: CSSOverflowValues[]): CssProp { return new CssProp("overflow", v.join(" ")); }
-export function overflowX(v: CSSOverflowValues) { return new CssProp("overflowX", v); }
-export function overflowY(v: CSSOverflowValues) { return new CssProp("overflowY", v); }
+export function overflow(...v: (CSSGlobalValues | CSSOverflowValues)[]): CssProp { return new CssProp("overflow", v.join(" ")); }
+
+export function overflowX(v: CSSGlobalValues|CSSOverflowValues) { return new CssProp("overflowX", v); }
+export function overflowY(v: CSSGlobalValues|CSSOverflowValues) { return new CssProp("overflowY", v); }
 
 export function overflowAnchor(v: string) { return new CssProp("overflowAnchor", v); }
 export function overflowWrap(v: string) { return new CssProp("overflowWrap", v); }
@@ -728,20 +729,20 @@ export function overscrollBehaviorInline(v: string) { return new CssProp("oversc
 export function overscrollBehaviorX(v: string) { return new CssProp("overscrollBehaviorX", v); }
 export function overscrollBehaviorY(v: string) { return new CssProp("overscrollBehaviorY", v); }
 
-export function padding(v: CSSLengthPercentage): CssProp;
+export function padding(v: CSSGlobalValues | CSSLengthPercentage): CssProp;
 export function padding(vert: CSSLengthPercentage, horiz: CSSLengthPercentage): CssProp;
 export function padding(top: CSSLengthPercentage, horiz: CSSLengthPercentage, bot: CSSLengthPercentage): CssProp;
 export function padding(top: CSSLengthPercentage, right: CSSLengthPercentage, bot: CSSLengthPercentage, left: CSSLengthPercentage): CssProp;
-export function padding(...v: CSSLengthPercentage[]) { return new CssProp("padding", v.join(" ")); }
+export function padding(...v: (CSSGlobalValues | CSSLengthPercentage)[]) { return new CssProp("padding", v.join(" ")); }
 
-export function paddingBlockEnd(v: CSSLengthPercentage) { return new CssProp("paddingBlockEnd", v); }
-export function paddingBlockStart(v: CSSLengthPercentage) { return new CssProp("paddingBlockStart", v); }
-export function paddingBottom(v: CSSLengthPercentage) { return new CssProp("paddingBottom", v); }
-export function paddingInlineEnd(v: CSSLengthPercentage) { return new CssProp("paddingInlineEnd", v); }
-export function paddingInlineStart(v: CSSLengthPercentage) { return new CssProp("paddingInlineStart", v); }
-export function paddingLeft(v: CSSLengthPercentage) { return new CssProp("paddingLeft", v); }
-export function paddingRight(v: CSSLengthPercentage) { return new CssProp("paddingRight", v); }
-export function paddingTop(v: CSSLengthPercentage) { return new CssProp("paddingTop", v); }
+export function paddingBlockEnd(v: CSSGlobalValues | CSSLengthPercentage) { return new CssProp("paddingBlockEnd", v); }
+export function paddingBlockStart(v: CSSGlobalValues | CSSLengthPercentage) { return new CssProp("paddingBlockStart", v); }
+export function paddingBottom(v: CSSGlobalValues | CSSLengthPercentage) { return new CssProp("paddingBottom", v); }
+export function paddingInlineEnd(v: CSSGlobalValues | CSSLengthPercentage) { return new CssProp("paddingInlineEnd", v); }
+export function paddingInlineStart(v: CSSGlobalValues | CSSLengthPercentage) { return new CssProp("paddingInlineStart", v); }
+export function paddingLeft(v: CSSGlobalValues | CSSLengthPercentage) { return new CssProp("paddingLeft", v); }
+export function paddingRight(v: CSSGlobalValues | CSSLengthPercentage) { return new CssProp("paddingRight", v); }
+export function paddingTop(v: CSSGlobalValues | CSSLengthPercentage) { return new CssProp("paddingTop", v); }
 
 export function pageBreakAfter(v: string) { return new CssProp("pageBreakAfter", v); }
 export function pageBreakBefore(v: string) { return new CssProp("pageBreakBefore", v); }
