@@ -11,7 +11,7 @@ import {
     onKeyDown
 } from "@juniper-lib/dom/evts";
 import {
-    ButtonSmallPrimary, Div,
+    ButtonPrimarySmall, Div,
     elementApply,
     elementClearChildren,
     elementGetIndexInParent,
@@ -105,12 +105,12 @@ export class TreeView<T>
             Div(
                 className("tree-view-controls"),
 
-                this.collapseButton = ButtonSmallPrimary(
+                this.collapseButton = ButtonPrimarySmall(
                     onClick(() => this.collapseAll()),
                     "Collapse all"
                 ),
 
-                this.expandButton = ButtonSmallPrimary(
+                this.expandButton = ButtonPrimarySmall(
                     onClick(() => this.expandAll()),
                     "Expand all"
                 )

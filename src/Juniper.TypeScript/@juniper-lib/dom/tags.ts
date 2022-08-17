@@ -296,14 +296,20 @@ export function BlockQuote(...rest: ElementChild[]): HTMLQuoteElement { return t
 export function Body(...rest: ElementChild[]): HTMLBodyElement { return tag("body", ...rest); }
 export function BR(): HTMLBRElement { return tag("br"); }
 export function ButtonRaw(...rest: ElementChild[]): HTMLButtonElement { return tag("button", ...rest); }
+export function ButtonSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm")); }
 export function Button(...rest: ElementChild[]): HTMLButtonElement { return ButtonRaw(...rest, type("button")); }
 export function ButtonPrimary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-primary")); }
+export function ButtonPrimaryOutline(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-outline-primary")); }
+export function ButtonPrimarySmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-primary")); }
+export function ButtonPrimaryOutlineSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-outline-primary")); }
 export function ButtonSecondary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-secondary")); }
+export function ButtonSecondaryOutline(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-outline-secondary")); }
+export function ButtonSecondarySmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-secondary")); }
+export function ButtonSecondaryOutlineSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-outline-secondary")); }
 export function ButtonDanger(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-danger")); }
-export function ButtonSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm")); }
-export function ButtonSmallPrimary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-primary")); }
-export function ButtonSmallSecondary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-secondary")); }
-export function ButtonSmallDanger(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-danger")); }
+export function ButtonDangerOutline(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-outline-danger")); }
+export function ButtonDangerSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-danger")); }
+export function ButtonDangerOutlineSmalle(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-outline-danger")); }
 export function ButtonSubmit(...rest: ElementChild[]): HTMLButtonElement { return ButtonRaw(...rest, type("submit")); }
 export function ButtonReset(...rest: ElementChild[]): HTMLButtonElement { return ButtonRaw(...rest, type("reset")); }
 export function Canvas(...rest: ElementChild[]): HTMLCanvasElement { return tag("canvas", ...rest); }
