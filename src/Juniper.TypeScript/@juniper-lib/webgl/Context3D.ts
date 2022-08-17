@@ -62,7 +62,7 @@ export class Context3D extends TypedEventBase<Context3DEvents> {
                 };
 
                 window.addEventListener("resize", resize);
-                setTimeout(resize, 0);
+                setTimeout(resize);
             }
 
             (opts as any).xrCompatible = true;

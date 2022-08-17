@@ -72,7 +72,7 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
                 const test = q.shift();
                 await test().finally(nothing);
                 if (i === N - 1) {
-                    setTimeout(update, 0);
+                    setTimeout(update);
                 }
             }
         };
