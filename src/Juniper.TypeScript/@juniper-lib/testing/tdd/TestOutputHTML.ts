@@ -21,7 +21,7 @@ import {
     ElementChild, elementReplace, ErsatzElement,
     Span
 } from "@juniper-lib/dom/tags";
-import { isDefined } from "@juniper-lib/tslib";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { TestCaseConstructor } from "./TestCase";
 import { TestOutput } from "./TestOutput";
 import { TestOutputResultsEvent } from "./TestOutputResultsEvent";

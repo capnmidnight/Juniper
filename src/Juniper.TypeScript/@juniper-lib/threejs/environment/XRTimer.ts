@@ -1,4 +1,6 @@
-import { arrayRemove, BaseTimerTickEvent, isDefined, ITimer } from "@juniper-lib/tslib";
+import { arrayRemove } from "@juniper-lib/tslib/collections/arrayRemove";
+import { BaseTimerTickEvent, ITimer } from "@juniper-lib/tslib/timers/ITimer";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { WebGLRenderer } from "three";
 
 export class XRTimerTickEvent extends BaseTimerTickEvent {

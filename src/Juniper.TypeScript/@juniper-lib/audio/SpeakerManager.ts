@@ -1,4 +1,7 @@
-import { arrayScan, arraySortByKey, isDefined, isFunction, isNullOrUndefined, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { arrayScan } from "@juniper-lib/tslib/collections/arrayScan";
+import { arraySortByKey } from "@juniper-lib/tslib/collections/arraySortedInsert";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 
 /**

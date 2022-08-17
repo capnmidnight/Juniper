@@ -1,6 +1,9 @@
-import { arrayClear, arrayRemoveByKey, PointerID } from "@juniper-lib/tslib";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
+import { arrayRemoveByKey } from "@juniper-lib/tslib/collections/arrayRemove";
+import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { BaseScreenPointer } from "./BaseScreenPointer";
+
 
 function getPointerID(evt: PointerEvent) {
     return evt.pointerId;

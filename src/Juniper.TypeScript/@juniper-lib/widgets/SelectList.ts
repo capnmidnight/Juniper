@@ -1,7 +1,9 @@
 import { value } from "@juniper-lib/dom/attrs";
 import type { ErsatzElement } from "@juniper-lib/dom/tags";
 import { elementClearChildren, Option } from "@juniper-lib/dom/tags";
-import { arraySortByKey, isNullOrUndefined, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { arraySortByKey } from "@juniper-lib/tslib/collections/arraySortedInsert";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { makeItemCallback } from "./SelectBox";
 import { withDefault } from "./SelectBox";
 

@@ -1,5 +1,7 @@
 import { vec2, vec3 } from "gl-matrix";
-import { deg2rad, ICloneable, isDefined, isObject } from "../";
+import { deg2rad } from "../math/deg2rad";
+import { isDefined, isObject } from "../typeChecks";
+import { ICloneable } from "../using";
 import { DatumWGS_84 } from "./Datum";
 import { ILatLngPoint, LatLngPoint } from "./LatLngPoint";
 

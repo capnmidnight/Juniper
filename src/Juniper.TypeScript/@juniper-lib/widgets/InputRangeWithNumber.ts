@@ -1,7 +1,7 @@
 import { className } from "@juniper-lib/dom/attrs";
 import { columnGap, display, gridAutoFlow, gridTemplateColumns, rule } from "@juniper-lib/dom/css";
 import { Div, ElementChild, ErsatzElement, InputNumber, InputRange, Style } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 
 Style(
     rule(".input-range-with-number",

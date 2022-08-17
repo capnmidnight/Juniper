@@ -1,5 +1,5 @@
 import { mediaElementCanPlay } from "@juniper-lib/dom/tags";
-import { once } from "@juniper-lib/tslib";
+import { once } from "@juniper-lib/tslib/events/once";
 import { audioReady, removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
 import { IPlayable, MediaElementSourceErroredEvent, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";

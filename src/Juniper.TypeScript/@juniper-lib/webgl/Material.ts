@@ -1,9 +1,9 @@
+import { assertNever } from "@juniper-lib/tslib/typeChecks";
 import type { mat4 } from "gl-matrix";
-import { assertNever } from "@juniper-lib/tslib";
 import { BaseProgram } from "./BaseProgram";
 import type { Geometry } from "./Geometry";
-import type { BaseTexture } from "./managed/resource/Texture";
 import type { Uniform } from "./managed/object/Uniform";
+import type { BaseTexture } from "./managed/resource/Texture";
 
 export abstract class BaseMaterial extends BaseProgram {
     private uGamma: Uniform;

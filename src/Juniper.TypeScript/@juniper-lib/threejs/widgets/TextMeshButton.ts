@@ -1,6 +1,7 @@
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { TextImage } from "@juniper-lib/graphics2d/TextImage";
-import { isDefined, stringRandom } from "@juniper-lib/tslib";
+import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { FrontSide } from "three";
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { BaseEnvironment } from "../environment/BaseEnvironment";

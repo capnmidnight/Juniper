@@ -1,16 +1,19 @@
 import { type } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { BackgroundAudio, BackgroundVideo, Img, Script } from "@juniper-lib/dom/tags";
-import {
-    HTTPMethods, IFetcherBasic,
-    IFetcherBodiedResult,
-    IFetcherBodilessResult,
-    IFetcherResult,
-    IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec,
-    IFetcherSendProgressTimeoutCredentialsCacheGetBody, IFetchingService, IRequestWithBody, IResponse, translateResponse
-} from "@juniper-lib/fetcher";
 import { Application_Javascript, Application_Json, Application_Wasm, MediaType, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
-import { assertNever, dispose, Exception, IProgress, isDefined, isString, once, waitFor } from "@juniper-lib/tslib";
+import { once } from "@juniper-lib/tslib/events/once";
+import { waitFor } from "@juniper-lib/tslib/events/waitFor";
+import { Exception } from "@juniper-lib/tslib/Exception";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { assertNever, isDefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { dispose } from "@juniper-lib/tslib/using";
+import { HTTPMethods } from "./HTTPMethods";
+import { IFetcherBasic, IFetcherBodiedResult, IFetcherBodilessResult, IFetcherResult, IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec, IFetcherSendProgressTimeoutCredentialsCacheGetBody } from "./IFetcher";
+import { IFetchingService } from "./IFetchingService";
+import { IRequestWithBody } from "./IRequest";
+import { IResponse } from "./IResponse";
+import { translateResponse } from "./translateResponse";
 
 declare const IS_WORKER: boolean;
 

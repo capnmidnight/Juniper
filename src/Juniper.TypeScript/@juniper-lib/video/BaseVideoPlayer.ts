@@ -8,7 +8,14 @@ import { NoSpatializationNode } from "@juniper-lib/audio/sources/spatializers/No
 import { autoPlay, controls, loop, playsInline } from "@juniper-lib/dom/attrs";
 import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper-lib/dom/tags";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
-import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once, PriorityList, progressTasks } from "@juniper-lib/tslib";
+import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
+import { progressTasks } from "@juniper-lib/tslib/progress/progressTasks";
+import { arraySortByKeyInPlace } from "../tslib/collections/arraySortedInsert";
+import { once } from "../tslib/events/once";
+import { AsyncCallback } from "../tslib/identity";
+import { IProgress } from "../tslib/progress/IProgress";
+import { isDefined, isNullOrUndefined, isString } from "../tslib/typeChecks";
+import { IDisposable } from "../tslib/using";
 import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer

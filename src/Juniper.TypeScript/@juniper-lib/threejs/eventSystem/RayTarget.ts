@@ -1,4 +1,4 @@
-import { TypedEventBase } from "@juniper-lib/tslib";
+import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Mesh, Object3D } from "three";
 import { ErsatzObject, objectIsFullyVisible, objectResolve, Objects } from "../objects";
 import { Pointer3DEvents } from "./devices/Pointer3DEvent";

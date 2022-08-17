@@ -1,4 +1,4 @@
-import { isArray } from "@juniper-lib/tslib";
+import { isArray } from "@juniper-lib/tslib/typeChecks";
 import { Color, MeshBasicMaterial } from "three";
 import { Cube } from "../../Cube";
 import { BaseEnvironment } from "../../environment/BaseEnvironment";

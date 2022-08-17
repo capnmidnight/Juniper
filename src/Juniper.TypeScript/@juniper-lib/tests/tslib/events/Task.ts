@@ -1,5 +1,5 @@
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
-import { Task } from "@juniper-lib/tslib";
+import { Task } from "@juniper-lib/tslib/events/Task";
 
 export class TaskTests extends TestCase {
     async test_Basic() {

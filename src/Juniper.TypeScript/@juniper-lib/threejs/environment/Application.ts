@@ -1,5 +1,7 @@
-import type { IDisposable, IProgress, TimerTickEvent } from "@juniper-lib/tslib";
-import { TypedEventBase } from "@juniper-lib/tslib";
+import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import type { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import type { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
+import type { IDisposable } from "@juniper-lib/tslib/using";
 import type { ApplicationJoinRoomEvent, ApplicationQuitEvent } from "./ApplicationEvents";
 import type { Environment } from "./Environment";
 

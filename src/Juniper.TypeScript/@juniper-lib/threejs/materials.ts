@@ -1,4 +1,5 @@
-import { isNullOrUndefined, singleton } from "@juniper-lib/tslib";
+import { singleton } from "@juniper-lib/tslib/singleton";
+import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { Color, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, MeshPhongMaterial, MeshPhongMaterialParameters, MeshStandardMaterial, Object3D, SpriteMaterial, SpriteMaterialParameters } from "three";
 import { LineMaterial, LineMaterialParameters } from "./examples/lines/LineMaterial";
 import { isMaterial, isMesh } from "./typeChecks";

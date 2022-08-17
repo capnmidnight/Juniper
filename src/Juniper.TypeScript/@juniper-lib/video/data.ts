@@ -1,5 +1,5 @@
 import { AudioRecord, FullAudioRecord, MediaRecord } from "@juniper-lib/audio/data";
-import { isString } from "@juniper-lib/tslib";
+import { isString } from "@juniper-lib/tslib/typeChecks";
 
 export interface ImageRecord extends MediaRecord {
     width: number;

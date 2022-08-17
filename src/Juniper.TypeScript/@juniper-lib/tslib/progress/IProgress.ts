@@ -1,4 +1,4 @@
-import { isDefined, isFunction } from "../";
+import { isDefined, isFunction } from "../typeChecks";
 
 export interface IProgress {
     report(soFar: number, total: number, message?: string, est?: number): void;

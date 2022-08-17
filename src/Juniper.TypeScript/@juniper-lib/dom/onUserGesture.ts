@@ -1,4 +1,4 @@
-import { alwaysTrue } from "@juniper-lib/tslib";
+import { alwaysTrue } from "@juniper-lib/tslib/identity";
 
 const gestures = [
     "change",

@@ -1,6 +1,8 @@
 import { createUtilityCanvas, setContextSize } from "@juniper-lib/dom/canvas";
 import { makeFont } from "@juniper-lib/dom/fonts";
-import { clamp, isDefined, isNullOrUndefined, isNumber, PaddingRect } from "@juniper-lib/tslib";
+import { clamp } from "@juniper-lib/tslib/math/clamp";
+import { PaddingRect } from "@juniper-lib/tslib/math/Rectangle";
+import { isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { CanvasImage, CanvasImageOptions } from "./CanvasImage";
 
 export type TextDirection = "horizontal" | "vertical";

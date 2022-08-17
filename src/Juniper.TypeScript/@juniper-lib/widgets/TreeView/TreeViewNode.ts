@@ -11,7 +11,9 @@ import {
     Span
 } from "@juniper-lib/dom/tags";
 import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
-import { Task, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { Task } from "@juniper-lib/tslib/events/Task";
 import { TreeView } from "./";
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {

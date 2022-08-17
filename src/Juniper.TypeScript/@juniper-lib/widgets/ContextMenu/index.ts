@@ -2,7 +2,8 @@ import { className } from "@juniper-lib/dom/attrs";
 import { left, styles, top } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
 import { Button, Div, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/tags";
-import { isDefined, Task } from "@juniper-lib/tslib";
+import { Task } from "@juniper-lib/tslib/events/Task";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import "./styles";
 
 

@@ -1,4 +1,4 @@
-import { isDefined, isNullOrUndefined } from "../";
+import { isDefined, isNullOrUndefined } from "../typeChecks";
 import { arrayClear } from "./arrayClear";
 import { arrayRemove } from "./arrayRemove";
 

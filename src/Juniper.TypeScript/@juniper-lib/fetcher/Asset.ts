@@ -1,6 +1,7 @@
-import { IFetcher, IFetcherBodiedResult } from "@juniper-lib/fetcher";
 import { Application_Json, MediaType } from "@juniper-lib/mediatypes";
-import { IProgress, isBoolean, isDefined, isFunction } from "@juniper-lib/tslib";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { isBoolean, isDefined, isFunction } from "@juniper-lib/tslib/typeChecks";
+import { IFetcher, IFetcherBodiedResult } from "./IFetcher";
 import { IResponse } from "./IResponse";
 
 export abstract class BaseAsset<ResultT = any, ErrorT = any> implements Promise<ResultT> {

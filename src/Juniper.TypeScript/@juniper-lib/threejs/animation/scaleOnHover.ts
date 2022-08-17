@@ -1,5 +1,6 @@
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
-import { IDisposable, singleton } from "@juniper-lib/tslib";
+import { singleton } from "@juniper-lib/tslib/singleton";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { Object3D, Vector3 } from "three";
 import { RayTarget } from "../eventSystem/RayTarget";
 import { objectResolve, Objects } from "../objects";

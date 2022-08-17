@@ -1,4 +1,4 @@
-import { PointerID } from "@juniper-lib/tslib";
+import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { Matrix4, Object3D, Vector3 } from "three";
 import { AvatarRemote } from "../../AvatarRemote";
 import { Cube } from "../../Cube";

@@ -1,5 +1,9 @@
 import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
-import { arrayCompare, arrayScan, IDisposable, inches2Meters, isDefined, isNullOrUndefined, meters2Inches } from "@juniper-lib/tslib";
+import { arrayCompare } from "@juniper-lib/tslib/collections/arrayCompare";
+import { arrayScan } from "@juniper-lib/tslib/collections/arrayScan";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+import { inches2Meters, meters2Inches } from "@juniper-lib/tslib/units/length";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { BufferGeometry, Matrix4, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Quaternion, Texture, Vector3, Vector4, VideoTexture } from "three";
 import { cleanup } from "../cleanup";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
@@ -10,6 +14,7 @@ import { mesh, objectIsFullyVisible, objGraph } from "../objects";
 import { plane } from "../Plane";
 import { isMesh, isMeshBasicMaterial } from "../typeChecks";
 import { StereoLayoutName } from "../VideoPlayer3D";
+
 
 const P = new Vector4();
 const Q = new Quaternion();

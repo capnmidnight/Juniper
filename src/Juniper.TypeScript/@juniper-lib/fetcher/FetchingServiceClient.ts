@@ -1,6 +1,10 @@
-import { IFetchingService, IRequest, IRequestWithBody, IResponse } from "@juniper-lib/fetcher";
-import { assertNever, IProgress } from "@juniper-lib/tslib";
-import { WorkerClient, WorkerServerEventMessage } from "@juniper-lib/workers";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { assertNever } from "@juniper-lib/tslib/typeChecks";
+import { WorkerClient } from "@juniper-lib/workers/WorkerClient";
+import { WorkerServerEventMessage } from "@juniper-lib/workers/WorkerMessages";
+import { IFetchingService } from "./IFetchingService";
+import { IRequest, IRequestWithBody } from "./IRequest";
+import { IResponse } from "./IResponse";
 
 function isDOMParsersSupportedType(type: string): type is DOMParserSupportedType {
     return type === "application/xhtml+xml"

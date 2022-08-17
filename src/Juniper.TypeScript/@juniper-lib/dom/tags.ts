@@ -1,4 +1,6 @@
-import { IProgress, isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString, once } from "@juniper-lib/tslib";
+import { once } from "@juniper-lib/tslib/events/once";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/typeChecks";
 import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
 import { CSSInJSRule, display, margin, styles } from "./css";
 

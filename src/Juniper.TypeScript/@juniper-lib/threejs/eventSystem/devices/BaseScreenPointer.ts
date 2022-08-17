@@ -1,4 +1,4 @@
-import { PointerID, PointerType } from "@juniper-lib/tslib";
+import { PointerID, PointerType } from "@juniper-lib/tslib/events/Pointers";
 import { Vector2 } from "three";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { resolveCamera } from "../../resolveCamera";

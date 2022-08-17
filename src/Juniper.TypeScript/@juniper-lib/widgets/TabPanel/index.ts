@@ -2,7 +2,8 @@ import { Attr, className } from "@juniper-lib/dom/attrs";
 import { CssProp, display, gridTemplateRows } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonSmallSecondary, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
-import { isNullOrUndefined, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import "./styles";
 
 

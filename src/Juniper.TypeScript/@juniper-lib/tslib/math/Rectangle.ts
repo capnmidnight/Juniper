@@ -1,4 +1,4 @@
-import { isDefined } from "../";
+import { isDefined } from "../typeChecks";
 import type { IPoint } from "./Point";
 import { Point } from "./Point";
 import type { ISize } from "./Size";

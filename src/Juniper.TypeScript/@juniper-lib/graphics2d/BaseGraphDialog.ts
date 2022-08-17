@@ -22,7 +22,10 @@ import {
     InputCheckbox,
     InputNumber, PreLabeled
 } from "@juniper-lib/dom/tags";
-import { GraphNode, mapBuild, RequestAnimationFrameTimer, stringRandom } from "@juniper-lib/tslib";
+import { GraphNode } from "@juniper-lib/tslib/collections/GraphNode";
+import { mapBuild } from "@juniper-lib/tslib/collections/mapBuild";
+import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
+import { RequestAnimationFrameTimer } from "@juniper-lib/tslib/timers/RequestAnimationFrameTimer";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { vec2 } from "gl-matrix";
 

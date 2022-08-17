@@ -1,4 +1,4 @@
-import { identity } from "../";
+import { identity } from "../identity";
 import { mapMap } from "./mapMap";
 
 export function mapBuild<T, U>(items: T[], makeValue: (item: T) => U): Map<T, U> {

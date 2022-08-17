@@ -1,4 +1,4 @@
-import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "../";
+import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "../typeChecks";
 import { arrayBinarySearch } from "./arrayBinarySearch";
 import { arrayInsertAt } from "./arrayInsertAt";
 

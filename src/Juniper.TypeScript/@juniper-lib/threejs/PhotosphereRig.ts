@@ -1,7 +1,10 @@
 import { canvasToBlob, CanvasTypes, createUtilityCanvas } from "@juniper-lib/dom/canvas";
-import { IFetcher } from "@juniper-lib/fetcher";
+import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Image_Jpeg } from "@juniper-lib/mediatypes";
-import { deg2rad, IDisposable, IProgress, progressOfArray } from "@juniper-lib/tslib";
+import { deg2rad } from "@juniper-lib/tslib/math/deg2rad";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { progressOfArray } from "@juniper-lib/tslib/progress/progressOfArray";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { AmbientLight, DoubleSide, Euler, Group, MeshBasicMaterial, PerspectiveCamera, PlaneGeometry, Scene, Texture, WebGLRenderer } from "three";
 import { cleanup } from "./cleanup";
 import { mesh, objGraph } from "./objects";

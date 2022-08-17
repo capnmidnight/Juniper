@@ -1,4 +1,4 @@
-import { arrayClear } from "@juniper-lib/tslib";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
 import type { AudioConnection, ErsatzAudioNode } from "../nodes";
 import { Delay, Gain, removeVertex } from "../nodes";
 

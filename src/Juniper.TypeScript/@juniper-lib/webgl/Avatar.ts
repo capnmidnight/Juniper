@@ -1,4 +1,4 @@
-import { deg2rad } from "@juniper-lib/tslib";
+import { deg2rad } from "@juniper-lib/tslib/math/deg2rad";
 import { quat, vec3 } from "gl-matrix";
 
 export class Avatar {

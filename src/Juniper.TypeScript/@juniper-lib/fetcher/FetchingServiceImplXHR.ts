@@ -1,5 +1,13 @@
 import { IDexDB, IDexStore } from "@juniper-lib/indexdb";
-import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, progressSplit, Task, using } from "@juniper-lib/tslib";
+import { mapJoin } from "@juniper-lib/tslib/collections/mapJoin";
+import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
+import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
+import { Task } from "@juniper-lib/tslib/events/Task";
+import { identity } from "@juniper-lib/tslib/identity";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { progressSplit } from "@juniper-lib/tslib/progress/progressSplit";
+import { assertNever, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { using } from "@juniper-lib/tslib/using";
 import type { HTTPMethods } from "./HTTPMethods";
 import type { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
 import type { IRequest, IRequestWithBody } from "./IRequest";

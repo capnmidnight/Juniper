@@ -20,7 +20,9 @@ import {
     Option,
     Select
 } from "@juniper-lib/dom/tags";
-import { makeLookup, SetTimeoutTimer, stringRandom } from "@juniper-lib/tslib";
+import { makeLookup } from "@juniper-lib/tslib/collections/makeLookup";
+import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
+import { SetTimeoutTimer } from "@juniper-lib/tslib/timers/SetTimeoutTimer";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { InputRangeWithNumber } from "@juniper-lib/widgets/InputRangeWithNumber";

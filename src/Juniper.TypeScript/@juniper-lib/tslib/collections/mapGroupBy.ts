@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "../";
+import { isNullOrUndefined } from "../typeChecks";
 
 export function mapGroupBy<T, U>(items: T[], makeID: (item: T) => U) {
     const map = new Map<U, T[]>();

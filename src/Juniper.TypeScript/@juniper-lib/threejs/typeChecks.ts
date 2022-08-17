@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { Color, CubeTexture, Euler, Material, Mesh, MeshBasicMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, Object3D, Quaternion, Texture } from "three";
 
 export function isMesh(obj: any): obj is Mesh {

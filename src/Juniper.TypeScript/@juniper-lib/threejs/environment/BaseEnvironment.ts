@@ -12,23 +12,16 @@ import {
     width
 } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
-import { BaseAsset, IFetcher, isAsset } from "@juniper-lib/fetcher";
+import { BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
+import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import {
-    arrayRemove,
-    arraySortByKeyInPlace,
-    IProgress,
-    isDefined,
-    isDesktop,
-    isFirefox,
-    isFunction,
-    isNullOrUndefined,
-    isOculusBrowser,
-    oculusBrowserVersion,
-    TimerTickEvent,
-    TypedEvent,
-    TypedEventBase
-} from "@juniper-lib/tslib";
+import { arrayRemove } from "@juniper-lib/tslib/collections/arrayRemove";
+import { arraySortByKeyInPlace } from "@juniper-lib/tslib/collections/arraySortedInsert";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { isDesktop, isFirefox, isOculusBrowser, oculusBrowserVersion } from "@juniper-lib/tslib/flags";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
+import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
 import { AmbientLight, DirectionalLight, GridHelper, Group, PerspectiveCamera, Scene, Vector4, WebGLRenderer, WebGLRenderTarget, WebXRArrayCamera } from "three";
 import { BodyFollower } from "../animation/BodyFollower";

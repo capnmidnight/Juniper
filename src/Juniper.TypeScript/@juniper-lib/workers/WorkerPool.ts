@@ -1,4 +1,7 @@
-import { arrayClear, IDisposable, isDefined, isNullOrUndefined, isNumber, TypedEventBase } from "@juniper-lib/tslib";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
+import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { WorkerClient } from "./WorkerClient";
 import type { FullWorkerClientOptions } from "./WorkerClientOptions";
 

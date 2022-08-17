@@ -1,9 +1,10 @@
 import { classList, className, customData } from "@juniper-lib/dom/attrs";
 import { display, styles } from "@juniper-lib/dom/css";
 import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1 } from "@juniper-lib/dom/tags";
-import { once, success, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { once, success } from "@juniper-lib/tslib/events/once";
 import "./styles";
+
 
 export abstract class DialogBox
     implements ErsatzElement {

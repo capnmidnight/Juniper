@@ -1,4 +1,6 @@
-import { and, arrayClear, PriorityMap } from "@juniper-lib/tslib";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
+import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
+import { and } from "@juniper-lib/tslib/identity";
 import { BaseVideoPlayer } from "@juniper-lib/video/BaseVideoPlayer";
 import { BufferGeometry, MeshBasicMaterial, Object3D } from "three";
 import { cleanup } from "./cleanup";

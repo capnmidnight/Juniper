@@ -1,4 +1,4 @@
-import { isGoodNumber } from "@juniper-lib/tslib";
+import { isGoodNumber } from "@juniper-lib/tslib/typeChecks";
 import { BaseWebAudioPanner } from "./BaseWebAudioPanner";
 
 /**

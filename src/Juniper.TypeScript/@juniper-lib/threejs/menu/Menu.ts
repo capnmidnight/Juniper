@@ -1,11 +1,16 @@
 import type { FontDescription } from "@juniper-lib/dom/fonts";
 import { loadFont } from "@juniper-lib/dom/fonts";
-import { AssetImage } from "@juniper-lib/fetcher";
+import { AssetImage } from "@juniper-lib/fetcher/Asset";
 import { Animator } from "@juniper-lib/graphics2d/animation/Animator";
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Image_Jpeg, Image_Png } from "@juniper-lib/mediatypes";
-import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted } from "@juniper-lib/tslib";
+import { arrayReplace } from "@juniper-lib/tslib/collections/arrayReplace";
+import { clamp } from "@juniper-lib/tslib/math/clamp";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { progressOfArray } from "@juniper-lib/tslib/progress/progressOfArray";
+import { progressTasksWeighted } from "@juniper-lib/tslib/progress/progressTasks";
+import { isFunction, isGoodNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { Object3D, Vector3 } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objGraph } from "../objects";

@@ -1,4 +1,12 @@
-import { arrayCompare, identity, IDisposable, isArray, isDefined, isNullOrUndefined, isString, mapMap, once, PriorityList, PriorityMap, success, Task } from "@juniper-lib/tslib";
+import { arrayCompare } from "@juniper-lib/tslib/collections/arrayCompare";
+import { mapMap } from "@juniper-lib/tslib/collections/mapMap";
+import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
+import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
+import { once, success } from "@juniper-lib/tslib/events/once";
+import { Task } from "@juniper-lib/tslib/events/Task";
+import { identity } from "@juniper-lib/tslib/identity";
+import { isArray, isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { IDisposable } from "@juniper-lib/tslib/using";
 
 interface IndexDef {
     name: string;

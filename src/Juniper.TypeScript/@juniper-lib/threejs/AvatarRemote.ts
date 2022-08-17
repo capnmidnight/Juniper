@@ -4,7 +4,10 @@ import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource"
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import { FWD, IDisposable, isNullOrUndefined, PointerID, UP } from "@juniper-lib/tslib";
+import { PointerID } from "@juniper-lib/tslib/events/Pointers";
+import { FWD, UP } from "@juniper-lib/tslib/math";
+import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { UserPointerEvent, UserPosedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";

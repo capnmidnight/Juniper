@@ -1,4 +1,4 @@
-import { isDefined } from "../";
+import { isDefined } from "../typeChecks";
 import type { IRectangle } from "./Rectangle";
 import type { ISize } from "./Size";
 

@@ -1,4 +1,4 @@
-import { stringRandom } from "@juniper-lib/tslib";
+import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import { BufferGeometry, Material, Mesh } from "three";
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { RayTarget } from "../eventSystem/RayTarget";

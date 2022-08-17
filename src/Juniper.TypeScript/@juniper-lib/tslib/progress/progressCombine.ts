@@ -1,4 +1,4 @@
-import { isDefined } from "../";
+import { isDefined } from "../typeChecks";
 import { BaseProgress } from "./BaseProgress";
 import { IProgress } from "./IProgress";
 

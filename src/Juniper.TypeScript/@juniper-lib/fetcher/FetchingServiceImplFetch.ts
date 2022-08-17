@@ -1,5 +1,11 @@
 import { IDexDB, IDexStore } from "@juniper-lib/indexdb";
-import { assertNever, identity, IProgress, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, using } from "@juniper-lib/tslib";
+import { mapJoin } from "@juniper-lib/tslib/collections/mapJoin";
+import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
+import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
+import { identity } from "@juniper-lib/tslib/identity";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { assertNever, isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { using } from "@juniper-lib/tslib/using";
 import { isXHRBodyInit } from "./FetchingServiceImplXHR";
 import type { HTTPMethods } from "./HTTPMethods";
 import type { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";

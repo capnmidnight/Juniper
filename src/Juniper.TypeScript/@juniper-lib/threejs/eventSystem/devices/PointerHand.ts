@@ -1,11 +1,6 @@
-import {
-    isChrome,
-    isDefined,
-    isDesktop,
-    isNullOrUndefined,
-    isOculusBrowser,
-    PointerID
-} from "@juniper-lib/tslib";
+import { PointerID } from "@juniper-lib/tslib/events/Pointers";
+import { isChrome, isDesktop, isOculusBrowser } from "@juniper-lib/tslib/flags";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/EventedGamepad";
 import { Event, Matrix4, Object3D, Quaternion, Vector3, XRGripSpace, XRHandSpace, XRTargetRaySpace } from "three";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";

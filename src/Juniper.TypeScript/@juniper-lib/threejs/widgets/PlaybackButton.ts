@@ -2,7 +2,11 @@ import { FullAudioRecord } from "@juniper-lib/audio/data";
 import { MediaElementSourceEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer } from "@juniper-lib/audio/sources/IPlayer";
 import { keycapDigits } from "@juniper-lib/emoji/numbers";
-import { AsyncCallback, BaseProgress, IDisposable, isDefined, TypedEvent } from "@juniper-lib/tslib";
+import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { AsyncCallback } from "@juniper-lib/tslib/identity";
+import { BaseProgress } from "@juniper-lib/tslib/progress/BaseProgress";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { Object3D } from "three";
 import { cleanup } from "../cleanup";
 import { Cube } from "../Cube";
@@ -12,7 +16,6 @@ import { ErsatzObject, obj, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
 import { TextMesh } from "./TextMesh";
-
 
 const playEvt = new TypedEvent("play");
 const stopEvt = new TypedEvent("stop");

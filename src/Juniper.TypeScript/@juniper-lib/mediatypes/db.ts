@@ -1,4 +1,4 @@
-import { singleton } from "@juniper-lib/tslib";
+import { singleton } from "@juniper-lib/tslib/singleton";
 import * as _allApplication from "./application";
 import * as _allAudio from "./audio";
 import * as _allChemical from "./chemical";

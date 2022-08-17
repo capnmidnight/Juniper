@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "../";
+import { isNullOrUndefined } from "../typeChecks";
 
 const DEFAULT_CHAR_SET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
 

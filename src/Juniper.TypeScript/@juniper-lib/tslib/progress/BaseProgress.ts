@@ -1,4 +1,5 @@
-import { arrayClear, TypedEventBase } from "../";
+import { arrayClear } from "../collections/arrayClear";
+import { TypedEventBase } from "../events/EventBase";
 import type { IProgress } from "./IProgress";
 
 export class BaseProgress<T = void>

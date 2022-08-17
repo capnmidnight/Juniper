@@ -1,5 +1,5 @@
-import type { ILatLngPoint } from "@juniper-lib/tslib";
-import { isNullOrUndefined } from "@juniper-lib/tslib";
+import type { ILatLngPoint } from "@juniper-lib/tslib/gis/LatLngPoint";
+import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export function y2g(p: ILatLngPoint): google.maps.LatLngLiteral {
     if (isNullOrUndefined(p)) {

@@ -1,4 +1,4 @@
-import { isNumber } from "../";
+import { isNumber } from "../typeChecks";
 import { clamp } from "./clamp";
 import { project } from "./project";
 import { unproject } from "./unproject";

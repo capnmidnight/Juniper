@@ -1,4 +1,4 @@
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib";
+import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 export const typePattern = /([^\/]+)\/(.+)/;
 const subTypePattern = /(?:([^\.]+)\.)?([^\+;]+)(?:\+([^;]+))?((?:; *([^=]+)=([^;]+))*)/;

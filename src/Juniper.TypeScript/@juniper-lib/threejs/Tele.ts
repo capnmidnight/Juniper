@@ -1,6 +1,12 @@
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { MediaType, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { arrayRemove, arraySortedInsert, IProgress, isDefined, progressTasks, Task, TimerTickEvent } from "@juniper-lib/tslib";
+import { arrayRemove } from "@juniper-lib/tslib/collections/arrayRemove";
+import { arraySortedInsert } from "@juniper-lib/tslib/collections/arraySortedInsert";
+import { Task } from "@juniper-lib/tslib/events/Task";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { progressTasks } from "@juniper-lib/tslib/progress/progressTasks";
+import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
 import { Object3D, Vector3 } from "three";

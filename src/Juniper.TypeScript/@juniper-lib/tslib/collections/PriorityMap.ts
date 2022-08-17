@@ -1,4 +1,4 @@
-import { isDefined, isNullOrUndefined } from "../";
+import { isDefined, isNullOrUndefined } from "../typeChecks";
 
 
 

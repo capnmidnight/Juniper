@@ -1,6 +1,8 @@
 import { hasFullscreenAPI } from "@juniper-lib/dom/fullscreen";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
-import { hasVR, hasWebVR, hasWebXR, isDefined, isMobileVR, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { hasVR, hasWebVR, hasWebXR, isMobileVR } from "@juniper-lib/tslib/flags";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { PerspectiveCamera, WebGLRenderer } from "three";
 import WebXRPolyfill from "webxr-polyfill/src/WebXRPolyfill";
 import { ScreenMode } from "./ScreenMode";

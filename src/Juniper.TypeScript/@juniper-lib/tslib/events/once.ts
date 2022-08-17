@@ -1,4 +1,6 @@
-import { alwaysFalse, alwaysTrue, Exception, isNullOrUndefined, isNumber, isString } from "../";
+import { Exception } from "../Exception";
+import { alwaysFalse, alwaysTrue } from "../identity";
+import { isNullOrUndefined, isNumber, isString } from "../typeChecks";
 import { EventBase, TypedEventBase } from "./EventBase";
 import { Task } from "./Task";
 

@@ -1,5 +1,6 @@
-import { TestCase } from "@juniper-lib/testing/tdd";
-import { GlobeHemisphere, LatLngPoint, UTMPoint } from "@juniper-lib/tslib";
+import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
+import { LatLngPoint } from "@juniper-lib/tslib/gis/LatLngPoint";
+import { GlobeHemisphere, UTMPoint } from "@juniper-lib/tslib/gis/UTMPoint";
 
 const K = 0.00000001;
 

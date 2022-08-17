@@ -2,12 +2,12 @@ import { autoPlay, id, playsInline, src, srcObject } from "@juniper-lib/dom/attr
 import { display, styles } from "@juniper-lib/dom/css";
 import { waitForUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "@juniper-lib/dom/tags";
-import {
-    IDisposable, IProgress, isDefined,
-    isMobileVR,
-    isNullOrUndefined,
-    isString, stringToName, TypedEvent, TypedEventBase
-} from "@juniper-lib/tslib";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { isMobileVR } from "@juniper-lib/tslib/flags";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
+import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { AudioDestination } from "./destinations/AudioDestination";
 import { WebAudioListenerNew } from "./destinations/spatializers/WebAudioListenerNew";
 import { WebAudioListenerOld } from "./destinations/spatializers/WebAudioListenerOld";

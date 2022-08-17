@@ -1,5 +1,5 @@
 import { isDisableable } from "@juniper-lib/dom/tags";
-import { isDefined } from "@juniper-lib/tslib";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { BufferGeometry, Material, Mesh, Object3D, Vector3 } from "three";
 import { isObject3D } from "./typeChecks";
 

@@ -1,6 +1,13 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
-import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isGoodNumber, isMobile, isMobileVR, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";
+import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
+import { angleClamp } from "@juniper-lib/tslib/math/angleClamp";
+import { clamp } from "@juniper-lib/tslib/math/clamp";
+import { deg2rad } from "@juniper-lib/tslib/math/deg2rad";
+import { truncate } from "@juniper-lib/tslib/math/truncate";
+import { assertNever, isFunction, isGoodNumber, isString } from "@juniper-lib/tslib/typeChecks";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { Euler, Matrix4, Object3D, Quaternion, Vector2, Vector3 } from "three";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading, getLookPitch } from "./animation/lookAngles";

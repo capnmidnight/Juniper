@@ -1,7 +1,6 @@
-import { isDefined } from "../";
-import { arrayClear } from "../collections";
+import { arrayClear } from "../collections/arrayClear";
 import { alwaysTrue } from "../identity";
-import { isBoolean, isFunction } from "../typeChecks";
+import { isBoolean, isDefined, isFunction } from "../typeChecks";
 import { Predicate } from "./Predicate";
 
 /**

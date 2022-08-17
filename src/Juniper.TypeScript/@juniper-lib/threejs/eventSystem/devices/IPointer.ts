@@ -1,4 +1,5 @@
-import type { PointerID, PointerType, TypedEventBase } from "@juniper-lib/tslib";
+import type { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import type { PointerID, PointerType } from "@juniper-lib/tslib/events/Pointers";
 import { Vector3 } from "three";
 import type { BaseCursor } from "../cursors/BaseCursor";
 import type { RayTarget } from "../RayTarget";

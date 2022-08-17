@@ -1,4 +1,9 @@
-import { IProgress, isDefined, progressPopper, progressSplitWeighted, TypedEvent, TypedEventBase, URLBuilder } from "@juniper-lib/tslib";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { progressPopper } from "@juniper-lib/tslib/progress/progressPopper";
+import { progressSplitWeighted } from "@juniper-lib/tslib/progress/progressSplit";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
 import type { Application, ApplicationConstructor, ApplicationModule } from "./Application";
 import type { Environment } from "./Environment";
 

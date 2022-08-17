@@ -1,6 +1,7 @@
 import { makeBlobURL } from "@juniper-lib/dom/makeBlobURL";
-import { FetchingService, FetchingServiceImplXHR as FetchingServiceImpl } from "@juniper-lib/fetcher";
 import { Fetcher } from "@juniper-lib/fetcher/Fetcher";
+import { FetchingService } from "@juniper-lib/fetcher/FetchingService";
+import { FetchingServiceImplXHR as FetchingServiceImpl } from "@juniper-lib/fetcher/FetchingServiceImplXHR";
 import { Text_Plain } from "@juniper-lib/mediatypes";
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
 

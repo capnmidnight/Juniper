@@ -1,10 +1,10 @@
-import { TypedEvent } from "@juniper-lib/tslib";
+import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { MeshBasicMaterial, Vector3 } from "three";
 import { Cube } from "./Cube";
-import { RayTarget } from "./eventSystem/RayTarget";
 import { VirtualButton } from "./eventSystem/devices/VirtualButton";
+import { RayTarget } from "./eventSystem/RayTarget";
 import { obj } from "./objects";
 import { Sphere } from "./Sphere";
-import { MeshBasicMaterial, Vector3 } from "three";
 
 export class TranslatorDragDirEvent extends TypedEvent<"dragdir">{
 

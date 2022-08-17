@@ -1,7 +1,8 @@
 import type { CanvasTypes } from "@juniper-lib/dom/canvas";
 import { isOffscreenCanvas, setContextSize } from "@juniper-lib/dom/canvas";
 import { border, height, left, margin, padding, position, styles, top, touchAction, width } from "@juniper-lib/dom/css";
-import { isNullOrUndefined, TypedEventBase } from "@juniper-lib/tslib";
+import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export class ResizeEvent extends Event {
     constructor(

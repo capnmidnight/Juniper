@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
 function getTestNumber(): string | null {
     if ("location" in globalThis) {

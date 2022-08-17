@@ -1,5 +1,5 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
-import type { IProgress } from "@juniper-lib/tslib";
+import type { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import type { BaseAsset } from "./Asset";
 import type { IResponse } from "./IResponse";
 

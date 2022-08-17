@@ -1,4 +1,4 @@
-import { isNumber } from "../";
+import { isNumber } from "../typeChecks";
 
 export function formatNumber(value: number, digits = 0): string {
     if (isNumber(value)) {

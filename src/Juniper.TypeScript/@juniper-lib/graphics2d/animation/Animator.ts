@@ -1,4 +1,5 @@
-import { arrayScan, Task } from "@juniper-lib/tslib";
+import { arrayScan } from "@juniper-lib/tslib/collections/arrayScan";
+import { Task } from "@juniper-lib/tslib/events/Task";
 
 function isDead(task: AnimationTask): boolean {
     return !task.started || task.finished;

@@ -1,7 +1,7 @@
 import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper-lib/dom/canvas";
 import { createUtilityCanvas } from "@juniper-lib/dom/canvas";
 import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/CubeMapFaceIndex";
-import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib";
+import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { Color, CubeCamera, CubeTexture, Euler, Quaternion, Scene, Vector3, WebGLCubeRenderTarget } from "three";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";

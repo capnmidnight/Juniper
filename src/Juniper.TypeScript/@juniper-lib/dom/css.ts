@@ -1,4 +1,4 @@
-import { isDefined, isNumber, isString } from "@juniper-lib/tslib";
+import { isDefined, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { IElementAppliable } from "./tags";
 
 export class CssProp implements IElementAppliable {

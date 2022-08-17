@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { MeshBasicMaterial, Object3D, Vector3 } from "three";
 import { solidBlue, solidGreen, solidRed } from "./materials";
 import { ErsatzObject, obj, objectIsVisible, objectSetVisible } from "./objects";

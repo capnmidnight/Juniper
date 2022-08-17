@@ -1,4 +1,4 @@
-import { angleClamp } from "@juniper-lib/tslib";
+import { angleClamp } from "@juniper-lib/tslib/math/angleClamp";
 import { Vector3 } from "three";
 
 const D = new Vector3();

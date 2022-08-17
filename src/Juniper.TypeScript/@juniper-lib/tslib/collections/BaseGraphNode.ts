@@ -1,4 +1,4 @@
-import { isDefined } from "../";
+import { isDefined } from "../typeChecks";
 import { arrayInsertAt } from "./arrayInsertAt";
 import { arrayRemove } from "./arrayRemove";
 import { arraySortedInsert } from "./arraySortedInsert";

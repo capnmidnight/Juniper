@@ -1,4 +1,4 @@
-import { lerp } from "../";
+import { lerp } from "../math/lerp";
 
 export abstract class BaseTimerTickEvent {
     t = 0;

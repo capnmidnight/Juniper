@@ -1,5 +1,7 @@
 import { vec2, vec3 } from "gl-matrix";
-import { ICloneable, isNullOrUndefined, isObject, rad2deg } from "../";
+import { rad2deg } from "../math/rad2deg";
+import { isNullOrUndefined, isObject } from "../typeChecks";
+import { ICloneable } from "../using";
 import { DatumWGS_84 } from "./Datum";
 import { IUTMPoint, UTMPoint } from "./UTMPoint";
 

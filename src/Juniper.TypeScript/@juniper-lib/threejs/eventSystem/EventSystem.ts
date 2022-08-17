@@ -1,4 +1,5 @@
-import { arrayClear, TypedEventBase } from "@juniper-lib/tslib";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
+import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Intersection, Mesh, Object3D, Raycaster, Vector3 } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
