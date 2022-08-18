@@ -47,6 +47,12 @@ class TreeViewNodeEvent<EventT extends string, DataT> extends TypedEvent<EventT>
     }
 }
 
+export class TreeViewNodeDeleteEvent<DataT> extends TreeViewNodeEvent<"delete", DataT> {
+    constructor(node: TreeNode<DataT>) {
+        super("delete", node);
+    }
+}
+
 export class TreeViewNodeMovedEvent<DataT> extends TreeViewNodeEvent<"moved", DataT> {
     constructor(node: TreeNode<DataT>, public readonly newIndex: number) {
         super("moved", node);
@@ -62,6 +68,7 @@ export class TreeViewNodeReparentedEvent<DataT> extends TreeViewNodeEvent<"repar
 interface TreeViewEvents<T> {
     moved: TreeViewNodeMovedEvent<T>;
     reparented: TreeViewNodeReparentedEvent<T>;
+    delete: TreeViewNodeDeleteEvent<T>;
 }
 
 export class TreeView<T>
@@ -142,7 +149,10 @@ export class TreeView<T>
                     if (isModifierless(evt)) {
                         const sel = this.selectedElement;
                         if (sel) {
-                            if (evt.key === "ArrowUp") {
+                            if (evt.key === "Delete") {
+                                this.dispatchEvent(new TreeViewNodeDeleteEvent<T>(sel.node))
+                            }
+                            else if (evt.key === "ArrowUp") {
                                 const index = elementGetIndexInParent(sel);
                                 if (index > 0) {
                                     const nextHTMLElement = sel.element.parentElement.children[index - 1] as HTMLElement;
