@@ -81,8 +81,8 @@ export class TypedEvent<T extends string> extends Event {
         return super.type as T;
     }
 
-    constructor(type: T) {
-        super(type);
+    constructor(type: T, eventInitDict?: EventInit) {
+        super(type, eventInitDict);
     }
 }
 
@@ -133,9 +133,11 @@ export class TypedEventBase<EventsT> extends EventBase {
             return false;
         }
 
-        for (const bubbler of this.bubblers) {
-            if (!bubbler.dispatchEvent(evt)) {
-                return false;
+        if (evt.bubbles && !evt.cancelBubble) {
+            for (const bubbler of this.bubblers) {
+                if (!bubbler.dispatchEvent(evt)) {
+                    return false;
+                }
             }
         }
 

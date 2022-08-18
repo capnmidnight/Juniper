@@ -141,6 +141,14 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
         return this.throwTest(func, false, message);
     }
 
+    async resolves(task: Promise<any>) {
+        await this.doesNotThrow(() => task);
+    }
+
+    async rejects(task: Promise<any>) {
+        await this.throws(() => task);
+    }
+
     private twoValueTest<T>(actual: T, op: string, expected: T, testFunc: (a: T, b: T) => boolean, message?: string): boolean {
         if (testFunc(actual, expected)) {
             return this.success();

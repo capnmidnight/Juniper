@@ -107,7 +107,7 @@ export class TreeViewNode<T>
 
                 onEnabledClick(() => {
                     if (!this.selected) {
-                        this.select();
+                        this._select(true);
                     }
                 }),
 
@@ -126,7 +126,7 @@ export class TreeViewNode<T>
                             this.isOpen = !this.isOpen;
                         }
                         else {
-                            this.select();
+                            this._select(true);
                         }
                     })
                 ),
@@ -345,12 +345,14 @@ export class TreeViewNode<T>
         return element;
     }
 
-    select() {
+    _select(cancelBubble: boolean) {
         if (this.enabled) {
             this.dispatchEvent(new TreeViewNodeClickedEvent(this.node));
 
             if (!this.selected) {
-                this.dispatchEvent(new TreeViewNodeSelectedEvent(this.node));
+                const selectEvt = new TreeViewNodeSelectedEvent(this.node);
+                selectEvt.cancelBubble = cancelBubble;
+                this.dispatchEvent(selectEvt);
             }
         }
     }

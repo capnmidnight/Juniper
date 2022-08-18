@@ -56,9 +56,7 @@ export class OnceTests extends TestCase {
 
     async test_Timeout() {
         const timeout = 250;
-        await this.throws(async () => {
-            await once(this.rig, "good", timeout);
-        });
+        await this.rejects(once(this.rig, "good", timeout));
     }
 
     async test_NoTimeout() {
@@ -73,10 +71,8 @@ export class OnceTests extends TestCase {
 
     async test_Bad() {
         const task = once(this.rig, "good", "bad");
-        await this.throws(async () => {
-            this.rig.triggerBad();
-            await task;
-        });
+        this.rig.triggerBad();
+        await this.rejects(task);
     }
 }
 
