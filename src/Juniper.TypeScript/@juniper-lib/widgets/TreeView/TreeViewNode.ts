@@ -336,13 +336,12 @@ export class TreeViewNode<T>
         }
     }
 
-    add(value: T): TreeViewNode<T> {
+    add(value: T): void {
         this.isOpen = true;
         const node = new TreeNode(value);
         this.node.connectTo(node);
-        const element = this.createElement(node);
+        this.createElement(node);
         this.refresh();
-        return element;
     }
 
     _select(cancelBubble: boolean) {

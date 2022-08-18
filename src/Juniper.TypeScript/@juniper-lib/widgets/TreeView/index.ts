@@ -544,7 +544,7 @@ export class TreeView<T>
         return element;
     }
 
-    addValue(value: T): TreeViewNode<T> {
+    addValue(value: T) {
         const parentID = this.options.getParentKey(value);
         const parentNode = isNullOrUndefined(parentID)
             ? this.rootNode
@@ -553,7 +553,7 @@ export class TreeView<T>
                 && this.options.getKey(n.value) === parentID);
 
         const parentElement = this.nodes2Elements.get(parentNode);
-        return parentElement.add(value);
+        parentElement.add(value);
     }
 
     updateNode(node: TreeNode<T>) {
