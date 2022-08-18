@@ -157,12 +157,12 @@ export class TreeView<T>
                                 if (index > 0) {
                                     const nextHTMLElement = sel.element.parentElement.children[index - 1] as HTMLElement;
                                     const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
-                                    nextElement.select();
+                                    nextElement._select(true);
                                 }
                                 else if (sel.node.isChild && sel.node.parent.isChild) {
                                     const nextNode = sel.node.parent;
                                     const nextElement = this.nodes2Elements.get(nextNode);
-                                    nextElement.select();
+                                    nextElement._select(true);
                                 }
                             }
                             else if (evt.key === "ArrowDown") {
@@ -170,7 +170,7 @@ export class TreeView<T>
                                 if (index < sel.element.parentElement.childElementCount - 1) {
                                     const nextHTMLElement = sel.element.parentElement.children[index + 1] as HTMLElement;
                                     const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
-                                    nextElement.select();
+                                    nextElement._select(true);
                                 }
                                 else if (sel.node.isChild) {
                                     const parentNode = sel.node.parent;
@@ -179,7 +179,7 @@ export class TreeView<T>
                                     const nextHTMLElement = parentElement.element.parentElement.children[parentIndex + 1] as HTMLElement;
                                     if (nextHTMLElement) {
                                         const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
-                                        nextElement.select();
+                                        nextElement._select(true);
                                     }
                                 }
                             }
@@ -189,7 +189,7 @@ export class TreeView<T>
                                         const nextHTMLElem = sel.children.children[0] as HTMLElement;
                                         if (nextHTMLElem) {
                                             const elem = this.htmlElements2Elements.get(nextHTMLElem);
-                                            elem.select();
+                                            elem._select(true);
                                         }
                                     }
                                     else {
@@ -204,7 +204,7 @@ export class TreeView<T>
                                 }
                                 else if (sel.node.isChild && sel.node.parent.isChild) {
                                     const parentElem = this.nodes2Elements.get(sel.node.parent);
-                                    parentElem.select();
+                                    parentElem._select(true);
                                 }
                             }
                         }
@@ -220,7 +220,7 @@ export class TreeView<T>
 
                             if (htmlElem) {
                                 const elem = this.htmlElements2Elements.get(htmlElem);
-                                elem.select();
+                                elem._select(true);
                             }
                         }
                     }
@@ -448,7 +448,7 @@ export class TreeView<T>
 
     private set selectedElement(e: TreeViewNode<T>) {
         if (isDefined(e) && e.node.isChild) {
-            e.select();
+            e._select(false);
         }
         else {
             this.dispatchEvent(new TreeViewNodeSelectedEvent<T>(null));

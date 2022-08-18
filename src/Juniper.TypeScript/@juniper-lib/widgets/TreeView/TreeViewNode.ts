@@ -344,13 +344,13 @@ export class TreeViewNode<T>
         this.refresh();
     }
 
-    _select(cancelBubble: boolean) {
+    _select(bubbles: boolean) {
         if (this.enabled) {
             this.dispatchEvent(new TreeViewNodeClickedEvent(this.node));
 
             if (!this.selected) {
                 const selectEvt = new TreeViewNodeSelectedEvent(this.node);
-                selectEvt.cancelBubble = cancelBubble;
+                selectEvt.cancelBubble = !bubbles;
                 this.dispatchEvent(selectEvt);
             }
         }
