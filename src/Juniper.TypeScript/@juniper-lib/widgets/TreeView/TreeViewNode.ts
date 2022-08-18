@@ -12,9 +12,9 @@ import {
 } from "@juniper-lib/dom/tags";
 import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
 import { TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
+import { debounce } from "@juniper-lib/tslib/events/debounce";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Task } from "@juniper-lib/tslib/events/Task";
-import { TreeView } from "./";
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {
     constructor(public readonly node: TreeNode<T>) {
@@ -78,8 +78,9 @@ export class TreeViewNode<T>
     readonly upper: HTMLDivElement;
     readonly lower: HTMLDivElement;
 
+    readonly refresh: () => void;
+
     constructor(
-        private readonly treeView: TreeView<T>,
         public readonly node: TreeNode<T>,
         private readonly _getLabel: (value: T) => string,
         private readonly _getDescription: (value: T) => string,
@@ -89,6 +90,8 @@ export class TreeViewNode<T>
         private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T>) {
 
         super();
+
+        this.refresh = debounce(() => this.onRefresh());
 
         const onEnabledClick = (act: (evt: Event) => void) => onClick((evt: Event) => {
             if (this.enabled) {
@@ -121,8 +124,10 @@ export class TreeViewNode<T>
 
                 this.collapser = ButtonSmall(
                     className("tree-view-node-collapser"),
-                    onEnabledClick(() => {
+                    onClick((evt) => {
                         if (this.canAddChildren) {
+                            evt.preventDefault();
+                            evt.cancelBubble = true;
                             this.isOpen = !this.isOpen;
                         }
                         else {
@@ -187,8 +192,17 @@ export class TreeViewNode<T>
         }
     }
 
-    refresh() {
-        elementSetText(this.collapser, this.canAddChildren
+    private onRefresh() {
+        if (this.node.isRoot !== (this.adder.parentElement === this.subView)) {
+            if (this.node.isRoot) {
+                this.subView.append(this.adder);
+            }
+            else {
+                this.infoView.append(this.adder);
+            }
+        }
+
+        elementSetText(this.collapser, this.canAddChildren && this.node.hasChildren
             ? this.isOpen
                 ? blackMediumDownPointingTriangleCentered.emojiStyle
                 : blackMediumRightPointingTriangleCentered.emojiStyle
@@ -197,13 +211,22 @@ export class TreeViewNode<T>
 
         elementSetText(this.label, this.getLabel(this.node));
 
-        elementSetDisplay(this.adder, this.canAddChildren && (this.isOpen || this.node.isLeaf), "inline-block");
+        elementSetDisplay(this.adder, this.canAddChildren, "inline-block");
         elementSetTitle(this.adder, this.adderTitle)
 
-        this.collapser.disabled
-            = this.adder.disabled
-            = !this.enabled;
-        this.element.style.opacity = this.enabled ? "1" : "0.67";
+        this.collapser.disabled = this.disabled && !this.specialSelectMode;
+        this.adder.disabled = this.disabled || this.specialSelectMode;
+    }
+
+    get specialSelectMode() {
+        return this.adder.classList.contains("disabled");
+    }
+
+    set specialSelectMode(v) {
+        if (v !== this.specialSelectMode) {
+            this.adder.classList.toggle("disabled");
+            this.refresh();
+        }
     }
 
     get canAddChildren() {
@@ -252,19 +275,13 @@ export class TreeViewNode<T>
         return this.node.isChild && this._canChangeOrder(this.node.value);
     }
 
-    get disabled(): boolean {
-        return this.element.classList.contains("disabled") && this.treeView.disabled;
+    get disabled() {
+        return this.element.classList.contains("disabled");
     }
 
-    set disabled(v: boolean) {
+    set disabled(v) {
         if (v !== this.disabled) {
-            if (v) {
-                this.element.classList.add("disabled");
-            }
-            else {
-                this.element.classList.remove("disabled");
-            }
-
+            this.element.classList.toggle("disabled");
             this.refresh();
         }
     }
@@ -283,12 +300,7 @@ export class TreeViewNode<T>
 
     set _selected(v: boolean) {
         if (v !== this.selected) {
-            if (v) {
-                this.element.classList.add("selected");
-            }
-            else {
-                this.element.classList.remove("selected");
-            }
+            this.element.classList.toggle("selected");
         }
     }
 

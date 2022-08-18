@@ -228,12 +228,7 @@ export function elementSetClass(elem: Elements, enabled: boolean, className: str
     const hasEnabled = canEnable && elem.classList.contains(className);
 
     if (canEnable && hasEnabled !== enabled) {
-        if (enabled) {
-            elem.classList.add(className);
-        }
-        else {
-            elem.classList.remove(className);
-        }
+        elem.classList.toggle(className);
     }
 }
 

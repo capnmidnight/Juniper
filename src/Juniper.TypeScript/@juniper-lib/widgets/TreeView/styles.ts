@@ -68,9 +68,16 @@ Style(
         backgroundColor("rgba(128,128,128,0.125)")
     ),
 
-    rule(".tree-view-node.disabled",
-        opacity(0.5),
+    rule(".tree-view-node-label[draggable=true]",
+        cursor("grab")
+    ),
+
+    rule(".tree-view-node .tree-view-node.disabled, .tree-view-node .tree-view-node.disabled > .tree-view-node-label[draggable=true]",
         cursor("not-allowed")
+    ),
+
+    rule(".tree-view-node .tree-view-node.disabled > .tree-view-node-label",
+        opacity(0.5)
     ),
 
     rule(".tree-view-node.disabled:hover > .tree-view-node-label",
@@ -103,10 +110,6 @@ Style(
 
     rule(".tree-view-node .drag-buffer.highlighted",
         backgroundColor("#000")
-    ),
-
-    rule(".tree-view-node-label[draggable=true]",
-        cursor("grab")
     ),
 
     rule(".tree-view-node-collapser, .tree-view-node-adder",

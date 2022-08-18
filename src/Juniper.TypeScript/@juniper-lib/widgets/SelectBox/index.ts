@@ -97,28 +97,26 @@ class SelectBoxRow<T>
 
     set selected(v: boolean) {
         if (v !== this.selected) {
-            if (v) {
-                this.element.classList.add("selected");
-            }
-            else {
-                this.element.classList.remove("selected");
-            }
+            this.element.classList.toggle("selected");
         }
     }
 
-    get enabled(): boolean {
-        return !this.element.classList.contains("disabled");
+    get disabled(): boolean {
+        return this.element.classList.contains("disabled");
     }
 
-    set enabled(v: boolean) {
-        if (v !== this.enabled) {
-            if (v) {
-                this.element.classList.remove("disabled");
-            }
-            else {
-                this.element.classList.add("disabled");
-            }
+    set disabled(v: boolean) {
+        if (v !== this.disabled) {
+            this.element.classList.toggle("disabled");
         }
+    }
+
+    get enabled() {
+        return !this.disabled;
+    }
+
+    set enabled(v) {
+        this.disabled = !v;
     }
 }
 

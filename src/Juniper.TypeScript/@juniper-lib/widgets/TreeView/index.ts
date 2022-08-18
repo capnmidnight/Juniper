@@ -337,6 +337,14 @@ export class TreeView<T>
             && child.node.parent !== parent.node;
     }
 
+    get enabled(): boolean {
+        return !this.disabled;
+    }
+
+    set enabled(v: boolean) {
+        this.disabled = !v;
+    }
+
     get disabled(): boolean {
         return this._disabled;
     }
@@ -348,7 +356,7 @@ export class TreeView<T>
             = v;
 
         for (const element of this.elements) {
-            element.refresh();
+            element.disabled = v;
         }
     }
 
@@ -356,6 +364,39 @@ export class TreeView<T>
         return this.rootNode.children
             .flatMap(f => Array.from(f.breadthFirst()))
             .map(n => n.value);
+    }
+
+
+    private *_filterNodes(predicate: (node: TreeNode<T>) => boolean): Iterable<TreeNode<T>> {
+        for (const child of this.rootNode.breadthFirst()) {
+            if (child.isChild && predicate(child)) {
+                yield child;
+            }
+        }
+    }
+
+    filterNodesByNode(predicate: (node: TreeNode<T>) => boolean): TreeNode<T>[] {
+        return Array.from(this._filterNodes(predicate));
+    }
+
+    filterNodesByValue(predicate: (value: T) => boolean): TreeNode<T>[] {
+        return this.filterNodesByNode((node) => predicate(node.value));
+    }
+
+    enableOnlyValues(values: readonly T[]): void {
+        for (const element of this.elements) {
+            if (element.node.isChild) {
+                element.disabled = values.indexOf(element.node.value) === -1;
+                element.specialSelectMode = true;
+            }
+        }
+    }
+
+    enableAllElements() {
+        for (const element of this.elements) {
+            element.enabled = true;
+            element.specialSelectMode = false;
+        }
     }
 
     set values(arr: readonly T[]) {
@@ -493,7 +534,6 @@ export class TreeView<T>
 
     private createElement(node: TreeNode<T>): TreeViewNode<T> {
         const element = new TreeViewNode(
-            this,
             node,
             this.options.getLabel,
             this.options.getDescription,

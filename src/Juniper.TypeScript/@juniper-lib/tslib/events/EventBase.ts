@@ -133,7 +133,7 @@ export class TypedEventBase<EventsT> extends EventBase {
             return false;
         }
 
-        if (evt.bubbles && !evt.cancelBubble) {
+        if (!evt.cancelBubble) {
             for (const bubbler of this.bubblers) {
                 if (!bubbler.dispatchEvent(evt)) {
                     return false;
