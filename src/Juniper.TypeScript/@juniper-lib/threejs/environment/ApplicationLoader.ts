@@ -1,4 +1,6 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { once } from "@juniper-lib/tslib/events/once";
+import { Task } from "@juniper-lib/tslib/events/Task";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressPopper } from "@juniper-lib/tslib/progress/progressPopper";
 import { progressSplitWeighted } from "@juniper-lib/tslib/progress/progressSplit";
@@ -90,16 +92,19 @@ export class ApplicationLoader
             return Promise.resolve(this.get<T>(name));
         }
 
-        return new Promise((resolve) => {
-            const onLoaded = (evt: ApplicationLoaderAppLoadedEvent) => {
-                if (evt.appName === name) {
-                    this.removeEventListener("apploaded", onLoaded);
-                    resolve(evt.app as any as T);
-                }
-            };
+        const task = new Task<T>();
 
-            this.addEventListener("apploaded", onLoaded);
-        });
+        const onLoaded = (evt: ApplicationLoaderAppLoadedEvent) => {
+            if (evt.appName === name) {
+                this.removeEventListener("apploaded", onLoaded);
+                task.resolve(evt.app as any as T);
+            }
+        };
+
+        once(this, "apploaded").then(evt => evt.app)
+        this.addEventListener("apploaded", onLoaded);
+
+        return task;
     }
 
     private async loadAppConstructor(name: string, prog?: IProgress): Promise<ApplicationConstructor> {

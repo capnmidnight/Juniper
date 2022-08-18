@@ -1,9 +1,11 @@
+import { Task } from "@juniper-lib/tslib/events/Task";
+
 export function blobToDataURL(blob: Blob): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = _e => resolve(reader.result as string);
-        reader.onerror = _e => reject(reader.error);
-        reader.onabort = _e => reject(new Error("Read aborted"));
-        reader.readAsDataURL(blob);
-    });
+    const task = new Task<string>();
+    const reader = new FileReader();
+    reader.onload = _e => task.resolve(reader.result as string);
+    reader.onerror = _e => task.reject(reader.error);
+    reader.onabort = _e => task.reject(new Error("Read aborted"));
+    reader.readAsDataURL(blob);
+    return task;
 }

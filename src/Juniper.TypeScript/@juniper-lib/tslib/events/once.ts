@@ -15,9 +15,9 @@ function targetValidateEvent(target: EventTarget, type: string) {
  * @param [rejectEvt] - the name of the event that could reject the Promise this method creates.
  * @param [timeout] - the number of milliseconds to wait for the resolveEvt, before rejecting.
  */
-export function once<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, timeout: number, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt]>;
-export function once<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt]>;
-export function once<EventsT>(target: EventTarget, resolveEvt: keyof EventsT & string, rejectEvtOrTimeout?: number | (keyof EventsT & string), ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt]> {
+export function once<EventMapT, EventT extends keyof EventMapT = keyof EventMapT>(target: TypedEventBase<EventMapT> | EventTarget, resolveEvt: EventT, timeout: number, ...rejectEvts: (keyof EventMapT & string)[]): Task<EventMapT[EventT]>;
+export function once<EventMapT, EventT extends keyof EventMapT = keyof EventMapT>(target: TypedEventBase<EventMapT> | EventTarget, resolveEvt: EventT, ...rejectEvts: (keyof EventMapT & string)[]): Task<EventMapT[EventT]>;
+export function once(target: EventTarget, resolveEvt: string, rejectEvtOrTimeout?: number | string, ...rejectEvts: string[]): Task<Event> {
 
     if (isNullOrUndefined(rejectEvts)) {
         rejectEvts = [];
@@ -43,20 +43,20 @@ export function once<EventsT>(target: EventTarget, resolveEvt: keyof EventsT & s
         }
     }
 
-    const task = new Task<EventsT[typeof resolveEvt]>();
+    const task = new Task<Event>();
 
     if (isNumber(timeout)) {
         const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
         task.finally(clearTimeout.bind(globalThis, timeoutHandle));
     }
 
-    const register = (evt: keyof EventsT & string, callback: (evt: Event) => void) => {
+    const register = (evt: string, callback: (evt: Event) => void) => {
         target.addEventListener(evt, callback);
         task.finally(() => target.removeEventListener(evt, callback));
     }
 
-    const onResolve = (evt: Event) => task.resolve(evt as any as EventsT[typeof resolveEvt]);
-    const onReject = (evt: Event) => task.reject(evt as any as EventsT[keyof EventsT]);
+    const onResolve = (evt: Event) => task.resolve(evt);
+    const onReject = (evt: Event) => task.reject(evt);
     register(resolveEvt, onResolve);
 
     for (const rejectEvt of rejectEvts) {

@@ -1,9 +1,11 @@
 export const documentReady = /*@__PURE__*/ (document.readyState === "complete"
     ? Promise.resolve("already")
     : new Promise((resolve) => {
-        document.addEventListener("readystatechange", () => {
+        const onReadyStateChanged = () => {
             if (document.readyState === "complete") {
+                document.removeEventListener("readystatechange", onReadyStateChanged);
                 resolve("had to wait for it");
             }
-        }, false);
+        };
+        document.addEventListener("readystatechange", onReadyStateChanged, false);
     }));
