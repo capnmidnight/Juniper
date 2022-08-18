@@ -358,14 +358,12 @@ export class TreeViewNode<T>
     }
 
     _select(bubbles: boolean) {
-        if (this.enabled) {
-            this.dispatchEvent(new TreeViewNodeClickedEvent(this.node));
+        this.dispatchEvent(new TreeViewNodeClickedEvent(this.node));
 
-            if (!this.selected) {
-                const selectEvt = new TreeViewNodeSelectedEvent(this.node);
-                selectEvt.cancelBubble = !bubbles;
-                this.dispatchEvent(selectEvt);
-            }
+        if (!this.selected) {
+            const selectEvt = new TreeViewNodeSelectedEvent(this.node);
+            selectEvt.cancelBubble = !bubbles;
+            this.dispatchEvent(selectEvt);
         }
     }
 }

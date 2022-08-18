@@ -315,12 +315,6 @@ export class TreeView<T>
             );
         }
 
-        this.addEventListener("select", (evt) => {
-            for (const elem of this.elements) {
-                elem._selected = elem.node === evt.node;
-            }
-        });
-
         if (this.options.replaceElement) {
             elementReplace(this.options.replaceElement, this);
         }
@@ -409,6 +403,7 @@ export class TreeView<T>
         this.locked = true;
 
         for (const element of this.elements) {
+            element.removeScope(this);
             element.removeBubbler(this);
         }
 
@@ -542,6 +537,12 @@ export class TreeView<T>
             this.options.canAddChildren,
             this.createElement);
 
+        element.addScopedEventListener(this, "select", (evt) => {
+            for (const elem of this.elements) {
+                elem._selected = elem.node === evt.node;
+            }
+        });
+
         element.addBubbler(this);
 
         this.elements.push(element);
@@ -660,6 +661,7 @@ export class TreeView<T>
 
         const parentElement = this.nodes2Elements.get(node.parent);
 
+        element.removeScope(this);
         element.removeBubbler(this);
         element.element.remove();
         node.removeFromParent();
