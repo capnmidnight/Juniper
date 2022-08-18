@@ -207,6 +207,7 @@ export class TreeViewNode<T>
                 ? blackMediumDownPointingTriangleCentered.emojiStyle
                 : blackMediumRightPointingTriangleCentered.emojiStyle
             : blackDiamondCentered.emojiStyle);
+        this.collapser.style.opacity = this.canAddChildren && this.node.hasChildren ? "1" : "0";
         elementSetTitle(this.collapser, this.collapserTitle);
 
         elementSetText(this.label, this.getLabel(this.node));
