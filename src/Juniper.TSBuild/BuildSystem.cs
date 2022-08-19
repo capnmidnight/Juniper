@@ -1,6 +1,8 @@
 using Juniper.Logging;
 using Juniper.Processes;
 
+using System.Text.Json;
+
 namespace Juniper.TSBuild
 {
     public class BuildSystemProjectRootNotFoundException : DirectoryNotFoundException
@@ -23,6 +25,7 @@ namespace Juniper.TSBuild
         public string? OutProjectName;
         public Dictionary<string, (FileInfo From, FileInfo To)>? Dependencies;
         public Dictionary<string, (FileInfo From, FileInfo To)>? OptionalDependencies;
+        public (string Name, string Version, string Reason)[]? BannedDependencies;
     }
 
     public class BuildSystem : ILoggingSource, IDisposable
@@ -184,6 +187,7 @@ namespace Juniper.TSBuild
 
                 AddDependencies(options.Dependencies, true);
                 AddDependencies(options.OptionalDependencies, false);
+                BannedDependencies = options.BannedDependencies;
             }
 
             Info += (sender, e) => WriteInfo(e.Value);
@@ -256,6 +260,8 @@ namespace Juniper.TSBuild
             .Where(dir => dir.Name.StartsWith("@juniper"))
             .SelectMany(dir => dir.EnumerateDirectories())
             .Where(dir => dir.Touch("package.json").Exists);
+
+        private (string Name, string Version, string Reason)[]? BannedDependencies { get; }
 
         private async Task WithCommandTree(Action<CommandTree> buildTree)
         {
@@ -364,7 +370,12 @@ namespace Juniper.TSBuild
 
         private void DeleteNodeModuleDirs()
         {
-            DeleteDirectories(FindDirectories("node_modules", inProjectDir, outProjectDir, juniperTsDir));
+            DeleteDirectories(FindAllNodeModulesDirs());
+        }
+
+        private IEnumerable<DirectoryInfo> FindAllNodeModulesDirs()
+        {
+            return FindDirectories("node_modules", inProjectDir, outProjectDir, juniperTsDir);
         }
 
         private void DeletePackageLockJsons()
@@ -457,6 +468,7 @@ namespace Juniper.TSBuild
                     NPMProjects,
                     dir => new ShellCommand(dir, "npm", "audit")
                 )));
+            await ValidateDependencies();
         }
 
         private async Task NPMAuditFixesAsync()
@@ -559,6 +571,8 @@ namespace Juniper.TSBuild
                     .AddCommands(copyCommands);
             });
 
+            await ValidateDependencies();
+
             foreach (var b in bundles)
             {
                 _ = b.RunSafeAsync();
@@ -574,6 +588,29 @@ namespace Juniper.TSBuild
                     };
                 }
             }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
+        }
+
+        private async Task ValidateDependencies()
+        {
+            if (BannedDependencies is not null)
+            {
+                foreach (var dir in FindAllNodeModulesDirs())
+                {
+                    foreach (var (pkgName, version, reason) in BannedDependencies)
+                    {
+                        var pkgFile = dir.CD(pkgName).Touch("package.json");
+                        if (pkgFile.Exists)
+                        {
+                            using var packageStream = pkgFile.OpenRead();
+                            var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream);
+                            if (package?.version == version)
+                            {
+                                OnWarning($"Banned package found: {pkgName}: {version} -> {reason}");
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private AbstractShellCommand MakeWatchCommand(CommandProxier proxy, DirectoryInfo dir)
