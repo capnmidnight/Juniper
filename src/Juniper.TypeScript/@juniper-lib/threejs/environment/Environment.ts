@@ -11,7 +11,7 @@ import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
-import { rad2deg } from "@juniper-lib/tslib/math/rad2deg";
+import { rad2deg } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
 import { InteractionAudio } from "../eventSystem/InteractionAudio";

@@ -1,4 +1,4 @@
-import { deg2rad } from "@juniper-lib/tslib/math/deg2rad";
+import { deg2rad, Tau } from "@juniper-lib/tslib/math";
 import { Object3D, Quaternion, Vector3 } from "three";
 import { getLookHeading } from "./lookAngles";
 
@@ -14,8 +14,8 @@ let copyCounter = 0;
 
 function minRotAngle(to: number, from: number) {
     const a = to - from;
-    const b = a + 2 * Math.PI;
-    const c = a - 2 * Math.PI;
+    const b = a + Tau;
+    const c = a - Tau;
     const A = Math.abs(a);
     const B = Math.abs(b);
     const C = Math.abs(c);

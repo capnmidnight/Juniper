@@ -5,7 +5,7 @@ import { AssetImage } from "@juniper-lib/fetcher/Asset";
 import { Image_Png } from "@juniper-lib/mediatypes";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { Exception } from "@juniper-lib/tslib/Exception";
-import { nextPowerOf2 } from "@juniper-lib/tslib/math/powerOf2";
+import { nextPowerOf2 } from "@juniper-lib/tslib/math";
 import { BufferGeometry, CanvasTexture, MeshBasicMaterial, PlaneBufferGeometry, Texture } from "three";
 
 interface UVRect {

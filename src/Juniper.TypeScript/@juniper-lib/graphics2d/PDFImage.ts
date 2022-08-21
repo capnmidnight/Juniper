@@ -1,7 +1,7 @@
 import { setContextSize } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Task } from "@juniper-lib/tslib/events/Task";
-import { clamp } from "@juniper-lib/tslib/math/clamp";
+import { clamp } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";

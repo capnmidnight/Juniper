@@ -1,4 +1,4 @@
-import { xy2i } from "@juniper-lib/tslib/math/xy2i";
+import { xy2i } from "@juniper-lib/tslib/math";
 import { Vector2 } from "three";
 
 export function vecor22i(vec: Vector2, width: number, components: number = 1): number {

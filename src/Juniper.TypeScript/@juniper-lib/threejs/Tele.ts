@@ -3,6 +3,7 @@ import { MediaType, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayRemove } from "@juniper-lib/tslib/collections/arrayRemove";
 import { arraySortedInsert } from "@juniper-lib/tslib/collections/arraySortedInsert";
 import { Task } from "@juniper-lib/tslib/events/Task";
+import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressTasks } from "@juniper-lib/tslib/progress/progressTasks";
 import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
@@ -203,7 +204,7 @@ export class Tele extends Application {
     updateUserOffsets(): void {
         if (this.offsetRadius > 0) {
             const idx = this.sortedUserIDs.indexOf(this.env.avatar.name);
-            const dAngle = 2 * Math.PI / this.sortedUserIDs.length;
+            const dAngle = Tau / this.sortedUserIDs.length;
             const localAngle = (idx + 1) * dAngle;
             const dx = this.offsetRadius * Math.sin(localAngle);
             const dy = this.offsetRadius * (Math.cos(localAngle) - 1);

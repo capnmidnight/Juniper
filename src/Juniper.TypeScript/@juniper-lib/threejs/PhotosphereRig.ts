@@ -1,7 +1,7 @@
 import { canvasToBlob, CanvasTypes, createUtilityCanvas } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Image_Jpeg } from "@juniper-lib/mediatypes";
-import { deg2rad } from "@juniper-lib/tslib/math/deg2rad";
+import { deg2rad } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressOfArray } from "@juniper-lib/tslib/progress/progressOfArray";
 import { IDisposable } from "@juniper-lib/tslib/using";

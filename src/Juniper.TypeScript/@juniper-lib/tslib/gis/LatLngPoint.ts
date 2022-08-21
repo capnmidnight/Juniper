@@ -1,5 +1,5 @@
 import { vec2, vec3 } from "gl-matrix";
-import { rad2deg } from "../math/rad2deg";
+import { rad2deg } from "../math";
 import { isNullOrUndefined, isObject } from "../typeChecks";
 import { ICloneable } from "../using";
 import { DatumWGS_84 } from "./Datum";

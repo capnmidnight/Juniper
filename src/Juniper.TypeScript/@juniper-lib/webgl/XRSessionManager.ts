@@ -2,7 +2,7 @@ import { arrayRemove } from "@juniper-lib/tslib/collections/arrayRemove";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { Exception } from "@juniper-lib/tslib/Exception";
-import { deg2rad } from "@juniper-lib/tslib/math/deg2rad";
+import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { Camera } from "./Camera";
 

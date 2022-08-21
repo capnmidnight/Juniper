@@ -6,7 +6,7 @@ import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Image_Jpeg, Image_Png } from "@juniper-lib/mediatypes";
 import { arrayReplace } from "@juniper-lib/tslib/collections/arrayReplace";
-import { clamp } from "@juniper-lib/tslib/math/clamp";
+import { clamp } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressOfArray } from "@juniper-lib/tslib/progress/progressOfArray";
 import { progressTasksWeighted } from "@juniper-lib/tslib/progress/progressTasks";

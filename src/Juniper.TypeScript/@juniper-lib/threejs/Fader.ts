@@ -1,6 +1,6 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { once } from "@juniper-lib/tslib/events/once";
-import { clamp } from "@juniper-lib/tslib/math/clamp";
+import { clamp } from "@juniper-lib/tslib/math";
 import { BackSide, Mesh, MeshBasicMaterial } from "three";
 import { cube as geom } from "./Cube";
 import { solidTransparent } from "./materials";

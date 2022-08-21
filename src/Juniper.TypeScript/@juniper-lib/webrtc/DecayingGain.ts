@@ -1,5 +1,5 @@
 import { connect } from "@juniper-lib/audio/nodes";
-import { unproject } from "@juniper-lib/tslib/math/unproject";
+import { unproject } from "@juniper-lib/tslib/math";
 import type { ITimer } from "@juniper-lib/tslib/timers/ITimer";
 import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { SetIntervalTimer } from "@juniper-lib/tslib/timers/SetIntervalTimer";

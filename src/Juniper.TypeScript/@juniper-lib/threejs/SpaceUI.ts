@@ -1,4 +1,4 @@
-import { deg2rad } from "@juniper-lib/tslib/math/deg2rad";
+import { deg2rad } from "@juniper-lib/tslib/math";
 import { Object3D, Vector3 } from "three";
 import { objectResolve, Objects, objGraph } from "./objects";
 
