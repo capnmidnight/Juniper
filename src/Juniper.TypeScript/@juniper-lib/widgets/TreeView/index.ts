@@ -19,8 +19,7 @@ import {
     elementReplace,
     ErsatzElement
 } from "@juniper-lib/dom/tags";
-import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
-import { arrayRemove } from "@juniper-lib/tslib/collections/arrayRemove";
+import { arrayClear, arrayRemove } from "@juniper-lib/tslib/collections/arrays";
 import { buildTree, TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";

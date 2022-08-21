@@ -1,4 +1,4 @@
-import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { PointerID, PointerType } from "@juniper-lib/tslib/events/Pointers";
 import { Intersection, Vector3 } from "three";

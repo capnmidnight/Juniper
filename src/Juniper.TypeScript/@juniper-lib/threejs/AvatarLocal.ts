@@ -123,8 +123,8 @@ export class AvatarLocal
     fovZoomEnabled = true;
     minFOV = 15;
     maxFOV = 120;
-    minimumX = -85 * Math.PI / 180;
-    maximumX = 85 * Math.PI / 180;
+    minimumX = deg2rad(-85);
+    maximumX = deg2rad(85);
 
     edgeFactor = 1 / 3;
 

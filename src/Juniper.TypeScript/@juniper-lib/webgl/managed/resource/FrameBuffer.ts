@@ -1,5 +1,5 @@
 import { CanvasTypes } from "@juniper-lib/dom/canvas";
-import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { ClearBits, FrameAndRenderBuffers, FramebufferType, FramebufferTypes } from "../../GLEnum";

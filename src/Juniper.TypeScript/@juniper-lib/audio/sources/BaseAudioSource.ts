@@ -1,4 +1,4 @@
-import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { isDisposable } from "@juniper-lib/tslib/using";

@@ -1,4 +1,4 @@
-import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { and } from "@juniper-lib/tslib/identity";
 import { BaseVideoPlayer } from "@juniper-lib/video/BaseVideoPlayer";

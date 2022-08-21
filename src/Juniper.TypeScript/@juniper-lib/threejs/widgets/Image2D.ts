@@ -1,6 +1,5 @@
 import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
-import { arrayCompare } from "@juniper-lib/tslib/collections/arrayCompare";
-import { arrayScan } from "@juniper-lib/tslib/collections/arrayScan";
+import { arrayCompare, arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { inches2Meters, meters2Inches } from "@juniper-lib/tslib/units/length";
 import { IDisposable } from "@juniper-lib/tslib/using";

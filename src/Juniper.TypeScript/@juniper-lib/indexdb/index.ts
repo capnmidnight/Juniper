@@ -1,4 +1,4 @@
-import { arrayCompare } from "@juniper-lib/tslib/collections/arrayCompare";
+import { arrayCompare } from "@juniper-lib/tslib/collections/arrays";
 import { mapMap } from "@juniper-lib/tslib/collections/mapMap";
 import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";

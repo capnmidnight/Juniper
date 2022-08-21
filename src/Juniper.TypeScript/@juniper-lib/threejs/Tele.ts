@@ -1,7 +1,6 @@
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { MediaType, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { arrayRemove } from "@juniper-lib/tslib/collections/arrayRemove";
-import { arraySortedInsert } from "@juniper-lib/tslib/collections/arraySortedInsert";
+import { arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";

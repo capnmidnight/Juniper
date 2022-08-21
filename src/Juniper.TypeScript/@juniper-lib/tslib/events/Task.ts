@@ -1,4 +1,4 @@
-import { arrayClear } from "../collections/arrayClear";
+import { arrayClear } from "../collections/arrays";
 import { alwaysTrue } from "../identity";
 import { isBoolean, isDefined, isFunction } from "../typeChecks";
 import { Predicate } from "./Predicate";

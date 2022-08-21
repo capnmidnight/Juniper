@@ -10,7 +10,7 @@ import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
 import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
 import { progressTasks } from "@juniper-lib/tslib/progress/progressTasks";
-import { arraySortByKeyInPlace } from "../tslib/collections/arraySortedInsert";
+import { arraySortByKeyInPlace } from "../tslib/collections/arrays";
 import { once } from "../tslib/events/once";
 import { AsyncCallback } from "../tslib/identity";
 import { IProgress } from "../tslib/progress/IProgress";

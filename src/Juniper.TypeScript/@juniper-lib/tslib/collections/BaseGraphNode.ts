@@ -1,7 +1,5 @@
 import { isDefined } from "../typeChecks";
-import { arrayInsertAt } from "./arrayInsertAt";
-import { arrayRemove } from "./arrayRemove";
-import { arraySortedInsert } from "./arraySortedInsert";
+import { arrayInsertAt, arrayRemove, arraySortedInsert } from "./arrays";
 
 export abstract class BaseGraphNode<ValueT> {
 

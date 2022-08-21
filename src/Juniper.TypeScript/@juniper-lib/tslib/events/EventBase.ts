@@ -1,5 +1,4 @@
-import { arrayClear } from "../collections/arrayClear";
-import { arrayRemoveAt } from "../collections/arrayRemoveAt";
+import { arrayClear, arrayRemoveAt } from "../collections/arrays";
 import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "../typeChecks";
 
 type EventCallback = (evt: Event) => any;

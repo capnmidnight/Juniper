@@ -1,6 +1,6 @@
 import { AudioRecord } from "@juniper-lib/audio/data";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
-import { arrayScan } from "@juniper-lib/tslib/collections/arrayScan";
+import { arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";

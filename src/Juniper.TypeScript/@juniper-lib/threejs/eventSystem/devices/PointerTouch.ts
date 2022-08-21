@@ -1,5 +1,4 @@
-import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
-import { arrayRemoveByKey } from "@juniper-lib/tslib/collections/arrayRemove";
+import { arrayClear, arrayRemoveByKey } from "@juniper-lib/tslib/collections/arrays";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { BaseScreenPointer } from "./BaseScreenPointer";

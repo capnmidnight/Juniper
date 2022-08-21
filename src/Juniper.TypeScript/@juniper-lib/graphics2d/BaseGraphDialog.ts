@@ -24,6 +24,7 @@ import {
 } from "@juniper-lib/dom/tags";
 import { GraphNode } from "@juniper-lib/tslib/collections/GraphNode";
 import { mapBuild } from "@juniper-lib/tslib/collections/mapBuild";
+import { Tau } from "@juniper-lib/tslib/math";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import { RequestAnimationFrameTimer } from "@juniper-lib/tslib/timers/RequestAnimationFrameTimer";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
@@ -318,7 +319,7 @@ export class BaseGraphDialog<T> extends DialogBox {
                 this.positions.set(node, vec2.fromValues(this.w / 2, this.h / 2));
             }
             else {
-                const a = 2 * Math.PI * i / this.graph.length;
+                const a = Tau * i / this.graph.length;
                 const r = R;
                 const x = r * Math.cos(a) + this.w / 2;
                 const y = r * Math.sin(a) + this.h / 2;

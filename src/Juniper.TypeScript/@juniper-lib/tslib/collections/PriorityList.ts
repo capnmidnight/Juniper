@@ -1,6 +1,5 @@
 import { isDefined, isNullOrUndefined } from "../typeChecks";
-import { arrayClear } from "./arrayClear";
-import { arrayRemove } from "./arrayRemove";
+import { arrayClear, arrayRemove } from "./arrays";
 
 export class PriorityList<KeyT, ValueT> {
     private readonly items = new Map<KeyT, ValueT[]>();

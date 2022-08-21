@@ -1,4 +1,4 @@
-import { arrayRemove } from "@juniper-lib/tslib/collections/arrayRemove";
+import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { Exception } from "@juniper-lib/tslib/Exception";

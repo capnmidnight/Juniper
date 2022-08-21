@@ -1,4 +1,4 @@
-import { arrayRemove } from "../collections/arrayRemove";
+import { arrayRemove } from "../collections/arrays";
 import { ITimer, TimerTickEvent } from "./ITimer";
 
 export abstract class BaseTimer<TimerT>

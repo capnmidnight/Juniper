@@ -1,6 +1,4 @@
-import { arrayClear } from "@juniper-lib/tslib/collections/arrayClear";
-import { arrayRemove } from "@juniper-lib/tslib/collections/arrayRemove";
-import { arrayScan } from "@juniper-lib/tslib/collections/arrayScan";
+import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { Task } from "@juniper-lib/tslib/events/Task";

@@ -1,4 +1,4 @@
-import { arrayClear } from "../collections/arrayClear";
+import { arrayClear } from "../collections/arrays";
 import { TypedEventBase } from "../events/EventBase";
 import type { IProgress } from "./IProgress";
 

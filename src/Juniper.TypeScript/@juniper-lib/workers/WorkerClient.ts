@@ -1,4 +1,4 @@
-import { arrayScan } from "@juniper-lib/tslib/collections/arrayScan";
+import { arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { isWorkerSupported } from "@juniper-lib/tslib/flags";
