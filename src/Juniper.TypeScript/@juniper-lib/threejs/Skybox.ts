@@ -1,6 +1,7 @@
 import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper-lib/dom/canvas";
 import { createUtilityCanvas } from "@juniper-lib/dom/canvas";
 import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/CubeMapFaceIndex";
+import { Pi } from "@juniper-lib/tslib/math";
 import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { Color, CubeCamera, CubeTexture, Euler, Quaternion, Scene, Vector3, WebGLCubeRenderTarget } from "three";
 import { cleanup } from "./cleanup";
@@ -30,9 +31,9 @@ export const CUBEMAP_PATTERN = /*@__PURE__*/ {
         [CubeMapFaceIndex.None, CubeMapFaceIndex.Down, CubeMapFaceIndex.None, CubeMapFaceIndex.None]
     ],
     rotations: [
-        [0, Math.PI, 0, 0],
+        [0, Pi, 0, 0],
         [0, 0, 0, 0],
-        [0, Math.PI, 0, 0]
+        [0, Pi, 0, 0]
     ]
 };
 
@@ -244,7 +245,7 @@ export class Skybox {
 
             if (!this.layer || !webXRLayerChanged) {
                 const visibleChanged = this.visible !== this.wasVisible;
-                const headingChanged = this.env.avatar.heading !== this.stageHeading;
+                const headingChanged = this.env.avatar.headingRadians !== this.stageHeading;
 
                 this.imageNeedsUpdate = this.imageNeedsUpdate
                     || visibleChanged
@@ -265,7 +266,7 @@ export class Skybox {
                         .invert();
 
                     this.stageRotation
-                        .setFromAxisAngle(U, this.env.avatar.heading)
+                        .setFromAxisAngle(U, this.env.avatar.headingRadians)
                         .premultiply(this.layerRotation);
 
                     this.layerOrientation = new DOMPointReadOnly(
@@ -320,7 +321,7 @@ export class Skybox {
                     }
                 }
 
-                this.stageHeading = this.env.avatar.heading;
+                this.stageHeading = this.env.avatar.headingRadians;
                 this.imageNeedsUpdate = false;
                 this.rotationNeedsUpdate = false;
                 this.wasVisible = this.visible;

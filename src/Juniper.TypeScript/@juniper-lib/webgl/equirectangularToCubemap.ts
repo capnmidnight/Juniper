@@ -12,17 +12,17 @@ import { MaterialEquirectangular } from "./programs/MaterialEquirectangular";
 import { RenderTargetManager } from "./RenderTargetManager";
 
 interface CaptureOrientation {
-    heading: number;
-    pitch: number;
+    headingDegrees: number;
+    pitchDegrees: number;
 }
 
 const captureParams = new Map<CubeMapFaceIndex, CaptureOrientation>([
-    [CubeMapFaceIndex.Left, { heading: 1, pitch: 0 }],
-    [CubeMapFaceIndex.Right, { heading: -1, pitch: 0 }],
-    [CubeMapFaceIndex.Up, { heading: 2, pitch: 1 }],
-    [CubeMapFaceIndex.Down, { heading: 2, pitch: -1 }],
-    [CubeMapFaceIndex.Back, { heading: 2, pitch: 0 }],
-    [CubeMapFaceIndex.Front, { heading: 0, pitch: 0 }]
+    [CubeMapFaceIndex.Left, { headingDegrees: 90, pitchDegrees: 0 }],
+    [CubeMapFaceIndex.Right, { headingDegrees: -90, pitchDegrees: 0 }],
+    [CubeMapFaceIndex.Up, { headingDegrees: 180, pitchDegrees: 90 }],
+    [CubeMapFaceIndex.Down, { headingDegrees: 180, pitchDegrees: -90 }],
+    [CubeMapFaceIndex.Back, { headingDegrees: 180, pitchDegrees: 0 }],
+    [CubeMapFaceIndex.Front, { headingDegrees: 0, pitchDegrees: 0 }]
 ]);
 
 async function equirectangularToCubemap<T>(image: TexImageSource | OffscreenCanvas, isStereo: boolean, size: number, saveImage: (canvas: CanvasTypes) => Promise<T>, prog?: IProgress): Promise<T[]> {
@@ -46,12 +46,12 @@ async function equirectangularToCubemap<T>(image: TexImageSource | OffscreenCanv
                 const output = new Array<T>(captureParams.size);
                 let count = 0;
                 for (const [i, directions] of captureParams) {
-                    const { heading, pitch } = directions;
+                    const { headingDegrees, pitchDegrees } = directions;
                     if (prog) {
                         prog.report(count++, captureParams.size, "rendering");
                     }
 
-                    cam.rotateTo(heading * 90, pitch * 90);
+                    cam.rotateTo(headingDegrees, pitchDegrees);
 
                     fbManager.beginFrame();
                     mesh.material.use();

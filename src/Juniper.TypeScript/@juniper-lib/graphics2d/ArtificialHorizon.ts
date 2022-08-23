@@ -1,10 +1,10 @@
-import { deg2rad } from "@juniper-lib/tslib/math";
+import { deg2rad, Pi, Tau } from "@juniper-lib/tslib/math";
 import { CanvasImage } from "./CanvasImage";
 
 export class ArtificialHorizon extends CanvasImage {
 
-    private _pitch = 0;
-    private _heading = 0;
+    private _pitchDegrees = 0;
+    private _headingDegrees = 0;
 
     constructor() {
         super(128, 128);
@@ -12,40 +12,40 @@ export class ArtificialHorizon extends CanvasImage {
         this.redraw();
     }
 
-    get pitch(): number {
-        return this._pitch;
+    get pitchDegrees(): number {
+        return this._pitchDegrees;
     }
 
-    set pitch(v: number) {
-        if (v !== this.pitch) {
-            this._pitch = v;
+    set pitchDegrees(v: number) {
+        if (v !== this.pitchDegrees) {
+            this._pitchDegrees = v;
             this.redraw();
         }
     }
 
-    get heading(): number {
-        return this._heading;
+    get headingDegrees(): number {
+        return this._headingDegrees;
     }
 
-    set heading(v: number) {
-        if (v !== this.heading) {
-            this._heading = v;
+    set headingDegrees(v: number) {
+        if (v !== this.headingDegrees) {
+            this._headingDegrees = v;
             this.redraw();
         }
     }
 
-    setPitchAndHeading(pitch: number, heading: number) {
-        if (pitch !== this.pitch
-            || heading !== this.heading) {
-            this._pitch = pitch;
-            this._heading = heading;
+    setPitchAndHeading(pitchDegrees: number, headingDegrees: number) {
+        if (pitchDegrees !== this.pitchDegrees
+            || headingDegrees !== this.headingDegrees) {
+            this._pitchDegrees = pitchDegrees;
+            this._headingDegrees = headingDegrees;
             this.redraw();
         }
     }
 
     protected onRedraw(): boolean {
-        const a = deg2rad(this.pitch);
-        const b = deg2rad(this.heading - 180);
+        const a = deg2rad(this.pitchDegrees);
+        const b = deg2rad(this.headingDegrees - 180);
         const p = 5;
         const w = this.canvas.width - 2 * p;
         const h = this.canvas.height - 2 * p;
@@ -64,12 +64,12 @@ export class ArtificialHorizon extends CanvasImage {
 
             g.fillStyle = "#808080";
             g.beginPath();
-            g.arc(0, 0, 1, 0, 2 * Math.PI);
+            g.arc(0, 0, 1, 0, Tau);
             g.fill();
 
             g.fillStyle = "#d0d0d0";
             g.beginPath();
-            g.arc(0, 0, 1, 0, Math.PI, true);
+            g.arc(0, 0, 1, 0, Pi, true);
             g.fill();
 
             g.save();
@@ -79,7 +79,7 @@ export class ArtificialHorizon extends CanvasImage {
                     g.fillStyle = "#808080";
                 }
                 g.beginPath();
-                g.arc(0, 0, 1, 0, Math.PI, y < 0);
+                g.arc(0, 0, 1, 0, Pi, y < 0);
                 g.fill();
             }
             g.restore();
@@ -114,7 +114,7 @@ export class ArtificialHorizon extends CanvasImage {
             g.beginPath();
             g.strokeStyle = "#000000";
             g.lineWidth = 0.1;
-            g.arc(0, 0, 1, 0, 2 * Math.PI);
+            g.arc(0, 0, 1, 0, Tau);
             g.stroke();
         }
         g.restore();

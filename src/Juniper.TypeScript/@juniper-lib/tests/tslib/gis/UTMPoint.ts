@@ -1,6 +1,7 @@
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
 import { LatLngPoint } from "@juniper-lib/tslib/gis/LatLngPoint";
 import { GlobeHemisphere, UTMPoint } from "@juniper-lib/tslib/gis/UTMPoint";
+import { HalfPi } from "@juniper-lib/tslib/math";
 
 const K = 0.00000001;
 
@@ -80,7 +81,7 @@ export class UTMPointTests extends TestCase {
         const numPoints = 4;
         const lls = new Array<LatLngPoint>();
         for (let i = 0; i < numPoints; ++i) {
-            const a = i * Math.PI / 2
+            const a = i * HalfPi;
             const x = r * Math.cos(a);
             const y = r * Math.sin(a);
             lls.push(new LatLngPoint(y + dy, x + 3))

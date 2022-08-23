@@ -251,8 +251,8 @@ export class Environment
 
         if (!this.renderer.xr.isPresenting) {
             this.compassImage.setPitchAndHeading(
-                rad2deg(this.avatar.worldPitch),
-                rad2deg(this.avatar.worldHeading));
+                rad2deg(this.avatar.worldPitchRadians),
+                rad2deg(this.avatar.worldHeadingRadians));
         }
 
         if (this.DEBUG) {

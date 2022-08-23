@@ -8,10 +8,10 @@ export class Avatar {
     speed = 10;
     position = vec3.create();
 
-    private dHeading = 0;
-    private dPitch = 0;
-    heading = 0;
-    pitch = 0;
+    private dHeadingDegrees = 0;
+    private dPitchDegrees = 0;
+    headingDegrees = 0;
+    pitchDegrees = 0;
 
     keyLeft = "a";
     keyRight = "d";
@@ -35,8 +35,8 @@ export class Avatar {
     }
 
     setRotation(dHeading: number, dPitch: number) {
-        this.dHeading = dHeading;
-        this.dPitch = dPitch;
+        this.dHeadingDegrees = dHeading;
+        this.dPitchDegrees = dPitch;
     }
 
     setMotion(left: boolean, right: boolean, fwd: boolean, back: boolean): void {
@@ -45,7 +45,7 @@ export class Avatar {
         vec3.set(this.motion, dx, 0, dz);
         vec3.normalize(this.motion, this.motion);
         quat.identity(this.direction);
-        quat.rotateY(this.direction, this.direction, deg2rad(this.heading));
+        quat.rotateY(this.direction, this.direction, deg2rad(this.headingDegrees));
         vec3.transformQuat(this.velocity, this.motion, this.direction);
         vec3.scale(this.velocity, this.velocity, this.speed);
     }
@@ -85,20 +85,20 @@ export class Avatar {
     update(dt: number): void {
         vec3.scaleAndAdd(this.position, this.position, this.velocity, dt);
 
-        this.heading += this.dHeading * dt;
-        this.pitch += this.dPitch * dt;
-        while (this.pitch < -90)
-            this.pitch = -90;
-        while (this.pitch > 90)
-            this.pitch = 90;
+        this.headingDegrees += this.dHeadingDegrees * dt;
+        this.pitchDegrees += this.dPitchDegrees * dt;
+        while (this.pitchDegrees < -90)
+            this.pitchDegrees = -90;
+        while (this.pitchDegrees > 90)
+            this.pitchDegrees = 90;
 
-        this.dHeading *= 0.95;
-        this.dPitch *= 0.95;
+        this.dHeadingDegrees *= 0.95;
+        this.dPitchDegrees *= 0.95;
     }
 
     reset() {
-        this.heading = 0;
-        this.pitch = 0;
+        this.headingDegrees = 0;
+        this.pitchDegrees = 0;
         vec3.zero(this.position);
     }
 }

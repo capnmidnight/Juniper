@@ -5,7 +5,7 @@ import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
-import { FWD, UP } from "@juniper-lib/tslib/math";
+import { FWD, HalfPi, UP } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
@@ -13,14 +13,12 @@ import { UserPointerEvent, UserPosedEvent } from "@juniper-lib/webrtc/Conference
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BodyFollower } from "./animation/BodyFollower";
-import { getLookHeading } from "./animation/lookAngles";
+import { getLookHeadingRadians } from "./animation/lookAngles";
 import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
 import { objectRemove, objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
 import { TextMesh } from "./widgets/TextMesh";
-
-const angle = Math.PI / 2;
 
 const nameTagFont: Partial<TextImageOptions> = {
     fontFamily: getMonospaceFonts(),
@@ -125,7 +123,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
             connect(evt.source, this.activity);
         });
 
-        this.headFollower = new BodyFollower("AvatarBody", 0.05, angle, 0, 5);
+        this.headFollower = new BodyFollower("AvatarBody", 0.05, HalfPi, 0, 5);
 
         objGraph(this.body.parent,
             objGraph(this.headFollower,
@@ -220,7 +218,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
         this.U.fromArray(UP)
             .applyQuaternion(this.worldQuat);
 
-        const angle = getLookHeading(this.F);
+        const headingRadians = getLookHeadingRadians(this.F);
 
         this.env.audio.setUserPose(
             this.userID,
@@ -228,7 +226,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
             this.F.x, this.F.y, this.F.z,
             this.U.x, this.U.y, this.U.z);
 
-        this.headFollower.update(this.worldPos.y - this.parent.position.y, this.worldPos, angle, dt);
+        this.headFollower.update(this.worldPos.y - this.parent.position.y, this.worldPos, headingRadians, dt);
         const scale = this.height / this.defaultAvatarHeight;
         this.headSize = scale;
         this.body.scale.setScalar(scale);

@@ -105,14 +105,14 @@ namespace Juniper.World.GIS.Google
             }
         }
 
-        public virtual Task<Stream> GetImageStreamAsync(string pano, int fov, int heading, int pitch, IProgress prog = null)
+        public virtual Task<Stream> GetImageStreamAsync(string pano, int fovDegrees, int headingDegrees, int pitchDegrees, IProgress prog = null)
         {
             return Cache.GetStreamAsync(new ImageRequest(Http, ApiKey, SigningKey, new Size(640, 640))
             {
                 Pano = pano,
-                FOV = fov,
-                Heading = heading,
-                Pitch = pitch
+                FOVDegrees = fovDegrees,
+                HeadingDegrees = headingDegrees,
+                PitchDegrees = pitchDegrees
             }, prog);
         }
     }

@@ -2,12 +2,12 @@ import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
-import { angleClamp, clamp, deg2rad, truncate } from "@juniper-lib/tslib/math";
+import { radiansClamp, clamp, deg2rad, Pi, truncate } from "@juniper-lib/tslib/math";
 import { assertNever, isFunction, isGoodNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { Euler, Matrix4, Object3D, Quaternion, Vector2, Vector3 } from "three";
 import type { BodyFollower } from "./animation/BodyFollower";
-import { getLookHeading, getLookPitch } from "./animation/lookAngles";
+import { getLookHeadingRadians, getLookPitchRadians } from "./animation/lookAngles";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { IPointer } from "./eventSystem/devices/IPointer";
 import { VirtualButton } from "./eventSystem/devices/VirtualButton";
@@ -44,7 +44,7 @@ export class AvatarLocal
     implements ErsatzObject, IDisposable {
     private controlMode = CameraControlMode.None;
 
-    private snapTurnAngle = deg2rad(30);
+    private snapTurnRadians = deg2rad(30);
 
     private readonly sensitivities = new Map<CameraControlMode, number>([
         /**
@@ -88,13 +88,13 @@ export class AvatarLocal
     private readonly onKeyUp: (evt: any) => void;
 
     private dz = 0;
-    private _heading = 0;
-    private _pitch = 0;
-    private _roll = 0;
+    private _headingRadians = 0;
+    private _pitchRadians = 0;
+    private _rollRadians = 0;
     private headX = 0;
     private headZ = 0;
-    private _worldHeading = 0;
-    private _worldPitch = 0;
+    private _worldHeadingRadians = 0;
+    private _worldPitchRadians = 0;
     private fwrd = false;
     private back = false;
     private left = false;
@@ -157,12 +157,12 @@ export class AvatarLocal
         return this.head;
     }
 
-    get worldHeading() {
-        return this._worldHeading;
+    get worldHeadingRadians() {
+        return this._worldHeadingRadians;
     }
 
-    get worldPitch() {
-        return this._worldPitch;
+    get worldPitchRadians() {
+        return this._worldPitchRadians;
     }
 
     private get fov() {
@@ -235,7 +235,7 @@ export class AvatarLocal
     }
 
     snapTurn(direction: number) {
-        this.setHeading(this.heading - this.snapTurnAngle * direction);
+        this.setHeading(this.headingRadians - this.snapTurnRadians * direction);
     }
 
     get keyboardControlEnabled(): boolean {
@@ -318,40 +318,40 @@ export class AvatarLocal
         this.object.name = v;
     }
 
-    get heading() {
-        return this._heading;
+    get headingRadians() {
+        return this._headingRadians;
     }
 
-    private setHeading(angle: number) {
-        this._heading = angleClamp(angle);
+    private setHeading(radians: number) {
+        this._headingRadians = radiansClamp(radians);
     }
 
-    get pitch() {
-        return this._pitch;
+    get pitchRadians() {
+        return this._pitchRadians;
     }
 
-    private setPitch(x: number, minX: number, maxX: number) {
-        this._pitch = angleClamp(x + Math.PI) - Math.PI;
-        this._pitch = clamp(this._pitch, minX, maxX);
+    private setPitch(radians: number, min: number, max: number) {
+        this._pitchRadians = radiansClamp(radians + Pi) - Pi;
+        this._pitchRadians = clamp(this._pitchRadians, min, max);
     }
 
-    get roll() {
-        return this._roll;
+    get rollRadians() {
+        return this._rollRadians;
     }
 
-    private setRoll(z: number) {
-        this._roll = angleClamp(z);
+    private setRoll(radians: number) {
+        this._rollRadians = radiansClamp(radians);
     }
 
-    setHeadingImmediate(heading: number) {
-        this.setHeading(heading);
+    setHeadingImmediate(radians: number) {
+        this.setHeading(radians);
         this.updateOrientation();
         this.resetFollowers();
     }
 
-    setOrientationImmediate(heading: number, pitch: number) {
-        this.setHeading(heading);
-        this._pitch = angleClamp(pitch);
+    setOrientationImmediate(headingRadians: number, pitchRadians: number) {
+        this.setHeading(headingRadians);
+        this._pitchRadians = radiansClamp(pitchRadians);
         this.updateOrientation();
     }
 
@@ -394,8 +394,8 @@ export class AvatarLocal
                         this.scaleRadialComponent(-this.uv.x, this.speed.x, this.acceleration.x),
                         this.scaleRadialComponent(this.uv.y, this.speed.y, this.acceleration.y))
                     .multiplyScalar(dt);
-                this.setHeading(this.heading + this.motion.x);
-                this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+                this.setHeading(this.headingRadians + this.motion.x);
+                this.setPitch(this.pitchRadians + this.motion.y, this.minimumX, this.maximumX);
                 this.setRoll(0);
             }
         }
@@ -406,13 +406,13 @@ export class AvatarLocal
                     .copy(this.duv)
                     .multiplyScalar(sensitivity * dt)
                     .multiply(this.axisControl);
-                this.setHeading(this.heading + this.motion.x);
-                this.setPitch(this.pitch + this.motion.y, this.minimumX, this.maximumX);
+                this.setHeading(this.headingRadians + this.motion.x);
+                this.setPitch(this.pitchRadians + this.motion.y, this.minimumX, this.maximumX);
                 this.setRoll(0);
             }
         }
 
-        this.Q1.setFromAxisAngle(this.stage.up, this.worldHeading);
+        this.Q1.setFromAxisAngle(this.stage.up, this.worldHeadingRadians);
 
         if (this.fwrd || this.back || this.left || this.rght || this.up || this.down) {
             const dx = (this.left ? 1 : 0) + (this.rght ? -1 : 0);
@@ -474,7 +474,7 @@ export class AvatarLocal
     private updateOrientation() {
         const cam = resolveCamera(this.env.renderer, this.env.camera);
 
-        this.rotStage.makeRotationY(this._heading);
+        this.rotStage.makeRotationY(this._headingRadians);
 
         this.stage.matrix.makeTranslation(
             this.stage.position.x,
@@ -502,7 +502,7 @@ export class AvatarLocal
         }
         else {
             this.head.position.set(this.headX, this._height, this.headZ);
-            this.E.set(this._pitch, 0, this._roll, "XYZ");
+            this.E.set(this._pitchRadians, 0, this._rollRadians, "XYZ");
             this.head.quaternion.setFromEuler(this.E)
                 .premultiply(this.deviceQ);
         }
@@ -518,8 +518,8 @@ export class AvatarLocal
             .set(0, 0, -1)
             .applyQuaternion(this.worldQuat);
 
-        this._worldHeading = getLookHeading(this.F);
-        this._worldPitch = getLookPitch(this.F);
+        this._worldHeadingRadians = getLookHeadingRadians(this.F);
+        this._worldPitchRadians = getLookPitchRadians(this.F);
         setRightUpFwdPosFromMatrix(this.head.matrixWorld, this.R, this.U, this.F, this.P);
     }
 
@@ -530,7 +530,7 @@ export class AvatarLocal
 
     private resetFollowers() {
         for (const follower of this.followers) {
-            follower.reset(this.height, this.worldPos, this.worldHeading);
+            follower.reset(this.height, this.worldPos, this.worldHeadingRadians);
         }
     }
 

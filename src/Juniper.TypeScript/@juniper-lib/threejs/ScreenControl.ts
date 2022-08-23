@@ -2,6 +2,7 @@ import { hasFullscreenAPI } from "@juniper-lib/dom/fullscreen";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { hasVR, hasWebVR, hasWebXR, isMobileVR } from "@juniper-lib/tslib/flags";
+import { rad2deg } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { PerspectiveCamera, WebGLRenderer } from "three";
 import WebXRPolyfill from "webxr-polyfill/src/WebXRPolyfill";
@@ -75,7 +76,7 @@ export class ScreenControl
 
         this.addEventListener("sessionstarted", (evt) => {
             if (evt.sessionMode === "inline") {
-                this.camera.fov = evt.session.renderState.inlineVerticalFieldOfView * 180 / Math.PI;
+                this.camera.fov = rad2deg(evt.session.renderState.inlineVerticalFieldOfView);
             }
         });
 

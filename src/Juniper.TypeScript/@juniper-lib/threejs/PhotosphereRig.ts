@@ -1,7 +1,7 @@
 import { canvasToBlob, CanvasTypes, createUtilityCanvas } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Image_Jpeg } from "@juniper-lib/mediatypes";
-import { deg2rad } from "@juniper-lib/tslib/math";
+import { deg2rad, HalfPi, Pi } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressOfArray } from "@juniper-lib/tslib/progress/progressOfArray";
 import { IDisposable } from "@juniper-lib/tslib/using";
@@ -12,6 +12,7 @@ import { CUBEMAP_PATTERN } from "./Skybox";
 
 const QUAD_SIZE = 2;
 export const FACE_SIZE = /*@__PURE__*/ 1 << 11;
+export type getImagePathCallback = (fovDegrees: number, headingDegrees: number, pitchDegrees: number) => string;
 const E = new Euler();
 
 export enum PhotosphereCaptureResolution {
@@ -21,19 +22,19 @@ export enum PhotosphereCaptureResolution {
     Fine = 30
 }
 
-const FOVOffsets = new Map<PhotosphereCaptureResolution, number>([
+const FOVOffsetsDegrees = new Map<PhotosphereCaptureResolution, number>([
     [PhotosphereCaptureResolution.Low, 4],
     [PhotosphereCaptureResolution.Medium, 8],
     [PhotosphereCaptureResolution.High, 3],
     [PhotosphereCaptureResolution.Fine, 2],
 ]);
 
-const captureParams = [
-    [Math.PI / 2, 0, 0, 1],
-    [-Math.PI / 2, 0, 2, 1],
-    [0, Math.PI / 2, 1, 0],
-    [0, -Math.PI / 2, 1, 2],
-    [Math.PI, 0, 3, 1],
+const captureParamsRadians = [
+    [HalfPi, 0, 0, 1],
+    [-HalfPi, 0, 2, 1],
+    [0, HalfPi, 1, 0],
+    [0, -HalfPi, 1, 2],
+    [Pi, 0, 3, 1],
     [0, 0, 1, 1]
 ];
 
@@ -97,14 +98,14 @@ export abstract class PhotosphereRig
         this.renderer.dispose();
     }
 
-    protected async renderFaces(getImagePath: (fov: number, heading: number, pitch: number) => string, level: PhotosphereCaptureResolution, progress: IProgress): Promise<string[]> {
+    protected async renderFaces(getImagePath: getImagePathCallback, level: PhotosphereCaptureResolution, progress: IProgress): Promise<string[]> {
         this.clear();
 
         await this.loadFrames(level, progress, getImagePath);
 
-        const files = await Promise.all(captureParams.map(async ([heading, pitch, dx, dy]) => {
-            const roll = CUBEMAP_PATTERN.rotations[dy][dx];
-            E.set(pitch, heading, roll, "YXZ");
+        const files = await Promise.all(captureParamsRadians.map(async ([headingRadians, pitchRadians, dx, dy]) => {
+            const rollRadians = CUBEMAP_PATTERN.rotations[dy][dx];
+            E.set(pitchRadians, headingRadians, rollRadians, "YXZ");
             this.camera.setRotationFromEuler(E);
             this.renderer.render(this.scene, this.camera);
             const blob = await canvasToBlob(this.renderer.domElement, Image_Jpeg.value, 1);
@@ -116,7 +117,7 @@ export abstract class PhotosphereRig
         return files;
     }
 
-    protected async renderCubeMap(getImagePath: (fov: number, heading: number, pitch: number) => string, level: PhotosphereCaptureResolution, progress: IProgress): Promise<string> {
+    protected async renderCubeMap(getImagePath: getImagePathCallback, level: PhotosphereCaptureResolution, progress: IProgress): Promise<string> {
         this.clear();
 
         const canv = createUtilityCanvas(FACE_SIZE * 4, FACE_SIZE * 3);
@@ -124,8 +125,8 @@ export abstract class PhotosphereRig
 
         await this.loadFrames(level, progress, getImagePath);
 
-        for (const [heading, pitch, dx, dy] of captureParams) {
-            E.set(pitch, heading, 0, "YXZ");
+        for (const [headingRadians, pitchRadians, dx, dy] of captureParamsRadians) {
+            E.set(pitchRadians, headingRadians, 0, "YXZ");
             this.camera.setRotationFromEuler(E);
             this.renderer.render(this.scene, this.camera);
             g.drawImage(this.renderer.domElement, dx * FACE_SIZE, dy * FACE_SIZE);
@@ -140,45 +141,45 @@ export abstract class PhotosphereRig
     }
 
     private getImageAngles(level: PhotosphereCaptureResolution) {
-        const angles = new Array<[number, number, number, number]>();
-        const FOV = level as number;
+        const anglesDegrees = new Array<[number, number, number, number]>();
+        const FOVDegrees = level as number;
 
         // Overlap images to crop copyright notices out of
         // most of the images...
-        const dFOV = this.fixWatermarks
-            ? FOVOffsets.get(FOV)
+        const dFOVDegrees = this.fixWatermarks
+            ? FOVOffsetsDegrees.get(FOVDegrees)
             : 0;
 
-        for (let pitch = -90 + FOV; pitch < 90; pitch += FOV) {
-            for (let heading = -180; heading < 180; heading += FOV) {
-                angles.push([heading, pitch, FOV + dFOV, QUAD_SIZE]);
+        for (let pitchDegrees = -90 + FOVDegrees; pitchDegrees < 90; pitchDegrees += FOVDegrees) {
+            for (let headingDegrees = -180; headingDegrees < 180; headingDegrees += FOVDegrees) {
+                anglesDegrees.push([headingDegrees, pitchDegrees, FOVDegrees + dFOVDegrees, QUAD_SIZE]);
             }
         }
 
         // Include the top and the bottom
-        angles.push([0, -90, FOV + dFOV, QUAD_SIZE]);
-        angles.push([0, 90, FOV + dFOV, QUAD_SIZE]);
+        anglesDegrees.push([0, -90, FOVDegrees + dFOVDegrees, QUAD_SIZE]);
+        anglesDegrees.push([0, 90, FOVDegrees + dFOVDegrees, QUAD_SIZE]);
 
         if (this.fixWatermarks) {
             // Include an uncropped image so that
             // at least one of the copyright notices is visible.
-            angles.push([0, -90, FOV, 0.5 * QUAD_SIZE]);
-            angles.push([0, 90, FOV, 0.5 * QUAD_SIZE]);
+            anglesDegrees.push([0, -90, FOVDegrees, 0.5 * QUAD_SIZE]);
+            anglesDegrees.push([0, 90, FOVDegrees, 0.5 * QUAD_SIZE]);
         }
-        return angles;
+        return anglesDegrees;
     }
 
-    private async loadFrames(level: PhotosphereCaptureResolution, progress: IProgress, getImagePath: (fov: number, heading: number, pitch: number) => string) {
+    private async loadFrames(level: PhotosphereCaptureResolution, progress: IProgress, getImagePath: getImagePathCallback) {
         const angles = this.getImageAngles(level);
 
         await progressOfArray(progress, angles, (set, prog) => this.loadFrame(getImagePath, ...set, prog));
     }
 
-    private async loadFrame(getImagePath: (fov: number, heading: number, pitch: number) => string, heading: number, pitch: number, fov: number, size: number, prog: IProgress) {
-        const halfFOV = 0.5 * deg2rad(fov);
+    private async loadFrame(getImagePath: getImagePathCallback, headingDegrees: number, pitchDegrees: number, fovDegrees: number, size: number, prog: IProgress) {
+        const halfFOV = 0.5 * deg2rad(fovDegrees);
         const k = Math.tan(halfFOV);
         const dist = 0.5 * size / k;
-        const path = getImagePath(fov, heading, pitch);
+        const path = getImagePath(fovDegrees, headingDegrees, pitchDegrees);
         const { content: canvas } = await this.fetcher
             .get(path, this.baseURL)
             .progress(prog)
@@ -190,10 +191,10 @@ export abstract class PhotosphereRig
             map: texture,
             side: DoubleSide
         });
-        const frame = mesh(`frame-${fov}-${heading}-${pitch}`, this.geometry, material);
+        const frame = mesh(`frame-${fovDegrees}-${headingDegrees}-${pitchDegrees}`, this.geometry, material);
         texture.needsUpdate = true;
         material.needsUpdate = true;
-        E.set(deg2rad(pitch), -deg2rad(heading), 0, "YXZ");
+        E.set(deg2rad(pitchDegrees), -deg2rad(headingDegrees), 0, "YXZ");
         frame.scale.setScalar(size);
         frame.quaternion.setFromEuler(E);
         frame.position

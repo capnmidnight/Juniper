@@ -1,6 +1,6 @@
 import { createUtilityCanvas, setContextSize } from "@juniper-lib/dom/canvas";
 import { makeFont } from "@juniper-lib/dom/fonts";
-import { clamp, PaddingRect } from "@juniper-lib/tslib/math";
+import { clamp, HalfPi, PaddingRect } from "@juniper-lib/tslib/math";
 import { isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { CanvasImage, CanvasImageOptions } from "./CanvasImage";
 
@@ -605,10 +605,10 @@ export class TextImage extends CanvasImage {
                     g.translate(canv.width / 2, canv.height / 2);
                     if (this.textDirection === "vertical"
                         || this.textDirection === "vertical-left") {
-                        g.rotate(Math.PI / 2);
+                        g.rotate(HalfPi);
                     }
                     else if (this.textDirection === "vertical-right") {
-                        g.rotate(-Math.PI / 2);
+                        g.rotate(-HalfPi);
                     }
                     g.translate(-this.canvas.width / 2, -this.canvas.height / 2);
                     g.drawImage(this.canvas, 0, 0);

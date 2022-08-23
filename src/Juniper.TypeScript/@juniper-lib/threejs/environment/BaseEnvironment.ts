@@ -235,7 +235,7 @@ export class BaseEnvironment<Events = unknown>
             this.screenControl.resize();
             this.eventSys.update();
             this.avatar.update(evt.dt);
-            this.worldUISpace.update(this.avatar.height, this.avatar.worldPos, this.avatar.worldHeading, evt.dt);
+            this.worldUISpace.update(this.avatar.height, this.avatar.worldPos, this.avatar.worldHeadingRadians, evt.dt);
             this.fader.update(evt.dt);
             updateScalings(evt.dt);
             this.loadingBar.update(evt.sdt);

@@ -33,8 +33,8 @@ export class Camera {
     private _proj = mat4.create();
     private _view = mat4.create();
 
-    private _heading: number = 0;
-    private _pitch: number = 0;
+    private _headingDegrees: number = 0;
+    private _pitchDegrees: number = 0;
 
     private _aspect: number;
     private _fov: number;
@@ -163,8 +163,8 @@ export class Camera {
         );
     }
 
-    public rotateTo(heading: number, pitch: number) {
-        this._rotateTo(heading, pitch);
+    public rotateTo(headingDegrees: number, pitchDegrees: number) {
+        this._rotateTo(headingDegrees, pitchDegrees);
         this.refreshView();
     }
 
@@ -173,24 +173,24 @@ export class Camera {
         this.refreshView();
     }
 
-    public rotateAndMoveTo(heading: number, pitch: number, pos: vec3) {
-        this._rotateTo(heading, pitch);
+    public rotateAndMoveTo(headingDegrees: number, pitchDegrees: number, pos: vec3) {
+        this._rotateTo(headingDegrees, pitchDegrees);
         this._moveTo(pos);
         this.refreshView();
     }
 
-    private _rotateTo(heading: number, pitch: number) {
-        if (heading !== this._heading
-            || pitch !== this._pitch) {
-            this._heading = heading;
-            this._pitch = pitch;
-            while (this._pitch < -90)
-                this._pitch = -90;
-            while (this._pitch > 90)
-                this._pitch = 90;
+    private _rotateTo(headingDegrees: number, pitchDegrees: number) {
+        if (headingDegrees !== this._headingDegrees
+            || pitchDegrees !== this._pitchDegrees) {
+            this._headingDegrees = headingDegrees;
+            this._pitchDegrees = pitchDegrees;
+            while (this._pitchDegrees < -90)
+                this._pitchDegrees = -90;
+            while (this._pitchDegrees > 90)
+                this._pitchDegrees = 90;
             quat.identity(this._rot);
-            quat.rotateY(this._rot, this._rot, deg2rad(this._heading));
-            quat.rotateX(this._rot, this._rot, deg2rad(this._pitch));
+            quat.rotateY(this._rot, this._rot, deg2rad(this._headingDegrees));
+            quat.rotateX(this._rot, this._rot, deg2rad(this._pitchDegrees));
         }
     }
 

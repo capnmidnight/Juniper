@@ -201,9 +201,9 @@ namespace Juniper.World.GIS.Google
             return closestMetadata;
         }
 
-        public override Task<Stream> GetImageStreamAsync(string pano, int fov, int heading, int pitch, IProgress prog = null)
+        public override Task<Stream> GetImageStreamAsync(string pano, int fovDegrees, int headingDegrees, int pitchDegrees, IProgress prog = null)
         {
-            var imageStream = base.GetImageStreamAsync(pano, fov, heading, pitch, prog);
+            var imageStream = base.GetImageStreamAsync(pano, fovDegrees, headingDegrees, pitchDegrees, prog);
 
             if (imageStream is not null
                 && knownImages.MaybeAdd(pano))

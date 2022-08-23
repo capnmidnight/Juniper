@@ -1,3 +1,4 @@
+import { HalfPi } from "@juniper-lib/tslib/math";
 import { BufferAttribute, BufferGeometry, Vector3 } from "three";
 
 type UV = [number, number];
@@ -214,5 +215,5 @@ function midpoint(quadx: QuadPosUVBounds, from: PosUVBounds, to: PosUVBounds): P
 }
 
 function mapEACUV(uv: number): number {
-    return 2 * Math.atan(2 * uv) / Math.PI;
+    return Math.atan(2 * uv) / HalfPi;
 }

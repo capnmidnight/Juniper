@@ -1,3 +1,5 @@
+import { Pi } from "@juniper-lib/tslib/math";
+
 export type TweenFunc = (t: number, k: number, d: boolean) => number;
 
 /**
@@ -68,17 +70,17 @@ export function quadratic(t: number): number {
 }
 
 export function sine(t: number): number {
-    const a = t * Math.PI;
+    const a = t * Pi;
     return Math.sin(a);
 }
 
 export function bump(t: number, k: number): number {
-    const a = t * Math.PI;
+    const a = t * Pi;
     return ((0.5 * (1 - Math.cos(a))) - (k * Math.sin(2 * a)));
 }
 
 export function jump(t: number, k: number): number {
-    const a = (t - 0.5) * Math.PI;
+    const a = (t - 0.5) * Pi;
     return t * t + k * Math.cos(a);
 }
 

@@ -1,15 +1,15 @@
-import { deg2rad, Tau } from "@juniper-lib/tslib/math";
+import { deg2rad, Pi, Tau } from "@juniper-lib/tslib/math";
 import { Object3D, Quaternion, Vector3 } from "three";
-import { getLookHeading } from "./lookAngles";
+import { getLookHeadingRadians } from "./lookAngles";
 
 const targetPos = new Vector3();
-let targetAngle = 0;
+let targetHeadingRadians = 0;
 const dPos = new Vector3();
 
 const curPos = new Vector3();
 const curDir = new Vector3();
 const dQuat = new Quaternion();
-let curAngle = 0;
+let curHeadingRadians = 0;
 let copyCounter = 0;
 
 function minRotAngle(to: number, from: number) {
@@ -33,23 +33,23 @@ function minRotAngle(to: number, from: number) {
 export class BodyFollower extends Object3D {
     private lerp: boolean;
     private maxDistance: number;
-    private minAngle: number;
-    private maxAngle: number;
+    private minHeadingRadians: number;
+    private maxHeadingRadians: number;
 
     constructor(name: string,
         private readonly minDistance: number,
-        minAngle: number,
+        minHeadingDegrees: number,
         private readonly heightOffset: number,
         private readonly speed = 1) {
         super();
 
         this.name = name;
-        this.lerp = this.minAngle > 0
+        this.lerp = this.minHeadingRadians > 0
             || this.minDistance > 0;
 
         this.maxDistance = this.minDistance * 5;
-        this.minAngle = deg2rad(minAngle);
-        this.maxAngle = Math.PI - this.minAngle;
+        this.minHeadingRadians = deg2rad(minHeadingDegrees);
+        this.maxHeadingRadians = Pi - this.minHeadingRadians;
 
         Object.seal(this);
     }
@@ -59,18 +59,18 @@ export class BodyFollower extends Object3D {
         this.name = source.name + (++copyCounter);
         this.lerp = source.lerp;
         this.maxDistance = source.maxDistance;
-        this.minAngle = source.minAngle;
-        this.maxAngle = source.maxAngle;
+        this.minHeadingRadians = source.minHeadingRadians;
+        this.maxHeadingRadians = source.maxHeadingRadians;
         return this;
     }
 
-    update(height: number, position: Vector3, angle: number, dt: number) {
+    update(height: number, position: Vector3, headingRadians: number, dt: number) {
         dt *= 0.001;
-        this.clampTo(this.lerp, height, position, this.minDistance, this.maxDistance, angle, this.minAngle, this.maxAngle, dt);
+        this.clampTo(this.lerp, height, position, this.minDistance, this.maxDistance, headingRadians, this.minHeadingRadians, this.maxHeadingRadians, dt);
     }
 
-    reset(height: number, position: Vector3, angle: number) {
-        this.clampTo(false, height, position, 0, 0, angle, 0, 0, 0);
+    reset(height: number, position: Vector3, headingRadians: number) {
+        this.clampTo(false, height, position, 0, 0, headingRadians, 0, 0, 0);
     }
 
     private clampTo(
@@ -79,19 +79,19 @@ export class BodyFollower extends Object3D {
         position: Vector3,
         minDistance: number,
         maxDistance: number,
-        angle: number,
-        minAngle: number,
-        maxAngle: number,
+        headingRadians: number,
+        minHeadingRadians: number,
+        maxHeadingRadians: number,
         dt: number) {
         targetPos.copy(position);
         targetPos.y -= this.heightOffset * height;
-        targetAngle = angle;
+        targetHeadingRadians = headingRadians;
 
         this.getWorldPosition(curPos);
         this.getWorldDirection(curDir);
         curDir.negate();
 
-        curAngle = getLookHeading(curDir);
+        curHeadingRadians = getLookHeadingRadians(curDir);
         dQuat.identity();
 
         let setPos = !lerp;
@@ -108,14 +108,14 @@ export class BodyFollower extends Object3D {
                 setPos = true;
             }
 
-            const dAngle = minRotAngle(targetAngle, curAngle);
-            const mAngle = Math.abs(dAngle);
-            if (minAngle < mAngle) {
-                if (mAngle < maxAngle) {
-                    dQuat.setFromAxisAngle(this.up, dAngle * this.speed * dt);
+            const dHeadingRadians = minRotAngle(targetHeadingRadians, curHeadingRadians);
+            const mHeadingRadians = Math.abs(dHeadingRadians);
+            if (minHeadingRadians < mHeadingRadians) {
+                if (mHeadingRadians < maxHeadingRadians) {
+                    dQuat.setFromAxisAngle(this.up, dHeadingRadians * this.speed * dt);
                 }
                 else {
-                    dQuat.setFromAxisAngle(this.up, dAngle);
+                    dQuat.setFromAxisAngle(this.up, dHeadingRadians);
                 }
                 setRot = true;
             }

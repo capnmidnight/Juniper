@@ -26,7 +26,7 @@ namespace Juniper.World.GIS.Google.StreetView
             }
         }
 
-        public int Heading
+        public int HeadingDegrees
         {
             get => heading;
             set
@@ -36,7 +36,7 @@ namespace Juniper.World.GIS.Google.StreetView
             }
         }
 
-        public int Pitch
+        public int PitchDegrees
         {
             get => pitch;
             set
@@ -46,7 +46,7 @@ namespace Juniper.World.GIS.Google.StreetView
             }
         }
 
-        public int FOV
+        public int FOVDegrees
         {
             get => fov;
             set

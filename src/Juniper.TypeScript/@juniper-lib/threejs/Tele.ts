@@ -203,15 +203,15 @@ export class Tele extends Application {
     updateUserOffsets(): void {
         if (this.offsetRadius > 0) {
             const idx = this.sortedUserIDs.indexOf(this.env.avatar.name);
-            const dAngle = Tau / this.sortedUserIDs.length;
-            const localAngle = (idx + 1) * dAngle;
-            const dx = this.offsetRadius * Math.sin(localAngle);
-            const dy = this.offsetRadius * (Math.cos(localAngle) - 1);
+            const dRadians = Tau / this.sortedUserIDs.length;
+            const localRadians = (idx + 1) * dRadians;
+            const dx = this.offsetRadius * Math.sin(localRadians);
+            const dy = this.offsetRadius * (Math.cos(localRadians) - 1);
             for (let i = 0; i < this.sortedUserIDs.length; ++i) {
                 const id = this.sortedUserIDs[i];
-                const angle = (i + 1) * dAngle;
-                const x = this.offsetRadius * Math.sin(angle) - dx;
-                const z = this.offsetRadius * (Math.cos(angle) - 1) - dy;
+                const radians = (i + 1) * dRadians;
+                const x = this.offsetRadius * Math.sin(radians) - dx;
+                const z = this.offsetRadius * (Math.cos(radians) - 1) - dy;
                 this.setUserOffset(id, x, 0, z);
             }
         }

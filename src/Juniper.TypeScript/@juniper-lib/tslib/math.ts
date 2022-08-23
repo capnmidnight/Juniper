@@ -4,7 +4,9 @@ import { isDefined, isGoodNumber, isNumber } from "./typeChecks";
 export const RIGHT = /*@__PURE__*/ vec3.fromValues(1, 0, 0);
 export const UP = /*@__PURE__*/ vec3.fromValues(0, 1, 0);
 export const FWD = /*@__PURE__*/ vec3.fromValues(0, 0, -1);
-export const Tau = /*@__PURE__*/ 2 * Math.PI;
+export const Pi =/*@__PURE__*/ Math.PI;
+export const HalfPi =/*@__PURE__*/ 0.5 * Pi;
+export const Tau = /*@__PURE__*/ 2 * Pi;
 
 export function xy2i(x: number, y: number, width: number, components: number = 1): number {
     return components * (x + width * y);
@@ -22,8 +24,12 @@ export function i2vec2(vec: vec2, i: number, width: number, components: number =
     vec2.set(vec, x, y);
 }
 
-export function angleClamp(v: number) {
-    return ((v % Tau) + Tau) % Tau;
+export function radiansClamp(radians: number) {
+    return ((radians % Tau) + Tau) % Tau;
+}
+
+export function degreesClamp(radians: number) {
+    return ((radians % 360) + 360) % 360;
 }
 
 /**
@@ -33,12 +39,12 @@ export function clamp(v: number, min: number, max: number) {
     return Math.min(max, Math.max(min, v));
 }
 
-export function deg2rad(deg: number) {
-    return deg * Tau / 360;
+export function deg2rad(degrees: number) {
+    return degrees * Tau / 360;
 }
 
-export function rad2deg(rad: number) {
-    return rad * 360 / Tau;
+export function rad2deg(radians: number) {
+    return radians * 360 / Tau;
 }
 
 /**

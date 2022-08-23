@@ -1,5 +1,6 @@
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { isChrome, isDesktop, isOculusBrowser } from "@juniper-lib/tslib/flags";
+import { Pi } from "@juniper-lib/tslib/math";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/EventedGamepad";
 import { Event, Matrix4, Object3D, Quaternion, Vector3, XRGripSpace, XRHandSpace, XRTargetRaySpace } from "three";
@@ -15,7 +16,7 @@ import { VirtualButton } from "./VirtualButton";
 
 const mcModelFactory = new XRControllerModelFactory();
 const handModelFactory = new XRHandModelFactory();
-const riftSCorrection = new Matrix4().makeRotationX(-7 * Math.PI / 9);
+const riftSCorrection = new Matrix4().makeRotationX(-7 * Pi / 9);
 
 const pointerIDs = new Map<XRHandedness, PointerID>([
     ["none", PointerID.MotionController],

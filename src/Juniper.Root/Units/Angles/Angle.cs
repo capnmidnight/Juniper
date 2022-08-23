@@ -25,7 +25,7 @@ namespace Juniper.Units
         /// </remarks>
         public Angle(float v, float r)
         {
-            currentValue = v;
+            degrees = v;
             rotations = r;
         }
 
@@ -36,7 +36,7 @@ namespace Juniper.Units
                 throw new ArgumentNullException(nameof(info));
             }
 
-            currentValue = info.GetSingle("angle");
+            degrees = info.GetSingle("angle");
             rotations = 0;
         }
 
@@ -47,7 +47,7 @@ namespace Juniper.Units
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue("angle", Repeat(currentValue));
+            info.AddValue("angle", Repeat(degrees));
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Juniper.Units
         /// <param name="a">An <c>Angle</c> object.</param>
         public float ToSingle()
         {
-            return currentValue;
+            return degrees;
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a % v, 0, 360)</returns>
         public Angle Mod(float v)
         {
-            return Update(currentValue % v);
+            return Update(degrees % v);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a + v, 0, 360)</returns>
         public Angle Add(float v)
         {
-            return Update(currentValue + v);
+            return Update(degrees + v);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a - v, 0, 360)</returns>
         public Angle Subtract(float v)
         {
-            return Update(currentValue - v);
+            return Update(degrees - v);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a * v, 0, 360)</returns>
         public Angle Multiply(float v)
         {
-            return Update(currentValue * v);
+            return Update(degrees * v);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a / v, 0, 360)</returns>
         public Angle Divide(float v)
         {
-            return Update(currentValue / v);
+            return Update(degrees / v);
         }
 
         /// <summary>
@@ -248,8 +248,8 @@ namespace Juniper.Units
 
         public bool Equals(Angle other)
         {
-            var l = Repeat(currentValue);
-            var r = Repeat(other.currentValue);
+            var l = Repeat(degrees);
+            var r = Repeat(other.degrees);
             return l.Equals(r);
         }
 
@@ -299,13 +299,13 @@ namespace Juniper.Units
         /// </returns>
         public override int GetHashCode()
         {
-            return Repeat(currentValue).GetHashCode();
+            return Repeat(degrees).GetHashCode();
         }
 
         /// <summary>
         /// The current value of the angle,
         /// </summary>
-        private readonly float currentValue;
+        private readonly float degrees;
 
         /// <summary>
         /// The number of whole-circle rotations, times 360, we had to take to get to the current value.
@@ -320,7 +320,7 @@ namespace Juniper.Units
         private Angle Update(float v1)
         {
             var r = rotations;
-            var v0 = currentValue;
+            var v0 = degrees;
 
             v1 = Repeat(v1);
 
@@ -351,7 +351,7 @@ namespace Juniper.Units
 
         public override string ToString()
         {
-            return currentValue.Label(UnitOfMeasure.Degrees);
+            return degrees.Label(UnitOfMeasure.Degrees);
         }
 
         public static explicit operator string(Angle value)
