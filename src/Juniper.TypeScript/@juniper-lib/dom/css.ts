@@ -35,6 +35,10 @@ export class CssPropSet implements IElementAppliable {
     }
 }
 
+function asInt(v: number | string): string {
+    return isNumber(v) ? v.toFixed(0) : v;
+}
+
 /**
  * Combine style properties.
  **/
@@ -42,26 +46,32 @@ export function styles(...rest: (CssProp | CssPropSet)[]) {
     return new CssPropSet(...rest);
 }
 
-type CSSImportant<T extends string | number> = T | `${T} !important`;
+export type CSSImportant<T extends string | number> = T | `${T} !important`;
 
-type CSSGlobalValues = "inherit"
+export type CSSGlobalValues =
+    | "inherit"
     | "initial"
     | "revert"
     | "revert-layer"
     | "unset";
 
-type CSSUrl = `url(${string})`;
+export type CSSUrl = `url(${string})`;
 
-type CSSPercentage = `${number}%`;
-type CSSNumberPercentage = number | CSSPercentage;
+export type CSSPercentage = `${number}%`;
 
-type CSSAngle = number
+export type CSSNumberPercentage =
+    | number
+    | CSSPercentage;
+
+export type CSSAngle =
+    | number
     | `${number}deg`
     | `${number}rad`
     | `${number}grad`
     | `${number}turn`;
 
-type CSSFontRelativeLength = `${number}cap`
+export type CSSFontRelativeLength =
+    | `${number}cap`
     | `${number}ch`
     | `${number}em`
     | `${number}ex`
@@ -70,14 +80,16 @@ type CSSFontRelativeLength = `${number}cap`
     | `${number}rem`
     | `${number}rlh`;
 
-type CSSViewportPercentageLength = `${number}vh`
+export type CSSViewportPercentageLength =
+    | `${number}vh`
     | `${number}vw`
     | `${number}vi`
     | `${number}vb`
     | `${number}vmin`
     | `${number}vmax`;
 
-type CSSAbsoluteLength = `${number}px`
+export type CSSAbsoluteLength =
+    | `${number}px`
     | `${number}cm`
     | `${number}mm`
     | `${number}Q`
@@ -85,21 +97,24 @@ type CSSAbsoluteLength = `${number}px`
     | `${number}pc`
     | `${number}pt`;
 
-type CSSLength = CSSFontRelativeLength
+export type CSSLength =
+    | CSSFontRelativeLength
     | CSSViewportPercentageLength
     | CSSAbsoluteLength;
 
-type CSSLengthPercentage = CSSLength
+export type CSSLengthPercentage =
+    | CSSLength
     | CSSPercentage
     | 0
     | "0";
 
-type CSSLengthPercentageAuto = CSSLengthPercentage
+export type CSSLengthPercentageAuto =
+    | CSSLengthPercentage
     | "auto";
 
-type CSSCalcStatement = `calc(${string})`;
+export type CSSCalcStatement = `calc(${string})`;
 
-type CSSSizePropertyValue = CSSGlobalValues
+export type CSSSizePropertyValue =
     | 0
     | "0"
     | CSSLengthPercentage
@@ -109,7 +124,7 @@ type CSSSizePropertyValue = CSSGlobalValues
     | `fit-content(${CSSLengthPercentage})`
     | CSSCalcStatement;
 
-type CSSAlignItemsValue = CSSGlobalValues
+export type CSSAlignItemsValue =
     | "center"
     | "start"
     | "end"
@@ -122,19 +137,21 @@ type CSSAlignItemsValue = CSSGlobalValues
     | "stretch"
     | "safe center"
     | "unsafe center";
-export function alignItems(v: CSSAlignItemsValue) { return new CssProp("alignItems", v); }
+export function alignItems(v: CSSGlobalValues | CSSAlignItemsValue) { return new CssProp("alignItems", v); }
 
-type CSSAlignContentValue = CSSAlignItemsValue
+export type CSSAlignContentValue =
+    | CSSAlignItemsValue
     | "space-between"
     | "space-around"
     | "space-evenly";
-export function alignContent(v: CSSAlignContentValue) { return new CssProp("alignContent", v); }
+export function alignContent(v: CSSGlobalValues | CSSAlignContentValue) { return new CssProp("alignContent", v); }
 
-type CSSAlignSelfValue = CSSAlignItemsValue
+export type CSSAlignSelfValue =
+    | CSSAlignItemsValue
     | "auto"
     | "self-start"
     | "self-end";
-export function alignSelf(v: CSSAlignSelfValue) { return new CssProp("alignSelf", v); }
+export function alignSelf(v: CSSGlobalValues | CSSAlignSelfValue) { return new CssProp("alignSelf", v); }
 
 export function all(v: CSSGlobalValues) { return new CssProp("all", v); }
 
@@ -142,9 +159,9 @@ export function alignmentBaseline(v: string) { return new CssProp("alignmentBase
 
 export function animation(v: string) { return new CssProp("animation", v); }
 
-type CSSTimeSecondsValue = `${number}s`;
-type CSSTimeMillisecondsValue = `${number}ms`;
-type CSSTimeValue = CSSTimeSecondsValue | CSSTimeMillisecondsValue;
+export type CSSTimeSecondsValue = `${number}s`;
+export type CSSTimeMillisecondsValue = `${number}ms`;
+export type CSSTimeValue = CSSTimeSecondsValue | CSSTimeMillisecondsValue;
 export function animationDelay(v: CSSGlobalValues): CssProp;
 export function animationDelay(...v: CSSTimeValue[]): CssProp;
 export function animationDelay(...v: string[]) { return new CssProp("animationDelay", v.join(", ")); }
@@ -153,7 +170,8 @@ export function animationDuration(v: CSSGlobalValues): CssProp;
 export function animationDuration(...v: CSSTimeValue[]): CssProp;
 export function animationDuration(...v: string[]) { return new CssProp("animationDuration", v.join(", ")); }
 
-type CSSAnimationDirectionValue = "normal"
+export type CSSAnimationDirectionValue =
+    | "normal"
     | "reverse"
     | "alternate"
     | "alternate-reverse";
@@ -161,7 +179,8 @@ export function animationDirection(v: CSSGlobalValues): CssProp;
 export function animationDirection(...v: CSSAnimationDirectionValue[]): CssProp;
 export function animationDirection(...v: string[]): CssProp { return new CssProp("animationDirection", v.join(", ")); }
 
-type CSSFillModeValue = "none"
+export type CSSFillModeValue =
+    | "none"
     | "forwards"
     | "backwards"
     | "both";
@@ -169,7 +188,9 @@ export function animationFillMode(v: CSSGlobalValues): CssProp;
 export function animationFillMode(...v: CSSFillModeValue[]): CssProp;
 export function animationFillMode(...v: string[]): CssProp { return new CssProp("animationFillMode", v.join(", ")); }
 
-type CSSIterationCountValue = number | "infinite"
+export type CSSIterationCountValue =
+    | number
+    | "infinite";
 export function animationIterationCount(v: CSSGlobalValues): CssProp;
 export function animationIterationCount(...v: CSSIterationCountValue[]): CssProp;
 export function animationIterationCount(...v: (number | string)[]): CssProp { return new CssProp("animationIterationCount", v.join(", ")); }
@@ -178,28 +199,32 @@ export function animationName(v: CSSGlobalValues): CssProp;
 export function animationName(...v: string[]): CssProp;
 export function animationName(...v: string[]) { return new CssProp("animationName", v.join(", ")); }
 
-type CSSPlayStateValue = "running" | "paused";
+export type CSSPlayStateValue =
+    | "running"
+    | "paused";
 export function animationPlayState(v: CSSGlobalValues): CssProp;
 export function animationPlayState(...v: CSSPlayStateValue[]): CssProp;
 export function animationPlayState(...v: string[]) { return new CssProp("animationPlayState", v.join(", ")); }
 
-type CSSTimingFunctionKeyword = "ease"
+export type CSSTimingFunctionKeyword =
+    | "ease"
     | "ease-in"
     | "ease-out"
     | "ease-in-out"
     | "linear"
     | "step-start"
     | "step-end";
-type CSSTimingFunctionCubicBezier = `cubic-bezier(${number}, ${number}, ${number}, ${number})`;
-type CSSTimingFunctionSteps = `steps(${number}, ${CSSTimingFunctionKeyword})`;
-type CSSTimingFunctionValue = CSSTimingFunctionKeyword
+export type CSSTimingFunctionCubicBezier = `cubic-bezier(${number}, ${number}, ${number}, ${number})`;
+export type CSSTimingFunctionSteps = `steps(${number}, ${CSSTimingFunctionKeyword})`;
+export type CSSTimingFunctionValue =
+    | CSSTimingFunctionKeyword
     | CSSTimingFunctionCubicBezier
     | CSSTimingFunctionSteps;
 export function animationTimingFunction(v: CSSGlobalValues): CssProp;
 export function animationTimingFunction(...v: CSSTimingFunctionValue[]): CssProp;
-export function animationTimingFunction(v: string) { return new CssProp("animationTimingFunction", v); }
+export function animationTimingFunction(...v: string[]) { return new CssProp("animationTimingFunction", v.join(' ')); }
 
-type CSSAppearanceValue = CSSGlobalValues
+export type CSSAppearanceValue =
     | "none"
     | "auto"
     | "menulist-button"
@@ -216,10 +241,9 @@ type CSSAppearanceValue = CSSGlobalValues
     | "slider-horizontal"
     | "square-button"
     | "textarea";
+export function appearance(v: CSSGlobalValues | CSSAppearanceValue) { return new CssProp("appearance", v); }
 
-export function appearance(v: CSSAppearanceValue) { return new CssProp("appearance", v); }
-
-type CSSFilterFunction = `blur(${CSSLength})`
+export type CSSFilterFunction = `blur(${CSSLength})`
     | `brightness(${CSSNumberPercentage})`
     | `contrast(${CSSNumberPercentage})`
     | `drop-shadow(${CSSLength} ${CSSLength})`
@@ -236,20 +260,20 @@ export function backdropFilter(v: "none" | CSSGlobalValues): CssProp;
 export function backdropFilter(...v: CSSFilterFunction[]): CssProp;
 export function backdropFilter(...v: string[]): CssProp { return new CssProp("backdropFilter", v.join(' ')); }
 
-type CSSBackfaceVisibilityValue = CSSGlobalValues
+export type CSSBackfaceVisibilityValue =
     | "visible"
     | "hiden";
-export function backfaceVisibility(v: CSSBackfaceVisibilityValue) { return new CssProp("backfaceVisibility", v); }
+export function backfaceVisibility(v: CSSGlobalValues | CSSBackfaceVisibilityValue) { return new CssProp("backfaceVisibility", v); }
 
 export function background(v: string) { return new CssProp("background", v); }
 
-type CSSBackgroundAttachmentValue = CSSGlobalValues
+export type CSSBackgroundAttachmentValue =
     | "scroll"
     | "fixed"
     | "local";
-export function backgroundAttachment(v: CSSBackgroundAttachmentValue) { return new CssProp("backgroundAttachment", v); }
+export function backgroundAttachment(v: CSSGlobalValues | CSSBackgroundAttachmentValue) { return new CssProp("backgroundAttachment", v); }
 
-type CSSBlendModeValue = "normal"
+export type CSSBlendModeValue = "normal"
     | "multiply"
     | "screen"
     | "overlay"
@@ -269,24 +293,26 @@ export function backgroundBlendMode(v: CSSGlobalValues): CssProp;
 export function backgroundBlendMode(...v: CSSBlendModeValue[]): CssProp;
 export function backgroundBlendMode(...v: string[]): CssProp { return new CssProp("backgroundBlendMode", v.join(", ")); }
 
-type CSSBoxType = CSSGlobalValues
+export type CSSBoxType =
     | "border-box"
     | "padding-box"
     | "content-box";
 
-type CSSClipValue = CSSBoxType
+export type CSSClipValue =
+    | CSSBoxType
     | "text";
-export function backgroundClip(v: CSSClipValue): CssProp { return new CssProp("backgroundClip", v); }
+export function backgroundClip(v: CSSGlobalValues | CSSClipValue): CssProp { return new CssProp("backgroundClip", v); }
 
 export function backgroundColor(v: string) { return new CssProp("backgroundColor", v); }
 
-type CSSGradient = `linear-gradient(${string})`
+export type CSSGradient =
+    | `linear-gradient(${string})`
     | `radial-gradient(${string})`
     | `repeating-linear-gradient(${string})`
     | `repeating-radial-gradient(${string})`
     | `conic-gradient(${string})`;
 
-type CSSImage = CSSUrl
+export type CSSImage = CSSUrl
     | CSSGradient
     | `element(${string})`
     | `cross-fade(${string})`
@@ -295,17 +321,20 @@ export function backgroundImage(v: CSSGlobalValues): CssProp;
 export function backgroundImage(...v: CSSImage[]): CssProp;
 export function backgroundImage(...v: string[]): CssProp { return new CssProp("backgroundImage", v.join(", ")); }
 
-export function backgroundOrigin(v: CSSBoxType): CssProp { return new CssProp("backgroundOrigin", v); }
+export function backgroundOrigin(v: CSSGlobalValues | CSSBoxType): CssProp { return new CssProp("backgroundOrigin", v); }
 
-type CSSPositionKeyword = "top"
+export type CSSPositionKeyword =
+    | "top"
     | "bottom"
     | "left"
     | "right"
     | "center";
-type CSSPosition = CSSPositionKeyword
+export type CSSPosition =
+    | CSSPositionKeyword
     | CSSLengthPercentage;
 
-type CSSPositionValue = CSSPosition
+export type CSSPositionValue =
+    | CSSPosition
     | `${CSSPosition} ${CSSPosition}`
     | `${CSSPositionKeyword} ${CSSPositionKeyword} ${CSSLengthPercentage}`
     | `${CSSPositionKeyword} ${CSSLengthPercentage} ${CSSPositionKeyword} ${CSSLengthPercentage}`;
@@ -313,7 +342,8 @@ export function backgroundPosition(v: CSSGlobalValues): CssProp;
 export function backgroundPosition(...v: CSSPositionValue[]): CssProp;
 export function backgroundPosition(...v: (string | number)[]): CssProp { return new CssProp("backgroundPosition", v.join(", ")); }
 
-type CSSPositionXYValue = CSSPosition
+export type CSSPositionXYValue =
+    | CSSPosition
     | `${CSSPositionKeyword} ${CSSLengthPercentage}`;
 export function backgroundPositionX(v: CSSGlobalValues): CssProp;
 export function backgroundPositionX(...v: CSSPositionXYValue[]): CssProp;
@@ -323,22 +353,26 @@ export function backgroundPositionY(v: CSSGlobalValues): CssProp;
 export function backgroundPositionY(...v: CSSPositionXYValue[]): CssProp;
 export function backgroundPositionY(...v: (string | number)[]): CssProp { return new CssProp("backgroundPositionY", v.join(", ")); }
 
-type CSSBasicRepeat = "repeat"
+export type CSSBasicRepeat =
+    | "repeat"
     | "space"
     | "round"
     | "no-repeat";
 
-type CSSRepeatValue = CSSGlobalValues
+export type CSSRepeatValue =
     | "repeat-x"
     | "repeat-y"
-    | CSSBasicRepeat
-    | `${CSSBasicRepeat} ${CSSBasicRepeat}`;
-export function backgroundRepeat(v: CSSRepeatValue) { return new CssProp("backgroundRepeat", v); }
+    | CSSBasicRepeat;
+export function backgroundRepeat(v: CSSGlobalValues): CssProp;
+export function backgroundRepeat(v: CSSRepeatValue): CssProp;
+export function backgroundRepeat(x: CSSBasicRepeat, y: CSSBasicRepeat): CssProp;
+export function backgroundRepeat(...v: string[]) { return new CssProp("backgroundRepeat", v.join(" ")); }
 
 export function backgroundRepeatX(v: CSSGlobalValues | CSSBasicRepeat) { return new CssProp("backgroundRepeatX", v); }
 export function backgroundRepeatY(v: CSSGlobalValues | CSSBasicRepeat) { return new CssProp("backgroundRepeatY", v); }
 
-type CSSBackgroundSizeValue = "contain"
+export type CSSBackgroundSizeValue =
+    | "contain"
     | "cover"
     | "auto"
     | CSSLengthPercentage
@@ -402,10 +436,10 @@ export function borderTopStyle(v: string) { return new CssProp("borderTopStyle",
 export function borderTopWidth(v: string) { return new CssProp("borderTopWidth", v); }
 export function borderWidth(v: string | 0) { return new CssProp("borderWidth", v); }
 
-type CSSElementPositionValue = CSSGlobalValues
+export type CSSElementPositionValue =
     | "auto"
     | CSSLengthPercentage;
-export function bottom(v: CSSElementPositionValue) { return new CssProp("bottom", v); }
+export function bottom(v: CSSGlobalValues | CSSElementPositionValue) { return new CssProp("bottom", v); }
 export function boxShadow(v: string) { return new CssProp("boxShadow", v); }
 export function boxSizing(v: string) { return new CssProp("boxSizing", v); }
 export function breakAfter(v: string) { return new CssProp("breakAfter", v); }
@@ -438,7 +472,7 @@ export function containIntrinsicSize(v: string) { return new CssProp("containInt
 export function counterIncrement(v: string) { return new CssProp("counterIncrement", v); }
 export function counterReset(v: string) { return new CssProp("counterReset", v); }
 
-export type CSSCursorValue = CSSGlobalValues
+export type CSSCursorValue =
     | "auto"
     | "default"
     | "none"
@@ -475,14 +509,14 @@ export type CSSCursorValue = CSSGlobalValues
     | "nwse-resize"
     | "zoom-in"
     | "zoom-out";
-export function cursor(v: CSSCursorValue) { return new CssProp("cursor", v); }
+export function cursor(v: CSSGlobalValues | CSSCursorValue) { return new CssProp("cursor", v); }
 
 export function cx(v: string) { return new CssProp("cx", v); }
 export function cy(v: string) { return new CssProp("cy", v); }
 export function d(v: string) { return new CssProp("d", v); }
 export function direction(v: string) { return new CssProp("direction", v); }
 
-export type CSSDisplayValues = CSSGlobalValues
+export type CSSDisplayValues =
     | "none"
     | "contents"
     | "block"
@@ -504,7 +538,7 @@ export type CSSDisplayValues = CSSGlobalValues
     | "table"
     | "table-row"
     | "list-item";
-export function display(v: CSSImportant<CSSDisplayValues>) { return new CssProp("display", v); }
+export function display(v: CSSImportant<CSSGlobalValues | CSSDisplayValues>) { return new CssProp("display", v); }
 
 export function dominantBaseline(v: string) { return new CssProp("dominantBaseline", v); }
 export function emptyCells(v: string) { return new CssProp("emptyCells", v); }
@@ -513,50 +547,56 @@ export function fillOpacity(v: string) { return new CssProp("fillOpacity", v); }
 export function fillRule(v: string) { return new CssProp("fillRule", v); }
 export function filter(v: string) { return new CssProp("filter", v); }
 
-export type CSSFlexBasisValues = CSSGlobalValues
+export type CSSFlexBasisValues =
     | CSSLengthPercentage
     | "auto"
     | "max-content"
     | "min-content"
     | "fit-content"
-export function flexBasis(v: CSSFlexBasisValues) { return new CssProp("flexBasis", v); }
+export function flexBasis(v: CSSGlobalValues | CSSFlexBasisValues) { return new CssProp("flexBasis", v); }
 
-export type CSSFlexDirectionValues = CSSGlobalValues
+export type CSSFlexDirectionValues =
     | "row"
     | "row-reverse"
     | "column"
     | "column-reverse";
-export function flexDirection(v: CSSFlexDirectionValues) { return new CssProp("flexDirection", v); }
+export function flexDirection(v: CSSGlobalValues | CSSFlexDirectionValues) { return new CssProp("flexDirection", v); }
 
-export type CSSFlexWrapValues = CSSGlobalValues
+export type CSSFlexWrapValues =
     | "nowrap"
     | "wrap"
     | "wrap-reverse";
-export function flexWrap(v: CSSFlexWrapValues) { return new CssProp("flexWrap", v); }
+export function flexWrap(v: CSSGlobalValues | CSSFlexWrapValues) { return new CssProp("flexWrap", v); }
 
-export type CSSFlexFlowValues = CSSFlexDirectionValues
-    | CSSFlexWrapValues
-    | `${CSSFlexDirectionValues} ${CSSFlexWrapValues}`;
-export function flexFlow(v: CSSFlexFlowValues) { return new CssProp("flexFlow", v); }
+export type CSSFlexFlowValues =
+    | CSSFlexDirectionValues
+    | CSSFlexWrapValues;
+export function flexFlow(v: CSSGlobalValues): CssProp;
+export function flexFlow(v: CSSFlexFlowValues): CssProp;
+export function flexFlow(x: CSSFlexFlowValues, y: CSSFlexFlowValues): CssProp;
+export function flexFlow(...v: string[]): CssProp { return new CssProp("flexFlow", v.join(' ')); }
 
-export type CSSFlexValues = number
-    | CSSFlexBasisValues
-    | `${number} ${CSSFlexBasisValues}`
-    | `${number} ${number}`
-    | `${number} ${number} ${CSSFlexBasisValues}`;
-export function flex(v: CSSFlexValues) { return new CssProp("flex", v); }
+
+export function flex(v: CSSGlobalValues): CssProp;
+export function flex(grow: number): CssProp;
+export function flex(basis: CSSFlexBasisValues): CssProp;
+export function flex(grow: number, shrink: number): CssProp;
+export function flex(grow: number, basis: CSSFlexBasisValues): CssProp;
+export function flex(grow: number, shrink: number, basis: CSSFlexBasisValues): CssProp;
+export function flex(...v: (string | number)[]): CssProp { return new CssProp("flex", v.join(' ')); }
 
 export function flexGrow(v: CSSGlobalValues | number) { return new CssProp("flexGrow", v); }
 
 export function flexShrink(v: CSSGlobalValues | number) { return new CssProp("flexShrink", v); }
 
-export type CSSFloatValues = CSSGlobalValues
+export type CSSFloatValues =
     | "left"
     | "right"
     | "none"
     | "inline-start"
     | "inline-end";
-export function float(v: CSSFloatValues) { return new CssProp("float", v); }
+export function float(v: CSSGlobalValues | CSSFloatValues) { return new CssProp("float", v); }
+
 export function floodColor(v: string) { return new CssProp("floodColor", v); }
 export function floodOpacity(v: string) { return new CssProp("floodOpacity", v); }
 export function font(v: string) { return new CssProp("font", v); }
@@ -592,13 +632,13 @@ export function gridArea(vOrRowStart: string | number, colStart?: number, rowEnd
 }
 export function gridAutoColumns(v: string) { return new CssProp("gridAutoColumns", v); }
 
-type CSSGridAutoFlowValues = CSSGlobalValues
+export type CSSGridAutoFlowValues =
     | "row"
     | "column"
     | "dense"
     | "row dense"
     | "column dense";
-export function gridAutoFlow(v: CSSGridAutoFlowValues) { return new CssProp("gridAutoFlow", v); }
+export function gridAutoFlow(v: CSSGlobalValues | CSSGridAutoFlowValues) { return new CssProp("gridAutoFlow", v); }
 
 export function gridAutoRows(v: string) { return new CssProp("gridAutoRows", v); }
 
@@ -638,7 +678,7 @@ export function gridTemplateAreas(...v: string[]) { return new CssProp("gridTemp
 
 export function gridTemplateColumns(v: string) { return new CssProp("gridTemplateColumns", v); }
 export function gridTemplateRows(v: string) { return new CssProp("gridTemplateRows", v); }
-export function height(v: CSSImportant<CSSSizePropertyValue>) { return new CssProp("height", v); }
+export function height(v: CSSImportant<CSSGlobalValues | CSSSizePropertyValue>) { return new CssProp("height", v); }
 export function hyphens(v: string) { return new CssProp("hyphens", v); }
 export function imageOrientation(v: string) { return new CssProp("imageOrientation", v); }
 export function imageRendering(v: string) { return new CssProp("imageRendering", v); }
@@ -658,10 +698,10 @@ export function listStylePosition(v: string) { return new CssProp("listStylePosi
 export function listStyleType(v: string) { return new CssProp("listStyleType", v); }
 
 export function margin(v: CSSGlobalValues | CSSLengthPercentageAuto): CssProp;
-export function margin(vert: CSSGlobalValues | CSSLengthPercentageAuto, horiz: CSSGlobalValues | CSSLengthPercentageAuto): CssProp;
-export function margin(top: CSSGlobalValues | CSSLengthPercentageAuto, horiz: CSSGlobalValues | CSSLengthPercentageAuto, bot: CSSGlobalValues | CSSLengthPercentageAuto): CssProp;
-export function margin(top: CSSGlobalValues | CSSLengthPercentageAuto, right: CSSGlobalValues | CSSLengthPercentageAuto, bot: CSSGlobalValues | CSSLengthPercentageAuto, left: CSSGlobalValues | CSSLengthPercentageAuto): CssProp;
-export function margin(...v: (CSSGlobalValues | CSSLengthPercentageAuto)[]) { return new CssProp("margin", v.join(" ")); }
+export function margin(vert: CSSLengthPercentageAuto, horiz: CSSLengthPercentageAuto): CssProp;
+export function margin(top: CSSLengthPercentageAuto, horiz: CSSLengthPercentageAuto, bot: CSSLengthPercentageAuto): CssProp;
+export function margin(top: CSSLengthPercentageAuto, right: CSSLengthPercentageAuto, bot: CSSLengthPercentageAuto, left: CSSLengthPercentageAuto): CssProp;
+export function margin(...v: (number | string)[]) { return new CssProp("margin", v.join(" ")); }
 
 export function marginBlockEnd(v: CSSLengthPercentageAuto) { return new CssProp("marginBlockEnd", v); }
 export function marginBlockStart(v: CSSLengthPercentageAuto) { return new CssProp("marginBlockStart", v); }
@@ -716,10 +756,10 @@ export type CSSOverflowValues =
 
 export function overflow(v: CSSGlobalValues | CSSOverflowValues): CssProp;
 export function overflow(x: CSSOverflowValues, y: CSSOverflowValues): CssProp;
-export function overflow(...v: (CSSGlobalValues | CSSOverflowValues)[]): CssProp { return new CssProp("overflow", v.join(" ")); }
+export function overflow(...v: string[]): CssProp { return new CssProp("overflow", v.join(" ")); }
 
-export function overflowX(v: CSSGlobalValues|CSSOverflowValues) { return new CssProp("overflowX", v); }
-export function overflowY(v: CSSGlobalValues|CSSOverflowValues) { return new CssProp("overflowY", v); }
+export function overflowX(v: CSSGlobalValues | CSSOverflowValues) { return new CssProp("overflowX", v); }
+export function overflowY(v: CSSGlobalValues | CSSOverflowValues) { return new CssProp("overflowY", v); }
 
 export function overflowAnchor(v: string) { return new CssProp("overflowAnchor", v); }
 export function overflowWrap(v: string) { return new CssProp("overflowWrap", v); }
@@ -754,18 +794,18 @@ export function placeContent(v: string) { return new CssProp("placeContent", v);
 export function placeItems(v: string) { return new CssProp("placeItems", v); }
 export function placeSelf(v: string) { return new CssProp("placeSelf", v); }
 
-type CSSPointerEventsValue = CSSGlobalValues
+export type CSSPointerEventsValue =
     | "auto"
     | "none";
-export function pointerEvents(v: CSSPointerEventsValue) { return new CssProp("pointerEvents", v); }
+export function pointerEvents(v: CSSGlobalValues | CSSPointerEventsValue) { return new CssProp("pointerEvents", v); }
 
-type CSSPositionValues = CSSGlobalValues
+export type CSSPositionValues =
     | "static"
     | "absolute"
     | "fixed"
     | "relative"
     | "sticky";
-export function position(v: CSSImportant<CSSPositionValues>) { return new CssProp("position", v); }
+export function position(v: CSSImportant<CSSGlobalValues | CSSPositionValues>) { return new CssProp("position", v); }
 
 export function quotes(v: string) { return new CssProp("quotes", v); }
 export function r(v: string) { return new CssProp("r", v); }
@@ -820,7 +860,7 @@ export function tabSize(v: string) { return new CssProp("tabSize", v); }
 export function tableLayout(v: string) { return new CssProp("tableLayout", v); }
 
 
-type CSSTextAlignLastValues = CSSGlobalValues
+export type CSSTextAlignLastValues =
     | "auto"
     | "start"
     | "end"
@@ -830,11 +870,12 @@ type CSSTextAlignLastValues = CSSGlobalValues
     | "justify"
     | "match-parent";
 
-type CSSTextAlignValues = CSSTextAlignLastValues
+export type CSSTextAlignValues =
+    | CSSTextAlignLastValues
     | "justify-all";
 
-export function textAlign(v: CSSTextAlignValues) { return new CssProp("textAlign", v); }
-export function textAlignLast(v: CSSTextAlignLastValues) { return new CssProp("textAlignLast", v); }
+export function textAlign(v: CSSGlobalValues | CSSTextAlignValues) { return new CssProp("textAlign", v); }
+export function textAlignLast(v: CSSGlobalValues | CSSTextAlignLastValues) { return new CssProp("textAlignLast", v); }
 
 export function textAnchor(v: string) { return new CssProp("textAnchor", v); }
 export function textCombineUpright(v: string) { return new CssProp("textCombineUpright", v); }
@@ -845,7 +886,12 @@ export function textDecorationSkipInk(v: string) { return new CssProp("textDecor
 export function textDecorationStyle(v: string) { return new CssProp("textDecorationStyle", v); }
 export function textIndent(v: string) { return new CssProp("textIndent", v); }
 export function textOrientation(v: string) { return new CssProp("textOrientation", v); }
-export function textOverflow(v: string) { return new CssProp("textOverflow", v); }
+
+export type CSSTextOverflowValues =
+    | "clip"
+    | "ellipsis";
+export function textOverflow(v: CSSGlobalValues | CSSTextOverflowValues) { return new CssProp("textOverflow", v); }
+
 export function textRendering(v: string) { return new CssProp("textRendering", v); }
 export function textShadow(v: string) { return new CssProp("textShadow", v); }
 export function textSizeAdjust(v: string) { return new CssProp("textSizeAdjust", v); }
@@ -853,7 +899,7 @@ export function textTransform(v: string) { return new CssProp("textTransform", v
 export function textUnderlinePosition(v: string) { return new CssProp("textUnderlinePosition", v); }
 export function top(v: CSSElementPositionValue) { return new CssProp("top", v); }
 
-type CSSTouchActionValues = CSSGlobalValues
+export type CSSTouchActionValues =
     | "auto"
     | "none"
     | "pan-x"
@@ -864,7 +910,7 @@ type CSSTouchActionValues = CSSGlobalValues
     | "pan-down"
     | "pinch-zoom"
     | "manipulation";
-export function touchAction(v: CSSImportant<CSSTouchActionValues>) { return new CssProp("touchAction", v); }
+export function touchAction(v: CSSImportant<CSSGlobalValues | CSSTouchActionValues>) { return new CssProp("touchAction", v); }
 
 export function transform(v: string) { return new CssProp("transform", v); }
 export function transformBox(v: string) { return new CssProp("transformBox", v); }
@@ -881,7 +927,7 @@ export function userSelect(v: string) { return new CssProp("userSelect", v); }
 export function userZoom(v: string) { return new CssProp("userZoom", v); }
 export function vectorEffect(v: string) { return new CssProp("vectorEffect", v); }
 
-type CSSVerticalAlignValues = CSSGlobalValues
+export type CSSVerticalAlignValues =
     | CSSLengthPercentage
     | "baseline"
     | "sub"
@@ -891,21 +937,34 @@ type CSSVerticalAlignValues = CSSGlobalValues
     | "middle"
     | "top"
     | "bottom";
-export function verticalAlign(v: CSSVerticalAlignValues) { return new CssProp("verticalAlign", v); }
+export function verticalAlign(v: CSSGlobalValues | CSSVerticalAlignValues) { return new CssProp("verticalAlign", v); }
 
-export function visibility(v: string) { return new CssProp("visibility", v); }
-export function whiteSpace(v: string) { return new CssProp("whiteSpace", v); }
-export function widows(v: string) { return new CssProp("widows", v); }
-export function width(v: CSSImportant<CSSSizePropertyValue>) { return new CssProp("width", v); }
+export type CSSVisiblityValues =
+    | "visible"
+    | "hidden"
+    | "collapse";
+export function visibility(v: CSSGlobalValues | CSSVisiblityValues) { return new CssProp("visibility", v); }
+
+export type CSSWhiteSpaceValues =
+    | "normal"
+    | "nowrap"
+    | "pre"
+    | "pre-wrap"
+    | "pre-line"
+    | "break-spaces";
+export function whiteSpace(v: CSSGlobalValues | CSSWhiteSpaceValues) { return new CssProp("whiteSpace", v); }
+
+export function widows(v: CSSGlobalValues | number) { return new CssProp("widows", asInt(v)); }
+export function width(v: CSSImportant<CSSGlobalValues | CSSSizePropertyValue>) { return new CssProp("width", v); }
 export function willChange(v: string) { return new CssProp("willChange", v); }
 export function wordBreak(v: string) { return new CssProp("wordBreak", v); }
 export function wordSpacing(v: string) { return new CssProp("wordSpacing", v); }
 export function wordWrap(v: string) { return new CssProp("wordWrap", v); }
 export function writingMode(v: string) { return new CssProp("writingMode", v); }
-export function x(v: CSSImportant<CSSSizePropertyValue>) { return new CssProp("x", v); }
-export function y(v: CSSImportant<CSSSizePropertyValue>) { return new CssProp("y", v); }
-export function zIndex(v: CSSImportant<number>) { return new CssProp("zIndex", isNumber(v) ? v.toFixed(0) : v); }
-export function zoom(v: CSSImportant<number>) { return new CssProp("zoom", isNumber(v) ? v.toFixed(0) : v); }
+export function x(v: CSSImportant<CSSGlobalValues | CSSSizePropertyValue>) { return new CssProp("x", v); }
+export function y(v: CSSImportant<CSSGlobalValues | CSSSizePropertyValue>) { return new CssProp("y", v); }
+export function zIndex(v: CSSImportant<number>) { return new CssProp("zIndex", asInt(v)); }
+export function zoom(v: CSSImportant<number>) { return new CssProp("zoom", asInt(v)); }
 
 
 /**
