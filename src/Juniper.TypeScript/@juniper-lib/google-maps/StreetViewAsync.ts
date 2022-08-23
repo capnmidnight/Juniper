@@ -55,6 +55,11 @@ export class StreetViewAsync extends TypedEventBase<StreetViewAsyncEvents> {
         this.firePublicEvt = true;
     }
 
+    close() {
+        this.streetView.setPano(null);
+        this.visible = false;
+    }
+
     getPano(): string {
         if (this.visible) {
             return this.streetView.getPano();
