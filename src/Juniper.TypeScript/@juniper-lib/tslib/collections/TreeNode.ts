@@ -1,29 +1,30 @@
-import { reflectValue } from "../identity";
 import { isDefined } from "../typeChecks";
 import { BaseGraphNode } from "./BaseGraphNode";
 
-export function buildTree<K, V>(
+export function buildTree<V>(
     items: readonly V[],
-    getKey: (v: V) => K,
-    getParentKey: (v: V) => K,
-    getOrder?: (v: V) => number): TreeNode<V> {
-    const rootNode = new TreeNode(null, 0);
-    const nodes = new Map<K, TreeNode<V>>();
+    getParent: (v: V) => V,
+    _getOrder?: (v: V) => number): TreeNode<V> {
+    const getOrder = (v: V) => isDefined(v)
+        && isDefined(_getOrder)
+        && _getOrder(v);
+
+    const rootNode = new TreeNode(null);
+    const nodes = new Map<V, TreeNode<V>>();
 
     for (const item of items) {
-        const nodeID = getKey(item);
         const node = new TreeNode(item);
-        nodes.set(nodeID, node);
+        nodes.set(item, node);
     }
 
     for (const node of nodes.values()) {
-        const parentNodeID = getParentKey(node.value);
-        const isParentNodeDefined = parentNodeID != null;
-        const hasParentNode = isParentNodeDefined && nodes.has(parentNodeID);
+        const parent = getParent(node.value);
+        const isParentNodeDefined = parent != null;
+        const hasParentNode = isParentNodeDefined && nodes.has(parent);
         const parentNode = !isParentNodeDefined
             ? rootNode
             : hasParentNode
-                ? nodes.get(parentNodeID)
+                ? nodes.get(parent)
                 : null;
 
         if (parentNode) {
@@ -38,22 +39,17 @@ export function buildTree<K, V>(
  * A TreeNode is a GraphNode that can have only one parent.
  **/
 export class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
-    private readonly getDepth: () => number;
-    
-
-    constructor(v: ValueT, depth: number = null) {
-        super(v);
-
-        if (isDefined(depth)) {
-            this.getDepth = reflectValue(depth);
-        }
-        else {
-            this.getDepth = () => this.parent.depth + 1;
-        }
-    }
 
     get depth() {
-        return this.getDepth();
+        let counter = 0;
+        let here = this.parent;
+
+        while (isDefined(here)) {
+            ++counter;
+            here = here.parent;
+        }
+
+        return counter;
     }
 
     removeFromParent() {
@@ -119,7 +115,7 @@ export class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
     }
 
     find(v: ValueT): TreeNode<ValueT> {
-        return this.search((n) => n.isChild && n.value === v);
+        return this.search((n) => n.value === v);
     }
 
     search(predicate: (n: TreeNode<ValueT>) => boolean): TreeNode<ValueT> {

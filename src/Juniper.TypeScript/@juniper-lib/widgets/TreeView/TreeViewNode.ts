@@ -15,6 +15,7 @@ import { TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
 import { debounce } from "@juniper-lib/tslib/events/debounce";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Task } from "@juniper-lib/tslib/events/Task";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {
     constructor(public readonly node: TreeNode<T>) {
@@ -72,7 +73,7 @@ export class TreeViewNode<T>
     readonly children: HTMLDivElement;
 
     private readonly collapser: HTMLButtonElement;
-    private readonly label: HTMLSpanElement;
+    private readonly labeler: HTMLSpanElement;
     private readonly adder: HTMLButtonElement;
 
     readonly upper: HTMLDivElement;
@@ -85,8 +86,8 @@ export class TreeViewNode<T>
         private readonly _getLabel: (value: T) => string,
         private readonly _getDescription: (value: T) => string,
         private readonly _canChangeOrder: (value: T) => boolean,
-        private readonly getChildDescription: (node: TreeNode<T>) => string,
-        private readonly _canAddChildren: (node: TreeNode<T>) => boolean,
+        private readonly _getChildDescription: (node: T) => string,
+        private readonly _canHaveChildren: (node: T) => boolean,
         private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T>) {
 
         super();
@@ -115,7 +116,7 @@ export class TreeViewNode<T>
                 }),
 
                 onDblClick((evt) => {
-                    if (this.enabled && this.canAddChildren) {
+                    if (this.enabled && this.canHaveChildren) {
                         evt.preventDefault();
                         evt.cancelBubble = true;
                         this.isOpen = !this.isOpen;
@@ -125,7 +126,7 @@ export class TreeViewNode<T>
                 this.collapser = ButtonSmall(
                     className("tree-view-node-collapser"),
                     onClick((evt) => {
-                        if (this.canAddChildren) {
+                        if (this.canHaveChildren) {
                             evt.preventDefault();
                             evt.cancelBubble = true;
                             this.isOpen = !this.isOpen;
@@ -136,8 +137,8 @@ export class TreeViewNode<T>
                     })
                 ),
 
-                this.label = Span(
-                    this.getLabel(this.node),
+                this.labeler = Span(
+                    this.label,
                     onContextMenu(async (evt) => {
                         if (this.enabled) {
                             await this._launchMenu(evt, new TreeViewNodeContextMenuEvent(this));
@@ -154,7 +155,7 @@ export class TreeViewNode<T>
                     className("tree-view-node-adder"),
                     title(this.adderTitle),
                     onEnabledClick(async (evt: Event) => {
-                        if (this.canAddChildren) {
+                        if (this.canHaveChildren) {
                             await this._launchMenu(evt, new TreeViewNodeAddEvent(this));
                         }
                     }),
@@ -167,7 +168,6 @@ export class TreeViewNode<T>
             this.lower = Div(className("drag-buffer bottom"))
         );
 
-        elementSetDisplay(this.infoView, this.node.isChild);
         elementSetDisplay(this.upper, this.node.isChild && this.canChangeOrder);
         elementSetDisplay(this.lower, this.node.isChild && this.canChangeOrder);
 
@@ -202,20 +202,27 @@ export class TreeViewNode<T>
             }
         }
 
-        elementSetText(this.collapser, this.canAddChildren && this.node.hasChildren
-            ? this.isOpen
-                ? blackMediumDownPointingTriangleCentered.emojiStyle
-                : blackMediumRightPointingTriangleCentered.emojiStyle
-            : blackDiamondCentered.emojiStyle);
-        this.collapser.style.opacity = this.canAddChildren && this.node.hasChildren ? "1" : "0";
+        const canOpenClose = this.canHaveChildren
+            && this.node.hasChildren
+            && this.node.isChild;
+
         elementSetTitle(this.collapser, this.collapserTitle);
+        elementSetText(this.collapser,
+            canOpenClose
+                ? this.isOpen
+                    ? blackMediumDownPointingTriangleCentered.emojiStyle
+                    : blackMediumRightPointingTriangleCentered.emojiStyle
+                : blackDiamondCentered.emojiStyle);
+        this.collapser.style.opacity = canOpenClose
+            ? "1"
+            : "0";
 
-        elementSetText(this.label, this.getLabel(this.node));
+        elementSetText(this.labeler, this.label);
 
-        elementSetDisplay(this.adder, this.canAddChildren, "inline-block");
         elementSetTitle(this.adder, this.adderTitle)
+        elementSetDisplay(this.adder, this.canHaveChildren, "inline-block");
 
-        this.collapser.disabled = this.disabled && !this.specialSelectMode;
+        this.collapser.disabled = this.disabled && !this.specialSelectMode || this.node.isRoot;
         this.adder.disabled = this.disabled || this.specialSelectMode;
     }
 
@@ -230,50 +237,40 @@ export class TreeViewNode<T>
         }
     }
 
-    get canAddChildren() {
-        return this._canAddChildren(this.node);
+    get canHaveChildren() {
+        return isDefined(this.node.value) && this._canHaveChildren(this.node.value);
     }
 
-    private getLabel(node: TreeNode<T>): string {
-        if (node.isRoot) {
-            return null;
-        }
-        else {
-            return this._getLabel(node.value);
-        }
+    private get label(): string {
+        return isDefined(this.node.value) ? this._getLabel(this.node.value) : null;
     }
 
-    private getDescription(node: TreeNode<T>): string {
-        if (node.isRoot) {
-            return null;
-        }
-        else {
-            return this._getDescription(node.value);
-        }
+    private get description(): string {
+        return isDefined(this.node.value) ? this._getDescription(this.node.value) : null;
+    }
+
+    private get childDescription(): string {
+        return isDefined(this.node.value) ? this._getChildDescription(this.node.value) : null;
+    }
+
+    private get canChangeOrder() {
+        return isDefined(this.node.value) && this._canChangeOrder(this.node.value);
     }
 
     private get collapserTitle(): string {
-        if (this.node.isRoot) {
-            return null;
-        }
-
-        if (!this.canAddChildren) {
-            return "Select " + this.getDescription(this.node);
+        if (!this.canHaveChildren) {
+            return "Select " + this.description;
         }
         else if (this.isOpen) {
-            return "Collapse " + this.getDescription(this.node);
+            return "Collapse " + this.description;
         }
         else {
-            return "Expand " + this.getDescription(this.node)
+            return "Expand " + this.description;
         }
     }
 
     private get adderTitle(): string {
-        return "Add " + this.getChildDescription(this.node);
-    }
-
-    private get canChangeOrder() {
-        return this.node.isChild && this._canChangeOrder(this.node.value);
+        return "Add " + this.childDescription;
     }
 
     get disabled() {

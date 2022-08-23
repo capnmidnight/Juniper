@@ -50,12 +50,8 @@ Style(
         height("0")
     ),
 
-    rule(".tree-view-node > .tree-view-node-children",
+    rule(".tree-view-node-children",
         paddingLeft("1.25em")
-    ),
-
-    rule(".tree-view-children > .tree-view-node > .tree-view-node-children",
-        padding(0)
     ),
 
     rule(".tree-view-node",
@@ -72,11 +68,11 @@ Style(
         cursor("grab")
     ),
 
-    rule(".tree-view-node .tree-view-node.disabled, .tree-view-node .tree-view-node.disabled > .tree-view-node-label[draggable=true]",
+    rule(".tree-view-node.disabled, .tree-view-node.disabled > .tree-view-node-label[draggable=true]",
         cursor("not-allowed")
     ),
 
-    rule(".tree-view-node .tree-view-node.disabled > .tree-view-node-label",
+    rule(".tree-view-node.disabled > .tree-view-node-label",
         opacity(0.5)
     ),
 
@@ -84,11 +80,11 @@ Style(
         backgroundColor("unset")
     ),
 
-    rule(".tree-view-node.selected",
+    rule(".tree-view-node.selected > .tree-view-node-label",
         backgroundColor("#dff")
     ),
 
-    rule(".tree-view-node.selected.disabled",
+    rule(".tree-view-node.selected.disabled > .tree-view-node-label",
         backgroundColor("#ddd")
     ),
 
