@@ -1,5 +1,6 @@
 import { className } from "@juniper-lib/dom/attrs";
 import { columnGap, display, gridAutoFlow, gridTemplateColumns, rule } from "@juniper-lib/dom/css";
+import { onInput } from "@juniper-lib/dom/evts";
 import { Div, ElementChild, ErsatzElement, InputNumber, InputRange, Style } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 
@@ -25,8 +26,18 @@ export class InputRangeWithNumber
 
         this.element = Div(
             className("input-range-with-number"),
-            this.rangeInput = InputRange(...rest),
-            this.numberInput = InputNumber());
+            this.rangeInput = InputRange(
+                onInput(() => {
+                    this.numberInput.valueAsNumber = this.rangeInput.valueAsNumber;
+                    this.dispatchEvent(new TypedEvent("input"));
+                }),
+                ...rest),
+            this.numberInput = InputNumber(
+                onInput(() => {
+                    this.rangeInput.valueAsNumber = this.numberInput.valueAsNumber;
+                    this.rangeInput.dispatchEvent(new Event("input"));
+                })
+            ));
 
         this.numberInput.min = this.rangeInput.min;
         this.numberInput.max = this.rangeInput.max;
@@ -34,16 +45,6 @@ export class InputRangeWithNumber
         this.numberInput.valueAsNumber = this.rangeInput.valueAsNumber;
         this.numberInput.disabled = this.rangeInput.disabled;
         this.numberInput.placeholder = this.rangeInput.placeholder;
-
-        this.numberInput.addEventListener("input", () => {
-            this.rangeInput.valueAsNumber = this.numberInput.valueAsNumber;
-            this.rangeInput.dispatchEvent(new Event("input"));
-        });
-
-        this.rangeInput.addEventListener("input", () => {
-            this.numberInput.valueAsNumber = this.rangeInput.valueAsNumber;
-            this.dispatchEvent(new TypedEvent("input"));
-        });
     }
 
     get value(): string {
