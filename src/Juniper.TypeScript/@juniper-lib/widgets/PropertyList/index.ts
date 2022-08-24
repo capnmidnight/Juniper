@@ -1,8 +1,29 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { DD, Div, DL, DT, elementApply, ElementChild, elementSetClass, elementSetDisplay, ErsatzElement, H2, IDisableable, IElementAppliable, isDisableable, Label } from "@juniper-lib/dom/tags";
+import {
+    DD,
+    Div,
+    DL,
+    DT,
+    elementApply,
+    ElementChild,
+    elementSetClass,
+    elementSetDisplay,
+    ErsatzElement,
+    H2,
+    IDisableable,
+    IElementAppliable,
+    isDisableable,
+    Label
+} from "@juniper-lib/dom/tags";
 import { identity } from "@juniper-lib/tslib/identity";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
-import { isArray, isBoolean, isDate, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
+import {
+    isArray,
+    isBoolean,
+    isDate,
+    isNumber,
+    isString
+} from "@juniper-lib/tslib/typeChecks";
 import "./styles";
 
 

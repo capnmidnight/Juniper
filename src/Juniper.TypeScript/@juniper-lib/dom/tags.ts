@@ -67,7 +67,7 @@ export function isFocusable(elem: any): elem is IFocusable {
     return "focus" in elem && isFunction((elem as IFocusable).focus);
 }
 
-export function elementSetDisplay(elem: Elements, visible: boolean, visibleDisplayType: string = "block"): void {
+export function elementSetDisplay(elem: Elements, visible: boolean, visibleDisplayType: string = ""): void {
     elem = resolveElement(elem);
     elem.style.display = visible ? visibleDisplayType : "none";
 }

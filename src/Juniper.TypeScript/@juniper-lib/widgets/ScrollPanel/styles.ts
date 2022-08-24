@@ -1,15 +1,14 @@
 import {
     height,
     overflow,
-    paddingRight,
-    rule
+    padding, rule
 } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
     rule(".scroll-panel",
-        overflow("auto", "scroll"),
-        paddingRight("0.5em")
+        overflow("auto", "auto"),
+        padding("0.5em")
     ),
 
     rule(".scroll-panel-inner",

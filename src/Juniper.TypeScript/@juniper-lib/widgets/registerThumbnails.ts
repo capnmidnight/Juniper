@@ -1,5 +1,5 @@
 import { className, id, title } from "@juniper-lib/dom/attrs";
-import { backgroundColor, border, cursor, display, height, left, margin, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "@juniper-lib/dom/css";
+import { backgroundColor, border, cursor, display, height, left, margin, padding, position, rule, textAlign, top, transform, width, zIndex } from "@juniper-lib/dom/css";
 import { Div, IFrame, Img, Style } from "@juniper-lib/dom/tags";
 
 Style(
@@ -66,7 +66,7 @@ if (!thumbnailView) {
     thumbnailView = Div(
         id(thumbnailViewerID),
         className("thumbnail-view"),
-        styles(display("none")),
+        display("none"),
         Img(title("Thumbnail")),
         IFrame(title("Preview")));
 }

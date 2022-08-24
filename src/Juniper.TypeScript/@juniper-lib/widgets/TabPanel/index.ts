@@ -1,5 +1,5 @@
 import { Attr, className } from "@juniper-lib/dom/attrs";
-import { CssProp, display, gridTemplateRows } from "@juniper-lib/dom/css";
+import { CssProp } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonSecondarySmall, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
@@ -74,15 +74,14 @@ export class TabPanel<TabNames>
         const views = Array.from(this.views.values());
 
         this.element = Div(
+            className("tab-panel"),
             ...rules,
-            display("grid"),
-            gridTemplateRows("auto 1fr"),
             Div(
                 className("tabs"),
                 ...views.map(p => p.button)
             ),
             Div(
-                className("tab-container"),
+                className("panels"),
                 ...views.map(p => p.panel)
             )
         );

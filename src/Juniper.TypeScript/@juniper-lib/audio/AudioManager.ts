@@ -1,5 +1,5 @@
 import { autoPlay, id, playsInline, src, srcObject } from "@juniper-lib/dom/attrs";
-import { display, styles } from "@juniper-lib/dom/css";
+import { display } from "@juniper-lib/dom/css";
 import { waitForUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
@@ -98,11 +98,10 @@ export class AudioManager
 
         this.element = Audio(
             id("Audio-Device-Manager"),
+            display("none"),
             playsInline(true),
-                autoPlay(true),
-            srcObject(destination.stream),
-            styles(
-                display("none")));
+            autoPlay(true),
+            srcObject(destination.stream));
 
         elementApply(document.body, this);
 

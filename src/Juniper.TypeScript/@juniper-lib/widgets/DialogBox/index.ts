@@ -1,5 +1,5 @@
 import { classList, className, customData } from "@juniper-lib/dom/attrs";
-import { display, styles } from "@juniper-lib/dom/css";
+import { display } from "@juniper-lib/dom/css";
 import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1 } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { once, success } from "@juniper-lib/tslib/events/once";
@@ -29,8 +29,8 @@ export abstract class DialogBox
 
         this.element = Div(
             className("dialog"),
+            display("none"),
             customData("dialogname", title),
-            styles(display("none")),
             this.container = Div(className("dialog-container"),
                 this.titleElement = H1(className("title-bar"), title),
                 this.contentArea = Div(className("dialog-content")),
