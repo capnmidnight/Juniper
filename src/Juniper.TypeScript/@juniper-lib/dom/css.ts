@@ -55,7 +55,9 @@ export type CSSGlobalValues =
     | "revert-layer"
     | "unset";
 
-export type CSSUrl = `url(${string})`;
+export type CSSFunction<F extends string, T extends string | number> = `${F}(${T})`;
+
+export type CSSUrl = CSSFunction<"url", string>;
 
 export type CSSPercentage = `${number}%`;
 
@@ -112,7 +114,215 @@ export type CSSLengthPercentageAuto =
     | CSSLengthPercentage
     | "auto";
 
-export type CSSCalcStatement = `calc(${string})`;
+export type CSSCalcStatement = CSSFunction<"calc", string>;
+
+export type CSSColorKeywordValue =
+    | "transparent"
+    | "currentcolor"
+    | "ActiveText"
+    | "ButtonBorder"
+    | "ButtonFace"
+    | "ButtonText"
+    | "Canvas"
+    | "CanvasText"
+    | "Field"
+    | "FieldText"
+    | "GrayText"
+    | "Highlight"
+    | "HighlightText"
+    | "LinkText"
+    | "Mark"
+    | "MarkText"
+    | "VisitedText"
+    | "aqua"
+    | "black"
+    | "blue"
+    | "fuchsia"
+    | "gray"
+    | "grey"
+    | "green"
+    | "lime"
+    | "maroon"
+    | "navy"
+    | "olive"
+    | "purple"
+    | "red"
+    | "silver"
+    | "teal"
+    | "white"
+    | "yellow"
+    | "aliceblue"
+    | "antiquewhite"
+    | "aqua"
+    | "aquamarine"
+    | "azure"
+    | "beige"
+    | "bisque"
+    | "black"
+    | "blanchedalmond"
+    | "blue"
+    | "blueviolet"
+    | "brown"
+    | "burlywood"
+    | "cadetblue"
+    | "chartreuse"
+    | "chocolate"
+    | "coral"
+    | "cornflowerblue"
+    | "cornsilk"
+    | "crimson"
+    | "cyan"
+    | "darkblue"
+    | "darkcyan"
+    | "darkgoldenrod"
+    | "darkgray"
+    | "darkgreen"
+    | "darkkhaki"
+    | "darkmagenta"
+    | "darkolivegreen"
+    | "darkorange"
+    | "darkorchid"
+    | "darkred"
+    | "darksalmon"
+    | "darkseagreen"
+    | "darkslateblue"
+    | "darkslategray"
+    | "darkturquoise"
+    | "darkviolet"
+    | "deeppink"
+    | "deepskyblue"
+    | "dimgray"
+    | "dodgerblue"
+    | "firebrick"
+    | "floralwhite"
+    | "forestgreen"
+    | "fuchsia"
+    | "gainsboro"
+    | "ghostwhite"
+    | "gold"
+    | "goldenrod"
+    | "gray"
+    | "green"
+    | "greenyellow"
+    | "honeydew"
+    | "hotpink"
+    | "indianred"
+    | "indigo"
+    | "ivory"
+    | "khaki"
+    | "lavender"
+    | "lavenderblush"
+    | "lawngreen"
+    | "lemonchiffon"
+    | "lightblue"
+    | "lightcoral"
+    | "lightcyan"
+    | "lightgoldenrodyellow"
+    | "lightgreen"
+    | "lightgrey"
+    | "lightpink"
+    | "lightsalmon"
+    | "lightseagreen"
+    | "lightskyblue"
+    | "lightslategray"
+    | "lightsteelblue"
+    | "lightyellow"
+    | "lime"
+    | "limegreen"
+    | "linen"
+    | "magenta"
+    | "maroon"
+    | "mediumaquamarine"
+    | "mediumblue"
+    | "mediumorchid"
+    | "mediumpurple"
+    | "mediumseagreen"
+    | "mediumslateblue"
+    | "mediumspringgreen"
+    | "mediumturquoise"
+    | "mediumvioletred"
+    | "midnightblue"
+    | "mintcream"
+    | "mistyrose"
+    | "moccasin"
+    | "navajowhite"
+    | "navy"
+    | "navyblue"
+    | "oldlace"
+    | "olive"
+    | "olivedrab"
+    | "orange"
+    | "orangered"
+    | "orchid"
+    | "palegoldenrod"
+    | "palegreen"
+    | "paleturquoise"
+    | "palevioletred"
+    | "papayawhip"
+    | "peachpuff"
+    | "peru"
+    | "pink"
+    | "plum"
+    | "powderblue"
+    | "purple"
+    | "red"
+    | "rosybrown"
+    | "royalblue"
+    | "saddlebrown"
+    | "salmon"
+    | "sandybrown"
+    | "seagreen"
+    | "seashell"
+    | "sienna"
+    | "silver"
+    | "skyblue"
+    | "slateblue"
+    | "slategray"
+    | "snow"
+    | "springgreen"
+    | "steelblue"
+    | "tan"
+    | "teal"
+    | "thistle"
+    | "tomato"
+    | "turquoise"
+    | "violet"
+    | "wheat"
+    | "white"
+    | "whitesmoke"
+    | "yellow"
+    | "yellowgreen";
+
+
+export type CSSColorHashValue = `#${string}`;
+export type CSSColorRGBValue = CSSFunction<"rgb" | "rgba", string>;
+export type CSSColorHSLValue = CSSFunction<"hsl", string>;
+export type CSSColorHWBValue = CSSFunction<"hwb", string>;
+export type CSSColorLCHValue = CSSFunction<"lch", string>;
+export type CSSColorLabValue = CSSFunction<"lab", string>;
+
+export type CSSColorSpaceName =
+    | "srgb"
+    | "srgb-linear"
+    | "display-p3"
+    | "a98-rgb"
+    | "prophoto-rgb"
+    | "rec2020"
+    | "xyz"
+    | "xyz-d50"
+    | "xyz-d65";
+
+export type CSSColorFunctionValue = CSSFunction<"color", `${CSSColorSpaceName} ${string}`>;
+
+export type CSSColorValue =
+    | CSSColorKeywordValue
+    | CSSColorHashValue
+    | CSSColorRGBValue
+    | CSSColorHSLValue
+    | CSSColorHWBValue
+    | CSSColorLCHValue
+    | CSSColorLabValue
+    | CSSColorFunctionValue;
 
 export type CSSSizePropertyValue =
     | 0
@@ -121,7 +331,7 @@ export type CSSSizePropertyValue =
     | "auto"
     | "max-content"
     | "min-content"
-    | `fit-content(${CSSLengthPercentage})`
+    | CSSFunction<"fit-content", CSSLengthPercentage>
     | CSSCalcStatement;
 
 export type CSSAlignItemsValue =
@@ -155,9 +365,23 @@ export function alignSelf(v: CSSGlobalValues | CSSAlignSelfValue) { return new C
 
 export function all(v: CSSGlobalValues) { return new CssProp("all", v); }
 
-export function alignmentBaseline(v: string) { return new CssProp("alignmentBaseline", v); }
-
-export function animation(v: string) { return new CssProp("animation", v); }
+export type CSSAlignmentBaselineValues =
+    | "auto"
+    | "baseline"
+    | "before-edge"
+    | "text-before-edge"
+    | "middle"
+    | "central"
+    | "after-edge"
+    | "text-after-edge"
+    | "ideographic"
+    | "alphabetic"
+    | "hanging"
+    | "mathematical"
+    | "top"
+    | "center"
+    | "bottom"
+export function alignmentBaseline(v: CSSAlignmentBaselineValues) { return new CssProp("alignmentBaseline", v); }
 
 export type CSSTimeSecondsValue = `${number}s`;
 export type CSSTimeMillisecondsValue = `${number}ms`;
@@ -179,34 +403,35 @@ export function animationDirection(v: CSSGlobalValues): CssProp;
 export function animationDirection(...v: CSSAnimationDirectionValue[]): CssProp;
 export function animationDirection(...v: string[]): CssProp { return new CssProp("animationDirection", v.join(", ")); }
 
-export type CSSFillModeValue =
+export type CSSAnimationFillModeValue =
     | "none"
     | "forwards"
     | "backwards"
     | "both";
 export function animationFillMode(v: CSSGlobalValues): CssProp;
-export function animationFillMode(...v: CSSFillModeValue[]): CssProp;
+export function animationFillMode(...v: CSSAnimationFillModeValue[]): CssProp;
 export function animationFillMode(...v: string[]): CssProp { return new CssProp("animationFillMode", v.join(", ")); }
 
-export type CSSIterationCountValue =
+export type CSSAnimationIterationCountValue =
     | number
     | "infinite";
 export function animationIterationCount(v: CSSGlobalValues): CssProp;
-export function animationIterationCount(...v: CSSIterationCountValue[]): CssProp;
+export function animationIterationCount(...v: CSSAnimationIterationCountValue[]): CssProp;
 export function animationIterationCount(...v: (number | string)[]): CssProp { return new CssProp("animationIterationCount", v.join(", ")); }
 
+export type CSSAnimationNameValue = ``;
 export function animationName(v: CSSGlobalValues): CssProp;
-export function animationName(...v: string[]): CssProp;
+export function animationName(...v: CSSAnimationNameValue[]): CssProp;
 export function animationName(...v: string[]) { return new CssProp("animationName", v.join(", ")); }
 
-export type CSSPlayStateValue =
+export type CSSAnimationPlayStateValue =
     | "running"
     | "paused";
 export function animationPlayState(v: CSSGlobalValues): CssProp;
-export function animationPlayState(...v: CSSPlayStateValue[]): CssProp;
+export function animationPlayState(...v: CSSAnimationPlayStateValue[]): CssProp;
 export function animationPlayState(...v: string[]) { return new CssProp("animationPlayState", v.join(", ")); }
 
-export type CSSTimingFunctionKeyword =
+export type CSSAnimationTimingFunctionNamed =
     | "ease"
     | "ease-in"
     | "ease-out"
@@ -214,15 +439,27 @@ export type CSSTimingFunctionKeyword =
     | "linear"
     | "step-start"
     | "step-end";
-export type CSSTimingFunctionCubicBezier = `cubic-bezier(${number}, ${number}, ${number}, ${number})`;
-export type CSSTimingFunctionSteps = `steps(${number}, ${CSSTimingFunctionKeyword})`;
-export type CSSTimingFunctionValue =
-    | CSSTimingFunctionKeyword
-    | CSSTimingFunctionCubicBezier
-    | CSSTimingFunctionSteps;
+export type CSSAnimationTimingFunctionCubicBezier = `cubic-bezier(${number}, ${number}, ${number}, ${number})`;
+export type CSSAnimationTimingFunctionSteps = `steps(${number}, ${CSSAnimationTimingFunctionNamed})`;
+export type CSSAnimationTimingFunctionValue =
+    | CSSAnimationTimingFunctionNamed
+    | CSSAnimationTimingFunctionCubicBezier
+    | CSSAnimationTimingFunctionSteps;
 export function animationTimingFunction(v: CSSGlobalValues): CssProp;
-export function animationTimingFunction(...v: CSSTimingFunctionValue[]): CssProp;
+export function animationTimingFunction(...v: CSSAnimationTimingFunctionValue[]): CssProp;
 export function animationTimingFunction(...v: string[]) { return new CssProp("animationTimingFunction", v.join(' ')); }
+
+export type CSSAnimationValue =
+    | CSSTimeValue
+    | CSSAnimationDirectionValue
+    | CSSAnimationFillModeValue
+    | CSSAnimationIterationCountValue
+    | CSSAnimationNameValue
+    | CSSAnimationTimingFunctionValue
+    | string;
+export function animation(v: CSSGlobalValues): CssProp;
+export function animation(...v: CSSAnimationValue[]): CssProp;
+export function animation(...v: (number | string)[]): CssProp { return new CssProp("animation", v.join(" ")); }
 
 export type CSSAppearanceValue =
     | "none"
@@ -243,18 +480,22 @@ export type CSSAppearanceValue =
     | "textarea";
 export function appearance(v: CSSGlobalValues | CSSAppearanceValue) { return new CssProp("appearance", v); }
 
-export type CSSFilterFunction = `blur(${CSSLength})`
-    | `brightness(${CSSNumberPercentage})`
-    | `contrast(${CSSNumberPercentage})`
-    | `drop-shadow(${CSSLength} ${CSSLength})`
-    | `drop-shadow(${CSSLength} ${CSSLength} ${string})`
-    | `drop-shadow(${CSSLength} ${CSSLength} ${CSSLength} ${string})`
-    | `grayscale(${CSSNumberPercentage})`
-    | `hue-rotate(${CSSAngle})`
-    | `invert(${CSSNumberPercentage})`
-    | `opacity(${CSSNumberPercentage})`
-    | `saturate(${CSSNumberPercentage})`
-    | `sepia(${CSSNumberPercentage})`
+export type CSSDropShadowParams =
+    | `${CSSLength} ${CSSLength}`
+    | `${CSSLength} ${CSSLength} ${string}`
+    | `${CSSLength} ${CSSLength} ${CSSLength} ${string}`;
+    
+
+export type CSSFilterFunction = CSSFunction<"blur", CSSLength>
+    | CSSFunction<"brightness", CSSNumberPercentage>
+    | CSSFunction<"contrast", CSSNumberPercentage>
+    | CSSFunction<"drop-shadow", CSSDropShadowParams>
+    | CSSFunction<"grayscale", CSSNumberPercentage>
+    | CSSFunction<"hue-rotate", CSSAngle>
+    | CSSFunction<"invert", CSSNumberPercentage>
+    | CSSFunction<"opacity", CSSNumberPercentage>
+    | CSSFunction<"saturate", CSSNumberPercentage>
+    | CSSFunction<"sepia", CSSNumberPercentage>
     | CSSUrl;
 export function backdropFilter(v: "none" | CSSGlobalValues): CssProp;
 export function backdropFilter(...v: CSSFilterFunction[]): CssProp;
@@ -264,8 +505,6 @@ export type CSSBackfaceVisibilityValue =
     | "visible"
     | "hiden";
 export function backfaceVisibility(v: CSSGlobalValues | CSSBackfaceVisibilityValue) { return new CssProp("backfaceVisibility", v); }
-
-export function background(v: string) { return new CssProp("background", v); }
 
 export type CSSBackgroundAttachmentValue =
     | "scroll"
@@ -303,20 +542,20 @@ export type CSSClipValue =
     | "text";
 export function backgroundClip(v: CSSGlobalValues | CSSClipValue): CssProp { return new CssProp("backgroundClip", v); }
 
-export function backgroundColor(v: string) { return new CssProp("backgroundColor", v); }
+export function backgroundColor(v: CSSGlobalValues | CSSColorValue) { return new CssProp("backgroundColor", v); }
 
 export type CSSGradient =
-    | `linear-gradient(${string})`
-    | `radial-gradient(${string})`
-    | `repeating-linear-gradient(${string})`
-    | `repeating-radial-gradient(${string})`
-    | `conic-gradient(${string})`;
+    | CSSFunction<"linear-gradient", string>
+    | CSSFunction<"radial-gradient", string>
+    | CSSFunction<"repeating-linear-gradient", string>
+    | CSSFunction<"repeating-radial-gradient", string>
+    | CSSFunction<"conic-gradient", string>;
 
 export type CSSImage = CSSUrl
     | CSSGradient
-    | `element(${string})`
-    | `cross-fade(${string})`
-    | `image-set(${string})`;
+    | CSSFunction<"element", string>
+    | CSSFunction<"cross-fade", string>
+    | CSSFunction<"image-set", string>;
 export function backgroundImage(v: CSSGlobalValues): CssProp;
 export function backgroundImage(...v: CSSImage[]): CssProp;
 export function backgroundImage(...v: string[]): CssProp { return new CssProp("backgroundImage", v.join(", ")); }
@@ -353,23 +592,23 @@ export function backgroundPositionY(v: CSSGlobalValues): CssProp;
 export function backgroundPositionY(...v: CSSPositionXYValue[]): CssProp;
 export function backgroundPositionY(...v: (string | number)[]): CssProp { return new CssProp("backgroundPositionY", v.join(", ")); }
 
-export type CSSBasicRepeat =
+export type CSSBackgroundRepeat =
     | "repeat"
     | "space"
     | "round"
     | "no-repeat";
 
-export type CSSRepeatValue =
+export type CSSBackgroundRepeatValue =
     | "repeat-x"
     | "repeat-y"
-    | CSSBasicRepeat;
+    | CSSBackgroundRepeat;
 export function backgroundRepeat(v: CSSGlobalValues): CssProp;
-export function backgroundRepeat(v: CSSRepeatValue): CssProp;
-export function backgroundRepeat(x: CSSBasicRepeat, y: CSSBasicRepeat): CssProp;
+export function backgroundRepeat(v: CSSBackgroundRepeatValue): CssProp;
+export function backgroundRepeat(x: CSSBackgroundRepeat, y: CSSBackgroundRepeat): CssProp;
 export function backgroundRepeat(...v: string[]) { return new CssProp("backgroundRepeat", v.join(" ")); }
 
-export function backgroundRepeatX(v: CSSGlobalValues | CSSBasicRepeat) { return new CssProp("backgroundRepeatX", v); }
-export function backgroundRepeatY(v: CSSGlobalValues | CSSBasicRepeat) { return new CssProp("backgroundRepeatY", v); }
+export function backgroundRepeatX(v: CSSGlobalValues | CSSBackgroundRepeat) { return new CssProp("backgroundRepeatX", v); }
+export function backgroundRepeatY(v: CSSGlobalValues | CSSBackgroundRepeat) { return new CssProp("backgroundRepeatY", v); }
 
 export type CSSBackgroundSizeValue =
     | "contain"
@@ -383,6 +622,10 @@ export type CSSBackgroundSizeValue =
 export function backgroundSize(v: CSSGlobalValues): CssProp;
 export function backgroundSize(...v: CSSBackgroundSizeValue[]): CssProp;
 export function backgroundSize(...v: (string | number)[]): CssProp { return new CssProp("backgroundSize", v.join(", ")); }
+
+export function background(v: CSSGlobalValues): CssProp;
+export function background(...v: string[]): CssProp;
+export function background(...v: string[]): CssProp { return new CssProp("background", v.join(" ")); }
 
 export function baselineShift(v: string) { return new CssProp("baselineShift", v); }
 export function blockSize(v: string) { return new CssProp("blockSize", v); }
@@ -452,7 +695,11 @@ export function clear(v: string) { return new CssProp("clear", v); }
 export function clip(v: string) { return new CssProp("clip", v); }
 export function clipPath(v: string) { return new CssProp("clipPath", v); }
 export function clipRule(v: string) { return new CssProp("clipRule", v); }
-export function color(v: string) { return new CssProp("color", v); }
+
+export function color(v: CSSGlobalValues): CssProp;
+export function color(v: CSSColorValue): CssProp;
+export function color(v: string): CssProp { return new CssProp("color", v); }
+
 export function colorInterpolation(v: string) { return new CssProp("colorInterpolation", v); }
 export function colorInterpolationFilters(v: string) { return new CssProp("colorInterpolationFilters", v); }
 export function colorRendering(v: string) { return new CssProp("colorRendering", v); }
@@ -514,7 +761,11 @@ export function cursor(v: CSSGlobalValues | CSSCursorValue) { return new CssProp
 export function cx(v: string) { return new CssProp("cx", v); }
 export function cy(v: string) { return new CssProp("cy", v); }
 export function d(v: string) { return new CssProp("d", v); }
-export function direction(v: string) { return new CssProp("direction", v); }
+
+export type CSSDirectionValues =
+    | "ltr"
+    | "rtl";
+export function direction(v: CSSGlobalValues | CSSDirectionValues) { return new CssProp("direction", v); }
 
 export type CSSDisplayValues =
     | "none"
@@ -960,7 +1211,15 @@ export function willChange(v: string) { return new CssProp("willChange", v); }
 export function wordBreak(v: string) { return new CssProp("wordBreak", v); }
 export function wordSpacing(v: string) { return new CssProp("wordSpacing", v); }
 export function wordWrap(v: string) { return new CssProp("wordWrap", v); }
-export function writingMode(v: string) { return new CssProp("writingMode", v); }
+
+export type CSSWritingModeValues =
+    | "horizontal-tb"
+    | "vertical-rl"
+    | "vertical-lr"
+    | "sideways-rl"
+    | "sideways-lr";
+export function writingMode(v: CSSGlobalValues | CSSWritingModeValues) { return new CssProp("writingMode", v); }
+
 export function x(v: CSSImportant<CSSGlobalValues | CSSSizePropertyValue>) { return new CssProp("x", v); }
 export function y(v: CSSImportant<CSSGlobalValues | CSSSizePropertyValue>) { return new CssProp("y", v); }
 export function zIndex(v: CSSImportant<number>) { return new CssProp("zIndex", asInt(v)); }

@@ -3,6 +3,7 @@ import {
     backgroundColor,
     color,
     columnGap,
+    CSSColorValue,
     display,
     getMonospaceFamily,
     gridColumn,
@@ -31,7 +32,7 @@ import { TestStates } from "./TestStates";
 /**
  * Creates a portion of a progress bar.
  */
-function bar(c: string, w: number) {
+function bar(c: CSSColorValue, w: number) {
     return styles(
         backgroundColor(c),
         color(c),
