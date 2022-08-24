@@ -8,9 +8,7 @@ import { resizeCanvas } from "@juniper-lib/dom/canvas";
 import {
     alignItems,
     columnGap,
-    display,
-    gridAutoFlow,
-    gridTemplateColumns,
+    display, gridTemplateColumns,
     height,
     styles,
     width
@@ -95,7 +93,6 @@ export class BaseGraphDialog<T> extends DialogBox {
             Div(
                 styles(
                     display("grid"),
-                    gridAutoFlow("column"),
                     gridTemplateColumns("repeat(9, auto) 1fr"),
                     columnGap("5px"),
                     alignItems("center")
