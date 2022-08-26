@@ -2,6 +2,7 @@ import { FullAudioRecord } from "@juniper-lib/audio/data";
 import { MediaElementSourceEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer } from "@juniper-lib/audio/sources/IPlayer";
 import { keycapDigits } from "@juniper-lib/emoji/numbers";
+import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { AsyncCallback } from "@juniper-lib/tslib/identity";
 import { BaseProgress } from "@juniper-lib/tslib/progress/BaseProgress";
@@ -111,14 +112,14 @@ export class PlaybackButton<T extends FullAudioRecord>
             pauseGeometry,
             stopGeometry,
             replayGeometry
-        ] = await Promise.all([
+        ] = await all(
             buttonFactory.getMaterial(true),
             buttonFactory.getMaterial(false),
             buttonFactory.getGeometry("media", "play"),
             buttonFactory.getGeometry("media", "pause"),
             buttonFactory.getGeometry("media", "stop"),
             buttonFactory.getGeometry("media", "replay")
-        ]);
+        );
 
         objGraph(
             this,

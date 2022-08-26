@@ -1,4 +1,5 @@
 import { ButtonPrimary, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
+import { all } from "@juniper-lib/tslib/events/all";
 import { Object3D } from "three";
 import { Pointer3DEvents } from "../eventSystem/devices/Pointer3DEvent";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
@@ -55,10 +56,10 @@ export class ToggleButton implements Widget, EventTarget {
     }
 
     private async load() {
-        const [activate, deactivate] = await Promise.all([
+        const [activate, deactivate] = await all(
             this.buttons.getGeometryAndMaterials(this.setName, this.activeName),
             this.buttons.getGeometryAndMaterials(this.setName, this.inactiveName)
-        ]);
+        );
 
         objGraph(this.object,
             this.enterButton = new MeshButton(`${this.setName}-activate-button`, activate.geometry, activate.enabledMaterial, activate.disabledMaterial, 0.2),

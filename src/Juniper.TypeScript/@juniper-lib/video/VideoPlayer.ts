@@ -1,5 +1,6 @@
 import { src } from "@juniper-lib/dom/attrs";
 import { cursor, display, opacity, styles } from "@juniper-lib/dom/css";
+import { all } from "@juniper-lib/tslib/events/all";
 import { Div, elementApply, elementSetDisplay, ErsatzElement, Img } from "@juniper-lib/dom/tags";
 import { once, success } from "@juniper-lib/tslib/events/once";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
@@ -61,10 +62,10 @@ export class VideoPlayer
             );
 
             const progs = progressSplitWeighted(prog, [1, 10]);
-            await Promise.all([
+            await all(
                 super.load(data, progs.shift()),
                 this.loadThumbnail(data, progs.shift())
-            ]);
+            );
 
             return this;
         }

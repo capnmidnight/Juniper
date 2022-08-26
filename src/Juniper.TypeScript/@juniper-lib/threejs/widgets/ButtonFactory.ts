@@ -4,6 +4,7 @@ import { Img } from "@juniper-lib/dom/tags";
 import { AssetImage } from "@juniper-lib/fetcher/Asset";
 import { Image_Png } from "@juniper-lib/mediatypes";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
+import { all } from "@juniper-lib/tslib/events/all";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { nextPowerOf2 } from "@juniper-lib/tslib/math";
 import { BufferGeometry, CanvasTexture, MeshBasicMaterial, PlaneBufferGeometry, Texture } from "three";
@@ -145,11 +146,11 @@ export class ButtonFactory {
     }
 
     async getGeometryAndMaterials(setName: string, iconName: string) {
-        const [geometry, enabledMaterial, disabledMaterial] = await Promise.all([
+        const [geometry, enabledMaterial, disabledMaterial] = await all(
             this.getGeometry(setName, iconName),
             this.getMaterial(true),
             this.getMaterial(false)
-        ]);
+        );
 
         return {
             geometry,
