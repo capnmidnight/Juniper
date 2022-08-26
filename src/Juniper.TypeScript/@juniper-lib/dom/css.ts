@@ -484,7 +484,7 @@ export type CSSDropShadowParams =
     | `${CSSLength} ${CSSLength}`
     | `${CSSLength} ${CSSLength} ${string}`
     | `${CSSLength} ${CSSLength} ${CSSLength} ${string}`;
-    
+
 
 export type CSSFilterFunction = CSSFunction<"blur", CSSLength>
     | CSSFunction<"brightness", CSSNumberPercentage>
@@ -1163,7 +1163,55 @@ export type CSSTouchActionValues =
     | "manipulation";
 export function touchAction(v: CSSImportant<CSSGlobalValues | CSSTouchActionValues>) { return new CssProp("touchAction", v); }
 
-export function transform(v: string) { return new CssProp("transform", v); }
+export type CSSTransformMatrixValue = `matrix(${number}, ${number}, ${number}, ${number}, ${number}, ${number})`;
+export type CSSTransformMatrix3DValue = `matrix3d(${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number})`;
+export type CSSTransformPerspectiveValue = `perspective(${CSSLength})`;
+export type CSSTransformRotate = `rotate(${CSSAngle})`;
+export type CSSTransformRotate3D = `rotate3d(${number}, ${number}, ${number}, ${CSSAngle})`;
+export type CSSTransformRotateX = `rotateX(${CSSAngle})`;
+export type CSSTransformRotateY = `rotateY(${CSSAngle})`;
+export type CSSTransformRotateZ = `rotateZ(${CSSAngle})`;
+export type CSSTransformTranslate = `translate(${CSSLengthPercentage}, ${CSSLengthPercentage})`;
+export type CSSTransformTranslate3D = `translate3d(${CSSLengthPercentage}, ${CSSLengthPercentage}, ${CSSLengthPercentage})`;
+export type CSSTransformTranslateX = `translateX(${CSSLengthPercentage})`;
+export type CSSTransformTranslateY = `translateY(${CSSLengthPercentage})`;
+export type CSSTransformTranslateZ = `translateZ(${CSSLengthPercentage})`;
+export type CSSTransformScale = `scale(${number}, ${number})`;
+export type CSSTransformScale3D = `scale3d(${number}, ${number}, ${number})`;
+export type CSSTransformScaleX = `scaleX(${number})`;
+export type CSSTransformScaleY = `scaleY(${number})`;
+export type CSSTransformScaleZ = `scaleZ(${number})`;
+export type CSSTransformSkew = `skew(${CSSAngle}, ${CSSAngle})`;
+export type CSSTransformSkewX = `skewX(${CSSAngle})`;
+export type CSSTransformSkewY = `skewY(1.${CSSAngle})`;
+
+export type CSSTransformValue =
+    | CSSTransformMatrixValue
+    | CSSTransformMatrix3DValue
+    | CSSTransformRotate
+    | CSSTransformRotate3D
+    | CSSTransformRotateX
+    | CSSTransformRotateY
+    | CSSTransformRotateZ
+    | CSSTransformTranslate
+    | CSSTransformTranslate3D
+    | CSSTransformTranslateX
+    | CSSTransformTranslateY
+    | CSSTransformTranslateZ
+    | CSSTransformScale
+    | CSSTransformScale3D
+    | CSSTransformScaleX
+    | CSSTransformScaleY
+    | CSSTransformScaleZ
+    | CSSTransformSkew
+    | CSSTransformSkewX
+    | CSSTransformSkewY;
+export function transform(v: CSSGlobalValues): CssProp;
+export function transform(perspective: CSSTransformPerspectiveValue, ...rest: CSSTransformValue[]): CssProp;
+export function transform(...v: CSSTransformValue[]): CssProp;
+export function transform(...v: string[]): CssProp { return new CssProp("transform", v.join(" ")); }
+
+
 export function transformBox(v: string) { return new CssProp("transformBox", v); }
 export function transformOrigin(v: string) { return new CssProp("transformOrigin", v); }
 export function transformStyle(v: string) { return new CssProp("transformStyle", v); }

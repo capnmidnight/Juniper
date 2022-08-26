@@ -16,7 +16,7 @@ Style(
         left("50%"),
         maxWidth("100%"),
         maxHeight("100%"),
-        transform("translateX(-50%) translateY(-50%)"),
+        transform("translate(-50%, -50%)"),
         backgroundColor("white"),
         boxShadow("rgba(0,0,0,0.5) 0px 5px 30px"),
         display("grid"),
