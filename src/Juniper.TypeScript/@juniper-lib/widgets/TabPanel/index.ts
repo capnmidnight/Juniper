@@ -17,11 +17,11 @@ interface TabPanelEvents<TabNames> {
     tabselected: TabPanelTabSelectedEvent<TabNames>;
 }
 
-type TabPanelEntry<TabNames> = [TabNames, string, Elements];
+type TabPanelEntry<TabNames> = [TabNames, string, Elements<HTMLElement>];
 
 interface TabPanelView {
     button: HTMLButtonElement;
-    panel: Elements;
+    panel: Elements<HTMLElement>;
     displayType: string;
 }
 
@@ -36,7 +36,7 @@ function isViewDef<TabNames>(obj: TabPanelEntry<TabNames> | CssProp | Attr): obj
 
 export class TabPanel<TabNames>
     extends TypedEventBase<TabPanelEvents<TabNames>>
-    implements ErsatzElement {
+    implements ErsatzElement<HTMLElement> {
     private readonly views = new Map<TabNames, TabPanelView>();
 
     private curTab: TabNames = null;
@@ -56,7 +56,7 @@ export class TabPanel<TabNames>
             if (isNullOrUndefined(firstName)) {
                 firstName = name;
             }
-            const elem = resolveElement(panel);
+            const elem = resolveElement<HTMLElement>(panel);
             const displayType = elem.style.display;
             this.views.set(name, {
                 panel,

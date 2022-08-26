@@ -4,22 +4,22 @@ import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString 
 import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
 import { CSSInJSRule, display, margin, styles } from "./css";
 
-export interface ErsatzElement<T extends HTMLElement = HTMLElement> {
+export interface ErsatzElement<T extends Element = Element> {
     element: T;
 }
 
-export function isErsatzElement<T extends HTMLElement = HTMLElement>(obj: any): obj is ErsatzElement<T> {
+export function isErsatzElement<T extends Element = Element>(obj: any): obj is ErsatzElement<T> {
     if (!isObject(obj)) {
         return false;
     }
 
     const elem = obj as ErsatzElement;
-    return elem.element instanceof HTMLElement;
+    return elem.element instanceof Element;
 }
 
-export type Elements<T extends HTMLElement = HTMLElement> = T | ErsatzElement<T>;
+export type Elements<T extends Element = Element> = T | ErsatzElement<T>;
 
-export function resolveElement<T extends HTMLElement = HTMLElement>(elem: Elements<T>): T {
+export function resolveElement<T extends Element = HTMLElement>(elem: Elements<T>): T {
     if (isErsatzElement(elem)) {
         return elem.element;
     }
@@ -27,17 +27,17 @@ export function resolveElement<T extends HTMLElement = HTMLElement>(elem: Elemen
     return elem;
 }
 
-export interface IElementAppliable<T extends HTMLElement = HTMLElement> {
+export interface IElementAppliable<T extends Element = Element> {
     applyToElement(x: Elements<T>): void;
 }
 
-export function isIElementAppliable<T extends HTMLElement = HTMLElement>(obj: any): obj is IElementAppliable<T> {
+export function isIElementAppliable<T extends Element = Element>(obj: any): obj is IElementAppliable<T> {
     return isObject(obj)
         && "applyToElement" in obj
         && isFunction((obj as any).applyToElement);
 }
 
-export type ElementChild = Elements
+export type ElementChild<T extends Element = Element> = Elements<T>
     | IElementAppliable
     | string
     | number
@@ -45,7 +45,7 @@ export type ElementChild = Elements
     | Date;
 
 export function isElementChild(obj: any): obj is ElementChild {
-    return obj instanceof HTMLElement
+    return obj instanceof Element
         || isErsatzElement(obj)
         || isIElementAppliable(obj)
         || isString(obj)
@@ -56,7 +56,7 @@ export function isElementChild(obj: any): obj is ElementChild {
 
 export function isElements(child: ElementChild): child is Elements {
     return isErsatzElement(child)
-        || child instanceof HTMLElement;
+        || child instanceof Element;
 }
 
 export interface IFocusable {
@@ -67,17 +67,17 @@ export function isFocusable(elem: any): elem is IFocusable {
     return "focus" in elem && isFunction((elem as IFocusable).focus);
 }
 
-export function elementSetDisplay(elem: Elements, visible: boolean, visibleDisplayType: string = ""): void {
+export function elementSetDisplay<T extends HTMLElement = HTMLElement>(elem: Elements<T>, visible: boolean, visibleDisplayType: string = ""): void {
     elem = resolveElement(elem);
     elem.style.display = visible ? visibleDisplayType : "none";
 }
 
-export function elementIsDisplayed(elem: Elements): boolean {
+export function elementIsDisplayed<T extends HTMLElement = HTMLElement>(elem: Elements<T>): boolean {
     elem = resolveElement(elem);
     return elem.style.display !== "none";
 }
 
-export function elementToggleDisplay(elem: Elements, visibleDisplayType: string = "block"): void {
+export function elementToggleDisplay<T extends HTMLElement = HTMLElement>(elem: Elements<T>, visibleDisplayType: string = "block"): void {
     elementSetDisplay(elem, !elementIsDisplayed(elem), visibleDisplayType);
 }
 
@@ -138,7 +138,7 @@ export function elementSwap(elem: Elements, withPlaceholder: (placeholder: Eleme
     elementReplace(placeholder, elementReplace(elem, withPlaceholder(placeholder)));
 }
 
-export function getElement<T extends HTMLElement>(selector: string): T {
+export function getElement<T extends Element = HTMLElement>(selector: string): T {
     return document.querySelector<T>(selector);
 }
 
@@ -168,18 +168,18 @@ export function getCanvas(selector: string) {
  * @param rest - optional attributes, child elements, and text
  * @returns
  */
-export function tag<T extends HTMLElement>(name: string, ...rest: ElementChild[]): T {
-    let elem: T = null;
+export function tag<K extends keyof HTMLElementTagNameMap>(name: K, ...rest: ElementChild[]): HTMLElementTagNameMap[K] {
+    let elem: HTMLElementTagNameMap[K] = null;
 
     for (const attr of rest) {
         if (attr instanceof Attr && attr.key === "id") {
-            elem = document.getElementById(attr.value) as T;
+            elem = document.getElementById(attr.value) as HTMLElementTagNameMap[K];
             break;
         }
     }
 
     if (elem == null) {
-        elem = document.createElement(name) as T;
+        elem = document.createElement(name);
     }
 
     elementApply(elem, ...rest);
@@ -206,18 +206,18 @@ export function elementClearChildren(elem: Elements) {
     }
 }
 
-export function elementSetText(elem: Elements, text: string): void {
+export function elementSetText(elem: Elements<HTMLElement>, text: string): void {
     elem = resolveElement(elem);
     elementClearChildren(elem);
     elem.append(TextNode(text));
 }
 
-export function elementGetText(elem: Elements): string {
+export function elementGetText(elem: Elements<HTMLElement>): string {
     elem = resolveElement(elem);
     return elem.innerText;
 }
 
-export function elementSetTitle(elem: Elements, text: string): void {
+export function elementSetTitle(elem: Elements<HTMLElement>, text: string): void {
     elem = resolveElement(elem);
     elem.title = text;
 }
@@ -291,8 +291,8 @@ export function BlockQuote(...rest: ElementChild[]): HTMLQuoteElement { return t
 export function Body(...rest: ElementChild[]): HTMLBodyElement { return tag("body", ...rest); }
 export function BR(): HTMLBRElement { return tag("br"); }
 export function ButtonRaw(...rest: ElementChild[]): HTMLButtonElement { return tag("button", ...rest); }
-export function ButtonSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm")); }
 export function Button(...rest: ElementChild[]): HTMLButtonElement { return ButtonRaw(...rest, type("button")); }
+export function ButtonSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm")); }
 export function ButtonPrimary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-primary")); }
 export function ButtonPrimaryOutline(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-outline-primary")); }
 export function ButtonPrimarySmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, classList("btn", "btn-sm", "btn-primary")); }
@@ -341,7 +341,7 @@ export function HR(...rest: ElementChild[]): HTMLHRElement { return tag("hr", ..
 export function Head(...rest: ElementChild[]): HTMLHeadElement { return tag("head", ...rest); }
 export function Header(...rest: ElementChild[]): HTMLElement { return tag("header", ...rest); }
 export function HGroup(...rest: ElementChild[]): HTMLElement { return tag("hgroup", ...rest); }
-export function HTML(...rest: ElementChild[]): HTMLHtmlElement { return tag("html", ...rest); }
+export function HTML(...rest: ElementChild[]): HTMLElement { return tag("html", ...rest); }
 export function I(...rest: ElementChild[]): HTMLElement { return tag("i", ...rest); }
 export function FAIcon(iconName: string, ...rest: ElementChild[]): HTMLElement { return I(className(`fa fa-${iconName}`), ...rest); }
 export function IFrame(...rest: ElementChild[]): HTMLIFrameElement { return tag("iframe", ...rest); }
@@ -364,193 +364,191 @@ export function PostLabeled<T extends Elements>(id: string, label: ElementChild,
         Label(htmlFor(id), label)
     ];
 }
-export function Legend(...rest: ElementChild[]): HTMLLegendElement { return tag("legend", ...rest); }
-export function LI(...rest: ElementChild[]): HTMLLIElement { return tag("li", ...rest); }
-export function Link(...rest: ElementChild[]): HTMLLinkElement { return tag("link", ...rest); }
-export function Main(...rest: ElementChild[]): HTMLElement { return tag("main", ...rest); }
-export function HtmlMap(...rest: ElementChild[]): HTMLMapElement { return tag("map", ...rest); }
-export function Mark(...rest: ElementChild[]): HTMLElement { return tag("mark", ...rest); }
-export function Marquee(...rest: ElementChild[]): HTMLMarqueeElement { return tag("marquee", ...rest); }
-export function Menu(...rest: ElementChild[]): HTMLMenuElement { return tag("menu", ...rest); }
-export function Meta(...rest: ElementChild[]): HTMLMetaElement { return tag("meta", ...rest); }
-export function Meter(...rest: ElementChild[]): HTMLMeterElement { return tag("meter", ...rest); }
-export function Nav(...rest: ElementChild[]): HTMLElement { return tag("nav", ...rest); }
-export function NoScript(...rest: ElementChild[]): HTMLElement { return tag("noscript", ...rest); }
-export function HtmlObject(...rest: ElementChild[]): HTMLObjectElement { return tag("object", ...rest); }
-export function OL(...rest: ElementChild[]): HTMLOListElement { return tag("ol", ...rest); }
-export function OptGroup(...rest: ElementChild[]): HTMLOptGroupElement { return tag("optgroup", ...rest); }
-export function Option(...rest: ElementChild[]): HTMLOptionElement { return tag("option", ...rest); }
-export function Output(...rest: ElementChild[]): HTMLOutputElement { return tag("output", ...rest); }
-export function P(...rest: ElementChild[]): HTMLParagraphElement { return tag("p", ...rest); }
-export function Param(...rest: ElementChild[]): HTMLParamElement { return tag("param", ...rest); }
-export function Picture(...rest: ElementChild[]): HTMLPictureElement { return tag("picture", ...rest); }
-export function Pre(...rest: ElementChild[]): HTMLPreElement { return tag("pre", ...rest); }
-export function Progress(...rest: ElementChild[]): HTMLProgressElement { return tag("progress", ...rest); }
-export function Q(...rest: ElementChild[]): HTMLQuoteElement { return tag("q", ...rest); }
-export function RB(...rest: ElementChild[]): HTMLElement { return tag("rb", ...rest); }
-export function RP(...rest: ElementChild[]): HTMLElement { return tag("rp", ...rest); }
-export function RT(...rest: ElementChild[]): HTMLElement { return tag("rt", ...rest); }
-export function RTC(...rest: ElementChild[]): HTMLElement { return tag("rtc", ...rest); }
-export function Ruby(...rest: ElementChild[]): HTMLElement { return tag("ruby", ...rest); }
-export function S(...rest: ElementChild[]): HTMLElement { return tag("s", ...rest); }
-export function Samp(...rest: ElementChild[]): HTMLElement { return tag("samp", ...rest); }
-export function Script(...rest: ElementChild[]): HTMLScriptElement { return tag("script", ...rest); }
-export function Section(...rest: ElementChild[]): HTMLElement { return tag("section", ...rest); }
-export function Select(...rest: ElementChild[]): HTMLSelectElement { return tag("select", ...rest); }
-export function Slot(...rest: ElementChild[]): HTMLSlotElement { return tag("slot", ...rest); }
-export function Small(...rest: ElementChild[]): HTMLElement { return tag("small", ...rest); }
-export function Source(...rest: ElementChild[]): HTMLSourceElement { return tag("source", ...rest); }
-export function Span(...rest: ElementChild[]): HTMLSpanElement { return tag("span", ...rest); }
-export function Strong(...rest: ElementChild[]): HTMLElement { return tag("strong", ...rest); }
-export function Sub(...rest: ElementChild[]): HTMLElement { return tag("sub", ...rest); }
-export function Summary(...rest: ElementChild[]): HTMLElement { return tag("summary", ...rest); }
-export function Sup(...rest: ElementChild[]): HTMLElement { return tag("sup", ...rest); }
-export function Table(...rest: ElementChild[]): HTMLTableElement { return tag("table", ...rest); }
-export function TBody(...rest: ElementChild[]): HTMLTableSectionElement { return tag("tbody", ...rest); }
-export function TD(...rest: ElementChild[]): HTMLTableDataCellElement { return tag("td", ...rest); }
-export function Template(...rest: ElementChild[]): HTMLTemplateElement { return tag("template", ...rest); }
-export function TextArea(...rest: ElementChild[]): HTMLTextAreaElement { return tag("textarea", ...rest); }
-export function TFoot(...rest: ElementChild[]): HTMLTableSectionElement { return tag("tfoot", ...rest); }
-export function TH(...rest: ElementChild[]): HTMLTableHeaderCellElement { return tag("th", ...rest); }
-export function THead(...rest: ElementChild[]): HTMLTableSectionElement { return tag("thead", ...rest); }
-export function Time(...rest: ElementChild[]): HTMLTimeElement { return tag("time", ...rest); }
-export function Title(...rest: ElementChild[]): HTMLTitleElement { return tag("title", ...rest); }
-export function TR(...rest: ElementChild[]): HTMLTableRowElement { return tag("tr", ...rest); }
-export function Track(...rest: ElementChild[]): HTMLTrackElement { return tag("track", ...rest); }
-export function U(...rest: ElementChild[]): HTMLElement { return tag("u", ...rest); }
-export function UL(...rest: ElementChild[]): HTMLUListElement { return tag("ul", ...rest); }
-export function Var(...rest: ElementChild[]): HTMLElement { return tag("var", ...rest); }
-export function Video(...rest: ElementChild[]): HTMLVideoElement { return tag("video", ...rest); }
-export function WBR(): HTMLElement { return tag("wbr"); }
+export function Legend(...rest: ElementChild[]) { return tag("legend", ...rest); }
+export function LI(...rest: ElementChild[]) { return tag("li", ...rest); }
+export function Link(...rest: ElementChild[]) { return tag("link", ...rest); }
+export function Main(...rest: ElementChild[]) { return tag("main", ...rest); }
+export function HtmlMap(...rest: ElementChild[]) { return tag("map", ...rest); }
+export function Mark(...rest: ElementChild[]) { return tag("mark", ...rest); }
+export function Marquee(...rest: ElementChild[]) { return tag("marquee", ...rest); }
+export function Menu(...rest: ElementChild[]) { return tag("menu", ...rest); }
+export function Meta(...rest: ElementChild[]) { return tag("meta", ...rest); }
+export function Meter(...rest: ElementChild[]) { return tag("meter", ...rest); }
+export function Nav(...rest: ElementChild[]) { return tag("nav", ...rest); }
+export function NoScript(...rest: ElementChild[]) { return tag("noscript", ...rest); }
+export function HtmlObject(...rest: ElementChild[]) { return tag("object", ...rest); }
+export function OL(...rest: ElementChild[]) { return tag("ol", ...rest); }
+export function OptGroup(...rest: ElementChild[]) { return tag("optgroup", ...rest); }
+export function Option(...rest: ElementChild[]) { return tag("option", ...rest); }
+export function Output(...rest: ElementChild[]) { return tag("output", ...rest); }
+export function P(...rest: ElementChild[]) { return tag("p", ...rest); }
+export function Param(...rest: ElementChild[]) { return tag("param", ...rest); }
+export function Picture(...rest: ElementChild[]) { return tag("picture", ...rest); }
+export function Pre(...rest: ElementChild[]) { return tag("pre", ...rest); }
+export function Progress(...rest: ElementChild[]) { return tag("progress", ...rest); }
+export function Q(...rest: ElementChild[]) { return tag("q", ...rest); }
+export function RP(...rest: ElementChild[]) { return tag("rp", ...rest); }
+export function RT(...rest: ElementChild[]) { return tag("rt", ...rest); }
+export function Ruby(...rest: ElementChild[]) { return tag("ruby", ...rest); }
+export function S(...rest: ElementChild[]) { return tag("s", ...rest); }
+export function Samp(...rest: ElementChild[]) { return tag("samp", ...rest); }
+export function Script(...rest: ElementChild[]) { return tag("script", ...rest); }
+export function Section(...rest: ElementChild[]) { return tag("section", ...rest); }
+export function Select(...rest: ElementChild[]) { return tag("select", ...rest); }
+export function Slot(...rest: ElementChild[]) { return tag("slot", ...rest); }
+export function Small(...rest: ElementChild[]) { return tag("small", ...rest); }
+export function Source(...rest: ElementChild[]) { return tag("source", ...rest); }
+export function Span(...rest: ElementChild[]) { return tag("span", ...rest); }
+export function Strong(...rest: ElementChild[]) { return tag("strong", ...rest); }
+export function Sub(...rest: ElementChild[]) { return tag("sub", ...rest); }
+export function Summary(...rest: ElementChild[]) { return tag("summary", ...rest); }
+export function Sup(...rest: ElementChild[]) { return tag("sup", ...rest); }
+export function Table(...rest: ElementChild[]) { return tag("table", ...rest); }
+export function TBody(...rest: ElementChild[]) { return tag("tbody", ...rest); }
+export function TD(...rest: ElementChild[]) { return tag("td", ...rest); }
+export function Template(...rest: ElementChild[]) { return tag("template", ...rest); }
+export function TextArea(...rest: ElementChild[]) { return tag("textarea", ...rest); }
+export function TFoot(...rest: ElementChild[]) { return tag("tfoot", ...rest); }
+export function TH(...rest: ElementChild[]) { return tag("th", ...rest); }
+export function THead(...rest: ElementChild[]) { return tag("thead", ...rest); }
+export function Time(...rest: ElementChild[]) { return tag("time", ...rest); }
+export function Title(...rest: ElementChild[]) { return tag("title", ...rest); }
+export function TR(...rest: ElementChild[]) { return tag("tr", ...rest); }
+export function Track(...rest: ElementChild[]) { return tag("track", ...rest); }
+export function U(...rest: ElementChild[]) { return tag("u", ...rest); }
+export function UL(...rest: ElementChild[]) { return tag("ul", ...rest); }
+export function Var(...rest: ElementChild[]) { return tag("var", ...rest); }
+export function Video(...rest: ElementChild[]) { return tag("video", ...rest); }
+export function WBR() { return tag("wbr"); }
 
 /**
  * creates an HTML Input tag that is a button.
  */
-export function InputButton(...rest: ElementChild[]): HTMLInputElement { return Input(type("button"), ...rest); }
+export function InputButton(...rest: ElementChild[]) { return Input(type("button"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a checkbox.
  */
-export function InputCheckbox(...rest: ElementChild[]): HTMLInputElement { return Input(type("checkbox"), ...rest); }
+export function InputCheckbox(...rest: ElementChild[]) { return Input(type("checkbox"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a color picker.
  */
-export function InputColor(...rest: ElementChild[]): HTMLInputElement { return Input(type("color"), ...rest); }
+export function InputColor(...rest: ElementChild[]) { return Input(type("color"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a date picker.
  */
-export function InputDate(...rest: ElementChild[]): HTMLInputElement { return Input(type("date"), ...rest); }
+export function InputDate(...rest: ElementChild[]) { return Input(type("date"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a local date-time picker.
  */
-export function InputDateTime(...rest: ElementChild[]): HTMLInputElement { return Input(type("datetime-local"), ...rest); }
+export function InputDateTime(...rest: ElementChild[]) { return Input(type("datetime-local"), ...rest); }
 
 /**
  * creates an HTML Input tag that is an email entry field.
  */
-export function InputEmail(...rest: ElementChild[]): HTMLInputElement { return Input(type("email"), ...rest); }
+export function InputEmail(...rest: ElementChild[]) { return Input(type("email"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a file picker.
  */
-export function InputFile(...rest: ElementChild[]): HTMLInputElement { return Input(type("file"), ...rest); }
+export function InputFile(...rest: ElementChild[]) { return Input(type("file"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a hidden field.
  */
-export function InputHidden(...rest: ElementChild[]): HTMLInputElement { return Input(type("hidden"), ...rest); }
+export function InputHidden(...rest: ElementChild[]) { return Input(type("hidden"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a graphical submit button.
  */
-export function InputImage(...rest: ElementChild[]): HTMLInputElement { return Input(type("image"), ...rest); }
+export function InputImage(...rest: ElementChild[]) { return Input(type("image"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a month picker.
  */
-export function InputMonth(...rest: ElementChild[]): HTMLInputElement { return Input(type("month"), ...rest); }
+export function InputMonth(...rest: ElementChild[]) { return Input(type("month"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a month picker.
  */
-export function InputNumber(...rest: ElementChild[]): HTMLInputElement { return Input(type("number"), ...rest); }
+export function InputNumber(...rest: ElementChild[]) { return Input(type("number"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a password entry field.
  */
-export function InputPassword(...rest: ElementChild[]): HTMLInputElement { return Input(type("password"), ...rest); }
+export function InputPassword(...rest: ElementChild[]) { return Input(type("password"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a radio button.
  */
-export function InputRadio(...rest: ElementChild[]): HTMLInputElement { return Input(type("radio"), ...rest); }
+export function InputRadio(...rest: ElementChild[]) { return Input(type("radio"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a range selector.
  */
-export function InputRange(...rest: ElementChild[]): HTMLInputElement { return Input(type("range"), ...rest); }
+export function InputRange(...rest: ElementChild[]) { return Input(type("range"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a form reset button.
  */
-export function InputReset(...rest: ElementChild[]): HTMLInputElement { return Input(type("reset"), ...rest); }
+export function InputReset(...rest: ElementChild[]) { return Input(type("reset"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a search entry field.
  */
-export function InputSearch(...rest: ElementChild[]): HTMLInputElement { return Input(type("search"), ...rest); }
+export function InputSearch(...rest: ElementChild[]) { return Input(type("search"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a submit button.
  */
-export function InputSubmit(...rest: ElementChild[]): HTMLInputElement { return Input(type("submit"), ...rest); }
+export function InputSubmit(...rest: ElementChild[]) { return Input(type("submit"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a telephone number entry field.
  */
-export function InputTelephone(...rest: ElementChild[]): HTMLInputElement { return Input(type("tel"), ...rest); }
+export function InputTelephone(...rest: ElementChild[]) { return Input(type("tel"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a text entry field.
  */
-export function InputText(...rest: ElementChild[]): HTMLInputElement { return Input(type("text"), ...rest); }
+export function InputText(...rest: ElementChild[]) { return Input(type("text"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a time picker.
  */
-export function InputTime(...rest: ElementChild[]): HTMLInputElement { return Input(type("time"), ...rest); }
+export function InputTime(...rest: ElementChild[]) { return Input(type("time"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a URL entry field.
  */
-export function InputURL(...rest: ElementChild[]): HTMLInputElement { return Input(type("url"), ...rest); }
+export function InputURL(...rest: ElementChild[]) { return Input(type("url"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a week picker.
  */
-export function InputWeek(...rest: ElementChild[]): HTMLInputElement { return Input(type("week"), ...rest); }
+export function InputWeek(...rest: ElementChild[]) { return Input(type("week"), ...rest); }
 
 /**
  * Creates a text node out of the give input.
  */
-export function TextNode(txt: any): Text {
+export function TextNode(txt: any) {
     return document.createTextNode(txt);
 }
 
 /**
  * Creates a Div element with margin: auto.
  */
-export function Run(...rest: ElementChild[]): HTMLDivElement {
+export function Run(...rest: ElementChild[]) {
     return Div(
         styles(
             margin("auto")),
         ...rest);
 }
 
-export function Style(...rest: CSSInJSRule[]): HTMLStyleElement {
+export function Style(...rest: CSSInJSRule[]) {
     let elem = document.createElement("style");
     document.head.append(elem);
 
@@ -561,7 +559,7 @@ export function Style(...rest: CSSInJSRule[]): HTMLStyleElement {
     return elem;
 }
 
-export function BackgroundAudio(autoplay: boolean, mute: boolean, looping: boolean, ...rest: ElementChild[]): HTMLAudioElement {
+export function BackgroundAudio(autoplay: boolean, mute: boolean, looping: boolean, ...rest: ElementChild[]) {
     return Audio(
         playsInline(true),
         controls(false),
@@ -572,7 +570,7 @@ export function BackgroundAudio(autoplay: boolean, mute: boolean, looping: boole
         ...rest);
 }
 
-export function BackgroundVideo(autoplay: boolean, mute: boolean, looping: boolean, ...rest: ElementChild[]): HTMLVideoElement {
+export function BackgroundVideo(autoplay: boolean, mute: boolean, looping: boolean, ...rest: ElementChild[]) {
     return Video(
         playsInline(true),
         controls(false),

@@ -1,3 +1,4 @@
+import { elementSetDisplay } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { once } from "@juniper-lib/tslib/events/once";
 
@@ -32,9 +33,9 @@ export class MessageBox extends TypedEventBase<MessageBoxEvents> {
     }
 
     async show(): Promise<boolean> {
-        this.msgBox.style.display = "block";
+        elementSetDisplay(this.msgBox, true, "block");
         const evt = await once(this, "confirmed");
-        this.msgBox.style.display = "none";
+        elementSetDisplay(this.msgBox, false);
         return evt.confirmed;
     }
 }

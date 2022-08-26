@@ -27,7 +27,7 @@ import {
 import "./styles";
 
 
-type PropertyChild = Exclude<ElementChild, IElementAppliable>;
+type PropertyChild = Exclude<ElementChild<HTMLElement>, IElementAppliable>;
 type PropertyElement = [string, ...PropertyChild[]] | string | PropertyChild;
 
 class PropertyGroup {
