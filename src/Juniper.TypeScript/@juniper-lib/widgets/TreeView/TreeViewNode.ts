@@ -83,6 +83,7 @@ export class TreeViewNode<T>
 
     constructor(
         public readonly node: TreeNode<T>,
+        private readonly defaultLabel: string,
         private readonly _getLabel: (value: T) => string,
         private readonly _getDescription: (value: T) => string,
         private readonly _canChangeOrder: (value: T) => boolean,
@@ -176,7 +177,7 @@ export class TreeViewNode<T>
         this.isOpen = node.isRoot;
     }
 
-    async _launchMenu(parentEvt: Event, evt: TreeViewNodeEvent<string, T>) {
+    async _launchMenu(parentEvt: Event, evt: TreeViewNodeEvent<string, T>): Promise<void> {
         parentEvt.preventDefault();
         parentEvt.cancelBubble = true;
         this.adder.disabled = true;
@@ -192,7 +193,7 @@ export class TreeViewNode<T>
         }
     }
 
-    private onRefresh() {
+    private onRefresh(): void {
         if (this.node.isRoot !== (this.adder.parentElement === this.subView)) {
             if (this.node.isRoot) {
                 this.subView.append(this.adder);
@@ -226,23 +227,23 @@ export class TreeViewNode<T>
         this.adder.disabled = this.disabled || this.specialSelectMode;
     }
 
-    get specialSelectMode() {
+    get specialSelectMode(): boolean {
         return this.adder.classList.contains("disabled");
     }
 
-    set specialSelectMode(v) {
+    set specialSelectMode(v: boolean) {
         if (v !== this.specialSelectMode) {
             this.adder.classList.toggle("disabled");
             this.refresh();
         }
     }
 
-    get canHaveChildren() {
+    get canHaveChildren(): boolean {
         return isDefined(this.node.value) && this._canHaveChildren(this.node.value);
     }
 
     private get label(): string {
-        return isDefined(this.node.value) ? this._getLabel(this.node.value) : null;
+        return isDefined(this.node.value) ? this._getLabel(this.node.value) : this.defaultLabel;
     }
 
     private get description(): string {
@@ -253,7 +254,7 @@ export class TreeViewNode<T>
         return isDefined(this.node.value) ? this._getChildDescription(this.node.value) : null;
     }
 
-    private get canChangeOrder() {
+    private get canChangeOrder(): boolean {
         return isDefined(this.node.value) && this._canChangeOrder(this.node.value);
     }
 
@@ -273,22 +274,22 @@ export class TreeViewNode<T>
         return "Add " + this.childDescription;
     }
 
-    get disabled() {
+    get disabled(): boolean {
         return this.element.classList.contains("disabled");
     }
 
-    set disabled(v) {
+    set disabled(v: boolean) {
         if (v !== this.disabled) {
             this.element.classList.toggle("disabled");
             this.refresh();
         }
     }
 
-    get enabled() {
+    get enabled(): boolean {
         return !this.disabled;
     }
 
-    set enabled(v) {
+    set enabled(v: boolean) {
         this.disabled = !v;
     }
 
@@ -354,7 +355,7 @@ export class TreeViewNode<T>
         this.refresh();
     }
 
-    _select(bubbles: boolean) {
+    _select(bubbles: boolean): void {
         this.dispatchEvent(new TreeViewNodeClickedEvent(this.node));
 
         if (!this.selected) {

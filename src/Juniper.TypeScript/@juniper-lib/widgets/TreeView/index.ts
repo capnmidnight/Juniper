@@ -29,6 +29,7 @@ import { TreeViewNode, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeVie
 
 
 export interface TreeViewOptions<T> {
+    defaultLabel?: string;
     getLabel: (value: T) => string;
     getParent: (value: T) => T;
     getOrder?: (value: T) => number;
@@ -99,6 +100,7 @@ export class TreeView<T>
         this.createElement = this.createElement.bind(this);
 
         this.options = Object.assign<Partial<TreeViewOptions<T>>, TreeViewOptions<T>>({
+            defaultLabel: null,
             getOrder: null,
             replaceElement: null,
             canReorder: alwaysFalse
@@ -536,6 +538,7 @@ export class TreeView<T>
     private createElement(node: TreeNode<T>): TreeViewNode<T> {
         const element = new TreeViewNode(
             node,
+            this.options.defaultLabel,
             this.options.getLabel,
             this.options.getDescription,
             this.options.canReorder,
