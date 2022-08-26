@@ -40,10 +40,10 @@ export function getSerifFamily() {
     return fontFamily(getSerifFonts());
 }
 
-export class CssProp implements IElementAppliable {
+export class CssProp<K extends keyof CSSStyleDeclaration & string = keyof CSSStyleDeclaration & string> implements IElementAppliable {
     public readonly name: string;
     constructor(
-        public readonly key: string,
+        public readonly key: K,
         public readonly value: string | number) {
         this.name = key.replace(/[A-Z]/g, (m) => `-${m.toLocaleLowerCase()}`);
     }
@@ -153,7 +153,7 @@ export function appearance(v: CSSGlobalValues | CSSAppearanceValue) { return new
 
 export function backdropFilter(v: "none" | CSSGlobalValues): CssProp;
 export function backdropFilter(...v: CSSFilterFunction[]): CssProp;
-export function backdropFilter(...v: string[]): CssProp { return new CssProp("backdropFilter", v.join(' ')); }
+export function backdropFilter(...v: string[]): CssProp { return new CssProp("backdropFilter" as any, v.join(' ')); }
 
 export function backfaceVisibility(v: CSSGlobalValues | CSSBackfaceVisibilityValue) { return new CssProp("backfaceVisibility", v); }
 
@@ -200,9 +200,6 @@ export function backgroundRepeat(v: CSSGlobalValues): CssProp;
 export function backgroundRepeat(v: CSSBackgroundRepeatValue): CssProp;
 export function backgroundRepeat(x: CSSBackgroundRepeat, y: CSSBackgroundRepeat): CssProp;
 export function backgroundRepeat(...v: string[]) { return new CssProp("backgroundRepeat", v.join(" ")); }
-
-export function backgroundRepeatX(v: CSSGlobalValues | CSSBackgroundRepeat) { return new CssProp("backgroundRepeatX", v); }
-export function backgroundRepeatY(v: CSSGlobalValues | CSSBackgroundRepeat) { return new CssProp("backgroundRepeatY", v); }
 
 export function backgroundSize(v: CSSGlobalValues | CSSBackgroundSizeSingleValue): CssProp;
 export function backgroundSize(x: CSSBackgroundSizeValue, y: CSSBackgroundSizeValue): CssProp;
@@ -326,8 +323,6 @@ export function breakBefore(v: string) { return new CssProp("breakBefore", v); }
 
 export function breakInside(v: string) { return new CssProp("breakInside", v); }
 
-export function bufferedRendering(v: string) { return new CssProp("bufferedRendering", v); }
-
 export function captionSide(v: string) { return new CssProp("captionSide", v); }
 
 export function caretColor(v: string) { return new CssProp("caretColor", v); }
@@ -347,8 +342,6 @@ export function color(v: string): CssProp { return new CssProp("color", v); }
 export function colorInterpolation(v: string) { return new CssProp("colorInterpolation", v); }
 
 export function colorInterpolationFilters(v: string) { return new CssProp("colorInterpolationFilters", v); }
-
-export function colorRendering(v: string) { return new CssProp("colorRendering", v); }
 
 export function colorScheme(v: string) { return new CssProp("colorScheme", v); }
 
@@ -374,19 +367,11 @@ export function columns(v: string) { return new CssProp("columns", v); }
 
 export function contain(v: string) { return new CssProp("contain", v); }
 
-export function containIntrinsicSize(v: string) { return new CssProp("containIntrinsicSize", v); }
-
 export function counterIncrement(v: string) { return new CssProp("counterIncrement", v); }
 
 export function counterReset(v: string) { return new CssProp("counterReset", v); }
 
 export function cursor(v: CSSGlobalValues | CSSCursorValue) { return new CssProp("cursor", v); }
-
-export function cx(v: string) { return new CssProp("cx", v); }
-
-export function cy(v: string) { return new CssProp("cy", v); }
-
-export function d(v: string) { return new CssProp("d", v); }
 
 export function direction(v: CSSGlobalValues | CSSDirectionValues) { return new CssProp("direction", v); }
 
@@ -435,8 +420,6 @@ export function floodOpacity(v: string) { return new CssProp("floodOpacity", v);
 
 export function font(v: string) { return new CssProp("font", v); }
 
-export function fontDisplay(v: string) { return new CssProp("fontDisplay", v); }
-
 export function fontFamily(v: string) { return new CssProp("fontFamily", v); }
 
 export function fontFeatureSettings(v: string) { return new CssProp("fontFeatureSettings", v); }
@@ -464,8 +447,6 @@ export function fontVariantNumeric(v: string) { return new CssProp("fontVariantN
 export function fontVariationSettings(v: string) { return new CssProp("fontVariationSettings", v); }
 
 export function fontWeight(v: string) { return new CssProp("fontWeight", v); }
-
-export function forcedColorAdjust(v: string) { return new CssProp("forcedColorAdjust", v); }
 
 export function gap(v: string) { return new CssProp("gap", v); }
 
@@ -611,8 +592,6 @@ export function maxInlineSize(v: string) { return new CssProp("maxInlineSize", v
 
 export function maxWidth(v: string | 0) { return new CssProp("maxWidth", v); }
 
-export function maxZoom(v: string) { return new CssProp("maxZoom", v); }
-
 export function minBlockSize(v: string) { return new CssProp("minBlockSize", v); }
 
 export function minHeight(v: string | 0) { return new CssProp("minHeight", v); }
@@ -620,8 +599,6 @@ export function minHeight(v: string | 0) { return new CssProp("minHeight", v); }
 export function minInlineSize(v: string) { return new CssProp("minInlineSize", v); }
 
 export function minWidth(v: string | 0) { return new CssProp("minWidth", v); }
-
-export function minZoom(v: string) { return new CssProp("minZoom", v); }
 
 export function mixBlendMode(v: string) { return new CssProp("mixBlendMode", v); }
 
@@ -640,8 +617,6 @@ export function offsetRotate(v: string) { return new CssProp("offsetRotate", v);
 export function opacity(v: CSSGlobalValues | CSSNumberPercentage) { return new CssProp("opacity", v); }
 
 export function order(v: string) { return new CssProp("order", v); }
-
-export function orientation(v: string) { return new CssProp("orientation", v); }
 
 export function orphans(v: string) { return new CssProp("orphans", v); }
 
@@ -723,8 +698,6 @@ export function position(v: CSSImportant<CSSGlobalValues | CSSPositionValues>) {
 
 export function quotes(v: string) { return new CssProp("quotes", v); }
 
-export function r(v: string) { return new CssProp("r", v); }
-
 export function resize(v: string) { return new CssProp("resize", v); }
 
 export function right(v: CSSElementPositionValue) { return new CssProp("right", v); }
@@ -732,10 +705,6 @@ export function right(v: CSSElementPositionValue) { return new CssProp("right", 
 export function rowGap(v: string | 0) { return new CssProp("rowGap", v); }
 
 export function rubyPosition(v: string) { return new CssProp("rubyPosition", v); }
-
-export function rx(v: string) { return new CssProp("rx", v); }
-
-export function ry(v: string) { return new CssProp("ry", v); }
 
 export function scrollBehavior(v: string) { return new CssProp("scrollBehavior", v); }
 
@@ -797,8 +766,6 @@ export function shapeOutside(v: string) { return new CssProp("shapeOutside", v);
 
 export function shapeRendering(v: string) { return new CssProp("shapeRendering", v); }
 
-export function speak(v: string) { return new CssProp("speak", v); }
-
 export function stopColor(v: string) { return new CssProp("stopColor", v); }
 
 export function stopOpacity(v: string) { return new CssProp("stopOpacity", v); }
@@ -851,8 +818,6 @@ export function textRendering(v: string) { return new CssProp("textRendering", v
 
 export function textShadow(v: string) { return new CssProp("textShadow", v); }
 
-export function textSizeAdjust(v: string) { return new CssProp("textSizeAdjust", v); }
-
 export function textTransform(v: string) { return new CssProp("textTransform", v); }
 
 export function textUnderlinePosition(v: string) { return new CssProp("textUnderlinePosition", v); }
@@ -888,13 +853,7 @@ export function transitionTimingFunction(v: string) { return new CssProp("transi
 
 export function unicodeBidi(v: string) { return new CssProp("unicodeBidi", v); }
 
-export function unicodeRange(v: string) { return new CssProp("unicodeRange", v); }
-
 export function userSelect(v: string) { return new CssProp("userSelect", v); }
-
-export function userZoom(v: string) { return new CssProp("userZoom", v); }
-
-export function vectorEffect(v: string) { return new CssProp("vectorEffect", v); }
 
 export function verticalAlign(v: CSSGlobalValues | CSSVerticalAlignValues) { return new CssProp("verticalAlign", v); }
 
@@ -916,10 +875,4 @@ export function wordWrap(v: string) { return new CssProp("wordWrap", v); }
 
 export function writingMode(v: CSSGlobalValues | CSSWritingModeValues) { return new CssProp("writingMode", v); }
 
-export function x(v: CSSImportant<CSSGlobalValues | CSSSizePropertyValue>) { return new CssProp("x", v); }
-
-export function y(v: CSSImportant<CSSGlobalValues | CSSSizePropertyValue>) { return new CssProp("y", v); }
-
 export function zIndex(v: CSSImportant<number>) { return new CssProp("zIndex", asInt(v)); }
-
-export function zoom(v: CSSImportant<number>) { return new CssProp("zoom", asInt(v)); }
