@@ -1,5 +1,5 @@
 import { src } from "@juniper-lib/dom/attrs";
-import { CSSCursorValue, cursor, display, opacity, styles } from "@juniper-lib/dom/css";
+import { cursor, display, opacity, styles } from "@juniper-lib/dom/css";
 import { Div, elementApply, elementSetDisplay, ErsatzElement, Img } from "@juniper-lib/dom/tags";
 import { once, success } from "@juniper-lib/tslib/events/once";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";

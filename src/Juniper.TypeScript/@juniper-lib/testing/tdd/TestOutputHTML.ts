@@ -3,7 +3,6 @@ import {
     backgroundColor,
     color,
     columnGap,
-    CSSColorValue,
     display,
     getMonospaceFamily,
     gridColumn,
