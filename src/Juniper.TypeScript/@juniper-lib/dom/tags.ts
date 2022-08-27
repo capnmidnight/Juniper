@@ -104,6 +104,12 @@ export function elementGetIndexInParent(elem: Elements): number {
     return null;
 }
 
+
+export function elementGetCustomData(elem: Elements<HTMLElement>, name: Lowercase<string>): string {
+    elem = resolveElement(elem);
+    return elem.dataset[name.toLowerCase()];
+}
+
 export function elementApply(elem: Elements, ...children: ElementChild[]): Elements {
     elem = resolveElement(elem);
 

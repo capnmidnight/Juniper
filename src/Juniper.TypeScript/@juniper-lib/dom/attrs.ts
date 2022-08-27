@@ -448,7 +448,7 @@ export function data(value: string) { return new Attr("data", value, false, "obj
 /**
  * Lets you attach custom attributes to an HTML element.
  */
-export function customData(name: string, value: any) { return new Attr("data-" + name, value, false); }
+export function customData(name: string, value: any) { return new Attr("data-" + name.toLowerCase(), value, false); }
 
 /**
  * Indicates the date and time associated with the element.
