@@ -25,7 +25,7 @@ Style(
 
     rule(".tree-view",
         display("grid"),
-        gridTemplateRows("auto 1fr")
+        gridTemplateRows("auto", "1fr")
     ),
 
     rule(".tree-view .btn-sm",

@@ -13,11 +13,11 @@ export class GroupPanel
 
         const elems = rest.filter(isElements);
 
-        const colExpr = elems.map((_, i) => i === 0 ? "1fr" : "auto").join(" ");
+        const colExpr = elems.map((_, i) => i === 0 ? "1fr" : "auto");
 
         this.element = Div(
             className("group-panel"),
-            gridTemplateColumns(colExpr),
+            gridTemplateColumns(...colExpr),
             ...rest
         );
 

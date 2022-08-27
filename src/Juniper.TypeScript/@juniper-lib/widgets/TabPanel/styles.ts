@@ -4,7 +4,7 @@ import { Style } from "@juniper-lib/dom/tags";
 Style(
     rule(".tab-panel",
         display("grid"),
-        gridTemplateRows("auto 1fr")
+        gridTemplateRows("auto", "1fr")
     ),
 
     rule(".tab-panel > .tabs",

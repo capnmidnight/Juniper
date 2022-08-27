@@ -33,7 +33,7 @@ Style(
     rule("#controls",
         display("grid"),
         fontSize("20pt"),
-        gridTemplateRows("auto 1fr auto"),
+        gridTemplateRows("auto", "1fr", "auto"),
         zIndex(1)
     ),
 
@@ -79,7 +79,7 @@ Style(
     rule("#controls > .row > .cell > .btn",
         borderRadius(0),
         backgroundColor("#1e4388"),
-        height("58px !important"),
+        height("58px").important(),
         width("58px"),
         padding("0.25em"),
         margin("0", "5px"),

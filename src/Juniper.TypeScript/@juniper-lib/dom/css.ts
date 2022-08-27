@@ -40,8 +40,20 @@ export function getSerifFamily() {
     return fontFamily(getSerifFonts());
 }
 
-export class CssProp<K extends keyof CSSStyleDeclaration & string = keyof CSSStyleDeclaration & string> implements IElementAppliable {
+export type CSSPropName = Exclude<keyof CSSStyleDeclaration,
+    "length"
+    | "parentRule"
+    | "getPropertyPriority"
+    | "getPropertyValue"
+    | "item"
+    | "removeProperty"
+    | "setProperty">
+    & string;
+
+export class CssProp<K extends CSSPropName = CSSPropName> implements IElementAppliable {
     public readonly name: string;
+    private priority = "";
+
     constructor(
         public readonly key: K,
         public readonly value: string | number) {
@@ -53,7 +65,12 @@ export class CssProp<K extends keyof CSSStyleDeclaration & string = keyof CSSSty
      * @param elem - the element on which to set the attribute.
      */
     applyToElement(elem: HTMLElement) {
-        (elem.style as any)[this.key] = this.value;
+        (elem.style as any)[this.key] = this.value + this.priority;
+    }
+
+    important(): this {
+        this.priority = " !important";
+        return this;
     }
 }
 
@@ -510,9 +527,13 @@ export function gridTemplate(v: string) { return new CssProp("gridTemplate", v);
 
 export function gridTemplateAreas(...v: string[]) { return new CssProp("gridTemplateAreas", v.map((r) => '"' + r + '"').join('\n')); }
 
-export function gridTemplateColumns(v: string) { return new CssProp("gridTemplateColumns", v); }
+export function gridTemplateColumns(v: CSSGlobalValues): CssProp;
+export function gridTemplateColumns(...v: CSSGridTemplateTrackValues[]): CssProp;
+export function gridTemplateColumns(...v: (string | number)[]) { return new CssProp("gridTemplateColumns", v.join(" ")); }
 
-export function gridTemplateRows(v: string) { return new CssProp("gridTemplateRows", v); }
+export function gridTemplateRows(v: CSSGlobalValues): CssProp;
+export function gridTemplateRows(...v: CSSGridTemplateTrackValues[]): CssProp;
+export function gridTemplateRows(...v: (string | number)[]) { return new CssProp("gridTemplateRows", v.join(" ")); }
 
 export function height(v: CSSImportant<CSSGlobalValues | CSSSizePropertyValue>) { return new CssProp("height", v); }
 

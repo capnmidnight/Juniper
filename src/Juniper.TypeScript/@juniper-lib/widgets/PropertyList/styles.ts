@@ -17,7 +17,7 @@ import { Style } from "@juniper-lib/dom/tags";
 Style(
     rule("dl.properties",
         display("grid"),
-        gridTemplateColumns("auto 1fr"),
+        gridTemplateColumns("auto", "1fr"),
         gridColumnGap(".25em")
     ),
 

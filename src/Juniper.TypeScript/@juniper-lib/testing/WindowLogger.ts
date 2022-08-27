@@ -4,7 +4,7 @@ import {
     columnGap,
     display,
     getMonospaceFamily,
-    gridAutoFlow, gridColumn, height,
+    gridAutoFlow, gridColumn, gridTemplateColumns, height,
     left,
     opacity,
     overflow,
@@ -111,7 +111,8 @@ export class WindowLogger implements ILogger, ErsatzElement {
             maxWidth = Math.max(maxWidth, values.length);
         }
 
-        this.grid.style.gridTemplateColumns = `auto repeat(${maxWidth}, 1fr)`;
+        gridTemplateColumns("auto", `repeat(${maxWidth}, 1fr)`)
+            .applyToElement(this.grid);
 
         for (const [id, values] of this.logs) {
             const newRow = [

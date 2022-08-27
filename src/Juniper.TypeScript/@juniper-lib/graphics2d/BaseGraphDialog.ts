@@ -93,7 +93,7 @@ export class BaseGraphDialog<T> extends DialogBox {
             Div(
                 styles(
                     display("grid"),
-                    gridTemplateColumns("repeat(9, auto) 1fr"),
+                    gridTemplateColumns("repeat(9, auto)", "1fr"),
                     columnGap("5px"),
                     alignItems("center")
                 ),

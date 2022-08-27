@@ -7,7 +7,7 @@ import { debounce } from "@juniper-lib/tslib/events/debounce";
 Style(
     rule(".named-panel",
         display("grid"),
-        gridTemplateRows("auto 1fr"),
+        gridTemplateRows("auto", "1fr"),
         border("2px outset #ccc"),
         borderRadius("5px")
     ),

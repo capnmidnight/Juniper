@@ -5,8 +5,6 @@ type CSSGlobalValues =
     | "revert-layer"
     | "unset";
 
-
-
 type CSSImportant<T extends string | number> = T | `${T} !important`;
 
 type CSSFunction<F extends string, T extends string | number> = `${F}(${T})`;
@@ -598,6 +596,26 @@ type CSSGridAutoFlowValues =
     | "dense"
     | "row dense"
     | "column dense";
+
+type CSSGridLineName = `[${string}]`;
+
+type CSSGridFlexValue = `${number}fr`;
+
+type CSSGridTemplateTrackSizes =
+    | CSSLengthPercentage
+    | CSSGridFlexValue
+    | "max-content"
+    | "min-content"
+    | "auto";
+
+type CSSGridTemplateTrackValues =
+    | "none"
+    | CSSGridLineName
+    | CSSGridTemplateTrackSizes
+    | CSSFunction<"minmax", `${CSSGridTemplateTrackSizes}, ${CSSGridTemplateTrackSizes}`>
+    | CSSFunction<"fit-content", CSSLengthPercentage>
+    | CSSFunction<"repeat", `${number | "auto-fill" | "auto-fit"}, ${string}`>
+    | "subgrid";
 
 type CSSOverflowValues =
     | "visible"

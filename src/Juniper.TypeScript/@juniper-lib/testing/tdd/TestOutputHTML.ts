@@ -82,7 +82,7 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
                 table = Div(
                     styles(
                         display("grid"),
-                        gridTemplateColumns("auto auto auto 1fr")
+                        gridTemplateColumns("auto", "auto", "auto", "1fr")
                     ),
                     getMonospaceFamily(),
                     width("100%"),

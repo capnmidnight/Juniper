@@ -8,7 +8,7 @@ Style(
     rule(".input-range-with-number",
         display("grid"),
         columnGap("5px"),
-        gridTemplateColumns("1fr auto"))
+        gridTemplateColumns("1fr", "auto"))
 );
 
 export class InputRangeWithNumber
