@@ -1,36 +1,49 @@
-import { backgroundColor, border, cursor, display, float, gridGap, gridTemplate, margin, opacity, padding, rule } from "@juniper-lib/dom/css";
+import { backgroundColor, cursor, display, gridArea, gridTemplateColumns, gridTemplateRows, margin, opacity, padding, rule } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
+    rule(".dock",
+        margin(0)
+    ),
     rule(".dock.panel",
         display("grid"),
-        gridTemplate("auto/auto")
+        gridTemplateRows("auto"),
+        gridTemplateColumns("auto")
     ),
     rule(".dock.row, .dock.column",
         display("grid"),
-        gridGap("2px")
     ),
     rule(".dock.cell",
-        padding("5px"),
-        border("1px solid black")
+        display("grid"),
+        gridTemplateRows("auto", "1fr"),
+        gridTemplateColumns("1fr", "auto")
     ),
-    rule(".dock.cell[draggable]",
+    rule(".dock.panel.rearrangable .dock.cell [draggable]",
         cursor("move")
     ),
-    rule(".dock.cell[draggable].dragging",
+    rule(".dock.cell.dragging",
         opacity(.5)
     ),
-    rule(".dock.cell > .closer",
-        float("right")
-    ),
     rule(".dock.cell > .header",
-        margin(0)
+        margin("auto", "7px"),
+        gridArea(1, 1)
+    ),
+    rule(".dock.cell > .closer",
+        gridArea(1, -2)
+    ),
+    rule(".dock.cell > .content",
+        gridArea(2, 1, 3, 3),
+        display("grid"),
+        gridTemplateRows("auto"),
+        gridTemplateColumns("auto")
     ),
     rule(".dock.sep",
-        padding("2px")
+        margin("2px"),
+        padding("1px"),
+        backgroundColor("#ddd")
     ),
     rule(".dock.sep.targeting",
-        backgroundColor("lightgrey")
+        backgroundColor("#bbb")
     ),
     rule(".dock.sep.edge",
         margin("-2px")

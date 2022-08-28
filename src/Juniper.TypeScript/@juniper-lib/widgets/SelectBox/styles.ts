@@ -11,13 +11,13 @@ Style(
     ),
 
     rule(".SelectBoxContent",
-        height("0")
+        height(0)
     ),
 
     rule(".SelectBoxRow",
         whiteSpace("pre"),
         color("black"),
-        padding("0", "2px", "1px"),
+        padding(0, "2px", "1px"),
         margin(0),
         cursor("default")
     ),

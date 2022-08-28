@@ -82,7 +82,7 @@ Style(
         height("58px").important(),
         width("58px"),
         padding("0.25em"),
-        margin("0", "5px"),
+        margin(0, "5px"),
         pointerEvents("initial")
     ),
 

@@ -29,7 +29,7 @@ Style(
     ),
 
     rule(".tree-view .btn-sm",
-        padding("0")
+        padding(0)
     ),
 
     rule(".tree-view-inner",
@@ -47,7 +47,7 @@ Style(
     ),
 
     rule(".tree-view-children",
-        height("0")
+        height(0)
     ),
 
     rule(".tree-view-node-children",

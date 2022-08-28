@@ -300,7 +300,11 @@ export function borderLeftStyle(v: string) { return new CssProp("borderLeftStyle
 
 export function borderLeftWidth(v: string) { return new CssProp("borderLeftWidth", v); }
 
-export function borderRadius(v: string | 0) { return new CssProp("borderRadius", v); }
+export function borderRadius(v: CSSGlobalValues): CssProp;
+export function borderRadius(v: CSSLengthPercentage): CssProp;
+export function borderRadius(vertical: CSSLengthPercentage, horizontal: CSSLengthPercentage): CssProp;
+export function borderRadius(top: CSSLengthPercentage, right: CSSLengthPercentage, bottom: CSSLengthPercentage, left: CSSLengthPercentage): CssProp;
+export function borderRadius(...v: (string | number)[]): CssProp { return new CssProp("borderRadius", v.join(" ")); }
 
 export function borderRight(v: string) { return new CssProp("borderRight", v); }
 

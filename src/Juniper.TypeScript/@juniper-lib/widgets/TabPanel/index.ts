@@ -1,7 +1,7 @@
 import { Attr, className } from "@juniper-lib/dom/attrs";
 import { CssProp } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
-import { ButtonSecondarySmall, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
+import { ButtonSmall, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import "./styles";
@@ -61,7 +61,7 @@ export class TabPanel<TabNames>
             this.views.set(name, {
                 panel,
                 displayType,
-                button: ButtonSecondarySmall(
+                button: ButtonSmall(
                     label,
                     onClick(() => {
                         this.select(name);

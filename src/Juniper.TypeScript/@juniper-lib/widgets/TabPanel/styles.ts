@@ -1,4 +1,4 @@
-import { border, borderBottom, borderBottomColor, borderRadius, borderTop, boxShadow, display, flexDirection, gridArea, gridTemplateColumns, gridTemplateRows, marginBottom, rule, zIndex } from "@juniper-lib/dom/css";
+import { backgroundColor, border, borderBottom, borderBottomColor, borderTop, boxShadow, color, display, flexDirection, gridArea, gridTemplateColumns, gridTemplateRows, marginBottom, marginTop, opacity, overflow, paddingLeft, pointerEvents, rule, zIndex } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
@@ -10,21 +10,27 @@ Style(
     rule(".tab-panel > .tabs",
         display("flex"),
         flexDirection("row"),
-        borderBottom("solid 1px #6c757d")
+        borderBottom("solid 1px #6c757d"),
+        pointerEvents("none"),
+        overflow("hidden"),
+        paddingLeft("2px")
     ),
 
     rule(".tab-panel > .tabs > button",
-        borderRadius("5px 5px 0 0"),
-        marginBottom("-3px")
+        border("solid 1px #888"),
+        marginBottom("-3px"),
+        pointerEvents("initial"),
+        zIndex(0),
+        color("#888")
     ),
 
-    rule(".tab-panel > .tabs > button.btn-secondary",
-        zIndex(0)
-    ),
-
-    rule(".tab-panel > .tabs > button.btn-outline-secondary",
-        borderBottomColor("white"),
+    rule(".tab-panel > .tabs > button.btn[disabled]",
+        borderBottomColor("transparent"),
         boxShadow("#ccc 0 -5px 10px"),
+        marginTop("-3px"),
+        backgroundColor("white"),
+        color("black"),
+        opacity(1),
         zIndex(1)
     ),
 

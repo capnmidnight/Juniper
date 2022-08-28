@@ -17,7 +17,7 @@ Style(
         textAlign("left"),
         backgroundColor("transparent"),
         margin("2px"),
-        padding("0", "2em", "0", "0.5em"),
+        padding(0, "2em", 0, "0.5em"),
         getSystemFamily()
     ),
 
