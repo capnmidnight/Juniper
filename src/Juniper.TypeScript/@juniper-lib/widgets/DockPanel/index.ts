@@ -274,7 +274,7 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangeable" 
                 const template = gridTemplate(...inAxis);
                 const templateAlt = isRearrangeable
                     ? gridTemplateAlt("min-content", "1fr", "min-content")
-                    : gridTemplateAlt("min-content");
+                    : gridTemplateAlt("auto");
 
                 elementApply(parent,
                     template,
