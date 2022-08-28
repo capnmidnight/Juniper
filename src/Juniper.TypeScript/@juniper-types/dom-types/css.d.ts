@@ -283,7 +283,7 @@ type CSSSizePropertyValue =
     | "auto"
     | "max-content"
     | "min-content"
-    | CSSFunction<"fit-content", CSSLengthPercentage>
+    | "fit-content"
     | CSSCalcStatement;
 
 type CSSAlignItemsValue =

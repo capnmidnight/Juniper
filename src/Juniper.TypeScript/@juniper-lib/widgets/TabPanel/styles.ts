@@ -1,17 +1,18 @@
-import { backgroundColor, border, borderBottom, borderBottomColor, borderTop, boxShadow, color, display, flexDirection, gridArea, gridTemplateColumns, gridTemplateRows, marginBottom, marginTop, opacity, overflow, paddingLeft, pointerEvents, rule, zIndex } from "@juniper-lib/dom/css";
+import { backgroundColor, border, borderBottom, borderBottomColor, borderTop, boxShadow, color, display, flexDirection, flexGrow, flexShrink, gridArea, gridTemplateColumns, gridTemplateRows, marginBottom, marginTop, opacity, overflow, paddingLeft, pointerEvents, rule, width, zIndex } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
     rule(".tab-panel",
-        display("grid"),
-        gridTemplateRows("auto", "1fr")
+        display("flex"),
+        flexDirection("column")
     ),
 
     rule(".tab-panel > .tabs",
         display("flex"),
+        flexShrink(0),
+        width("fit-content"),
         flexDirection("row"),
         borderBottom("solid 1px #6c757d"),
-        pointerEvents("none"),
         overflow("hidden"),
         paddingLeft("2px")
     ),
@@ -35,6 +36,7 @@ Style(
     ),
 
     rule(".tab-panel > .panels",
+        flexGrow(1),
         display("grid"),
         gridTemplateColumns("auto"),
         gridTemplateRows("auto"),
