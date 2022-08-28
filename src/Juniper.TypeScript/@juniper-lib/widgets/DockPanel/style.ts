@@ -18,7 +18,7 @@ Style(
         gridTemplateRows("auto", "1fr"),
         gridTemplateColumns("1fr", "auto")
     ),
-    rule(".dock.panel.rearrangable .dock.cell [draggable]",
+    rule(".dock.panel.rearrangeable .dock.cell [draggable]",
         cursor("move")
     ),
     rule(".dock.cell.dragging",

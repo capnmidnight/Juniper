@@ -26,7 +26,7 @@ function isProportion(r: ElementChild): boolean {
         && r.key === SIZE_KEY;
 }
 
-export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" | ElementChild)[]) {
+export function DockPanel(name: string, ...rest: ("resizable" | "rearrangeable" | ElementChild)[]) {
     let cell: HTMLElement = null;
     let target: HTMLElement = null;
     let sep: HTMLElement = null;
@@ -36,9 +36,9 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
     const end = vec2.create();
     const delta = vec2.create();
     const resizable = rest.filter(v => v === "resizable") as string[];
-    const rearrangable = rest.filter(v => v === "rearrangeable") as string[];
+    const rearrangeable = rest.filter(v => v === "rearrangeable") as string[];
     const isResizable = resizable.length > 0;
-    const isRearrangable = rearrangable.length > 0;
+    const isRearrangeable = rearrangeable.length > 0;
 
     rest = rest.filter(v => v !== "resizable" && v !== "rearrangeable");
 
@@ -63,7 +63,7 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
     const panel = Dock(
         "panel",
         id(name),
-        classList(...resizable, ...rearrangable),
+        classList(...resizable, ...rearrangeable),
         onDragStart((evt) => {
             let e = evt.target as HTMLElement;
             while (isDefined(e) && !e.classList.contains("dock")) {
@@ -71,7 +71,7 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
             }
 
             target = null;
-            if (isCell(e) && isRearrangable) {
+            if (isCell(e) && isRearrangeable) {
                 cell = e;
                 cell.classList.toggle("dragging", true);
             }
@@ -121,7 +121,7 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
                     regrid();
                 }
             }
-            else if (isRearrangable) {
+            else if (isRearrangeable) {
                 if (target) {
                     target.classList.toggle("targeting", false);
                     target = null;
@@ -192,8 +192,8 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
             else {
                 const inAxis: CSSGridTemplateTrackSizes[] = [];
 
-                if (isRearrangable) {
-                    inAxis.push("auto");
+                if (isRearrangeable) {
+                    inAxis.push("min-content");
                 }
 
                 const gridCell = isRow(parent)
@@ -203,9 +203,9 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
                     ? gridRow
                     : gridColumn;
 
-                const offset = isRearrangable ? 1 : 0;
+                const offset = isRearrangeable ? 1 : 0;
 
-                const altPosition = isRearrangable
+                const altPosition = isRearrangeable
                     ? gridCellAlt(2, 3)
                     : gridCellAlt(1, -1);
 
@@ -217,16 +217,16 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
                         altPosition.applyToElement(child);
 
                         if (isClosed(child)) {
-                            inAxis.push("auto");
+                            inAxis.push("min-content");
                         }
                         else {
                             const size = getProportion(child);
                             inAxis.push(`${size}fr`);
                         }
-                        inAxis.push("auto");
+                        inAxis.push("min-content");
                     });
 
-                if (!isRearrangable) {
+                if (!isRearrangeable) {
                     inAxis.pop();
                 }
 
@@ -236,7 +236,7 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
                 for (let l = parent.childElementCount, i = 0; i <= l; ++i) {
                     const start = 2 * i + offset;
                     const isEdge = i === 0 || i === l;
-                    if (!isEdge || isRearrangable) {
+                    if (!isEdge || isRearrangeable) {
                         elementApply(parent,
                             DockSep(
                                 sepType,
@@ -249,7 +249,7 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
                     }
                 }
 
-                if (isRearrangable && isPanel(parent.parentElement)) {
+                if (isRearrangeable && isPanel(parent.parentElement)) {
                     for (let i = 0; i < 2; ++i) {
                         const start = 2 * i + 1
                         elementApply(parent,
@@ -272,9 +272,9 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
                     : gridTemplateColumns;
 
                 const template = gridTemplate(...inAxis);
-                const templateAlt = isRearrangable
-                    ? gridTemplateAlt("auto", "1fr", "auto")
-                    : gridTemplateAlt("auto");
+                const templateAlt = isRearrangeable
+                    ? gridTemplateAlt("min-content", "1fr", "min-content")
+                    : gridTemplateAlt("min-content");
 
                 elementApply(parent,
                     template,
@@ -293,7 +293,7 @@ export function DockPanel(name: string, ...rest: ("resizable" | "rearrangable" |
 
     panel.querySelectorAll(".dock.cell")
         .forEach(child => {
-            (child.querySelector(":scope > .header") as HTMLElement).draggable = isRearrangable;
+            (child.querySelector(":scope > .header") as HTMLElement).draggable = isRearrangeable;
             child.addEventListener("regrid", regrid);
         });
 
