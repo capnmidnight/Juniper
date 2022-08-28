@@ -205,7 +205,7 @@ export function arrayReplace<T>(arr: T[], ...items: T[]) {
 }
 
 
-function _arrayScan<T>(forward: boolean, arr: readonly T[], tests: ((val: T) => boolean)[]) {
+function _arrayScan<T>(forward: boolean, arr: readonly T[], tests: ((val: T) => boolean)[]): T {
     const start = forward ? 0 : arr.length - 1;
     const end = forward ? arr.length : -1;
     const inc = forward ? 1 : -1;
@@ -226,7 +226,9 @@ function _arrayScan<T>(forward: boolean, arr: readonly T[], tests: ((val: T) => 
  * any of the filters. The first item of the first filter that matches
  * will be returned.
  */
-export function arrayScan<T>(arr: readonly T[], ...tests: ((val: T) => boolean)[]) {
+export function arrayScan<T, S extends T>(arr: readonly T[], ...tests: ((val: T) => val is S)[]): S;
+export function arrayScan<T>(arr: readonly T[], ...tests: ((val: T) => boolean)[]): T
+export function arrayScan<T>(arr: readonly T[], ...tests: ((val: T) => boolean)[]): T {
     return _arrayScan(true, arr, tests);
 }
 
@@ -235,7 +237,9 @@ export function arrayScan<T>(arr: readonly T[], ...tests: ((val: T) => boolean)[
  * any of the filters. The last item of the first filter that matches
  * will be returned.
  */
-export function arrayScanReverse<T>(arr: readonly T[], ...tests: ((val: T) => boolean)[]) {
+export function arrayScanReverse<T, S extends T>(arr: readonly T[], ...tests: ((val: T) => val is S)[]): S;
+export function arrayScanReverse<T>(arr: readonly T[], ...tests: ((val: T) => boolean)[]): T;
+export function arrayScanReverse<T>(arr: readonly T[], ...tests: ((val: T) => boolean)[]): T {
     return _arrayScan(false, arr, tests);
 }
 

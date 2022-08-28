@@ -1,4 +1,4 @@
-import { backgroundColor, cursor, display, gridArea, gridTemplateColumns, gridTemplateRows, margin, opacity, padding, rule } from "@juniper-lib/dom/css";
+import { backgroundColor, cursor, display, gridArea, gridTemplateColumns, gridTemplateRows, margin, minHeight, minWidth, opacity, rule } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
@@ -10,8 +10,8 @@ Style(
         gridTemplateRows("auto"),
         gridTemplateColumns("auto")
     ),
-    rule(".dock.row, .dock.column",
-        display("grid"),
+    rule(".dock.group",
+        display("grid")
     ),
     rule(".dock.cell",
         display("grid"),
@@ -38,20 +38,16 @@ Style(
         gridTemplateColumns("auto")
     ),
     rule(".dock.sep",
-        margin("2px"),
-        padding("1px"),
-        backgroundColor("#ddd")
+        minWidth("4px"),
+        minHeight("4px")
     ),
-    rule(".dock.sep.targeting",
+    rule(".dock.sep.targeting, .dock.sep.dragging",
         backgroundColor("#bbb")
     ),
-    rule(".dock.sep.edge",
-        margin("-2px")
-    ),
-    rule(".dock.sep.c:not(.edge)",
+    rule(".dock.sep.column:not(.edge)",
         cursor("ns-resize")
     ),
-    rule(".dock.sep.r:not(.edge)",
+    rule(".dock.sep.row:not(.edge)",
         cursor("ew-resize")
     )
 );

@@ -139,9 +139,11 @@ export function elementReplace(elem: Elements, ...elems: Elements[]): Elements {
     return elem;
 }
 
-export function elementSwap(elem: Elements, withPlaceholder: (placeholder: Elements) => Elements) {
+export function elementSwap<T extends Elements>(elem: Elements, withPlaceholder: (placeholder: Elements) => T): T {
     const placeholder = Div();
-    elementReplace(placeholder, elementReplace(elem, withPlaceholder(placeholder)));
+    const e = withPlaceholder(placeholder);
+    elementReplace(placeholder, elementReplace(elem, e));
+    return e;
 }
 
 export function getElement<T extends Element = HTMLElement>(selector: string): T {
