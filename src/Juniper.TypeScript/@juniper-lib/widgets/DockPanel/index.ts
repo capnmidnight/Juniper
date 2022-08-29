@@ -3,7 +3,7 @@ import { gridColumn, gridRow, gridTemplateColumns, gridTemplateRows } from "@jun
 import { onClick, onDragEnd, onDragOver, onDragStart } from "@juniper-lib/dom/evts";
 import { ButtonSmall, Div, elementApply, ElementChild, elementGetCustomData, elementInsertBefore, elementIsDisplayed, elementSetText, elementSwap, elementToggleDisplay, H3, IElementAppliable } from "@juniper-lib/dom/tags";
 import { blackMediumDownPointingTriangleCentered as closeIcon, blackMediumRightPointingTriangleCentered as openIcon } from "@juniper-lib/emoji";
-import { arrayScanReverse } from "@juniper-lib/tslib/collections/arrays";
+import { arrayInsertAt, arrayScanReverse } from "@juniper-lib/tslib/collections/arrays";
 import { isBoolean, isDate, isDefined, isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { vec2 } from "gl-matrix";
 import "./style";
@@ -79,13 +79,9 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
     }
 
     let dragged: HTMLElement = null;
-    let dragType: DockType = null;
     let draggedParent: HTMLElement = null;
+    let dragType: DockType = null;
     let target: HTMLElement = null;
-    let groupCounter = 0;
-    const start = vec2.create();
-    const end = vec2.create();
-    const delta = vec2.create();
 
     const panel = Dock(
         "panel",
@@ -104,7 +100,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
                 const obj = resolveDockObject(evt.target as HTMLElement);
                 if (isResizable && dragType === "sep") {
                     evt.preventDefault();
-                    resizePanels(evt.clientX, evt.clientY);
+                    resizeGroup(draggedParent, dragged, evt.clientX, evt.clientY);
                 }
                 else if (isRearrangeable
                     && dragType === "cell"
@@ -121,7 +117,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
             if (obj === dragged
                 && isCell(dragged)
                 && isSep(target)) {
-                moveDraggedObject();
+                moveGroup(draggedParent, target);
             }
 
             if (dragged) {
@@ -140,27 +136,25 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
         ...sub
     );
 
-    function moveDraggedObject() {
-        let newParent = target.parentElement;
-        const insert = getDirection(newParent) === getDirection(target);
-        const index = getInsertionIndex(target);
-        if (!insert) {
-            const dir = getDirectionAlt(newParent);
-            newParent = elementSwap(newParent, p => DockGroup(dir, p));
-        }
-        const next = newParent.children[index];
-        if (next !== dragged.nextElementSibling) {
-            elementInsertBefore(newParent, draggedParent, next);
-            regrid(false);
-        }
-    }
-
     function resolveDockObject(e: HTMLElement) {
         let obj = e;
         while (isDefined(obj) && !obj.classList.contains("dock")) {
             obj = obj.parentElement;
         }
         return obj;
+    }
+
+    const mouseStart = vec2.create();
+    const mouseEnd = vec2.create();
+    const mouseMove = vec2.create();
+    function setDraggedObject(obj: HTMLElement, startMouseX: number, startMouseY: number) {
+        dragged = obj;
+        draggedParent = dragged.parentElement;
+        dragType = getDockType(dragged);
+        dragged.classList.add("dragging");
+        if (isSep(dragged)) {
+            vec2.set(mouseStart, startMouseX, startMouseY);
+        }
     }
 
     function setDropTarget(obj: HTMLElement) {
@@ -173,36 +167,43 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
         target.classList.add("targeting");
     }
 
-    function setDraggedObject(obj: HTMLElement, startMouseX: number, startMouseY: number) {
-        dragged = obj;
-        draggedParent = dragged.parentElement;
-        dragType = getDockType(dragged);
-        dragged.classList.add("dragging");
-        vec2.set(start, startMouseX, startMouseY);
+    function moveGroup(group: HTMLElement, sep: HTMLElement) {
+        let newParent = sep.parentElement;
+        const insert = getDirection(newParent) === getDirection(sep);
+        const index = getInsertionIndex(sep);
+        if (!insert) {
+            const dir = getDirectionAlt(newParent);
+            newParent = elementSwap(newParent, p => DockGroup(dir, p));
+        }
+        const next = newParent.children[index];
+        if (next !== dragged.nextElementSibling) {
+            elementInsertBefore(newParent, group, next);
+            regrid(false);
+        }
     }
 
-    function resizePanels(mouseX: number, mouseY: number) {
-        vec2.set(end, mouseX, mouseY);
-        vec2.sub(delta, end, start);
-        const r = isRow(draggedParent);
-        const dist = delta[r ? 0 : 1];
+    function resizeGroup(group: HTMLElement, sep: HTMLElement, mouseX: number, mouseY: number) {
+        vec2.set(mouseEnd, mouseX, mouseY);
+        vec2.sub(mouseMove, mouseEnd, mouseStart);
+        const r = isRow(group);
+        const dist = mouseMove[r ? 0 : 1];
         if (dist !== 0) {
-            vec2.copy(start, end);
+            vec2.copy(mouseStart, mouseEnd);
             const dim = r ? "clientWidth" : "clientHeight";
             let size = 0;
             let count = 0;
-            for (let i = 0; i < draggedParent.childElementCount; ++i) {
-                const child = draggedParent.children[i];
-                if (!isSep(child)) {
-                    ++count;
-                    size += child[dim];
-                }
-            }
+            group.querySelectorAll(":scope > .dock.group")
+                .forEach(child => {
+                    if (!isClosed(child)) {
+                        ++count;
+                        size += child[dim];
+                    }
+                });
 
             const avg = size / count;
-            const index = getInsertionIndex(dragged);
-            const left = findOpenObj(draggedParent, index, -1);
-            const right = findOpenObj(draggedParent, index, 1);
+            const index = getInsertionIndex(sep);
+            const left = findOpenGroup(group, index, -1);
+            const right = findOpenGroup(group, index, 1);
             if (isDefined(left)
                 && isDefined(right)) {
                 const leftSize = left[dim] + dist;
@@ -216,7 +217,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
         }
     }
 
-    function findOpenObj(obj: HTMLElement, index: number, dir: -1 | 1) {
+    function findOpenGroup(obj: HTMLElement, index: number, dir: -1 | 1) {
         if (dir === -1) {
             --index;
         }
@@ -269,126 +270,114 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
 
         Array.from(panel.querySelectorAll(".dock.group"))
             .reverse()
-            .forEach(parent => {
-                if (parent.childElementCount === 0) {
-                    parent.remove();
+            .forEach(group => {
+                if (group.childElementCount === 0) {
+                    group.remove();
                 }
-                else if (parent.childElementCount === 1
-                    && isGroup(parent.parentElement)
-                    && parent.parentElement.childElementCount === 1) {
-                    parent.replaceWith(...parent.children);
+                else if (group.childElementCount === 1
+                    && isGroup(group.parentElement)
+                    && group.parentElement.childElementCount === 1) {
+                    group.replaceWith(...group.children);
                 }
                 else {
-                    if (parent.childElementCount === 1 && isColumn(parent)) {
-                        parent.classList.remove("column");
-                        parent.classList.add("row");
-                    }
-
-                    const gParentDir = getDirection(parent.parentElement);
-                    const parentDirection = getDirection(parent);
-                    const parentDirectionAlt = getDirectionAlt(parent);
-
-                    const r = isRow(parent);
-                    const gridCell = r
-                        ? gridColumn
-                        : gridRow;
-                    const gridCellAlt = r
-                        ? gridRow
-                        : gridColumn;
-                    const gridTemplate = r
-                        ? gridTemplateColumns
-                        : gridTemplateRows;
-                    const gridTemplateAlt = r
-                        ? gridTemplateRows
-                        : gridTemplateColumns;
-
-                    const offset = isRearrangeable ? 1 : 0;
-
-                    const center = gridCell(2, -2);
-                    const centerAlt = gridCellAlt(2, -2);
-
-                    const elems = parent.querySelectorAll(":scope > .dock:not(.sep)");
-                    let totalSize = 0;
-                    elems.forEach(child => {
-                        if (!isClosed(child)) {
-                            totalSize += getProportion(child);
-                        }
-                    });
-
-                    const inAxis: CSSGridTemplateTrackSizes[] = [];
-                    elems.forEach((e, i) => {
-                        const child = e as HTMLElement;
-                        const start = 2 * i + offset + 1;
-                        gridCell(start, start + 1).applyToElement(child);
-                        centerAlt.applyToElement(child);
-
-                        if (isClosed(child)) {
-                            inAxis.push("auto");
-                        }
-                        else {
-                            let size = getProportion(child);
-                            if (!resize) {
-                                size /= totalSize;
-                            }
-                            setProportion(child, size)
-                            inAxis.push(`${size}fr`);
-                        }
-                        inAxis.push("min-content");
-                    });
-
-
-                    if (isRearrangeable) {
-                        inAxis.unshift("min-content");
-                    }
-                    else {
-                        inAxis.pop();
-                    }
-
-                    const template = gridTemplate(...inAxis);
-                    const templateAlt = isRearrangeable
-                        ? gridTemplateAlt("min-content", "1fr", "min-content")
-                        : gridTemplateAlt("auto");
-
-                    elementApply(parent,
-                        template,
-                        templateAlt);
-
-                    if (!resize) {
-                        for (let l = parent.childElementCount, i = 0; i <= l; ++i) {
-                            const start = 2 * i + offset;
-                            const isEdge = i === 0 || i === l;
-                            if (!isEdge || isRearrangeable && parentDirection !== gParentDir) {
-                                elementApply(parent,
-                                    DockSep(
-                                        parentDirection,
-                                        i,
-                                        isEdge,
-                                        gridCell(start, start + 1),
-                                        centerAlt
-                                    )
-                                );
-                            }
-                        }
-
-                        if (isRearrangeable && parentDirectionAlt !== gParentDir) {
-                            for (let i = 0; i < 2; ++i) {
-                                const start = 2 * i + 1
-                                elementApply(parent,
-                                    DockSep(
-                                        parentDirectionAlt,
-                                        i,
-                                        true,
-                                        gridCellAlt(start, start + 1),
-                                        center
-                                    )
-                                );
-                            }
-                        }
-                    }
+                    regridGroup(group, resize);
                 }
             });
     }
 
+    function regridGroup(group: Element, resize: boolean) {
+        if (group.childElementCount === 1 && isColumn(group)) {
+            group.classList.remove("column");
+            group.classList.add("row");
+        }
+
+        const gParentDir = getDirection(group.parentElement);
+        const parentDirection = getDirection(group);
+        const parentDirectionAlt = getDirectionAlt(group);
+
+        const r = isRow(group);
+        const gridCell = r
+            ? gridColumn
+            : gridRow;
+        const gridCellAlt = r
+            ? gridRow
+            : gridColumn;
+        const gridTemplate = r
+            ? gridTemplateColumns
+            : gridTemplateRows;
+        const gridTemplateAlt = r
+            ? gridTemplateRows
+            : gridTemplateColumns;
+
+        const offset = isRearrangeable ? 1 : 0;
+
+        const center = gridCell(2, -2);
+        const centerAlt = gridCellAlt(2, -2);
+
+        const inAxis: CSSGridTemplateTrackSizes[] = [];
+        group.querySelectorAll(":scope > .dock:not(.sep)")
+            .forEach((e, i) => {
+                const child = e as HTMLElement;
+                const start = 2 * i + offset + 1;
+                gridCell(start, start + 1).applyToElement(child);
+                centerAlt.applyToElement(child);
+
+                if (isClosed(child)) {
+                    inAxis.push("auto");
+                }
+                else {
+                    inAxis.push(`${getProportion(child)}fr`);
+                }
+            });
+
+        for (let i = inAxis.length + offset - 1; i >= 1 - offset; --i) {
+            arrayInsertAt(inAxis, "min-content", i);
+        }
+
+        const template = gridTemplate(...inAxis);
+        const templateAlt = isRearrangeable
+            ? gridTemplateAlt("min-content", "1fr", "min-content")
+            : gridTemplateAlt("auto");
+
+        elementApply(group,
+            template,
+            templateAlt);
+
+        if (!resize) {
+            for (let l = group.childElementCount, i = 0; i <= l; ++i) {
+                const start = 2 * i + offset;
+                const isEdge = i === 0 || i === l;
+                if (!isEdge || isRearrangeable && parentDirection !== gParentDir) {
+                    elementApply(group,
+                        DockSep(
+                            parentDirection,
+                            i,
+                            isEdge,
+                            gridCell(start, start + 1),
+                            centerAlt
+                        )
+                    );
+                }
+            }
+
+            if (isRearrangeable && parentDirectionAlt !== gParentDir) {
+                for (let i = 0; i < 2; ++i) {
+                    const start = 2 * i + 1;
+                    elementApply(group,
+                        DockSep(
+                            parentDirectionAlt,
+                            i,
+                            true,
+                            gridCellAlt(start, start + 1),
+                            center
+                        )
+                    );
+                }
+            }
+        }
+    }
+
+    let groupCounter = 0;
     panel.querySelectorAll(".dock.group")
         .forEach(child => {
             child.id = "G" + (++groupCounter);
