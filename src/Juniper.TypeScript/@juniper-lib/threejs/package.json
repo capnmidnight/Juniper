@@ -19,7 +19,7 @@
     "@juniper-lib/widgets": "*",
     "@juniper-types/dom-types": "*",
     "@types/offscreencanvas": "2019.7.0",
-    "@types/three": "0.143.0",
+    "@types/three": "0.143.1",
     "@types/webxr": "0.5.0",
     "three": "0.143.0",
     "webxr-polyfill": "2.0.3"
