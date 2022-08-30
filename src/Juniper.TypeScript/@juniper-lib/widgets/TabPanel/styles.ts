@@ -1,4 +1,4 @@
-import { backgroundColor, border, borderBottom, borderBottomColor, borderTop, boxShadow, color, display, flexDirection, flexGrow, flexShrink, gridArea, gridTemplateColumns, gridTemplateRows, marginBottom, marginTop, opacity, overflow, paddingLeft, pointerEvents, rule, width, zIndex } from "@juniper-lib/dom/css";
+import { backgroundColor, border, borderBottom, borderBottomColor, borderTop, boxShadow, color, display, flexDirection, flexGrow, flexShrink, gridArea, gridTemplateColumns, gridTemplateRows, marginBottom, marginTop, opacity, overflow, paddingLeft, pointerEvents, px, rule, width, zIndex } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
@@ -12,14 +12,14 @@ Style(
         flexShrink(0),
         width("fit-content"),
         flexDirection("row"),
-        borderBottom("solid 1px #6c757d"),
+        borderBottom(`solid ${px(1)} #6c757d`),
         overflow("hidden"),
-        paddingLeft("2px")
+        paddingLeft(px(2))
     ),
 
     rule(".tab-panel > .tabs > button",
-        border("solid 1px #888"),
-        marginBottom("-3px"),
+        border(`solid ${px(1)} #888`),
+        marginBottom(px(-3)),
         pointerEvents("initial"),
         zIndex(0),
         color("#888")
@@ -27,8 +27,8 @@ Style(
 
     rule(".tab-panel > .tabs > button.btn[disabled]",
         borderBottomColor("transparent"),
-        boxShadow("#ccc 0 -5px 10px"),
-        marginTop("-3px"),
+        boxShadow(`#ccc 0 ${px(-5)} ${px(10)}`),
+        marginTop(px(-3)),
         backgroundColor("white"),
         color("black"),
         opacity(1),
@@ -40,7 +40,7 @@ Style(
         display("grid"),
         gridTemplateColumns("auto"),
         gridTemplateRows("auto"),
-        border("2px outset #ccc"),
+        border(`${px(2)} outset #ccc`),
         borderTop("none")
     ),
 

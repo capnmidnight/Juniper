@@ -2,7 +2,6 @@ import {
     fontSize,
     maxWidth,
     padding,
-    styles,
     textAlign,
     width
 } from "@juniper-lib/dom/css";
@@ -101,16 +100,16 @@ export class ConfirmationDialog extends DialogBox implements Widget {
 
         this.cancelButton3D.object.position.set(2, -0.5, 0.5);
 
-        elementApply(this.container, styles(
+        elementApply(this.container,
             maxWidth("calc(100% - 2em)"),
             width("max-content")
-        ));
+        );
 
-        elementApply(this.contentArea, styles(
+        elementApply(this.contentArea,
             fontSize("18pt"),
             textAlign("center"),
             padding("1em")
-        ));
+        );
 
         objGraph(this,
             objGraph(this.root,

@@ -1,5 +1,5 @@
 import { src } from "@juniper-lib/dom/attrs";
-import { cursor, display, opacity, styles } from "@juniper-lib/dom/css";
+import { cursor, display, opacity } from "@juniper-lib/dom/css";
 import { all } from "@juniper-lib/tslib/events/all";
 import { Div, elementApply, elementSetDisplay, ErsatzElement, Img } from "@juniper-lib/dom/tags";
 import { once, success } from "@juniper-lib/tslib/events/once";
@@ -24,8 +24,8 @@ export class VideoPlayer
         super(audioCtx);
 
         this.element = Div(
-            styles(display("inline-block")),
-            this.thumbnail = Img(styles(cursor(loadingCursor))),
+            display("inline-block"),
+            this.thumbnail = Img(cursor(loadingCursor)),
             this.video,
             this.audio,
         );

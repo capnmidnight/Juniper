@@ -1,20 +1,19 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { backgroundColor, border, borderRadius, display, float, gridTemplateRows, margin, padding, rule } from "@juniper-lib/dom/css";
+import { backgroundColor, border, borderRadius, display, float, gridTemplateRows, margin, padding, px, rule } from "@juniper-lib/dom/css";
 import { Div, ElementChild, elementSetDisplay, elementSetText, ErsatzElement, H2, Span, Style } from "@juniper-lib/dom/tags";
-//import { blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered } from "@juniper-lib/emoji";
 import { debounce } from "@juniper-lib/tslib/events/debounce";
 
 Style(
     rule(".named-panel",
         display("grid"),
         gridTemplateRows("auto", "1fr"),
-        border("2px outset #ccc"),
-        borderRadius("5px")
+        border(`${px(2)} outset #ccc`),
+        borderRadius(px(5))
     ),
 
     rule(".named-panel > H2",
         margin(0),
-        padding("3px", "6px"),
+        padding(px(3), px(6)),
         backgroundColor("#ccc")
     ),
 
@@ -34,7 +33,6 @@ export class NamedPanel
 
     private readonly header: HTMLHeadingElement;
     private readonly titleText: HTMLSpanElement;
-    //private readonly closer: HTMLButtonElement;
     private readonly body: HTMLDivElement;
 
     private _open = true;
@@ -46,10 +44,6 @@ export class NamedPanel
             className("named-panel"),
             this.header = H2(
                 this.titleText = Span(_title),
-                //this.closer = ButtonSmall(
-                //    blackMediumDownPointingTriangleCentered.textStyle,
-                //    onClick(() => this.open = !this.open)
-                //)
             ),
             this.body = Div(
                 className("body"),

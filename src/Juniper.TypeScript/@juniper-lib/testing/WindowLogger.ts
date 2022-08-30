@@ -12,7 +12,6 @@ import {
     padding,
     pointerEvents,
     position,
-    styles,
     top,
     width,
     zIndex
@@ -28,9 +27,10 @@ import {
 import { ILogger, isWorkerLoggerMessageData, MessageType } from "./models";
 
 function track(a: number, b: number) {
-    return styles(
+    return [
         gridColumn(a, b),
-        getMonospaceFamily());
+        getMonospaceFamily()
+    ];
 }
 
 export class WindowLogger implements ILogger, ErsatzElement {
@@ -49,26 +49,26 @@ export class WindowLogger implements ILogger, ErsatzElement {
         this.workerFunctions.set("clear", this.workerClear.bind(this));
 
         this.element = Div(
-            styles(
-                position("fixed"),
-                display("none"),
-                top(0),
-                left(0),
-                width("100%"),
-                height("100%"),
-                zIndex(9001),
-                padding("1em"),
-                opacity(0.5),
-                backgroundColor("black"),
-                color("white"),
-                overflow("hidden"),
-                pointerEvents("none")),
+            position("fixed"),
+            display("none"),
+            top(0),
+            left(0),
+            width("100%"),
+            height("100%"),
+            zIndex(9001),
+            padding("1em"),
+            opacity(0.5),
+            backgroundColor("black"),
+            color("white"),
+            overflow("hidden"),
+            pointerEvents("none"),
             this.grid = Div(
-                styles(
-                    display("grid"),
-                    overflowY("auto"),
-                    columnGap("0.5em"),
-                    gridAutoFlow("row"))));
+                display("grid"),
+                overflowY("auto"),
+                columnGap("0.5em"),
+                gridAutoFlow("row")
+            )
+        );
 
         elementApply(document.body, this);
 
@@ -121,7 +121,7 @@ export class WindowLogger implements ILogger, ErsatzElement {
             ];
 
             for (let i = 0; i < newRow.length; ++i) {
-                track(i + 1, i + 2).applyToElement(newRow[i]);
+                elementApply(newRow[i], ...track(i + 1, i + 2));
             }
 
             newRow[newRow.length - 1].style.gridColumnEnd = "-1";

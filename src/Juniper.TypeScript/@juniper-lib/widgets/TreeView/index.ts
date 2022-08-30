@@ -1,5 +1,5 @@
 import { className, tabIndex } from "@juniper-lib/dom/attrs";
-import { CssProp } from "@juniper-lib/dom/css";
+import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     isModifierless,
     onClick,
@@ -94,7 +94,7 @@ export class TreeView<T>
 
     constructor(
         options?: TreeViewOptions<T>,
-        ...styleProps: CssProp[]) {
+        ...styleProps: CssElementStyleProp[]) {
         super();
 
         this.createElement = this.createElement.bind(this);

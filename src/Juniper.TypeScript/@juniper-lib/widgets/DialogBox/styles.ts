@@ -1,4 +1,4 @@
-import { backgroundColor, boxShadow, display, float, gridArea, gridTemplateColumns, gridTemplateRows, height, left, maxHeight, maxWidth, overflow, padding, position, rule, textAlign, top, transform, width, zIndex } from "@juniper-lib/dom/css";
+import { backgroundColor, boxShadow, display, float, gridArea, gridTemplateColumns, gridTemplateRows, height, left, maxHeight, maxWidth, overflow, padding, position, px, rule, textAlign, top, transform, width, zIndex } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
@@ -18,7 +18,7 @@ Style(
         maxHeight("100%"),
         transform("translate(-50%, -50%)"),
         backgroundColor("white"),
-        boxShadow("rgba(0,0,0,0.5) 0px 5px 30px"),
+        boxShadow(`rgba(0,0,0,0.5) ${px(0)} ${px(5)} ${px(30)}`),
         display("grid"),
         gridTemplateColumns("2em", "auto", "2em"),
         gridTemplateRows("auto", "1fr", "auto", "2em")),

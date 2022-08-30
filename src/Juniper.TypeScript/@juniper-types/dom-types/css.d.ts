@@ -66,6 +66,12 @@ type CSSLengthPercentageAuto =
     | CSSLengthPercentage
     | "auto";
 
+type CSSAtRuleRegular =
+    | "charset"
+    | "import"
+    | "namespace"
+    | "layer";
+
 type CSSCalcStatement = CSSFunction<"calc", string>;
 
 type CSSColorKeywordValue =
@@ -651,6 +657,49 @@ type CSSGridTemplateTrackValues =
     | CSSFunction<"fit-content", CSSLengthPercentage>
     | CSSFunction<"repeat", `${number | "auto-fill" | "auto-fit"}, ${string}`>
     | "subgrid";
+
+type CSSMediaQueryTypeValue =
+    | "all"
+    | "print"
+    | "screen";
+
+type CSSMediaQueryFeatureValue =
+    | "any-hover"
+    | "any-pointer"
+    | "aspect-ratio"
+    | "color"
+    | "color-gamut"
+    | "color-index"
+    | "display-mode"
+    | "dynamic-range"
+    | "forced-colors"
+    | "grid"
+    | "height"
+    | "hover"
+    | "inverted-colors"
+    | "monochrome"
+    | "orientation"
+    | "overflow-block"
+    | "overflow-inline"
+    | "pointer"
+    | "prefers-color-scheme"
+    | "prefers-contrast"
+    | "prefers-reduced-motion"
+    | "resolution"
+    | "script"
+    | "update"
+    | "video-dynamic-range"
+    | "width";
+
+type CSSMediaQueryOperatorValue =
+    | "and"
+    | "not"
+    | "only"
+    | ","
+    | "<"
+    | "<="
+    | ">"
+    | ">=";
 
 type CSSOverflowValues =
     | "visible"

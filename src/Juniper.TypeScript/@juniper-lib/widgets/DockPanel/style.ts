@@ -1,4 +1,4 @@
-import { backgroundColor, cursor, display, gridArea, gridTemplateColumns, gridTemplateRows, margin, minHeight, minWidth, opacity, rule } from "@juniper-lib/dom/css";
+import { backgroundColor, cursor, display, gridArea, gridTemplateColumns, gridTemplateRows, margin, minHeight, minWidth, opacity, px, rule } from "@juniper-lib/dom/css";
 import { Style } from "@juniper-lib/dom/tags";
 
 Style(
@@ -25,7 +25,7 @@ Style(
         opacity(.5)
     ),
     rule(".dock.cell > .header",
-        margin("auto", "7px"),
+        margin("auto", px(7)),
         gridArea(1, 1)
     ),
     rule(".dock.cell > .closer",
@@ -38,8 +38,8 @@ Style(
         gridTemplateColumns("auto")
     ),
     rule(".dock.sep",
-        minWidth("4px"),
-        minHeight("4px")
+        minWidth(px(4)),
+        minHeight(px(4))
     ),
     rule(".dock.sep.targeting, .dock.sep.dragging",
         backgroundColor("#bbb")

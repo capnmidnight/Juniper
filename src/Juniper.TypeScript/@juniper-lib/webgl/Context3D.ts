@@ -1,6 +1,7 @@
 import type { CanvasTypes } from "@juniper-lib/dom/canvas";
 import { isOffscreenCanvas, setContextSize } from "@juniper-lib/dom/canvas";
-import { border, height, left, margin, padding, position, styles, top, touchAction, width } from "@juniper-lib/dom/css";
+import { border, height, left, margin, padding, position, top, touchAction, width } from "@juniper-lib/dom/css";
+import { elementApply } from "@juniper-lib/dom/tags";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
@@ -38,8 +39,7 @@ export class Context3D extends TypedEventBase<Context3DEvents> {
 
             // If we're dealing with HTML canvases, then setup the auto-resizer.
             if (!isOffscreenCanvas(canvas)) {
-
-                styles(
+                elementApply(canvas, 
                     position("fixed"),
                     left(0),
                     top(0),
@@ -49,7 +49,7 @@ export class Context3D extends TypedEventBase<Context3DEvents> {
                     padding(0),
                     border(0),
                     touchAction("none")
-                ).applyToElement(canvas);
+                );
 
                 canvas.tabIndex = 1;
 

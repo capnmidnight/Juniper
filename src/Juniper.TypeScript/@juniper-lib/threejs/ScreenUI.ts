@@ -14,6 +14,7 @@ import {
     padding,
     pointerEvents,
     position,
+    px,
     rule,
     top,
     width,
@@ -42,12 +43,12 @@ Style(
     ),
 
     rule("#controls canvas",
-        height("58px")
+        height(px(58))
     ),
 
     rule("#controls > .row",
         display("grid"),
-        margin("10px", "5px"),
+        margin(px(10), px(5)),
         gridTemplateColumns("repeat(2, auto)")
     ),
 
@@ -79,10 +80,10 @@ Style(
     rule("#controls > .row > .cell > .btn",
         borderRadius(0),
         backgroundColor("#1e4388"),
-        height("58px").important(),
-        width("58px"),
+        height(px(58)).important(),
+        width(px(58)),
         padding("0.25em"),
-        margin(0, "5px"),
+        margin(0, px(5)),
         pointerEvents("initial")
     ),
 

@@ -1,5 +1,5 @@
 import { Attr, className } from "@juniper-lib/dom/attrs";
-import { CssProp } from "@juniper-lib/dom/css";
+import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonSmall, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
@@ -25,12 +25,12 @@ interface TabPanelView {
     displayType: string;
 }
 
-function isRule<TabNames>(obj: TabPanelEntry<TabNames> | CssProp | Attr): obj is CssProp | Attr {
-    return obj instanceof CssProp
+function isRule<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp | Attr): obj is CssElementStyleProp | Attr {
+    return obj instanceof CssElementStyleProp
         || obj instanceof Attr;
 }
 
-function isViewDef<TabNames>(obj: TabPanelEntry<TabNames> | CssProp | Attr): obj is TabPanelEntry<TabNames> {
+function isViewDef<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp | Attr): obj is TabPanelEntry<TabNames> {
     return !isRule(obj);
 }
 
@@ -44,7 +44,7 @@ export class TabPanel<TabNames>
 
     readonly element: HTMLElement;
 
-    constructor(...entries: (TabPanelEntry<TabNames> | CssProp | Attr)[]) {
+    constructor(...entries: (TabPanelEntry<TabNames> | CssElementStyleProp | Attr)[]) {
         super();
 
         const rules = entries.filter(isRule);

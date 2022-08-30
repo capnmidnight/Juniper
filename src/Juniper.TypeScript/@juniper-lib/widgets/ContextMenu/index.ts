@@ -1,5 +1,5 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { left, styles, top } from "@juniper-lib/dom/css";
+import { left, px, top } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
 import { Button, Div, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/tags";
 import { Task } from "@juniper-lib/tslib/events/Task";
@@ -51,10 +51,8 @@ export class ContextMenu<T extends string = string> implements ErsatzElement {
 
         elementClearChildren(this.element);
         elementApply(this.element,
-            styles(
-                left(`${this.mouseX}px`),
-                top(`${this.mouseY}px`)
-            ),
+            left(px(this.mouseX)),
+            top(px(this.mouseY)),
             ...options.map(option => {
                 if (option instanceof HTMLHRElement) {
                     option.style.width = "100%";
@@ -70,7 +68,7 @@ export class ContextMenu<T extends string = string> implements ErsatzElement {
         );
         elementSetDisplay(this.element, true, "grid");
         this.mouseY = Math.min(this.mouseY, window.innerHeight - this.element.clientHeight - 50);
-        this.element.style.top = `${this.mouseY}px`;
+        this.element.style.top = px(this.mouseY);
 
         const onSideClick = () => this.currentTask.resolve("cancel");
         addEventListener("click", onSideClick);

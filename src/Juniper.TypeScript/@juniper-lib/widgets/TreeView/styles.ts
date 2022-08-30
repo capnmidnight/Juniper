@@ -13,6 +13,7 @@ import {
     overflowWrap, padding,
     paddingLeft,
     position,
+    px,
     rule, top,
     whiteSpace,
     width
@@ -33,7 +34,7 @@ Style(
     ),
 
     rule(".tree-view-inner",
-        border("inset 2px"),
+        border(`inset ${px(2)}`),
         backgroundColor("#eee"),
         whiteSpace("nowrap"),
         overflowWrap("normal"),

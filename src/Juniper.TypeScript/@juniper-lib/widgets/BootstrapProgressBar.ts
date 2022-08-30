@@ -1,5 +1,5 @@
 import { ariaValueMax, ariaValueMin, ariaValueNow, className, role } from "@juniper-lib/dom/attrs";
-import { styles, width } from "@juniper-lib/dom/css";
+import { width } from "@juniper-lib/dom/css";
 import { Div, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
 import { BaseProgress } from "@juniper-lib/tslib/progress/BaseProgress";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
@@ -17,9 +17,7 @@ export class BootstrapProgressBarElement
             ariaValueNow(0),
             ariaValueMin(0),
             ariaValueMax(1),
-            styles(
-                width(0)
-            )
+            width(0)
         );
 
         this.element = Div(

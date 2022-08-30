@@ -1,5 +1,5 @@
 import { className, id, title } from "@juniper-lib/dom/attrs";
-import { backgroundColor, border, cursor, display, height, left, margin, padding, position, rule, textAlign, top, transform, width, zIndex } from "@juniper-lib/dom/css";
+import { backgroundColor, border, cursor, display, height, left, margin, padding, position, px, rule, textAlign, top, transform, width, zIndex } from "@juniper-lib/dom/css";
 import { Div, IFrame, Img, Style } from "@juniper-lib/dom/tags";
 
 Style(
@@ -10,7 +10,7 @@ Style(
         width("75%"),
         height("80%"),
         transform("translate(-50%, -50%)"),
-        border("solid 1px grey"),
+        border(`solid ${px(1)} grey`),
         backgroundColor("white"),
         padding("4em"),
         margin("auto"),

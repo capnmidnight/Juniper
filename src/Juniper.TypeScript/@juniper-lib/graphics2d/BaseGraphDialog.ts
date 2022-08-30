@@ -10,7 +10,7 @@ import {
     columnGap,
     display, gridTemplateColumns,
     height,
-    styles,
+    px,
     width
 } from "@juniper-lib/dom/css";
 import {
@@ -91,12 +91,10 @@ export class BaseGraphDialog<T> extends DialogBox {
         elementApply(
             this.contentArea,
             Div(
-                styles(
-                    display("grid"),
-                    gridTemplateColumns("repeat(9, auto)", "1fr"),
-                    columnGap("5px"),
-                    alignItems("center")
-                ),
+                display("grid"),
+                gridTemplateColumns("repeat(9, auto)", "1fr"),
+                columnGap(px(5)),
+                alignItems("center"),
 
                 ...PreLabeled(
                     "limit" + idPostfix,

@@ -8,6 +8,7 @@ import {
     margin,
     maxWidth,
     padding,
+    px,
     rule,
     textAlign,
     verticalAlign
@@ -52,7 +53,7 @@ Style(
     ),
 
     rule("dl.properties > dd > select",
-        height("30px")
+        height(px(30))
     ),
 
     rule("dl.properties > .single-item",

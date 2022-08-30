@@ -1,5 +1,5 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
-import { isBoolean, isString } from "@juniper-lib/tslib/typeChecks";
+import { isString } from "@juniper-lib/tslib/typeChecks";
 
 /**
  * A setter functor for HTML attributes.
@@ -889,20 +889,6 @@ export function srcSet(value: string) { return new Attr("srcset", value, false, 
  * Defines the first number if other than 1.
   **/
 export function start(value: number) { return new Attr("start", value, false, "ol"); }
-
-/**
- * Defines CSS styles which will override styles previously set.
- *
- * NOTE: DO NOT USE THIS. You should use `styles()` instead.
- **/
-export function __deprecated__style__deprecated__(value: any) {
-    for (let k in value) {
-        if (!value[k] && !isBoolean(value[k])) {
-            delete value[k];
-        }
-    }
-    return new Attr("style", value, false);
-}
 
 /**
  * The step attribute

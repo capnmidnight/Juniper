@@ -10,7 +10,7 @@ import {
     height,
     overflow,
     paddingTop,
-    styles,
+    px,
     whiteSpace,
     width
 } from "@juniper-lib/dom/css";
@@ -32,10 +32,11 @@ import { TestStates } from "./TestStates";
  * Creates a portion of a progress bar.
  */
 function bar(c: CSSColorValue, w: number) {
-    return styles(
+    return [
         backgroundColor(c),
         color(c),
-        width(`${w}%`));
+        width(`${w}%`)
+    ];
 }
 
 function refresher(thunk: (evt: Event) => void, ...rest: ElementChild[]) {
@@ -75,15 +76,14 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
             const s = Math.round(100 * evt.stats.totalSucceeded / evt.stats.totalFound),
                 f = Math.round(100 * evt.stats.totalFailed / evt.stats.totalFound),
                 t = Math.round(100 * (evt.stats.totalFound - evt.stats.totalSucceeded - evt.stats.totalFailed) / evt.stats.totalFound),
-                basicStyle = styles(
+                basicStyle = [
                     display("inline-block"),
                     overflow("hidden"),
-                    height("1em")),
+                    height("1em")
+                ],
                 table = Div(
-                    styles(
-                        display("grid"),
-                        gridTemplateColumns("auto", "auto", "auto", "1fr")
-                    ),
+                    display("grid"),
+                    gridTemplateColumns("auto", "auto", "auto", "1fr"),
                     getMonospaceFamily(),
                     width("100%"),
                     columnGap("1em"),
@@ -93,9 +93,9 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
                         height("2em"),
                         whiteSpace("nowrap"),
                         overflow("hidden"),
-                        Span(basicStyle, bar("green", s)),
-                        Span(basicStyle, bar("red", f)),
-                        Span(basicStyle, bar("grey", t))),
+                        Span(...basicStyle, ...bar("green", s)),
+                        Span(...basicStyle, ...bar("red", f)),
+                        Span(...basicStyle, ...bar("grey", t))),
                     Div(gridColumn(1), "Rerun"),
                     Div(gridColumn(2), "Name"),
                     Div(gridColumn(3), "Status"));
@@ -108,7 +108,7 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
                         refresher(() => this.run(testCaseName)),
                         Div(
                             gridColumn(2, 5),
-                            paddingTop("20px"),
+                            paddingTop(px(20)),
                             testCaseName));
                 }
                 table.append(

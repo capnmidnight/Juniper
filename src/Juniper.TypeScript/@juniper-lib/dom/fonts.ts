@@ -1,6 +1,7 @@
 import type { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isString } from "@juniper-lib/tslib/typeChecks";
+import { px } from "./css";
 
 const DEFAULT_TEST_TEXT = "The quick brown fox jumps over the lazy dog";
 const loadedFonts = singleton<string[]>("juniper::loadedFonts", () => []);
@@ -28,7 +29,7 @@ export function makeFont(style: FontDescription): string {
         fontParts.push(style.fontWeight);
     }
 
-    fontParts.push(`${style.fontSize}px`);
+    fontParts.push(px(style.fontSize));
     fontParts.push(style.fontFamily);
 
     return fontParts.join(" ");

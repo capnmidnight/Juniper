@@ -2,7 +2,7 @@ import { once } from "@juniper-lib/tslib/events/once";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/typeChecks";
 import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
-import { BaseCSSInJSRule, display, margin } from "./css";
+import { display, margin, PropSet } from "./css";
 
 export interface ErsatzElement<T extends Element = Element> {
     element: T;
@@ -555,12 +555,12 @@ export function Run(...rest: ElementChild[]) {
         ...rest);
 }
 
-export function Style(...rest: BaseCSSInJSRule[]) {
-    let elem = document.createElement("style");
+export function Style(...props: PropSet[]) {
+    const elem = document.createElement("style");
     document.head.append(elem);
 
-    for (let x of rest) {
-        x.apply(elem.sheet);
+    for (let prop of props) {
+        prop.applyToSheet(elem.sheet);
     }
 
     return elem;

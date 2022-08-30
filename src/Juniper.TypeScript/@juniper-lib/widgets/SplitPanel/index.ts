@@ -1,14 +1,14 @@
 import { Attr, className } from "@juniper-lib/dom/attrs";
-import { CssProp } from "@juniper-lib/dom/css";
+import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import { Div, ElementChild, ErsatzElement } from "@juniper-lib/dom/tags";
 import "./styles";
 
-function isRule(obj: ElementChild): obj is CssProp | Attr {
-    return obj instanceof CssProp
+function isRule(obj: ElementChild): obj is CssElementStyleProp | Attr {
+    return obj instanceof CssElementStyleProp
         || obj instanceof Attr;
 }
 
-function isElem(obj: ElementChild): obj is Exclude<ElementChild, CssProp | Attr> {
+function isElem(obj: ElementChild): obj is Exclude<ElementChild, CssElementStyleProp | Attr> {
     return !isRule(obj);
 }
 
