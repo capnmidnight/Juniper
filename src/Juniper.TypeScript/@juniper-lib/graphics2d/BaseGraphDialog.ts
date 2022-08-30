@@ -84,9 +84,9 @@ export class BaseGraphDialog<T> extends DialogBox {
         const idPostfix = stringRandom(5);
 
         elementApply(this.container,
-            styles(
-                width("100%"),
-                height("100%")));
+            width("100%"),
+            height("100%")
+        );
 
         elementApply(
             this.contentArea,
@@ -139,11 +139,9 @@ export class BaseGraphDialog<T> extends DialogBox {
             ),
 
             this.canvas = Canvas(
-                styles(
-                    display("block"),
-                    width("100%"),
-                    height("calc(100% - 2em)")
-                )
+                display("block"),
+                width("100%"),
+                height("calc(100% - 2em)")
             )
         );
 

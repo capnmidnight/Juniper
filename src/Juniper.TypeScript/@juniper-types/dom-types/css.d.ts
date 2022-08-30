@@ -276,6 +276,39 @@ type CSSColorValue =
     | CSSColorLabValue
     | CSSColorFunctionValue;
 
+type CSSColorProfilePropName =
+    | "src"
+    | "rendering-intent"
+    | "components";
+
+type CSSCounterStylePropName =
+    | "system"
+    | "negative"
+    | "prefix"
+    | "suffix"
+    | "range"
+    | "pad"
+    | "fallback"
+    | "symbols"
+    | "additive-symbols"
+    | "speak-as";
+
+type CSSCounterStyleSystemValue =
+    | "cyclic"
+    | "numeric"
+    | "alphabetic"
+    | "symbolic"
+    | "additive"
+    | "fixed"
+    | `fixed ${number}`
+    | `extends ${string}`;
+
+type CSSCounterStyleRangeValue =
+    | `${number} ${number}`
+    | `${number} infinite`
+    | `infinite ${number}`
+    | `infinite infinite`;
+
 type CSSSizePropertyValue =
     | 0
     | "0"
@@ -534,6 +567,8 @@ type CSSCursorValue =
     | "zoom-in"
     | "zoom-out";
 
+type CSSDashedName = `--${string}`;
+
 type CSSDirectionValues =
     | "ltr"
     | "rtl";
@@ -634,6 +669,12 @@ type CSSPositionValues =
     | "fixed"
     | "relative"
     | "sticky";
+
+type CSSRenderingIntentValue =
+    | "relative-colorimetric"
+    | "absolute-colorimetric"
+    | "perceptual"
+    | "saturation";
 
 type CSSTextAlignLastValues =
     | "auto"

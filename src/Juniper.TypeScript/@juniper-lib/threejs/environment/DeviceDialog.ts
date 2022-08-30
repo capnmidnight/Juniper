@@ -8,7 +8,7 @@ import {
     title,
     value
 } from "@juniper-lib/dom/attrs";
-import { marginLeft, minWidth, styles } from "@juniper-lib/dom/css";
+import { marginLeft, minWidth } from "@juniper-lib/dom/css";
 import { onClick, onInput } from "@juniper-lib/dom/evts";
 import {
     ButtonSecondary, Div,
@@ -60,8 +60,8 @@ export class DeviceDialog extends DialogBox {
         const clipLoaded = this.env.audio.loadBasicClip("test-audio", "/audio/test-clip.mp3", 0.5);
 
         elementApply(this.container,
-            styles(
-                minWidth("max-content")));
+            minWidth("max-content")
+        );
 
         elementApply(this.contentArea,
             this.properties = new PropertyList(
@@ -125,9 +125,7 @@ export class DeviceDialog extends DialogBox {
 
                 this.testSpkrButton = ButtonSecondary("Test",
                     title("Test audio"),
-                    styles(
-                        marginLeft("0.5em")
-                    ),
+                    marginLeft("0.5em"),
                     onClick(async () => {
                         this.testSpkrButton.disabled = true;
                         await clipLoaded;

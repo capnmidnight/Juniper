@@ -2,7 +2,7 @@ import { once } from "@juniper-lib/tslib/events/once";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/typeChecks";
 import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
-import { CSSInJSRule, display, margin, styles } from "./css";
+import { CSSInJSRule, display, margin } from "./css";
 
 export interface ErsatzElement<T extends Element = Element> {
     element: T;
@@ -551,8 +551,7 @@ export function TextNode(txt: any) {
  */
 export function Run(...rest: ElementChild[]) {
     return Div(
-        styles(
-            margin("auto")),
+        margin("auto"),
         ...rest);
 }
 
@@ -574,7 +573,7 @@ export function BackgroundAudio(autoplay: boolean, mute: boolean, looping: boole
         muted(mute),
         autoPlay(autoplay),
         loop(looping),
-        styles(display("none")),
+        display("none"),
         ...rest);
 }
 
@@ -585,6 +584,6 @@ export function BackgroundVideo(autoplay: boolean, mute: boolean, looping: boole
         muted(mute),
         autoPlay(autoplay),
         loop(looping),
-        styles(display("none")),
+        display("none"),
         ...rest);
 }
