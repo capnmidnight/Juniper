@@ -1,6 +1,10 @@
 import { isDefined, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { IElementAppliable } from "./tags";
 
+function asInt(v: number | string): string {
+    return isNumber(v) ? v.toFixed(0) : v;
+}
+
 /**
  * A selection of fonts for preferred monospace rendering.
  **/
@@ -47,17 +51,24 @@ export type CSSPropName = Exclude<keyof CSSStyleDeclaration,
     | "getPropertyValue"
     | "item"
     | "removeProperty"
-    | "setProperty">
-    & string;
+    | "setProperty"> & string;
 
-export class CssProp<K extends CSSPropName = CSSPropName> implements IElementAppliable {
-    public readonly name: string;
+
+abstract class BaseCssProp<T extends string = string> {
+    constructor(public readonly name: T, public readonly value: string) {
+
+    }
+}
+
+export class CssProp<K extends CSSPropName = CSSPropName>
+    extends BaseCssProp
+    implements IElementAppliable {
     private priority = "";
 
     constructor(
         public readonly key: K,
-        public readonly value: string | number) {
-        this.name = key.replace(/[A-Z]/g, (m) => `-${m.toLocaleLowerCase()}`);
+        value: string | number) {
+        super(key.replace(/[A-Z]/g, (m) => `-${m.toLocaleLowerCase()}`), value.toString());
     }
 
     /**
@@ -72,52 +83,6 @@ export class CssProp<K extends CSSPropName = CSSPropName> implements IElementApp
         this.priority = " !important";
         return this;
     }
-}
-
-export class CssPropSet implements IElementAppliable {
-    private rest: (CssProp | CssPropSet)[];
-    constructor(...rest: (CssProp | CssPropSet)[]) {
-        this.rest = rest;
-    }
-
-    /**
-     * Set the attribute value on an HTMLElement
-     * @param style - the element on which to set the attribute.
-     */
-    applyToElement(elem: HTMLElement) {
-        for (const prop of this.rest) {
-            prop.applyToElement(elem);
-        }
-    }
-}
-
-/**
- * Combine style properties.
- **/
-export function styles(...rest: (CssProp | CssPropSet)[]) {
-    return new CssPropSet(...rest);
-}
-
-export class CSSInJSRule {
-    constructor(private selector: string, private props: CssProp[]) {
-    }
-
-    apply(sheet: CSSStyleSheet) {
-        const style = this.props
-            .map((prop) => `${prop.name}: ${prop.value};`)
-            .join("");
-        sheet.insertRule(
-            `${this.selector} {${style}}`,
-            sheet.cssRules.length);
-    }
-}
-
-export function rule(selector: string, ...props: CssProp[]): CSSInJSRule {
-    return new CSSInJSRule(selector, props);
-}
-
-function asInt(v: number | string): string {
-    return isNumber(v) ? v.toFixed(0) : v;
 }
 
 export function alignItems(v: CSSGlobalValues | CSSAlignItemsValue) { return new CssProp("alignItems", v); }
@@ -901,3 +866,178 @@ export function wordWrap(v: string) { return new CssProp("wordWrap", v); }
 export function writingMode(v: CSSGlobalValues | CSSWritingModeValues) { return new CssProp("writingMode", v); }
 
 export function zIndex(v: CSSImportant<number>) { return new CssProp("zIndex", asInt(v)); }
+
+
+export class CssPropSet implements IElementAppliable {
+    private rest: (CssProp | CssPropSet)[];
+    constructor(...rest: (CssProp | CssPropSet)[]) {
+        this.rest = rest;
+    }
+
+    /**
+     * Set the attribute value on an HTMLElement
+     * @param style - the element on which to set the attribute.
+     */
+    applyToElement(elem: HTMLElement) {
+        for (const prop of this.rest) {
+            prop.applyToElement(elem);
+        }
+    }
+}
+
+/**
+ * Combine style properties into a single property, useful for storing sets
+ * of values that get applied as a group.
+ **/
+export function styles(...rest: (CssProp | CssPropSet)[]) {
+    return new CssPropSet(...rest);
+}
+
+export abstract class BaseCSSInJSRule {
+    constructor(readonly value: string) {
+    }
+
+    apply(sheet: CSSStyleSheet) {
+        sheet.insertRule(
+            this.value,
+            sheet.cssRules.length);
+    }
+}
+
+abstract class BaseCSSInJSNestedRule extends BaseCSSInJSRule {
+    constructor(selector: string, definition: string) {
+        super(`${selector} {
+    ${definition}
+}`);
+    }
+}
+
+export class CSSInJSRule<RuleT extends BaseCssProp> extends BaseCSSInJSNestedRule {
+    constructor(selector: string, props: RuleT[]) {
+        super(selector, props
+            .map((prop) => `${prop.name}: ${prop.value};`)
+            .join("\n"));
+    }
+}
+
+export function rule(selector: string, ...props: CssProp[]): CSSInJSRule<CssProp> {
+    return new CSSInJSRule(selector, props);
+}
+
+abstract class BaseCSSInJSAtRule extends BaseCSSInJSRule {
+    constructor(value: string) {
+        super("@" + value);
+    }
+}
+
+export class CSSInJSRegularAtRule extends BaseCSSInJSAtRule {
+    constructor(identifier: string, value: string) {
+        super(`${identifier} ${JSON.stringify(value)}`);
+    }
+}
+
+export function cssCharset(value: string) {
+    return new CSSInJSRegularAtRule("charset", value);
+}
+
+export function cssImport(value: string) {
+    return new CSSInJSRegularAtRule("import", value);
+}
+
+export function cssNamespace(value: string) {
+    return new CSSInJSRegularAtRule("namespace", value);
+}
+
+export class CSSInJSNestedAtRule<RuleT extends BaseCssProp, RulesT extends CSSInJSRule<RuleT>> extends BaseCSSInJSAtRule {
+    constructor(selector: string, rules: RulesT[]) {
+        super(`${selector} {
+    ${rules.map(rule => rule.value).join("\n")}
+}`);
+    }
+}
+
+class CssColorProfileProp<T extends CSSColorProfilePropName = CSSColorProfilePropName> extends BaseCssProp<T> {
+    constructor(name: T, value: string) {
+        super(name, value);
+    }
+}
+
+export function renderingIntent(value: CSSRenderingIntentValue): CssColorProfileProp { return new CssColorProfileProp("rendering-intent", value); }
+
+export function components(...names: string[]) { return new CssColorProfileProp("components", names.join(", ")); }
+
+export function cssColorProfile(name: CSSDashedName, src: string, renderingIntent: CssColorProfileProp<"rendering-intent">): CSSInJSNestedAtRule<CssColorProfileProp, CSSInJSRule<CssColorProfileProp>>;
+export function cssColorProfile(name: CSSDashedName, src: string, components: CssColorProfileProp<"components">): CSSInJSNestedAtRule<CssColorProfileProp, CSSInJSRule<CssColorProfileProp>>;
+export function cssColorProfile(name: CSSDashedName, src: string, renderingIntent: CssColorProfileProp<"rendering-intent">, components: CssColorProfileProp<"components">): CSSInJSNestedAtRule<CssColorProfileProp, CSSInJSRule<CssColorProfileProp>>;
+export function cssColorProfile(name: CSSDashedName, src: string, ...props: CssColorProfileProp[]): CSSInJSNestedAtRule<CssColorProfileProp, CSSInJSRule<CssColorProfileProp>> {
+    props.unshift(new CssColorProfileProp("src", src));
+    return new CSSInJSRule(`@color-profile ${name}`, props);
+}
+
+class CssCounterStyleProp<T extends CSSCounterStylePropName = CSSCounterStylePropName> extends BaseCssProp<T> {
+    constructor(name: T, value: string) {
+        super(name, value);
+    }
+}
+
+export function system(value: CSSCounterStyleSystemValue) { return new CssCounterStyleProp("system", value); }
+
+
+export function negative(value: string) { return new CssCounterStyleProp("negative", value); }
+
+export function prefix(value: string) { return new CssCounterStyleProp("prefix", value); }
+
+export function suffix(value: string) { return new CssCounterStyleProp("suffix", value); }
+
+export function range(value: "auto" | CSSCounterStyleRangeValue): CssCounterStyleProp<"range">;
+export function range(...v: CSSCounterStyleRangeValue[]): CssCounterStyleProp<"range">;
+export function range(...v: string[]): CssCounterStyleProp<"range"> { return new CssCounterStyleProp("range", v.join(", ")); }
+
+export function pad(count: number, symbol: string) { return new CssCounterStyleProp("pad", `${asInt(count)} ${JSON.stringify(symbol)}`); }
+
+export function fallback(value: string) { return new CssCounterStyleProp("fallback", value); }
+
+export function symbols(value: string) { return new CssCounterStyleProp("symbols", value); }
+
+export function additiveSymbols(...v: string[]) { return new CssCounterStyleProp("additive-symbols", v.join(", ")); }
+
+export function speakAs(value: string) { return new CssCounterStyleProp("speak-as", value); }
+
+export function counterStyle(name: string, ...props: CssCounterStyleProp[]) {
+    return new CSSInJSRule(`@counter-style ${name}`, props);
+}
+
+//TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face
+//TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@font-feature-values
+//TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes
+
+export function cssLayer(...names: string[]): CSSInJSRegularAtRule;
+export function cssLayer(name: string, ...rules: CSSInJSRule<CssProp>[]): CSSInJSNestedAtRule<CssProp, CSSInJSRule<CssProp>>;
+export function cssLayer(...rules: CSSInJSRule<CssProp>[]): CSSInJSNestedAtRule<CssProp, CSSInJSRule<CssProp>>;
+export function cssLayer(...namesOrRules: (CSSInJSRule<CssProp> | string)[]) {
+    const names = [
+        ...namesOrRules.filter(isString)
+    ];
+
+    const rules = namesOrRules.filter(v => v instanceof CSSInJSRule) as CSSInJSRule<CssProp>[];
+
+    if (names.length === 0 && rules.length === 0) {
+        throw new Error("Layer names and/or rules are not defined.");
+    }
+    if (names.length > 1 && rules.length > 0) {
+        throw new Error("Cannot define multiple layers and rules at the same time")
+    }
+    else if (names.length > 1 || rules.length === 0) {
+        return new CSSInJSRegularAtRule("layer", names.join(", ") + ";");
+    }
+    else if (names.length === 0) {
+        return new CSSInJSNestedAtRule("layer", rules);
+    }
+    else {
+        return new CSSInJSNestedAtRule("layer " + names[0], rules);
+    }
+}
+
+//TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@media
+//TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@page
+//TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
