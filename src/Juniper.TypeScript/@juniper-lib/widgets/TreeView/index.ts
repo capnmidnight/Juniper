@@ -494,6 +494,16 @@ export class TreeView<T>
     private set selectedElement(e: TreeViewNode<T>) {
         if (isDefined(e)) {
             e._select(false);
+            let here = e;
+            while (isDefined(here)) {
+                here.isOpen = true;
+                here = this.nodes2Elements.get(here.node.parent);
+            }
+            e.element.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "nearest"
+            });
         }
         else {
             this.dispatchEvent(new TreeViewNodeSelectedEvent<T>(null));
