@@ -1,7 +1,10 @@
 import {
-    fontSize,
-    maxWidth,
+    em,
+    fontSize, maxWidth,
     padding,
+    perc,
+    pt,
+    rgb,
     textAlign,
     width
 } from "@juniper-lib/dom/css";
@@ -22,10 +25,10 @@ import { TextMeshButton } from "./TextMeshButton";
 import type { Widget } from "./widgets";
 
 const baseTextStyle: Partial<TextImageOptions> = {
-    bgStrokeColor: "#000000",
+    bgStrokeColor: "black",
     bgStrokeSize: 0.04,
     wrapWords: false,
-    textFillColor: "#ffffff",
+    textFillColor: "white",
     scale: 150
 };
 
@@ -42,16 +45,16 @@ const textButtonStyle: Partial<TextImageOptions> = Object.assign({}, baseTextSty
 });
 
 const confirmButton3DStyle: Partial<TextImageOptions> = Object.assign({}, textButtonStyle, {
-    bgFillColor: "#0078d7"
+    bgFillColor: rgb(0, 117, 215)
 });
 
 const cancelButton3DStyle: Partial<TextImageOptions> = Object.assign({}, textButtonStyle, {
-    bgFillColor: "#780000"
+    bgFillColor: rgb(117, 0, 0)
 });
 
 const textLabelStyle: Partial<TextImageOptions> = Object.assign({}, baseTextStyle, {
-    bgFillColor: "#ffffff",
-    textFillColor: "#000000",
+    bgFillColor: "white",
+    textFillColor: "black",
     padding: {
         top: 0.1,
         left: 0.1,
@@ -101,14 +104,14 @@ export class ConfirmationDialog extends DialogBox implements Widget {
         this.cancelButton3D.object.position.set(2, -0.5, 0.5);
 
         elementApply(this.container,
-            maxWidth("calc(100% - 2em)"),
+            maxWidth(`calc(${perc(100)} - ${em(2)})`),
             width("max-content")
         );
 
         elementApply(this.contentArea,
-            fontSize("18pt"),
+            fontSize(pt(18)),
             textAlign("center"),
-            padding("1em")
+            padding(em(1))
         );
 
         objGraph(this,

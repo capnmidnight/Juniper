@@ -4,12 +4,15 @@ import {
     color,
     columnGap,
     display,
+    em,
+    fr,
     getMonospaceFamily,
     gridColumn,
     gridTemplateColumns,
     height,
     overflow,
     paddingTop,
+    perc,
     px,
     whiteSpace,
     width
@@ -79,18 +82,18 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
                 basicStyle = [
                     display("inline-block"),
                     overflow("hidden"),
-                    height("1em")
+                    height(em(1))
                 ],
                 table = Div(
                     display("grid"),
-                    gridTemplateColumns("auto", "auto", "auto", "1fr"),
+                    gridTemplateColumns("auto", "auto", "auto", fr(1)),
                     getMonospaceFamily(),
-                    width("100%"),
-                    columnGap("1em"),
+                    width(perc(100)),
+                    columnGap(em(1)),
                     refresher(() => this.run()),
                     Div(
                         gridColumn(2, 5),
-                        height("2em"),
+                        height(em(2)),
                         whiteSpace("nowrap"),
                         overflow("hidden"),
                         Span(...basicStyle, ...bar("green", s)),

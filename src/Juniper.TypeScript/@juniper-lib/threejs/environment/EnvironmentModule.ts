@@ -8,6 +8,7 @@ export interface EnvironmentConstructor {
         fetcher: IFetcher,
         dialogFontFamily: string,
         uiImagePaths: PriorityMap<string, string, string>,
+        buttonFillColor: CSSColorValue,
         defaultAvatarHeight: number,
         enableFullResolution: boolean,
         options?: Partial<EnvironmentOptions>): Environment;

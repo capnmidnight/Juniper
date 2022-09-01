@@ -1,30 +1,8 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { backgroundColor, border, borderRadius, display, float, gridTemplateRows, margin, padding, px, rule } from "@juniper-lib/dom/css";
-import { Div, ElementChild, elementSetDisplay, elementSetText, ErsatzElement, H2, Span, Style } from "@juniper-lib/dom/tags";
+import { Div, ElementChild, elementSetDisplay, elementSetText, ErsatzElement, H2, Span } from "@juniper-lib/dom/tags";
 import { debounce } from "@juniper-lib/tslib/events/debounce";
 
-Style(
-    rule(".named-panel",
-        display("grid"),
-        gridTemplateRows("auto", "1fr"),
-        border(`${px(2)} outset #ccc`),
-        borderRadius(px(5))
-    ),
-
-    rule(".named-panel > H2",
-        margin(0),
-        padding(px(3), px(6)),
-        backgroundColor("#ccc")
-    ),
-
-    rule(".named-panel > H2 > button",
-        float("right")
-    ),
-
-    rule(".named-panel > .body",
-        display("grid")
-    )
-);
+import "./style.css";
 
 export class NamedPanel
     implements ErsatzElement {

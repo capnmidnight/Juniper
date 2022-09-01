@@ -24,8 +24,8 @@ const nameTagFont: Partial<TextImageOptions> = {
     fontFamily: getMonospaceFonts(),
     fontSize: 20,
     fontWeight: "bold",
-    textFillColor: "#ffffff",
-    textStrokeColor: "#000000",
+    textFillColor: "white",
+    textStrokeColor: "black",
     textStrokeSize: 0.01,
     wrapWords: false,
     padding: {

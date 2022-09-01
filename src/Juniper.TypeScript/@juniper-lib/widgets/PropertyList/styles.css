@@ -1,0 +1,44 @@
+dl.properties {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: 0.25em;
+}
+
+    dl.properties.disabled {
+        color: silver;
+    }
+
+    dl.properties > dt {
+        grid-column: 1/2;
+        text-align: right;
+    }
+
+        dl.properties > dt > label {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            vertical-align: sub;
+        }
+
+    dl.properties > dd {
+        grid-column: 2/-1;
+        display: grid;
+        grid-template-columns: auto;
+    }
+
+        dl.properties > dd input[type=number] {
+            text-align: right;
+        }
+
+        dl.properties > dd > img {
+            max-width: 10em;
+        }
+
+        dl.properties > dd > select {
+            height: 30px;
+        }
+
+    dl.properties > .single-item {
+        grid-column: 1/-1;
+        text-align: center;
+    }

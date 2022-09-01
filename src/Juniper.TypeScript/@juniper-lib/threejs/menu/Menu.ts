@@ -362,7 +362,7 @@ export class Menu extends Object3D {
         if (item.text.length > 0) {
             if (!item.front && !item.noLabel) {
                 const options: Partial<TextImageOptions> = {
-                    textFillColor: enabled ? "#ffffff" : "#505050",
+                    textFillColor: enabled ? "white" : "dimgray",
                     textDirection: item.textDirection,
                     padding: {
                         top: 0.025,

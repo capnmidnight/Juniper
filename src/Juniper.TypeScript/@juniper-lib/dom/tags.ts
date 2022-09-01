@@ -562,8 +562,6 @@ export function Style(...props: PropSet[]) {
     for (let prop of props) {
         prop.applyToSheet(elem.sheet);
     }
-
-    return elem;
 }
 
 export function BackgroundAudio(autoplay: boolean, mute: boolean, looping: boolean, ...rest: ElementChild[]) {

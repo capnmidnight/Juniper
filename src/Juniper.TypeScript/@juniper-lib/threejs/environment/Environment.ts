@@ -55,7 +55,7 @@ export class Environment
     readonly interactionAudio: InteractionAudio;
 
     readonly xrUI: SpaceUI;
-    readonly screenUISpace = new ScreenUI();
+    readonly screenUISpace: ScreenUI;
     readonly confirmationDialog: ConfirmationDialog;
     readonly compassImage: ArtificialHorizon;
     readonly clockImage: CanvasImageMesh<ClockImage>;
@@ -85,11 +85,12 @@ export class Environment
         fetcher: IFetcher,
         dialogFontFamily: string,
         uiImagePaths: PriorityMap<string, string, string>,
+        buttonFillColor: CSSColorValue,
         defaultAvatarHeight: number,
         enableFullResolution: boolean,
         options?: Partial<EnvironmentOptions>) {
         super(canvas, fetcher, defaultAvatarHeight, enableFullResolution, options && options.DEBUG);
-
+        this.screenUISpace = new ScreenUI(buttonFillColor);
         this.compassImage = new ArtificialHorizon();
 
         this.clockImage = new CanvasImageMesh(this, "Clock", "dynamic", new ClockImage());
@@ -134,7 +135,7 @@ export class Environment
         this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
         this.devicesDialog = new DeviceDialog(this);
 
-        this.uiButtons = new ButtonFactory(uiImagePaths, 20, this.DEBUG);
+        this.uiButtons = new ButtonFactory(uiImagePaths, 20, buttonFillColor, this.DEBUG);
 
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
         this.quitButton = new ButtonImageWidget(this.uiButtons, "ui", "quit");

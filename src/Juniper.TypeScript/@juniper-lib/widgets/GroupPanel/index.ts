@@ -1,8 +1,8 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { display, gridTemplateColumns, rule } from "@juniper-lib/dom/css";
-import { Div, ElementChild, ErsatzElement, isElements, Style } from "@juniper-lib/dom/tags";
+import { fr, gridTemplateColumns } from "@juniper-lib/dom/css";
+import { Div, ElementChild, ErsatzElement, isElements } from "@juniper-lib/dom/tags";
 
-Style(rule(".group-panel", display("grid")))
+import "./style.css";
 
 export class GroupPanel
     implements ErsatzElement {
@@ -13,7 +13,7 @@ export class GroupPanel
 
         const elems = rest.filter(isElements);
 
-        const colExpr = elems.map((_, i) => i === 0 ? "1fr" : "auto");
+        const colExpr = elems.map((_, i) => i === 0 ? fr(1) : "auto");
 
         this.element = Div(
             className("group-panel"),

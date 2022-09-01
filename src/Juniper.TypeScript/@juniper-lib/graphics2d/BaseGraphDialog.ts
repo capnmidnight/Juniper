@@ -8,9 +8,13 @@ import { resizeCanvas } from "@juniper-lib/dom/canvas";
 import {
     alignItems,
     columnGap,
-    display, gridTemplateColumns,
-    height,
+    display,
+    em,
+    fr,
+    gridTemplateColumns, height,
+    perc,
     px,
+    rgb,
     width
 } from "@juniper-lib/dom/css";
 import {
@@ -84,15 +88,15 @@ export class BaseGraphDialog<T> extends DialogBox {
         const idPostfix = stringRandom(5);
 
         elementApply(this.container,
-            width("100%"),
-            height("100%")
+            width(perc(100)),
+            height(perc(100))
         );
 
         elementApply(
             this.contentArea,
             Div(
                 display("grid"),
-                gridTemplateColumns("repeat(9, auto)", "1fr"),
+                gridTemplateColumns("repeat(9, auto)", fr(1)),
                 columnGap(px(5)),
                 alignItems("center"),
 
@@ -138,8 +142,8 @@ export class BaseGraphDialog<T> extends DialogBox {
 
             this.canvas = Canvas(
                 display("block"),
-                width("100%"),
-                height("calc(100% - 2em)")
+                width(perc(100)),
+                height(`calc(${perc(100)} - ${em(2)})`)
             )
         );
 
@@ -188,8 +192,8 @@ export class BaseGraphDialog<T> extends DialogBox {
     private draw() {
         this.g.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.g.fillStyle = "#000000";
-        this.g.strokeStyle = "#000000";
+        this.g.fillStyle = "black";
+        this.g.strokeStyle = "black";
 
         this.g.save();
         this.g.translate(size, size);
@@ -205,17 +209,17 @@ export class BaseGraphDialog<T> extends DialogBox {
             }
         }
 
-        this.g.strokeStyle = "#d5d5d5";
+        this.g.strokeStyle = "lightgrey";
         this.g.save();
         this.g.translate(-mid, -mid);
 
         for (const n1 of this.graph) {
-            this.g.fillStyle = "#f3f3f3";
+            this.g.fillStyle = rgb(243, 243, 243);
             const p1 = this.positions.get(n1);
             this.g.fillRect(p1[0], p1[1], size, size);
             this.g.strokeRect(p1[0], p1[1], size, size);
 
-            this.g.fillStyle = "#000000";
+            this.g.fillStyle = "black";
             this.g.fillText(this.getNodeName(n1.value), p1[0] + mid, p1[1] + mid);
         }
         this.g.restore();

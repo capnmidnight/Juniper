@@ -1,0 +1,45 @@
+.tab-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.tab-panel > .tabs {
+    display: flex;
+    flex-shrink: 0;
+    width: fit-content;
+    flex-direction: row;
+    border-bottom: solid 1px rgb(108, 117, 125);
+    overflow: hidden;
+    padding-left: 2px;
+}
+
+    .tab-panel > .tabs > button {
+        border: solid 1px gray;
+        margin-bottom: -3px;
+        pointer-events: initial;
+        z-index: 0;
+        color: gray;
+    }
+
+        .tab-panel > .tabs > button.btn[disabled] {
+            border-bottom-color: transparent;
+            box-shadow: silver 0 -5px 10px;
+            margin-top: -3px;
+            background-color: white;
+            color: black;
+            opacity: 1;
+            z-index: 1;
+        }
+
+.tab-panel > .panels {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    border: 2px outset silver;
+    border-top: none;
+}
+
+    .tab-panel > .panels > * {
+        grid-area: 1/1/-1/-1;
+    }

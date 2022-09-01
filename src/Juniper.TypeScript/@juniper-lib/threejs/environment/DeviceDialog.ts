@@ -8,7 +8,7 @@ import {
     title,
     value
 } from "@juniper-lib/dom/attrs";
-import { marginLeft, minWidth } from "@juniper-lib/dom/css";
+import { em, marginLeft, minWidth } from "@juniper-lib/dom/css";
 import { onClick, onInput } from "@juniper-lib/dom/evts";
 import {
     ButtonSecondary, Div,
@@ -125,7 +125,7 @@ export class DeviceDialog extends DialogBox {
 
                 this.testSpkrButton = ButtonSecondary("Test",
                     title("Test audio"),
-                    marginLeft("0.5em"),
+                    marginLeft(em(0.5)),
                     onClick(async () => {
                         this.testSpkrButton.disabled = true;
                         await clipLoaded;

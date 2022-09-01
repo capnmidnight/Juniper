@@ -1,7 +1,8 @@
 import { Attr, className } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import { Div, ElementChild, ErsatzElement } from "@juniper-lib/dom/tags";
-import "./styles";
+
+import "./styles.css";
 
 function isRule(obj: ElementChild): obj is CssElementStyleProp | Attr {
     return obj instanceof CssElementStyleProp

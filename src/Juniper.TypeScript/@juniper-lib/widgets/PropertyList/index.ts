@@ -24,7 +24,8 @@ import {
     isNumber,
     isString
 } from "@juniper-lib/tslib/typeChecks";
-import "./styles";
+
+import "./styles.css";
 
 
 type PropertyChild = Exclude<ElementChild<HTMLElement>, IElementAppliable>;

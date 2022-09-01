@@ -3,7 +3,8 @@ import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, S
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
-import "./styles";
+
+import "./styles.css";
 
 
 /**

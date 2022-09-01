@@ -1,3 +1,4 @@
+import { rgb } from "@juniper-lib/dom/css";
 import { deg2rad, Pi, Tau } from "@juniper-lib/tslib/math";
 import { CanvasImage } from "./CanvasImage";
 
@@ -62,12 +63,12 @@ export class ArtificialHorizon extends CanvasImage {
             g.scale(hw, hh);
             g.translate(1, 1);
 
-            g.fillStyle = "#808080";
+            g.fillStyle = "gray";
             g.beginPath();
             g.arc(0, 0, 1, 0, Tau);
             g.fill();
 
-            g.fillStyle = "#d0d0d0";
+            g.fillStyle = "lightgrey";
             g.beginPath();
             g.arc(0, 0, 1, 0, Pi, true);
             g.fill();
@@ -76,7 +77,7 @@ export class ArtificialHorizon extends CanvasImage {
             {
                 g.scale(1, Math.abs(y));
                 if (y < 0) {
-                    g.fillStyle = "#808080";
+                    g.fillStyle = "gray";
                 }
                 g.beginPath();
                 g.arc(0, 0, 1, 0, Pi, y < 0);
@@ -86,14 +87,14 @@ export class ArtificialHorizon extends CanvasImage {
 
             g.save();
             {
-                g.shadowColor = "#404040";
+                g.shadowColor = rgb(64, 64, 64);
                 g.shadowBlur = 4;
                 g.shadowOffsetX = 3;
                 g.shadowOffsetY = 3;
 
                 g.rotate(b);
 
-                g.fillStyle = "#ff0000";
+                g.fillStyle = "red";
                 g.beginPath();
                 g.moveTo(-0.1, 0);
                 g.lineTo(0, 0.667);
@@ -101,7 +102,7 @@ export class ArtificialHorizon extends CanvasImage {
                 g.closePath();
                 g.fill();
 
-                g.fillStyle = "#ffffff";
+                g.fillStyle = "white";
                 g.beginPath();
                 g.moveTo(-0.1, 0);
                 g.lineTo(0, -0.667);
@@ -112,7 +113,7 @@ export class ArtificialHorizon extends CanvasImage {
             g.restore();
 
             g.beginPath();
-            g.strokeStyle = "#000000";
+            g.strokeStyle = "black";
             g.lineWidth = 0.1;
             g.arc(0, 0, 1, 0, Tau);
             g.stroke();

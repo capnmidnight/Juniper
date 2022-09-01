@@ -13,13 +13,13 @@ export interface TextImageOptions extends CanvasImageOptions {
     maxHeight: number;
     freezeDimensions: boolean;
 
-    bgFillColor: string;
-    bgStrokeColor: string;
+    bgFillColor: CSSColorValue;
+    bgStrokeColor: CSSColorValue;
     bgStrokeSize: number;
 
-    textStrokeColor: string;
+    textStrokeColor: CSSColorValue;
     textStrokeSize: number;
-    textFillColor: string;
+    textFillColor: CSSColorValue;
     textDirection: TextDirection;
     wrapWords: boolean;
 

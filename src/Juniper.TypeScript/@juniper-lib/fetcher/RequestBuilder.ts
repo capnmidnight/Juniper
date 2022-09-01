@@ -1,7 +1,7 @@
-import { type } from "@juniper-lib/dom/attrs";
+import { rel, type } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom/canvas";
-import { BackgroundAudio, BackgroundVideo, Img, Script } from "@juniper-lib/dom/tags";
-import { Application_Javascript, Application_Json, Application_Wasm, MediaType, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
+import { BackgroundAudio, BackgroundVideo, Img, Link, Script } from "@juniper-lib/dom/tags";
+import { Application_Javascript, Application_Json, Application_Wasm, MediaType, Text_Css, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
 import { once } from "@juniper-lib/tslib/events/once";
 import { waitFor } from "@juniper-lib/tslib/events/waitFor";
 import { Exception } from "@juniper-lib/tslib/Exception";
@@ -304,7 +304,7 @@ export class RequestBuilder implements
 
 
     private async htmlElement<
-        ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement,
+        ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement | HTMLLinkElement,
         EventsT extends HTMLElementEventMap>(
             element: ElementT,
             resolveEvt: keyof EventsT & string,
@@ -312,7 +312,12 @@ export class RequestBuilder implements
 
         const response = await this.file(acceptType);
         const task = once<EventsT>(element, resolveEvt, "error");
-        element.src = response.content;
+        if (element instanceof HTMLLinkElement) {
+            element.href = response.content;
+        }
+        else {
+            element.src = response.content;
+        }
         await task;
 
         return await translateResponse(response, () => element);
@@ -418,6 +423,24 @@ export class RequestBuilder implements
             "canplay",
             acceptType
         );
+    }
+
+    async style(): Promise<void> {
+        const tag = Link(
+            type(Text_Css),
+            rel("stylesheet")
+        );
+        document.body.append(tag);
+        if (this.useFileBlobsForModules) {
+            await this.htmlElement(
+                tag,
+                "load",
+                Text_Css);
+        }
+        else {
+            tag.href = this.request.path;
+        }
+
     }
 
     private async getScript(): Promise<void> {

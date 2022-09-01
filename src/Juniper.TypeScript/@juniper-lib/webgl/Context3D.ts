@@ -1,6 +1,6 @@
 import type { CanvasTypes } from "@juniper-lib/dom/canvas";
 import { isOffscreenCanvas, setContextSize } from "@juniper-lib/dom/canvas";
-import { border, height, left, margin, padding, position, top, touchAction, width } from "@juniper-lib/dom/css";
+import { border, height, left, margin, padding, perc, position, top, touchAction, width } from "@juniper-lib/dom/css";
 import { elementApply } from "@juniper-lib/dom/tags";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
@@ -43,8 +43,8 @@ export class Context3D extends TypedEventBase<Context3DEvents> {
                     position("fixed"),
                     left(0),
                     top(0),
-                    width("100%"),
-                    height("100%"),
+                    width(perc(100)),
+                    height(perc(100)),
                     margin(0),
                     padding(0),
                     border(0),

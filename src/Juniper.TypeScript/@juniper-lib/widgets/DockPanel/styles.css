@@ -1,0 +1,60 @@
+.dock {
+    margin: 0;
+}
+
+    .dock.panel {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: auto;
+    }
+
+    .dock.group {
+        display: grid;
+    }
+
+    .dock.cell {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        grid-template-columns: 1fr auto;
+    }
+
+    .dock.panel.rearrangeable .dock.cell [draggable] {
+        cursor: move;
+    }
+
+    .dock.cell.dragging {
+        opacity: 0.5;
+    }
+
+    .dock.cell > .header {
+        margin: auto 7px;
+        grid-area: 1/1;
+    }
+
+    .dock.cell > .closer {
+        grid-area: 1/-2;
+    }
+
+    .dock.cell > .content {
+        grid-area: 2/1/3/3;
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: auto;
+    }
+
+    .dock.sep {
+        min-width: 4px;
+        min-height: 4px;
+    }
+
+        .dock.sep.targeting, .dock.sep.dragging {
+            background-color: rgb(187, 187, 187);
+        }
+
+        .dock.sep.column:not(.edge) {
+            cursor: ns-resize;
+        }
+
+        .dock.sep.row:not(.edge) {
+            cursor: ew-resize;
+        }

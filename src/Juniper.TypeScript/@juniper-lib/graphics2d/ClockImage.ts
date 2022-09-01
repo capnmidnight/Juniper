@@ -1,4 +1,4 @@
-import { getMonospaceFonts } from "@juniper-lib/dom/css";
+import { getMonospaceFonts, rgb } from "@juniper-lib/dom/css";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { TextImage } from "./TextImage";
 
@@ -10,8 +10,8 @@ export class ClockImage extends TextImage {
 
     constructor() {
         super({
-            textFillColor: "#ffffff",
-            textStrokeColor: "rgba(0, 0, 0, 0.5)",
+            textFillColor: "white",
+            textStrokeColor: rgb(0, 0, 0, 0.5),
             textStrokeSize: 0.025,
             fontFamily: getMonospaceFonts(),
             fontSize: 20,

@@ -1,15 +1,9 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { columnGap, display, gridTemplateColumns, px, rule } from "@juniper-lib/dom/css";
 import { onInput } from "@juniper-lib/dom/evts";
-import { Div, ElementChild, ErsatzElement, InputNumber, InputRange, Style } from "@juniper-lib/dom/tags";
+import { Div, ElementChild, ErsatzElement, InputNumber, InputRange } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 
-Style(
-    rule(".input-range-with-number",
-        display("grid"),
-        columnGap(px(5)),
-        gridTemplateColumns("1fr", "auto"))
-);
+import "./style.css";
 
 export class InputRangeWithNumber
     extends TypedEventBase<{

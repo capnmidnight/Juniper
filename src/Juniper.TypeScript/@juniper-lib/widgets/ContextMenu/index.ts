@@ -1,10 +1,11 @@
 import { className } from "@juniper-lib/dom/attrs";
-import { left, px, top } from "@juniper-lib/dom/css";
+import { left, perc, px, top } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
 import { Button, Div, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/tags";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import "./styles";
+
+import "./styles.css";
 
 
 export class ContextMenu<T extends string = string> implements ErsatzElement {
@@ -55,7 +56,7 @@ export class ContextMenu<T extends string = string> implements ErsatzElement {
             top(px(this.mouseY)),
             ...options.map(option => {
                 if (option instanceof HTMLHRElement) {
-                    option.style.width = "100%";
+                    option.style.width = perc(100);
                     return option;
                 }
                 else {

@@ -1,12 +1,13 @@
 import { Attr, classList, customData, draggable, id } from "@juniper-lib/dom/attrs";
-import { gridColumn, gridRow, gridTemplateColumns, gridTemplateRows } from "@juniper-lib/dom/css";
+import { fr, gridColumn, gridRow, gridTemplateColumns, gridTemplateRows } from "@juniper-lib/dom/css";
 import { onClick, onDragEnd, onDragOver, onDragStart } from "@juniper-lib/dom/evts";
 import { ButtonSmall, Div, elementApply, ElementChild, elementGetCustomData, elementInsertBefore, elementIsDisplayed, elementSetText, elementSwap, elementToggleDisplay, H3, IElementAppliable } from "@juniper-lib/dom/tags";
 import { blackMediumDownPointingTriangleCentered as closeIcon, blackMediumRightPointingTriangleCentered as openIcon } from "@juniper-lib/emoji";
 import { arrayInsertAt, arrayScanReverse } from "@juniper-lib/tslib/collections/arrays";
 import { isBoolean, isDate, isDefined, isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { vec2 } from "gl-matrix";
-import "./style";
+
+import "./styles.css";
 
 type DockType = "cell" | "group" | "sep" | "panel";
 type Direction = "row" | "column";
@@ -314,7 +315,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
         const center = gridCell(2, -2);
         const centerAlt = gridCellAlt(2, -2);
 
-        const inAxis: CSSGridTemplateTrackSizes[] = [];
+        const inAxis: CSSGridTemplateTrackSize[] = [];
         group.querySelectorAll(":scope > .dock:not(.sep)")
             .forEach((e, i) => {
                 const child = e as HTMLElement;
@@ -336,7 +337,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
 
         const template = gridTemplate(...inAxis);
         const templateAlt = isRearrangeable
-            ? gridTemplateAlt("min-content", "1fr", "min-content")
+            ? gridTemplateAlt("min-content", fr(1), "min-content")
             : gridTemplateAlt("auto");
 
         elementApply(group,

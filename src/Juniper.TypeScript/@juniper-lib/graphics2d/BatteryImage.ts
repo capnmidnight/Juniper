@@ -54,7 +54,7 @@ export class BatteryImage extends CanvasImage {
 
         const levelColor = this.level < 0.10
             ? "red"
-            : "#ccc";
+            : "silver";
 
         const padding = 7;
         const scale = 0.7;
@@ -73,8 +73,8 @@ export class BatteryImage extends CanvasImage {
         this.g.globalAlpha = 0.75;
         this.g.scale(scale, scale);
 
-        this.fillRect("#ccc", 0, 0, bodyWidth, this.canvas.height, 0);
-        this.fillRect("#ccc", bodyWidth, midY - 2 * padding - 10, padding + 10, 4 * padding + 20, 0);
+        this.fillRect("silver", 0, 0, bodyWidth, this.canvas.height, 0);
+        this.fillRect("silver", bodyWidth, midY - 2 * padding - 10, padding + 10, 4 * padding + 20, 0);
         this.g.clearRect(padding, padding, bodyWidth - 2 * padding, this.canvas.height - 2 * padding);
         this.fillRect("black", padding, padding, bodyWidth - 2 * padding, this.canvas.height - 2 * padding, 0);
         this.g.clearRect(2 * padding, 2 * padding, width * this.level, height);

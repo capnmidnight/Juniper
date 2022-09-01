@@ -213,6 +213,7 @@ export interface IFetcherBodiedResult {
     video(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLVideoElement>>;
 
     script(test: () => boolean): Promise<void>;
+    style(): Promise<void>;
     module<T>(): Promise<T>;
     wasm<T>(imports: Record<string, Record<string, WebAssembly.ImportValue>>): Promise<T>;
 

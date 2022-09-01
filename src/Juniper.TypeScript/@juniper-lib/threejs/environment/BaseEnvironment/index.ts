@@ -1,17 +1,4 @@
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
-import {
-    border,
-    height,
-    left,
-    margin,
-    padding,
-    position,
-    rule,
-    top,
-    touchAction,
-    width
-} from "@juniper-lib/dom/css";
-import { Style } from "@juniper-lib/dom/tags";
 import { BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
@@ -23,23 +10,25 @@ import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
 import { AmbientLight, DirectionalLight, GridHelper, Group, PerspectiveCamera, Scene, Vector4, WebGLRenderer, WebGLRenderTarget, WebXRArrayCamera } from "three";
-import { BodyFollower } from "../animation/BodyFollower";
-import { updateScalings } from "../animation/scaleOnHover";
-import { AssetGltfModel } from "../AssetGltfModel";
-import { AvatarLocal } from "../AvatarLocal";
-import { cleanup } from "../cleanup";
-import { Cursor3D } from "../eventSystem/cursors/Cursor3D";
-import { EventSystem } from "../eventSystem/EventSystem";
-import { GLTF, GLTFLoader } from "../examples/loaders/GLTFLoader";
-import { Fader } from "../Fader";
-import { FOREGROUND, PURGATORY } from "../layers";
-import { LoadingBar } from "../LoadingBar";
-import { convertMaterials, materialStandardToBasic } from "../materials";
-import { obj, objGraph } from "../objects";
-import { resolveCamera } from "../resolveCamera";
-import { ScreenControl } from "../ScreenControl";
-import { Skybox } from "../Skybox";
-import { XRTimer, XRTimerTickEvent } from "./XRTimer";
+import { BodyFollower } from "../../animation/BodyFollower";
+import { updateScalings } from "../../animation/scaleOnHover";
+import { AssetGltfModel } from "../../AssetGltfModel";
+import { AvatarLocal } from "../../AvatarLocal";
+import { cleanup } from "../../cleanup";
+import { Cursor3D } from "../../eventSystem/cursors/Cursor3D";
+import { EventSystem } from "../../eventSystem/EventSystem";
+import { GLTF, GLTFLoader } from "../../examples/loaders/GLTFLoader";
+import { Fader } from "../../Fader";
+import { FOREGROUND, PURGATORY } from "../../layers";
+import { LoadingBar } from "../../LoadingBar";
+import { convertMaterials, materialStandardToBasic } from "../../materials";
+import { obj, objGraph } from "../../objects";
+import { resolveCamera } from "../../resolveCamera";
+import { ScreenControl } from "../../ScreenControl";
+import { Skybox } from "../../Skybox";
+import { XRTimer, XRTimerTickEvent } from "../XRTimer";
+
+import "./style.css";
 
 const gridWidth = 15;
 const gridSize = feet2Meters(gridWidth);
@@ -50,20 +39,6 @@ interface BaseEnvironmentEvents {
     quitting: TypedEvent<"quitting">;
     newcursorloaded: TypedEvent<"newcursorloaded">;
 }
-
-Style(
-    rule("#frontBuffer",
-        position("absolute"),
-        left(0),
-        top(0),
-        width("100%"),
-        height("100%"),
-        margin(0),
-        padding(0),
-        border(0),
-        touchAction("none")
-    )
-);
 
 export class BaseEnvironment<Events = unknown>
     extends TypedEventBase<Events & BaseEnvironmentEvents> {

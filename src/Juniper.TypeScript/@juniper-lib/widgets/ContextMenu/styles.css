@@ -1,0 +1,22 @@
+.context-menu {
+    position: absolute;
+    background-color: white;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: auto;
+    border-radius: 5px;
+    box-shadow: rgb(0, 0, 0, 0.15) 2px 2px 17px;
+}
+
+    .context-menu > button {
+        border: none;
+        text-align: left;
+        background-color: transparent;
+        margin: 2px;
+        padding: 0 2em 0 .5em;
+        font-family: system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans' 'Droid Sans', sans-serif;
+    }
+
+        .context-menu > button:hover {
+            background-color: lightgrey;
+        }

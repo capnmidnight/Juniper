@@ -4,7 +4,8 @@ import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonSmall, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import "./styles";
+
+import "./styles.css";
 
 
 export class TabPanelTabSelectedEvent<TabNames> extends TypedEvent<"tabselected">{

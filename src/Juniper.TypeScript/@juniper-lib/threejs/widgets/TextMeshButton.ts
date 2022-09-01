@@ -22,7 +22,7 @@ export class TextMeshButton extends RayTarget {
 
         if (isDefined(value)) {
             textImageOptions = Object.assign({
-                textFillColor: "#ffffff",
+                textFillColor: "white",
                 fontFamily: "Segoe UI Emoji",
                 fontSize: 20,
                 minHeight: 0.25,

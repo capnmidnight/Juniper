@@ -1,0 +1,42 @@
+.SelectBox {
+    border: inset 2px;
+    background-color: white;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    overflow: auto scroll;
+}
+
+.SelectBoxContent {
+    height: 0;
+}
+
+.SelectBoxRow {
+    white-space: pre;
+    color: black;
+    padding: 0 2px 1px;
+    margin: 0;
+    cursor: default;
+}
+
+    .SelectBoxRow:hover {
+        background-color: rgb(224, 224, 224);
+    }
+
+    .SelectBoxRow.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+        .SelectBoxRow.disabled:hover {
+            background-color: unset;
+        }
+
+    .SelectBoxRow.selected {
+        border: solid 1px rgb(68, 136, 136);
+        background-color: rgb(221, 255, 255);
+    }
+
+        .SelectBoxRow.selected.disabled {
+            border: solid 1px rgb(68, 68, 68);
+            background-color: lightgrey;
+        }

@@ -1,100 +1,9 @@
 import { className, id } from "@juniper-lib/dom/attrs";
-import {
-    backgroundColor,
-    borderRadius,
-    display,
-    filter,
-    flexFlow,
-    fontSize, gridColumn, gridRow,
-    gridTemplateColumns,
-    gridTemplateRows,
-    height,
-    left,
-    margin,
-    padding,
-    pointerEvents,
-    position,
-    px,
-    rule,
-    top,
-    width,
-    zIndex
-} from "@juniper-lib/dom/css";
+import { backgroundColor, rule } from "@juniper-lib/dom/css";
 import { Div, ErsatzElement, Style } from "@juniper-lib/dom/tags";
+import { singleton } from "@juniper-lib/tslib/singleton";
 
-Style(
-    rule("#controls",
-        position("absolute"),
-        left(0),
-        top(0),
-        width("100%"),
-        height("100%")
-    ),
-
-    rule("#controls",
-        display("grid"),
-        fontSize("20pt"),
-        gridTemplateRows("auto", "1fr", "auto"),
-        zIndex(1)
-    ),
-
-    rule("#controls, #controls *",
-        pointerEvents("none")
-    ),
-
-    rule("#controls canvas",
-        height(px(58))
-    ),
-
-    rule("#controls > .row",
-        display("grid"),
-        margin(px(10), px(5)),
-        gridTemplateColumns("repeat(2, auto)")
-    ),
-
-    rule("#controls > .row.top",
-        gridRow(1)
-    ),
-
-    rule("#controls > .row.middle",
-        gridRow(2, -2)
-    ),
-
-    rule("#controls > .row.bottom",
-        gridRow(-2)
-    ),
-
-    rule("#controls > .row > .cell",
-        display("flex")
-    ),
-
-    rule("#controls > .row > .cell.left",
-        gridColumn(1)
-    ),
-
-    rule("#controls > .row > .cell.right",
-        gridColumn(-2),
-        flexFlow("row-reverse")
-    ),
-
-    rule("#controls > .row > .cell > .btn",
-        borderRadius(0),
-        backgroundColor("#1e4388"),
-        height(px(58)).important(),
-        width(px(58)),
-        padding("0.25em"),
-        margin(0, px(5)),
-        pointerEvents("initial")
-    ),
-
-    rule("#controls .btn img",
-        height("calc(100% - 0.5em)")
-    ),
-
-    rule("#controls button:disabled img",
-        filter("invert(.5)")
-    )
-);
+import "./ScreenUI.css";
 
 export class ScreenUI implements ErsatzElement {
 
@@ -111,7 +20,16 @@ export class ScreenUI implements ErsatzElement {
 
     readonly cells: Array<Array<HTMLElement>>;
 
-    constructor() {
+    constructor(buttonFillColor: CSSColorValue) {
+
+        singleton("Juniper.ThreeJS.ScreenUI.ButtonFillColor", () =>
+            Style(
+                rule("#controls > .row > .cell > .btn",
+                    backgroundColor(buttonFillColor)
+                )
+            )
+        );
+
         this.element = Div(
             id("controls"),
             Div(className("row top"),

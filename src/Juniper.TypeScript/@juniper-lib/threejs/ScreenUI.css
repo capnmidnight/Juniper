@@ -1,0 +1,70 @@
+#controls {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#controls {
+    display: grid;
+    font-size: 20pt;
+    grid-template-rows: auto 1fr auto;
+    z-index: 1;
+}
+
+    #controls, #controls * {
+        pointer-events: none;
+    }
+
+        #controls canvas {
+            height: 58px;
+        }
+
+        #controls > .row {
+            display: grid;
+            margin: 10px 5px;
+            grid-template-columns: repeat(2, auto);
+        }
+
+            #controls > .row.top {
+                grid-row: 1;
+            }
+
+            #controls > .row.middle {
+                grid-row: 2/-2;
+            }
+
+            #controls > .row.bottom {
+                grid-row: -2;
+            }
+
+            #controls > .row > .cell {
+                display: flex;
+            }
+
+                #controls > .row > .cell.left {
+                    grid-column: 1;
+                }
+
+                #controls > .row > .cell.right {
+                    grid-column: -2;
+                    flex-flow: row-reverse;
+                }
+
+                #controls > .row > .cell > .btn {
+                    border-radius: 0;
+                    height: 58px !important;
+                    width: 58px;
+                    padding: 0.25em;
+                    margin: 0 5px;
+                    pointer-events: initial;
+                }
+
+        #controls .btn img {
+            height: calc(100% - 0.5em);
+        }
+
+        #controls button:disabled img {
+            filter: invert(.5);
+        }

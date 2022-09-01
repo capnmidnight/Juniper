@@ -24,8 +24,9 @@ import { buildTree, TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { alwaysFalse } from "@juniper-lib/tslib/identity";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import "./styles";
 import { TreeViewNode, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
+
+import "./styles.css";
 
 
 export interface TreeViewOptions<T> {

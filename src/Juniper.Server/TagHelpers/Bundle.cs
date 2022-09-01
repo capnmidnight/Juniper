@@ -37,6 +37,8 @@ namespace Juniper.TagHelpers
             }
         }
 
+        public string? Dir { get; set; }
+
         public string? Name { get; set; }
 
         public string? Version { get; set; }
@@ -58,8 +60,8 @@ namespace Juniper.TagHelpers
                 output.TagMode = TagMode.StartTagAndEndTag;
                 output.TagName = tagName;
                 var src = ext == ".js"
-                    ? $"/{root}/{Name}/index{Extension}"
-                    : $"/{root}/{Name}{Extension}";
+                    ? $"/{Dir ?? root}/{Name}/index{Extension}"
+                    : $"/{Dir ?? root}/{Name}{Extension}";
 
                 if (Inlined)
                 {

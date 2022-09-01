@@ -1,0 +1,92 @@
+.tree-view {
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+    .tree-view .btn-sm {
+        padding: 0;
+    }
+
+.tree-view-inner {
+    border: inset 2px;
+    background-color: rgb(224, 224, 224);
+    white-space: nowrap;
+    overflow-wrap: normal;
+    overflow: auto scroll;
+    font-family: system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans' 'Droid Sans', sans-serif;
+}
+
+.tree-view-controls {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.tree-view-children {
+    height: 0;
+}
+
+.tree-view-node-children {
+    padding-left: 1.25em;
+}
+
+.tree-view-node {
+    white-space: pre;
+    color: black;
+    cursor: default;
+}
+
+    .tree-view-node:hover > .tree-view-node-label {
+        background-color: rgb(127, 127, 127, 0.125);
+    }
+
+.tree-view-node-label[draggable=true] {
+    cursor: grab;
+}
+
+.tree-view-node.disabled, .tree-view-node.disabled > .tree-view-node-label[draggable=true] {
+    cursor: not-allowed;
+}
+
+    .tree-view-node.disabled > .tree-view-node-label {
+        opacity: 0.5;
+    }
+
+    .tree-view-node.disabled:hover > .tree-view-node-label {
+        background-color: unset;
+    }
+
+.tree-view-node.selected > .tree-view-node-label {
+    background-color: rgb(221, 255, 255);
+}
+
+.tree-view-node.selected.disabled > .tree-view-node-label {
+    background-color: lightgrey;
+}
+
+.tree-view-node .drag-buffer {
+    position: absolute;
+    width: 100%;
+    height: 0.25em;
+}
+
+    .tree-view-node .drag-buffer.top {
+        top: -0.125em;
+    }
+
+    .tree-view-node .drag-buffer.bottom {
+        bottom: -0.125em;
+    }
+
+.tree-view-node.highlighted {
+    background-color: rgb(221, 255, 221);
+}
+
+.tree-view-node .drag-buffer.highlighted {
+    background-color: black;
+}
+
+.tree-view-node-collapser, .tree-view-node-adder {
+    font-family: monospace;
+    font-size: 80%;
+    color: rgb(119, 119, 119);
+}
