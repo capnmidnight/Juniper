@@ -212,7 +212,7 @@ namespace Juniper.Services
                 .Use(async (context, next) =>
                 {
                     await next();
-                    if (context.Response.StatusCode != 200)
+                    if (context.Response.StatusCode >= 400)
                     {
                         context.Response.Redirect($"/status/{context.Response.StatusCode}?path={context.Request.Path}");
                     }
