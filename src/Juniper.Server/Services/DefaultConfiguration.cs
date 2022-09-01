@@ -209,7 +209,14 @@ namespace Juniper.Services
             };
 
             app.UseStaticFiles(staticFileOpts)
-                .UseStatusCodePagesWithRedirects("/status/{0}")
+                .Use(async (context, next) =>
+                {
+                    await next();
+                    if (context.Response.StatusCode != 200)
+                    {
+                        context.Response.Redirect($"/status/{context.Response.StatusCode}?path={context.Request.Path}");
+                    }
+                })
                 .UseRouting();
 
             if (withAuth)
