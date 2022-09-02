@@ -275,10 +275,6 @@ export class Environment
 
         this.audio.update();
         this.confirmationDialog.update(evt.dt);
-
-        for (const app of this.apps) {
-            app.update(evt);
-        }
     }
 
     get environmentAudioMuted() {

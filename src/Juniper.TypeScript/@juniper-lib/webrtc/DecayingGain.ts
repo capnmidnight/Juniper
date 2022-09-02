@@ -1,11 +1,12 @@
-import { connect } from "@juniper-lib/audio/nodes";
+import { connect, disconnect } from "@juniper-lib/audio/nodes";
 import { unproject } from "@juniper-lib/tslib/math";
 import type { ITimer } from "@juniper-lib/tslib/timers/ITimer";
 import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { SetIntervalTimer } from "@juniper-lib/tslib/timers/SetIntervalTimer";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { ActivityDetector } from "./ActivityDetector";
 
-export class DecayingGain {
+export class DecayingGain implements IDisposable {
     private readonly activity: ActivityDetector;
 
     private curLength = 0;
@@ -14,6 +15,7 @@ export class DecayingGain {
 
     private _enabled = true;
     private shouldRun = false;
+    private readonly onTick: (evt: TimerTickEvent) => void;
 
     constructor(
         audioCtx: AudioContext,
@@ -32,7 +34,13 @@ export class DecayingGain {
         connect(this.input, this.activity);
 
         this.timer = new SetIntervalTimer(30);
-        this.timer.addTickHandler((evt) => this.update(evt));
+        this.timer.addTickHandler(this.onTick = (evt) => this.update(evt));
+    }
+
+    dispose(): void {
+        this.timer.removeTickHandler(this.onTick);
+        disconnect(this.input, this.activity);
+        this.activity.dispose();
     }
 
     update(evt: TimerTickEvent) {

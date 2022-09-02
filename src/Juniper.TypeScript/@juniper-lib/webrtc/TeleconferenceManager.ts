@@ -282,6 +282,7 @@ export class TeleconferenceManager
         if (!this.disposed) {
             this.leave();
             this.disconnect();
+            this.remoteGainDecay.dispose();
             this.disposed = true;
         }
     }

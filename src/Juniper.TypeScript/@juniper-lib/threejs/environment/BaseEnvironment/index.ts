@@ -38,6 +38,7 @@ interface BaseEnvironmentEvents {
     scenecleared: TypedEvent<"scenecleared">;
     quitting: TypedEvent<"quitting">;
     newcursorloaded: TypedEvent<"newcursorloaded">;
+    update: XRTimerTickEvent;
 }
 
 export class BaseEnvironment<Events = unknown>
@@ -180,6 +181,7 @@ export class BaseEnvironment<Events = unknown>
     }
 
     private update(evt: XRTimerTickEvent): void {
+        this.dispatchEvent(evt);
         if (this.screenControl.visible) {
             const session = this.xrSession;
 

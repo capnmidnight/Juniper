@@ -5,7 +5,6 @@ import { Task } from "@juniper-lib/tslib/events/Task";
 import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressTasks } from "@juniper-lib/tslib/progress/progressTasks";
-import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
@@ -39,6 +38,12 @@ export class Tele extends Application {
 
     constructor(env: Environment) {
         super(env);
+
+        this.env.addScopedEventListener(this, "update", (evt) => {
+            for (const user of this.users.values()) {
+                user.update(evt.dt);
+            }
+        });
     }
 
     public readonly ready = new Task<void>();
@@ -258,11 +263,5 @@ export class Tele extends Application {
             (prog) => this.env.audio.loadBasicClip("join", "/audio/door_open.mp3", 0.25, prog),
             (prog) => this.env.audio.loadBasicClip("leave", "/audio/door_close.mp3", 0.25, prog),
             (prog) => this.loadAvatar("/models/Avatar.glb", Model_Gltf_Binary, prog));
-    }
-
-    update(evt: TimerTickEvent) {
-        for (const user of this.users.values()) {
-            user.update(evt.dt);
-        }
     }
 }

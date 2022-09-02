@@ -6,7 +6,6 @@ import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib/t
 import { Color, CubeCamera, CubeTexture, Euler, Quaternion, Scene, Vector3, WebGLCubeRenderTarget } from "three";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
-import { XRTimerTickEvent } from "./environment/XRTimer";
 import { isEuler, isQuaternion } from "./typeChecks";
 
 type SkyboxRotation = Quaternion | Euler | number[] | number;
@@ -52,7 +51,6 @@ export class Skybox {
     private readonly flipped: CanvasTypes;
     private readonly flipper: Context2D;
     private readonly onNeedsRedraw: () => void;
-    private readonly onTick: (evt: XRTimerTickEvent) => void;
 
     private layerOrientation: DOMPointReadOnly = null;
     private images: CanvasImageTypes[] = null;
@@ -72,7 +70,6 @@ export class Skybox {
     constructor(private readonly env: BaseEnvironment<unknown>) {
 
         this.onNeedsRedraw = () => this.imageNeedsUpdate = true;
-        this.onTick = (evt) => this.checkWebXRLayer(evt.frame);
 
         this.env.scene.background = black;
 
@@ -114,7 +111,8 @@ export class Skybox {
 
         this.setImages("", this.canvases);
 
-        this.env.timer.addTickHandler(this.onTick);
+        this.env.addScopedEventListener(this, "update", (evt) =>
+            this.checkWebXRLayer(evt.frame));
 
         Object.seal(this);
     }

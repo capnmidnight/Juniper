@@ -6,7 +6,6 @@ import { IDisposable } from "@juniper-lib/tslib/using";
 import { BufferGeometry, Matrix4, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Quaternion, Texture, Vector3, Vector4, VideoTexture } from "three";
 import { cleanup } from "../cleanup";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
-import { XRTimerTickEvent } from "../environment/XRTimer";
 import { solidTransparent } from "../materials";
 import { objectGetRelativePose } from "../objectGetRelativePose";
 import { mesh, objectIsFullyVisible, objGraph } from "../objects";
@@ -30,7 +29,6 @@ export type WebXRLayerType = "none" | "static" | "dynamic";
 export class Image2D
     extends Object3D
     implements IDisposable {
-    private readonly onTick: (evt: XRTimerTickEvent) => void;
     private readonly lastMatrixWorld = new Matrix4();
     private layer: XRQuadLayer = null;
     private wasUsingLayer = false;
@@ -48,7 +46,6 @@ export class Image2D
 
     constructor(env: BaseEnvironment, name: string, public webXRLayerType: WebXRLayerType, materialOrOptions: MeshBasicMaterialParameters | MeshBasicMaterial = null) {
         super();
-        this.onTick = (evt) => this.checkWebXRLayer(evt.frame);
 
         if (env) {
             this.setEnvAndName(env, name);
@@ -82,7 +79,7 @@ export class Image2D
     }
 
     dispose(): void {
-        this.env.timer.removeTickHandler(this.onTick);
+        this.env.removeScope(this);
         this.disposeImage();
         cleanup(this.mesh);
     }
@@ -153,7 +150,8 @@ export class Image2D
     private setEnvAndName(env: BaseEnvironment, name: string) {
         this.env = env;
         this.name = name;
-        this.env.timer.addTickHandler(this.onTick);
+        this.env.addScopedEventListener(this, "update", (evt) =>
+            this.checkWebXRLayer(evt.frame));
     }
 
     private get needsLayer(): boolean {
