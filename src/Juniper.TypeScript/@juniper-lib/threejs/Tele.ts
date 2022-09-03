@@ -102,7 +102,7 @@ export class Tele extends Application {
         this.offsetRadius = 1.25;
 
         this.conference = new TeleconferenceManager(this.env.audio, this.hubName);
-        this.conference.ready.then(() => this.ready.resolve());
+        this.conference.ready.then(this.ready.resolver());
 
         const onLocalUserIDChange = (evt: RoomJoinedEvent | RoomLeftEvent) => {
             arrayRemove(this.sortedUserIDs, this.env.avatar.name);

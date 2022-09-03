@@ -8,20 +8,15 @@ import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import "./styles.css";
 
 
-export class ContextMenu<T extends string = string> implements ErsatzElement {
+export class ContextMenu implements ErsatzElement {
 
     readonly element: HTMLElement;
-
-    private readonly displayNames: Map<T, string>
 
     private currentTask: Task<any>;
     private mouseX = 0;
     private mouseY = 0;
 
-    constructor(displayNames?: Map<T, string>) {
-
-        this.displayNames = displayNames || new Map<T, string>();
-
+    constructor() {
         this.element = Div(
             className("context-menu")
         );
@@ -42,7 +37,18 @@ export class ContextMenu<T extends string = string> implements ErsatzElement {
         }
     }
 
-    public async show(...options: readonly (T | HTMLHRElement)[]): Promise<T | null> {
+    public async show<T extends string = string>(...options: (T | HTMLHRElement)[]): Promise<T | null>
+    public async show<T extends string = string>(displayNames: Map<T, string>, ...options: (T | HTMLHRElement)[]): Promise<T | null>;
+    public async show<T extends string = string>(displayNamesOrFirstOption: T | HTMLHRElement | Map<T, string>, ...options: (T | HTMLHRElement)[]): Promise<T | null> {
+        let displayNames: Map<T, string>;
+        if (displayNamesOrFirstOption instanceof Map) {
+            displayNames = displayNamesOrFirstOption;
+        }
+        else {
+            displayNames = new Map<T, string>();
+            options.unshift(displayNamesOrFirstOption);
+        }
+
         if (isDefined(this.currentTask)) {
             await this.cancel();
         }
@@ -61,17 +67,18 @@ export class ContextMenu<T extends string = string> implements ErsatzElement {
                 }
                 else {
                     return Button(
-                        this.displayNames.has(option) ? this.displayNames.get(option) : option,
-                        onClick(() => this.currentTask.resolve(option), true)
+                        displayNames.has(option) ? displayNames.get(option) : option,
+                        onClick(this.currentTask.resolver(option), true)
                     );
                 }
             })
         );
         elementSetDisplay(this.element, true, "grid");
+
         this.mouseY = Math.min(this.mouseY, window.innerHeight - this.element.clientHeight - 50);
         this.element.style.top = px(this.mouseY);
 
-        const onSideClick = () => this.currentTask.resolve("cancel");
+        const onSideClick = this.currentTask.resolver("cancel");
         addEventListener("click", onSideClick);
         this.currentTask.finally(() => {
             elementSetDisplay(this.element, false);

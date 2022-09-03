@@ -1,19 +1,11 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { once } from "@juniper-lib/tslib/events/once";
+import { Task } from "@juniper-lib/tslib/events/Task";
 import { clamp } from "@juniper-lib/tslib/math";
 import { BackSide, Mesh, MeshBasicMaterial } from "three";
 import { cube as geom } from "./Cube";
 import { solidTransparent } from "./materials";
 import { ErsatzObject, mesh } from "./objects";
 
-interface FaderEvents {
-    fadecomplete: TypedEvent<"fadecomplete">;
-}
-
-const completeEvt = new TypedEvent("fadecomplete");
-
-export class Fader extends TypedEventBase<FaderEvents>
-    implements ErsatzObject {
+export class Fader implements ErsatzObject {
     opacity = 1;
     direction = 0;
 
@@ -21,10 +13,9 @@ export class Fader extends TypedEventBase<FaderEvents>
 
     readonly object: Mesh;
     private readonly material: MeshBasicMaterial;
+    private readonly task = new Task(false);
 
     constructor(name: string, t = 0.15) {
-        super();
-
         this.material = solidTransparent({
             name: "FaderMaterial",
             color: 0x000000,
@@ -36,17 +27,21 @@ export class Fader extends TypedEventBase<FaderEvents>
         this.object.layers.enableAll();
     }
 
+    private async start(direction: number) {
+        this.direction = direction;
+        this.task.restart();
+        await this.task;
+    }
+
     async fadeOut() {
         if (this.direction != 1) {
-            this.direction = 1;
-            await once(this, "fadecomplete");
+            await this.start(1)
         }
     }
 
     async fadeIn() {
         if (this.direction != -1) {
-            this.direction = -1;
-            await once(this, "fadecomplete");
+            await this.start(-1);
         }
     }
 
@@ -61,7 +56,7 @@ export class Fader extends TypedEventBase<FaderEvents>
                 || this.direction === -1 && this.opacity <= 0) {
                 this.opacity = clamp(this.opacity, 0, 1);
                 this.direction = 0;
-                this.dispatchEvent(completeEvt);
+                this.task.resolve();
             }
         }
 

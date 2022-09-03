@@ -1,5 +1,4 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { once } from "@juniper-lib/tslib/events/once";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressPopper } from "@juniper-lib/tslib/progress/progressPopper";
@@ -94,15 +93,12 @@ export class ApplicationLoader
 
         const task = new Task<T>();
 
-        const onLoaded = (evt: ApplicationLoaderAppLoadedEvent) => {
+        this.addScopedEventListener(this, "apploaded", evt => {
             if (evt.appName === name) {
-                this.removeEventListener("apploaded", onLoaded);
+                this.removeScope(this);
                 task.resolve(evt.app as any as T);
             }
-        };
-
-        once(this, "apploaded").then(evt => evt.app)
-        this.addEventListener("apploaded", onLoaded);
+        });
 
         return task;
     }

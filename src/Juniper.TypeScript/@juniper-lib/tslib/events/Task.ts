@@ -1,7 +1,16 @@
 import { arrayClear } from "../collections/arrays";
-import { alwaysTrue } from "../identity";
-import { isBoolean, isDefined, isFunction } from "../typeChecks";
-import { Predicate } from "./Predicate";
+import { isDefined } from "../typeChecks";
+import { TypedEventBase } from "./EventBase";
+
+export type TaskExecutionState =
+    | "waiting"
+    | "running"
+    | "finished"
+
+export type TaskResultState =
+    | "none"
+    | "resolved"
+    | "errored";
 
 /**
  * A Task represents a Promise that exposes its resolve/reject functions
@@ -13,15 +22,10 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
     private readonly onThens = new Array<(v: ResultsT) => any>();
     private readonly onCatches = new Array<(reason?: any) => void>();
 
-    private readonly rejectTest: Predicate<any>;
-    private readonly resolveTest: Predicate<ResultsT>;
-    private readonly autoStart: boolean;
-
     private _result: ResultsT = undefined;
     private _error: any = undefined;
-    private _started = false;
-    private _errored = false;
-    private _finished = false;
+    private _executionState: TaskExecutionState = "waiting";
+    private _resultState: TaskResultState = "none";
 
     /**
      * Signal success for the Task
@@ -44,90 +48,36 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * @param autoStart - set to false to require manually starting the Task. Useful
      * for reusable tasks that run on timers.
      */
-    constructor(autoStart?: boolean);
-
-    /**
-     * Create a new Task
-     * 
-     * @param resolveTest - a filtering function for values passed to Task.resolve()
-     * to only resolve the Task for values that pass the filter. This is useful when
-     * connecting the task to an event handler that may fire multiple events that
-     * aren't of interest, such as Tasks that listen for a specific keyboard key
-     * to be pressed.
-     *
-     * @param autoStart - set to false to require manually starting the Task. Useful
-     * for reusable tasks that run on timers.
-     */
-    constructor(resolveTest: Predicate<ResultsT>, autoStart?: boolean)
-
-    /**
-     * Create a new Task
-     * 
-     * @param resolveTest - a filtering function for values passed to Task.resolve()
-     * to only resolve the Task for values that pass the filter. This is useful when
-     * connecting the task to an event handler that may fire multiple events that
-     * aren't of interest, such as Tasks that listen for a specific keyboard key
-     * to be pressed.
-     * 
-     * @param rejectTest - a filtering function for error reasons passed to Task.reject()
-     * to only reject the Task when errors pass the filter.
-     *
-     * @param autoStart - set to false to require manually starting the Task. Useful
-     * for reusable tasks that run on timers.
-     */
-    constructor(resolveTest: Predicate<ResultsT>, rejectTest: Predicate<any>, autoStart?: boolean);
-    constructor(resolveTestOrAutoStart?: boolean | Predicate<ResultsT>, rejectTestOrAutoStart?: boolean | Predicate<any>, autoStart = true) {
-        if (isFunction(resolveTestOrAutoStart)) {
-            this.resolveTest = resolveTestOrAutoStart;
-        }
-        else {
-            this.resolveTest = alwaysTrue;
-        }
-
-        if (isFunction(rejectTestOrAutoStart)) {
-            this.rejectTest = rejectTestOrAutoStart;
-        }
-        else {
-            this.rejectTest = alwaysTrue;
-        }
-
-        if (isBoolean(resolveTestOrAutoStart)) {
-            this.autoStart = resolveTestOrAutoStart;
-        }
-        else if (isBoolean(rejectTestOrAutoStart)) {
-            this.autoStart = rejectTestOrAutoStart;
-        }
-        else if (isDefined(autoStart)) {
-            this.autoStart = autoStart;
-        }
-        else {
-            this.autoStart = false;
-        }
-
+    constructor(private readonly autoStart = true) {
         // It's very likely that we will want to use resolve/reject
         // as values to pass to another function/method, so we create
         // them not as methods, but as bound lambda expressions stored
         // in public fields.
         this.resolve = (value) => {
-            if (this.running && this.resolveTest(value)) {
+            if (this.running) {
                 this._result = value;
+                this._resultState = "resolved";
+
                 for (const thenner of this.onThens) {
                     thenner(value);
                 }
+
                 this.clear();
-                this._finished = true;
+                this._executionState = "finished";
             }
         };
 
         this.reject = (reason) => {
-            if (this.running && this.rejectTest(reason)) {
+            if (this.running) {
                 this._error = reason;
-                this._errored = true;
+                this._resultState = "errored";
+
                 for (const catcher of this.onCatches) {
                     catcher(reason);
                 }
+
                 this.clear();
-                this._finished = true;
+                this._executionState = "finished";
             }
         };
 
@@ -146,7 +96,32 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * resolutions or rejections.
      **/
     start() {
-        this._started = true;
+        this._executionState = "running";
+    }
+
+    /**
+     * Creates a resolving callback for a static value.
+     * @param value
+     */
+    resolver(value: ResultsT) {
+        return () => this.resolve(value);
+    }
+
+    /**
+     * Creates a resolving callback for a type of an event.
+     **/
+    forEvent<EventT extends ResultsT & Event>() {
+        return (evt: EventT) => this.resolve(evt);
+    }
+
+    resolveOn<EventMapT, EventT extends keyof EventMapT = keyof EventMapT>(
+        target: TypedEventBase<EventMapT> | EventTarget,
+        resolveEvt: EventT,
+        value: ResultsT) {
+        const resolver = this.resolver(value);
+        target.addEventListener(resolveEvt as any, resolver);
+        this.finally(() =>
+            target.removeEventListener(resolveEvt as any, resolver));
     }
 
     /**
@@ -171,24 +146,49 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
     }
 
     /**
-     * Returns true when the Task is waiting to be resolved or rejected.
+     * Get the current state of the task.
      **/
-    get started(): boolean {
-        return this._started;
+    get executionState() {
+        return this._executionState;
     }
 
     /**
-     * Returns true when the Task has been resolved or rejected.
+     * Returns true when the Task is hasn't started yet.
      **/
-    get finished(): boolean {
-        return this._finished;
+    get waiting(): boolean {
+        return this.executionState === "waiting";
+    }
+
+    /**
+     * Returns true when the Task is waiting to be resolved or rejected.
+     **/
+    get started(): boolean {
+        return this.executionState !== "waiting";
     }
 
     /**
      * Returns true after the Task has started, but before it has finished.
      **/
     get running(): boolean {
-        return this.started && !this.finished;
+        return this.executionState === "running";
+    }
+
+    /**
+     * Returns true when the Task has been resolved or rejected.
+     **/
+    get finished(): boolean {
+        return this.executionState === "finished";
+    }
+
+    get resultState() {
+        return this._resultState;
+    }
+
+    /**
+     * Returns true if the Task had been resolved successfully.
+     **/
+    get resolved(): boolean {
+        return this.resultState === "resolved";
     }
 
     /**
@@ -196,7 +196,7 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * reason being given.
      **/
     get errored(): boolean {
-        return this._errored;
+        return this.resultState === "errored";
     }
 
     get [Symbol.toStringTag](): string {
@@ -256,6 +256,14 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * reducing GC pressure when working with lots of tasks.
      **/
     reset() {
+        this._reset(this.autoStart);
+    }
+
+    restart() {
+        this._reset(true);
+    }
+
+    private _reset(start: boolean) {
         if (this.running) {
             this.reject("Resetting previous invocation");
         }
@@ -263,11 +271,10 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
         this.clear();
         this._result = undefined;
         this._error = undefined;
-        this._errored = false;
-        this._finished = false;
-        this._started = false;
+        this._executionState = "waiting";
+        this._resultState = "none";
 
-        if (this.autoStart) {
+        if (start) {
             this.start();
         }
     }

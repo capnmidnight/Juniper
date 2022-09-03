@@ -15,8 +15,7 @@ class AnimationTask extends Task {
     }
 
     begin(delay: number, duration: number, onTick: (t: number) => void) {
-        this.reset();
-        this.start();
+        this.restart();
         this.time = -delay;
         this.duration = duration;
         this.onTick = onTick;

@@ -33,9 +33,7 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
     let done = false;
     let loaded = skipLoading;
 
-    const requestComplete = new Task(
-        () => loaded && done,
-        () => prevDone);
+    const requestComplete = new Task();
 
     target.addEventListener("loadstart", () => {
         if (prevDone && !done && prog) {
@@ -51,7 +49,9 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
             }
             if (evt.loaded === evt.total) {
                 loaded = true;
-                requestComplete.resolve();
+                if (done) {
+                    requestComplete.resolve();
+                }
             }
         }
     });
@@ -62,11 +62,17 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
                 prog.end(name);
             }
             done = true;
-            requestComplete.resolve();
+            if (loaded) {
+                requestComplete.resolve();
+            }
         }
     });
 
-    const onError = (msg: string) => () => requestComplete.reject(`${msg} (${xhr.status})`);
+    const onError = (msg: string) => () => {
+        if (prevDone) {
+            requestComplete.reject(`${msg} (${xhr.status})`);
+        }
+    }
 
     target.addEventListener("error", onError("error"));
     target.addEventListener("abort", onError("abort"));
@@ -380,13 +386,13 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             body = JSON.stringify(request.body);
         }
 
-        const progs = progressSplit(progress, 2);
+        const hasBody = isDefined(body);
+        const progs = progressSplit(progress, hasBody ? 2 : 1);
         const xhr = new XMLHttpRequest();
-        const upload = isDefined(body)
+        const upload = hasBody
             ? trackProgress("uploading", xhr, xhr.upload, progs.shift(), false)
             : Promise.resolve();
-        const downloadProg = progs.shift();
-        const download = trackProgress("saving", xhr, xhr, downloadProg, true, upload);
+        const download = trackProgress("saving", xhr, xhr, progs.shift(), true, upload);
 
         sendRequest(xhr, request.method, request.path, request.timeout, headers, body);
 

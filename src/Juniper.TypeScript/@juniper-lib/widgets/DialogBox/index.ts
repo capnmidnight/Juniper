@@ -1,8 +1,7 @@
 import { classList, className, customData } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
 import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1 } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { once, success } from "@juniper-lib/tslib/events/once";
+import { Task } from "@juniper-lib/tslib/events/Task";
 
 import "./styles.css";
 
@@ -12,10 +11,7 @@ export abstract class DialogBox
 
     public readonly element: HTMLDivElement;
 
-    private subEventer = new TypedEventBase<{
-        confirm: TypedEvent<"confirm">;
-        cancel: TypedEvent<"cancel">;
-    }>();
+    private readonly task = new Task<boolean>(false);
 
     private _title: string;
     private readonly titleElement: HTMLElement;
@@ -39,9 +35,9 @@ export abstract class DialogBox
                     this.confirmButton = ButtonPrimary("Confirm", classList("confirm-button")),
                     this.cancelButton = ButtonSecondary("Cancel", classList("cancel-button")))));
 
-        this.confirmButton.addEventListener("click", () => this.subEventer.dispatchEvent(new TypedEvent("confirm")));
-
-        this.cancelButton.addEventListener("click", () => this.subEventer.dispatchEvent(new TypedEvent("cancel")));
+        
+        this.confirmButton.addEventListener("click", this.task.resolver(true));
+        this.cancelButton.addEventListener("click", this.task.resolver(false));
 
         elementApply(document.body, this);
     }
@@ -90,10 +86,8 @@ export abstract class DialogBox
         await this.onShowing();
         this.show(true);
         this.onShown();
-
-        const confirming = once(this.subEventer, "confirm", "cancel");
-        const confirmed = await success(confirming);
-        if (confirmed) {
+        this.task.restart();
+        if (await this.task) {
             await this.onConfirm();
         }
         else {
@@ -104,6 +98,6 @@ export abstract class DialogBox
         this.show(false);
         this.onClosed();
 
-        return confirmed;
+        return this.task.result;
     }
 }

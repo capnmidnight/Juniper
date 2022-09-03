@@ -1,41 +1,25 @@
 import { elementSetDisplay } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { once } from "@juniper-lib/tslib/events/once";
+import { Task } from "@juniper-lib/tslib/events/Task";
 
 
-export class MessageBoxConfirmationEvent extends TypedEvent<"confirmed"> {
-    constructor(public confirmed: boolean) {
-        super("confirmed");
-    }
-}
-
-interface MessageBoxEvents {
-    confirmed: MessageBoxConfirmationEvent;
-}
-
-export class MessageBox extends TypedEventBase<MessageBoxEvents> {
+export class MessageBox {
+    private task = new Task<boolean>(false);
     private msgBoxConfirm: HTMLButtonElement;
     private msgBoxCancel: HTMLButtonElement;
 
     constructor(private msgBox: HTMLElement) {
-        super();
-
         this.msgBoxConfirm = this.msgBox.querySelector<HTMLButtonElement>("button.confirm");
         this.msgBoxCancel = this.msgBox.querySelector<HTMLButtonElement>("button.cancel");
 
-        this.msgBoxConfirm.addEventListener("click", () => {
-            this.dispatchEvent(new MessageBoxConfirmationEvent(true));
-        });
-
-        this.msgBoxCancel.addEventListener("click", () => {
-            this.dispatchEvent(new MessageBoxConfirmationEvent(false));
-        });
+        this.msgBoxConfirm.addEventListener("click", this.task.resolver(true));
+        this.msgBoxCancel.addEventListener("click", this.task.resolver(false));
     }
 
     async show(): Promise<boolean> {
+        this.task.restart();
         elementSetDisplay(this.msgBox, true, "block");
-        const evt = await once(this, "confirmed");
+        await this.task;
         elementSetDisplay(this.msgBox, false);
-        return evt.confirmed;
+        return this.task.result;
     }
 }

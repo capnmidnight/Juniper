@@ -154,7 +154,7 @@ export class IDexDB implements IDisposable {
         const upgraded = success(upgrading);
         const opened = success(opening);
 
-        const noUpgrade = () => upgrading.resolve(false);
+        const noUpgrade = upgrading.resolver(false);
         openRequest.addEventListener("success", noUpgrade);
 
         openRequest.addEventListener("upgradeneeded", () => {
