@@ -18,6 +18,7 @@ dl.properties {
             padding: 0;
             height: 100%;
             vertical-align: sub;
+            white-space: nowrap;
         }
 
     dl.properties > dd {
