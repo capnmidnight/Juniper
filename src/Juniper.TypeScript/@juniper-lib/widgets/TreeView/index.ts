@@ -37,8 +37,8 @@ export interface TreeViewOptions<T> {
     getDescription: (value: T) => string;
     canReorder?: (value: T) => boolean;
     getChildDescription: (value: T) => string;
-    canHaveChildren: (value: T) => boolean;
-    canParent?: (parent: T, child: T) => boolean;
+    canHaveChildren: (node: TreeNode<T>) => boolean;
+    canParent?: (parent: TreeNode<T>, child: TreeNode<T>) => boolean;
     replaceElement?: HTMLElement;
 }
 
@@ -331,7 +331,7 @@ export class TreeView<T>
         return isDefined(parent)
             && isDefined(child)
             && (parent.canHaveChildren
-                && this.options.canParent(parent.node.value, child.node.value)
+                && this.options.canParent(parent.node, child.node)
                 || target === parent.upper
                 || target === parent.lower)
             && !child.node.contains(parent.node)
@@ -506,6 +506,10 @@ export class TreeView<T>
             });
         }
         else {
+            e = this.selectedElement
+            if (isDefined(e)) {
+                e._selected = false;
+            }
             this.dispatchEvent(new TreeViewNodeSelectedEvent<T>(null));
         }
     }

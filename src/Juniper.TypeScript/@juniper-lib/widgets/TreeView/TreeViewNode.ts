@@ -88,7 +88,7 @@ export class TreeViewNode<T>
         private readonly _getDescription: (value: T) => string,
         private readonly _canChangeOrder: (value: T) => boolean,
         private readonly _getChildDescription: (node: T) => string,
-        private readonly _canHaveChildren: (node: T) => boolean,
+        private readonly _canHaveChildren: (node: TreeNode<T>) => boolean,
         private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T>) {
 
         super();
@@ -239,7 +239,7 @@ export class TreeViewNode<T>
     }
 
     get canHaveChildren(): boolean {
-        return isDefined(this.node.value) && this._canHaveChildren(this.node.value);
+        return this._canHaveChildren(this.node);
     }
 
     private get label(): string {
