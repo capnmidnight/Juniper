@@ -1,6 +1,6 @@
 .tree-view {
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto 1fr;
 }
 
     .tree-view .btn-sm {
@@ -47,7 +47,7 @@
     cursor: not-allowed;
 }
 
-    .tree-view-node.disabled > .tree-view-node-label {
+    .tree-view-node.disabled > .tree-view-node-label, .tree-view-node.filtered > .tree-view-node-label {
         opacity: 0.5;
     }
 

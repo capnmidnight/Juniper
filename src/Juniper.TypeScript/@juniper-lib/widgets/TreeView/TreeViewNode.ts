@@ -293,6 +293,16 @@ export class TreeViewNode<T>
         this.disabled = !v;
     }
 
+    get filtered(): boolean {
+        return this.element.classList.contains("filtered");
+    }
+
+    set _filtered(v: boolean) {
+        if (v !== this.filtered) {
+            this.element.classList.toggle("filtered");
+        }
+    }
+
     get selected(): boolean {
         return this.element.classList.contains("selected");
     }
@@ -363,5 +373,13 @@ export class TreeViewNode<T>
             selectEvt.cancelBubble = !bubbles;
             this.dispatchEvent(selectEvt);
         }
+    }
+
+    scrollIntoView() {
+        this.element.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest"
+        });
     }
 }

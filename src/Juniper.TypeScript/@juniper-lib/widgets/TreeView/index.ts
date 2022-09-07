@@ -1,4 +1,4 @@
-import { className, tabIndex } from "@juniper-lib/dom/attrs";
+import { autoComplete, className, placeHolder, tabIndex } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     isModifierless,
@@ -8,37 +8,48 @@ import {
     onDragOver,
     onDragStart,
     onDrop,
+    onInput,
     onKeyDown
 } from "@juniper-lib/dom/evts";
 import {
-    ButtonPrimarySmall, Div,
+    ButtonPrimarySmall, ButtonSecondarySmall, Div,
     elementApply,
     elementClearChildren,
     elementGetIndexInParent,
     elementInsertBefore,
     elementReplace,
-    ErsatzElement
+    elementSetDisplay,
+    ErsatzElement,
+    InputText
 } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayRemove } from "@juniper-lib/tslib/collections/arrays";
 import { buildTree, TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { alwaysFalse } from "@juniper-lib/tslib/identity";
+import { alwaysFalse, identity } from "@juniper-lib/tslib/identity";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { TreeViewNode, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
 
+import { PropertyList } from "../PropertyList";
+import { SelectList } from "../SelectList";
 import "./styles.css";
 
 
-export interface TreeViewOptions<T> {
+export interface TreeViewOptions<ValueT, FilterTypeT> {
     defaultLabel?: string;
-    getLabel: (value: T) => string;
-    getParent: (value: T) => T;
-    getOrder?: (value: T) => number;
-    getDescription: (value: T) => string;
-    canReorder?: (value: T) => boolean;
-    getChildDescription: (value: T) => string;
-    canHaveChildren: (node: TreeNode<T>) => boolean;
-    canParent?: (parent: TreeNode<T>, child: TreeNode<T>) => boolean;
+    getLabel: (value: ValueT) => string;
+    getParent: (value: ValueT) => ValueT;
+    getOrder?: (value: ValueT) => number;
+    getDescription: (value: ValueT) => string;
+    showNameFilter?: boolean;
+    typeFilters?: {
+        getTypes: () => FilterTypeT[];
+        getTypeLabel: (type: FilterTypeT) => string;
+        getTypeFor: (value: ValueT) => FilterTypeT;
+    };
+    canReorder?: (value: ValueT) => boolean;
+    getChildDescription: (value: ValueT) => string;
+    canHaveChildren: (node: TreeNode<ValueT>) => boolean;
+    canParent?: (parent: TreeNode<ValueT>, child: TreeNode<ValueT>) => boolean;
     replaceElement?: HTMLElement;
 }
 
@@ -72,35 +83,42 @@ interface TreeViewEvents<T> {
     delete: TreeViewNodeDeleteEvent<T>;
 }
 
-export class TreeView<T>
-    extends TypedEventBase<TreeViewNodeEvents<T> & TreeViewEvents<T>>
+export class TreeView<ValueT, FilterTypeT extends string = never>
+    extends TypedEventBase<TreeViewNodeEvents<ValueT> & TreeViewEvents<ValueT>>
     implements ErsatzElement {
 
     readonly element: HTMLElement;
 
     private readonly expandButton: HTMLButtonElement;
     private readonly collapseButton: HTMLButtonElement;
+    private readonly filters: PropertyList;
+    private readonly filterTypeInput: SelectList<FilterTypeT> = null;
+    private readonly filterNameInput: HTMLInputElement;
+
     private readonly children: HTMLElement;
-    private readonly options: TreeViewOptions<T>;
+    private readonly options: TreeViewOptions<ValueT, FilterTypeT>;
     private readonly canChangeOrder: boolean;
 
-    private readonly elements = new Array<TreeViewNode<T>>();
-    private readonly nodes2Elements = new Map<TreeNode<T>, TreeViewNode<T>>();
-    private readonly htmlElements2Nodes = new Map<HTMLElement, TreeNode<T>>();
-    private readonly htmlElements2Elements = new Map<HTMLElement, TreeViewNode<T>>();
+    private readonly elements = new Array<TreeViewNode<ValueT>>();
+    private readonly nodes2Elements = new Map<TreeNode<ValueT>, TreeViewNode<ValueT>>();
+    private readonly htmlElements2Nodes = new Map<HTMLElement, TreeNode<ValueT>>();
+    private readonly htmlElements2Elements = new Map<HTMLElement, TreeViewNode<ValueT>>();
 
-    private _rootNode: TreeNode<T> = null;
+    private _rootNode: TreeNode<ValueT> = null;
     private locked = false;
     private _disabled = false;
 
+    private typeFilter: FilterTypeT = null;
+    private nameFilter: string = null;
+
     constructor(
-        options?: TreeViewOptions<T>,
+        options?: TreeViewOptions<ValueT, FilterTypeT>,
         ...styleProps: CssElementStyleProp[]) {
         super();
 
         this.createElement = this.createElement.bind(this);
 
-        this.options = Object.assign<Partial<TreeViewOptions<T>>, TreeViewOptions<T>>({
+        this.options = Object.assign<Partial<TreeViewOptions<ValueT, FilterTypeT>>, TreeViewOptions<ValueT, FilterTypeT>>({
             defaultLabel: null,
             getOrder: null,
             replaceElement: null,
@@ -116,6 +134,9 @@ export class TreeView<T>
         this.element = Div(
             className("tree-view"),
             ...styleProps,
+            this.filters = new PropertyList(
+                className("tree-view-controls")
+            ),
             Div(
                 className("tree-view-controls"),
 
@@ -136,7 +157,7 @@ export class TreeView<T>
                 onContextMenu(async (evt) => {
                     if (!this.disabled) {
                         const rootElement = this.nodes2Elements.get(this.rootNode);
-                        await rootElement._launchMenu(evt, new TreeViewNodeContextMenuEvent<T>(rootElement));
+                        await rootElement._launchMenu(evt, new TreeViewNodeContextMenuEvent<ValueT>(rootElement));
                     }
                 }),
 
@@ -145,7 +166,7 @@ export class TreeView<T>
                         for (const element of this.elements) {
                             if (element.selected) {
                                 this.selectedNode = null;
-                                this.dispatchEvent(new TreeViewNodeSelectedEvent<T>(null));
+                                this.dispatchEvent(new TreeViewNodeSelectedEvent<ValueT>(null));
                                 return;
                             }
                         }
@@ -157,7 +178,7 @@ export class TreeView<T>
                         const sel = this.selectedElement;
                         if (sel) {
                             if (evt.key === "Delete") {
-                                this.dispatchEvent(new TreeViewNodeDeleteEvent<T>(sel.node))
+                                this.dispatchEvent(new TreeViewNodeDeleteEvent<ValueT>(sel.node))
                             }
                             else if (evt.key === "ArrowUp") {
                                 const index = elementGetIndexInParent(sel);
@@ -239,10 +260,52 @@ export class TreeView<T>
             )
         );
 
+        if (this.options.showNameFilter || isDefined(this.options.typeFilters)) {
+            if (this.options.showNameFilter) {
+                this.filters.append(
+                    ["Name", this.filterNameInput = InputText(
+                        placeHolder("Filter by name"),
+                        autoComplete(false),
+                        onInput(() => {
+                            this.nameFilter = this.filterNameInput.value;
+                            if (this.nameFilter.length === 0) {
+                                this.nameFilter = null;
+                            }
+                            this.refreshFilter();
+                        })
+                    )]
+                );
+            }
+
+            if (isDefined(this.options.typeFilters)) {
+                this.filters.append(
+                    ["Type", this.filterTypeInput = new SelectList(
+                        identity,
+                        this.options.typeFilters.getTypeLabel,
+                        this.options.typeFilters.getTypeLabel,
+                        "Filter by type"
+                    )]
+                );
+
+                this.filterTypeInput.values = this.options.typeFilters.getTypes();
+                this.filterTypeInput.addEventListener("itemselected", (evt) => {
+                    this.typeFilter = evt.item;
+                    this.refreshFilter();
+                });
+            }
+
+            this.filters.append(
+                ButtonSecondarySmall(
+                    "Clear filter",
+                    onClick(() => this.clearFilter())
+                )
+            )
+        }
+
         if (this.canChangeOrder) {
 
-            let draggedElement: TreeViewNode<T> = null;
-            let dropElement: TreeViewNode<T> = null;
+            let draggedElement: TreeViewNode<ValueT> = null;
+            let dropElement: TreeViewNode<ValueT> = null;
             let hoverTimer: number = null;
             let delta = 0;
             let lastTarget: HTMLElement = null;
@@ -327,7 +390,45 @@ export class TreeView<T>
         }
     }
 
-    private canReparent(parent: TreeViewNode<T>, child: TreeViewNode<T>, target: HTMLElement) {
+    clearFilter() {
+        if (isDefined(this.filterNameInput)) {
+            this.filterNameInput.value = "";
+            this.nameFilter = null;
+        }
+
+        if (isDefined(this.filterTypeInput)) {
+            this.filterTypeInput.selectedValue = null;
+            this.typeFilter = null;
+        }
+
+        this.refreshFilter();
+    }
+
+    private refreshFilter() {
+        const included = new Set<TreeNode<ValueT>>();
+        for (const node of this.rootNode.depthFirst()) {
+            const nameMatch = isNullOrUndefined(this.nameFilter)
+                || this.options.getLabel(node.value).indexOf(this.nameFilter) >= 0;
+            const typeMatch = isNullOrUndefined(this.typeFilter)
+                || this.options.typeFilters.getTypeFor(node.value) === this.typeFilter;
+            const isMatch = nameMatch && typeMatch;
+            const show = isMatch || included.has(node);
+            const elem = this.nodes2Elements.get(node);
+            elementSetDisplay(elem, show, "block");
+            elem._filtered = included.has(node)  && !isMatch;
+            elem.isOpen = true;
+
+            if (show && isDefined(node.parent)) {
+                included.add(node.parent);
+            }
+        }
+
+        if (isDefined(this.selectedElement)) {
+            this.selectedElement.scrollIntoView();
+        }
+    }
+
+    private canReparent(parent: TreeViewNode<ValueT>, child: TreeViewNode<ValueT>, target: HTMLElement) {
         return isDefined(parent)
             && isDefined(child)
             && (parent.canHaveChildren
@@ -353,6 +454,7 @@ export class TreeView<T>
     set disabled(v: boolean) {
         this.expandButton.disabled
             = this.collapseButton.disabled
+            = this.filters.disabled
             = this._disabled
             = v;
 
@@ -361,24 +463,11 @@ export class TreeView<T>
         }
     }
 
-
-    private *_filterNodes(predicate: (node: TreeNode<T>) => boolean): Iterable<TreeNode<T>> {
-        for (const child of this.rootNode.breadthFirst()) {
-            if (predicate(child)) {
-                yield child;
-            }
-        }
+    findAll(predicate: (value: ValueT) => boolean): TreeNode<ValueT>[] {
+        return Array.from(this.rootNode.searchAll((node) => predicate(node.value)));
     }
 
-    filterNodesByNode(predicate: (node: TreeNode<T>) => boolean): TreeNode<T>[] {
-        return Array.from(this._filterNodes(predicate));
-    }
-
-    filterNodesByValue(predicate: (value: T) => boolean): TreeNode<T>[] {
-        return this.filterNodesByNode((node) => predicate(node.value));
-    }
-
-    enableOnlyValues(values: readonly T[]): void {
+    enableOnlyValues(values: readonly ValueT[]): void {
         for (const element of this.elements) {
             element.disabled = values.indexOf(element.node.value) === -1;
             element.specialSelectMode = true;
@@ -392,13 +481,13 @@ export class TreeView<T>
         }
     }
 
-    get values(): T[] {
+    get values(): ValueT[] {
         return this.rootNode.children
             .flatMap(f => Array.from(f.breadthFirst()))
             .map(n => n.value);
     }
 
-    set values(arr: readonly T[]) {
+    set values(arr: readonly ValueT[]) {
         this.rootNode = buildTree(
             arr,
             this.options.getParent,
@@ -447,7 +536,7 @@ export class TreeView<T>
         }
     }
 
-    get selectedValue(): T {
+    get selectedValue(): ValueT {
         const node = this.selectedNode;
         if (node) {
             return node.value;
@@ -456,17 +545,17 @@ export class TreeView<T>
         return null;
     }
 
-    findNode(data: T): TreeNode<T> {
+    findNode(data: ValueT): TreeNode<ValueT> {
         return this.rootNode.find(data);
     }
 
-    set selectedValue(v: T) {
+    set selectedValue(v: ValueT) {
         if (v !== this.selectedValue) {
             this.selectedNode = this.rootNode.find(v);
         }
     }
 
-    get selectedNode(): TreeNode<T> {
+    get selectedNode(): TreeNode<ValueT> {
         const elem = this.selectedElement;
         if (elem) {
             return elem.node;
@@ -475,13 +564,13 @@ export class TreeView<T>
         return null;
     }
 
-    set selectedNode(v: TreeNode<T>) {
+    set selectedNode(v: TreeNode<ValueT>) {
         if (v !== this.selectedNode) {
             this.selectedElement = this.nodes2Elements.get(v);
         }
     }
 
-    private get selectedElement(): TreeViewNode<T> {
+    private get selectedElement(): TreeViewNode<ValueT> {
         for (const elem of this.elements) {
             if (elem.selected) {
                 return elem;
@@ -491,7 +580,7 @@ export class TreeView<T>
         return null;
     }
 
-    private set selectedElement(e: TreeViewNode<T>) {
+    private set selectedElement(e: TreeViewNode<ValueT>) {
         if (isDefined(e)) {
             e._select(false);
             let here = e;
@@ -499,18 +588,14 @@ export class TreeView<T>
                 here.isOpen = true;
                 here = this.nodes2Elements.get(here.node.parent);
             }
-            e.element.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-                inline: "nearest"
-            });
+            e.scrollIntoView();
         }
         else {
             e = this.selectedElement
             if (isDefined(e)) {
                 e._selected = false;
             }
-            this.dispatchEvent(new TreeViewNodeSelectedEvent<T>(null));
+            this.dispatchEvent(new TreeViewNodeSelectedEvent<ValueT>(null));
         }
     }
 
@@ -532,7 +617,7 @@ export class TreeView<T>
         return null;
     }
 
-    private reorderChildren(parentElement: TreeViewNode<T>) {
+    private reorderChildren(parentElement: TreeViewNode<ValueT>) {
         if (!this.locked && this.canChangeOrder) {
             const numChildren = parentElement.children.children.length;
             for (let i = 0; i < numChildren; ++i) {
@@ -550,7 +635,7 @@ export class TreeView<T>
         }
     }
 
-    private createElement(node: TreeNode<T>): TreeViewNode<T> {
+    private createElement(node: TreeNode<ValueT>): TreeViewNode<ValueT> {
         const element = new TreeViewNode(
             node,
             this.options.defaultLabel,
@@ -584,7 +669,7 @@ export class TreeView<T>
                 else {
                     const index = this.options.getOrder(node.value);
                     let nextNodeIndex = Number.MAX_SAFE_INTEGER;
-                    let nextNode: TreeNode<T> = null;
+                    let nextNode: TreeNode<ValueT> = null;
                     for (const sibling of parentNode.children) {
                         if (sibling !== node) {
                             const sibIndex = this.options.getOrder(sibling.value);
@@ -609,30 +694,30 @@ export class TreeView<T>
         return element;
     }
 
-    addValue(value: T) {
+    addValue(value: ValueT) {
         const parent = this.options.getParent(value);
         const parentNode = isNullOrUndefined(parent)
             ? this.rootNode
-            : this.rootNode.search(n => n.value === parent);
+            : this.rootNode.find(parent);
 
         const parentElement = this.nodes2Elements.get(parentNode);
         parentElement.add(value);
     }
 
-    updateNode(node: TreeNode<T>) {
+    updateNode(node: TreeNode<ValueT>) {
         const element = this.nodes2Elements.get(node);
         if (element) {
             element.refresh();
         }
     }
 
-    reparentNode(node: TreeNode<T>, newParentNode: TreeNode<T>, delta: number) {
+    reparentNode(node: TreeNode<ValueT>, newParentNode: TreeNode<ValueT>, delta: number) {
         const curParent = node.parent;
         const curElement = this.nodes2Elements.get(node);
         const curParentElement = this.nodes2Elements.get(curParent);
 
         let nextParentElement = this.nodes2Elements.get(newParentNode);
-        let nextSiblingElement: TreeViewNode<T> = null;
+        let nextSiblingElement: TreeViewNode<ValueT> = null;
 
         if (delta !== 0) {
             nextSiblingElement = nextParentElement;
@@ -671,14 +756,14 @@ export class TreeView<T>
         nextParentElement.isOpen = true;
     }
 
-    removeValue(value: T) {
+    removeValue(value: ValueT) {
         this.removeNode(this.rootNode.find(value));
     }
 
-    removeNode(node: TreeNode<T>) {
+    removeNode(node: TreeNode<ValueT>) {
         const element = this.nodes2Elements.get(node);
         if (element.selected) {
-            this.dispatchEvent(new TreeViewNodeSelectedEvent<T>(null));
+            this.dispatchEvent(new TreeViewNodeSelectedEvent<ValueT>(null));
         }
 
         const parentElement = this.nodes2Elements.get(node.parent);
