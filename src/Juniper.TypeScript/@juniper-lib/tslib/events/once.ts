@@ -55,9 +55,9 @@ export function once(target: EventTarget, resolveEvt: string, rejectEvtOrTimeout
         task.finally(() => target.removeEventListener(evt, callback));
     }
 
-    register(resolveEvt, task.forEvent<Event>());
+    register(resolveEvt, (evt) => task.resolve(evt));
 
-    const onReject = task.forEvent<Event>();
+    const onReject = (evt: Event) => task.reject(evt);
     for (const rejectEvt of rejectEvts) {
         register(rejectEvt, onReject);
     }

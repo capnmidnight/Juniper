@@ -107,13 +107,6 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
         return () => this.resolve(value);
     }
 
-    /**
-     * Creates a resolving callback for a type of an event.
-     **/
-    forEvent<EventT extends ResultsT & Event>() {
-        return (evt: EventT) => this.resolve(evt);
-    }
-
     resolveOn<EventMapT, EventT extends keyof EventMapT = keyof EventMapT>(
         target: TypedEventBase<EventMapT> | EventTarget,
         resolveEvt: EventT,
