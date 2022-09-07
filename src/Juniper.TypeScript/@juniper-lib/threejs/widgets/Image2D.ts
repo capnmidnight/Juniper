@@ -53,7 +53,7 @@ export class Image2D
     constructor(env: BaseEnvironment, name: string, public webXRLayerType: WebXRLayerType, materialOrOptions: MeshBasicMaterialParameters | MeshBasicMaterial = null) {
         super();
 
-        this.onRedrawLayer = () => this.updateTexture(true);
+        this.onRedrawLayer = () => this.updateTexture();
 
         if (env) {
             this.setEnvAndName(env, name);
@@ -218,7 +218,6 @@ export class Image2D
                 this.mesh.material.map = new Texture(img);
                 this.mesh.material.map.needsUpdate = true;
             }
-
         }
 
         this.mesh.material.needsUpdate = true;
@@ -228,7 +227,7 @@ export class Image2D
         return this.curImage instanceof HTMLVideoElement;
     }
 
-    updateTexture(force = false) {
+    updateTexture() {
         if (isDefined(this.curImage)) {
             const curVideo = this.curImage as HTMLVideoElement;
             const newWidth = this.isVideo ? curVideo.videoWidth : this.curImage.width;
@@ -243,8 +242,9 @@ export class Image2D
                 this.setTextureMap(img);
             }
             else {
-                this.mesh.material.map.needsUpdate = force;
-                this.forceUpdate = force;
+                this.mesh.material.map.needsUpdate
+                    = this.forceUpdate
+                    = true;
             }
         }
     }
