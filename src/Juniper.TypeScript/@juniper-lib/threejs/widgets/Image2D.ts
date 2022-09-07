@@ -29,15 +29,21 @@ export type WebXRLayerType = "none" | "static" | "dynamic";
 export class Image2D
     extends Object3D
     implements IDisposable {
+
     private readonly lastMatrixWorld = new Matrix4();
-    private layer: XRQuadLayer = null;
-    private wasUsingLayer = false;
+    private readonly onRedrawLayer: () => void;
+
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
+    private forceUpdate = false;
+    private wasUsingLayer = false;
+
+    private layer: XRQuadLayer = null;
     private curImage: TexImageSource | OffscreenCanvas = null;
     private lastImage: TexImageSource | OffscreenCanvas = null;
     private lastWidth: number = null;
     private lastHeight: number = null;
+
     protected env: BaseEnvironment = null;
 
     mesh: Mesh<BufferGeometry, MeshBasicMaterial> = null;
@@ -46,6 +52,8 @@ export class Image2D
 
     constructor(env: BaseEnvironment, name: string, public webXRLayerType: WebXRLayerType, materialOrOptions: MeshBasicMaterialParameters | MeshBasicMaterial = null) {
         super();
+
+        this.onRedrawLayer = () => this.updateTexture(true);
 
         if (env) {
             this.setEnvAndName(env, name);
@@ -176,6 +184,7 @@ export class Image2D
 
             const layer = this.layer;
             this.layer = null;
+            layer.removeEventListener("redraw", this.onRedrawLayer);
 
             setTimeout(() => layer.destroy(), 100);
         }
@@ -219,7 +228,7 @@ export class Image2D
         return this.curImage instanceof HTMLVideoElement;
     }
 
-    updateTexture() {
+    updateTexture(force = false) {
         if (isDefined(this.curImage)) {
             const curVideo = this.curImage as HTMLVideoElement;
             const newWidth = this.isVideo ? curVideo.videoWidth : this.curImage.width;
@@ -232,6 +241,10 @@ export class Image2D
                 this.disposeImage();
 
                 this.setTextureMap(img);
+            }
+            else {
+                this.mesh.material.map.needsUpdate = force;
+                this.forceUpdate = force;
             }
         }
     }
@@ -249,7 +262,8 @@ export class Image2D
             const useLayerChanged = useLayer !== this.wasUsingLayer;
             const imageChanged = this.curImage !== this.lastImage
                 || this.mesh.material.needsUpdate
-                || this.mesh.material.map.needsUpdate;
+                || this.mesh.material.map.needsUpdate
+                || this.forceUpdate;
             const sizeChanged = this.imageWidth !== this.lastWidth
                 || this.imageHeight !== this.lastHeight;
 
@@ -289,6 +303,7 @@ export class Image2D
                             width,
                             height
                         });
+                        this.layer.addEventListener("redraw", this.onRedrawLayer);
                     }
                     else {
                         this.layer = this.env.xrBinding.createQuadLayer({
@@ -302,6 +317,7 @@ export class Image2D
                             width,
                             height
                         });
+                        this.layer.addEventListener("redraw", this.onRedrawLayer);
                     }
 
                     this.env.addWebXRLayer(this.layer, 500);
@@ -326,6 +342,7 @@ export class Image2D
                     gl.generateMipmap(gl.TEXTURE_2D);
 
                     gl.bindTexture(gl.TEXTURE_2D, null);
+                    this.forceUpdate = false;
                 }
 
                 if (arrayCompare(this.matrixWorld.elements, this.lastMatrixWorld.elements) >= 0) {
@@ -335,6 +352,9 @@ export class Image2D
                     this.layer.width = S.x / 2;
                     this.layer.height = S.y / 2;
                 }
+            }
+            else {
+                this.forceUpdate = false;
             }
         }
     }
