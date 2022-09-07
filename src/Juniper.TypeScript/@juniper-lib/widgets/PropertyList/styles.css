@@ -2,6 +2,7 @@ dl.properties {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-column-gap: 0.25em;
+    margin-bottom: 0;
 }
 
     dl.properties.disabled {
@@ -25,6 +26,7 @@ dl.properties {
         grid-column: 2/-1;
         display: grid;
         grid-template-columns: auto;
+        margin-bottom: 0;
     }
 
         dl.properties > dd input[type=number] {

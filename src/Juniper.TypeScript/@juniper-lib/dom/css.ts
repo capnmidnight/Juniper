@@ -318,6 +318,10 @@ export class CssElementStyleProp<K extends CSSPropName = CSSPropName>
     }
 }
 
+export function isCssElementStyleProp(obj: any): obj is CssElementStyleProp {
+    return obj instanceof CssElementStyleProp;
+}
+
 class CssElementStylePropSet extends SelectorPropSet<CssElementStyleProp> {
     constructor(selector: string, props: CssElementStyleProp[]) {
         super(selector, props);

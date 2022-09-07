@@ -1,4 +1,5 @@
-import { className } from "@juniper-lib/dom/attrs";
+import { Attr, classList, coallesceClassLists, isAttr } from "@juniper-lib/dom/attrs";
+import { CssElementStyleProp, isCssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     DD,
     Div,
@@ -21,6 +22,7 @@ import {
     isArray,
     isBoolean,
     isDate,
+    isDefined,
     isNumber,
     isString
 } from "@juniper-lib/tslib/typeChecks";
@@ -44,10 +46,18 @@ export function group(name: string, ...properties: PropertyElement[]) {
 }
 
 export type Property = PropertyElement | PropertyGroup;
+type PropertyDef = Property | Attr | CssElementStyleProp;
 type RowElement = Exclude<PropertyChild, string | number | boolean | Date>;
 type Row = Array<RowElement>;
 
 const DEFAULT_PROPERTY_GROUP = "DefaultPropertyGroup" + stringRandom(16);
+
+
+function isPropertyDef(obj: PropertyDef): obj is Property {
+    return isDefined(obj)
+        && !isCssElementStyleProp(obj)
+        && !isAttr(obj);
+}
 
 export class PropertyList
     implements ErsatzElement {
@@ -57,10 +67,17 @@ export class PropertyList
     private readonly controls = new Array<IDisableable>();
     private _disabled = false;
 
-    constructor(...rest: Property[]) {
+    constructor(...rest: PropertyDef[]) {
+        const props = rest.filter(isPropertyDef);
+        const styles = rest.filter(isCssElementStyleProp);
+        const attrs = rest.filter(isAttr);
+        const classes = coallesceClassLists(attrs, "properties");
+
         this.element = DL(
-            className("properties"),
-            ...this.createElements(rest));
+            classList(...classes),
+            ...styles,
+            ...attrs,
+            ...this.createElements(props));
     }
 
     append(...rest: Property[]): void {

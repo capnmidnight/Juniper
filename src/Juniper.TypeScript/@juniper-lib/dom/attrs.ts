@@ -1,5 +1,6 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
-import { isString } from "@juniper-lib/tslib/typeChecks";
+import { arrayRemove, arrayScan } from "@juniper-lib/tslib/collections/arrays";
+import { isDefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 /**
  * A setter functor for HTML attributes.
@@ -63,6 +64,27 @@ export class Attr {
     }
 }
 
+export function isAttr(obj: any): obj is Attr {
+    return obj instanceof Attr;
+}
+
+export function coallesceClassLists(attrs: Attr[], ...rest: string[]): string[] {
+    const classes = [...rest];
+
+    const classListAttr = arrayScan(attrs, attr => attr instanceof Attr && attr.key === "classList");
+    if (isDefined(classListAttr)) {
+        arrayRemove(attrs, classListAttr);
+        classes.push(...classListAttr.value as string[]);
+    }
+
+    const classNameAttr = arrayScan(attrs, attr => attr instanceof Attr && attr.key === "className");
+    if (isDefined(classNameAttr)) {
+        arrayRemove(attrs, classNameAttr)
+        classes.push(...(classNameAttr.value as string).split(" "));
+    }
+
+    return classes;
+}
 
 /**
  * a list of types the server accepts, typically a file type.
