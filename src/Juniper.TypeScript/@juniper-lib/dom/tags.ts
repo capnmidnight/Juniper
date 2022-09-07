@@ -328,7 +328,6 @@ export function Del(...rest: ElementChild[]): HTMLModElement { return tag("del",
 export function Details(...rest: ElementChild[]): HTMLDetailsElement { return tag("details", ...rest); }
 export function DFN(...rest: ElementChild[]): HTMLElement { return tag("dfn", ...rest); }
 export function Dialog(...rest: ElementChild[]): HTMLDialogElement { return tag("dialog", ...rest); }
-export function Dir(...rest: ElementChild[]): HTMLDirectoryElement { return tag("dir", ...rest); }
 export function Div(...rest: ElementChild[]): HTMLDivElement { return tag("div", ...rest); }
 export function DL(...rest: ElementChild[]): HTMLDListElement { return tag("dl", ...rest); }
 export function DT(...rest: ElementChild[]): HTMLElement { return tag("dt", ...rest); }
@@ -378,7 +377,6 @@ export function Link(...rest: ElementChild[]) { return tag("link", ...rest); }
 export function Main(...rest: ElementChild[]) { return tag("main", ...rest); }
 export function HtmlMap(...rest: ElementChild[]) { return tag("map", ...rest); }
 export function Mark(...rest: ElementChild[]) { return tag("mark", ...rest); }
-export function Marquee(...rest: ElementChild[]) { return tag("marquee", ...rest); }
 export function Menu(...rest: ElementChild[]) { return tag("menu", ...rest); }
 export function Meta(...rest: ElementChild[]) { return tag("meta", ...rest); }
 export function Meter(...rest: ElementChild[]) { return tag("meter", ...rest); }
@@ -390,7 +388,6 @@ export function OptGroup(...rest: ElementChild[]) { return tag("optgroup", ...re
 export function Option(...rest: ElementChild[]) { return tag("option", ...rest); }
 export function Output(...rest: ElementChild[]) { return tag("output", ...rest); }
 export function P(...rest: ElementChild[]) { return tag("p", ...rest); }
-export function Param(...rest: ElementChild[]) { return tag("param", ...rest); }
 export function Picture(...rest: ElementChild[]) { return tag("picture", ...rest); }
 export function Pre(...rest: ElementChild[]) { return tag("pre", ...rest); }
 export function Progress(...rest: ElementChild[]) { return tag("progress", ...rest); }
