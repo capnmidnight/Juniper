@@ -1,5 +1,5 @@
 import { value } from "@juniper-lib/dom/attrs";
-import type { ErsatzElement } from "@juniper-lib/dom/tags";
+import { ErsatzElement, Select } from "@juniper-lib/dom/tags";
 import { elementClearChildren, Option } from "@juniper-lib/dom/tags";
 import { arraySortByKey } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
@@ -24,6 +24,8 @@ export class SelectList<T>
     extends TypedEventBase<SelectListEvents<T>>
     implements ErsatzElement {
 
+    public readonly element = Select();
+
     private makeID: makeItemCallback<T>;
     private makeLabel: makeItemCallback<T>;
     private getSortKey: makeItemCallback<T>;
@@ -38,20 +40,18 @@ export class SelectList<T>
 
     /**
      * Creates a select box that can bind to collections
-     * @param element - the select box to wrap.
      * @param makeID - a function that evalutes a databound item to create an ID for it.
      * @param makeLabel - a function that evalutes a databound item to create a label for it.
      */
-    constructor(element: HTMLSelectElement, makeID: makeItemCallback<T>, makeLabel: makeItemCallback<T>, getSortKey: makeItemCallback<T>);
+    constructor(makeID: makeItemCallback<T>, makeLabel: makeItemCallback<T>, getSortKey: makeItemCallback<T>);
     /**
      * Creates a select box that can bind to collections
-     * @param element - the select box to wrap.
      * @param makeID - a function that evalutes a databound item to create an ID for it.
      * @param makeLabel - a function that evalutes a databound item to create a label for it.
      * @param noSelectionText - the text to display when no items are available.
      */
-    constructor(element: HTMLSelectElement, makeID: makeItemCallback<T>, makeLabel: makeItemCallback<T>, getSortKey: makeItemCallback<T>, noSelectionText: string);
-    constructor(public readonly element: HTMLSelectElement, makeID: makeItemCallback<T>, makeLabel: makeItemCallback<T>, getSortKey: makeItemCallback<T>, noSelectionText?: string) {
+    constructor(makeID: makeItemCallback<T>, makeLabel: makeItemCallback<T>, getSortKey: makeItemCallback<T>, noSelectionText: string);
+    constructor(makeID: makeItemCallback<T>, makeLabel: makeItemCallback<T>, getSortKey: makeItemCallback<T>, noSelectionText?: string) {
         super();
 
         this.makeID = withDefault(makeID);
