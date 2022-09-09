@@ -120,12 +120,12 @@ export class AvatarLocal
     readonly worldPos = new Vector3();
     readonly worldQuat = new Quaternion()
 
+    lockMovement = false;
     fovZoomEnabled = true;
     minFOV = 15;
     maxFOV = 120;
     minimumX = deg2rad(-85);
     maximumX = deg2rad(85);
-
     edgeFactor = 1 / 3;
 
 
@@ -360,13 +360,6 @@ export class AvatarLocal
     }
 
     update(dt: number) {
-        if (this.fovZoomEnabled
-            && Math.abs(this.dz) > 0) {
-            const smoothing = Math.pow(0.95, 5 * dt);
-            this.dz = truncate(smoothing * this.dz);
-            this.fov = clamp(this.env.camera.fov - this.dz, this.minFOV, this.maxFOV);
-        }
-
         dt *= 0.001;
 
         const device = this.deviceOrientation;
@@ -387,82 +380,92 @@ export class AvatarLocal
             this.deviceQ.slerp(this.Q4, .8);
         }
 
-        if (this.controlMode === CameraControlMode.ScreenEdge) {
-            if (this.uv.manhattanLength() > 0) {
-                this.motion
-                    .set(
-                        this.scaleRadialComponent(-this.uv.x, this.speed.x, this.acceleration.x),
-                        this.scaleRadialComponent(this.uv.y, this.speed.y, this.acceleration.y))
-                    .multiplyScalar(dt);
-                this.setHeading(this.headingRadians + this.motion.x);
-                this.setPitch(this.pitchRadians + this.motion.y, this.minimumX, this.maximumX);
-                this.setRoll(0);
+        if (!this.lockMovement) {
+
+            if (this.fovZoomEnabled
+                && Math.abs(this.dz) > 0) {
+                const smoothing = Math.pow(0.95, 5000 * dt);
+                this.dz = truncate(smoothing * this.dz);
+                this.fov = clamp(this.env.camera.fov - this.dz, this.minFOV, this.maxFOV);
             }
-        }
-        else if (this.sensitivities.has(this.controlMode)) {
-            if (this.duv.manhattanLength() > 0) {
-                const sensitivity = this.sensitivities.get(this.controlMode) || 1;
-                this.motion
-                    .copy(this.duv)
-                    .multiplyScalar(sensitivity * dt)
-                    .multiply(this.axisControl);
-                this.setHeading(this.headingRadians + this.motion.x);
-                this.setPitch(this.pitchRadians + this.motion.y, this.minimumX, this.maximumX);
-                this.setRoll(0);
+
+            if (this.controlMode === CameraControlMode.ScreenEdge) {
+                if (this.uv.manhattanLength() > 0) {
+                    this.motion
+                        .set(
+                            this.scaleRadialComponent(-this.uv.x, this.speed.x, this.acceleration.x),
+                            this.scaleRadialComponent(this.uv.y, this.speed.y, this.acceleration.y))
+                        .multiplyScalar(dt);
+                    this.setHeading(this.headingRadians + this.motion.x);
+                    this.setPitch(this.pitchRadians + this.motion.y, this.minimumX, this.maximumX);
+                    this.setRoll(0);
+                }
             }
-        }
-
-        this.Q1.setFromAxisAngle(this.stage.up, this.worldHeadingRadians);
-
-        if (this.fwrd || this.back || this.left || this.rght || this.up || this.down) {
-            const dx = (this.left ? 1 : 0) + (this.rght ? -1 : 0);
-            const dy = (this.down ? 1 : 0) + (this.up ? -1 : 0);
-            const dz = (this.fwrd ? 1 : 0) + (this.back ? -1 : 0);
-            this.move.set(dx, dy, dz);
-            const d = this.move.length();
-            if (d > 0) {
-                this.move
-                    .multiplyScalar(dt / d)
-                    .applyQuaternion(this.Q1);
-                this.stage.position.add(this.move);
+            else if (this.sensitivities.has(this.controlMode)) {
+                if (this.duv.manhattanLength() > 0) {
+                    const sensitivity = this.sensitivities.get(this.controlMode) || 1;
+                    this.motion
+                        .copy(this.duv)
+                        .multiplyScalar(sensitivity * dt)
+                        .multiply(this.axisControl);
+                    this.setHeading(this.headingRadians + this.motion.x);
+                    this.setPitch(this.pitchRadians + this.motion.y, this.minimumX, this.maximumX);
+                    this.setRoll(0);
+                }
             }
-        }
 
-        if (this.fwrd2 || this.back2 || this.left2 || this.rght2) {
-            const dx = (this.left2 ? 1 : 0) + (this.rght2 ? -1 : 0);
-            const dz = (this.fwrd2 ? 1 : 0) + (this.back2 ? -1 : 0);
-            this.move2.set(dx, 0, dz);
-            const d = this.move2.length();
-            if (d > 0) {
-                this.move2
-                    .multiplyScalar(dt / d)
-                    .applyQuaternion(this.Q1);
+            this.Q1.setFromAxisAngle(this.stage.up, this.worldHeadingRadians);
 
-                this.headX += this.move2.x;
-                this.headZ += this.move2.z;
+            if (this.fwrd || this.back || this.left || this.rght || this.up || this.down) {
+                const dx = (this.left ? 1 : 0) + (this.rght ? -1 : 0);
+                const dy = (this.down ? 1 : 0) + (this.up ? -1 : 0);
+                const dz = (this.fwrd ? 1 : 0) + (this.back ? -1 : 0);
+                this.move.set(dx, dy, dz);
+                const d = this.move.length();
+                if (d > 0) {
+                    this.move
+                        .multiplyScalar(dt / d)
+                        .applyQuaternion(this.Q1);
+                    this.stage.position.add(this.move);
+                }
             }
-        }
 
-        if (this.grow || this.shrk) {
-            const dy = (this.shrk ? -1 : 0) + (this.grow ? 1 : 0);
-            this._height += dy * dt;
-            this._height = clamp(this._height, 1, 2);
-        }
+            if (this.fwrd2 || this.back2 || this.left2 || this.rght2) {
+                const dx = (this.left2 ? 1 : 0) + (this.rght2 ? -1 : 0);
+                const dz = (this.fwrd2 ? 1 : 0) + (this.back2 ? -1 : 0);
+                this.move2.set(dx, 0, dz);
+                const d = this.move2.length();
+                if (d > 0) {
+                    this.move2
+                        .multiplyScalar(dt / d)
+                        .applyQuaternion(this.Q1);
 
-        this.updateOrientation();
+                    this.headX += this.move2.x;
+                    this.headZ += this.move2.z;
+                }
+            }
 
-        this.userMovedEvt.set(
-            this.P.x, this.P.y, this.P.z,
-            this.F.x, this.F.y, this.F.z,
-            this.U.x, this.U.y, this.U.z,
-            this.height);
+            if (this.grow || this.shrk) {
+                const dy = (this.shrk ? -1 : 0) + (this.grow ? 1 : 0);
+                this._height += dy * dt;
+                this._height = clamp(this._height, 1, 2);
+            }
 
-        this.dispatchEvent(this.userMovedEvt);
+            this.updateOrientation();
 
-        const decay = Math.pow(0.95, 100 * dt);
-        this.duv.multiplyScalar(decay);
-        if (this.duv.manhattanLength() <= 0.0001) {
-            this.duv.setScalar(0);
+            this.userMovedEvt.set(
+                this.P.x, this.P.y, this.P.z,
+                this.F.x, this.F.y, this.F.z,
+                this.U.x, this.U.y, this.U.z,
+                this.height);
+
+            this.dispatchEvent(this.userMovedEvt);
+
+            const decay = Math.pow(0.95, 100 * dt);
+            this.duv.multiplyScalar(decay);
+            if (this.duv.manhattanLength() <= 0.0001) {
+                this.duv.setScalar(0);
+            }
         }
     }
 
