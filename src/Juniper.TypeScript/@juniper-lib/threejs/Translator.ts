@@ -1,5 +1,5 @@
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
-import { AddEquation, ColorRepresentation, CustomBlending, SrcColorFactor, Vector3, ZeroFactor } from "three";
+import { ColorRepresentation, Quaternion, Vector3 } from "three";
 import { Cone } from "./Cone";
 import { Cube } from "./Cube";
 import { VirtualButton } from "./eventSystem/devices/VirtualButton";
@@ -11,7 +11,8 @@ import { TransformEditorMode } from "./TransformEditor";
 
 export class TranslatorDragDirEvent extends TypedEvent<"dragdir">{
 
-    public readonly delta = new Vector3();
+    public readonly deltaPosition = new Vector3();
+    public readonly deltaRotation = new Quaternion();
     public magnitude: number = 0;
 
     constructor() {
@@ -25,6 +26,8 @@ export interface TranslatorDragDirEvents {
     "dragend": TypedEvent<"dragend">;
 }
 
+const P = new Vector3();
+
 export class Translator extends RayTarget<TranslatorDragDirEvents> {
     private static readonly small = new Vector3(0.1, 0.1, 0.1);
     private readonly bar: Cube;
@@ -32,7 +35,8 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
     private readonly conePad: Cone;
     private _size: number = 1;
     private readonly motionAxis: Vector3;
-    private readonly rotationAxis: Vector3;
+    private readonly rotationXAxis: Vector3;
+    private readonly rotationYAxis: Vector3;
 
     private _mode: TransformEditorMode = null;
 
@@ -41,15 +45,17 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
         mx: number,
         my: number,
         mz: number,
+        rxx: number,
+        rxy: number,
+        rxz: number,
+        ryx: number,
+        ryy: number,
+        ryz: number,
         color: ColorRepresentation,
         mode: TransformEditorMode) {
         const material = lit({
             color,
-            depthTest: false,
-            blending: CustomBlending,
-            blendSrc: SrcColorFactor,
-            blendDst: ZeroFactor,
-            blendEquation: AddEquation
+            depthTest: false
         });
 
         const cube = new Cube(1, 1, 1, material);
@@ -71,7 +77,8 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
         this.addMesh(this.conePad);
 
         this.motionAxis = new Vector3(mx, my, mz);
-        
+        this.rotationXAxis = new Vector3(rxx, rxy, rxz);
+        this.rotationYAxis = new Vector3(ryx, ryy, ryz);        
 
         const start = new Vector3();
         const deltaIn = new Vector3();
@@ -102,13 +109,33 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
                 start.copy(evt.point);
 
                 if (deltaIn.manhattanLength() > 0) {
-                    dragEvt.delta
-                        .copy(this.motionAxis)
-                        .applyQuaternion(this.object.parent.parent.quaternion);
 
-                    dragEvt.magnitude = deltaIn.dot(dragEvt.delta)
 
-                    dragEvt.delta.multiplyScalar(dragEvt.magnitude);
+                    if (this.mode === TransformEditorMode.Rotate) {
+                        if (Math.abs(deltaIn.x) > Math.abs(deltaIn.y)) {
+                            P.copy(this.rotationXAxis)
+                                //.applyQuaternion(this.object.parent.parent.quaternion);
+
+                            dragEvt.deltaRotation
+                                .setFromAxisAngle(P, deltaIn.x);
+                        }
+                        else {
+                            P.copy(this.rotationYAxis)
+                                //.applyQuaternion(this.object.parent.parent.quaternion);
+
+                            dragEvt.deltaRotation
+                                .setFromAxisAngle(P, deltaIn.y);
+                        }
+                    }
+                    else {
+                        dragEvt.deltaPosition
+                            .copy(this.motionAxis)
+                            .applyQuaternion(this.object.parent.parent.quaternion);
+
+                        dragEvt.magnitude = deltaIn.dot(dragEvt.deltaPosition);
+
+                        dragEvt.deltaPosition.multiplyScalar(dragEvt.magnitude);
+                    }
 
                     this.dispatchEvent(dragEvt);
                 }
