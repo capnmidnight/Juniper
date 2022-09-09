@@ -38,7 +38,7 @@ export abstract class BaseScreenPointer extends BasePointer {
     }
 
     private checkEvent(evt: PointerEvent): boolean {
-        return this.isActive = this.onCheckEvent(evt);
+        return this._isActive = this.onCheckEvent(evt);
     }
 
     protected onCheckEvent(evt: PointerEvent): boolean {

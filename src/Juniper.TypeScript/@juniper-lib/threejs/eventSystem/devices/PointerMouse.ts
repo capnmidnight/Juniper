@@ -39,7 +39,7 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
         });
 
         window.addEventListener("keydown", (evt) => {
-            if (this.isActive && this.keyMap.has(evt.key)) {
+            if (this._isActive && this.keyMap.has(evt.key)) {
                 this.setButton(this.keyMap.get(evt.key), isModifierless(evt));
             }
         });

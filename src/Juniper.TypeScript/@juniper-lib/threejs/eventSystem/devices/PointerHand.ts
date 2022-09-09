@@ -136,7 +136,7 @@ export class PointerHand
                 this.hand.visible = this.isHand;
 
                 this.enabled = true;
-                this.isActive = true;
+                this._isActive = true;
                 this.env.eventSys.checkXRMouse();
                 this.updateCursorSide();
                 console.log(this.handedness, "connected");
@@ -155,7 +155,7 @@ export class PointerHand
                 this.hand.visible = false;
 
                 this.enabled = false;
-                this.isActive = false;
+                this._isActive = false;
                 this.env.eventSys.checkXRMouse();
                 this.updateCursorSide();
                 console.log(this.handedness, "disconnected");

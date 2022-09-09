@@ -27,7 +27,7 @@ export abstract class BasePointer
     mayTeleport = false;
 
     protected buttons = 0;
-    protected isActive = false;
+    protected _isActive = false;
     protected moveDistance = 0;
 
     private readonly hits = new Array<Intersection>();
@@ -58,6 +58,10 @@ export abstract class BasePointer
 
     abstract vibrate(): void;
     protected abstract updatePointerOrientation(): void;
+
+    get isActive() {
+        return this._isActive;
+    }
 
     private get curHit() {
         return this._curHit;
@@ -133,7 +137,7 @@ export abstract class BasePointer
 
     get needsUpdate() {
         return this.enabled
-            && this.isActive;
+            && this._isActive;
     }
 
     get enabled() {
