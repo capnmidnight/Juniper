@@ -22,7 +22,7 @@ export class Fader implements ErsatzObject {
             side: BackSide
         });
         this.object = mesh(name, geom, this.material);
-        this.object.renderOrder = Number.MAX_VALUE;
+        this.object.renderOrder = Number.MAX_SAFE_INTEGER;
         this.speed = 1 / t;
         this.object.layers.enableAll();
     }

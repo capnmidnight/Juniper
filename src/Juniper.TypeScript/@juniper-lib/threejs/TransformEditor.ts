@@ -1,24 +1,19 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { MeshBasicMaterial, Object3D, Quaternion, Vector3 } from "three";
-import { solidBlue, solidGreen, solidRed } from "./materials";
+import { assertNever } from "@juniper-lib/tslib/typeChecks";
+import { ColorRepresentation, Object3D, Quaternion, Vector3 } from "three";
+import { blue, green, red } from "./materials";
 import { ErsatzObject, obj, objectIsVisible, objectSetVisible } from "./objects";
 import { Translator } from "./Translator";
 
-export class TransformEditorMovingEvent extends TypedEvent<"moving"> {
-    constructor() {
-        super("moving");
-    }
-}
-
-export class TransformEditorMovedEvent extends TypedEvent<"moved"> {
-    constructor() {
-        super("moved");
-    }
+function v(v: Vector3) {
+    return `<${v.toArray().map(v => v.toFixed(4)).join(",")}>\n`;
 }
 
 interface TransformEditorEvents {
-    moving: TransformEditorMovingEvent;
-    moved: TransformEditorMovedEvent;
+    moving: TypedEvent<"moving">;
+    moved: TypedEvent<"moved">;
+    freeze: TypedEvent<"freeze">;
+    unfreeze: TypedEvent<"unfreeze">;
 }
 
 export enum TransformEditorMode {
@@ -37,22 +32,24 @@ export class TransformEditor
 
     private _size: number = 1;
 
-    private readonly movingEvt = new TransformEditorMovingEvent();
-    private readonly movedEvt = new TransformEditorMovedEvent();
+    private readonly movingEvt = new TypedEvent("moving");
+    private readonly movedEvt = new TypedEvent("moved");
+    private readonly freezeEvt = new TypedEvent("freeze");
+    private readonly unfreezeEvt = new TypedEvent("unfreeze");
 
-    private _mode: TransformEditorMode;
+    private _mode: TransformEditorMode = null;
 
     constructor(mode: TransformEditorMode, defaultAvatarHeight: number) {
         super();
 
         this.object = obj("Translator",
             ...this.translators = [
-                this.setTranslator("+X", 1, 0, 0, solidRed, defaultAvatarHeight),
-                this.setTranslator("-X", -1, 0, 0, solidRed, defaultAvatarHeight),
-                this.setTranslator("+Y", 0, 1, 0, solidGreen, defaultAvatarHeight),
-                this.setTranslator("-Y", 0, -1, 0, solidGreen, defaultAvatarHeight),
-                this.setTranslator("+Z", 0, 0, 1, solidBlue, defaultAvatarHeight),
-                this.setTranslator("-Z", 0, 0, -1, solidBlue, defaultAvatarHeight)
+                this.setTranslator("+X", 1, 0, 0, red, defaultAvatarHeight, mode),
+                this.setTranslator("-X", -1, 0, 0, red, defaultAvatarHeight, mode),
+                this.setTranslator("+Y", 0, 1, 0, green, defaultAvatarHeight, mode),
+                this.setTranslator("-Y", 0, -1, 0, green, defaultAvatarHeight, mode),
+                this.setTranslator("+Z", 0, 0, 1, blue, defaultAvatarHeight, mode),
+                this.setTranslator("-Z", 0, 0, -1, blue, defaultAvatarHeight, mode)
             ]
         );
 
@@ -66,10 +63,9 @@ export class TransformEditor
     set mode(v) {
         if (v !== this.mode) {
             this._mode = v;
-            this.translators[4].object.visible
-                = this.translators[5].object.visible
-                = this.mode !== TransformEditorMode.Orbit
-                && this.mode !== TransformEditorMode.Resize;
+            for (const translator of this.translators) {
+                translator.mode = v;
+            }
         }
     }
 
@@ -90,11 +86,10 @@ export class TransformEditor
     private readonly up = new Vector3();
     private readonly q = new Quaternion();
 
-    private setTranslator(name: string, sx: number, sy: number, sz: number, color: MeshBasicMaterial, defaultAvatarHeight: number): Translator {
-        const translator = new Translator(name, sx, sy, sz, color);
+    private setTranslator(name: string, sx: number, sy: number, sz: number, color: ColorRepresentation, defaultAvatarHeight: number, mode: TransformEditorMode): Translator {
+        const translator = new Translator(name, sx, sy, sz, color, mode);
         translator.size = this.size * 0.5;
         translator.addEventListener("dragdir", (evt) => {
-            this.object.parent.parent.getWorldPosition(this.p);
             this.object.parent.position.y -= defaultAvatarHeight;
 
             const dist = this.object.parent.position.length();
@@ -106,12 +101,20 @@ export class TransformEditor
 
             if (this.mode === TransformEditorMode.Orbit
                 || this.mode === TransformEditorMode.Move) {
+
+                this.start
+                    .copy(this.object.parent.position)
+                    .sub(this.p)
+                    .normalize();
+
                 this.object
                     .parent
                     .position
                     .add(evt.delta);
 
                 if (this.mode === TransformEditorMode.Orbit) {
+                    this.object.parent.parent.getWorldPosition(this.p);
+
                     this.object.parent.position
                         .normalize()
                         .multiplyScalar(dist);
@@ -130,14 +133,37 @@ export class TransformEditor
                     }
                 }
             }
+            else if (this.mode === TransformEditorMode.Resize) {
+                this.object.parent.scale.addScalar(evt.magnitude);
+                this.size = 1 / this.object.parent.scale.x;
+            }
+            else if (this.mode === TransformEditorMode.Rotate) {
+
+            }
+            else {
+                assertNever(this.mode);
+            }
 
             this.object.parent.position.y += defaultAvatarHeight;
 
             this.dispatchEvent(this.movingEvt);
         });
+        
+        translator.addEventListener("dragstart", () => {
+            if (this.mode !== TransformEditorMode.Move
+                && this.mode !== TransformEditorMode.Orbit) {
+                this.dispatchEvent(this.freezeEvt);
+            }
+        });
 
-        translator.addEventListener("up", () =>
-            this.dispatchEvent(this.movedEvt));
+        translator.addEventListener("dragend", () => {
+            if (this.mode !== TransformEditorMode.Move
+                && this.mode !== TransformEditorMode.Orbit) {
+                this.dispatchEvent(this.unfreezeEvt);
+            }
+
+            this.dispatchEvent(this.movedEvt);
+        });
 
         return translator;
     }
