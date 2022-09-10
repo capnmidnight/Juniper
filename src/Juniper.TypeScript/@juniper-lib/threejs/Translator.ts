@@ -27,13 +27,13 @@ export interface TranslatorDragDirEvents {
 }
 
 const P = new Vector3();
+const Q = new Quaternion();
 
 export class Translator extends RayTarget<TranslatorDragDirEvents> {
     private static readonly small = new Vector3(0.1, 0.1, 0.1);
     private readonly bar: Cube;
     private readonly spherePad: Sphere;
     private readonly conePad: Cone;
-    private _size: number = 1;
     private readonly motionAxis: Vector3;
     private readonly rotationXAxis: Vector3;
     private readonly rotationYAxis: Vector3;
@@ -42,6 +42,7 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
 
     constructor(
         name: string,
+        color: ColorRepresentation,
         mx: number,
         my: number,
         mz: number,
@@ -50,17 +51,15 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
         rxz: number,
         ryx: number,
         ryy: number,
-        ryz: number,
-        color: ColorRepresentation,
-        mode: TransformEditorMode) {
+        ryz: number) {
         const material = lit({
             color,
             depthTest: false
         });
 
         const cube = new Cube(1, 1, 1, material);
-        const cone = new Cone(1, 1, 1, material);
         const sphere = new Sphere(1, material);
+        const cone = new Cone(1, 1, 1, material);
 
         super(obj(
             "Translator " + name,
@@ -109,28 +108,19 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
                 start.copy(evt.point);
 
                 if (deltaIn.manhattanLength() > 0) {
-
-
                     if (this.mode === TransformEditorMode.Rotate) {
-                        if (Math.abs(deltaIn.x) > Math.abs(deltaIn.y)) {
-                            P.copy(this.rotationXAxis)
-                                //.applyQuaternion(this.object.parent.parent.quaternion);
+                        P.copy(this.rotationYAxis)
+                        Q.setFromAxisAngle(P, deltaIn.y);
 
-                            dragEvt.deltaRotation
-                                .setFromAxisAngle(P, deltaIn.x);
-                        }
-                        else {
-                            P.copy(this.rotationYAxis)
-                                //.applyQuaternion(this.object.parent.parent.quaternion);
-
-                            dragEvt.deltaRotation
-                                .setFromAxisAngle(P, deltaIn.y);
-                        }
+                        P.copy(this.rotationXAxis)
+                        dragEvt.deltaRotation
+                            .setFromAxisAngle(P, deltaIn.x)
+                            .multiply(Q);
                     }
                     else {
                         dragEvt.deltaPosition
                             .copy(this.motionAxis)
-                            .applyQuaternion(this.object.parent.parent.quaternion);
+                            .applyQuaternion(this.object.parent.quaternion);
 
                         dragEvt.magnitude = deltaIn.dot(dragEvt.deltaPosition);
 
@@ -149,8 +139,31 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
             }
         });
 
-        this.size = 1;
-        this.mode = mode;
+        this.spherePad.scale.setScalar(1 / 10);
+        this.spherePad.position
+            .copy(this.motionAxis)
+            .multiplyScalar(0.5)
+            .add(this.motionAxis)
+            .multiplyScalar(0.25);
+
+        this.conePad.scale.set(1 / 20, 1 / 10, 1 / 20);
+        this.conePad.position
+            .copy(this.motionAxis)
+            .multiplyScalar(0.5)
+            .add(this.motionAxis)
+            .multiplyScalar(0.25);
+        this.conePad.quaternion
+            .setFromUnitVectors(this.conePad.up, this.motionAxis);
+
+        this.bar.scale
+            .copy(this.motionAxis)
+            .multiplyScalar(0.9)
+            .add(Translator.small)
+            .multiplyScalar(0.25);
+
+        this.bar.position
+            .copy(this.motionAxis)
+            .multiplyScalar(0.25);
     }
 
     get mode() {
@@ -164,39 +177,5 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
                 || this.mode === TransformEditorMode.Rotate;
             this.conePad.visible = !this.spherePad.visible;
         }
-    }
-
-    get size(): number {
-        return this._size;
-    }
-
-    set size(v: number) {
-        this._size = v;
-
-        this.spherePad.scale.setScalar(v / 3);
-        this.spherePad.position
-            .copy(this.motionAxis)
-            .multiplyScalar(0.5)
-            .add(this.motionAxis)
-            .multiplyScalar(this.size);
-
-        this.conePad.scale.set(v / 5, v / 3, v / 5);
-        this.conePad.position
-            .copy(this.motionAxis)
-            .multiplyScalar(0.5)
-            .add(this.motionAxis)
-            .multiplyScalar(this.size);
-        this.conePad.quaternion
-            .setFromUnitVectors(this.conePad.up, this.motionAxis);
-
-        this.bar.scale
-            .copy(this.motionAxis)
-            .multiplyScalar(0.9)
-            .add(Translator.small)
-            .multiplyScalar(this.size);
-
-        this.bar.position
-            .copy(this.motionAxis)
-            .multiplyScalar(this.size);
     }
 }

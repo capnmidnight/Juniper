@@ -1,8 +1,9 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { assertNever } from "@juniper-lib/tslib/typeChecks";
+import { assertNever, isDefined } from "@juniper-lib/tslib/typeChecks";
 import { ColorRepresentation, Object3D, Quaternion, Vector3 } from "three";
-import { blue as blu, green as grn, red } from "./materials";
-import { ErsatzObject, obj, objectIsVisible, objectSetVisible } from "./objects";
+import { BaseEnvironment } from "./environment/BaseEnvironment";
+import { blue, green, red } from "./materials";
+import { ErsatzObject, obj, objectResolve, Objects, objectSetVisible } from "./objects";
 import { Translator } from "./Translator";
 
 interface TransformEditorEvents {
@@ -22,52 +23,73 @@ export enum TransformEditorMode {
 export class TransformEditor
     extends TypedEventBase<TransformEditorEvents>
     implements ErsatzObject {
+
     readonly object: Object3D;
 
-    private translators: Translator[];
-
-    private _size: number = 1;
-
+    private readonly translators: Translator[];
+    private readonly p = new Vector3();
+    private readonly start = new Vector3();
+    private readonly end = new Vector3();
+    private readonly up = new Vector3();
+    private readonly q = new Quaternion();
     private readonly movingEvt = new TypedEvent("moving");
     private readonly movedEvt = new TypedEvent("moved");
     private readonly freezeEvt = new TypedEvent("freeze");
     private readonly unfreezeEvt = new TypedEvent("unfreeze");
 
     private _mode: TransformEditorMode = null;
+    private _target: Object3D = null;
 
-    constructor(mode: TransformEditorMode, defaultAvatarHeight: number) {
+    constructor(private readonly env: BaseEnvironment, private readonly defaultAvatarHeight: number) {
         super();
 
         this.object = obj("Translator",
             ...this.translators = [
-                this.setTranslator("+X", red, defaultAvatarHeight, mode,
+                this.setTranslator("+X", red,
                     +1, +0, +0,
                     +0, +1, +0,
                     +0, +0, +1),
-                this.setTranslator("-X", red, defaultAvatarHeight, mode,
+                this.setTranslator("-X", red,
                     -1, +0, +0,
                     +0, +1, +0,
                     +0, +0, -1),
-                this.setTranslator("+Y", grn, defaultAvatarHeight, mode,
+                this.setTranslator("+Y", green,
                     +0, +1, +0,
                     +0, +0, -1,
                     -1, +0, +0),
-                this.setTranslator("-Y", grn, defaultAvatarHeight, mode,
+                this.setTranslator("-Y", green,
                     +0, -1, +0,
                     +0, +0, +1,
                     -1, +0, +0),
-                this.setTranslator("+Z", blu, defaultAvatarHeight, mode,
+                this.setTranslator("+Z", blue,
                     +0, +0, +1,
                     +0, +1, +0,
                     -1, +0, +0),
-                this.setTranslator("-Z", blu, defaultAvatarHeight, mode,
+                this.setTranslator("-Z", blue,
                     +0, +0, -1,
                     +0, -1, +0,
                     +1, +0, +0)
             ]
         );
 
-        this.mode = mode;
+        objectSetVisible(this, false);
+    }
+
+    get target(): Object3D {
+        return this._target;
+    }
+
+    setTarget(v: Objects, mode?: TransformEditorMode) {
+        v = objectResolve(v);
+        if (v !== this.target) {
+            this._target = v;
+            objectSetVisible(this, isDefined(this.target));
+            this.refresh();
+        }
+
+        if (isDefined(v) && isDefined(mode)) {
+            this.mode = mode;
+        }
     }
 
     get mode() {
@@ -80,31 +102,19 @@ export class TransformEditor
             for (const translator of this.translators) {
                 translator.mode = v;
             }
+
+            this.translators[4].object.visible
+                = this.translators[5].object.visible
+                = this.mode === TransformEditorMode.Rotate
+                || this.mode === TransformEditorMode.Move;
+
+            this.refresh();
         }
     }
-
-    get size(): number {
-        return this._size;
-    }
-
-    set size(v: number) {
-        this._size = v;
-        for (const translator of this.translators) {
-            translator.size = this.size * 0.5;
-        }
-    }
-
-    private readonly p = new Vector3();
-    private readonly start = new Vector3();
-    private readonly end = new Vector3();
-    private readonly up = new Vector3();
-    private readonly q = new Quaternion();
 
     private setTranslator(
         name: string,
         color: ColorRepresentation,
-        defaultAvatarHeight: number,
-        mode: TransformEditorMode,
         mx: number,
         my: number,
         mz: number,
@@ -115,15 +125,15 @@ export class TransformEditor
         ryy: number,
         ryz: number
     ): Translator {
-        const translator = new Translator(name, mx, my, mz, rxx, rxy, rxz, ryx, ryy, ryz, color, mode);
-        translator.size = this.size * 0.5;
+        const translator = new Translator(name, color, mx, my, mz, rxx, rxy, rxz, ryx, ryy, ryz);
         translator.addEventListener("dragdir", (evt) => {
-            this.object.parent.position.y -= defaultAvatarHeight;
+            const dist = this.target.position.length();
 
-            const dist = this.object.parent.position.length();
+            this.target.parent.getWorldPosition(this.p);
+            this.p.y += this.defaultAvatarHeight;
 
             this.start
-                .copy(this.object.parent.position)
+                .copy(this.target.position)
                 .sub(this.p)
                 .normalize();
 
@@ -131,24 +141,22 @@ export class TransformEditor
                 || this.mode === TransformEditorMode.Move) {
 
                 this.start
-                    .copy(this.object.parent.position)
+                    .copy(this.target.position)
                     .sub(this.p)
                     .normalize();
 
-                this.object
-                    .parent
+                this.target
                     .position
                     .add(evt.deltaPosition);
 
                 if (this.mode === TransformEditorMode.Orbit) {
-                    this.object.parent.parent.getWorldPosition(this.p);
 
-                    this.object.parent.position
+                    this.target.position
                         .normalize()
                         .multiplyScalar(dist);
 
                     this.end
-                        .copy(this.object.parent.position)
+                        .copy(this.target.position)
                         .sub(this.p)
                         .normalize();
 
@@ -157,22 +165,21 @@ export class TransformEditor
                         const a = Math.acos(d);
                         this.up.crossVectors(this.start, this.end).normalize();
                         this.q.setFromAxisAngle(this.up, a);
-                        this.object.parent.quaternion.premultiply(this.q);
+                        this.target.quaternion.premultiply(this.q);
                     }
                 }
             }
             else if (this.mode === TransformEditorMode.Resize) {
-                this.object.parent.scale.addScalar(evt.magnitude);
-                this.size = 1 / this.object.parent.scale.x;
+                this.target.scale.addScalar(evt.magnitude);
             }
             else if (this.mode === TransformEditorMode.Rotate) {
-                this.object.parent.quaternion.premultiply(evt.deltaRotation);
+                this.target.quaternion.premultiply(evt.deltaRotation);
             }
             else {
                 assertNever(this.mode);
             }
 
-            this.object.parent.position.y += defaultAvatarHeight;
+            this.refresh();
 
             this.dispatchEvent(this.movingEvt);
         });
@@ -196,11 +203,16 @@ export class TransformEditor
         return translator;
     }
 
-    get visible() {
-        return objectIsVisible(this);
-    }
+    refresh() {
+        if (this.target) {
+            this.target.getWorldPosition(this.object.position);
 
-    set visible(v) {
-        objectSetVisible(this, v);
+            if (this.mode === TransformEditorMode.Move) {
+                this.target.getWorldQuaternion(this.object.quaternion);
+            }
+            else {
+                this.object.lookAt(this.env.avatar.worldPos);
+            }
+        }
     }
 }
