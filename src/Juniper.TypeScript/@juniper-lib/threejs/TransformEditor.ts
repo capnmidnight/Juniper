@@ -1,23 +1,17 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { assertNever, isDefined } from "@juniper-lib/tslib/typeChecks";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { ColorRepresentation, Object3D, Quaternion, Vector3 } from "three";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
+import { VirtualButton } from "./eventSystem/devices/VirtualButton";
 import { blue, green, red } from "./materials";
 import { ErsatzObject, obj, objectResolve, Objects, objectSetVisible } from "./objects";
-import { SignedAxis, Translator } from "./Translator";
+import { SignedAxis, TransformMode, Translator } from "./Translator";
 
 interface TransformEditorEvents {
     moving: TypedEvent<"moving">;
     moved: TypedEvent<"moved">;
     freeze: TypedEvent<"freeze">;
     unfreeze: TypedEvent<"unfreeze">;
-}
-
-export enum TransformEditorMode {
-    Move = "Move",
-    Orbit = "Orbit",
-    Rotate = "Rotate",
-    Resize = "Resize"
 }
 
 export class TransformEditor
@@ -27,20 +21,26 @@ export class TransformEditor
     readonly object: Object3D;
 
     private readonly translators: Translator[];
-    private readonly p = new Vector3();
-    private readonly start = new Vector3();
-    private readonly end = new Vector3();
-    private readonly up = new Vector3();
-    private readonly q = new Quaternion();
     private readonly movingEvt = new TypedEvent("moving");
     private readonly movedEvt = new TypedEvent("moved");
     private readonly freezeEvt = new TypedEvent("freeze");
     private readonly unfreezeEvt = new TypedEvent("unfreeze");
 
-    private _mode: TransformEditorMode = null;
+    private dragging = false;
+    private readonly rotationAxisWorld = new Vector3();
+    private readonly startWorld = new Vector3();
+    private readonly endWorld = new Vector3();
+    private readonly startLocal = new Vector3();
+    private readonly endLocal = new Vector3();
+    private readonly targetWorldPos = new Vector3();
+    private readonly deltaPosition = new Vector3();
+    private readonly deltaQuaternion = new Quaternion();
+    private deltaScale = 0;
+
+    private _mode: TransformMode = null;
     private _target: Object3D = null;
 
-    constructor(private readonly env: BaseEnvironment, private readonly defaultAvatarHeight: number) {
+    constructor(private readonly env: BaseEnvironment) {
         super();
 
         this.object = obj("Translator",
@@ -60,7 +60,7 @@ export class TransformEditor
         return this._target;
     }
 
-    setTarget(v: Objects, mode?: TransformEditorMode) {
+    setTarget(v: Objects, mode?: TransformMode) {
         v = objectResolve(v);
         if (v !== this.target) {
             this._target = v;
@@ -84,87 +84,101 @@ export class TransformEditor
                 translator.mode = v;
             }
 
-            this.translators[2].object.visible
-                = this.mode === TransformEditorMode.Rotate
-                || this.mode === TransformEditorMode.Move;
+            this.translators[2].object.visible = this.mode === TransformMode.Rotate
+                || this.mode === TransformMode.RotateGlobal
+                || this.mode === TransformMode.Move
+                || this.mode === TransformMode.MoveGlobal;
 
             this.refresh();
         }
     }
 
-    private setTranslator(name: SignedAxis, color: ColorRepresentation
-    ): Translator {
+    private setTranslator(name: SignedAxis, color: ColorRepresentation): Translator {
         const translator = new Translator(name, color);
-        translator.addEventListener("dragdir", (evt) => {
-            const dist = this.target.position.length();
-
-            this.target.parent.getWorldPosition(this.p);
-            this.p.y += this.defaultAvatarHeight;
-
-            this.start
-                .copy(this.target.position)
-                .sub(this.p)
-                .normalize();
-
-            if (this.mode === TransformEditorMode.Orbit
-                || this.mode === TransformEditorMode.Move) {
-
-                this.start
-                    .copy(this.target.position)
-                    .sub(this.p)
-                    .normalize();
-
-                this.target
-                    .position
-                    .add(evt.deltaPosition);
-
-                if (this.mode === TransformEditorMode.Orbit) {
-
-                    this.target.position
-                        .normalize()
-                        .multiplyScalar(dist);
-
-                    this.end
-                        .copy(this.target.position)
-                        .sub(this.p)
-                        .normalize();
-
-                    const d = this.start.dot(this.end);
-                    if (-1 <= d && d <= 1) {
-                        const a = Math.acos(d);
-                        this.up.crossVectors(this.start, this.end).normalize();
-                        this.q.setFromAxisAngle(this.up, a);
-                        this.target.quaternion.premultiply(this.q);
-                    }
+        translator.addEventListener("down", (evt) => {
+            if (evt.pointer.isPressed(VirtualButton.Primary)) {
+                this.dragging = true;
+                this.startWorld.copy(evt.point);
+                if (this.mode !== TransformMode.Move
+                    && this.mode !== TransformMode.MoveGlobal
+                    && this.mode !== TransformMode.Orbit) {
+                    this.dispatchEvent(this.freezeEvt);
                 }
             }
-            else if (this.mode === TransformEditorMode.Resize) {
-                this.target.scale.addScalar(evt.magnitude);
-            }
-            else if (this.mode === TransformEditorMode.Rotate) {
-                this.target.quaternion.multiply(evt.deltaRotation);
-            }
-            else {
-                assertNever(this.mode);
-            }
-            this.refresh();
-            this.dispatchEvent(this.movingEvt);
         });
 
-        translator.addEventListener("dragstart", () => {
-            if (this.mode !== TransformEditorMode.Move
-                && this.mode !== TransformEditorMode.Orbit) {
-                this.dispatchEvent(this.freezeEvt);
+        translator.addEventListener("move", (evt) => {
+            if (this.dragging && evt.point) {
+                this.endWorld.copy(evt.point);
+
+                if (this.startWorld.manhattanDistanceTo(this.endWorld) > 0) {
+
+                    this.deltaPosition.setScalar(0);
+                    this.deltaQuaternion.identity();
+                    this.deltaScale = 0;
+
+                    if (this.mode === TransformMode.Resize) {
+                        this.target.getWorldPosition(this.targetWorldPos);
+                        const startDist = this.startWorld.distanceTo(this.targetWorldPos);
+                        const endDist = this.endWorld.distanceTo(this.targetWorldPos);
+                        this.deltaScale = endDist - startDist;
+                    }
+                    else {
+                        this.object.worldToLocal(this.startLocal.copy(this.startWorld));
+                        this.object.worldToLocal(this.endLocal.copy(this.endWorld));
+
+                        if (this.mode === TransformMode.Rotate
+                            || this.mode === TransformMode.RotateGlobal) {
+                            this.startLocal.normalize();
+                            this.endLocal.normalize();
+
+                            const mag = this.startLocal.dot(this.endLocal);
+                            if (-1 <= mag && mag <= 1) {
+                                const sign = this.startLocal.cross(this.endLocal).dot(translator.rotationAxisLocal);
+                                const radians = Math.sign(sign) * Math.acos(mag);
+                                this.rotationAxisWorld.copy(translator.rotationAxisLocal)
+                                    .applyQuaternion(this.object.quaternion);
+                                this.deltaQuaternion
+                                    .setFromAxisAngle(this.rotationAxisWorld, radians);
+                            }
+                        }
+                        else {
+                            const magnitude = this.endLocal
+                                .sub(this.startLocal)
+                                .dot(translator.motionAxisLocal);
+
+                            this.deltaPosition
+                                .copy(translator.motionAxisLocal)
+                                .multiplyScalar(magnitude)
+                                .applyQuaternion(this.object.quaternion);
+                        }
+                    }
+
+                    this.target.position.add(this.deltaPosition);
+                    this.target.scale.addScalar(this.deltaScale);
+                    this.target.quaternion.premultiply(this.deltaQuaternion);
+
+                    this.refresh();
+
+                    this.dispatchEvent(this.movingEvt);
+                }
+
+                this.startWorld.copy(this.endWorld);
             }
         });
 
-        translator.addEventListener("dragend", () => {
-            if (this.mode !== TransformEditorMode.Move
-                && this.mode !== TransformEditorMode.Orbit) {
-                this.dispatchEvent(this.unfreezeEvt);
-            }
+        translator.addEventListener("up", (evt) => {
+            if (!evt.pointer.isPressed(VirtualButton.Primary)) {
+                this.dragging = false;
 
-            this.dispatchEvent(this.movedEvt);
+                if (this.mode !== TransformMode.Move
+                    && this.mode !== TransformMode.MoveGlobal
+                    && this.mode !== TransformMode.Orbit) {
+                    this.dispatchEvent(this.unfreezeEvt);
+                }
+
+                this.dispatchEvent(this.movedEvt);
+            }
         });
 
         return translator;
@@ -174,10 +188,14 @@ export class TransformEditor
         if (this.target) {
             this.target.getWorldPosition(this.object.position);
 
-            if (this.mode === TransformEditorMode.Move
-                || this.mode === TransformEditorMode.Rotate
+            if (this.mode === TransformMode.Move
+                || this.mode === TransformMode.Rotate
             ) {
                 this.target.getWorldQuaternion(this.object.quaternion);
+            }
+            else if (this.mode === TransformMode.RotateGlobal
+                || this.mode === TransformMode.MoveGlobal) {
+                this.object.quaternion.identity();
             }
             else {
                 this.object.lookAt(this.env.avatar.worldPos);
