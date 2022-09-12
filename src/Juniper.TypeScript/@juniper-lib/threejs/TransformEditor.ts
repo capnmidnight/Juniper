@@ -4,7 +4,7 @@ import { ColorRepresentation, Object3D, Quaternion, Vector3 } from "three";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { blue, green, red } from "./materials";
 import { ErsatzObject, obj, objectResolve, Objects, objectSetVisible } from "./objects";
-import { Translator } from "./Translator";
+import { SignedAxis, Translator } from "./Translator";
 
 interface TransformEditorEvents {
     moving: TypedEvent<"moving">;
@@ -45,34 +45,15 @@ export class TransformEditor
 
         this.object = obj("Translator",
             ...this.translators = [
-                this.setTranslator("+X", red,
-                    +1, +0, +0,
-                    +0, +1, +0,
-                    +0, +0, +1),
-                this.setTranslator("-X", red,
-                    -1, +0, +0,
-                    +0, +1, +0,
-                    +0, +0, -1),
-                this.setTranslator("+Y", green,
-                    +0, +1, +0,
-                    +0, +0, -1,
-                    -1, +0, +0),
-                this.setTranslator("-Y", green,
-                    +0, -1, +0,
-                    +0, +0, +1,
-                    -1, +0, +0),
-                this.setTranslator("+Z", blue,
-                    +0, +0, +1,
-                    +0, +1, +0,
-                    -1, +0, +0),
-                this.setTranslator("-Z", blue,
-                    +0, +0, -1,
-                    +0, -1, +0,
-                    +1, +0, +0)
+                this.setTranslator("+x", red),
+                this.setTranslator("+y", green),
+                this.setTranslator("+z", blue)
             ]
         );
 
         objectSetVisible(this, false);
+
+        env.timer.addTickHandler(() => this.refresh());
     }
 
     get target(): Object3D {
@@ -103,8 +84,7 @@ export class TransformEditor
                 translator.mode = v;
             }
 
-            this.translators[4].object.visible
-                = this.translators[5].object.visible
+            this.translators[2].object.visible
                 = this.mode === TransformEditorMode.Rotate
                 || this.mode === TransformEditorMode.Move;
 
@@ -112,20 +92,9 @@ export class TransformEditor
         }
     }
 
-    private setTranslator(
-        name: string,
-        color: ColorRepresentation,
-        mx: number,
-        my: number,
-        mz: number,
-        rxx: number,
-        rxy: number,
-        rxz: number,
-        ryx: number,
-        ryy: number,
-        ryz: number
+    private setTranslator(name: SignedAxis, color: ColorRepresentation
     ): Translator {
-        const translator = new Translator(name, color, mx, my, mz, rxx, rxy, rxz, ryx, ryy, ryz);
+        const translator = new Translator(name, color);
         translator.addEventListener("dragdir", (evt) => {
             const dist = this.target.position.length();
 
@@ -173,14 +142,12 @@ export class TransformEditor
                 this.target.scale.addScalar(evt.magnitude);
             }
             else if (this.mode === TransformEditorMode.Rotate) {
-                this.target.quaternion.premultiply(evt.deltaRotation);
+                this.target.quaternion.multiply(evt.deltaRotation);
             }
             else {
                 assertNever(this.mode);
             }
-
             this.refresh();
-
             this.dispatchEvent(this.movingEvt);
         });
 
@@ -207,7 +174,9 @@ export class TransformEditor
         if (this.target) {
             this.target.getWorldPosition(this.object.position);
 
-            if (this.mode === TransformEditorMode.Move) {
+            if (this.mode === TransformEditorMode.Move
+                || this.mode === TransformEditorMode.Rotate
+            ) {
                 this.target.getWorldQuaternion(this.object.quaternion);
             }
             else {

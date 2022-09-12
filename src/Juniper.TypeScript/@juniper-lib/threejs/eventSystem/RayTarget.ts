@@ -27,6 +27,14 @@ export class RayTarget<EventsT = void>
         return this;
     }
 
+    addMeshes(...meshes: Mesh[]): this {
+        for (const mesh of meshes) {
+            this.addMesh(mesh);
+        }
+
+        return this;
+    }
+
     get disabled() {
         return this._disabled;
     }

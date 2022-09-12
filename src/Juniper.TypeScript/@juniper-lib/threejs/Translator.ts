@@ -7,6 +7,7 @@ import { RayTarget } from "./eventSystem/RayTarget";
 import { lit } from "./materials";
 import { obj } from "./objects";
 import { Sphere } from "./Sphere";
+import { Torus } from "./Torus";
 import { TransformEditorMode } from "./TransformEditor";
 
 export class TranslatorDragDirEvent extends TypedEvent<"dragdir">{
@@ -26,60 +27,72 @@ export interface TranslatorDragDirEvents {
     "dragend": TypedEvent<"dragend">;
 }
 
+export type Sign = "-" | "+";
+export type Axis = "x" | "y" | "z";
+export type SignedAxis = `${Sign}${Axis}`;
+const Axes: Axis[] = ["x", "y", "z"];
 const P = new Vector3();
 const Q = new Quaternion();
 
 export class Translator extends RayTarget<TranslatorDragDirEvents> {
     private static readonly small = new Vector3(0.1, 0.1, 0.1);
     private readonly bar: Cube;
-    private readonly spherePad: Sphere;
-    private readonly conePad: Cone;
+    private readonly spherePads: Sphere[];
+    private readonly conePads: Cone[];
+    private readonly arcPad: Torus;
     private readonly motionAxis: Vector3;
-    private readonly rotationXAxis: Vector3;
-    private readonly rotationYAxis: Vector3;
+    private readonly rotationAxis: Vector3;
 
     private _mode: TransformEditorMode = null;
 
-    constructor(
-        name: string,
-        color: ColorRepresentation,
-        mx: number,
-        my: number,
-        mz: number,
-        rxx: number,
-        rxy: number,
-        rxz: number,
-        ryx: number,
-        ryy: number,
-        ryz: number) {
+    constructor(name: SignedAxis, color: ColorRepresentation) {
+
+        const sign = (name[0] as Sign);
+        const axis = (name[1] as Axis);
+        const axisIndex = Axes.indexOf(axis);
+        const rotationAxisIndex = (axisIndex + 2) % Axes.length;
+        const rotationAxis = Axes[rotationAxisIndex];
+        const ringAxisIndex = Axes.length - axisIndex - 1;
+        const ringAxis = Axes[ringAxisIndex];
         const material = lit({
             color,
             depthTest: false
         });
 
-        const cube = new Cube(1, 1, 1, material);
-        const sphere = new Sphere(1, material);
-        const cone = new Cone(1, 1, 1, material);
+        const bar = new Cube(1, 1, 1, material);
+        const spherePads = [
+            new Sphere(1, material),
+            new Sphere(1, material)
+        ];
+        const conePads = [
+            new Cone(1, 1, 1, material),
+            new Cone(1, 1, 1, material)
+        ];
+        const arcPad = new Torus(.5, .5, .5, material);
 
         super(obj(
             "Translator " + name,
-            cube,
-            sphere,
-            cone
+            bar,
+            ...spherePads,
+            ...conePads,
+            arcPad
         ));
 
-        this.bar = cube;
-        this.spherePad = sphere;
-        this.conePad = cone;
+        this.bar = bar;
+        this.spherePads = spherePads;
+        this.conePads = conePads;
+        this.arcPad = arcPad;
 
-        this.addMesh(this.spherePad);
-        this.addMesh(this.conePad);
-
-        this.motionAxis = new Vector3(mx, my, mz);
-        this.rotationXAxis = new Vector3(rxx, rxy, rxz);
-        this.rotationYAxis = new Vector3(ryx, ryy, ryz);        
+        const value = sign === "+" ? 1 : -1;
+        this.motionAxis = new Vector3();
+        this.motionAxis[axis] = value;
+        this.rotationAxis = new Vector3();
+        this.rotationAxis[rotationAxis] = value;
 
         const start = new Vector3();
+        const end = new Vector3();
+        const from = new Vector3();
+        const to = new Vector3();
         const deltaIn = new Vector3();
         const dragEvt = new TranslatorDragDirEvent();
         const dragStartEvt = new TypedEvent("dragstart");
@@ -100,35 +113,43 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
 
         this.addEventListener("move", (evt) => {
             if (dragging && evt.point) {
+                end.copy(evt.point);
+                deltaIn.copy(end).sub(start);
 
-                deltaIn
-                    .copy(evt.point)
-                    .sub(start);
-
-                start.copy(evt.point);
+                this.object.parent.worldToLocal(from.copy(start));
+                this.object.parent.worldToLocal(to.copy(end));
 
                 if (deltaIn.manhattanLength() > 0) {
                     if (this.mode === TransformEditorMode.Rotate) {
-                        P.copy(this.rotationYAxis)
-                        Q.setFromAxisAngle(P, deltaIn.y);
+                        from.normalize();
+                        to.normalize();
 
-                        P.copy(this.rotationXAxis)
-                        dragEvt.deltaRotation
-                            .setFromAxisAngle(P, deltaIn.x)
-                            .multiply(Q);
+                        const mag = from.dot(to);
+                        if (-1 <= mag && mag <= 1) {
+                            const sign = from.cross(to).dot(this.rotationAxis);
+                            const radians = Math.sign(sign) * Math.acos(mag);
+                            dragEvt.deltaRotation.setFromAxisAngle(this.rotationAxis, radians);
+                        }
                     }
                     else {
+                        dragEvt.deltaPosition.copy(to)
+                            .sub(from);
+
+                        dragEvt.magnitude = this.motionAxis.dot(dragEvt.deltaPosition);
+
                         dragEvt.deltaPosition
                             .copy(this.motionAxis)
-                            .applyQuaternion(this.object.parent.quaternion);
+                            .multiplyScalar(dragEvt.magnitude);
 
-                        dragEvt.magnitude = deltaIn.dot(dragEvt.deltaPosition);
-
-                        dragEvt.deltaPosition.multiplyScalar(dragEvt.magnitude);
+                        this.object.parent.localToWorld(dragEvt.deltaPosition);
+                        this.object.parent.getWorldPosition(P);
+                        dragEvt.deltaPosition.sub(P);
                     }
 
                     this.dispatchEvent(dragEvt);
                 }
+
+                start.copy(end);
             }
         });
 
@@ -139,31 +160,41 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
             }
         });
 
-        this.spherePad.scale.setScalar(1 / 10);
-        this.spherePad.position
-            .copy(this.motionAxis)
-            .multiplyScalar(0.5)
-            .add(this.motionAxis)
-            .multiplyScalar(0.25);
+        for (let i = 0; i < this.spherePads.length; ++i) {
+            const dir = 2 * i - 1;
+            this.spherePads[i].scale.setScalar(1 / 10);
+            this.spherePads[i].position
+                .copy(this.motionAxis)
+                .multiplyScalar(dir * 0.375);
+        }
 
-        this.conePad.scale.set(1 / 20, 1 / 10, 1 / 20);
-        this.conePad.position
-            .copy(this.motionAxis)
-            .multiplyScalar(0.5)
-            .add(this.motionAxis)
-            .multiplyScalar(0.25);
-        this.conePad.quaternion
-            .setFromUnitVectors(this.conePad.up, this.motionAxis);
+        for (let i = 0; i < this.conePads.length; ++i) {
+            const dir = 2 * i - 1;
+            P.copy(this.conePads[i].up).multiplyScalar(dir);
+            this.conePads[i].quaternion
+                .setFromUnitVectors(P, this.motionAxis);
+            this.conePads[i].position
+                .copy(this.motionAxis)
+                .multiplyScalar(dir * 0.375);
+            this.conePads[i].scale.set(1 / 20, 1 / 10, 1 / 20);
+        }
 
         this.bar.scale
             .copy(this.motionAxis)
-            .multiplyScalar(0.9)
+            .multiplyScalar(2.5)
             .add(Translator.small)
             .multiplyScalar(0.25);
 
-        this.bar.position
-            .copy(this.motionAxis)
-            .multiplyScalar(0.25);
+        const ringRotAxis = new Vector3();
+        ringRotAxis[ringAxis] = 1;
+        this.arcPad.quaternion
+            .setFromAxisAngle(ringRotAxis, Math.PI / 2);
+
+        this.addMeshes(
+            ...this.spherePads,
+            ...this.conePads,
+            this.arcPad
+        );
     }
 
     get mode() {
@@ -173,9 +204,17 @@ export class Translator extends RayTarget<TranslatorDragDirEvents> {
     set mode(v) {
         if (v !== this.mode) {
             this._mode = v;
-            this.spherePad.visible = this.mode === TransformEditorMode.Resize
-                || this.mode === TransformEditorMode.Rotate;
-            this.conePad.visible = !this.spherePad.visible;
+
+            this.bar.visible = this.mode !== TransformEditorMode.Rotate;
+            this.arcPad.visible = this.mode === TransformEditorMode.Rotate;
+
+            for (const spherePad of this.spherePads) {
+                spherePad.visible = this.mode === TransformEditorMode.Resize;
+            }
+
+            for (const conePad of this.conePads) {
+                conePad.visible = this.mode !== TransformEditorMode.Resize && this.mode !== TransformEditorMode.Rotate;
+            }
         }
     }
 }
