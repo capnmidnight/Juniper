@@ -59,6 +59,8 @@
                     padding: 0.25em;
                     margin: 0 5px;
                     pointer-events: initial;
+                    color: white;
+                    font-weight: bold;
                 }
 
         #controls .btn img {
