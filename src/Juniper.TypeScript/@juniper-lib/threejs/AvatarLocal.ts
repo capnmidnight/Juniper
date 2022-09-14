@@ -1,6 +1,6 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
-import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
 import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/math";
 import { assertNever, isFunction, isGoodNumber, isString } from "@juniper-lib/tslib/typeChecks";
@@ -35,13 +35,22 @@ enum CameraControlMode {
     Gamepad = "gamepad"
 }
 
+export class AvatarResetEvent extends TypedEvent<"avatarreset">{
+    constructor() {
+        super("avatarreset");
+    }
+}
+
 interface AvatarLocalEvents {
     avatarmoved: AvatarMovedEvent;
+    avatarreset: AvatarResetEvent;
 }
 
 export class AvatarLocal
     extends TypedEventBase<AvatarLocalEvents>
     implements ErsatzObject, IDisposable {
+
+    private readonly avatarResetEvt = new AvatarResetEvent();
     private controlMode = CameraControlMode.None;
 
     private snapTurnRadians = deg2rad(30);
@@ -84,8 +93,8 @@ export class AvatarLocal
     private readonly move = new Vector3();
     private readonly move2 = new Vector3();
     private readonly followers = new Array<BodyFollower>();
-    private readonly onKeyDown: (evt: any) => void;
-    private readonly onKeyUp: (evt: any) => void;
+    private readonly onKeyDown: (evt: KeyboardEvent) => void;
+    private readonly onKeyUp: (evt: KeyboardEvent) => void;
 
     private dz = 0;
     private _headingRadians = 0;
@@ -192,6 +201,7 @@ export class AvatarLocal
         this._height = defaultAvatarHeight;
         this.head = obj("Head", fader);
 
+        let homeHit = false;
         const setKey = (key: string, ok: boolean) => {
             if (key === "w") this.fwrd = ok;
             if (key === "s") this.back = ok;
@@ -205,10 +215,18 @@ export class AvatarLocal
             if (key === "ArrowRight") this.rght2 = ok;
             if (key === "r") this.grow = ok;
             if (key === "f") this.shrk = ok;
+            if (key === "Home") {
+                const wasHome = homeHit;
+                homeHit = ok;
+                if (wasHome && !homeHit) {
+                    this.reset();
+                    this.dispatchEvent(this.avatarResetEvt);
+                }
+            }
         };
 
-        this.onKeyDown = (evt: KeyboardEvent) => setKey(evt.key, isModifierless(evt));
-        this.onKeyUp = (evt: KeyboardEvent) => setKey(evt.key, false);
+        this.onKeyDown = (evt) => setKey(evt.key, isModifierless(evt));
+        this.onKeyUp = (evt) => setKey(evt.key, false);
 
         this.keyboardControlEnabled = true;
 
