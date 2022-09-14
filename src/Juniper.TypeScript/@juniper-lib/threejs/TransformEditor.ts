@@ -1,6 +1,5 @@
-import { disabled } from "@juniper-lib/dom/attrs";
 import { onClick } from "@juniper-lib/dom/evts";
-import { ButtonPrimary, elementSetText } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, elementSetDisplay, elementSetText } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -74,12 +73,12 @@ export class TransformEditor
 
         const modes = Object.values(TransformMode);
         this.modeButton = ButtonPrimary(
-            disabled(true),
             onClick(() => {
                 const curModeIdx = modes.indexOf(this.mode);
                 this.mode = modes[(curModeIdx + 1) % modes.length];
             })
         );
+        elementSetDisplay(this.modeButton, false);
     }
 
     get target(): Object3D {
@@ -92,7 +91,7 @@ export class TransformEditor
             this._target = v;
             const hasTarget = isDefined(this.target);
             objectSetVisible(this, hasTarget);
-            this.modeButton.disabled = !hasTarget;
+            elementSetDisplay(this.modeButton, hasTarget);
             this.refresh();
         }
 
@@ -378,12 +377,12 @@ export class Translator extends RayTarget<void> {
             const dir = 2 * i - 1;
             this.bars[i].scale
                 .copy(this.motionAxisLocal)
-                .multiplyScalar(1.25)
+                .multiplyScalar(1.2)
                 .add(Translator.small)
                 .multiplyScalar(size);
             this.bars[i].position
                 .copy(this.motionAxisLocal)
-                .multiplyScalar(dir * size * 0.8);
+                .multiplyScalar(dir * size * 0.7);
         }
 
         const Q = new Quaternion();
