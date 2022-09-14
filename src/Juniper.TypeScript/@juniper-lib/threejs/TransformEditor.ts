@@ -27,8 +27,6 @@ const size = 0.1;
 interface TransformEditorEvents {
     moving: TypedEvent<"moving">;
     moved: TypedEvent<"moved">;
-    freeze: TypedEvent<"freeze">;
-    unfreeze: TypedEvent<"unfreeze">;
 }
 
 export class TransformEditor
@@ -40,8 +38,6 @@ export class TransformEditor
     private readonly translators: Translator[];
     private readonly movingEvt = new TypedEvent("moving");
     private readonly movedEvt = new TypedEvent("moved");
-    private readonly freezeEvt = new TypedEvent("freeze");
-    private readonly unfreezeEvt = new TypedEvent("unfreeze");
 
     private dragging = false;
     private readonly rotationAxisWorld = new Vector3();
@@ -118,7 +114,7 @@ export class TransformEditor
                 if (this.mode !== TransformMode.Move
                     && this.mode !== TransformMode.MoveGlobal
                     && this.mode !== TransformMode.Orbit) {
-                    this.dispatchEvent(this.freezeEvt);
+                    this.env.avatar.lockMovement = true;
                 }
             }
         });
@@ -194,7 +190,7 @@ export class TransformEditor
                 if (this.mode !== TransformMode.Move
                     && this.mode !== TransformMode.MoveGlobal
                     && this.mode !== TransformMode.Orbit) {
-                    this.dispatchEvent(this.unfreezeEvt);
+                    this.env.avatar.lockMovement = false;
                 }
 
                 this.dispatchEvent(this.movedEvt);
