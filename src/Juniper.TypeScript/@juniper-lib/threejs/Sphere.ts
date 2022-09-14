@@ -4,6 +4,8 @@ import { setGeometryUVsForCubemaps } from "./setGeometryUVsForCubemaps";
 
 export const sphere = /*@__PURE__*/ new SphereBufferGeometry(0.5);
 sphere.name = "SphereGeom";
+sphere.computeBoundingBox();
+sphere.computeBoundingSphere();
 
 export const invSphere = /*@__PURE__*/ sphere.clone() as SphereBufferGeometry;
 invSphere.name = "InvertedSphereGeom";

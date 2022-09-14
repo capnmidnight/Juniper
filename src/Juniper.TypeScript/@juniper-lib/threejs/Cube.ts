@@ -4,6 +4,8 @@ import { setGeometryUVsForCubemaps } from "./setGeometryUVsForCubemaps";
 
 export const cube = /*@__PURE__*/ new BoxBufferGeometry(1, 1, 1, 1, 1, 1);
 cube.name = "CubeGeom";
+cube.computeBoundingBox();
+cube.computeBoundingSphere();
 
 export const invCube = /*@__PURE__*/ cube.clone() as BoxBufferGeometry;
 invCube.name = "InvertedCubeGeom";

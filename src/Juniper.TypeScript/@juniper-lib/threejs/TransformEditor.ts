@@ -1,15 +1,15 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { ColorRepresentation, Object3D, Quaternion, Vector3 } from "three";
+import { ColorRepresentation, ExtrudeBufferGeometry, Material, Mesh, Object3D, Quaternion, Shape, Vector2, Vector3 } from "three";
 import { Cone } from "./Cone";
 import { Cube } from "./Cube";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { VirtualButton } from "./eventSystem/devices/VirtualButton";
 import { RayTarget } from "./eventSystem/RayTarget";
-import { blue, green, lit, red } from "./materials";
+import { blue, green, litTransparent, red } from "./materials";
 import { ErsatzObject, obj, objectResolve, Objects, objectSetVisible } from "./objects";
 import { Sphere } from "./Sphere";
-import { Torus } from "./Torus";
 
 export enum TransformMode {
     Move = "Move",
@@ -48,7 +48,6 @@ export class TransformEditor
     private readonly endWorld = new Vector3();
     private readonly startLocal = new Vector3();
     private readonly endLocal = new Vector3();
-    private readonly targetWorldPos = new Vector3();
     private readonly deltaPosition = new Vector3();
     private readonly deltaQuaternion = new Quaternion();
     private readonly testObj = new Object3D();
@@ -128,56 +127,53 @@ export class TransformEditor
                 this.endWorld.copy(evt.point);
 
                 if (this.startWorld.manhattanDistanceTo(this.endWorld) > 0) {
+                    this.object.worldToLocal(this.startLocal.copy(this.startWorld));
+                    this.object.worldToLocal(this.endLocal.copy(this.endWorld));
 
                     if (this.mode === TransformMode.Resize) {
-                        this.target.getWorldPosition(this.targetWorldPos);
-                        const startDist = this.startWorld.distanceTo(this.targetWorldPos);
-                        const endDist = this.endWorld.distanceTo(this.targetWorldPos);
+                        const startDist = this.startLocal.length();
+                        const endDist = this.endLocal.length();
                         this.target.scale.addScalar(endDist - startDist);
                     }
+                    else if (this.mode === TransformMode.Rotate
+                        || this.mode === TransformMode.RotateGlobal) {
+                        this.startLocal.normalize();
+                        this.endLocal.normalize();
+
+                        const mag = this.startLocal.dot(this.endLocal);
+                        if (-1 <= mag && mag <= 1) {
+                            const sign = this.startLocal.cross(this.endLocal).dot(translator.rotationAxisLocal);
+                            const radians = Math.sign(sign) * Math.acos(mag);
+                            this.rotationAxisWorld
+                                .copy(translator.rotationAxisLocal)
+                                .applyQuaternion(this.object.quaternion);
+                            this.deltaQuaternion
+                                .setFromAxisAngle(this.rotationAxisWorld, radians);
+                            this.target.quaternion.premultiply(this.deltaQuaternion);
+                        }
+                    }
                     else {
-                        this.object.worldToLocal(this.startLocal.copy(this.startWorld));
-                        this.object.worldToLocal(this.endLocal.copy(this.endWorld));
+                        const magnitude = this.endLocal
+                            .sub(this.startLocal)
+                            .dot(translator.motionAxisLocal);
 
-                        if (this.mode === TransformMode.Rotate
-                            || this.mode === TransformMode.RotateGlobal) {
-                            this.startLocal.normalize();
-                            this.endLocal.normalize();
+                        this.deltaPosition
+                            .copy(translator.motionAxisLocal)
+                            .multiplyScalar(magnitude)
+                            .applyQuaternion(this.object.quaternion);
 
-                            const mag = this.startLocal.dot(this.endLocal);
-                            if (-1 <= mag && mag <= 1) {
-                                const sign = this.startLocal.cross(this.endLocal).dot(translator.rotationAxisLocal);
-                                const radians = Math.sign(sign) * Math.acos(mag);
-                                this.rotationAxisWorld.copy(translator.rotationAxisLocal)
-                                    .applyQuaternion(this.object.quaternion);
-                                this.deltaQuaternion
-                                    .setFromAxisAngle(this.rotationAxisWorld, radians);
-                                this.target.quaternion.premultiply(this.deltaQuaternion);
-                            }
+                        if (this.mode === TransformMode.Orbit) {
+                            this.target.parent.add(this.testObj);
+                            this.testObj.position.copy(this.target.position);
+                            this.testObj.lookAt(this.env.avatar.worldPos);
+                            this.testObj.attach(this.target);
+                            this.testObj.position.add(this.deltaPosition);
+                            this.testObj.lookAt(this.env.avatar.worldPos);
+                            this.testObj.parent.attach(this.target);
+                            this.testObj.removeFromParent();
                         }
                         else {
-                            const magnitude = this.endLocal
-                                .sub(this.startLocal)
-                                .dot(translator.motionAxisLocal);
-
-                            this.deltaPosition
-                                .copy(translator.motionAxisLocal)
-                                .multiplyScalar(magnitude)
-                                .applyQuaternion(this.object.quaternion);
-
-                            if (this.mode === TransformMode.Orbit) {
-                                this.target.parent.add(this.testObj);
-                                this.testObj.position.copy(this.target.position);
-                                this.testObj.lookAt(this.env.avatar.worldPos);
-                                this.testObj.attach(this.target);
-                                this.testObj.position.add(this.deltaPosition);
-                                this.testObj.lookAt(this.env.avatar.worldPos);
-                                this.testObj.parent.attach(this.target);
-                                this.testObj.removeFromParent();
-                            }
-                            else {
-                                this.target.position.add(this.deltaPosition);
-                            }
+                            this.target.position.add(this.deltaPosition);
                         }
                     }
 
@@ -223,61 +219,101 @@ export class TransformEditor
             else {
                 this.object.lookAt(this.env.avatar.worldPos);
             }
+
+            for (const translator of this.translators) {
+                translator.refresh(this.env.avatar.worldPos);
+            }
         }
     }
 }
 
+const arcPointsForward = new Array<Vector2>();
+const arcPointsBack = new Array<Vector2>();
+for (let a = 5; a <= 85; a += 5) {
+    const rad = deg2rad(a);
+    arcPointsForward.push(new Vector2(0.5 * Math.cos(rad), 0.5 * Math.sin(rad)));
+    arcPointsBack.unshift(new Vector2(0.48 * Math.cos(rad), 0.48 * Math.sin(rad)));
+}
+const arcPoints = [...arcPointsForward, ...arcPointsBack];
+const arcShape = new Shape(arcPoints);
+const arcGeom = new ExtrudeBufferGeometry(arcShape, {
+    steps: 1,
+    depth: 0.02,
+    bevelEnabled: false
+});
+arcGeom.computeBoundingBox();
+arcGeom.computeBoundingSphere();
+
 export class Translator extends RayTarget<void> {
     private static readonly small = new Vector3(0.1, 0.1, 0.1);
-    private readonly bar: Cube;
-    private readonly spherePads: Sphere[];
-    private readonly conePads: Cone[];
-    private readonly arcPad: Torus;
-    readonly motionAxisLocal: Vector3;
-    readonly rotationAxisLocal: Vector3;
+    private readonly bars: Mesh[];
+    private readonly spherePads: Mesh[];
+    private readonly conePads: Mesh[];
+    private readonly arcPads: Mesh[];
+    private readonly materialFront: Material;
+    private readonly materialBack: Material;
+    private readonly worldPos = new Vector3();
+    private readonly worldQuat = new Quaternion();
+    private readonly center = new Vector3();
+
+    readonly motionAxisLocal = new Vector3();
+    readonly rotationAxisLocal = new Vector3();
 
     private _mode: TransformMode = null;
 
     constructor(axis: Axis, color: ColorRepresentation) {
-
         const axisIndex = Axes.indexOf(axis);
         const rotationAxisIndex = (axisIndex + 2) % Axes.length;
         const rotationAxis = Axes[rotationAxisIndex];
         const ringAxisIndex = Axes.length - axisIndex - 1;
         const ringAxis = Axes[ringAxisIndex];
-        const material = lit({
+        const materialFront = litTransparent({
             color,
-            //depthTest: false
+            depthTest: false,
+            opacity: 0.75
         });
-
-        const bar = new Cube(1, 1, 1, material);
+        const materialBack = litTransparent({
+            color,
+            depthTest: false,
+            opacity: 0.25
+        });
+        const bars = [
+            new Cube(1, 1, 1, materialFront),
+            new Cube(1, 1, 1, materialFront)
+        ];
         const spherePads = [
-            new Sphere(1, material),
-            new Sphere(1, material)
+            new Sphere(1, materialFront),
+            new Sphere(1, materialFront)
         ];
         const conePads = [
-            new Cone(1, 1, 1, material),
-            new Cone(1, 1, 1, material)
+            new Cone(1, 1, 1, materialFront),
+            new Cone(1, 1, 1, materialFront)
         ];
-        const arcPad = new Torus(.5, .5, .5, material);
+        const arcPads = [
+            new Mesh(arcGeom, materialFront),
+            new Mesh(arcGeom, materialFront),
+            new Mesh(arcGeom, materialFront),
+            new Mesh(arcGeom, materialFront)
+        ];
 
         super(obj(
             "Translator " + axis,
-            bar,
+            ...bars,
             ...spherePads,
             ...conePads,
-            arcPad
+            ...arcPads
         ));
 
-        this.bar = bar;
+        this.bars = bars;
         this.spherePads = spherePads;
         this.conePads = conePads;
-        this.arcPad = arcPad;
+        this.arcPads = arcPads;
 
-        this.motionAxisLocal = new Vector3();
         this.motionAxisLocal[axis] = 1;
-        this.rotationAxisLocal = new Vector3();
         this.rotationAxisLocal[rotationAxis] = 1;
+
+        this.materialFront = materialFront;
+        this.materialBack = materialBack;
 
         this.enabled = true;
         this.draggable = true;
@@ -302,21 +338,36 @@ export class Translator extends RayTarget<void> {
             this.conePads[i].scale.set(1 / 20, 1 / 10, 1 / 20);
         }
 
-        this.bar.scale
-            .copy(this.motionAxisLocal)
-            .multiplyScalar(2.5)
-            .add(Translator.small)
-            .multiplyScalar(0.25);
+        for (let i = 0; i < this.bars.length; ++i) {
+            const dir = 2 * i - 1;
+            this.bars[i].scale
+                .copy(this.motionAxisLocal)
+                .multiplyScalar(1.25)
+                .add(Translator.small)
+                .multiplyScalar(0.25);
+            this.bars[i].position
+                .copy(this.motionAxisLocal)
+                .multiplyScalar(dir * 0.2);
+        }
 
+        const Q = new Quaternion();
+        const Z = new Vector3(0, 0, -1);
         const ringRotAxis = new Vector3();
         ringRotAxis[ringAxis] = 1;
-        this.arcPad.quaternion
-            .setFromAxisAngle(ringRotAxis, Math.PI / 2);
+
+
+        for (let i = 0; i < this.arcPads.length; ++i) {
+            const a = i * Math.PI / 2;
+            Q.setFromAxisAngle(Z, a)
+            this.arcPads[i].quaternion
+                .setFromAxisAngle(ringRotAxis, Math.PI / 2)
+                .multiply(Q);
+        }
 
         this.addMeshes(
             ...this.spherePads,
             ...this.conePads,
-            this.arcPad
+            ...this.arcPads
         );
     }
 
@@ -328,11 +379,15 @@ export class Translator extends RayTarget<void> {
         if (v !== this.mode) {
             this._mode = v;
 
-            this.bar.visible = this.mode !== TransformMode.Rotate
-                && this.mode !== TransformMode.RotateGlobal;
-            this.arcPad.visible = this.mode === TransformMode.Rotate
-                || this.mode === TransformMode.RotateGlobal;
+            for (const arcPad of this.arcPads) {
+                arcPad.visible = this.mode === TransformMode.Rotate
+                    || this.mode === TransformMode.RotateGlobal;
+            }
 
+            for (const bar of this.bars) {
+                bar.visible = this.mode !== TransformMode.Rotate
+                    && this.mode !== TransformMode.RotateGlobal;
+            }
             for (const spherePad of this.spherePads) {
                 spherePad.visible = this.mode === TransformMode.Resize;
             }
@@ -342,6 +397,26 @@ export class Translator extends RayTarget<void> {
                     && this.mode !== TransformMode.Rotate
                     && this.mode !== TransformMode.RotateGlobal;
             }
+        }
+    }
+
+    refresh(center: Vector3) {
+        const distA = this.object.parent.position.distanceToSquared(center);
+        this.checkMeshes(center, distA, this.bars);
+        this.checkMeshes(center, distA, this.spherePads);
+        this.checkMeshes(center, distA, this.conePads);
+        this.checkMeshes(center, distA, this.arcPads);
+    }
+
+    private checkMeshes(center: Vector3, distA: number, arr: Mesh[]) {
+        for (const pad of arr) {
+            pad.getWorldPosition(this.worldPos);
+            pad.getWorldQuaternion(this.worldQuat);
+            pad.geometry.boundingBox.getCenter(this.center);
+            this.center.add(pad.position);
+            pad.localToWorld(this.center);
+            const distB = this.center.distanceToSquared(center);
+            pad.material = distB >= distA ? this.materialBack : this.materialFront;
         }
     }
 }
