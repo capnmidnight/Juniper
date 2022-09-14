@@ -2,7 +2,7 @@ import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
-import { radiansClamp, clamp, deg2rad, Pi, truncate } from "@juniper-lib/tslib/math";
+import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/math";
 import { assertNever, isFunction, isGoodNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { Euler, Matrix4, Object3D, Quaternion, Vector2, Vector3 } from "three";
@@ -474,6 +474,15 @@ export class AvatarLocal
         return Math.sign(n) * Math.pow(Math.max(0, absN - this.edgeFactor) / (1 - this.edgeFactor), ddn) * dn;
     }
 
+    lookAt(obj: Object3D) {
+        obj.getWorldPosition(this.P);
+        this.head.getWorldPosition(this.F);
+        this.P.sub(this.F);
+        const heading = 3 * HalfPi - Math.atan2(this.P.z, this.P.x);
+        const pitch = Math.atan2(this.P.y, this.P.length());
+        this.setOrientationImmediate(heading, pitch);
+    }
+
     private updateOrientation() {
         const cam = resolveCamera(this.env.renderer, this.env.camera);
 
@@ -506,7 +515,8 @@ export class AvatarLocal
         else {
             this.head.position.set(this.headX, this._height, this.headZ);
             this.E.set(this._pitchRadians, 0, this._rollRadians, "XYZ");
-            this.head.quaternion.setFromEuler(this.E)
+            this.head.quaternion
+                .setFromEuler(this.E)
                 .premultiply(this.deviceQ);
         }
 
