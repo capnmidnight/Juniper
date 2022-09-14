@@ -435,6 +435,17 @@ export class Translator extends RayTarget<void> {
                     && this.mode !== TransformMode.Rotate
                     && this.mode !== TransformMode.RotateGlobal;
             }
+
+            for (const mesh of this.meshes) {
+                if (mesh.visible !== isDefined(mesh.parent)) {
+                    if (mesh.visible) {
+                        this.object.add(mesh);
+                    }
+                    else {
+                        mesh.removeFromParent();
+                    }
+                }
+            }
         }
     }
 
