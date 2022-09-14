@@ -1,3 +1,6 @@
+import { disabled } from "@juniper-lib/dom/attrs";
+import { onClick } from "@juniper-lib/dom/evts";
+import { ButtonPrimary, elementSetText } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -35,6 +38,8 @@ export class TransformEditor
 
     readonly object: Object3D;
 
+    public readonly modeButton: HTMLButtonElement;
+
     private readonly translators: Translator[];
     private readonly movingEvt = new TypedEvent("moving");
     private readonly movedEvt = new TypedEvent("moved");
@@ -66,6 +71,15 @@ export class TransformEditor
         objectSetVisible(this, false);
 
         env.timer.addTickHandler(() => this.refresh());
+
+        const modes = Object.values(TransformMode);
+        this.modeButton = ButtonPrimary(
+            disabled(true),
+            onClick(() => {
+                const curModeIdx = modes.indexOf(this.mode);
+                this.mode = modes[(curModeIdx + 1) % modes.length];
+            })
+        );
     }
 
     get target(): Object3D {
@@ -76,7 +90,9 @@ export class TransformEditor
         v = objectResolve(v);
         if (v !== this.target) {
             this._target = v;
-            objectSetVisible(this, isDefined(this.target));
+            const hasTarget = isDefined(this.target);
+            objectSetVisible(this, hasTarget);
+            this.modeButton.disabled = !hasTarget;
             this.refresh();
         }
 
@@ -101,6 +117,8 @@ export class TransformEditor
                 || this.mode === TransformMode.Move
                 || this.mode === TransformMode.MoveGlobal;
 
+            elementSetText(this.modeButton, this.mode);
+
             this.refresh();
         }
     }
@@ -115,6 +133,13 @@ export class TransformEditor
                     && this.mode !== TransformMode.MoveGlobal
                     && this.mode !== TransformMode.Orbit) {
                     this.env.avatar.lockMovement = true;
+                }
+
+                if (isDefined(evt.hit)) {
+                    translator.selected = evt.hit.object
+                }
+                else {
+                    translator.selected = null;
                 }
             }
         });
@@ -193,6 +218,8 @@ export class TransformEditor
                     this.env.avatar.lockMovement = false;
                 }
 
+                translator.selected = null;
+
                 this.dispatchEvent(this.movedEvt);
             }
         });
@@ -249,6 +276,7 @@ export class Translator extends RayTarget<void> {
     private readonly arcPads: Mesh[];
     private readonly materialFront: Material;
     private readonly materialBack: Material;
+    private readonly materialSelected: Material;
     private readonly worldPos = new Vector3();
     private readonly worldQuat = new Quaternion();
     private readonly center = new Vector3();
@@ -257,6 +285,7 @@ export class Translator extends RayTarget<void> {
     readonly rotationAxisLocal = new Vector3();
 
     private _mode: TransformMode = null;
+    selected: Object3D = null;
 
     constructor(axis: Axis, color: ColorRepresentation) {
         const axisIndex = Axes.indexOf(axis);
@@ -264,6 +293,7 @@ export class Translator extends RayTarget<void> {
         const rotationAxis = Axes[rotationAxisIndex];
         const ringAxisIndex = Axes.length - axisIndex - 1;
         const ringAxis = Axes[ringAxisIndex];
+
         const materialFront = litTransparent({
             color,
             depthTest: false,
@@ -274,6 +304,12 @@ export class Translator extends RayTarget<void> {
             depthTest: false,
             opacity: 0.25
         });
+        const materialSelected = litTransparent({
+            color,
+            depthTest: false,
+            opacity: 1
+        });
+
         const bars = [
             new Cube(1, 1, 1, materialFront),
             new Cube(1, 1, 1, materialFront)
@@ -311,6 +347,7 @@ export class Translator extends RayTarget<void> {
 
         this.materialFront = materialFront;
         this.materialBack = materialBack;
+        this.materialSelected = materialSelected;
 
         this.enabled = true;
         this.draggable = true;
@@ -411,13 +448,18 @@ export class Translator extends RayTarget<void> {
 
     private checkMeshes(center: Vector3, distA: number, arr: Mesh[]) {
         for (const pad of arr) {
-            pad.getWorldPosition(this.worldPos);
-            pad.getWorldQuaternion(this.worldQuat);
-            pad.geometry.boundingBox.getCenter(this.center);
-            this.center.add(pad.position);
-            pad.localToWorld(this.center);
-            const distB = this.center.distanceToSquared(center);
-            pad.material = distB >= distA ? this.materialBack : this.materialFront;
+            if (pad === this.selected) {
+                pad.material = this.materialSelected;
+            }
+            else {
+                pad.getWorldPosition(this.worldPos);
+                pad.getWorldQuaternion(this.worldQuat);
+                pad.geometry.boundingBox.getCenter(this.center);
+                this.center.add(pad.position);
+                pad.localToWorld(this.center);
+                const distB = this.center.distanceToSquared(center);
+                pad.material = distB >= distA ? this.materialBack : this.materialFront;
+            }
         }
     }
 }
