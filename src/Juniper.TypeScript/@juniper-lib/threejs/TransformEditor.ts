@@ -45,6 +45,7 @@ export class TransformEditor
 
     private dragging = false;
     private readonly rotationAxisWorld = new Vector3();
+    private readonly targetWorldPos = new Vector3();
     private readonly startWorld = new Vector3();
     private readonly endWorld = new Vector3();
     private readonly startLocal = new Vector3();
@@ -244,7 +245,8 @@ export class TransformEditor
             }
 
             for (const translator of this.translators) {
-                translator.refresh(this.env.avatar.worldPos);
+                this.target.getWorldPosition(this.targetWorldPos)
+                translator.refresh(this.targetWorldPos, this.env.avatar.worldPos);
             }
         }
     }
@@ -448,15 +450,16 @@ export class Translator extends RayTarget<void> {
         }
     }
 
-    refresh(center: Vector3) {
-        const distA = this.object.parent.position.distanceToSquared(center);
-        this.checkMeshes(center, distA, this.bars);
-        this.checkMeshes(center, distA, this.spherePads);
-        this.checkMeshes(center, distA, this.conePads);
-        this.checkMeshes(center, distA, this.arcPads);
+    private readonly delta = new Vector3();
+    refresh(center: Vector3, lookAt: Vector3) {
+        this.delta.subVectors(lookAt, center);
+        this.checkMeshes(center, this.bars);
+        this.checkMeshes(center, this.spherePads);
+        this.checkMeshes(center, this.conePads);
+        this.checkMeshes(center, this.arcPads);
     }
 
-    private checkMeshes(center: Vector3, distA: number, arr: Mesh[]) {
+    private checkMeshes(center: Vector3, arr: Mesh[]) {
         for (const pad of arr) {
             if (pad === this.selected) {
                 pad.material = this.materialSelected;
@@ -467,8 +470,9 @@ export class Translator extends RayTarget<void> {
                 pad.geometry.boundingBox.getCenter(this.center);
                 this.center.add(pad.position);
                 pad.localToWorld(this.center);
-                const distB = this.center.distanceToSquared(center);
-                pad.material = distB >= distA ? this.materialBack : this.materialFront;
+                this.center.sub(center);
+                const distB = this.center.dot(this.delta);
+                pad.material = distB < 0 ? this.materialBack : this.materialFront;
             }
         }
     }
