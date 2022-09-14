@@ -21,6 +21,10 @@ export class FetchingService implements IFetchingService {
         return this.impl.clearCache();
     }
 
+    evict(path: string): Promise<void> {
+        return this.impl.evict(path);
+    }
+
     sendNothingGetNothing(request: IRequest): Promise<IResponse> {
         return this.impl.sendNothingGetNothing(request);
     }

@@ -112,6 +112,10 @@ export class FetchingServiceClient
         return this.callMethod("clearCache");
     }
 
+    evict(path: string): Promise<void> {
+        return this.callMethod("evict", [path]);
+    }
+
     protected propogateEvent(data: WorkerServerEventMessage<void>) {
         assertNever(data.eventName);
     }

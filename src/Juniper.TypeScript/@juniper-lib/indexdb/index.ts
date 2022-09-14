@@ -268,6 +268,10 @@ export class IDexStore<T> {
         return this.request((store) => store.count(query), "readonly");
     }
 
+    async has(query: IDBValidKey): Promise<boolean> {
+        return (await this.getCount(query)) > 0;
+    }
+
     delete(query: IDBValidKey | IDBKeyRange) {
         return this.request((store) => store.delete(query), "readwrite");
     }

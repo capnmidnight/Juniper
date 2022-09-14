@@ -159,6 +159,13 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         await this.store.clear();
     }
 
+    async evict(path: string): Promise<void> {
+        await this.cacheReady;
+        if (this.store.has(path)) {
+            await this.store.delete(path);
+        }
+    }
+
     private async readResponseHeaders(path: string, xhr: XMLHttpRequest): Promise<IResponse> {
         const headerParts = xhr
             .getAllResponseHeaders()

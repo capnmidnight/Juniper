@@ -20,6 +20,7 @@ export function addFetcherMethods(server: WorkerServer<void>, fetcher: IFetching
     server.addVoidMethod(fetcher, "setRequestVerificationToken", fetcher.setRequestVerificationToken);
 
     server.addMethod(fetcher, "clearCache", fetcher.clearCache);
+    server.addMethod(fetcher, "evict", fetcher.evict);
 
     server.addMethod(fetcher, "sendNothingGetNothing", fetcher.sendNothingGetNothing);
 

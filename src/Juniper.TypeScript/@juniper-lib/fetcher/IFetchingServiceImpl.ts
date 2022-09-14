@@ -14,6 +14,7 @@ export interface XMLHttpRequestResponseTypeMap {
 
 export interface IFetchingServiceImpl {
     clearCache(): Promise<void>;
+    evict(path: string): Promise<void>;
     sendNothingGetNothing(request: IRequest): Promise<IResponse>;
     sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>>;
     sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>>;

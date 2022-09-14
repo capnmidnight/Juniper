@@ -29,6 +29,10 @@ export class Fetcher implements IFetcher {
         return this.service.clearCache();
     }
 
+    evict(path: string | URL, base?: string | URL) {
+        return this.service.evict(new URL(path, base || location.href).href);
+    }
+
     head(path: string | URL, base?: string | URL) {
         return this.createRequest("HEAD", path, base);
     }

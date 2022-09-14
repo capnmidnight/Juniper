@@ -97,6 +97,13 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
         await this.store.clear();
     }
 
+    async evict(path: string): Promise<void> {
+        await this.cacheReady;
+        if (this.store.has(path)) {
+            await this.store.delete(path);
+        }
+    }
+
     private async readResponseHeaders(path: string, res: Response): Promise<IResponse> {
         const headerParts = Array.from(res
             .headers

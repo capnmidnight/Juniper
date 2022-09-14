@@ -6,6 +6,7 @@ import type { IResponse } from "./IResponse";
 export interface IFetchingService {
 
     clearCache(): Promise<void>;
+    evict(path: string): Promise<void>;
 
     setRequestVerificationToken(value: string): void;
 

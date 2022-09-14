@@ -12,6 +12,7 @@ export interface IFetcherBasic {
 
 export interface IFetcher {
     clearCache(): Promise<void>;
+    evict(path: string | URL, base?: string | URL): Promise<void>;
     head(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendTimeoutCredentials & IFetcherBodilessResult;
     options(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendTimeoutCredentials & IFetcherBodilessResult;
     get(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressTimeoutCredentialsCacheGetBody & IFetcherBodiedResult;

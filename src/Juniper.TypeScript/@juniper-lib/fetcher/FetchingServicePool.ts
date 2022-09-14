@@ -36,6 +36,10 @@ export class FetchingServicePool
         await Promise.all(this.workers.map(w => w.clearCache()));
     }
 
+    async evict(path: string): Promise<void> {
+        await Promise.all(this.workers.map(w => w.evict(path)));
+    }
+
     sendNothingGetNothing(request: IRequest): Promise<IResponse> {
         return this.nextWorker().sendNothingGetNothing(request);
     }
