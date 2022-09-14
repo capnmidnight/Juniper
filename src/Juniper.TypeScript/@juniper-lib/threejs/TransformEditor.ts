@@ -22,6 +22,7 @@ export enum TransformMode {
 
 type Axis = "x" | "y" | "z";
 const Axes: readonly Axis[] = ["x", "y", "z"];
+const size = 0.1;
 
 interface TransformEditorEvents {
     moving: TypedEvent<"moving">;
@@ -320,10 +321,10 @@ export class Translator extends RayTarget<void> {
 
         for (let i = 0; i < this.spherePads.length; ++i) {
             const dir = 2 * i - 1;
-            this.spherePads[i].scale.setScalar(1 / 10);
+            this.spherePads[i].scale.setScalar(size * 0.4);
             this.spherePads[i].position
                 .copy(this.motionAxisLocal)
-                .multiplyScalar(dir * 0.375);
+                .multiplyScalar(dir * size * 1.5);
         }
 
         const V = new Vector3();
@@ -334,8 +335,10 @@ export class Translator extends RayTarget<void> {
                 .setFromUnitVectors(V, this.motionAxisLocal);
             this.conePads[i].position
                 .copy(this.motionAxisLocal)
-                .multiplyScalar(dir * 0.375);
-            this.conePads[i].scale.set(1 / 20, 1 / 10, 1 / 20);
+                .multiplyScalar(dir * size * 1.5);
+            this.conePads[i].scale
+                .set(.2, .4, .2)
+                .multiplyScalar(size);
         }
 
         for (let i = 0; i < this.bars.length; ++i) {
@@ -344,10 +347,10 @@ export class Translator extends RayTarget<void> {
                 .copy(this.motionAxisLocal)
                 .multiplyScalar(1.25)
                 .add(Translator.small)
-                .multiplyScalar(0.25);
+                .multiplyScalar(size);
             this.bars[i].position
                 .copy(this.motionAxisLocal)
-                .multiplyScalar(dir * 0.2);
+                .multiplyScalar(dir * size * 0.8);
         }
 
         const Q = new Quaternion();
@@ -362,6 +365,8 @@ export class Translator extends RayTarget<void> {
             this.arcPads[i].quaternion
                 .setFromAxisAngle(ringRotAxis, Math.PI / 2)
                 .multiply(Q);
+            this.arcPads[i].scale
+                .setScalar(size * 4);
         }
 
         this.addMeshes(
