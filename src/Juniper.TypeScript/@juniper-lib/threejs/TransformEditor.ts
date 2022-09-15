@@ -1,5 +1,6 @@
 import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonPrimary, elementSetDisplay, elementSetText } from "@juniper-lib/dom/tags";
+import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -14,11 +15,13 @@ import { ErsatzObject, obj, objectResolve, Objects, objectSetVisible } from "./o
 import { Sphere } from "./Sphere";
 
 export enum TransformMode {
-    Move = "Move",
-    MoveGlobal = "Global Move",
+    MoveObjectSpace = "Object Move",
+    MoveGlobalSpace = "Global Move",
+    MoveViewSpace = "View Move",
     Orbit = "Orbit",
-    Rotate = "Rotate",
-    RotateGlobal = "Global Rotate",
+    RotateObjectSpace = "Object Rotate",
+    RotateGlobalSpace = "Global Rotate",
+    RotateViewSpace = "View Rotate",
     Resize = "Resize"
 }
 
@@ -45,7 +48,6 @@ export class TransformEditor
 
     private dragging = false;
     private readonly rotationAxisWorld = new Vector3();
-    private readonly targetWorldPos = new Vector3();
     private readonly startWorld = new Vector3();
     private readonly endWorld = new Vector3();
     private readonly startLocal = new Vector3();
@@ -56,6 +58,7 @@ export class TransformEditor
 
     private _mode: TransformMode = null;
     private _target: Object3D = null;
+    private readonly modes = new Array<TransformMode>();
 
     constructor(private readonly env: BaseEnvironment) {
         super();
@@ -72,12 +75,8 @@ export class TransformEditor
 
         env.timer.addTickHandler(() => this.refresh());
 
-        const modes = Object.values(TransformMode);
         this.modeButton = ButtonPrimary(
-            onClick(() => {
-                const curModeIdx = modes.indexOf(this.mode);
-                this.mode = modes[(curModeIdx + 1) % modes.length];
-            })
+            onClick(() => this.setNextMode())
         );
         elementSetDisplay(this.modeButton, false);
     }
@@ -86,7 +85,7 @@ export class TransformEditor
         return this._target;
     }
 
-    setTarget(v: Objects, mode?: TransformMode) {
+    setTarget(v: Objects, modes?: TransformMode[]) {
         v = objectResolve(v);
         if (v !== this.target) {
             this._target = v;
@@ -96,9 +95,17 @@ export class TransformEditor
             this.refresh();
         }
 
-        if (isDefined(v) && isDefined(mode)) {
-            this.mode = mode;
+        if (isDefined(v) && isDefined(modes)) {
+            arrayReplace(this.modes, ...modes);
+            if (this.modes.indexOf(this.mode) === -1) {
+                this.mode = this.modes[0];
+            }
         }
+    }
+
+    private setNextMode() {
+        const curModeIdx = this.modes.indexOf(this.mode);
+        this.mode = this.modes[(curModeIdx + 1) % this.modes.length];
     }
 
     get mode() {
@@ -112,10 +119,8 @@ export class TransformEditor
                 translator.mode = v;
             }
 
-            this.translators[2].object.visible = this.mode === TransformMode.Rotate
-                || this.mode === TransformMode.RotateGlobal
-                || this.mode === TransformMode.Move
-                || this.mode === TransformMode.MoveGlobal;
+            this.translators[2].object.visible = this.mode !== TransformMode.Resize
+                && this.mode !== TransformMode.Orbit;
 
             elementSetText(this.modeButton, this.mode);
 
@@ -129,8 +134,9 @@ export class TransformEditor
             if (evt.pointer.isPressed(VirtualButton.Primary)) {
                 this.dragging = true;
                 this.startWorld.copy(evt.point);
-                if (this.mode !== TransformMode.Move
-                    && this.mode !== TransformMode.MoveGlobal
+                if (this.mode !== TransformMode.MoveObjectSpace
+                    && this.mode !== TransformMode.MoveGlobalSpace
+                    && this.mode !== TransformMode.MoveViewSpace
                     && this.mode !== TransformMode.Orbit) {
                     this.env.avatar.lockMovement = true;
                 }
@@ -157,8 +163,9 @@ export class TransformEditor
                         const endDist = this.endLocal.length();
                         this.target.scale.addScalar(endDist - startDist);
                     }
-                    else if (this.mode === TransformMode.Rotate
-                        || this.mode === TransformMode.RotateGlobal) {
+                    else if (this.mode === TransformMode.RotateObjectSpace
+                        || this.mode === TransformMode.RotateGlobalSpace
+                        || this.mode === TransformMode.RotateViewSpace) {
                         this.startLocal.normalize();
                         this.endLocal.normalize();
 
@@ -212,8 +219,9 @@ export class TransformEditor
             if (!evt.pointer.isPressed(VirtualButton.Primary)) {
                 this.dragging = false;
 
-                if (this.mode !== TransformMode.Move
-                    && this.mode !== TransformMode.MoveGlobal
+                if (this.mode !== TransformMode.MoveObjectSpace
+                    && this.mode !== TransformMode.MoveGlobalSpace
+                    && this.mode !== TransformMode.MoveViewSpace
                     && this.mode !== TransformMode.Orbit) {
                     this.env.avatar.lockMovement = false;
                 }
@@ -231,13 +239,12 @@ export class TransformEditor
         if (this.target) {
             this.target.getWorldPosition(this.object.position);
 
-            if (this.mode === TransformMode.Move
-                || this.mode === TransformMode.Rotate
-            ) {
+            if (this.mode === TransformMode.MoveObjectSpace
+                || this.mode === TransformMode.RotateObjectSpace) {
                 this.target.getWorldQuaternion(this.object.quaternion);
             }
-            else if (this.mode === TransformMode.RotateGlobal
-                || this.mode === TransformMode.MoveGlobal) {
+            else if (this.mode === TransformMode.RotateGlobalSpace
+                || this.mode === TransformMode.MoveGlobalSpace) {
                 this.object.quaternion.identity();
             }
             else {
@@ -245,8 +252,7 @@ export class TransformEditor
             }
 
             for (const translator of this.translators) {
-                this.target.getWorldPosition(this.targetWorldPos)
-                translator.refresh(this.targetWorldPos, this.env.avatar.worldPos);
+                translator.refresh(this.object.position, this.env.avatar.worldPos);
             }
         }
     }
@@ -418,14 +424,16 @@ export class Translator extends RayTarget<void> {
         if (v !== this.mode) {
             this._mode = v;
 
+            const isRotate = this.mode === TransformMode.RotateObjectSpace
+                || this.mode === TransformMode.RotateGlobalSpace
+                || this.mode === TransformMode.RotateViewSpace
+
             for (const arcPad of this.arcPads) {
-                arcPad.visible = this.mode === TransformMode.Rotate
-                    || this.mode === TransformMode.RotateGlobal;
+                arcPad.visible = isRotate;
             }
 
             for (const bar of this.bars) {
-                bar.visible = this.mode !== TransformMode.Rotate
-                    && this.mode !== TransformMode.RotateGlobal;
+                bar.visible = !isRotate;
             }
             for (const spherePad of this.spherePads) {
                 spherePad.visible = this.mode === TransformMode.Resize;
@@ -433,8 +441,7 @@ export class Translator extends RayTarget<void> {
 
             for (const conePad of this.conePads) {
                 conePad.visible = this.mode !== TransformMode.Resize
-                    && this.mode !== TransformMode.Rotate
-                    && this.mode !== TransformMode.RotateGlobal;
+                    && !isRotate;
             }
 
             for (const mesh of this.meshes) {
