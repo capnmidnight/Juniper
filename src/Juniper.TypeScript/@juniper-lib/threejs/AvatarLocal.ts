@@ -84,14 +84,19 @@ export class AvatarLocal
     private readonly motion = new Vector2();
     private readonly rotStage = new Matrix4();
     private readonly userMovedEvt = new AvatarMovedEvent();
-    private readonly acceleration = new Vector2(2, 2);
-    private readonly speed = new Vector2(3, 2);
     private readonly axisControl = new Vector2(0, 0);
     private readonly deviceQ = new Quaternion().identity();
     private readonly uv = new Vector2();
     private readonly duv = new Vector2();
     private readonly move = new Vector3();
     private readonly move2 = new Vector3();
+    private readonly radialAcceleration = new Vector2(1.5, 1.5);
+    private readonly radialSpeed = new Vector2(1, 1);
+    private readonly radialEdgeFactor = 3 / 4;
+    private readonly minFOVDegrees = 15;
+    private readonly maxFOVDegrees = 120;
+    private readonly minPitchRadians = deg2rad(-85);
+    private readonly maxPitchRadians = deg2rad(85);
     private readonly followers = new Array<BodyFollower>();
     private readonly onKeyDown: (evt: KeyboardEvent) => void;
     private readonly onKeyUp: (evt: KeyboardEvent) => void;
@@ -131,11 +136,6 @@ export class AvatarLocal
 
     lockMovement = false;
     fovZoomEnabled = true;
-    minFOV = 15;
-    maxFOV = 120;
-    minimumX = deg2rad(-85);
-    maximumX = deg2rad(85);
-    edgeFactor = 1 / 3;
 
 
     set disableVertical(v: boolean) {
@@ -404,18 +404,18 @@ export class AvatarLocal
                 && Math.abs(this.dz) > 0) {
                 const smoothing = Math.pow(0.95, 5000 * dt);
                 this.dz = truncate(smoothing * this.dz);
-                this.fov = clamp(this.env.camera.fov - this.dz, this.minFOV, this.maxFOV);
+                this.fov = clamp(this.env.camera.fov - this.dz, this.minFOVDegrees, this.maxFOVDegrees);
             }
 
             if (this.controlMode === CameraControlMode.ScreenEdge) {
                 if (this.uv.manhattanLength() > 0) {
                     this.motion
                         .set(
-                            this.scaleRadialComponent(-this.uv.x, this.speed.x, this.acceleration.x),
-                            this.scaleRadialComponent(this.uv.y, this.speed.y, this.acceleration.y))
+                            this.scaleRadialComponent(-this.uv.x, this.radialSpeed.x, this.radialAcceleration.x),
+                            this.scaleRadialComponent(this.uv.y, this.radialSpeed.y, this.radialAcceleration.y))
                         .multiplyScalar(dt);
                     this.setHeading(this.headingRadians + this.motion.x);
-                    this.setPitch(this.pitchRadians + this.motion.y, this.minimumX, this.maximumX);
+                    this.setPitch(this.pitchRadians + this.motion.y, this.minPitchRadians, this.maxPitchRadians);
                     this.setRoll(0);
                 }
             }
@@ -427,7 +427,7 @@ export class AvatarLocal
                         .multiplyScalar(sensitivity * dt)
                         .multiply(this.axisControl);
                     this.setHeading(this.headingRadians + this.motion.x);
-                    this.setPitch(this.pitchRadians + this.motion.y, this.minimumX, this.maximumX);
+                    this.setPitch(this.pitchRadians + this.motion.y, this.minPitchRadians, this.maxPitchRadians);
                     this.setRoll(0);
                 }
             }
@@ -489,7 +489,7 @@ export class AvatarLocal
 
     private scaleRadialComponent(n: number, dn: number, ddn: number) {
         const absN = Math.abs(n);
-        return Math.sign(n) * Math.pow(Math.max(0, absN - this.edgeFactor) / (1 - this.edgeFactor), ddn) * dn;
+        return Math.sign(n) * Math.pow(Math.max(0, absN - this.radialEdgeFactor) / (1 - this.radialEdgeFactor), ddn) * dn;
     }
 
     lookAt(obj: Object3D) {
