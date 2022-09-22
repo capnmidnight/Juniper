@@ -46,7 +46,7 @@ export function group(name: string, ...properties: PropertyElement[]) {
 }
 
 export type Property = PropertyElement | PropertyGroup;
-type PropertyDef = Property | Attr | CssElementStyleProp;
+export type PropertyDef = Property | Attr | CssElementStyleProp;
 type RowElement = Exclude<PropertyChild, string | number | boolean | Date>;
 type Row = Array<RowElement>;
 
