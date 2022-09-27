@@ -31,7 +31,6 @@ export class Image2D
     implements IDisposable {
 
     private readonly lastMatrixWorld = new Matrix4();
-    private readonly onRedrawLayer: () => void;
 
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
@@ -52,8 +51,6 @@ export class Image2D
 
     constructor(env: BaseEnvironment, name: string, public webXRLayerType: WebXRLayerType, materialOrOptions: MeshBasicMaterialParameters | MeshBasicMaterial = null) {
         super();
-
-        this.onRedrawLayer = () => this.updateTexture();
 
         if (env) {
             this.setEnvAndName(env, name);
@@ -184,10 +181,10 @@ export class Image2D
 
             const layer = this.layer;
             this.layer = null;
-            layer.removeEventListener("redraw", this.onRedrawLayer);
 
             setTimeout(() => layer.destroy(), 100);
         }
+
     }
 
     setTextureMap(img: TexImageSource | OffscreenCanvas): void {
@@ -303,7 +300,6 @@ export class Image2D
                             width,
                             height
                         });
-                        this.layer.addEventListener("redraw", this.onRedrawLayer);
                     }
                     else {
                         this.layer = this.env.xrBinding.createQuadLayer({
@@ -317,7 +313,6 @@ export class Image2D
                             width,
                             height
                         });
-                        this.layer.addEventListener("redraw", this.onRedrawLayer);
                     }
 
                     this.env.addWebXRLayer(this.layer, 500);
