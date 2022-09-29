@@ -1,1 +1,0 @@
-export function html2canvas(element: HTMLElement): HTMLCanvasElement;

@@ -2,71 +2,85 @@ import { Color } from 'three';
 
 const canvases = new WeakMap();
 
-export function html2canvas(element) {
+interface Clip {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}
+
+class Clipper {
+
+    private readonly clips = new Array<Clip>();
+    private isClipping = false;
+
+    constructor(private readonly context: CanvasRenderingContext2D) {
+    }
+
+
+
+    private doClip() {
+
+        if (this.isClipping) {
+
+            this.isClipping = false;
+            this.context.restore();
+
+        }
+
+        if (this.clips.length === 0) return;
+
+        let minX = - Infinity, minY = - Infinity;
+        let maxX = Infinity, maxY = Infinity;
+
+        for (let i = 0; i < this.clips.length; i++) {
+
+            const clip = this.clips[i];
+
+            minX = Math.max(minX, clip.x);
+            minY = Math.max(minY, clip.y);
+            maxX = Math.min(maxX, clip.x + clip.width);
+            maxY = Math.min(maxY, clip.y + clip.height);
+
+        }
+
+        this.context.save();
+        this.context.beginPath();
+        this.context.rect(minX, minY, maxX - minX, maxY - minY);
+        this.context.clip();
+
+        this.isClipping = true;
+
+    }
+
+
+
+    add(clip: Clip) {
+
+        this.clips.push(clip);
+        this.doClip();
+
+    }
+
+    remove() {
+        this.clips.pop();
+        this.doClip();
+    }
+}
+
+type BorderName =
+    "borderTop"
+    | "borderBottom"
+    | "borderLeft"
+    | "borderRight";
+
+
+export function html2canvas(element: HTMLElement): HTMLCanvasElement {
 
     const range = document.createRange();
     const color = new Color();
 
-    function Clipper(context) {
-
-        const clips = [];
-        let isClipping = false;
-
-        function doClip() {
-
-            if (isClipping) {
-
-                isClipping = false;
-                context.restore();
-
-            }
-
-            if (clips.length === 0) return;
-
-            let minX = - Infinity, minY = - Infinity;
-            let maxX = Infinity, maxY = Infinity;
-
-            for (let i = 0; i < clips.length; i++) {
-
-                const clip = clips[i];
-
-                minX = Math.max(minX, clip.x);
-                minY = Math.max(minY, clip.y);
-                maxX = Math.min(maxX, clip.x + clip.width);
-                maxY = Math.min(maxY, clip.y + clip.height);
-
-            }
-
-            context.save();
-            context.beginPath();
-            context.rect(minX, minY, maxX - minX, maxY - minY);
-            context.clip();
-
-            isClipping = true;
-
-        }
-
-        return {
-
-            add: function (clip) {
-
-                clips.push(clip);
-                doClip();
-
-            },
-
-            remove: function () {
-
-                clips.pop();
-                doClip();
-
-            }
-
-        };
-
-    }
-
-    function drawText(style, x, y, string) {
+    function drawText(style: CSSStyleDeclaration, x: number, y: number, string: string) {
 
         if (string !== '') {
 
@@ -85,7 +99,7 @@ export function html2canvas(element) {
 
     }
 
-    function buildRectPath(x, y, w, h, r) {
+    function buildRectPath(x: number, y: number, w: number, h: number, r: number) {
 
         if (w < 2 * r) r = w / 2;
         if (h < 2 * r) r = h / 2;
@@ -100,11 +114,11 @@ export function html2canvas(element) {
 
     }
 
-    function drawBorder(style, which, x, y, width, height) {
+    function drawBorder(style: CSSStyleDeclaration, which: BorderName, x: number, y: number, width: number, height: number) {
 
-        const borderWidth = style[which + 'Width'];
-        const borderStyle = style[which + 'Style'];
-        const borderColor = style[which + 'Color'];
+        const borderWidth = style[`${which}Width`];
+        const borderStyle = style[`${which}Style`];
+        const borderColor = style[`${which}Color`];
 
         if (borderWidth !== '0px' && borderStyle !== 'none' && borderColor !== 'transparent' && borderColor !== 'rgba(0, 0, 0, 0)') {
 
@@ -119,15 +133,19 @@ export function html2canvas(element) {
 
     }
 
-    function drawElement(element, style) {
+    function drawElement(node: ChildNode, style: CSSStyleDeclaration = null) {
 
         let x = 0, y = 0, width = 0, height = 0;
 
-        if (element.nodeType === Node.TEXT_NODE) {
+        if (node.nodeType === Node.COMMENT_NODE) {
+
+            return;
+
+        } else if (node.nodeType === Node.TEXT_NODE) {
 
             // text
 
-            range.selectNode(element);
+            range.selectNode(node);
 
             const rect = range.getBoundingClientRect();
 
@@ -136,25 +154,21 @@ export function html2canvas(element) {
             width = rect.width;
             height = rect.height;
 
-            drawText(style, x, y, element.nodeValue.trim());
+            drawText(style, x, y, node.nodeValue.trim());
 
-        } else if (element.nodeType === Node.COMMENT_NODE) {
-
-            return;
-
-        } else if (element instanceof HTMLCanvasElement) {
+        } else if (node instanceof HTMLCanvasElement) {
 
             // Canvas element
-            if (element.style.display === 'none') return;
+            if (node.style.display === 'none') return;
 
             context.save();
             const dpr = window.devicePixelRatio;
             context.scale(1 / dpr, 1 / dpr);
-            context.drawImage(element, 0, 0);
+            context.drawImage(node, 0, 0);
             context.restore();
 
         } else {
-
+            const element = node as unknown as HTMLElement;
             if (element.style.display === 'none') return;
 
             const rect = element.getBoundingClientRect();
@@ -181,7 +195,7 @@ export function html2canvas(element) {
 
             // If all the borders match then stroke the round rectangle
 
-            const borders = ['borderTop', 'borderLeft', 'borderBottom', 'borderRight'];
+            const borders = ['borderTop', 'borderLeft', 'borderBottom', 'borderRight'] as Array<BorderName>;
 
             let match = true;
             let prevBorder = null;
@@ -190,9 +204,9 @@ export function html2canvas(element) {
 
                 if (prevBorder !== null) {
 
-                    match = (style[border + 'Width'] === style[prevBorder + 'Width']) &&
-                        (style[border + 'Color'] === style[prevBorder + 'Color']) &&
-                        (style[border + 'Style'] === style[prevBorder + 'Style']);
+                    match = (style[`${border}Width`] === style[`${prevBorder}Width`]) &&
+                        (style[`${border}Color`] === style[`${prevBorder}Color`]) &&
+                        (style[`${border}Style`] === style[`${prevBorder}Style`]);
 
                 }
 
@@ -227,7 +241,7 @@ export function html2canvas(element) {
 
             }
 
-            if (element instanceof HTMLInputElement) {
+            if (node instanceof HTMLInputElement) {
 
                 let accentColor = style.accentColor;
 
@@ -238,7 +252,7 @@ export function html2canvas(element) {
                 const luminance = Math.sqrt(0.299 * (color.r ** 2) + 0.587 * (color.g ** 2) + 0.114 * (color.b ** 2));
                 const accentTextColor = luminance < 0.5 ? 'white' : '#111111';
 
-                if (element.type === 'radio') {
+                if (node.type === 'radio') {
 
                     buildRectPath(x, y, width, height, height);
 
@@ -248,7 +262,7 @@ export function html2canvas(element) {
                     context.fill();
                     context.stroke();
 
-                    if (element.checked) {
+                    if (node.checked) {
 
                         buildRectPath(x + 2, y + 2, width - 4, height - 4, height);
 
@@ -262,17 +276,17 @@ export function html2canvas(element) {
 
                 }
 
-                if (element.type === 'checkbox') {
+                if (node.type === 'checkbox') {
 
                     buildRectPath(x, y, width, height, 2);
 
-                    context.fillStyle = element.checked ? accentColor : 'white';
-                    context.strokeStyle = element.checked ? accentTextColor : accentColor;
+                    context.fillStyle = node.checked ? accentColor : 'white';
+                    context.strokeStyle = node.checked ? accentTextColor : accentColor;
                     context.lineWidth = 1;
                     context.stroke();
                     context.fill();
 
-                    if (element.checked) {
+                    if (node.checked) {
 
                         const currentTextAlign = context.textAlign;
 
@@ -283,7 +297,7 @@ export function html2canvas(element) {
                             fontFamily: style.fontFamily,
                             fontSize: height + 'px',
                             fontWeight: 'bold'
-                        };
+                        } as CSSStyleDeclaration;
 
                         drawText(properties, x + (width / 2), y, '✔');
 
@@ -293,9 +307,11 @@ export function html2canvas(element) {
 
                 }
 
-                if (element.type === 'range') {
+                if (node.type === 'range') {
 
-                    const [min, max, value] = ['min', 'max', 'value'].map(property => parseFloat(element[property]));
+                    const min = parseFloat(node.min);
+                    const max = parseFloat(node.max);
+                    const value = node.valueAsNumber;
                     const position = ((value - min) / (max - min)) * (width - height);
 
                     buildRectPath(x, y + (height / 4), width, height / 2, height / 4);
@@ -315,11 +331,11 @@ export function html2canvas(element) {
 
                 }
 
-                if (element.type === 'color' || element.type === 'text' || element.type === 'number') {
+                if (node.type === 'color' || node.type === 'text' || node.type === 'number') {
 
                     clipper.add({ x: x, y: y, width: width, height: height });
 
-                    drawText(style, x + parseInt(style.paddingLeft), y + parseInt(style.paddingTop), element.value);
+                    drawText(style, x + parseInt(style.paddingLeft), y + parseInt(style.paddingTop), node.value);
 
                     clipper.remove();
 
@@ -339,9 +355,9 @@ export function html2canvas(element) {
 
         if (isClipping) clipper.add({ x: x, y: y, width: width, height: height });
 
-        for (let i = 0; i < element.childNodes.length; i++) {
+        for (let i = 0; i < node.childNodes.length; i++) {
 
-            drawElement(element.childNodes[i], style);
+            drawElement(node.childNodes[i], style);
 
         }
 

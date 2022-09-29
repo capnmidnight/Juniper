@@ -1,4 +1,4 @@
-export function htmlevent(element, event, x, y) {
+export function htmlevent(element: HTMLElement, type: string, x: number, y: number) {
 
     const mouseEventInit = {
         clientX: (x * element.offsetWidth) + element.offsetLeft,
@@ -6,31 +6,31 @@ export function htmlevent(element, event, x, y) {
         view: element.ownerDocument.defaultView
     };
 
-    window.dispatchEvent(new MouseEvent(event, mouseEventInit));
+    window.dispatchEvent(new MouseEvent(type, mouseEventInit));
 
     const rect = element.getBoundingClientRect();
 
     x = x * rect.width + rect.left;
     y = y * rect.height + rect.top;
 
-    function traverse(element) {
+    function traverse(node: ChildNode) {
 
-        if (element.nodeType !== Node.TEXT_NODE && element.nodeType !== Node.COMMENT_NODE) {
-
+        if (node.nodeType !== Node.TEXT_NODE && node.nodeType !== Node.COMMENT_NODE) {
+            const element = node as unknown as HTMLElement;
             const rect = element.getBoundingClientRect();
 
             if (x > rect.left && x < rect.right && y > rect.top && y < rect.bottom) {
 
-                element.dispatchEvent(new MouseEvent(event, mouseEventInit));
+                element.dispatchEvent(new MouseEvent(type, mouseEventInit));
 
-                if (element instanceof HTMLInputElement && element.type === 'range' && (event === 'mousedown' || event === 'click')) {
+                if (element instanceof HTMLInputElement && element.type === 'range' && (type === 'mousedown' || type === 'click')) {
 
-                    const [min, max] = ['min', 'max'].map(property => parseFloat(element[property]));
-
+                    const min = parseFloat(element.min);
+                    const max = parseFloat(element.max);
                     const width = rect.width;
                     const offsetX = x - rect.x;
                     const proportion = offsetX / width;
-                    element.value = min + (max - min) * proportion;
+                    element.valueAsNumber = min + (max - min) * proportion;
                     element.dispatchEvent(new InputEvent('input', { bubbles: true }));
 
                 }
