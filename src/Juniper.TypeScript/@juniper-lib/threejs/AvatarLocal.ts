@@ -3,7 +3,7 @@ import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEv
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
 import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/math";
-import { assertNever, isFunction, isGoodNumber, isString } from "@juniper-lib/tslib/typeChecks";
+import { assertNever, isFunction, isGoodNumber } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { Euler, Matrix4, Object3D, Quaternion, Vector2, Vector3 } from "three";
 import type { BodyFollower } from "./animation/BodyFollower";
@@ -243,7 +243,10 @@ export class AvatarLocal
             };
 
             this.onScreenOrientationChangeEvent = () => {
-                if (!isString(globalThis.orientation)) {
+                if ("screen" in globalThis && "orientation" in screen) {
+                    this.screenOrientation = screen.orientation.angle;
+                }
+                else if ("orientaiton" in globalThis) {
                     this.screenOrientation = globalThis.orientation || 0;
                 }
             };
@@ -575,7 +578,7 @@ export class AvatarLocal
     private motionEnabled = false;
 
     private async getPermission(): Promise<PermissionState | "not-supported"> {
-        if (!("DeviceOrientationEvent" in globalThis)) {
+        if (!("DeviceOrientationEvent" in window)) {
             return "not-supported";
         }
 
@@ -593,16 +596,26 @@ export class AvatarLocal
             const permission = await this.getPermission();
             this.motionEnabled = permission === "granted";
             if (this.motionEnabled) {
-                globalThis.addEventListener("orientationchange", this.onScreenOrientationChangeEvent);
-                globalThis.addEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
+                if ("ScreenOrientation" in window) {
+                    screen.orientation.addEventListener("change", this.onScreenOrientationChangeEvent);
+                }
+                else {
+                    window.addEventListener("orientationchange", this.onScreenOrientationChangeEvent);
+                }
+                window.addEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
             }
         }
     }
 
     stopMotionControl() {
         if (this.motionEnabled) {
-            globalThis.removeEventListener("orientationchange", this.onScreenOrientationChangeEvent);
-            globalThis.removeEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
+            if ("ScreenOrientation" in window) {
+                screen.orientation.removeEventListener("change", this.onScreenOrientationChangeEvent);
+            }
+            else {
+                window.removeEventListener("orientationchange", this.onScreenOrientationChangeEvent);
+            }
+            window.removeEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
             this.motionEnabled = false;
         }
     }

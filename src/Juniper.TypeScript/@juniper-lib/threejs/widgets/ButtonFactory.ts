@@ -7,7 +7,7 @@ import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { all } from "@juniper-lib/tslib/events/all";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { nextPowerOf2 } from "@juniper-lib/tslib/math";
-import { CanvasTexture, MeshBasicMaterial, PlaneBufferGeometry, Texture } from "three";
+import { CanvasTexture, MeshBasicMaterial, PlaneGeometry, Texture } from "three";
 
 interface UVRect {
     u: number;
@@ -17,14 +17,14 @@ interface UVRect {
 }
 
 export interface ButtonSpec {
-    geometry: PlaneBufferGeometry;
+    geometry: PlaneGeometry;
     enabledMaterial: MeshBasicMaterial;
     disabledMaterial: MeshBasicMaterial;
 }
 
 export class ButtonFactory {
     private readonly uvDescrips = new PriorityMap<string, string, UVRect>();
-    private readonly geoms = new PriorityMap<string, string, PlaneBufferGeometry>();
+    private readonly geoms = new PriorityMap<string, string, PlaneGeometry>();
     private readonly ready: Promise<void>;
 
     private canvas: CanvasTypes = null;
@@ -138,7 +138,7 @@ export class ButtonFactory {
 
         let geom = this.geoms.get(setName, iconName);
         if (!geom) {
-            geom = new PlaneBufferGeometry(1, 1, 1, 1)
+            geom = new PlaneGeometry(1, 1, 1, 1)
             geom.name = `Geometry:${setName}/${iconName}`;
 
             this.geoms.add(setName, iconName, geom);

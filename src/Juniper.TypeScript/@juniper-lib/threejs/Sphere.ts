@@ -1,13 +1,13 @@
-import { Mesh, SphereBufferGeometry } from "three";
+import { Mesh, SphereGeometry } from "three";
 import type { SolidMaterial } from "./materials";
 import { setGeometryUVsForCubemaps } from "./setGeometryUVsForCubemaps";
 
-export const sphere = /*@__PURE__*/ new SphereBufferGeometry(0.5);
+export const sphere = /*@__PURE__*/ new SphereGeometry(0.5);
 sphere.name = "SphereGeom";
 sphere.computeBoundingBox();
 sphere.computeBoundingSphere();
 
-export const invSphere = /*@__PURE__*/ sphere.clone() as SphereBufferGeometry;
+export const invSphere = /*@__PURE__*/ sphere.clone() as SphereGeometry;
 invSphere.name = "InvertedSphereGeom";
 setGeometryUVsForCubemaps(invSphere);
 

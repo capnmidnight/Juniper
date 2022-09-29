@@ -154,7 +154,6 @@ export function onMouseOver(callback: (evt: MouseEvent) => void, opts?: EventLis
 export function onMouseUp(callback: (evt: MouseEvent) => void, opts?: EventListenerOpts) { return new HtmlEvt("mouseup", callback, opts); }
 export function onOffline(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("offline", callback, opts); }
 export function onOnline(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("online", callback, opts); }
-export function onOrientationChange(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("orientationchange", callback, opts); }
 export function onPageHide(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("pagehide", callback, opts); }
 export function onPageShow(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("pageshow", callback, opts); }
 export function onPaste(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("paste", callback, opts); }

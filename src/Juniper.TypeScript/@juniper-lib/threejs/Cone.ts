@@ -1,7 +1,7 @@
-import { ConeBufferGeometry, Mesh } from "three";
+import { ConeGeometry, Mesh } from "three";
 import type { SolidMaterial } from "./materials";
 
-export const cone = /*@__PURE__*/ new ConeBufferGeometry(1, 1, 10, 5);
+export const cone = /*@__PURE__*/ new ConeGeometry(1, 1, 10, 5);
 cone.name = "ConeGeom";
 cone.computeBoundingBox();
 cone.computeBoundingSphere();

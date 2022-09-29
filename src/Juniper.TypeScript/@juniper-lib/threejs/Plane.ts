@@ -1,7 +1,7 @@
-import { Mesh, PlaneBufferGeometry } from "three";
+import { Mesh, PlaneGeometry } from "three";
 import { SolidMaterial } from "./materials";
 
-export const plane = /*@__PURE__*/ new PlaneBufferGeometry(1, 1, 1, 1);
+export const plane = /*@__PURE__*/ new PlaneGeometry(1, 1, 1, 1);
 plane.name = "PlaneGeom";
 
 export class Plane extends Mesh {

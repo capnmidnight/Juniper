@@ -4,7 +4,7 @@ import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { ColorRepresentation, ExtrudeBufferGeometry, Material, Mesh, Object3D, Quaternion, Shape, Vector2, Vector3 } from "three";
+import { ColorRepresentation, ExtrudeGeometry, Material, Mesh, Object3D, Quaternion, Shape, Vector2, Vector3 } from "three";
 import { Cone } from "./Cone";
 import { Cube } from "./Cube";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
@@ -267,7 +267,7 @@ for (let a = 5; a <= 85; a += 5) {
 }
 const arcPoints = [...arcPointsForward, ...arcPointsBack];
 const arcShape = new Shape(arcPoints);
-const arcGeom = new ExtrudeBufferGeometry(arcShape, {
+const arcGeom = new ExtrudeGeometry(arcShape, {
     steps: 1,
     depth: 0.02,
     bevelEnabled: false
