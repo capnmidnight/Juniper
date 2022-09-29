@@ -1,9 +1,9 @@
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { clamp } from "@juniper-lib/tslib/math";
 import { BackSide, Mesh, MeshBasicMaterial } from "three";
-import { cube as geom } from "./Cube";
+import { cube } from "./Cube";
 import { solidTransparent } from "./materials";
-import { ErsatzObject, mesh } from "./objects";
+import { ErsatzObject } from "./objects";
 
 export class Fader implements ErsatzObject {
     opacity = 1;
@@ -21,7 +21,7 @@ export class Fader implements ErsatzObject {
             color: 0x000000,
             side: BackSide
         });
-        this.object = mesh(name, geom, this.material);
+        this.object = cube(name, 1, 1, 1, this.material);
         this.object.renderOrder = Number.MAX_SAFE_INTEGER;
         this.speed = 1 / t;
         this.object.layers.enableAll();

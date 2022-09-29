@@ -5,14 +5,14 @@ import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase"
 import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { ColorRepresentation, ExtrudeGeometry, Material, Mesh, Object3D, Quaternion, Shape, Vector2, Vector3 } from "three";
-import { Cone } from "./Cone";
-import { Cube } from "./Cube";
+import { cone } from "./Cone";
+import { cube } from "./Cube";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { VirtualButton } from "./eventSystem/devices/VirtualButton";
 import { RayTarget } from "./eventSystem/RayTarget";
 import { blue, green, litTransparent, red } from "./materials";
-import { ErsatzObject, obj, objectResolve, Objects, objectSetVisible } from "./objects";
-import { Sphere } from "./Sphere";
+import { ErsatzObject, mesh, obj, objectResolve, Objects, objectSetVisible } from "./objects";
+import { sphere } from "./Sphere";
 
 export enum TransformMode {
     MoveObjectSpace = "Object Move",
@@ -318,26 +318,26 @@ export class Translator extends RayTarget<void> {
         });
 
         const bars = [
-            new Cube(1, 1, 1, materialFront),
-            new Cube(1, 1, 1, materialFront)
+            cube(`Bar_${axis}1`, 1, 1, 1, materialFront),
+            cube(`Bar_${axis}1`, 1, 1, 1, materialFront)
         ];
         const spherePads = [
-            new Sphere(1, materialFront),
-            new Sphere(1, materialFront)
+            sphere(`ScalePad_${axis}1`, 1, materialFront),
+            sphere(`ScalePad_${axis}2`, 1, materialFront)
         ];
         const conePads = [
-            new Cone(1, 1, 1, materialFront),
-            new Cone(1, 1, 1, materialFront)
+            cone(`TranslatePad_${axis}1`, 1, 1, 1, materialFront),
+            cone(`TranslatePad_${axis}2`, 1, 1, 1, materialFront)
         ];
         const arcPads = [
-            new Mesh(arcGeom, materialFront),
-            new Mesh(arcGeom, materialFront),
-            new Mesh(arcGeom, materialFront),
-            new Mesh(arcGeom, materialFront)
+            mesh(`RotatePad_${axis}1`, arcGeom, materialFront),
+            mesh(`RotatePad_${axis}2`, arcGeom, materialFront),
+            mesh(`RotatePad_${axis}3`, arcGeom, materialFront),
+            mesh(`RotatePad_${axis}4`, arcGeom, materialFront)
         ];
 
         super(obj(
-            "Translator " + axis,
+            `Transformer_${axis}`,
             ...bars,
             ...spherePads,
             ...conePads,

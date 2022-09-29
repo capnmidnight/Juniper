@@ -5,20 +5,21 @@ import { RayTarget } from "../eventSystem/RayTarget";
 import { mesh, obj, objGraph } from "../objects";
 
 export class MeshButton extends RayTarget {
-    protected readonly enabledMesh: Mesh;
-    protected readonly disabledMesh: Mesh;
+    protected readonly mesh: Mesh;
 
-    constructor(name: string, geometry: BufferGeometry, enabledMaterial: Material, disabledMaterial: Material, size: number) {
+    constructor(
+        name: string,
+        geometry: BufferGeometry,
+        protected readonly enabledMaterial: Material,
+        protected readonly disabledMaterial: Material,
+        size: number) {
         name = name + stringRandom(16);
         super(obj(name));
 
-        this.enabledMesh = mesh(`Mesh-${name}-enabled`, geometry, enabledMaterial);
-        this.disabledMesh = mesh(`Mesh-${name}-disabled`, geometry, disabledMaterial);
-        this.disabledMesh.visible = false;
+        this.mesh = mesh(`Mesh-${name}-enabled`, geometry, enabledMaterial);
         this.size = size;
-        objGraph(this, this.enabledMesh, this.disabledMesh);
-        this.addMesh(this.enabledMesh);
-        this.addMesh(this.disabledMesh);
+        objGraph(this, this.mesh);
+        this.addMesh(this.mesh);
 
         this.clickable = true;
         this.disabled = this.disabled;
@@ -27,12 +28,11 @@ export class MeshButton extends RayTarget {
     }
 
     get size(): number {
-        return this.enabledMesh.scale.x;
+        return this.mesh.scale.x;
     }
 
     set size(v: number) {
-        this.enabledMesh.scale.setScalar(v);
-        this.disabledMesh.scale.setScalar(v);
+        this.mesh.scale.setScalar(v);
     }
 
     override get disabled(): boolean {
@@ -41,7 +41,8 @@ export class MeshButton extends RayTarget {
 
     override set disabled(v: boolean) {
         super.disabled = v;
-        this.enabledMesh.visible = !v;
-        this.disabledMesh.visible = v;
+        this.mesh.material = v
+            ? this.enabledMaterial
+            : this.disabledMaterial;
     }
 }
