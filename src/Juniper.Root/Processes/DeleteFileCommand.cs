@@ -1,10 +1,10 @@
-﻿namespace Juniper.Processes
+namespace Juniper.Processes
 {
-    public class DeleteCommand : AbstractCommand
+    public class DeleteFileCommand : AbstractCommand
     {
         private readonly FileInfo file;
 
-        public DeleteCommand(FileInfo file)
+        public DeleteFileCommand(FileInfo file)
             : base("Delete")
         {
             this.file = file;

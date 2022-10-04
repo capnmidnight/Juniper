@@ -9,6 +9,7 @@ namespace Juniper.TSBuild
 
     public class BuildSystemOptions
     {
+        public DirectoryInfo[] CleanDirs;
         public string InProjectName;
         public string OutProjectName;
         public Dictionary<string, (FileInfo From, FileInfo To)> Dependencies;

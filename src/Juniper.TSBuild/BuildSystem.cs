@@ -107,6 +107,7 @@ namespace Juniper.TSBuild
             Minified
         }
 
+        private readonly DirectoryInfo[] cleanDirs;
         private readonly DirectoryInfo inProjectDir;
         private readonly DirectoryInfo outProjectDir;
         private readonly DirectoryInfo juniperTsDir;
@@ -151,6 +152,7 @@ namespace Juniper.TSBuild
 
             var juniperDir = FindJuniperDir(startDir);
 
+            cleanDirs = options.CleanDirs.Select(dir => TestDir($"Couldn't find {dir.Name}", dir)).ToArray();
             juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
             inProjectDir = TestDir($"Couldn't find project {inProjectName} from {startDir}", startDir.CD(inProjectName));
             outProjectDir = TestDir($"Couldn't find project {outProjectName} from {startDir}", startDir.CD(outProjectName));
@@ -431,6 +433,14 @@ namespace Juniper.TSBuild
                 .Cast<T>();
         }
 
+        private IEnumerable<DeleteDirectoryCommand> GetCleanCommands()
+        {
+            return TryMake(
+                cleanDirs,
+                dir => new DeleteDirectoryCommand(dir)
+            );
+        }
+
         private IEnumerable<NPMInstallCommand> GetInstallCommands()
         {
             return TryMake(
@@ -510,6 +520,7 @@ namespace Juniper.TSBuild
 
                 commands
                     .AddCommands(new MessageCommand("Starting build"))
+                    .AddCommands(GetCleanCommands())
                     .AddCommands(GetInstallCommands())
                     .AddCommands(copyCommands);
 
@@ -551,6 +562,7 @@ namespace Juniper.TSBuild
             {
                 commands
                     .AddCommands(new MessageCommand("Starting watch"))
+                    .AddCommands(GetCleanCommands())
                     .AddCommands(GetInstallCommands())
                     .AddCommands(copyCommands);
             });
