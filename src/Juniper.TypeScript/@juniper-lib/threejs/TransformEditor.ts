@@ -13,6 +13,7 @@ import { RayTarget } from "./eventSystem/RayTarget";
 import { blue, green, litTransparent, red } from "./materials";
 import { ErsatzObject, mesh, obj, objectResolve, Objects, objectSetVisible } from "./objects";
 import { sphere } from "./Sphere";
+import { isMesh } from "./typeChecks";
 
 export enum TransformMode {
     MoveObjectSpace = "Object Move",
@@ -343,6 +344,12 @@ export class Translator extends RayTarget<void> {
             ...conePads,
             ...arcPads
         ));
+
+        for (const obj of this.object.children) {
+            if (isMesh(obj)) {
+                obj.renderOrder = Number.MAX_SAFE_INTEGER;
+            }
+        }
 
         this.bars = bars;
         this.spherePads = spherePads;
