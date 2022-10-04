@@ -1,4 +1,4 @@
-import { autoComplete, className, placeHolder, tabIndex } from "@juniper-lib/dom/attrs";
+import { Attr, autoComplete, className, placeHolder, tabIndex } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     isModifierless,
@@ -113,7 +113,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
     constructor(
         options?: TreeViewOptions<ValueT, FilterTypeT>,
-        ...styleProps: CssElementStyleProp[]) {
+        ...styleProps: (CssElementStyleProp | Attr<"id">)[]) {
         super();
 
         this.createElement = this.createElement.bind(this);

@@ -5,8 +5,10 @@ import { isDefined, isString } from "@juniper-lib/tslib/typeChecks";
 /**
  * A setter functor for HTML attributes.
  **/
-export class Attr {
+export class Attr<T extends string = string> {
+
     readonly tags: readonly string[];
+
     /**
      * Creates a new setter functor for HTML Attributes
      * @param key - the attribute name.
@@ -14,7 +16,7 @@ export class Attr {
      * @param tags - the HTML tags that support this attribute.
      */
     constructor(
-        public readonly key: string,
+        public readonly key: T,
         public readonly value: any,
         private readonly bySetAttribute: boolean,
         ...tags: string[]) {
