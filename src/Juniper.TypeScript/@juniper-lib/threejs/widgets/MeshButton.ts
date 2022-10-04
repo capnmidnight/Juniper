@@ -42,7 +42,7 @@ export class MeshButton extends RayTarget {
     override set disabled(v: boolean) {
         super.disabled = v;
         this.mesh.material = v
-            ? this.enabledMaterial
-            : this.disabledMaterial;
+            ? this.disabledMaterial
+            : this.enabledMaterial;
     }
 }
