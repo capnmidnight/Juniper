@@ -36,10 +36,10 @@ export class ContextMenu implements ErsatzElement {
             this.currentTask = null;
         }
     }
-
-    public async show<T extends string = string>(...options: (T | HTMLHRElement)[]): Promise<T | null>
-    public async show<T extends string = string>(displayNames: Map<T, string>, ...options: (T | HTMLHRElement)[]): Promise<T | null>;
-    public async show<T extends string = string>(displayNamesOrFirstOption: T | HTMLHRElement | Map<T, string>, ...options: (T | HTMLHRElement)[]): Promise<T | null> {
+    
+    public async show<T>(displayNames: Map<T, string>, ...options: (T | HTMLHRElement)[]): Promise<T | null>;
+    public async show<T>(...options: (T | HTMLHRElement)[]): Promise<T | null>
+    public async show<T>(displayNamesOrFirstOption: T | HTMLHRElement | Map<T, string>, ...options: (T | HTMLHRElement)[]): Promise<T | null> {
         let displayNames: Map<T, string>;
         if (displayNamesOrFirstOption instanceof Map) {
             displayNames = displayNamesOrFirstOption;
@@ -67,7 +67,7 @@ export class ContextMenu implements ErsatzElement {
                 }
                 else {
                     return Button(
-                        displayNames.has(option) ? displayNames.get(option) : option,
+                        displayNames.has(option) ? displayNames.get(option) : option.toString(),
                         onClick(this.currentTask.resolver(option), true)
                     );
                 }
