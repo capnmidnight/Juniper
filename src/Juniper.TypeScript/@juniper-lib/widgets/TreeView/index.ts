@@ -463,6 +463,18 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         }
     }
 
+    async withLock(action: () => Promise<void>): Promise<void> {
+        const isEnabled = this.enabled;
+        if (this.enabled) {
+            try {
+                await action();
+            }
+            finally {
+                this.enabled = isEnabled;
+            }
+        }
+    }
+
     findAll(predicate: (value: ValueT) => boolean): TreeNode<ValueT>[] {
         return Array.from(this.rootNode.searchAll((node) => predicate(node.value)));
     }
