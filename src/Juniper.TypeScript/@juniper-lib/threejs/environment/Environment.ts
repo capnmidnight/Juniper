@@ -93,7 +93,7 @@ export class Environment
         this.screenUISpace = new ScreenUI(buttonFillColor);
         this.compassImage = new ArtificialHorizon();
 
-        this.clockImage = new CanvasImageMesh(this, "Clock", "dynamic", new ClockImage());
+        this.clockImage = new CanvasImageMesh(this, "Clock", "none", new ClockImage());
         this.clockImage.sizeMode = "fixed-height";
         this.clockImage.mesh.renderOrder = 5;
 
@@ -169,7 +169,7 @@ export class Environment
         elementApply(this.screenUISpace.bottomRowRight, this.fullscreenButton, this.vrButton, this.arButton);
 
         if (BatteryImage.isAvailable && isMobile()) {
-            this.batteryImage = new CanvasImageMesh(this, "Battery", "dynamic", new BatteryImage());
+            this.batteryImage = new CanvasImageMesh(this, "Battery", "none", new BatteryImage());
             this.batteryImage.sizeMode = "fixed-height";
             this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, width: 0.2, height: 0.1 });
             elementApply(this.screenUISpace.topRowRight, this.batteryImage);
