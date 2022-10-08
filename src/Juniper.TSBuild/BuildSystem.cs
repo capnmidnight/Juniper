@@ -113,8 +113,8 @@ namespace Juniper.TSBuild
         private readonly DirectoryInfo juniperTsDir;
         private readonly FileInfo projectPackage;
         private readonly FileInfo projectAppSettings;
-        private readonly Dictionary<FileInfo, (string, FileInfo, bool)> dependencies = new();
 
+        private readonly Dictionary<FileInfo, (string, FileInfo, bool)> dependencies = new();
         private readonly List<DirectoryInfo> TSProjects = new();
         private readonly List<DirectoryInfo> ESBuildProjects = new();
         private readonly List<DirectoryInfo> NPMProjects = new();
@@ -152,10 +152,13 @@ namespace Juniper.TSBuild
 
             var juniperDir = FindJuniperDir(startDir);
 
-            cleanDirs = options.CleanDirs.Select(dir => TestDir($"Couldn't find {dir.Name}", dir)).ToArray();
             juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
             inProjectDir = TestDir($"Couldn't find project {inProjectName} from {startDir}", startDir.CD(inProjectName));
             outProjectDir = TestDir($"Couldn't find project {outProjectName} from {startDir}", startDir.CD(outProjectName));
+            cleanDirs = options.CleanDirs
+                ?.Select(dir => TestDir($"Couldn't find {dir.Name}", dir))
+                ?.ToArray()
+                ?? Array.Empty<DirectoryInfo>();
 
             projectPackage = inProjectDir.Touch("package.json");
             projectAppSettings = outProjectDir.Touch("appsettings.json");
