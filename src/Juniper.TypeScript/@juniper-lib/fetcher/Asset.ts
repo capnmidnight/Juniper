@@ -1,10 +1,10 @@
-import { Application_Json, MediaType } from "@juniper-lib/mediatypes";
+import { Application_Javascript, Application_Json, MediaType } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isBoolean, isDefined, isFunction } from "@juniper-lib/tslib/typeChecks";
 import { IFetcher, IFetcherBodiedResult } from "./IFetcher";
 import { IResponse } from "./IResponse";
 
-export abstract class BaseAsset<ResultT = any, ErrorT = any> implements Promise<ResultT> {
+export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Promise<ResultT> {
 
     private readonly promise: Promise<ResultT>;
 
@@ -102,6 +102,20 @@ export function isAsset(obj: any): obj is BaseAsset {
         && isFunction(obj.finally)
         && isFunction(obj.fetch)
         && isFunction(obj.getSize);
+}
+
+export class AssetWorker<ErrorT = unknown> extends BaseAsset<Worker, ErrorT> {
+
+    constructor(path: string, private readonly workerType: WorkerType = "module") {
+        super(path, Application_Javascript);
+    }
+
+    protected getResult(fetcher: IFetcher, prog?: IProgress): Promise<Worker> {
+        return fetcher
+            .get(this.path)
+            .progress(prog)
+            .worker(this.workerType);
+    }
 }
 
 export class AssetCustom<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, ErrorT> {
