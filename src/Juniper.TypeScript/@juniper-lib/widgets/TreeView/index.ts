@@ -267,7 +267,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                         placeHolder("Filter by name"),
                         autoComplete(false),
                         onInput(() => {
-                            this.nameFilter = this.filterNameInput.value;
+                            this.nameFilter = this.filterNameInput.value.toLocaleLowerCase();
                             if (this.nameFilter.length === 0) {
                                 this.nameFilter = null;
                             }
@@ -408,7 +408,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         const included = new Set<TreeNode<ValueT>>();
         for (const node of this.rootNode.depthFirst()) {
             const nameMatch = isNullOrUndefined(this.nameFilter)
-                || this.options.getLabel(node.value).indexOf(this.nameFilter) >= 0;
+                || this.options.getLabel(node.value).toLocaleLowerCase().indexOf(this.nameFilter) >= 0;
             const typeMatch = isNullOrUndefined(this.typeFilter)
                 || this.options.typeFilters.getTypeFor(node.value) === this.typeFilter;
             const isMatch = nameMatch && typeMatch;
