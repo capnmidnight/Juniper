@@ -117,27 +117,36 @@ export class Skybox {
         Object.seal(this);
     }
 
+    clear() {
+        this.setImage(null, null);
+    }
+
     setImage(imageID: string, image: CanvasImageTypes) {
         if (imageID !== this.curImagePath) {
-            const width = image.width / CUBEMAP_PATTERN.columns;
-            const height = image.height / CUBEMAP_PATTERN.rows;
-            for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
-                const indices = CUBEMAP_PATTERN.indices[row];
-                for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
-                    const i = indices[column];
-                    if (i > -1) {
-                        const g = this.contexts[i];
-                        g.drawImage(
-                            image,
-                            column * width, row * height,
-                            width, height,
-                            0, 0,
-                            FACE_SIZE, FACE_SIZE);
+            if (isDefined(image)) {
+                const width = image.width / CUBEMAP_PATTERN.columns;
+                const height = image.height / CUBEMAP_PATTERN.rows;
+                for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
+                    const indices = CUBEMAP_PATTERN.indices[row];
+                    for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
+                        const i = indices[column];
+                        if (i > -1) {
+                            const g = this.contexts[i];
+                            g.drawImage(
+                                image,
+                                column * width, row * height,
+                                width, height,
+                                0, 0,
+                                FACE_SIZE, FACE_SIZE);
+                        }
                     }
                 }
-            }
 
-            this.setImages(imageID, this.canvases);
+                this.setImages(imageID, this.canvases);
+            }
+            else {
+                this.setImages(imageID, null);
+            }
         }
     }
 
@@ -152,10 +161,21 @@ export class Skybox {
                     cleanup(this.cube);
                 }
 
+                if (isDefined(this.images)) {
+                    for (const img of this.images) {
+                        cleanup(img);
+                    }
+                }
+
                 this.images = images;
 
-                this.rtScene.background = this.cube = new CubeTexture(this.images);
-                this.cube.name = "SkyboxInput";
+                if (isDefined(this.images)) {
+                    this.rtScene.background = this.cube = new CubeTexture(this.images);
+                    this.cube.name = "SkyboxInput";
+                }
+                else {
+                    this.rtScene.background = black;
+                }
             }
         }
 
