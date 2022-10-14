@@ -51,7 +51,7 @@ export class PlaybackButton<T extends FullAudioRecord>
         private readonly data: T | string,
         name: string,
         label: string,
-        player: IPlayer) {
+        private readonly player: IPlayer) {
         super();
 
         label = translations.get(label) || label || "";
@@ -75,10 +75,10 @@ export class PlaybackButton<T extends FullAudioRecord>
         this.progressBar.visible = false;
 
         this.clickPlay = async () => {
-            if (player.data !== this.data) {
-                await player.load(this.data, this);
+            if (this.player.data !== this.data) {
+                await this.player.load(this.data, this);
             }
-            await player.play();
+            await this.player.play();
         };
 
         this.load(buttonFactory, player);
@@ -87,6 +87,9 @@ export class PlaybackButton<T extends FullAudioRecord>
     private disposed = false;
     dispose(): void {
         if (!this.disposed) {
+            if (this.data === this.player.data) {
+                this.player.clear();
+            }
             cleanup(this.object);
             this.disposed = true;
         }

@@ -5,6 +5,7 @@ import { once } from "@juniper-lib/tslib/events/once";
 import { AsyncCallback } from "@juniper-lib/tslib/identity";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { AudioRecord, FullAudioRecord } from "../data";
 import { audioReady, MediaElementSource, removeVertex } from "../nodes";
@@ -17,6 +18,8 @@ import { NoSpatializationNode } from "./spatializers/NoSpatializationNode";
 export class AudioPlayer
     extends BaseAudioSource<MediaElementAudioSourceNode, MediaPlayerEvents>
     implements ErsatzElement, IPlayer, IDisposable {
+
+    private readonly cacheBustSources = new Map<FullAudioRecord | string, number>();
 
     private readonly loadingEvt: MediaPlayerLoadingEvent;
     private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayer>;
@@ -150,6 +153,11 @@ export class AudioPlayer
         this._loaded = false;
     }
 
+    cacheBust(data: FullAudioRecord | string) {
+        const curCount = this.cacheBustSources.get(data) || 0;
+        this.cacheBustSources.set(data, curCount + 1);
+    }
+
     async load(data: FullAudioRecord | string, prog?: IProgress): Promise<this> {
         this.clear();
 
@@ -238,6 +246,12 @@ export class AudioPlayer
                 url = this.potatoes.shift();
             }
 
+            const cacheV = this.cacheBustSources.get(this.data);
+            if (isDefined(cacheV)) {
+                const uri = new URLBuilder(url, location.href);
+                uri.query("v", cacheV.toString());
+                url = uri.toString();
+            }
             this.element.src = url;
             this.element.load();
             if (await mediaElementCanPlayThrough(this.element)) {
