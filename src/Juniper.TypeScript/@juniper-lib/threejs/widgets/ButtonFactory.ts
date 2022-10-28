@@ -36,9 +36,11 @@ export class ButtonFactory {
 
     private readonly assetSets: PriorityMap<string, string, AssetImage>;
 
-    constructor(private readonly imagePaths: PriorityMap<string, string, string>,
+    constructor(
+        private readonly imagePaths: PriorityMap<string, string, string>,
         private readonly padding: number,
-        readonly fillColor: CSSColorValue,
+        public readonly buttonFillColor: CSSColorValue,
+        public readonly labelFillColor: CSSColorValue,
         debug: boolean) {
         this.assetSets = new PriorityMap(Array.from(this.imagePaths.entries())
                 .map(([setName, iconName, path]) =>
@@ -72,7 +74,7 @@ export class ButtonFactory {
         this.canvas = createUICanvas(canvWidth, canvHeight);
 
         const g = this.canvas.getContext("2d", { alpha: false });
-        g.fillStyle = this.fillColor;
+        g.fillStyle = this.buttonFillColor;
         g.fillRect(0, 0, canvWidth, canvHeight);
 
         let i = 0;

@@ -64,7 +64,7 @@ export class PlaybackButton<T extends FullAudioRecord>
             minWidth: size,
             padding: 0.02,
             scale: 1000,
-            bgFillColor: buttonFactory.fillColor,
+            bgFillColor: buttonFactory.labelFillColor,
             textFillColor: "white"
         });
         this.textLabel.image.value = label;

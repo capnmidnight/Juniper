@@ -48,6 +48,22 @@ export interface EnvironmentOptions {
     DEBUG: boolean;
 }
 
+export interface EnvironmentConstructor {
+    new(canvas: CanvasTypes,
+        fetcher: IFetcher,
+        dialogFontFamily: string,
+        uiImagePaths: PriorityMap<string, string, string>,
+        buttonFillColor: CSSColorValue,
+        labelFillColor: CSSColorValue,
+        defaultAvatarHeight: number,
+        enableFullResolution: boolean,
+        options?: Partial<EnvironmentOptions>): Environment;
+}
+
+export interface EnvironmentModule {
+    default: EnvironmentConstructor;
+}
+
 export class Environment
     extends BaseEnvironment<EnvironmentEvents> {
 
@@ -86,6 +102,7 @@ export class Environment
         dialogFontFamily: string,
         uiImagePaths: PriorityMap<string, string, string>,
         buttonFillColor: CSSColorValue,
+        labelFillColor: CSSColorValue,
         defaultAvatarHeight: number,
         enableFullResolution: boolean,
         options?: Partial<EnvironmentOptions>) {
@@ -135,7 +152,7 @@ export class Environment
         this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
         this.devicesDialog = new DeviceDialog(this);
 
-        this.uiButtons = new ButtonFactory(uiImagePaths, 20, buttonFillColor, this.DEBUG);
+        this.uiButtons = new ButtonFactory(uiImagePaths, 20, buttonFillColor, labelFillColor, this.DEBUG);
 
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
         this.quitButton = new ButtonImageWidget(this.uiButtons, "ui", "quit");
