@@ -60,18 +60,19 @@ export class PlaybackButton<T extends FullAudioRecord>
 
         this.textLabel = new TextMesh(env, `playback-${name}-label`, {
             minHeight: size,
-            maxHeight: size,
-            minWidth: size,
+            minWidth: 4 * size,
+            maxWidth: 4 * size,
             padding: 0.02,
             scale: 1000,
             bgFillColor: buttonFactory.labelFillColor,
-            textFillColor: "white"
+            textFillColor: "white",
+            wrapWords: false
         });
         this.textLabel.image.value = label;
+        this.textLabel.image.addEventListener("redrawn", () =>
+            this.repositionLabel());
 
-        this.progressBar = new Cube(1, 0.025, 0.01, solidWhite);
-        this.progressBar.position.y = -size / 2;
-        this.progressBar.position.z = 0.01;
+        this.progressBar = new Cube(4 * size, 0.025, 0.01, solidWhite);
         this.progressBar.visible = false;
 
         this.clickPlay = async () => {
@@ -95,16 +96,8 @@ export class PlaybackButton<T extends FullAudioRecord>
         }
     }
 
-    private get progBarWidth() {
-        return (isDefined(this.label) && this.label.length > 0
-            ? 5
-            : 4) * size;
-    }
-
-    private get progBarOffsetX() {
-        return (isDefined(this.label) && this.label.length > 0
-            ? 1
-            : 0) * size;
+    private repositionLabel() {
+        this.textLabel.position.y = -(size + this.textLabel.objectHeight) / 2;
     }
 
     private async load(buttonFactory: ButtonFactory, player: IPlayer) {
@@ -126,7 +119,6 @@ export class PlaybackButton<T extends FullAudioRecord>
 
         objGraph(
             this,
-            this.textLabel,
             this.playButton = new MeshButton(
                 "PlayButton",
                 playGeometry,
@@ -154,11 +146,19 @@ export class PlaybackButton<T extends FullAudioRecord>
                 disabledMaterial,
                 size
             ),
-            this.progressBar
+            this.progressBar,
+            this.textLabel
         );
 
-        this.object.children.forEach((child, i, arr) =>
-            child.position.x = (i - arr.length / 2) * size);
+        this.playButton.object.position.x = -1.5 * size;
+        this.pauseButton.object.position.x = -0.5 * size;
+        this.stopButton.object.position.x = 0.5 * size;
+        this.replayButton.object.position.x = 1.5 * size;
+
+        this.progressBar.position.y = -size / 2;
+        this.progressBar.position.z = 0.01;
+
+        this.repositionLabel();
 
         const refresh = () => {
             const hasMyData = player.data === this.data;
@@ -230,8 +230,8 @@ export class PlaybackButton<T extends FullAudioRecord>
 
     override report(soFar: number, total: number, msg?: string, est?: number) {
         super.report(soFar, total, msg, est);
-        const width = this.p * this.progBarWidth;
-        this.progressBar.position.x = 0.5 * (width - this.progBarWidth - this.progBarOffsetX);
+        const width = this.p * 4 * size;
+        this.progressBar.position.x = 0.5 * (width - 4 * size);
         this.progressBar.scale.x = width;
         this.progressBar.visible = soFar > 0;
     }

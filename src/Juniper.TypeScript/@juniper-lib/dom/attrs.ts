@@ -987,4 +987,8 @@ export function htmlWidth(value: number | string) { return new Attr("width", val
 /**
  * Indicates whether the text should be wrapped.
   **/
-export function wrap(value: boolean) { return new Attr("wrap", value, false, "textarea"); }
+export type HTMLTextAreaWrapValue =
+    | "hard"
+    | "soft"
+    | "off";
+export function wrap(value: HTMLTextAreaWrapValue) { return new Attr("wrap", value, false, "textarea"); }
