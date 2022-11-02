@@ -31,7 +31,6 @@ namespace Juniper.HTTP
         /// <param name="cacheTime">The number of seconds to tell the client to cache the result.</param>
         /// <param name="range">A range request expression.</param>
         public FileInfoResult(long size, string contentType, string? fileName, int cacheTime, string range, ILogger? logger = null)
-            : base()
         {
             var type = MediaType.Parse(contentType);
             this.contentType = contentType;
