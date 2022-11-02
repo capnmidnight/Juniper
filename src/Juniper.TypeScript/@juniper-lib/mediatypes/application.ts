@@ -1558,6 +1558,7 @@ export const Application_X_Xfig = /*@__PURE__*/ application("x-xfig", "fig");
 export const Application_X_XliffXml = /*@__PURE__*/ application("x-xliff+xml", "xlf");
 export const Application_X_Xpinstall = /*@__PURE__*/ application("x-xpinstall", "xpi");
 export const Application_X_Xz = /*@__PURE__*/ application("x-xz", "xz");
+export const Application_X_Zip_Compressed = /*@__PURE__*/ application("x-zip-compressed", "zip");
 export const Application_X_Zmachine = /*@__PURE__*/ application("x-zmachine", "z1", "z2", "z3", "z4", "z5", "z6", "z7", "z8");
 export const Application_X400_Bp = /*@__PURE__*/ application("x400-bp");
 export const Application_XacmlXml = /*@__PURE__*/ application("xacml+xml", "xml");

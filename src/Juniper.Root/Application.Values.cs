@@ -1558,6 +1558,7 @@ namespace Juniper
         public static readonly Application Application_X_XliffXml = new("x-xliff+xml", "xlf");
         public static readonly Application Application_X_Xpinstall = new("x-xpinstall", "xpi");
         public static readonly Application Application_X_Xz = new("x-xz", "xz");
+        public static readonly Application Application_X_Zip_Compressed = new("x-zip-compressed", "zip");
         public static readonly Application Application_X_Zmachine = new("x-zmachine", "z1", "z2", "z3", "z4", "z5", "z6", "z7", "z8");
         public static readonly Application Application_X400_Bp = new("x400-bp");
         public static readonly Application Application_XacmlXml = new("xacml+xml", "xml");
