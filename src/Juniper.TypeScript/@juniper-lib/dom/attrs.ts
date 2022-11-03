@@ -1,5 +1,6 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
 import { arrayRemove, arrayScan } from "@juniper-lib/tslib/collections/arrays";
+import { identity } from "@juniper-lib/tslib/identity";
 import { isDefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 /**
@@ -45,8 +46,12 @@ export class Attr<T extends string = string> {
             Object.assign(elem.style, this.value);
         }
         else if (this.key === "classList") {
-            (this.value as string[])
-                .forEach((v) => elem.classList.add(v));
+            const arr = (this.value as string[])
+                .filter(identity);
+
+            if (arr.length > 0) {
+                arr.forEach((v) => elem.classList.add(v));
+            }
         }
         else if (this.bySetAttribute) {
             elem.setAttribute(this.key, this.value);
