@@ -98,6 +98,9 @@ namespace Juniper.Services
             if (env?.IsDevelopment() == true
                 && config?.LogSQL == true)
             {
+                options.EnableDetailedErrors(true);
+                options.EnableSensitiveDataLogging(true);
+                options.EnableThreadSafetyChecks(true);
                 options.LogTo(Console.WriteLine, (_, lvl) => LogLevel.Information <= lvl && lvl < LogLevel.Error);
                 options.LogTo(Console.Error.WriteLine, LogLevel.Error);
             }
