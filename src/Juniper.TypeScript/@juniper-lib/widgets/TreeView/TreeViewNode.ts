@@ -15,7 +15,7 @@ import { TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
 import { debounce } from "@juniper-lib/tslib/events/debounce";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Task } from "@juniper-lib/tslib/events/Task";
-import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {
     constructor(public readonly node: TreeNode<T>) {
@@ -105,6 +105,9 @@ export class TreeViewNode<T>
 
         this.element = Div(
             className("tree-view-node"),
+
+            this.upper = Div(className("drag-buffer top")),
+
             this.infoView = Div(
                 className("tree-view-node-label"),
 
@@ -164,13 +167,8 @@ export class TreeViewNode<T>
                 )
             ),
 
-            this.upper = Div(className("drag-buffer top")),
-
             this.lower = Div(className("drag-buffer bottom"))
         );
-
-        elementSetDisplay(this.upper, this.node.isChild && this.canChangeOrder);
-        elementSetDisplay(this.lower, this.node.isChild && this.canChangeOrder);
 
         this.refresh();
 
@@ -222,6 +220,8 @@ export class TreeViewNode<T>
 
         elementSetTitle(this.adder, this.adderTitle)
         elementSetDisplay(this.adder, this.canHaveChildren, "inline-block");
+        elementSetDisplay(this.upper, this.node.isChild && this.canChangeOrder && isNullOrUndefined(this.element.previousSibling));
+        elementSetDisplay(this.lower, this.node.isChild && this.canChangeOrder);
 
         this.collapser.disabled = this.disabled && !this.specialSelectMode || this.node.isRoot;
         this.adder.disabled = this.disabled || this.specialSelectMode;
