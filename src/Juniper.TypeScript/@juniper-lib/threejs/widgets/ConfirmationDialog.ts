@@ -27,7 +27,6 @@ import type { Widget } from "./widgets";
 const baseTextStyle: Partial<TextImageOptions> = {
     bgStrokeColor: "black",
     bgStrokeSize: 0.04,
-    wrapWords: false,
     textFillColor: "white",
     scale: 150
 };

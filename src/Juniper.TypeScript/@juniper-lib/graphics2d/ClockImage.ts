@@ -18,7 +18,6 @@ export class ClockImage extends TextImage {
             minHeight: 1,
             maxHeight: 1,
             padding: 0.3,
-            wrapWords: false,
             freezeDimensions: true
         });
 

@@ -21,7 +21,6 @@ export interface TextImageOptions extends CanvasImageOptions {
     textStrokeSize: number;
     textFillColor: CSSColorValue;
     textDirection: TextDirection;
-    wrapWords: boolean;
 
     fontStyle: string;
     fontVariant: string;
@@ -55,7 +54,6 @@ export class TextImage extends CanvasImage {
     private _textStrokeSize: number = null;
     private _textFillColor = "black";
     private _textDirection = "horizontal";
-    private _wrapWords = true;
 
     private _fontStyle = "normal";
     private _fontVariant = "normal";
@@ -121,10 +119,6 @@ export class TextImage extends CanvasImage {
 
             if (isDefined(options.textDirection)) {
                 this._textDirection = options.textDirection;
-            }
-
-            if (isDefined(options.wrapWords)) {
-                this._wrapWords = options.wrapWords;
             }
 
             if (isDefined(options.fontStyle)) {
@@ -232,17 +226,6 @@ export class TextImage extends CanvasImage {
             || this.padding.bottom != v.bottom
             || this.padding.left != v.left) {
             this._padding = v;
-            this.redraw();
-        }
-    }
-
-    get wrapWords() {
-        return this._wrapWords;
-    }
-
-    set wrapWords(v) {
-        if (this.wrapWords !== v) {
-            this._wrapWords = v;
             this.redraw();
         }
     }
@@ -391,18 +374,9 @@ export class TextImage extends CanvasImage {
     }
 
     private split(value: string) {
-        if (this.wrapWords) {
-            return value
-                .split(' ')
-                .join('\n')
-                .replace(/\r\n/, '\n')
-                .split('\n');
-        }
-        else {
-            return value
-                .replace(/\r\n/, '\n')
-                .split('\n');
-        }
+        return value
+            .replace(/\r\n/, '\n')
+            .split('\n');
     }
 
     protected unfreeze() {

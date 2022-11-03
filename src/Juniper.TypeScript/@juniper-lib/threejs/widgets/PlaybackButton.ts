@@ -65,8 +65,7 @@ export class PlaybackButton<T extends FullAudioRecord>
             padding: 0.02,
             scale: 1000,
             bgFillColor: buttonFactory.labelFillColor,
-            textFillColor: "white",
-            wrapWords: false
+            textFillColor: "white"
         });
         this.textLabel.image.value = label;
         this.textLabel.image.addEventListener("redrawn", () =>

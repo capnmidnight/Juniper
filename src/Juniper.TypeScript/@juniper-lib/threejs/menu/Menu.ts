@@ -46,7 +46,6 @@ export interface MenuItemDescription {
     textDirection?: TextDirection;
     enabled?: boolean;
     clickable?: boolean;
-    wrapWords?: boolean;
 }
 
 export interface MenuDescription {
@@ -96,7 +95,6 @@ export class Menu extends Object3D {
             width: 0.25,
             textDirection: "vertical",
             textPosition: "middle",
-            wrapWords: false,
             enabled: true
         };
 
@@ -107,7 +105,6 @@ export class Menu extends Object3D {
             height: 1,
             textDirection: "vertical",
             textPosition: "top",
-            wrapWords: false,
             enabled: true
         };
 
@@ -117,8 +114,7 @@ export class Menu extends Object3D {
             width: 0.25,
             textDirection: "vertical",
             textPosition: "top",
-            clickable: false,
-            wrapWords: false
+            clickable: false
         };
     }
 
@@ -355,8 +351,6 @@ export class Menu extends Object3D {
             item.text = item.name;
         }
 
-        item.wrapWords = item.wrapWords !== false;
-
         const enabled = item.enabled !== false;
 
         if (item.text.length > 0) {
@@ -371,7 +365,6 @@ export class Menu extends Object3D {
                         left: 0.05
                     },
                     scale: 400,
-                    wrapWords: item.wrapWords,
                     fontFamily: this.menuFont.fontFamily,
                     fontSize: this.menuFont.fontSize,
                     fontStyle: this.menuFont.fontStyle,

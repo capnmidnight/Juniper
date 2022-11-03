@@ -27,7 +27,6 @@ const nameTagFont: Partial<TextImageOptions> = {
     textFillColor: "white",
     textStrokeColor: "black",
     textStrokeSize: 0.01,
-    wrapWords: false,
     padding: {
         top: 0.025,
         right: 0.05,
