@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace System.IO
 {
     /// <summary>
@@ -66,6 +68,38 @@ namespace System.IO
         public static string GetShortName(this FileInfo file)
         {
             return Path.Combine(file.Directory?.Name ?? "", file.Name);
+        }
+
+        public static string QuotePath(this string path)
+        {
+            if (path is not null
+                && path.Contains(' '))
+            {
+                var sb = new StringBuilder(path);
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    if (path[0] != '"' || path[^1] != '"')
+                    {
+                        sb.Insert(0, '"');
+                        sb.Append('"');
+                    }
+                }
+                else
+                {
+                    for(var i = sb.Length - 1; i >= 0; i--)
+                    {
+                        if (sb[i] == ' '
+                            && (i == 0
+                                || sb[i - 1] != '\\'))
+                        {
+                            sb.Insert(i, '\\');
+                        }
+                    }
+                }
+                path = sb.ToString();
+            }
+
+            return path;
         }
     }
 }
