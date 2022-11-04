@@ -11,8 +11,8 @@
     "@juniper-lib/dom": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-types/dom-types": "*",
-    "@microsoft/signalr": "6.0.9",
-    "webrtc-adapter": "8.1.2"
+    "@microsoft/signalr": "6.0.10",
+    "webrtc-adapter": "8.2.0"
   },
   "devDependencies": {
     "typescript": "4.8.4"
