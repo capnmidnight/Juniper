@@ -284,7 +284,7 @@ namespace Juniper.Processes
 
             if (ExitCode != 0)
             {
-                throw new Exception($"Non-zero exit value = {ExitCode}");
+                throw new Exception($"Non-zero exit value = {ExitCode}. Invocation = {proc.StartInfo.FileName} {proc.StartInfo.Arguments}. Working directory = {proc.StartInfo.WorkingDirectory}");
             }
         }
 
