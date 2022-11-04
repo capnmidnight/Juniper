@@ -19,9 +19,12 @@ export function isErsatzElement<T extends Element = Element>(obj: any): obj is E
 
 export type Elements<T extends Element = Element> = T | ErsatzElement<T>;
 
-export function resolveElement<T extends Element = HTMLElement>(elem: Elements<T>): T {
+export function resolveElement<T extends Element = HTMLElement>(elem: Elements<T> | string): T {
     if (isErsatzElement(elem)) {
         return elem.element;
+    }
+    else if (isString(elem)) {
+        return getElement(elem);
     }
 
     return elem;
@@ -110,7 +113,7 @@ export function elementGetCustomData(elem: Elements<HTMLElement>, name: Lowercas
     return elem.dataset[name.toLowerCase()];
 }
 
-export function elementApply(elem: Elements, ...children: ElementChild[]): Elements {
+export function elementApply(elem: Elements | string, ...children: ElementChild[]): Elements {
     elem = resolveElement(elem);
 
     for (const child of children) {
