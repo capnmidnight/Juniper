@@ -51,6 +51,7 @@ export class TransformEditor
     private readonly rotationAxisWorld = new Vector3();
     private readonly startWorld = new Vector3();
     private readonly endWorld = new Vector3();
+    private readonly downLocal = new Vector3();
     private readonly startLocal = new Vector3();
     private readonly endLocal = new Vector3();
     private readonly deltaPosition = new Vector3();
@@ -66,9 +67,9 @@ export class TransformEditor
 
         this.object = obj("Translator",
             ...this.translators = [
-                this.setTranslator("x", red),
-                this.setTranslator("y", green),
-                this.setTranslator("z", blue)
+                this.setTranslator("x", "x", red),
+                this.setTranslator("y", "y", green),
+                this.setTranslator("z", "x", blue)
             ]
         );
 
@@ -129,12 +130,13 @@ export class TransformEditor
         }
     }
 
-    private setTranslator(axis: Axis, color: ColorRepresentation): Translator {
-        const translator = new Translator(axis, color);
+    private setTranslator(motionAxis: Axis, interactionAxis: Axis, color: ColorRepresentation): Translator {
+        const translator = new Translator(motionAxis, interactionAxis, color);
         translator.addEventListener("down", (evt) => {
             if (evt.pointer.isPressed(VirtualButton.Primary)) {
                 this.dragging = true;
                 this.startWorld.copy(evt.point);
+                this.object.worldToLocal(this.downLocal.copy(this.startWorld));
                 if (this.mode !== TransformMode.MoveObjectSpace
                     && this.mode !== TransformMode.MoveGlobalSpace
                     && this.mode !== TransformMode.MoveViewSpace
@@ -183,9 +185,13 @@ export class TransformEditor
                         }
                     }
                     else {
-                        const magnitude = this.endLocal
-                            .sub(this.startLocal)
-                            .dot(translator.motionAxisLocal);
+                        const endDist = this.endLocal
+                            .sub(this.downLocal)
+                            .dot(translator.interactionAxisLocal);
+                        const startDist = this.startLocal
+                            .sub(this.downLocal)
+                            .dot(translator.interactionAxisLocal);
+                        const magnitude = endDist - startDist;
 
                         this.deltaPosition
                             .copy(translator.motionAxisLocal)
@@ -289,14 +295,15 @@ export class Translator extends RayTarget<void> {
     private readonly worldQuat = new Quaternion();
     private readonly center = new Vector3();
 
+    readonly interactionAxisLocal = new Vector3();
     readonly motionAxisLocal = new Vector3();
     readonly rotationAxisLocal = new Vector3();
 
     private _mode: TransformMode = null;
     selected: Object3D = null;
 
-    constructor(axis: Axis, color: ColorRepresentation) {
-        const axisIndex = Axes.indexOf(axis);
+    constructor(motionAxis: Axis, interactionAxis: Axis, color: ColorRepresentation) {
+        const axisIndex = Axes.indexOf(motionAxis);
         const rotationAxisIndex = (axisIndex + 2) % Axes.length;
         const rotationAxis = Axes[rotationAxisIndex];
         const ringAxisIndex = Axes.length - axisIndex - 1;
@@ -319,26 +326,26 @@ export class Translator extends RayTarget<void> {
         });
 
         const bars = [
-            cube(`Bar_${axis}1`, 1, 1, 1, materialFront),
-            cube(`Bar_${axis}1`, 1, 1, 1, materialFront)
+            cube(`Bar_${motionAxis}1`, 1, 1, 1, materialFront),
+            cube(`Bar_${motionAxis}1`, 1, 1, 1, materialFront)
         ];
         const spherePads = [
-            sphere(`ScalePad_${axis}1`, 1, materialFront),
-            sphere(`ScalePad_${axis}2`, 1, materialFront)
+            sphere(`ScalePad_${motionAxis}1`, 1, materialFront),
+            sphere(`ScalePad_${motionAxis}2`, 1, materialFront)
         ];
         const conePads = [
-            cone(`TranslatePad_${axis}1`, 1, 1, 1, materialFront),
-            cone(`TranslatePad_${axis}2`, 1, 1, 1, materialFront)
+            cone(`TranslatePad_${motionAxis}1`, 1, 1, 1, materialFront),
+            cone(`TranslatePad_${motionAxis}2`, 1, 1, 1, materialFront)
         ];
         const arcPads = [
-            mesh(`RotatePad_${axis}1`, arcGeom, materialFront),
-            mesh(`RotatePad_${axis}2`, arcGeom, materialFront),
-            mesh(`RotatePad_${axis}3`, arcGeom, materialFront),
-            mesh(`RotatePad_${axis}4`, arcGeom, materialFront)
+            mesh(`RotatePad_${motionAxis}1`, arcGeom, materialFront),
+            mesh(`RotatePad_${motionAxis}2`, arcGeom, materialFront),
+            mesh(`RotatePad_${motionAxis}3`, arcGeom, materialFront),
+            mesh(`RotatePad_${motionAxis}4`, arcGeom, materialFront)
         ];
 
         super(obj(
-            `Transformer_${axis}`,
+            `Transformer_${motionAxis}`,
             ...bars,
             ...spherePads,
             ...conePads,
@@ -356,7 +363,8 @@ export class Translator extends RayTarget<void> {
         this.conePads = conePads;
         this.arcPads = arcPads;
 
-        this.motionAxisLocal[axis] = 1;
+        this.interactionAxisLocal[interactionAxis] = 1;
+        this.motionAxisLocal[motionAxis] = 1;
         this.rotationAxisLocal[rotationAxis] = 1;
 
         this.materialFront = materialFront;
