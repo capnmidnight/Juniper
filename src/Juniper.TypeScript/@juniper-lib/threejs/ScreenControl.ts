@@ -66,6 +66,7 @@ export class ScreenControl
     private currentSession: XRSession = null;
     private screenUI: ScreenUI = null;
     private readonly wasVisible = new Map<ScreenModeToggleButton, boolean>();
+    private lastFOV = 50;
 
     constructor(
         private readonly renderer: WebGLRenderer,
@@ -76,13 +77,14 @@ export class ScreenControl
 
         this.addEventListener("sessionstarted", (evt) => {
             if (evt.sessionMode === "inline") {
+                this.lastFOV = this.camera.fov;
                 this.camera.fov = rad2deg(evt.session.renderState.inlineVerticalFieldOfView);
             }
         });
 
         this.addEventListener("sessionstopped", (evt) => {
             if (evt.sessionMode === "inline") {
-                this.camera.fov = 50;
+                this.camera.fov = this.lastFOV;
             }
         });
 

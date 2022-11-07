@@ -55,8 +55,6 @@ export class BaseEnvironment<Events = unknown>
     private readonly fader: Fader;
     private fadeDepth = 0;
 
-    readonly cursor3D: Cursor3D;
-    readonly camera = new PerspectiveCamera(50, 1, 0.01, 1000);
     readonly scene = new Scene();
     readonly stage = obj("Stage");
     readonly ambient = new AmbientLight(0xffffff, 0.5);
@@ -65,19 +63,22 @@ export class BaseEnvironment<Events = unknown>
     readonly foreground = obj("Foreground");
     readonly loadingBar = new LoadingBar();
 
+    readonly camera: PerspectiveCamera;
     readonly renderer: WebGLRenderer;
     readonly timer: XRTimer;
     readonly worldUISpace: BodyFollower;
     readonly skybox: Skybox;
     readonly avatar: AvatarLocal;
+    readonly cursor3D: Cursor3D;
     readonly screenControl: ScreenControl;
     readonly eventSys: EventSystem;
 
     enableSpectator = false;
 
-    constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, enableFullResolution: boolean, public DEBUG: boolean) {
+    constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, defaultFOV: number, enableFullResolution: boolean, public DEBUG: boolean) {
         super();
 
+        this.camera = new PerspectiveCamera(defaultFOV, 1, 0.01, 1000);
         this.cursor3D = new Cursor3D(this);
 
         if (isHTMLCanvas(canvas)) {

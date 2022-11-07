@@ -56,6 +56,7 @@ export interface EnvironmentConstructor {
         buttonFillColor: CSSColorValue,
         labelFillColor: CSSColorValue,
         defaultAvatarHeight: number,
+        defaultFOV: number,
         enableFullResolution: boolean,
         options?: Partial<EnvironmentOptions>): Environment;
 }
@@ -104,9 +105,10 @@ export class Environment
         buttonFillColor: CSSColorValue,
         labelFillColor: CSSColorValue,
         defaultAvatarHeight: number,
+        defaultFOV: number,
         enableFullResolution: boolean,
         options?: Partial<EnvironmentOptions>) {
-        super(canvas, fetcher, defaultAvatarHeight, enableFullResolution, options && options.DEBUG);
+        super(canvas, fetcher, defaultAvatarHeight, defaultFOV, enableFullResolution, options && options.DEBUG);
         this.screenUISpace = new ScreenUI(buttonFillColor);
         this.compassImage = new ArtificialHorizon();
 
