@@ -39,12 +39,51 @@ export function clamp(v: number, min: number, max: number) {
     return Math.min(max, Math.max(min, v));
 }
 
+/**
+ * Convert degress to radians
+ * @param degrees
+ */
 export function deg2rad(degrees: number) {
     return degrees * Tau / 360;
 }
 
+/**
+ * Convert radias to degress
+ * @param radians
+ */
 export function rad2deg(radians: number) {
     return radians * 360 / Tau;
+}
+
+/**
+ * Returns the number with the largest magnitude.
+ * @param a
+ * @param b
+ */
+export function maxly(...numbers: number[]) {
+    let max = 0;
+    for (const n of numbers) {
+        if (Math.abs(n) > max) {
+            max = n;
+        }
+    }
+
+    return max;
+}
+
+/**
+ * Returns the number with the smallest magnitude.
+ * @param numbers
+ */
+export function minly(...numbers: number[]) {
+    let min = Number.MAX_VALUE;
+    for (const n of numbers) {
+        if (Math.abs(n) < min) {
+            min = n;
+        }
+    }
+
+    return min;
 }
 
 /**

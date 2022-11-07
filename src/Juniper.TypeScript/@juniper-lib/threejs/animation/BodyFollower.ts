@@ -1,4 +1,4 @@
-import { deg2rad, Pi, Tau } from "@juniper-lib/tslib/math";
+import { deg2rad, minly, Pi, Tau } from "@juniper-lib/tslib/math";
 import { Object3D, Quaternion, Vector3 } from "three";
 import { getLookHeadingRadians } from "./lookAngles";
 
@@ -16,18 +16,7 @@ function minRotAngle(to: number, from: number) {
     const a = to - from;
     const b = a + Tau;
     const c = a - Tau;
-    const A = Math.abs(a);
-    const B = Math.abs(b);
-    const C = Math.abs(c);
-    if (A < B && A < C) {
-        return a;
-    }
-    else if (B < C) {
-        return b;
-    }
-    else {
-        return c;
-    }
+    return minly(a, b, c);
 }
 
 export class BodyFollower extends Object3D {
