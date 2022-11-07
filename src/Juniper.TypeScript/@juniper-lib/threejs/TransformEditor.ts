@@ -191,7 +191,7 @@ export class TransformEditor
                         const startDist = this.startLocal
                             .sub(this.downLocal)
                             .dot(translator.interactionAxisLocal);
-                        const magnitude = endDist - startDist;
+                        const magnitude = this.size * (endDist - startDist);
 
                         this.deltaPosition
                             .copy(translator.motionAxisLocal)
@@ -242,9 +242,19 @@ export class TransformEditor
         return translator;
     }
 
+    get size(): number {
+        return this.object.scale.x;
+    }
+
+    set size(v: number) {
+        this.object.scale.setScalar(v);
+    }
+
     refresh() {
         if (this.target) {
             this.target.getWorldPosition(this.object.position);
+            const dist = this.object.position.distanceTo(this.env.avatar.worldPos);
+            this.size = 0.5 * dist;
 
             if (this.mode === TransformMode.MoveObjectSpace
                 || this.mode === TransformMode.RotateObjectSpace) {
