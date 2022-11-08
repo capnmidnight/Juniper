@@ -329,8 +329,6 @@ export class Environment
             elementApply(
                 this.renderer.domElement.parentElement,
                 this.screenUISpace,
-                this.confirmationDialog,
-                this.devicesDialog,
                 this.renderer.domElement);
         }
 
