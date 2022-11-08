@@ -25,6 +25,7 @@ import { ButtonImageWidget } from "../widgets/ButtonImageWidget";
 import { CanvasImageMesh } from "../widgets/CanvasImageMesh";
 import { ConfirmationDialog } from "../widgets/ConfirmationDialog";
 import { ScreenModeToggleButton } from "../widgets/ScreenModeToggleButton";
+import { TextMesh } from "../widgets/TextMesh";
 import { ToggleButton } from "../widgets/ToggleButton";
 import { widgetSetEnabled } from "../widgets/widgets";
 import { ApplicationLoader } from "./ApplicationLoader";
@@ -77,6 +78,7 @@ export class Environment
     readonly compassImage: ArtificialHorizon;
     readonly clockImage: CanvasImageMesh<ClockImage>;
     readonly batteryImage: CanvasImageMesh<BatteryImage>;
+    readonly infoLabel: TextMesh;
     readonly settingsButton: ButtonImageWidget;
     readonly muteMicButton: ToggleButton;
     readonly muteEnvAudioButton: ToggleButton;
@@ -115,6 +117,15 @@ export class Environment
         this.clockImage = new CanvasImageMesh(this, "Clock", "none", new ClockImage());
         this.clockImage.sizeMode = "fixed-height";
         this.clockImage.mesh.renderOrder = 5;
+
+        this.infoLabel = new TextMesh(this, "InfoLabel", {
+            minHeight: 0.1,
+            maxHeight: 0.1,
+            padding: 0.02,
+            scale: 1000,
+            bgFillColor: labelFillColor,
+            textFillColor: "white"
+        });
 
         options = options || {};
 
@@ -176,22 +187,24 @@ export class Environment
         this.xrUI.addItem(this.muteMicButton, { x: -0.84, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.muteEnvAudioButton, { x: -0.68, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.lobbyButton, { x: -0.473, y: -1, scale: 0.5 });
+        this.xrUI.addItem(this.infoLabel, { x: 0, y: 1, scale: 0.5 })
         this.xrUI.addItem(this.vrButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
-
+        this.testSpaceLayout = true;
         objGraph(this.worldUISpace, this.xrUI);
 
-        elementApply(this.screenUISpace.topRowLeft, this.compassImage, this.clockImage);
-        elementApply(this.screenUISpace.topRowRight, this.quitButton);
-        elementApply(this.screenUISpace.bottomRowLeft, this.settingsButton, this.muteMicButton, this.muteEnvAudioButton, this.lobbyButton);
-        elementApply(this.screenUISpace.bottomRowRight, this.fullscreenButton, this.vrButton, this.arButton);
+        elementApply(this.screenUISpace.topLeft, this.compassImage, this.clockImage);
+        elementApply(this.screenUISpace.topRight, this.quitButton);
+        elementApply(this.screenUISpace.bottomLeft, this.settingsButton, this.muteMicButton, this.muteEnvAudioButton, this.lobbyButton);
+        elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
+        elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton);
 
         if (BatteryImage.isAvailable && isMobile()) {
             this.batteryImage = new CanvasImageMesh(this, "Battery", "none", new BatteryImage());
             this.batteryImage.sizeMode = "fixed-height";
             this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, width: 0.2, height: 0.1 });
-            elementApply(this.screenUISpace.topRowRight, this.batteryImage);
+            elementApply(this.screenUISpace.topRight, this.batteryImage);
         }
 
         this.vrButton.visible = isDesktop() && hasVR() || isMobileVR();

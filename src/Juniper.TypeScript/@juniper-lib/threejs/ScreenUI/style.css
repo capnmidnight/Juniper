@@ -7,12 +7,9 @@
 }
 
 #controls {
-    display: grid;
     font-size: 20pt;
-    grid-template-rows: auto 1fr auto;
     z-index: 1;
 }
-
     #controls, #controls * {
         pointer-events: none;
     }
@@ -21,38 +18,39 @@
             height: 58px;
         }
 
-        #controls > .row {
-            display: grid;
+        #controls > .cell {
+            position: absolute;
+            display: flex;
             margin: 10px 5px;
-            grid-template-columns: repeat(2, auto);
         }
 
-            #controls > .row.top {
-                grid-row: 1;
+            #controls > .cell.top {
+                top: 0;
             }
 
-            #controls > .row.middle {
-                grid-row: 2/-2;
+            #controls > .cell.middle {
+                top: 50%;
+                transform: translateY(-50%);
             }
 
-            #controls > .row.bottom {
-                grid-row: -2;
+            #controls > .cell.bottom {
+                bottom: 0;
             }
 
-            #controls > .row > .cell {
-                display: flex;
+            #controls > .cell.right {
+                right: 0;
             }
 
-                #controls > .row > .cell.left {
-                    grid-column: 1;
-                }
+            #controls > .cell.center {
+                left: 50%;
+                transform: translateX(-50%);
+            }
 
-                #controls > .row > .cell.right {
-                    grid-column: -2;
-                    flex-flow: row-reverse;
-                }
+            #controls > .cell.left {
+                left: 0;
+            }
 
-                #controls > .row > .cell > .btn {
+                #controls > .cell > .btn {
                     border-radius: 0;
                     height: 58px !important;
                     width: 58px;

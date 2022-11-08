@@ -384,7 +384,7 @@ export class TextImage extends CanvasImage {
     }
 
     protected onRedraw() {
-        this.g.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.onClear();
 
         if (this.visible
             && this.fontFamily

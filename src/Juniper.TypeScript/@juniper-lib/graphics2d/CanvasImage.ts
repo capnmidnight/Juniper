@@ -62,6 +62,16 @@ export abstract class CanvasImage
         }
     }
 
+    protected onClear(): void {
+        this.g.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+
+    clear() {
+        this.onClear();
+        this.dispatchEvent(this.redrawnEvt);
+    }
+
     get canvas() {
         return this._canvas;
     }
