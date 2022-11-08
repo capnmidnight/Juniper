@@ -121,8 +121,7 @@ export class TransformEditor
                 translator.mode = v;
             }
 
-            this.translators[2].object.visible = this.mode !== TransformMode.Resize
-                && this.mode !== TransformMode.Orbit;
+            this.translators[2].object.visible = this.mode !== TransformMode.Resize;
 
             elementSetText(this.modeButton, this.mode);
 
