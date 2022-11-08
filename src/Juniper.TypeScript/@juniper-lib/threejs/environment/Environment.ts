@@ -191,7 +191,7 @@ export class Environment
         this.xrUI.addItem(this.vrButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
-        this.testSpaceLayout = true;
+        
         objGraph(this.worldUISpace, this.xrUI);
 
         elementApply(this.screenUISpace.topLeft, this.compassImage, this.clockImage);
