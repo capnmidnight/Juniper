@@ -2,9 +2,9 @@ import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonPrimary, elementSetDisplay, elementSetText } from "@juniper-lib/dom/tags";
 import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { deg2rad } from "@juniper-lib/tslib/math";
+import { deg2rad, HalfPi } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { ColorRepresentation, ExtrudeGeometry, Material, Mesh, Object3D, Quaternion, Shape, Vector2, Vector3 } from "three";
+import { ColorRepresentation, Euler, ExtrudeGeometry, Material, Mesh, Object3D, Quaternion, Shape, Vector2, Vector3 } from "three";
 import { cone } from "./Cone";
 import { cube } from "./Cube";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
@@ -30,6 +30,11 @@ type Axis = "x" | "y" | "z";
 const Axes: readonly Axis[] = ["x", "y", "z"];
 const size = 0.1;
 
+const correction = new Map([
+    [1, new Quaternion().setFromEuler(new Euler(0, -HalfPi, 0))],
+    [-1, new Quaternion().setFromEuler(new Euler(0, HalfPi, 0))]
+]);
+
 interface TransformEditorEvents {
     moving: TypedEvent<"moving">;
     moved: TypedEvent<"moved">;
@@ -51,11 +56,12 @@ export class TransformEditor
     private readonly rotationAxisWorld = new Vector3();
     private readonly startWorld = new Vector3();
     private readonly endWorld = new Vector3();
-    private readonly downLocal = new Vector3();
     private readonly startLocal = new Vector3();
     private readonly endLocal = new Vector3();
+    private readonly lookDirectionWorld = new Vector3();
     private readonly deltaPosition = new Vector3();
     private readonly deltaQuaternion = new Quaternion();
+    private readonly motionAxisWorld = new Vector3();
     private readonly testObj = new Object3D();
 
     private _mode: TransformMode = null;
@@ -135,7 +141,6 @@ export class TransformEditor
             if (evt.pointer.isPressed(VirtualButton.Primary)) {
                 this.dragging = true;
                 this.startWorld.copy(evt.point);
-                this.object.worldToLocal(this.downLocal.copy(this.startWorld));
                 if (this.mode !== TransformMode.MoveObjectSpace
                     && this.mode !== TransformMode.MoveGlobalSpace
                     && this.mode !== TransformMode.MoveViewSpace
@@ -184,18 +189,30 @@ export class TransformEditor
                         }
                     }
                     else {
-                        const endDist = this.endLocal
-                            .sub(this.downLocal)
-                            .dot(translator.interactionAxisLocal);
-                        const startDist = this.startLocal
-                            .sub(this.downLocal)
-                            .dot(translator.interactionAxisLocal);
-                        const magnitude = this.size * (endDist - startDist);
+                        this.motionAxisWorld
+                            .copy(translator.motionAxisLocal)
+                            .applyQuaternion(this.object.quaternion);
+
+                        this.lookDirectionWorld
+                            .copy(this.env.avatar.worldPos)
+                            .sub(this.object.position)
+                            .normalize();
 
                         this.deltaPosition
-                            .copy(translator.motionAxisLocal)
-                            .multiplyScalar(magnitude)
-                            .applyQuaternion(this.object.quaternion);
+                            .copy(this.endWorld)
+                            .sub(this.startWorld);
+
+                        const parallelity = this.lookDirectionWorld.dot(this.motionAxisWorld);
+                        if (Math.abs(parallelity) > 0.7) {
+                            const side = Math.sign(this.lookDirectionWorld.cross(this.motionAxisWorld).y) || 1;
+                            this.deltaPosition.applyQuaternion(correction.get(Math.sign(parallelity)  * side));
+                        }
+
+                        const mag = this.size * this.deltaPosition.dot(this.motionAxisWorld);
+
+                        this.deltaPosition
+                            .copy(this.motionAxisWorld)
+                            .multiplyScalar(mag);
 
                         if (this.mode === TransformMode.Orbit) {
                             this.target.parent.add(this.testObj);
