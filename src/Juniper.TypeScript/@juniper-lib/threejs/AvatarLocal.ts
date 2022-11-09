@@ -497,8 +497,7 @@ export class AvatarLocal
 
     lookAt(obj: Object3D) {
         obj.getWorldPosition(this.P);
-        this.head.getWorldPosition(this.F);
-        this.P.sub(this.F);
+        this.P.sub(this.worldPos);
         const heading = 3 * HalfPi - Math.atan2(this.P.z, this.P.x);
         const pitch = Math.atan2(this.P.y, this.P.length());
         this.setOrientationImmediate(heading, pitch);
