@@ -63,7 +63,10 @@ export class Fetcher implements IFetcher {
 
     async assets(progress: IProgress, ...assets: BaseAsset[]): Promise<void> {
         assets = assets.filter(isDefined);
-        const assetSizes = new Map(await Promise.all(assets.map((asset) => asset.getSize(this))));
+        const sizes = await Promise.all(assets
+            .map((asset) =>
+                asset.getSize(this)));
+        const assetSizes = new Map(sizes);
         await progressTasksWeighted(
             progress,
             assets.map((asset) => [assetSizes.get(asset), (prog) => asset.fetch(this, prog)])

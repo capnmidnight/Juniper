@@ -1,4 +1,5 @@
 type CSSGlobalValue =
+    | ""
     | "inherit"
     | "initial"
     | "revert"

@@ -1,7 +1,8 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
-import { elementApply } from "@juniper-lib/dom/tags";
+import { display, em, flexDirection, gap } from "@juniper-lib/dom/css";
+import { Div, elementApply } from "@juniper-lib/dom/tags";
 import { AssetAudio, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
@@ -14,12 +15,14 @@ import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/flags
 import { rad2deg } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
+import { Object3D } from "three";
 import { InteractionAudio } from "../eventSystem/InteractionAudio";
-import { objGraph } from "../objects";
+import { obj, objGraph } from "../objects";
 import { ScreenMode } from "../ScreenMode";
 import { ScreenUI } from "../ScreenUI";
 import { SpaceUI } from "../SpaceUI";
 import { VideoPlayer3D } from "../VideoPlayer3D";
+import { BasicWidget } from "../widgets/BasicWidget";
 import { ButtonFactory } from "../widgets/ButtonFactory";
 import { ButtonImageWidget } from "../widgets/ButtonImageWidget";
 import { CanvasImageMesh } from "../widgets/CanvasImageMesh";
@@ -79,6 +82,7 @@ export class Environment
     readonly clockImage: CanvasImageMesh<ClockImage>;
     readonly batteryImage: CanvasImageMesh<BatteryImage>;
     readonly infoLabel: TextMesh;
+    readonly menuButton: ButtonImageWidget;
     readonly settingsButton: ButtonImageWidget;
     readonly muteMicButton: ToggleButton;
     readonly muteEnvAudioButton: ToggleButton;
@@ -93,6 +97,7 @@ export class Environment
     readonly audioPlayer: AudioPlayer;
     readonly videoPlayer: VideoPlayer3D;
 
+    private readonly subMenu: Object3D = obj("sub-menu");
     private readonly envAudioToggleEvt = new TypedEvent("environmentaudiotoggled");
 
     private _currentRoom: string = null;
@@ -167,6 +172,7 @@ export class Environment
 
         this.uiButtons = new ButtonFactory(uiImagePaths, 20, buttonFillColor, labelFillColor, this.DEBUG);
 
+        this.menuButton = new ButtonImageWidget(this.uiButtons, "ui", "menu");
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
         this.quitButton = new ButtonImageWidget(this.uiButtons, "ui", "quit");
         this.lobbyButton = new ButtonImageWidget(this.uiButtons, "ui", "lobby");
@@ -183,22 +189,12 @@ export class Environment
         this.xrUI.addItem(this.clockImage, { x: -1, y: 1, height: 0.1 });
         this.xrUI.addItem(this.quitButton, { x: 1, y: 1, scale: 0.5 });
         this.xrUI.addItem(this.confirmationDialog, { x: 0, y: 0, scale: 0.25 });
-        this.xrUI.addItem(this.settingsButton, { x: -1, y: -1, scale: 0.5 });
-        this.xrUI.addItem(this.muteMicButton, { x: -0.84, y: -1, scale: 0.5 });
-        this.xrUI.addItem(this.muteEnvAudioButton, { x: -0.68, y: -1, scale: 0.5 });
-        this.xrUI.addItem(this.lobbyButton, { x: -0.473, y: -1, scale: 0.5 });
-        this.xrUI.addItem(this.infoLabel, { x: 0.25, y: -1, scale: 0.5 })
+        this.xrUI.addItem(this.infoLabel, { x: 0, y: -1.125, scale: 0.5 })
         this.xrUI.addItem(this.vrButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
-        
-        objGraph(this.worldUISpace, this.xrUI);
 
-        elementApply(this.screenUISpace.topLeft, this.compassImage, this.clockImage);
-        elementApply(this.screenUISpace.topRight, this.quitButton);
-        elementApply(this.screenUISpace.bottomLeft, this.settingsButton, this.muteMicButton, this.muteEnvAudioButton, this.lobbyButton);
-        elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
-        elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton);
+        this.createMenu();
 
         if (BatteryImage.isAvailable && isMobile()) {
             this.batteryImage = new CanvasImageMesh(this, "Battery", "none", new BatteryImage());
@@ -209,8 +205,6 @@ export class Environment
 
         this.vrButton.visible = isDesktop() && hasVR() || isMobileVR();
         this.arButton.visible = false;
-        this.lobbyButton.visible = false;
-        this.muteMicButton.visible = false;
 
         this.screenControl.setUI(this.screenUISpace, this.fullscreenButton, this.vrButton, this.arButton);
 
@@ -226,6 +220,70 @@ export class Environment
                     await this.onQuitting();
                 }));
 
+        this.avatar.addEventListener("avatarmoved", (evt) =>
+            this.audio.setUserPose(
+                this.audio.localUserID,
+                evt.px, evt.py, evt.pz,
+                evt.fx, evt.fy, evt.fz,
+                evt.ux, evt.uy, evt.uz));
+    }
+
+    private _testSpaceLayout = false;
+    get testSpaceLayout() {
+        return this._testSpaceLayout;
+    }
+
+    set testSpaceLayout(v) {
+        if (v !== this.testSpaceLayout) {
+            this._testSpaceLayout = v;
+
+        }
+    }
+
+    private createMenu() {
+        this.xrUI.addItem(this.menuButton, { x: -1, y: -1, scale: 0.5 });
+
+        objGraph(this.menuButton,
+            objGraph(this.subMenu,
+                this.settingsButton,
+                this.muteMicButton,
+                this.muteEnvAudioButton,
+                this.lobbyButton
+            )
+        );
+
+        objGraph(this.worldUISpace, this.xrUI);
+
+        elementApply(this.screenUISpace.topLeft, this.compassImage, this.clockImage);
+        elementApply(this.screenUISpace.topRight, this.quitButton);
+        elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
+        elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton);
+
+        let subMenuB: HTMLElement;
+        elementApply(this.screenUISpace.bottomLeft,
+            Div(this.menuButton,
+                display("flex"),
+                flexDirection("column-reverse"),
+                gap(em(.25)),
+                subMenuB = Div(
+                    display("none"),
+                    flexDirection("column-reverse"),
+                    gap(em(.25)),
+                    this.settingsButton,
+                    this.muteMicButton,
+                    this.muteEnvAudioButton,
+                    this.lobbyButton
+                )
+            )
+        );
+
+        const subMenu = new BasicWidget(subMenuB, this.subMenu, "flex");
+        subMenu.visible = false;
+        this.menuButton.addEventListener("click", () =>
+            subMenu.visible = !subMenu.visible);
+
+        this.lobbyButton.visible = false;
+        this.muteMicButton.visible = false;
         this.lobbyButton.addEventListener("click", () =>
             this.withConfirmation(
                 "Confirm return to lobby",
@@ -250,23 +308,22 @@ export class Environment
             this.dispatchEvent(this.envAudioToggleEvt);
         });
 
-        this.avatar.addEventListener("avatarmoved", (evt) =>
-            this.audio.setUserPose(
-                this.audio.localUserID,
-                evt.px, evt.py, evt.pz,
-                evt.fx, evt.fy, evt.fz,
-                evt.ux, evt.uy, evt.uz));
+        [
+            this.settingsButton,
+            this.muteMicButton,
+            this.muteEnvAudioButton,
+            this.lobbyButton
+        ].forEach(btn =>
+            btn.addEventListener("click", () =>
+                subMenu.visible = false));
     }
 
-    private _testSpaceLayout = false;
-    get testSpaceLayout() {
-        return this._testSpaceLayout;
-    }
-
-    set testSpaceLayout(v) {
-        if (v !== this.testSpaceLayout) {
-            this._testSpaceLayout = v;
-
+    private layoutMenu() {
+        let curCount = 0;
+        for (const child of this.subMenu.children) {
+            if (child.visible) {
+                child.position.set(0, ++curCount * 0.25, 0);
+            }
         }
     }
 
@@ -287,6 +344,9 @@ export class Environment
                 rad2deg(this.avatar.worldPitchRadians),
                 rad2deg(this.avatar.worldHeadingRadians));
         }
+
+        this.layoutMenu();
+
 
         if (this.DEBUG) {
             const fps = Math.round(evt.fps);

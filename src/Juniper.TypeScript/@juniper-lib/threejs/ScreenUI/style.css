@@ -50,7 +50,7 @@
                 left: 0;
             }
 
-                #controls > .cell > .btn {
+                #controls > .cell .btn {
                     border-radius: 0;
                     height: 58px !important;
                     width: 58px;

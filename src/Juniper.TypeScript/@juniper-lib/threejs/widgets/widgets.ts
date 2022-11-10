@@ -1,4 +1,4 @@
-import type { ElementChild, ErsatzElement } from "@juniper-lib/dom/tags";
+import { ElementChild, ErsatzElement } from "@juniper-lib/dom/tags";
 import {
     elementApply,
     elementClearChildren,

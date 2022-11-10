@@ -70,7 +70,7 @@ export function isFocusable(elem: any): elem is IFocusable {
     return "focus" in elem && isFunction((elem as IFocusable).focus);
 }
 
-export function elementSetDisplay<T extends HTMLElement = HTMLElement>(elem: Elements<T>, visible: boolean, visibleDisplayType: string = ""): void {
+export function elementSetDisplay<T extends HTMLElement = HTMLElement>(elem: Elements<T>, visible: boolean, visibleDisplayType: CSSGlobalValue | CSSDisplayValue = ""): void {
     elem = resolveElement(elem);
     elem.style.display = visible ? visibleDisplayType : "none";
 }
@@ -80,7 +80,7 @@ export function elementIsDisplayed<T extends HTMLElement = HTMLElement>(elem: El
     return elem.style.display !== "none";
 }
 
-export function elementToggleDisplay<T extends HTMLElement = HTMLElement>(elem: Elements<T>, visibleDisplayType: string = "block"): void {
+export function elementToggleDisplay<T extends HTMLElement = HTMLElement>(elem: Elements<T>, visibleDisplayType: CSSGlobalValue | CSSDisplayValue = "block"): void {
     elementSetDisplay(elem, !elementIsDisplayed(elem), visibleDisplayType);
 }
 
