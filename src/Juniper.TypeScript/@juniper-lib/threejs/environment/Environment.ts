@@ -187,7 +187,7 @@ export class Environment
         this.xrUI.addItem(this.muteMicButton, { x: -0.84, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.muteEnvAudioButton, { x: -0.68, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.lobbyButton, { x: -0.473, y: -1, scale: 0.5 });
-        this.xrUI.addItem(this.infoLabel, { x: 0, y: 1, scale: 0.5 })
+        this.xrUI.addItem(this.infoLabel, { x: 0.25, y: -1, scale: 0.5 })
         this.xrUI.addItem(this.vrButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
