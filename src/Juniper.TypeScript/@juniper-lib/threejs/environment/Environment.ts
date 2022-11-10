@@ -14,6 +14,7 @@ import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
 import { rad2deg } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
 import { Object3D } from "three";
 import { InteractionAudio } from "../eventSystem/InteractionAudio";
@@ -97,7 +98,7 @@ export class Environment
     readonly audioPlayer: AudioPlayer;
     readonly videoPlayer: VideoPlayer3D;
 
-    private readonly subMenu: Object3D = obj("sub-menu");
+    private readonly subMenu3D: Object3D = obj("sub-menu");
     private readonly envAudioToggleEvt = new TypedEvent("environmentaudiotoggled");
 
     private _currentRoom: string = null;
@@ -185,40 +186,16 @@ export class Environment
         this.fullscreenButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.Fullscreen);
         this.arButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.AR);
 
-        this.xrUI = new SpaceUI();
-        this.xrUI.addItem(this.clockImage, { x: -1, y: 1, height: 0.1 });
-        this.xrUI.addItem(this.quitButton, { x: 1, y: 1, scale: 0.5 });
-        this.xrUI.addItem(this.confirmationDialog, { x: 0, y: 0, scale: 0.25 });
-        this.xrUI.addItem(this.infoLabel, { x: 0, y: -1.125, scale: 0.5 })
-        this.xrUI.addItem(this.vrButton, { x: 1, y: -1, scale: 0.5 });
-        this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
-        this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
-
-        this.createMenu();
-
         if (BatteryImage.isAvailable && isMobile()) {
             this.batteryImage = new CanvasImageMesh(this, "Battery", "none", new BatteryImage());
             this.batteryImage.sizeMode = "fixed-height";
-            this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, width: 0.2, height: 0.1 });
-            elementApply(this.screenUISpace.topRight, this.batteryImage);
         }
 
-        this.vrButton.visible = isDesktop() && hasVR() || isMobileVR();
-        this.arButton.visible = false;
+        this.xrUI = new SpaceUI();
+
+        this.createMenu();
 
         this.screenControl.setUI(this.screenUISpace, this.fullscreenButton, this.vrButton, this.arButton);
-
-        this.quitButton.addEventListener("click", () =>
-            this.withConfirmation(
-                "Confirm quit",
-                "Are you sure you want to quit?",
-                async () => {
-                    if (this.renderer.xr.isPresenting) {
-                        this.screenControl.stop();
-                    }
-
-                    await this.onQuitting();
-                }));
 
         this.avatar.addEventListener("avatarmoved", (evt) =>
             this.audio.setUserPose(
@@ -241,49 +218,57 @@ export class Environment
     }
 
     private createMenu() {
+
+        if (isDefined(this.batteryImage)) {
+            this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, width: 0.2, height: 0.1 });
+            elementApply(this.screenUISpace.topRight, this.batteryImage);
+        }
+
+        this.xrUI.addItem(this.clockImage, { x: -1, y: 1, height: 0.1 });
+        this.xrUI.addItem(this.lobbyButton, { x: 1, y: 1, scale: 0.5 });
+        this.xrUI.addItem(this.confirmationDialog, { x: 0, y: 0, scale: 0.25 });
         this.xrUI.addItem(this.menuButton, { x: -1, y: -1, scale: 0.5 });
+        this.xrUI.addItem(this.infoLabel, { x: 0, y: -1.125, scale: 0.5 })
+        this.xrUI.addItem(this.vrButton, { x: 1, y: -1, scale: 0.5 });
+        this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
+        this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
 
         objGraph(this.menuButton,
-            objGraph(this.subMenu,
+            objGraph(this.subMenu3D,
                 this.settingsButton,
                 this.muteMicButton,
                 this.muteEnvAudioButton,
-                this.lobbyButton
+                this.quitButton
             )
         );
 
         objGraph(this.worldUISpace, this.xrUI);
 
+        const subMenu2D = Div(
+            display("none"),
+            flexDirection("column-reverse"),
+            gap(em(.25)),
+            this.settingsButton,
+            this.muteMicButton,
+            this.muteEnvAudioButton,
+            this.quitButton
+        );
+
         elementApply(this.screenUISpace.topLeft, this.compassImage, this.clockImage);
-        elementApply(this.screenUISpace.topRight, this.quitButton);
+        elementApply(this.screenUISpace.topRight, this.lobbyButton);
         elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
         elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton);
-
-        let subMenuB: HTMLElement;
         elementApply(this.screenUISpace.bottomLeft,
             Div(this.menuButton,
                 display("flex"),
                 flexDirection("column-reverse"),
                 gap(em(.25)),
-                subMenuB = Div(
-                    display("none"),
-                    flexDirection("column-reverse"),
-                    gap(em(.25)),
-                    this.settingsButton,
-                    this.muteMicButton,
-                    this.muteEnvAudioButton,
-                    this.lobbyButton
-                )
+                subMenu2D
             )
         );
 
-        const subMenu = new BasicWidget(subMenuB, this.subMenu, "flex");
-        subMenu.visible = false;
-        this.menuButton.addEventListener("click", () =>
-            subMenu.visible = !subMenu.visible);
+        const subMenu = new BasicWidget(subMenu2D, this.subMenu3D, "flex");
 
-        this.lobbyButton.visible = false;
-        this.muteMicButton.visible = false;
         this.lobbyButton.addEventListener("click", () =>
             this.withConfirmation(
                 "Confirm return to lobby",
@@ -308,19 +293,41 @@ export class Environment
             this.dispatchEvent(this.envAudioToggleEvt);
         });
 
+        this.quitButton.addEventListener("click", () =>
+            this.withConfirmation(
+                "Confirm quit",
+                "Are you sure you want to quit?",
+                async () => {
+                    if (this.renderer.xr.isPresenting) {
+                        this.screenControl.stop();
+                    }
+
+                    await this.onQuitting();
+                }));
+
+        this.menuButton.addEventListener("click", () =>
+            subMenu.visible = !subMenu.visible);
+
         [
             this.settingsButton,
             this.muteMicButton,
             this.muteEnvAudioButton,
-            this.lobbyButton
+            this.quitButton
         ].forEach(btn =>
             btn.addEventListener("click", () =>
                 subMenu.visible = false));
+
+        subMenu.visible = false;
+
+        this.vrButton.visible = isDesktop() && hasVR() || isMobileVR();
+        this.arButton.visible = false;
+        this.lobbyButton.visible = false;
+        this.muteMicButton.visible = false;
     }
 
     private layoutMenu() {
         let curCount = 0;
-        for (const child of this.subMenu.children) {
+        for (const child of this.subMenu3D.children) {
             if (child.visible) {
                 child.position.set(0, ++curCount * 0.25, 0);
             }
