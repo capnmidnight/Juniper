@@ -5,13 +5,13 @@ import { MeshBasicMaterialParameters } from "three";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objectSetVisible } from "../objects";
 import { Image2D, WebXRLayerType } from "./Image2D";
-import type { Widget } from "./widgets";
+import type { IWidget } from "./widgets";
 
 const redrawnEvt = { type: "redrawn" };
 
 export class CanvasImageMesh<T extends CanvasImage>
     extends Image2D
-    implements Widget {
+    implements IWidget {
 
     private _image: T = null;
 

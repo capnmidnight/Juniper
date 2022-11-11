@@ -1,23 +1,22 @@
 import { title } from "@juniper-lib/dom/attrs";
-import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
-import { Object3D } from "three";
-import { obj, objGraph } from "../objects";
+import { ButtonPrimary } from "@juniper-lib/dom/tags";
+import { obj, objectSetVisible, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
-import type { Widget } from "./widgets";
+import { Widget } from "./widgets";
 
-export class ButtonImageWidget implements Widget, EventTarget {
+export class ButtonImageWidget extends Widget<HTMLButtonElement> {
 
-    readonly element: HTMLButtonElement;
-    readonly object: Object3D;
     private mesh: MeshButton = null;
 
     constructor(buttons: ButtonFactory, setName: string, iconName: string) {
-        this.element = ButtonPrimary(
-            title(iconName),
-            buttons.getImageElement(setName, iconName));
-
-        this.object = obj(`${name}-button`);
+        super(
+            ButtonPrimary(
+                title(iconName),
+                buttons.getImageElement(setName, iconName)
+            ),
+            obj(`${name}-button`),
+            "inline-block");
         this.load(buttons, setName, iconName);
     }
 
@@ -32,37 +31,6 @@ export class ButtonImageWidget implements Widget, EventTarget {
         });
     }
 
-    get name() {
-        return this.object.name;
-    }
-
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
-        this.element.addEventListener(type, listener, options);
-    }
-
-    dispatchEvent(event: Event): boolean {
-        return this.element.dispatchEvent(event);
-    }
-
-    removeEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void {
-        this.element.removeEventListener(type, callback, options);
-    }
-
-    click() {
-        this.element.click();
-    }
-
-    get visible() {
-        return elementIsDisplayed(this);
-    }
-
-    set visible(visible) {
-        elementSetDisplay(this, visible, "inline-block");
-        if (this.mesh) {
-            this.mesh.object.visible = visible;
-        }
-    }
-
     get disabled() {
         return this.element.disabled;
     }
@@ -71,6 +39,17 @@ export class ButtonImageWidget implements Widget, EventTarget {
         this.element.disabled = v;
         if (this.mesh) {
             this.mesh.disabled = v;
+        }
+    }
+
+    override get visible(): boolean {
+        return super.visible;
+    }
+
+    override set visible(v: boolean) {
+        super.visible = true;
+        if (this.mesh) {
+            objectSetVisible(this.mesh, v);
         }
     }
 }

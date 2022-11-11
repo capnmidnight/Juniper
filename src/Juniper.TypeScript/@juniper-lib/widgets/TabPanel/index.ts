@@ -23,7 +23,7 @@ type TabPanelEntry<TabNames> = [TabNames, string, Elements<HTMLElement>];
 interface TabPanelView {
     button: HTMLButtonElement;
     panel: Elements<HTMLElement>;
-    displayType: string;
+    displayType: CSSGlobalValue | CSSDisplayValue;
 }
 
 function isRule<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp | Attr): obj is CssElementStyleProp | Attr {
@@ -58,7 +58,7 @@ export class TabPanel<TabNames>
                 firstName = name;
             }
             const elem = resolveElement<HTMLElement>(panel);
-            const displayType = elem.style.display;
+            const displayType = elem.style.display as CSSDisplayValue;
             this.views.set(name, {
                 panel,
                 displayType,

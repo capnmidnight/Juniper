@@ -22,7 +22,7 @@ import type { Environment } from "../environment/Environment";
 import { obj, objectSetVisible, objGraph } from "../objects";
 import { TextMesh } from "./TextMesh";
 import { TextMeshButton } from "./TextMeshButton";
-import type { Widget } from "./widgets";
+import type { IWidget } from "./widgets";
 
 const baseTextStyle: Partial<TextImageOptions> = {
     bgStrokeColor: "black",
@@ -69,7 +69,7 @@ const JUMP_FACTOR = 0.9;
 function newStyle(baseStyle: Partial<TextImageOptions>, fontFamily: string): Partial<TextImageOptions> {
     return Object.assign({}, baseStyle, { fontFamily });
 }
-export class ConfirmationDialog extends DialogBox implements Widget {
+export class ConfirmationDialog extends DialogBox implements IWidget {
     readonly object = obj("ConfirmationDialog");
 
     private readonly root = obj("Root");

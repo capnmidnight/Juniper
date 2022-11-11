@@ -1,46 +1,18 @@
-import { ButtonPrimary, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, elementApply, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
 import { all } from "@juniper-lib/tslib/events/all";
-import { Object3D } from "three";
-import { Pointer3DEvents } from "../eventSystem/devices/Pointer3DEvent";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
-import type { Widget } from "./widgets";
+import { Widget } from "./widgets";
 
 
-export class ToggleButton implements Widget, EventTarget {
+export class ToggleButton extends Widget<HTMLButtonElement> {
 
-    readonly element: HTMLButtonElement;
-    readonly object: Object3D;
     private enterButton: MeshButton = null;
     private exitButton: MeshButton = null;
-
-    get name() {
-        return this.object.name;
-    }
-
-    addEventListener(type: keyof Pointer3DEvents, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
-        this.element.addEventListener(type, listener, options);
-    }
-
-    dispatchEvent(event: Event): boolean {
-        return this.element.dispatchEvent(event);
-    }
-
-    removeEventListener(type: keyof Pointer3DEvents, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void {
-        this.element.removeEventListener(type, callback, options);
-    }
-
-    click() {
-        this.element.click();
-    }
-
     private readonly btnImage: HTMLImageElement;
     private _isAvailable = true;
     private _isEnabled = true;
-    private _isVisible = true;
     private _isActive = false;
 
     constructor(
@@ -48,10 +20,13 @@ export class ToggleButton implements Widget, EventTarget {
         private readonly setName: string,
         private readonly activeName: string,
         private readonly inactiveName: string) {
-        this.element = ButtonPrimary(
-            this.btnImage = Img());
+        super(
+            ButtonPrimary(),
+            obj(`${setName}-button`),
+            "inline-block"
+        );
 
-        this.object = obj(`${this.setName}-button`);
+        elementApply(this, this.btnImage = Img());
         this.load();
     }
 
@@ -105,12 +80,12 @@ export class ToggleButton implements Widget, EventTarget {
         this.refreshState();
     }
 
-    get visible(): boolean {
-        return this._isVisible;
+    override get visible(): boolean {
+        return super.visible;
     }
 
-    set visible(v: boolean) {
-        this._isVisible = v;
+    override set visible(v: boolean) {
+        super.visible = v;
         this.refreshState();
     }
 

@@ -1,56 +1,39 @@
 import { title } from "@juniper-lib/dom/attrs";
-import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
+import { ButtonPrimary } from "@juniper-lib/dom/tags";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import { Object3D } from "three";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
-import { obj, objectSetVisible } from "../objects";
+import { obj, objectSetVisible, objGraph } from "../objects";
 import { TextMeshButton } from "./TextMeshButton";
-import type { Widget } from "./widgets";
+import { Widget } from "./widgets";
 
 
-export class ButtonTextWidget implements Widget, EventTarget {
+export class ButtonTextWidget extends Widget<HTMLButtonElement> {
 
-    readonly element: HTMLButtonElement;
-    readonly object: Object3D;
     readonly mesh: TextMeshButton;
 
     constructor(protected readonly env: BaseEnvironment, name: string, text: string, textButtonStyle: Partial<TextImageOptions>) {
-        this.element = ButtonPrimary(
-            title(name),
-            text);
-        this.object = obj(`${name}-button`,
-            this.mesh = new TextMeshButton(this.env, `${name}-button`, text, textButtonStyle));
+        super(
+            ButtonPrimary(
+                title(name),
+                text
+            ),
+            obj(`${name}-button`),
+            "inline-block"
+        );
+
+        this.mesh = new TextMeshButton(this.env, `${name}-button`, text, textButtonStyle)
+        objGraph(this, this.mesh);
         this.mesh.addEventListener("click", () => {
             this.element.click();
         });
     }
 
-    get name() {
-        return this.object.name;
+    override get visible(): boolean {
+        return super.visible;
     }
 
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
-        this.element.addEventListener(type, listener, options);
-    }
-
-    dispatchEvent(event: Event): boolean {
-        return this.element.dispatchEvent(event);
-    }
-
-    removeEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void {
-        this.element.removeEventListener(type, callback, options);
-    }
-
-    click() {
-        this.element.click();
-    }
-
-    get visible() {
-        return elementIsDisplayed(this);
-    }
-
-    set visible(visible) {
-        elementSetDisplay(this, visible, "inline-block");
-        objectSetVisible(this.mesh, visible);
+    override set visible(v: boolean) {
+        super.visible = true;
+        objectSetVisible(this.mesh, v);
     }
 }

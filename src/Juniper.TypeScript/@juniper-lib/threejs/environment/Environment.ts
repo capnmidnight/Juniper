@@ -16,14 +16,13 @@ import { rad2deg } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
-import { Object3D } from "three";
 import { InteractionAudio } from "../eventSystem/InteractionAudio";
 import { obj, objGraph } from "../objects";
 import { ScreenMode } from "../ScreenMode";
 import { ScreenUI } from "../ScreenUI";
 import { SpaceUI } from "../SpaceUI";
 import { VideoPlayer3D } from "../VideoPlayer3D";
-import { BasicWidget } from "../widgets/BasicWidget";
+import { Widget, widgetApply } from "../widgets/widgets";
 import { ButtonFactory } from "../widgets/ButtonFactory";
 import { ButtonImageWidget } from "../widgets/ButtonImageWidget";
 import { CanvasImageMesh } from "../widgets/CanvasImageMesh";
@@ -84,6 +83,7 @@ export class Environment
     readonly batteryImage: CanvasImageMesh<BatteryImage>;
     readonly infoLabel: TextMesh;
     readonly menuButton: ButtonImageWidget;
+    readonly subMenu: Widget;
     readonly settingsButton: ButtonImageWidget;
     readonly muteMicButton: ToggleButton;
     readonly muteEnvAudioButton: ToggleButton;
@@ -98,7 +98,6 @@ export class Environment
     readonly audioPlayer: AudioPlayer;
     readonly videoPlayer: VideoPlayer3D;
 
-    private readonly subMenu3D: Object3D = obj("sub-menu");
     private readonly envAudioToggleEvt = new TypedEvent("environmentaudiotoggled");
 
     private _currentRoom: string = null;
@@ -193,6 +192,16 @@ export class Environment
 
         this.xrUI = new SpaceUI();
 
+        this.subMenu = new Widget(
+            Div(
+                display("none"),
+                flexDirection("column-reverse"),
+                gap(em(.25))
+            ),
+            obj("sub-menu"),
+            "flex"
+        );
+
         this.createMenu();
 
         this.screenControl.setUI(this.screenUISpace, this.fullscreenButton, this.vrButton, this.arButton);
@@ -233,26 +242,9 @@ export class Environment
         this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
 
-        objGraph(this.menuButton,
-            objGraph(this.subMenu3D,
-                this.settingsButton,
-                this.muteMicButton,
-                this.muteEnvAudioButton,
-                this.quitButton
-            )
-        );
+        objGraph(this.menuButton, this.subMenu);
 
         objGraph(this.worldUISpace, this.xrUI);
-
-        const subMenu2D = Div(
-            display("none"),
-            flexDirection("column-reverse"),
-            gap(em(.25)),
-            this.settingsButton,
-            this.muteMicButton,
-            this.muteEnvAudioButton,
-            this.quitButton
-        );
 
         elementApply(this.screenUISpace.topLeft, this.compassImage, this.clockImage);
         elementApply(this.screenUISpace.topRight, this.lobbyButton);
@@ -263,11 +255,16 @@ export class Environment
                 display("flex"),
                 flexDirection("column-reverse"),
                 gap(em(.25)),
-                subMenu2D
+                this.subMenu
             )
         );
 
-        const subMenu = new BasicWidget(subMenu2D, this.subMenu3D, "flex");
+        widgetApply(this.subMenu,
+            this.settingsButton,
+            this.muteMicButton,
+            this.muteEnvAudioButton,
+            this.quitButton
+        );
 
         this.lobbyButton.addEventListener("click", () =>
             this.withConfirmation(
@@ -306,7 +303,7 @@ export class Environment
                 }));
 
         this.menuButton.addEventListener("click", () =>
-            subMenu.visible = !subMenu.visible);
+            this.subMenu.visible = !this.subMenu.visible);
 
         [
             this.settingsButton,
@@ -315,9 +312,9 @@ export class Environment
             this.quitButton
         ].forEach(btn =>
             btn.addEventListener("click", () =>
-                subMenu.visible = false));
+                this.subMenu.visible = false));
 
-        subMenu.visible = false;
+        this.subMenu.visible = false;
 
         this.vrButton.visible = isDesktop() && hasVR() || isMobileVR();
         this.arButton.visible = false;
@@ -327,7 +324,7 @@ export class Environment
 
     private layoutMenu() {
         let curCount = 0;
-        for (const child of this.subMenu3D.children) {
+        for (const child of this.subMenu.object.children) {
             if (child.visible) {
                 child.position.set(0, ++curCount * 0.25, 0);
             }
