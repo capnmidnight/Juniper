@@ -8,6 +8,7 @@ import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
 import { BatteryImage } from "@juniper-lib/graphics2d/BatteryImage";
 import { ClockImage } from "@juniper-lib/graphics2d/ClockImage";
+import { StatsImage } from "@juniper-lib/graphics2d/StatsImage";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
@@ -35,6 +36,7 @@ import { ApplicationLoader } from "./ApplicationLoader";
 import { BaseEnvironment } from "./BaseEnvironment";
 import { DeviceDialog } from "./DeviceDialog";
 import { XRTimerTickEvent } from "./XRTimer";
+import { Watch } from "../Watch";
 
 export class EnvironmentRoomJoinedEvent extends TypedEvent<"roomjoined"> {
     constructor(public readonly roomName: string) {
@@ -50,6 +52,7 @@ export interface EnvironmentEvents {
 
 export interface EnvironmentOptions {
     DEBUG: boolean;
+    watchModelPath: string;
 }
 
 export interface EnvironmentConstructor {
@@ -80,6 +83,8 @@ export class Environment
     readonly confirmationDialog: ConfirmationDialog;
     readonly compassImage: ArtificialHorizon;
     readonly clockImage: CanvasImageMesh<ClockImage>;
+    readonly statsImage: CanvasImageMesh<StatsImage>;
+    readonly watch: Watch = null;
     readonly batteryImage: CanvasImageMesh<BatteryImage>;
     readonly infoLabel: TextMesh;
     readonly menuButton: ButtonImageWidget;
@@ -122,6 +127,10 @@ export class Environment
         this.clockImage = new CanvasImageMesh(this, "Clock", "none", new ClockImage());
         this.clockImage.sizeMode = "fixed-height";
         this.clockImage.mesh.renderOrder = 5;
+
+        this.statsImage = new CanvasImageMesh(this, "Stats", "none", new StatsImage());
+        this.statsImage.sizeMode = "fixed-height";
+        this.statsImage.mesh.renderOrder = 5;
 
         this.infoLabel = new TextMesh(this, "InfoLabel", {
             minHeight: 0.1,
@@ -212,6 +221,10 @@ export class Environment
                 evt.px, evt.py, evt.pz,
                 evt.fx, evt.fy, evt.fz,
                 evt.ux, evt.uy, evt.uz));
+
+        if (isDefined(options.watchModelPath)) {
+            this.watch = new Watch(this, options.watchModelPath);
+        }
     }
 
     private _testSpaceLayout = false;
@@ -234,6 +247,7 @@ export class Environment
         }
 
         this.xrUI.addItem(this.clockImage, { x: -1, y: 1, height: 0.1 });
+        this.xrUI.addItem(this.statsImage, { x: -1, y: 0.95, height: 0.1 });
         this.xrUI.addItem(this.lobbyButton, { x: 1, y: 1, scale: 0.5 });
         this.xrUI.addItem(this.confirmationDialog, { x: 0, y: 0, scale: 0.25 });
         this.xrUI.addItem(this.menuButton, { x: -1, y: -1, scale: 0.5 });
@@ -246,7 +260,7 @@ export class Environment
 
         objGraph(this.worldUISpace, this.xrUI);
 
-        elementApply(this.screenUISpace.topLeft, this.compassImage, this.clockImage);
+        elementApply(this.screenUISpace.topLeft, this.compassImage, this.statsImage);
         elementApply(this.screenUISpace.topRight, this.lobbyButton);
         elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
         elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton);
@@ -340,8 +354,8 @@ export class Environment
 
         this.xrUI.visible = this.renderer.xr.isPresenting
             || this.testSpaceLayout;
-        this.clockImage.isVisible = this.xrUI.visible
-            || this.DEBUG;
+        this.statsImage.isVisible = this.xrUI.visible
+            && this.DEBUG;
 
         if (!this.renderer.xr.isPresenting) {
             this.compassImage.setPitchAndHeading(
@@ -362,7 +376,7 @@ export class Environment
             }
 
             if ((++this.countTick) % 100 === 0) {
-                this.clockImage.image.setStats(
+                this.statsImage.image.setStats(
                     this.avgFPS,
                     this.renderer.info.render.calls,
                     this.renderer.info.render.triangles);
@@ -415,7 +429,7 @@ export class Environment
         const error = new AssetAudio("/audio/basic_error.mp3", Audio_Mpeg, !this.DEBUG);
         const click = new AssetAudio("/audio/vintage_radio_button_pressed.mp3", Audio_Mpeg, !this.DEBUG);
 
-        assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click);
+        assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click, this.watch.asset);
 
         await super.load(prog, ...assets);
 

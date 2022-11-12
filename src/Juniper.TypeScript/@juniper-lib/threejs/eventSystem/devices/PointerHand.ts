@@ -57,9 +57,9 @@ export class PointerHand
 
     private readonly _gamepad = new EventedGamepad();
 
-    private readonly controller: XRTargetRaySpace;
-    private readonly grip: XRGripSpace;
-    private readonly hand: XRHandSpace;
+    readonly controller: XRTargetRaySpace;
+    readonly grip: XRGripSpace;
+    readonly hand: XRHandSpace;
 
     private readonly delta = new Vector3();
     private readonly newOrigin = new Vector3();

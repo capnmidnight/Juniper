@@ -15,13 +15,14 @@ import { getRayTarget, RayTarget } from "./RayTarget";
 export class EventSystem extends TypedEventBase<Pointer3DEvents> {
     private readonly raycaster = new Raycaster();
 
-    public readonly mouse: PointerMouse;
-    private readonly pen: PointerPen;
-    private readonly touches: PointerTouch;
+    readonly mouse: PointerMouse;
+    readonly pen: PointerPen;
+    readonly touches: PointerTouch;
+    readonly hands = new Array<PointerHand>();
+
     private readonly queue = new Array<Object3D>();
     private readonly targetsFound = new Set<RayTarget>();
     private readonly targets = new Array<Mesh>();
-    readonly hands = new Array<PointerHand>();
 
     private readonly pointers: IPointer[];
 

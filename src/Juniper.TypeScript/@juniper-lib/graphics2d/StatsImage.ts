@@ -2,7 +2,12 @@ import { getMonospaceFonts, rgb } from "@juniper-lib/dom/css";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { TextImage } from "./TextImage";
 
-export class ClockImage extends TextImage {
+export class StatsImage extends TextImage {
+
+    private fps: number = null;
+    private drawCalls: number = null;
+    private triangles: number = null;
+
     constructor() {
         super({
             textFillColor: "white",
@@ -15,21 +20,19 @@ export class ClockImage extends TextImage {
             padding: 0.3,
             freezeDimensions: true
         });
-
-        const updater = this.update.bind(this);
-        setInterval(updater, 500);
-        updater();
     }
 
-    protected update(): void {
-        const time = new Date();
-        const value = time.toLocaleTimeString();
+    setStats(fps: number, drawCalls: number, triangles: number): void {
+        this.fps = fps;
+        this.drawCalls = drawCalls;
+        this.triangles = triangles;
 
+        const value = ` ${Math.round(this.fps).toFixed(0)}hz ${this.drawCalls}c ${this.triangles}t`;
         if (isNullOrUndefined(this.value)
             || value.length !== this.value.length) {
             this.unfreeze();
         }
-
         this.value = value;
     }
+
 }
