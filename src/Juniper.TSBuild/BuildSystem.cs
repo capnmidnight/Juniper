@@ -156,7 +156,7 @@ namespace Juniper.TSBuild
             inProjectDir = TestDir($"Couldn't find project {inProjectName} from {startDir}", startDir.CD(inProjectName));
             outProjectDir = TestDir($"Couldn't find project {outProjectName} from {startDir}", startDir.CD(outProjectName));
             cleanDirs = options.CleanDirs
-                ?.Select(dir => TestDir($"Couldn't find {dir.Name}", dir))
+                ?.Where(dir => dir?.Exists == true)
                 ?.ToArray()
                 ?? Array.Empty<DirectoryInfo>();
 
