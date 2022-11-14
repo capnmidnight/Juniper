@@ -97,7 +97,7 @@ export class ArtificialHorizon extends CanvasImage {
                 g.fillStyle = "red";
                 g.beginPath();
                 g.moveTo(-0.1, 0);
-                g.lineTo(0, 0.667);
+                g.lineTo(0, -0.667);
                 g.lineTo(0.1, 0);
                 g.closePath();
                 g.fill();
@@ -105,7 +105,7 @@ export class ArtificialHorizon extends CanvasImage {
                 g.fillStyle = "white";
                 g.beginPath();
                 g.moveTo(-0.1, 0);
-                g.lineTo(0, -0.667);
+                g.lineTo(0, 0.667);
                 g.lineTo(0.1, 0);
                 g.closePath();
                 g.fill();
