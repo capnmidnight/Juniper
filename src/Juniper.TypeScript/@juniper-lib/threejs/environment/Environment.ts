@@ -253,7 +253,6 @@ export class Environment
         this.xrUI.addItem(this.menuButton, { x: -1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.infoLabel, { x: 0, y: -1.125, scale: 0.5 })
         this.xrUI.addItem(this.vrButton, { x: 1, y: -1, scale: 0.5 });
-        this.xrUI.addItem(this.fullscreenButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
 
         objGraph(this.menuButton, this.subMenu);

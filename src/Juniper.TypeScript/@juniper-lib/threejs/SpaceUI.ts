@@ -1,5 +1,6 @@
 import { deg2rad } from "@juniper-lib/tslib/math";
-import { Object3D, Vector3 } from "three";
+import { Euler, Object3D, Quaternion, Vector3 } from "three";
+import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { objectResolve, Objects, objGraph } from "./objects";
 
 interface BasePoint2D {
@@ -32,7 +33,6 @@ type Point2D = Point2DHeight | Point2DWidth | Point2DSquare;
 const radius = 1.25;
 const dAngleH = deg2rad(30);
 const dAngleV = deg2rad(32);
-const headPos = new Vector3(0, 0, 0);
 
 export class SpaceUI extends Object3D {
     constructor() {
@@ -44,10 +44,18 @@ export class SpaceUI extends Object3D {
     addItem(child: Objects, position: Point2D): void {
         child = objectResolve(child);
         objGraph(this, child);
-        child.position.set(
-            radius * Math.sin(position.x * dAngleH),
-            radius * Math.sin(position.y * dAngleV),
-            -radius * Math.cos(position.x * dAngleH));
+
+        child.rotation.set(
+            position.y * dAngleV,
+            -position.x * dAngleH,
+            0,
+            "YXZ"
+        );
+
+        child.position
+            .set(0, 0, -radius)
+            .applyEuler(child.rotation);
+
         if (isPoint2DHeight(position) && isPoint2DWidth(position)) {
             child.scale.set(position.width, position.height, 1);
         }
@@ -60,9 +68,7 @@ export class SpaceUI extends Object3D {
         else {
             child.scale.setScalar(position.scale);
         }
+
         child.scale.z = 1;
-        for (const child of this.children) {
-            child.lookAt(headPos);
-        }
     }
 }
