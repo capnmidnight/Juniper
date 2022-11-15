@@ -74,7 +74,8 @@ export class Watch implements ErsatzObject, IDisposable {
                     if (parent !== env.clockImage.object.parent) {
                         objGraph(parent,
                             objGraph(this,
-                                env.clockImage
+                                env.clockImage,
+                                env.batteryImage
                             )
                         );
 
@@ -92,10 +93,21 @@ export class Watch implements ErsatzObject, IDisposable {
                         env.clockImage.scale.setScalar(0.0175);
                         env.clockImage.position.set(0, 0.029, 0);
                         env.clockImage.rotation.set(-HalfPi, 0, -HalfPi);
+
+                        if (isDefined(env.batteryImage)) {
+                            env.batteryImage.scale
+                                .set(2, 1, 1)
+                                .multiplyScalar(0.008);
+                            env.batteryImage.position.set(0.0075, 0.029, 0);
+                            env.batteryImage.rotation.set(-HalfPi, 0, -HalfPi);
+                        }
                     }
                 }
                 else {
                     env.xrUI.addItem(env.clockImage, { x: -1, y: 1, height: 0.1 });
+                    if (isDefined(env.batteryImage)) {
+                        env.xrUI.addItem(env.batteryImage, { x: 0.75, y: -1, width: 0.2, height: 0.1 });
+                    }
                 }
 
                 hadSession = hasSession;
