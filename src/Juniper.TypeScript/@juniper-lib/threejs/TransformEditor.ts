@@ -1,6 +1,6 @@
 import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonPrimary, elementSetDisplay, elementSetText } from "@juniper-lib/dom/tags";
-import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
+import { arrayInsertAt, arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { deg2rad, HalfPi } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -16,6 +16,7 @@ import { sphere } from "./Sphere";
 import { isMesh } from "./typeChecks";
 
 export enum TransformMode {
+    None = "None",
     MoveObjectSpace = "Object Move",
     MoveGlobalSpace = "Global Move",
     MoveViewSpace = "View Move",
@@ -105,6 +106,8 @@ export class TransformEditor
 
         if (isDefined(v) && isDefined(modes)) {
             arrayReplace(this.modes, ...modes);
+            this.modes.unshift(TransformMode.None);
+
             if (this.modes.indexOf(this.mode) === -1) {
                 this.mode = this.modes[0];
             }
@@ -127,7 +130,8 @@ export class TransformEditor
                 translator.mode = v;
             }
 
-            this.translators[2].object.visible = this.mode !== TransformMode.Resize;
+            this.translators[2].object.visible = this.mode !== TransformMode.None
+                && this.mode !== TransformMode.Resize;
 
             elementSetText(this.modeButton, this.mode);
 
@@ -207,7 +211,7 @@ export class TransformEditor
                             const side = Math.abs(parallelity) < 0.98
                                 && Math.sign(this.lookDirectionWorld.cross(this.motionAxisWorld).y)
                                 || 1;
-                            this.deltaPosition.applyQuaternion(correction.get(Math.sign(parallelity)  * side));
+                            this.deltaPosition.applyQuaternion(correction.get(Math.sign(parallelity) * side));
                         }
 
                         const mag = this.size * this.deltaPosition.dot(this.motionAxisWorld);
@@ -469,14 +473,17 @@ export class Translator extends RayTarget<void> {
 
             const isRotate = this.mode === TransformMode.RotateObjectSpace
                 || this.mode === TransformMode.RotateGlobalSpace
-                || this.mode === TransformMode.RotateViewSpace
+                || this.mode === TransformMode.RotateViewSpace;
+
+            const isLateral = this.mode !== TransformMode.None
+                && !isRotate;
 
             for (const arcPad of this.arcPads) {
                 arcPad.visible = isRotate;
             }
 
             for (const bar of this.bars) {
-                bar.visible = !isRotate;
+                bar.visible = isLateral;
             }
             for (const spherePad of this.spherePads) {
                 spherePad.visible = this.mode === TransformMode.Resize;
@@ -484,7 +491,7 @@ export class Translator extends RayTarget<void> {
 
             for (const conePad of this.conePads) {
                 conePad.visible = this.mode !== TransformMode.Resize
-                    && !isRotate;
+                    && isLateral;
             }
 
             for (const mesh of this.meshes) {
