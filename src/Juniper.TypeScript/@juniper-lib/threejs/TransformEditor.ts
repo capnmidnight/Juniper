@@ -1,6 +1,6 @@
 import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonPrimary, elementSetDisplay, elementSetText } from "@juniper-lib/dom/tags";
-import { arrayInsertAt, arrayReplace } from "@juniper-lib/tslib/collections/arrays";
+import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { deg2rad, HalfPi } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
