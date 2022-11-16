@@ -1,6 +1,5 @@
 import { deg2rad } from "@juniper-lib/tslib/math";
-import { Euler, Object3D, Quaternion, Vector3 } from "three";
-import { BaseEnvironment } from "./environment/BaseEnvironment";
+import { Object3D } from "three";
 import { objectResolve, Objects, objGraph } from "./objects";
 
 interface BasePoint2D {

@@ -51,6 +51,7 @@ export class PlaybackButton<T extends FullAudioRecord>
         private readonly data: T | string,
         name: string,
         label: string,
+        public volume: number,
         private readonly player: IPlayer) {
         super();
 
@@ -78,6 +79,7 @@ export class PlaybackButton<T extends FullAudioRecord>
             if (this.player.data !== this.data) {
                 await this.player.load(this.data, this);
             }
+            this.player.volume = this.volume;
             await this.player.play();
         };
 

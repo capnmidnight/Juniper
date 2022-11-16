@@ -7,6 +7,7 @@ export interface IPlayer extends IBasePlayable<MediaPlayerEvents> {
     data: FullAudioRecord | string;
     clear(): void;
     load(data: FullAudioRecord | string, prog?: IProgress): Promise<this>;
+    volume: number;
 }
 
 class MediaPlayerEvent<T extends string> extends MediaElementSourceEvent<T, IPlayer> {

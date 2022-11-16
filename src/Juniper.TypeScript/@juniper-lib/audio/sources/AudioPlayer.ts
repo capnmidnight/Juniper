@@ -17,7 +17,7 @@ import { NoSpatializationNode } from "./spatializers/NoSpatializationNode";
 
 export class AudioPlayer
     extends BaseAudioSource<MediaElementAudioSourceNode, MediaPlayerEvents>
-    implements ErsatzElement, IPlayer, IDisposable {
+    implements ErsatzElement<HTMLAudioElement>, IPlayer, IDisposable {
 
     private readonly cacheBustSources = new Map<FullAudioRecord | string, number>();
 
