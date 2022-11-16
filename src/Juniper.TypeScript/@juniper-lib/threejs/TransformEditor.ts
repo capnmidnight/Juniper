@@ -204,7 +204,9 @@ export class TransformEditor
 
                         const parallelity = this.lookDirectionWorld.dot(this.motionAxisWorld);
                         if (Math.abs(parallelity) > 0.7) {
-                            const side = Math.sign(this.lookDirectionWorld.cross(this.motionAxisWorld).y) || 1;
+                            const side = Math.abs(parallelity) < 0.98
+                                && Math.sign(this.lookDirectionWorld.cross(this.motionAxisWorld).y)
+                                || 1;
                             this.deltaPosition.applyQuaternion(correction.get(Math.sign(parallelity)  * side));
                         }
 
