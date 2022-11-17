@@ -1,5 +1,5 @@
 import { onClick } from "@juniper-lib/dom/evts";
-import { ButtonPrimary, elementSetDisplay } from "@juniper-lib/dom/tags";
+import { ButtonPrimaryOutline, ButtonSecondary, elementSetClass, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { deg2rad, HalfPi } from "@juniper-lib/tslib/math";
@@ -87,9 +87,12 @@ export class TransformEditor
 
         this.modeButtons = Object.values(TransformMode)
             .map(mode => {
-                const btn = ButtonPrimary(
+                const btn = ButtonSecondary(
                     mode,
-                    onClick(() => this.mode = mode)
+                    onClick(() =>
+                        this.mode = btn.classList.contains("btn-secondary")
+                            ? mode
+                            : TransformMode.None)
                 );
                 this.buttons.set(mode, btn);
                 elementSetDisplay(btn, false);
@@ -112,13 +115,12 @@ export class TransformEditor
 
         if (isDefined(v) && isDefined(modes)) {
             arrayReplace(this.modes, ...modes);
-            this.modes.unshift(TransformMode.None);
             for (const [mode, btn] of this.buttons) {
                 elementSetDisplay(btn, this.modes.indexOf(mode) !== -1);
             }
 
             if (this.modes.indexOf(this.mode) === -1) {
-                this.mode = this.modes[0];
+                this.mode = TransformMode.None;
             }
         }
     }
@@ -138,7 +140,8 @@ export class TransformEditor
                 && this.mode !== TransformMode.Resize;
 
             for (const [mode, btn] of this.buttons) {
-                btn.disabled = mode === this.mode;
+                elementSetClass(btn, mode === this.mode, "btn-primary");
+                elementSetClass(btn, mode !== this.mode, "btn-secondary");
             }
 
             this.refresh();

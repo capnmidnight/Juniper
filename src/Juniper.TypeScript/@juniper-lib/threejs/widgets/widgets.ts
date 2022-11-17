@@ -1,4 +1,4 @@
-import { ElementChild, elementIsDisplayed, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/tags";
+import { ElementChild, elementIsDisplayed, elementRemoveFromParent, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/tags";
 import {
     elementApply,
     elementClearChildren,
@@ -6,7 +6,7 @@ import {
     isErsatzElement
 } from "@juniper-lib/dom/tags";
 import { Object3D } from "three";
-import type { ErsatzObject, Objects } from "../objects";
+import { ErsatzObject, Objects, objRemoveFromParent } from "../objects";
 import {
     isErsatzObject,
     isObjects,
@@ -37,9 +37,14 @@ export function widgetSetEnabled(obj: IWidget, enabled: boolean) {
     objectSetEnabled(obj, enabled);
 }
 
-export function widgetApply(obj: IWidget, ...children: WidgetChild[]) {
+export function widgetApply(obj: IWidget, ...children: WidgetChild[]): void {
     elementApply(obj, ...children.filter(isElementChild));
     objGraph(obj, ...children.filter(isObjects));
+}
+
+export function widgetRemoveFromParent(obj: IWidget): void {
+    elementRemoveFromParent(obj);
+    objRemoveFromParent(obj);
 }
 
 export function widgetClearChildren(obj: IWidget) {

@@ -136,6 +136,13 @@ export function elementApply(elem: Elements | string, ...children: ElementChild[
     return elem;
 }
 
+export function elementRemoveFromParent(elem: Elements | string): void {
+    elem = resolveElement(elem);
+    if (isDefined(elem)) {
+        elem.remove();
+    }
+}
+
 export function elementReplace(elem: Elements, ...elems: Elements[]): Elements {
     elem = resolveElement(elem);
     elem.replaceWith(...elems.map(resolveElement));

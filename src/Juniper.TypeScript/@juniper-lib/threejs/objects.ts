@@ -66,6 +66,13 @@ export function objGraph<T extends Objects>(obj: T, ...children: Objects[]): T {
     return obj;
 }
 
+export function objRemoveFromParent(obj: Objects) {
+    obj = objectResolve(obj);
+    if (isDefined(obj)) {
+        obj.removeFromParent();
+    }
+}
+
 export function objectRemove(obj: Objects, ...children: Objects[]): void {
     const toRemove = children
         .filter(isDefined)
