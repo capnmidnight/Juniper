@@ -1,5 +1,5 @@
 import { onClick } from "@juniper-lib/dom/evts";
-import { ButtonPrimary, elementSetDisplay, elementSetText } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { deg2rad, HalfPi } from "@juniper-lib/tslib/math";
@@ -47,7 +47,8 @@ export class TransformEditor
 
     readonly object: Object3D;
 
-    public readonly modeButton: HTMLButtonElement;
+    public readonly modeButtons: HTMLButtonElement[];
+    private readonly buttons = new Map<TransformMode, HTMLButtonElement>();
 
     private readonly translators: Translator[];
     private readonly movingEvt = new TypedEvent("moving");
@@ -84,10 +85,16 @@ export class TransformEditor
 
         env.timer.addTickHandler(() => this.refresh());
 
-        this.modeButton = ButtonPrimary(
-            onClick(() => this.setNextMode())
-        );
-        elementSetDisplay(this.modeButton, false);
+        this.modeButtons = Object.values(TransformMode)
+            .map(mode => {
+                const btn = ButtonPrimary(
+                    mode,
+                    onClick(() => this.mode = mode)
+                );
+                this.buttons.set(mode, btn);
+                elementSetDisplay(btn, false);
+                return btn;
+            });
     }
 
     get target(): Object3D {
@@ -100,23 +107,20 @@ export class TransformEditor
             this._target = v;
             const hasTarget = isDefined(this.target);
             objectSetVisible(this, hasTarget);
-            elementSetDisplay(this.modeButton, hasTarget);
             this.refresh();
         }
 
         if (isDefined(v) && isDefined(modes)) {
             arrayReplace(this.modes, ...modes);
             this.modes.unshift(TransformMode.None);
+            for (const [mode, btn] of this.buttons) {
+                elementSetDisplay(btn, this.modes.indexOf(mode) !== -1);
+            }
 
             if (this.modes.indexOf(this.mode) === -1) {
                 this.mode = this.modes[0];
             }
         }
-    }
-
-    private setNextMode() {
-        const curModeIdx = this.modes.indexOf(this.mode);
-        this.mode = this.modes[(curModeIdx + 1) % this.modes.length];
     }
 
     get mode() {
@@ -133,7 +137,9 @@ export class TransformEditor
             this.translators[2].object.visible = this.mode !== TransformMode.None
                 && this.mode !== TransformMode.Resize;
 
-            elementSetText(this.modeButton, this.mode);
+            for (const [mode, btn] of this.buttons) {
+                btn.disabled = mode === this.mode;
+            }
 
             this.refresh();
         }
