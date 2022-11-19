@@ -33,23 +33,3 @@ export function onUserGesture(callback: () => any, test?: () => Promise<boolean>
         window.addEventListener(gesture, check);
     }
 }
-
-export function waitForUserGesture<T>(callback: () => Promise<T>, test?: () => Promise<boolean>): Promise<T> {
-    const realTest = test || alwaysTrue;
-
-    return new Promise((resolve) => {
-        const check = async (evt: Event) => {
-            if (evt.isTrusted && await realTest()) {
-                for (const gesture of gestures) {
-                    window.removeEventListener(gesture, check);
-                }
-
-                resolve(await callback());
-            }
-        };
-
-        for (const gesture of gestures) {
-            window.addEventListener(gesture, check);
-        }
-    });
-}

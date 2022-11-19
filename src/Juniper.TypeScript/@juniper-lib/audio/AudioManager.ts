@@ -1,6 +1,5 @@
 import { autoPlay, id, playsInline, src, srcObject } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
-import { waitForUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "@juniper-lib/dom/tags";
 import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
@@ -188,9 +187,8 @@ export class AudioManager
 
     private async start(): Promise<void> {
         await all(
-            audioReady(this.audioCtx),
-            waitForUserGesture(() =>
-                this.element.play()),
+            audioReady(this.audioCtx)
+                .then(() => this.element.play()),
             this.speakers.ready
         );
     }
