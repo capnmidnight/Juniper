@@ -47,7 +47,7 @@ export class ButtonImageWidget extends Widget<HTMLButtonElement> {
     }
 
     override set visible(v: boolean) {
-        super.visible = true;
+        super.visible = v;
         if (this.mesh) {
             objectSetVisible(this.mesh, v);
         }

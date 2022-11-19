@@ -44,8 +44,15 @@ export class EnvironmentRoomJoinedEvent extends TypedEvent<"roomjoined"> {
     }
 }
 
+export class DialogShowingEvent extends TypedEvent<"dialogshowing"> {
+    constructor(public readonly showing: boolean) {
+        super("dialogshowing");
+    }
+}
+
 export interface EnvironmentEvents {
     home: TypedEvent<"home">;
+    dialogshowing: DialogShowingEvent;
     environmentaudiotoggled: TypedEvent<"environmentaudiotoggled">;
     roomjoined: EnvironmentRoomJoinedEvent;
 }
@@ -93,7 +100,6 @@ export class Environment
     readonly muteMicButton: ToggleButton;
     readonly muteEnvAudioButton: ToggleButton;
     readonly quitButton: ButtonImageWidget;
-    readonly lobbyButton: ButtonImageWidget;
     readonly arButton: ScreenModeToggleButton;
     readonly vrButton: ScreenModeToggleButton;
     readonly fullscreenButton: ScreenModeToggleButton;
@@ -161,10 +167,8 @@ export class Environment
             });
         });
 
-        this.apps.addEventListener("appshown", async (evt) => {
-            this.lobbyButton.visible = evt.appName !== "menu";
-            await this.fadeIn();
-        });
+        this.apps.addEventListener("appshown", () =>
+            this.fadeIn());
 
         this.audio = new AudioManager(DEFAULT_LOCAL_USER_ID);
         this.audio.setAudioProperties(1, 4, "exponential");
@@ -184,7 +188,6 @@ export class Environment
         this.menuButton = new ButtonImageWidget(this.uiButtons, "ui", "menu");
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
         this.quitButton = new ButtonImageWidget(this.uiButtons, "ui", "quit");
-        this.lobbyButton = new ButtonImageWidget(this.uiButtons, "ui", "lobby");
         this.muteMicButton = new ToggleButton(this.uiButtons, "microphone", "mute", "unmute");
         this.muteEnvAudioButton = new ToggleButton(this.uiButtons, "environment-audio", "mute", "unmute");
         this.muteEnvAudioButton.active = true;
@@ -248,7 +251,6 @@ export class Environment
 
         this.xrUI.addItem(this.clockImage, { x: -1, y: 1, height: 0.1 });
         this.xrUI.addItem(this.statsImage, { x: -1, y: 0.95, height: 0.1 });
-        this.xrUI.addItem(this.lobbyButton, { x: 1, y: 1, scale: 0.5 });
         this.xrUI.addItem(this.confirmationDialog, { x: 0, y: 0, scale: 0.25 });
         this.xrUI.addItem(this.menuButton, { x: -1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.infoLabel, { x: 0, y: -1.125, scale: 0.5 })
@@ -260,7 +262,6 @@ export class Environment
         objGraph(this.worldUISpace, this.xrUI);
 
         elementApply(this.screenUISpace.topLeft, this.compassImage, this.statsImage);
-        elementApply(this.screenUISpace.topRight, this.lobbyButton);
         elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
         elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton);
         elementApply(this.screenUISpace.bottomLeft,
@@ -278,13 +279,6 @@ export class Environment
             this.muteEnvAudioButton,
             this.quitButton
         );
-
-        this.lobbyButton.addEventListener("click", () =>
-            this.withConfirmation(
-                "Confirm return to lobby",
-                "Are you sure you want to return to the lobby?",
-                () =>
-                    this.dispatchEvent(new TypedEvent("home"))));
 
         this.settingsButton.addEventListener("click", async () => {
             const mode = this.screenControl.currentMode;
@@ -331,7 +325,6 @@ export class Environment
 
         this.vrButton.visible = isDesktop() && hasVR() || isMobileVR();
         this.arButton.visible = false;
-        this.lobbyButton.visible = false;
         this.muteMicButton.visible = false;
     }
 
@@ -400,7 +393,7 @@ export class Environment
 
     protected onConfirmationShowing(showing: boolean) {
         widgetSetEnabled(this.quitButton, !showing);
-        widgetSetEnabled(this.lobbyButton, !showing);
+        this.dispatchEvent(new DialogShowingEvent(showing));
     }
 
     override async load(prog: IProgress, ...assets: BaseAsset[]): Promise<void>;
