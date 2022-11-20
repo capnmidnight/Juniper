@@ -30,12 +30,19 @@ namespace Juniper.TSBuild
             Models = Assets.CD("Models");
             StarTrekAudios = Audios.CD("Star Trek");
 
-            ThreeJsIn = nodeModules.CD("three", "build");
-            PdfJsIn = nodeModules.CD("pdfjs-dist", "build");
-            JQueryIn = nodeModules.CD("jquery", "dist");
+            var threeJsIn = nodeModules.CD("three", "build");
+            var pdfJsIn = nodeModules.CD("pdfjs-dist", "build");
+            var jQueryIn = nodeModules.CD("jquery", "dist");
 
-            ThreeJsBundle = ThreeJsIn.Touch("three.js");
-            ThreeJsMinBundle = ThreeJsIn.Touch("three.min.js");
+            ThreeJsBundle = threeJsIn.Touch("three.js");
+            ThreeJsMinBundle = threeJsIn.Touch("three.min.js");
+
+            PDFJSWorkerBundle = pdfJsIn.Touch("pdf.worker.js");
+            PDFJSWorkerMap = pdfJsIn.Touch("pdf.worker.js.map");
+            PDFJSWorkerMinBundle = pdfJsIn.Touch("pdf.worker.min.js");
+
+            JQueryBundle = jQueryIn.Touch("jquery.js");
+            JQueryMinBundle = jQueryIn.Touch("jquery.min.js");
 
             CursorModel = Models.CD("Cursors").Touch("Cursors.glb");
             WatchModel = Models.CD("Watch").Touch("watch1.glb");
@@ -71,15 +78,16 @@ namespace Juniper.TSBuild
         public DirectoryInfo Audios { get; }
         public DirectoryInfo Models { get; }
 
-        public DirectoryInfo juniperModelsForest { get; }
         public DirectoryInfo NodeModules { get; }
-        public DirectoryInfo ThreeJsIn { get; }
-        public DirectoryInfo PdfJsIn { get; }
-        public DirectoryInfo JQueryIn { get; }
         public DirectoryInfo StarTrekAudios { get; }
 
         public FileInfo ThreeJsBundle { get; }
         public FileInfo ThreeJsMinBundle { get; }
+        public FileInfo PDFJSWorkerBundle { get; }
+        public FileInfo PDFJSWorkerMap { get; }
+        public FileInfo PDFJSWorkerMinBundle { get; }
+        public FileInfo JQueryBundle { get; }
+        public FileInfo JQueryMinBundle { get; }
 
         public FileInfo CursorModel { get; }
         public FileInfo WatchModel { get; }
