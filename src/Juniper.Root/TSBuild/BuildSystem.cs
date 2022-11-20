@@ -16,4 +16,84 @@ namespace Juniper.TSBuild
         public Dictionary<string, (FileInfo From, FileInfo To)> OptionalDependencies;
         public (string Name, string Version, string Reason)[] BannedDependencies;
     }
+
+    public class PathHelper
+    {
+        public PathHelper(DirectoryInfo juniperDir, DirectoryInfo nodeModules)
+        {
+            JuniperDir = juniperDir;
+
+            Assets = juniperDir.CD("etc", "Assets");
+
+            Textures = Assets.CD("Textures");
+            Audios = Assets.CD("Audio");
+            Models = Assets.CD("Models");
+            StarTrekAudios = Audios.CD("Star Trek");
+
+            ThreeJsIn = nodeModules.CD("three", "build");
+            PdfJsIn = nodeModules.CD("pdfjs-dist", "build");
+            JQueryIn = nodeModules.CD("jquery", "dist");
+
+            ThreeJsBundle = ThreeJsIn.Touch("three.js");
+            ThreeJsMinBundle = ThreeJsIn.Touch("three.min.js");
+
+            CursorModel = Models.CD("Cursors").Touch("Cursors.glb");
+            WatchModel = Models.CD("Watch").Touch("watch1.glb");
+
+            var forestModels = Models.CD("Forest");
+            ForestGroundModel = forestModels.Touch("Forest-Ground.glb");
+            ForestTreeModel = forestModels.Touch("Forest-Tree.glb");
+
+            ForestAudio = Audios.Touch("forest.mp3");
+            StarTrekComputerBeep55Audio = StarTrekAudios.Touch("computerbeep_55.mp3");
+            FootStepsAudio = Audios.Touch("footsteps_fast.mp3");
+            ButtonPressAudio = Audios.Touch("vintage_radio_button_pressed.mp3");
+            DoorOpenAudio = Audios.Touch("door_open.mp3");
+            DoorCloseAudio = Audios.Touch("door_close.mp3");
+            UIDraggedAudio = Audios.Touch("basic_dragged.mp3");
+            UIEnterAudio = Audios.Touch("basic_enter.mp3");
+            UIErrorAudio = Audios.Touch("basic_error.mp3");
+            UIExitAudio = Audios.Touch("basic_exit.mp3");
+        }
+
+        public void AddUITextures(BuildSystemOptions options, DirectoryInfo uiImgOUtput)
+        {
+            foreach (var file in Textures.CD("UI").EnumerateFiles())
+            {
+                options.Dependencies.Add(file.Name, (file, uiImgOUtput.Touch(file.Name)));
+            }
+        }
+
+
+        public DirectoryInfo JuniperDir { get; }
+        public DirectoryInfo Assets { get; }
+        public DirectoryInfo Textures { get; }
+        public DirectoryInfo Audios { get; }
+        public DirectoryInfo Models { get; }
+
+        public DirectoryInfo juniperModelsForest { get; }
+        public DirectoryInfo NodeModules { get; }
+        public DirectoryInfo ThreeJsIn { get; }
+        public DirectoryInfo PdfJsIn { get; }
+        public DirectoryInfo JQueryIn { get; }
+        public DirectoryInfo StarTrekAudios { get; }
+
+        public FileInfo ThreeJsBundle { get; }
+        public FileInfo ThreeJsMinBundle { get; }
+
+        public FileInfo CursorModel { get; }
+        public FileInfo WatchModel { get; }
+        public FileInfo ForestGroundModel { get; }
+        public FileInfo ForestTreeModel { get; }
+        public FileInfo ForestAudio { get; }
+        public FileInfo StarTrekComputerBeep55Audio { get; }
+        public FileInfo FootStepsAudio { get; }
+        public FileInfo ButtonPressAudio { get; }
+        public FileInfo DoorOpenAudio { get; }
+        public FileInfo DoorCloseAudio { get; }
+        public FileInfo UIDraggedAudio { get; }
+        public FileInfo UIEnterAudio { get; }
+        public FileInfo UIErrorAudio { get; }
+        public FileInfo UIExitAudio { get; }
+    }
 }
