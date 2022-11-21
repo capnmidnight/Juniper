@@ -31,16 +31,15 @@ namespace Juniper.TSBuild
             StarTrekAudios = Audios.CD("Star Trek");
 
             var threeJsIn = nodeModules.CD("three", "build");
-            var pdfJsIn = nodeModules.CD("pdfjs-dist", "build");
-            var jQueryIn = nodeModules.CD("jquery", "dist");
-
             ThreeJsBundle = threeJsIn.Touch("three.js");
             ThreeJsMinBundle = threeJsIn.Touch("three.min.js");
 
+            var pdfJsIn = nodeModules.CD("pdfjs-dist", "build");
             PDFJSWorkerBundle = pdfJsIn.Touch("pdf.worker.js");
             PDFJSWorkerMap = pdfJsIn.Touch("pdf.worker.js.map");
             PDFJSWorkerMinBundle = pdfJsIn.Touch("pdf.worker.min.js");
 
+            var jQueryIn = nodeModules.CD("jquery", "dist");
             JQueryBundle = jQueryIn.Touch("jquery.js");
             JQueryMinBundle = jQueryIn.Touch("jquery.min.js");
 
