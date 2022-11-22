@@ -33,7 +33,7 @@ export class Cursor3D
     override get style() {
         for (const child of this.object.children) {
             if (child.visible) {
-                return child.name;
+                return child.name as CSSCursorValue;
             }
         }
 

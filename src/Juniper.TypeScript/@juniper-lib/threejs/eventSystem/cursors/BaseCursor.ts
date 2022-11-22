@@ -6,7 +6,7 @@ import type { RayTarget } from "../RayTarget";
 export abstract class BaseCursor implements ErsatzObject {
     private _object: Object3D = null;
     private _visible: boolean = true;
-    private _style: string = "default";
+    private _style: CSSCursorValue = "default";
 
     private readonly T = new Vector3();
     private readonly V = new Vector3();
@@ -30,7 +30,7 @@ export abstract class BaseCursor implements ErsatzObject {
         this._object = v;
     }
 
-    get style(): string {
+    get style(): CSSCursorValue {
         return this._style;
     }
 

@@ -27,12 +27,30 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
         });
 
         this.element.addEventListener("pointerdown", (evt) => {
-            if (this.onCheckEvent(evt)
-                && this.allowPointerLock
-                && !this.isPointerLocked) {
-                this.lockPointer();
+            if (this.onCheckEvent(evt)) {
+                if (this.allowPointerLock
+                    && !this.isPointerLocked) {
+                    this.lockPointer();
+                }
+                else if (!this.allowPointerLock
+                    && !this.isPointerCaptured) {
+                    this.capturePointer();
+                }
             }
         });
+
+        this.element.addEventListener("pointerup", (evt) => {
+            if (this.onCheckEvent(evt)) {
+                if (this.allowPointerLock
+                    && this.isPointerLocked) {
+                    this.unlockPointer();
+                }
+                else if (!this.allowPointerLock
+                    && this.isPointerCaptured) {
+                    this.releaseCapture();
+                }
+            }
+        }, true);
 
         document.addEventListener("pointerlockchange", () => {
             this.cursor.visible = true;
@@ -78,6 +96,10 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
         return document.pointerLockElement != null;
     }
 
+    get isPointerCaptured() {
+        return this.element.hasPointerCapture(this.pointerID);
+    }
+
     override get canDragView() {
         return super.canDragView && !this.isPointerLocked;
     }
@@ -92,6 +114,14 @@ export class PointerMouse extends BaseScreenPointerSinglePoint {
 
     unlockPointer() {
         document.exitPointerLock();
+    }
+
+    capturePointer() {
+        this.element.setPointerCapture(this.pointerID);
+    }
+
+    releaseCapture() {
+        this.element.releasePointerCapture(this.pointerID);
     }
 
     vibrate() {

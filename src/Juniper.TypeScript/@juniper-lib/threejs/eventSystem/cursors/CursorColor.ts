@@ -8,7 +8,7 @@ import { isMesh } from "../../typeChecks";
 import { BaseCursor } from "./BaseCursor";
 
 export class CursorColor extends BaseCursor {
-    private _currentStyle: string;
+    private _currentStyle: CSSCursorValue;
     private material: MeshBasicMaterial;
 
     constructor(env: BaseEnvironment) {
