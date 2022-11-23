@@ -139,7 +139,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             canvas.height = img.height;
             const g = canvas.getContext("2d");
             g.drawImage(img, 0, 0);
-            return translateResponse(response, () => null);
+            return translateResponse(response);
         });
     }
 

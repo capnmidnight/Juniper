@@ -53,14 +53,12 @@ export class FetchingService implements IFetchingService {
         return this.impl.sendSomethingGetSomething("text", request, this.defaultPostHeaders, progress);
     }
 
-    async sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<T> {
-        const response = await this.impl.sendNothingGetSomething<"json", T>("json", request, progress);
-        return response.content;
+    sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+        return this.impl.sendNothingGetSomething<"json", T>("json", request, progress);
     }
 
-    async sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
-        const response = await this.impl.sendSomethingGetSomething<"json", T>("json", request, this.defaultPostHeaders, progress);
-        return response.content;
+    sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
+        return this.impl.sendSomethingGetSomething<"json", T>("json", request, this.defaultPostHeaders, progress);
     }
 
     sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse> {

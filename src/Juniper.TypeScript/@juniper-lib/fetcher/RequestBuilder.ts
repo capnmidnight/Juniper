@@ -39,7 +39,7 @@ export class RequestBuilder implements
     private readonly request: IRequestWithBody;
     private prog: IProgress = null;
 
-    constructor(private readonly fetcher: IFetchingService, private readonly useFileBlobsForModules: boolean, private readonly method: HTTPMethods, path: URL) {
+    constructor(private readonly fetcher: IFetchingService, private readonly method: HTTPMethods, path: URL) {
         this.path = path;
         this.request = {
             method,
@@ -68,7 +68,7 @@ export class RequestBuilder implements
     }
 
     headers(headers: Headers) {
-        for (const [ name, value ] of headers.entries()) {
+        for (const [name, value] of headers.entries()) {
             this.header(name, value);
         }
         return this;
@@ -198,7 +198,7 @@ export class RequestBuilder implements
         }
     }
 
-    object<T>(acceptType?: string | MediaType): Promise<T> {
+    object<T>(acceptType?: string | MediaType): Promise<IResponse<T>> {
         this.accept(acceptType || Application_Json);
         if (this.method === "POST"
             || this.method === "PUT"
@@ -425,92 +425,82 @@ export class RequestBuilder implements
         );
     }
 
-    async style(): Promise<void> {
+    async style(): Promise<IResponse> {
         const tag = Link(
             type(Text_Css),
             rel("stylesheet")
         );
         document.body.append(tag);
-        if (this.useFileBlobsForModules) {
-            await this.htmlElement(
-                tag,
-                "load",
-                Text_Css);
-        }
-        else {
-            tag.href = this.request.path;
-        }
-
+        const response = await this.htmlElement(
+            tag,
+            "load",
+            Text_Css);
+        return translateResponse(response);
     }
 
-    private async getScript(): Promise<void> {
+    private async getScript(): Promise<IResponse> {
         const tag = Script(type(Application_Javascript));
         document.body.append(tag);
-        if (this.useFileBlobsForModules) {
-            await this.htmlElement(
-                tag,
-                "load",
-                Application_Javascript);
-        }
-        else {
-            tag.src = this.request.path;
-        }
+        const response = await this.htmlElement(
+            tag,
+            "load",
+            Application_Javascript);
+        return translateResponse(response);
     }
 
-    async script(test: () => boolean): Promise<void> {
+    async script(test: () => boolean): Promise<IResponse> {
+        let response: IResponse = null;
+
         const scriptPath = this.request.path;
+
         if (!test) {
-            await this.getScript();
+            response = await this.getScript();
         }
         else if (!test()) {
             const scriptLoadTask = waitFor(test);
-            await this.getScript();
+            response = await this.getScript();
             await scriptLoadTask;
         }
+
         if (this.prog) {
             this.prog.end(scriptPath);
         }
+
+        return response;
     }
 
-    async module<T>(): Promise<T> {
+    async module<T>(): Promise<IResponse<T>> {
         const scriptPath = this.request.path;
-        let requestPath = scriptPath;
-        if (this.useFileBlobsForModules) {
-            const { content: file } = await this.file(Application_Javascript);
-            requestPath = file;
-        }
+        const response = await this.file(Application_Javascript);
+        const value = await import(response.content);
 
-        const value = await import(requestPath);
         if (this.prog) {
             this.prog.end(scriptPath);
         }
-        return value;
+
+        return translateResponse(response, () => value);
     }
 
-    async wasm<T>(imports: Record<string, Record<string, WebAssembly.ImportValue>>): Promise<T> {
-        const { content: buffer, contentType } = await this.buffer(Application_Wasm);
-        if (!Application_Wasm.matches(contentType)) {
-            throw new Error(`Server did not respond with WASM file. Was: ${contentType}`);
+    async wasm<T>(imports: Record<string, Record<string, WebAssembly.ImportValue>>): Promise<IResponse<T>> {
+        const response = await this.buffer(Application_Wasm);
+        if (!Application_Wasm.matches(response.contentType)) {
+            throw new Error(`Server did not respond with WASM file. Was: ${response.contentType}`);
         }
 
-        const module = await WebAssembly.compile(buffer);
+        const module = await WebAssembly.compile(response.content);
         const instance = await WebAssembly.instantiate(module, imports);
-        return (instance.exports as any) as T;
+        return translateResponse(response, () => (instance.exports as any) as T);
     }
 
-    async worker(type: WorkerType = "module"): Promise<Worker> {
+    async worker(type: WorkerType = "module"): Promise<IResponse<Worker>> {
         const scriptPath = this.request.path;
-        let requestPath = scriptPath;
-        if (this.useFileBlobsForModules) {
-            const { content: file } = await this.file(Application_Javascript);
-            requestPath = file;
-        }
+            const response = await this.file(Application_Javascript);
         this.prog = null;
         this.request.timeout = null;
-        const worker = new Worker(requestPath, { type });
+        const worker = new Worker(response.content, { type });
         if (this.prog) {
             this.prog.end(scriptPath);
         }
-        return worker;
+        return translateResponse(response, () => worker);
     }
 }

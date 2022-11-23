@@ -199,7 +199,7 @@ export interface IFetcherBodiedResult {
     buffer(acceptType?: string | MediaType): Promise<IResponse<ArrayBuffer>>;
     file(acceptType?: string | MediaType): Promise<IResponse<string>>;
     text(acceptType?: string | MediaType): Promise<IResponse<string>>;
-    object<T>(acceptType?: string | MediaType): Promise<T>;
+    object<T>(acceptType?: string | MediaType): Promise<IResponse<T>>;
     xml(acceptType?: string | MediaType): Promise<IResponse<HTMLElement>>;
 
     image(acceptType?: string | MediaType): Promise<IResponse<HTMLImageElement>>;
@@ -213,12 +213,12 @@ export interface IFetcherBodiedResult {
 
     video(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLVideoElement>>;
 
-    script(test: () => boolean): Promise<void>;
-    style(): Promise<void>;
-    module<T>(): Promise<T>;
-    wasm<T>(imports: Record<string, Record<string, WebAssembly.ImportValue>>): Promise<T>;
+    script(test: () => boolean): Promise<IResponse>;
+    style(): Promise<IResponse>;
+    module<T>(): Promise<IResponse<T>>;
+    wasm<T>(imports: Record<string, Record<string, WebAssembly.ImportValue>>): Promise<IResponse<T>>;
 
-    worker(type?: WorkerType): Promise<Worker>;
+    worker(type?: WorkerType): Promise<IResponse<Worker>>;
 }
 
 export interface IFetcherResult extends IFetcherBodiedResult, IFetcherBodilessResult {

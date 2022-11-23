@@ -16,7 +16,7 @@ export interface IFetchingService {
     sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>>;
     sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>>;
     sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>>;
-    sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<T>;
+    sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<IResponse<T>>;
     sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>>;
     sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>>;
 
@@ -26,7 +26,7 @@ export interface IFetchingService {
     sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>>;
     sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>>;
     sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>>;
-    sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T>;
+    sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>>;
     sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>>;
     sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>>;
 

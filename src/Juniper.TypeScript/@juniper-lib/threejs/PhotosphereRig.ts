@@ -1,5 +1,6 @@
 import { canvasToBlob, CanvasTypes, createUtilityCanvas } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
+import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
 import { Image_Jpeg } from "@juniper-lib/mediatypes";
 import { deg2rad, HalfPi, Pi } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
@@ -180,11 +181,12 @@ export abstract class PhotosphereRig
         const k = Math.tan(halfFOV);
         const dist = 0.5 * size / k;
         const path = getImagePath(fovDegrees, headingDegrees, pitchDegrees);
-        const { content: canvas } = await this.fetcher
+        const canvas = await this.fetcher
             .get(path, this.baseURL)
             .progress(prog)
             .useCache(!this.isDebug)
-            .canvas();
+            .canvas()
+            .then(unwrapResponse);
 
         const texture = new Texture(canvas as any);
         const material = new MeshBasicMaterial({

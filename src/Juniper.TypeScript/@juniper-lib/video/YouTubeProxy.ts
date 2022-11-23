@@ -1,5 +1,6 @@
 import { AudioRecord } from "@juniper-lib/audio/data";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
+import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
 import { arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
@@ -111,7 +112,8 @@ export class YouTubeProxy {
             metadata = await this.fetcher
                 .get(pageURLOrMetadata)
                 .progress(prog)
-                .object<YTMetadata>();
+                .object<YTMetadata>()
+                .then(unwrapResponse);
         }
         else {
             if (isDefined(prog)) {

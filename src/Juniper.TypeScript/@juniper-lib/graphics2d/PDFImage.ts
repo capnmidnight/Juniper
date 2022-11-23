@@ -1,5 +1,6 @@
 import { setContextSize } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
+import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { clamp } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
@@ -23,11 +24,12 @@ export class PDFImage extends CanvasImage {
             uri.query("v", pdfjsVersion);
             workerPath = uri.toString();
 
-            const { content: workerSrc } = await fetcher
+            const workerSrc = await fetcher
                 .get(workerPath)
                 .useCache(!debug)
                 .progress(prog)
-                .file();
+                .file()
+                .then(unwrapResponse);
 
             pdfJS.GlobalWorkerOptions.workerSrc = workerSrc;
             pdfReady.resolve();

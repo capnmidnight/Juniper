@@ -77,7 +77,7 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
             canvas.height = img.height;
             const g = canvas.getContext("2d");
             g.drawImage(img, 0, 0);
-            return translateResponse(response, () => null);
+            return translateResponse(response);
         });
     }
 
@@ -177,7 +177,7 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
     }
 
     private async decodeContent<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, response: IResponse<Blob>): Promise<IResponse<T>> {
-        return translateResponse<Blob, T>(response, async (contentBlob) => {
+        return translateResponse<Blob, T>(response, async () => {
             if (xhrType === "") {
                 return null;
             }
@@ -188,13 +188,13 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
                 throw new Error("No content type found in headers: \n  " + headerBlock);
             }
             else if (xhrType === "blob") {
-                return contentBlob as any as T;
+                return response.content as any as T;
             }
             else if (xhrType === "arraybuffer") {
-                return (await contentBlob.arrayBuffer()) as any as T;
+                return (await response.content.arrayBuffer()) as any as T;
             }
             else if (xhrType === "json") {
-                const text = await contentBlob.text();
+                const text = await response.content.text();
                 if (text.length > 0) {
                     return JSON.parse(text) as T;
                 }
@@ -209,14 +209,14 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
                     || response.contentType === "application/xml"
                     || response.contentType === "image/svg+xml"
                     || response.contentType === "text/xml") {
-                    return parser.parseFromString(await contentBlob.text(), response.contentType) as any as T;
+                    return parser.parseFromString(await response.content.text(), response.contentType) as any as T;
                 }
                 else {
                     throw new Error("Couldn't parse document");
                 }
             }
             else if (xhrType === "text") {
-                return (await contentBlob.text()) as any as T;
+                return (await response.content.text()) as any as T;
             }
             else {
                 assertNever(xhrType);

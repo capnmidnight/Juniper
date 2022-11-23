@@ -4,7 +4,7 @@ import { id } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { display, em, flexDirection, gap } from "@juniper-lib/dom/css";
 import { Div, elementApply } from "@juniper-lib/dom/tags";
-import { AssetAudio, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
+import { AssetAudio, AssetStyleSheet, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
 import { BatteryImage } from "@juniper-lib/graphics2d/BatteryImage";
@@ -63,6 +63,7 @@ export interface EnvironmentEvents {
 export interface EnvironmentOptions {
     DEBUG: boolean;
     watchModelPath: string;
+    styleSheetPath: string;
 }
 
 export interface EnvironmentConstructor {
@@ -128,7 +129,10 @@ export class Environment
         defaultAvatarHeight: number,
         defaultFOV: number,
         enableFullResolution: boolean,
-        options?: Partial<EnvironmentOptions>) {
+        private readonly options?: Partial<EnvironmentOptions>) {
+
+        options = options || {};
+
         super(canvas, fetcher, defaultAvatarHeight, defaultFOV, enableFullResolution, options && options.DEBUG);
         this.screenUISpace = new ScreenUI(buttonFillColor);
         this.compassImage = new ArtificialHorizon();
@@ -149,8 +153,6 @@ export class Environment
             bgFillColor: labelFillColor,
             textFillColor: "white"
         });
-
-        options = options || {};
 
         this.apps = new ApplicationLoader(this);
         this.apps.addEventListener("apploading", (evt) => {
@@ -422,6 +424,10 @@ export class Environment
         assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click);
         if (isDefined(this.watch)) {
             assets.push(this.watch.asset);
+        }
+
+        if (isDefined(this.options.styleSheetPath)) {
+            assets.push(new AssetStyleSheet(this.options.styleSheetPath, !this.DEBUG));
         }
 
         await super.load(prog, ...assets);

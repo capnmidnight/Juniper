@@ -1,6 +1,7 @@
 import type { FontDescription } from "@juniper-lib/dom/fonts";
 import { loadFont } from "@juniper-lib/dom/fonts";
 import { AssetImage } from "@juniper-lib/fetcher/Asset";
+import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
 import { Animator } from "@juniper-lib/graphics2d/animation/Animator";
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
@@ -322,7 +323,11 @@ export class Menu extends Object3D {
         if (!item.back) {
             if (item.filePath) {
                 item.back = new Image2D(this.env, `${item.name}-Background`, "none");
-                const { content: img } = await this.env.fetcher.get(item.filePath).progress(prog).image();
+                const img = await this.env.fetcher
+                    .get(item.filePath)
+                    .progress(prog)
+                    .image()
+                    .then(unwrapResponse);
                 item.back.setTextureMap(img);
             }
             else {

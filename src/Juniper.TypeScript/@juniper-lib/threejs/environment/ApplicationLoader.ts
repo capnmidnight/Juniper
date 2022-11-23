@@ -1,3 +1,4 @@
+import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
@@ -117,7 +118,8 @@ export class ApplicationLoader
                 .get(url)
                 .progress(prog)
                 .useCache(!this.env.DEBUG)
-                .module<ApplicationModule>();
+                .module<ApplicationModule>()
+                .then(unwrapResponse);
 
             this.loadedModules.set(name, task);
         }

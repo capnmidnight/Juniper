@@ -1,8 +1,9 @@
-import { Application_Javascript, Application_Json, MediaType } from "@juniper-lib/mediatypes";
+import { Application_Javascript, Application_Json, MediaType, Text_Css } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isBoolean, isDefined, isFunction } from "@juniper-lib/tslib/typeChecks";
 import { IFetcher, IFetcherBodiedResult } from "./IFetcher";
 import { IResponse } from "./IResponse";
+import { unwrapResponse } from "./unwrapResponse";
 
 export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Promise<ResultT> {
 
@@ -114,7 +115,8 @@ export class AssetWorker<ErrorT = unknown> extends BaseAsset<Worker, ErrorT> {
         return fetcher
             .get(this.path)
             .progress(prog)
-            .worker(this.workerType);
+            .worker(this.workerType)
+            .then(unwrapResponse);
     }
 }
 
@@ -149,9 +151,9 @@ export abstract class BaseFetchedAsset<ResultT, ErrorT = unknown> extends BaseAs
         this.useCache = !!useCache;
     }
 
-    protected async getResult(fetcher: IFetcher, prog?: IProgress): Promise<ResultT> {
-        const response = await this.getRequest(fetcher, prog);
-        return response.content;
+    protected getResult(fetcher: IFetcher, prog?: IProgress): Promise<ResultT> {
+        return this.getRequest(fetcher, prog)
+            .then(unwrapResponse);
     }
 
     private getRequest(fetcher: IFetcher, prog?: IProgress): Promise<IResponse<ResultT>> {
@@ -202,5 +204,43 @@ export class AssetText<ErrorT = unknown> extends BaseFetchedAsset<string, ErrorT
 export class AssetVideo<ErrorT = unknown> extends BaseFetchedAsset<HTMLVideoElement, ErrorT> {
     protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<HTMLVideoElement>> {
         return request.video(false, false, this.type);
+    }
+}
+
+export class AssetStyleSheet<ErrorT = unknown> extends BaseFetchedAsset<void, ErrorT> {
+    constructor(path: string, useCache?: boolean) {
+        super(path, Text_Css, useCache)
+    }
+
+    protected getResponse(request: IFetcherBodiedResult): Promise<IResponse> {
+        return request.style();
+    }
+}
+
+export class AssetScript<ErrorT = unknown> extends BaseFetchedAsset<void, ErrorT> {
+    private readonly test: () => boolean = null;
+    constructor(path: string);
+    constructor(path: string, useCache?: boolean);
+    constructor(path: string, test: () => boolean);
+    constructor(path: string, test: () => boolean, useCache: boolean);
+    constructor(path: string, testOrUseCache?: boolean | (() => boolean), useCache?: boolean) {
+        let test: () => boolean = undefined;
+
+        if (isBoolean(testOrUseCache)) {
+            useCache = testOrUseCache;
+            testOrUseCache = undefined;
+        }
+
+        if (isFunction(testOrUseCache)) {
+            test = testOrUseCache;
+        }
+
+        super(path, Application_Javascript, useCache)
+
+        this.test = test;
+    }
+
+    protected getResponse(request: IFetcherBodiedResult): Promise<IResponse> {
+        return request.script(this.test);
     }
 }

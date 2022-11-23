@@ -1,6 +1,7 @@
 import { Fetcher } from "@juniper-lib/fetcher/Fetcher";
 import { FetchingService } from "@juniper-lib/fetcher/FetchingService";
 import { FetchingServiceImplXHR } from "@juniper-lib/fetcher/FetchingServiceImplXHR";
+import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
 import { haxClass } from "@juniper-lib/hax/haxClass";
 import { haxMethod } from "@juniper-lib/hax/haxMethod";
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
@@ -35,8 +36,14 @@ export class haxTests extends TestCase {
             this.areExact("images", values[0]);
             this.areExact("https://www.seanmcbeth.com/", values[1]);
 
-            const { content: xText } = await fetcher.get(x).text();
-            const { content: yText } = await fetcher.get(y).text();
+            const xText = await fetcher
+                .get(x)
+                .text()
+                .then(unwrapResponse);
+            const yText = await fetcher
+                .get(y)
+                .text()
+                .then(unwrapResponse);
             this.areExact(yText, xText);
         });
         this.areSame(window.URL, oldURL);

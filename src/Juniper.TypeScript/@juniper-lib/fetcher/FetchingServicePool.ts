@@ -60,7 +60,7 @@ export class FetchingServicePool
         return this.nextWorker().sendNothingGetText(request, progress);
     }
 
-    sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<T> {
+    sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         return this.nextWorker().sendNothingGetObject(request, progress);
     }
 
@@ -96,7 +96,7 @@ export class FetchingServicePool
         return this.getFetcher(request.body).sendObjectGetNothing(request, progress);
     }
 
-    sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
+    sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
         return this.getFetcher(request.body).sendObjectGetObject(request, progress);
     }
 
