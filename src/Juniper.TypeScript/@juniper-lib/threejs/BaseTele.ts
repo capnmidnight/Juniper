@@ -6,7 +6,13 @@ import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressTasks } from "@juniper-lib/tslib/progress/progressTasks";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
+import {
+    RoomJoinedEvent,
+    RoomLeftEvent,
+    UserJoinedEvent,
+    UserLeftEvent,
+    UserNameChangedEvent
+} from "@juniper-lib/webrtc/ConferenceEvents";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
 import { Object3D, Vector3 } from "three";
 import { AssetGltfModel } from "./AssetGltfModel";
@@ -18,7 +24,7 @@ import type { Environment } from "./environment/Environment";
 import { convertMaterials, materialStandardToPhong } from "./materials";
 import { obj, objGraph } from "./objects";
 
-export class Tele extends Application {
+export abstract class BaseTele extends Application {
 
     private readonly sortedUserIDs = new Array<string>();
     readonly users = new Map<string, AvatarRemote>();
@@ -29,7 +35,6 @@ export class Tele extends Application {
     private defaultAvatarHeight = 1.75;
     private avatarModel: Object3D = null;
     private avatarNameTagFont: Partial<TextImageOptions> = null;
-    private hubName: string = null;
     private userType: string = null;
     private userName: string = null;
     private meetingID: string = null;
@@ -52,11 +57,6 @@ export class Tele extends Application {
         this.defaultAvatarHeight = params.get("defaultAvatarHeight") as number;
         if (!this.defaultAvatarHeight) {
             throw new Error("Missing defaultAvatarHeight parameter");
-        }
-
-        this.hubName = params.get("hub") as string;
-        if (!this.hubName) {
-            throw new Error("Missing hub parameter");
         }
 
         this.avatarNameTagFont = params.get("nameTagFont") as Partial<TextImageOptions>;
@@ -101,7 +101,7 @@ export class Tele extends Application {
 
         this.offsetRadius = 1.25;
 
-        this.conference = new TeleconferenceManager(this.env.audio, this.hubName);
+        this.conference = this.createConference();
         this.conference.ready.then(this.ready.resolver());
 
         const onLocalUserIDChange = (evt: RoomJoinedEvent | RoomLeftEvent) => {
@@ -154,6 +154,8 @@ export class Tele extends Application {
             }
         });
     }
+
+    protected abstract createConference(): TeleconferenceManager;
 
     async show(_onProgress?: IProgress): Promise<void> {
         objGraph(this.env.foreground, this.remoteUsers);

@@ -27,7 +27,7 @@ import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { InputRangeWithNumber } from "@juniper-lib/widgets/InputRangeWithNumber";
 import { group, PropertyList } from "@juniper-lib/widgets/PropertyList";
-import type { Tele } from "../Tele";
+import type { BaseTele } from "../BaseTele";
 import type { Environment } from "./Environment";
 
 const MIC_GROUP = "micFields" + stringRandom(8);
@@ -50,7 +50,7 @@ export class DeviceDialog extends DialogBox {
 
     private readonly timer = new SetTimeoutTimer(30);
 
-    private tele: Tele = null;
+    private tele: BaseTele = null;
 
     constructor(private readonly env: Environment) {
         super("Configure devices");
@@ -72,7 +72,7 @@ export class DeviceDialog extends DialogBox {
                     ["Microphones",
                         this.microphones = Select(
                             onInput(async () => {
-                                const tele = this.env.apps.get<Tele>("tele");
+                                const tele = this.env.apps.get<BaseTele>("tele");
                                 const deviceId = this.microphones.value;
                                 const device = this.micLookup.get(deviceId);
                                 await tele.conference.microphones.setAudioInputDevice(device);
@@ -164,7 +164,7 @@ export class DeviceDialog extends DialogBox {
     }
 
     private async waitForTele() {
-        this.tele = await this.env.apps.waitFor<Tele>("tele");
+        this.tele = await this.env.apps.waitFor<BaseTele>("tele");
 
         this.properties.setGroupVisible(MIC_GROUP, true);
 

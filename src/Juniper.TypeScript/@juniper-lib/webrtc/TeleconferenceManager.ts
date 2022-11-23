@@ -4,13 +4,8 @@ import { MediaStreamSource, removeVertex } from "@juniper-lib/audio/nodes";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { singleton } from "@juniper-lib/tslib/singleton";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import {
-    HttpTransportType,
-    HubConnection,
-    HubConnectionBuilder,
-    HubConnectionState
-} from "@microsoft/signalr";
 import "webrtc-adapter";
 import {
     ConferenceErrorEvent,
@@ -31,6 +26,18 @@ import {
 import { ConnectionState, settleConnected, whenDisconnected } from "./ConnectionState";
 import { DEFAULT_LOCAL_USER_ID } from "./constants";
 import { DecayingGain } from "./DecayingGain";
+import {
+    HubAnswerReceivedEvent,
+    HubIceReceivedEvent,
+    HubOfferReceivedEvent,
+    HubReconnectingEvent,
+    HubUserChatEvent,
+    HubUserJoinedEvent,
+    HubUserLeftEvent,
+    HubUserPointerEvent,
+    HubUserPosedEvent,
+    IHub
+} from "./IHub";
 import {
     RemoteUser,
     RemoteUserAnswerEvent,
@@ -78,14 +85,6 @@ export enum ClientState {
     Unprepared = "unprepaired"
 }
 
-const hubStateTranslations = new Map<HubConnectionState, ConnectionState>([
-    [HubConnectionState.Connected, ConnectionState.Connected],
-    [HubConnectionState.Connecting, ConnectionState.Connecting],
-    [HubConnectionState.Reconnecting, ConnectionState.Connecting],
-    [HubConnectionState.Disconnected, ConnectionState.Disconnected],
-    [HubConnectionState.Disconnecting, ConnectionState.Disconnecting]
-]);
-
 export class TeleconferenceManager
     extends TypedEventBase<ConferenceEvents>
     implements IDisposable {
@@ -113,8 +112,6 @@ export class TeleconferenceManager
     private _hasVideoPermission = false;
     get hasVideoPermission() { return this._hasVideoPermission; }
 
-
-
     private lastRoom: string = null;
     private lastUserID: string = null;
 
@@ -122,7 +119,6 @@ export class TeleconferenceManager
 
     private localStreamIn: MediaStreamAudioSourceNode = null;
 
-    private readonly hub: HubConnection;
     private readonly remoteGainDecay: DecayingGain;
 
     readonly microphones = new MicrophoneManager();
@@ -138,80 +134,24 @@ export class TeleconferenceManager
 
     constructor(
         public readonly audio: AudioManager,
-        private readonly signalRPath: string,
+        private readonly hub: IHub,
         public readonly needsVideoDevice = false) {
         super();
-
-        let hubBuilder = new HubConnectionBuilder()
-            .withAutomaticReconnect();
-
-        hubBuilder.withUrl(this.signalRPath, HttpTransportType.WebSockets);
-
-        this.hub = hubBuilder.build();
 
         this.microphones.addEventListener("audioinputchanged", (evt) =>
             this.onAudioInputChanged(evt));
 
-        this.hub.onclose(() => {
-            this.lastRoom = null;
-            this.lastUserID = null;
-            this.setConferenceState(ConnectionState.Disconnected);
-        });
-
-        this.hub.onreconnecting((err) => {
-            this.dispatchEvent(new ConferenceErrorEvent(err));
-        });
-
-        this.hub.onreconnected(async () => {
-            this.lastRoom = null;
-            this.lastUserID = null;
-            this.setConferenceState(ConnectionState.Disconnected);
-            await this.identify(this.localUserName);
-            await this.join(this.roomName);
-        });
-
-        this.hub.on("userJoined", this.onUserJoined.bind(this));
-        this.hub.on("iceReceived", this.onIceReceived.bind(this));
-        this.hub.on("offerReceived", this.onOfferReceived.bind(this));
-        this.hub.on("answerReceived", this.onAnswerReceived.bind(this));
-        this.hub.on("userLeft", (fromUserID: string) => {
-            const user = this.users.get(fromUserID);
-            if (user) {
-                this.onUserLeft(user);
-            }
-        });
-
-        this.hub.on("userPosed",
-            (fromUserID: string, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number) => {
-                const user = this.users.get(fromUserID);
-                if (user) {
-                    user.recvPose(
-                        px, py, pz,
-                        fx, fy, fz,
-                        ux, uy, uz,
-                        height);
-                }
-            });
-
-        this.hub.on("userPointer",
-            (fromUserID: string, pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) => {
-                const user = this.users.get(fromUserID);
-                if (user) {
-                    user.recvPointer(
-                        pointerID,
-                        px, py, pz,
-                        fx, fy, fz,
-                        ux, uy, uz);
-                }
-            });
-
-        this.hub.on("chat",
-            (fromUserID: string, text: string) => {
-                const user = this.users.get(fromUserID);
-                if (user) {
-                    this.dispatchEvent(new UserChatEvent(user, text));
-                }
-            });
+        this.hub.addEventListener("close", this.onClose.bind(this));
+        this.hub.addEventListener("reconnecting", this.onReconnecting.bind(this));
+        this.hub.addEventListener("reconnected", this.onReconnected.bind(this));
+        this.hub.addEventListener("userJoined", this.onUserJoined.bind(this));
+        this.hub.addEventListener("iceReceived", this.onIceReceived.bind(this));
+        this.hub.addEventListener("offerReceived", this.onOfferReceived.bind(this));
+        this.hub.addEventListener("answerReceived", this.onAnswerReceived.bind(this));
+        this.hub.addEventListener("userLeft", this.onUserLeft.bind(this));
+        this.hub.addEventListener("userPosed", this.onUserPosed.bind(this));
+        this.hub.addEventListener("userPointer", this.onUserPointer.bind(this));
+        this.hub.addEventListener("chat", this.onChat.bind(this));
 
         this.remoteGainDecay = new DecayingGain(
             this.audio.audioCtx,
@@ -243,8 +183,6 @@ export class TeleconferenceManager
         window.addEventListener("pagehide", onWindowClosed);
 
         this.localStream = this.microphones.currentStream;
-
-        Object.seal(this);
     }
 
     private async startInternal(): Promise<void> {
@@ -254,7 +192,7 @@ export class TeleconferenceManager
     }
 
     get connectionState() {
-        return hubStateTranslations.get(this.hub.state);
+        return this.hub.connectionState;
     }
 
     get echoControl() {
@@ -360,7 +298,7 @@ export class TeleconferenceManager
         });
 
         for (const user of this.users.values()) {
-            this.onUserLeft(user);
+            this.removeUser(user);
         }
 
         this._roomName
@@ -386,9 +324,27 @@ export class TeleconferenceManager
         });
     }
 
-    private async onUserJoined(fromUserID: string, fromUserName: string) {
-        if (this.users.has(fromUserID)) {
-            const user = this.users.get(fromUserID);
+    private onClose() {
+        this.lastRoom = null;
+        this.lastUserID = null;
+        this.setConferenceState(ConnectionState.Disconnected);
+    }
+
+    private onReconnecting(evt: HubReconnectingEvent) {
+        this.dispatchEvent(new ConferenceErrorEvent(evt.error));
+    }
+
+    private async onReconnected() {
+        this.lastRoom = null;
+        this.lastUserID = null;
+        this.setConferenceState(ConnectionState.Disconnected);
+        await this.identify(this.localUserName);
+        await this.join(this.roomName);
+    }
+
+    private async onUserJoined(evt: HubUserJoinedEvent) {
+        if (this.users.has(evt.fromUserID)) {
+            const user = this.users.get(evt.fromUserID);
             user.start();
         }
         else {
@@ -397,7 +353,7 @@ export class TeleconferenceManager
             }
 
             const rtcConfig = await this.getRTCConfiguration();
-            const user = new RemoteUser(fromUserID, fromUserName, rtcConfig, true);
+            const user = new RemoteUser(evt.fromUserID, evt.fromUserName, rtcConfig, true);
             this.users.set(user.userID, user);
 
             user.addEventListener("iceError", this.onIceError.bind(this));
@@ -408,7 +364,7 @@ export class TeleconferenceManager
             user.addEventListener("trackAdded", this.onTrackAdded.bind(this));
             user.addEventListener("trackMuted", this.onTrackMuted.bind(this));
             user.addEventListener("trackRemoved", this.onTrackRemoved.bind(this));
-            user.addEventListener("userLeft", (evt) => this.onUserLeft(evt.user));
+            user.addEventListener("userLeft", (evt) => this.removeUser(evt.user));
 
             this.toUser("greet", user.userID, this.localUserName);
 
@@ -430,16 +386,16 @@ export class TeleconferenceManager
         await this.sendIce(evt.user.userID, evt.candidate);
     }
 
-    private async onIceReceived(fromUserID: string, candidateJSON: string) {
+    private async onIceReceived(evt: HubIceReceivedEvent) {
         try {
-            const user = this.users.get(fromUserID);
+            const user = this.users.get(evt.fromUserID);
             if (user) {
-                const ice = JSON.parse(candidateJSON) as RTCIceCandidate;
+                const ice = JSON.parse(evt.candidateJSON) as RTCIceCandidate;
                 await user.addIceCandidate(ice);
             }
         }
         catch (exp) {
-            this.err("iceReceived", `${exp.message} [${fromUserID}] (${candidateJSON})`);
+            this.err("iceReceived", `${exp.message} [${evt.fromUserID}] (${evt.candidateJSON})`);
         }
     }
 
@@ -447,11 +403,11 @@ export class TeleconferenceManager
         await this.sendOffer(evt.user.userID, evt.offer);
     }
 
-    private async onOfferReceived(fromUserID: string, offerJSON: string) {
+    private async onOfferReceived(evt: HubOfferReceivedEvent) {
         try {
-            const user = this.users.get(fromUserID);
+            const user = this.users.get(evt.fromUserID);
             if (user) {
-                const offer = JSON.parse(offerJSON) as RTCSessionDescription;
+                const offer = JSON.parse(evt.offerJSON) as RTCSessionDescription;
                 await user.acceptOffer(offer);
             }
         }
@@ -464,11 +420,11 @@ export class TeleconferenceManager
         await this.sendAnswer(evt.user.userID, evt.answer);
     }
 
-    private async onAnswerReceived(fromUserID: string, answerJSON: string) {
+    private async onAnswerReceived(evt: HubAnswerReceivedEvent) {
         try {
-            const user = this.users.get(fromUserID);
+            const user = this.users.get(evt.fromUserID);
             if (user) {
-                const answer = JSON.parse(answerJSON) as RTCSessionDescription;
+                const answer = JSON.parse(evt.answerJSON) as RTCSessionDescription;
                 await user.acceptAnswer(answer);
             }
         }
@@ -510,15 +466,50 @@ export class TeleconferenceManager
         }
     }
 
-    private onUserLeft(user: RemoteUser) {
-        user.dispose();
-        this.users.delete(user.userID);
-        if (this.users.size === 0) {
-            this.remoteGainDecay.stop();
-        }
+    private onUserLeft(evt: HubUserLeftEvent): void {
+        this.removeUser(this.users.get(evt.fromUserID));
+    }
 
-        this.audio.removeUser(user.userID);
-        this.dispatchEvent(new UserLeftEvent(user));
+    private removeUser(user: RemoteUser): void {
+        if (isDefined(user)) {
+            user.dispose();
+            this.users.delete(user.userID);
+            if (this.users.size === 0) {
+                this.remoteGainDecay.stop();
+            }
+
+            this.audio.removeUser(user.userID);
+            this.dispatchEvent(new UserLeftEvent(user));
+        }
+    }
+
+    private onUserPosed(evt: HubUserPosedEvent) {
+        const user = this.users.get(evt.fromUserID);
+        if (user) {
+            user.recvPose(
+                evt.px, evt.py, evt.pz,
+                evt.fx, evt.fy, evt.fz,
+                evt.ux, evt.uy, evt.uz,
+                evt.height);
+        }
+    }
+
+    private onUserPointer(evt: HubUserPointerEvent) {
+        const user = this.users.get(evt.fromUserID);
+        if (user) {
+            user.recvPointer(
+                evt.pointerID,
+                evt.px, evt.py, evt.pz,
+                evt.fx, evt.fy, evt.fz,
+                evt.ux, evt.uy, evt.uz);
+        }
+    }
+
+    private onChat(evt: HubUserChatEvent) {
+        const user = this.users.get(evt.fromUserID);
+        if (user) {
+            this.dispatchEvent(new UserChatEvent(user, evt.text));
+        }
     }
 
     private async sendIce(toUserID: string, candidate: RTCIceCandidate): Promise<void> {
