@@ -1,5 +1,6 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
+import { id } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { display, em, flexDirection, gap } from "@juniper-lib/dom/css";
 import { Div, elementApply } from "@juniper-lib/dom/tags";
@@ -17,26 +18,28 @@ import { rad2deg } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
-import { InteractionAudio } from "../eventSystem/InteractionAudio";
-import { obj, objGraph } from "../objects";
-import { ScreenMode } from "../ScreenMode";
-import { ScreenUI } from "../ScreenUI";
-import { SpaceUI } from "../SpaceUI";
-import { VideoPlayer3D } from "../VideoPlayer3D";
-import { Widget, widgetApply } from "../widgets/widgets";
-import { ButtonFactory } from "../widgets/ButtonFactory";
-import { ButtonImageWidget } from "../widgets/ButtonImageWidget";
-import { CanvasImageMesh } from "../widgets/CanvasImageMesh";
-import { ConfirmationDialog } from "../widgets/ConfirmationDialog";
-import { ScreenModeToggleButton } from "../widgets/ScreenModeToggleButton";
-import { TextMesh } from "../widgets/TextMesh";
-import { ToggleButton } from "../widgets/ToggleButton";
-import { widgetSetEnabled } from "../widgets/widgets";
-import { ApplicationLoader } from "./ApplicationLoader";
-import { BaseEnvironment } from "./BaseEnvironment";
-import { DeviceDialog } from "./DeviceDialog";
-import { XRTimerTickEvent } from "./XRTimer";
-import { Watch } from "../Watch";
+import { InteractionAudio } from "../../eventSystem/InteractionAudio";
+import { obj, objGraph } from "../../objects";
+import { ScreenMode } from "../../ScreenMode";
+import { ScreenUI } from "../../ScreenUI";
+import { SpaceUI } from "../../SpaceUI";
+import { VideoPlayer3D } from "../../VideoPlayer3D";
+import { Watch } from "../../Watch";
+import { ButtonFactory } from "../../widgets/ButtonFactory";
+import { ButtonImageWidget } from "../../widgets/ButtonImageWidget";
+import { CanvasImageMesh } from "../../widgets/CanvasImageMesh";
+import { ConfirmationDialog } from "../../widgets/ConfirmationDialog";
+import { ScreenModeToggleButton } from "../../widgets/ScreenModeToggleButton";
+import { TextMesh } from "../../widgets/TextMesh";
+import { ToggleButton } from "../../widgets/ToggleButton";
+import { Widget, widgetApply, widgetSetEnabled } from "../../widgets/widgets";
+import { ApplicationLoader } from "./../ApplicationLoader";
+import { BaseEnvironment } from "./../BaseEnvironment";
+import { DeviceDialog } from "./../DeviceDialog";
+import { XRTimerTickEvent } from "./../XRTimer";
+
+
+import "./style.css";
 
 export class EnvironmentRoomJoinedEvent extends TypedEvent<"roomjoined"> {
     constructor(public readonly roomName: string) {
@@ -205,11 +208,7 @@ export class Environment
         this.xrUI = new SpaceUI();
 
         this.subMenu = new Widget(
-            Div(
-                display("none"),
-                flexDirection("column-reverse"),
-                gap(em(.25))
-            ),
+            Div(id("juniperSubMenu")),
             obj("sub-menu"),
             "flex"
         );
@@ -238,7 +237,6 @@ export class Environment
     set testSpaceLayout(v) {
         if (v !== this.testSpaceLayout) {
             this._testSpaceLayout = v;
-
         }
     }
 
@@ -421,7 +419,10 @@ export class Environment
         const error = new AssetAudio("/audio/basic_error.mp3", Audio_Mpeg, !this.DEBUG);
         const click = new AssetAudio("/audio/vintage_radio_button_pressed.mp3", Audio_Mpeg, !this.DEBUG);
 
-        assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click, this.watch.asset);
+        assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click);
+        if (isDefined(this.watch)) {
+            assets.push(this.watch.asset);
+        }
 
         await super.load(prog, ...assets);
 
