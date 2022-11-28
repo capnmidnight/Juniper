@@ -165,7 +165,6 @@ export class ApplicationLoader
         return appTask
             .then(async (app) => {
                 await app.show(prog);
-                this.dispatchEvent(new ApplicationLoaderAppShownEvent(name, app));
                 return app;
             });
     }
@@ -178,6 +177,9 @@ export class ApplicationLoader
 
             app.addEventListener("quit", () =>
                 this.unloadApp(name));
+
+            app.addEventListener("shown", () =>
+                this.dispatchEvent(new ApplicationLoaderAppShownEvent(name, app)));
 
             if (isDefined(params)) {
                 await app.init(params);
@@ -198,7 +200,8 @@ export class ApplicationLoader
 
     private unloadApp(name: string) {
         const app = this.currentApps.get(name);
-        app.clearEventListeners();
+        setTimeout(() =>
+            app.clearEventListeners(), 100);
         app.dispose();
         this.currentApps.delete(name);
         this.loadingApps.delete(name);

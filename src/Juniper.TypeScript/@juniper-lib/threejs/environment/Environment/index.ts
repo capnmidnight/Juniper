@@ -54,7 +54,6 @@ export class DialogShowingEvent extends TypedEvent<"dialogshowing"> {
 }
 
 export interface EnvironmentEvents {
-    home: TypedEvent<"home">;
     dialogshowing: DialogShowingEvent;
     environmentaudiotoggled: TypedEvent<"environmentaudiotoggled">;
     roomjoined: EnvironmentRoomJoinedEvent;

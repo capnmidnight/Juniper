@@ -157,7 +157,7 @@ export abstract class BaseTele extends Application {
 
     protected abstract createConference(): TeleconferenceManager;
 
-    async show(_onProgress?: IProgress): Promise<void> {
+    async showing(_onProgress?: IProgress): Promise<void> {
         objGraph(this.env.foreground, this.remoteUsers);
         if (isDefined(this.env.currentRoom)) {
             await this.join(this.env.currentRoom);
@@ -182,7 +182,7 @@ export abstract class BaseTele extends Application {
         await this.checkConference();
     }
 
-    async join(roomName: string): Promise<void> {
+    override async join(roomName: string): Promise<void> {
         this.roomName = roomName;
         await this.checkConference();
     }
