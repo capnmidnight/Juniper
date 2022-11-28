@@ -218,6 +218,10 @@ export class Environment
         if (isDefined(options.watchModelPath)) {
             this.watch = new Watch(this, options.watchModelPath);
         }
+
+        if (isHTMLCanvas(canvas) && canvas.parentElement) {
+            elementApply(canvas.parentElement, this.confirmationDialog, this.devicesDialog);
+        }
     }
 
     private _testSpaceLayout = false;
