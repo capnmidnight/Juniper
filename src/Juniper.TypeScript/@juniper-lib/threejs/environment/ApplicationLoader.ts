@@ -16,9 +16,6 @@ class ApplicationLoaderEvent<T extends string> extends TypedEvent<T> {
 }
 
 export class ApplicationLoaderAppLoadingEvent extends ApplicationLoaderEvent<"apploading"> {
-
-    public preLoadTask: Promise<any> = null;
-
     constructor(appName: string, public readonly appLoadParams: Map<string, unknown>) {
         super("apploading", appName);
     }
@@ -151,22 +148,14 @@ export class ApplicationLoader
         const evt = new ApplicationLoaderAppLoadingEvent(name, params);
         this.dispatchEvent(evt);
 
-        const preLoadTask = evt.preLoadTask || Promise.resolve();
-
         if (!this.loadingApps.has(name)) {
             const progs = progressPopper(prog);
-            const appTask = preLoadTask.then(() =>
-                this.loadAppInstance<T>(this.env, name, params, progs.pop(10)));
+            const appTask = this.loadAppInstance<T>(this.env, name, params, progs.pop(10));
             this.loadingApps.set(name, appTask);
             prog = progs.pop(1);
         }
 
-        const appTask = this.loadingApps.get(name) as Promise<T>;
-        return appTask
-            .then(async (app) => {
-                await app.show(prog);
-                return app;
-            });
+        return this.loadingApps.get(name) as Promise<T>;
     }
 
     private async loadAppInstance<T extends Application>(env: Environment, name: string, params: Map<string, unknown>, prog?: IProgress): Promise<T> {

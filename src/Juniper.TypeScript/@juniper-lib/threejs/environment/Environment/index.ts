@@ -154,13 +154,6 @@ export class Environment
         });
 
         this.apps = new ApplicationLoader(this);
-        this.apps.addEventListener("apploading", (evt) => {
-            evt.preLoadTask = this.fadeOut()
-                .then(() => {
-                    this.clearScene();
-                    this.avatar.reset();
-                });
-        });
 
         this.apps.addEventListener("apploaded", (evt) => {
             evt.app.addEventListener("joinroom", (evt) => {
@@ -170,9 +163,6 @@ export class Environment
                 }
             });
         });
-
-        this.apps.addEventListener("appshown", () =>
-            this.fadeIn());
 
         this.audio = new AudioManager(DEFAULT_LOCAL_USER_ID);
         this.audio.setAudioProperties(1, 4, "exponential");

@@ -28,11 +28,18 @@ export class ApplicationShownEvent extends ApplicationEvent<"shown">{
     }
 }
 
+export class ApplicationHiddenEvent extends ApplicationEvent<"hidden">{
+    constructor(app: Application) {
+        super("hidden", app);
+    }
+}
+
 
 export interface ApplicationEvents {
     joinroom: ApplicationJoinRoomEvent;
     quit: ApplicationQuitEvent;
     shown: ApplicationShownEvent;
+    hidden: ApplicationHiddenEvent;
 }
 
 export abstract class Application<EventsT extends ApplicationEvents = ApplicationEvents>
@@ -51,13 +58,23 @@ export abstract class Application<EventsT extends ApplicationEvents = Applicatio
         this.dispatchEvent(new ApplicationJoinRoomEvent(this, roomName));
     }
 
-    abstract init(params: Map<string, unknown>): Promise<void>;
-    abstract load(prog?: IProgress): Promise<void>;
-    protected abstract showing(prog?: IProgress): Promise<void>;
     async show(prog?: IProgress): Promise<void> {
         await this.showing(prog);
         this.dispatchEvent(new ApplicationShownEvent(this));
     }
+
+    hide(): void {
+        this.hiding();
+        this.dispatchEvent(new ApplicationHiddenEvent(this));
+    }
+
+    protected abstract showing(prog?: IProgress): Promise<void>;
+    protected abstract hiding(): void;
+
+    abstract get visible(): boolean;
+
+    abstract init(params: Map<string, unknown>): Promise<void>;
+    abstract load(prog?: IProgress): Promise<void>;
     abstract dispose(): void;
 }
 

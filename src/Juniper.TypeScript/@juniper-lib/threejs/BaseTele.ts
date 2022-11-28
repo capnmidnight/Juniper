@@ -165,7 +165,15 @@ export abstract class BaseTele extends Application {
     }
 
     dispose(): void {
+        this.hiding();
+    }
+
+    protected hiding() {
         this.env.foreground.remove(this.remoteUsers);
+    }
+
+    get visible() {
+        return isDefined(this.remoteUsers.parent);
     }
 
     async loadAvatar(path: string, type: string | MediaType, prog?: IProgress) {

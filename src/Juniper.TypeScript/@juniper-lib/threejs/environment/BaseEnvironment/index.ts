@@ -372,6 +372,16 @@ export class BaseEnvironment<Events = unknown>
         --this.fadeDepth;
     }
 
+    async withFade<T>(action: () => Promise<T>) {
+        try {
+            await this.fadeOut();
+            return await action();
+        }
+        finally {
+            await this.fadeIn();
+        }
+    }
+
     get showWebXRLayers() {
         return this.fadeDepth === 0;
     }
