@@ -4,7 +4,7 @@ import { WorkerClient } from "@juniper-lib/workers/WorkerClient";
 import { WorkerServerEventMessage } from "@juniper-lib/workers/WorkerMessages";
 import { IFetchingService } from "./IFetchingService";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { InternalResponse, IResponse } from "./IResponse";
+import { IResponse } from "./IResponse";
 
 function isDOMParsersSupportedType(type: string): type is DOMParserSupportedType {
     return type === "application/xhtml+xml"
@@ -129,75 +129,75 @@ export class FetchingServiceClient
         return this.callMethod(methodName, [cloneRequestWithBody(request)], progress);
     }
 
-    async sendNothingGetNothing(request: IRequest): Promise<IResponse> {
-        return new InternalResponse(await this.makeRequest("sendNothingGetNothing", request, null));
-    }        
-
-    async sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return new InternalResponse(await this.makeRequest("sendNothingGetBuffer", request, progress));
+    sendNothingGetNothing(request: IRequest): Promise<IResponse> {
+        return this.makeRequest("sendNothingGetNothing", request, null);
     }
 
-    async sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return new InternalResponse(await this.makeRequest("sendNothingGetText", request, progress));
+    sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
+        return this.makeRequest("sendNothingGetBuffer", request, progress);
     }
 
-    async sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<IResponse<T>> {
-        return new InternalResponse(await this.makeRequest("sendNothingGetObject", request, progress));
+    sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
+        return this.makeRequest("sendNothingGetText", request, progress);
     }
 
-    async sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return new InternalResponse(await this.makeRequest("sendNothingGetFile", request, progress));
+    sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+        return this.makeRequest("sendNothingGetObject", request, progress);
     }
 
-    async sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return new InternalResponse(await this.makeRequest("sendNothingGetImageBitmap", request, progress));
+    sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
+        return this.makeRequest("sendNothingGetFile", request, progress);
     }
 
-    async sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse> {
-        return new InternalResponse(await this.makeRequestWithBody("sendObjectGetNothing", request, progress));
+    sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
+        return this.makeRequest("sendNothingGetImageBitmap", request, progress);
     }
 
-    async sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return new InternalResponse(await this.makeRequestWithBody("sendObjectGetBuffer", request, progress));
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse> {
+        return this.makeRequestWithBody("sendObjectGetNothing", request, progress);
     }
 
-    async sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return new InternalResponse(await this.makeRequestWithBody("sendObjectGetText", request, progress));
+    sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
+        return this.makeRequestWithBody("sendObjectGetBuffer", request, progress);
     }
 
-    async sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
-        return new InternalResponse(await this.makeRequestWithBody("sendObjectGetObject", request, progress));
+    sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
+        return this.makeRequestWithBody("sendObjectGetText", request, progress);
     }
 
-    async sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return new InternalResponse(await this.makeRequestWithBody("sendObjectGetFile", request, progress));
+    sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
+        return this.makeRequestWithBody("sendObjectGetObject", request, progress);
     }
 
-    async sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return new InternalResponse(await this.makeRequestWithBody("sendObjectGetImageBitmap", request, progress));
+    sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
+        return this.makeRequestWithBody("sendObjectGetFile", request, progress);
     }
 
-    async drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse> {
-        return new InternalResponse(await this.callMethod("drawImageToCanvas", [cloneRequest(request), canvas], [canvas], progress));
+    sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
+        return this.makeRequestWithBody("sendObjectGetImageBitmap", request, progress);
     }
 
-    async sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
-        const response = await this.sendNothingGetBuffer(request, progress);
-        return new InternalResponse(await bufferToBlob(response));
+    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse> {
+        return this.callMethod("drawImageToCanvas", [cloneRequest(request), canvas], [canvas], progress);
     }
 
-    async sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        const response = await this.sendNothingGetBuffer(request, progress);
-        return new InternalResponse(await bufferToXml(response));
+    sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
+        return this.sendNothingGetBuffer(request, progress)
+            .then(bufferToBlob)
     }
 
-    async sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
-        const response = await this.sendObjectGetBuffer(request, progress);
-        return new InternalResponse(await bufferToBlob(response));
+    sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
+        return this.sendNothingGetBuffer(request, progress)
+            .then(bufferToXml);
     }
 
-    async sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        const response = await this.sendObjectGetBuffer(request, progress);
-        return new InternalResponse(await bufferToXml(response));
+    sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
+        return this.sendObjectGetBuffer(request, progress)
+            .then(bufferToBlob);
+    }
+
+    sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
+        return this.sendObjectGetBuffer(request, progress)
+            .then(bufferToXml);
     }
 }

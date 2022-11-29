@@ -1,5 +1,5 @@
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { InternalResponse, IResponse } from "./IResponse";
+import { IResponse } from "./IResponse";
 
 export async function translateResponse<T>(response: IResponse<T>): Promise<IResponse>;
 export async function translateResponse<T, U>(response: IResponse<T>, translate: (v: T) => U | Promise<U>): Promise<IResponse<U>>;
@@ -15,7 +15,7 @@ export async function translateResponse<T, U>(response: IResponse<T>, translate?
         date
     } = response;
 
-    return new InternalResponse({
+    return {
         status,
         path,
         content: isDefined(translate)
@@ -26,5 +26,5 @@ export async function translateResponse<T, U>(response: IResponse<T>, translate?
         fileName,
         headers,
         date
-    });
+    };
 }
