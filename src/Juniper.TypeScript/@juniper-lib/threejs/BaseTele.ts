@@ -64,22 +64,6 @@ export abstract class BaseTele extends Application {
             throw new Error("Missing nameTagFont parameter");
         }
 
-        this.env.avatar.addScopedEventListener(this, "avatarmoved", (evt) =>
-            this.conference.setLocalPose(
-                evt.px, evt.py, evt.pz,
-                evt.fx, evt.fy, evt.fz,
-                evt.ux, evt.uy, evt.uz,
-                evt.height));
-
-        this.env.eventSys.addScopedEventListener(this, "move", (evt) => {
-            const { id, origin, direction, up } = evt.pointer;
-            this.conference.setLocalPointer(
-                id,
-                origin.x, origin.y, origin.z,
-                direction.x, direction.y, direction.z,
-                up.x, up.y, up.z);
-        });
-
         this.env.addScopedEventListener(this, "newcursorloaded", () => {
             for (const user of this.users.values()) {
                 user.refreshCursors();
@@ -113,6 +97,23 @@ export abstract class BaseTele extends Application {
             arraySortedInsert(this.sortedUserIDs, this.env.avatar.name);
             this.updateUserOffsets();
         };
+
+        this.env.avatar.addScopedEventListener(this, "avatarmoved", (evt) => {
+            this.conference.setLocalPose(
+                evt.px, evt.py, evt.pz,
+                evt.fx, evt.fy, evt.fz,
+                evt.ux, evt.uy, evt.uz,
+                evt.height);
+        });
+
+        this.env.eventSys.addScopedEventListener(this, "move", (evt) => {
+            const { id, origin, direction, up } = evt.pointer;
+            this.conference.setLocalPointer(
+                id,
+                origin.x, origin.y, origin.z,
+                direction.x, direction.y, direction.z,
+                up.x, up.y, up.z);
+        });
 
         this.conference.addScopedEventListener(this, "roomJoined", onLocalUserIDChange);
         this.conference.addScopedEventListener(this, "roomLeft", onLocalUserIDChange);
