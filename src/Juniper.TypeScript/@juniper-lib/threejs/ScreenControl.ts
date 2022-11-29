@@ -71,7 +71,7 @@ export class ScreenControl
     constructor(
         private readonly renderer: WebGLRenderer,
         private readonly camera: PerspectiveCamera,
-        private readonly fullscreenElement: HTMLElement,
+        readonly fullscreenElement: HTMLElement,
         private readonly enableFullResolution: boolean) {
         super();
 

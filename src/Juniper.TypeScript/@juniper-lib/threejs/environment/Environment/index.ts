@@ -157,6 +157,7 @@ export class Environment
 
         this.apps.addEventListener("apploaded", (evt) => {
             evt.app.addEventListener("joinroom", (evt) => {
+                console.log("Join", evt.roomName, this._currentRoom);
                 if (evt.roomName !== this._currentRoom) {
                     this._currentRoom = evt.roomName;
                     this.dispatchEvent(new EnvironmentRoomJoinedEvent(evt.roomName));
@@ -215,12 +216,16 @@ export class Environment
                 evt.fx, evt.fy, evt.fz,
                 evt.ux, evt.uy, evt.uz));
 
-        if (isDefined(options.watchModelPath)) {
-            this.watch = new Watch(this, options.watchModelPath);
+        if (isDefined(this.screenControl)) {
+            this.screenControl.addEventListener("sessionstarted", (evt) => {
+                if (evt.mode === ScreenMode.Fullscreen && this.confirmationDialog.element.parentElement !== this.screenControl.fullscreenElement) {
+                    elementApply(this.screenControl.fullscreenElement, this.devicesDialog, this.confirmationDialog);
+                }
+            });
         }
 
-        if (isHTMLCanvas(canvas) && canvas.parentElement) {
-            elementApply(canvas.parentElement, this.confirmationDialog, this.devicesDialog);
+        if (isDefined(options.watchModelPath)) {
+            this.watch = new Watch(this, options.watchModelPath);
         }
     }
 

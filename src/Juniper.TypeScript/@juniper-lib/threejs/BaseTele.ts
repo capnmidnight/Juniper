@@ -64,14 +64,14 @@ export abstract class BaseTele extends Application {
             throw new Error("Missing nameTagFont parameter");
         }
 
-        this.env.avatar.addEventListener("avatarmoved", (evt) =>
+        this.env.avatar.addScopedEventListener(this, "avatarmoved", (evt) =>
             this.conference.setLocalPose(
                 evt.px, evt.py, evt.pz,
                 evt.fx, evt.fy, evt.fz,
                 evt.ux, evt.uy, evt.uz,
                 evt.height));
 
-        this.env.eventSys.addEventListener("move", (evt) => {
+        this.env.eventSys.addScopedEventListener(this, "move", (evt) => {
             const { id, origin, direction, up } = evt.pointer;
             this.conference.setLocalPointer(
                 id,
@@ -80,15 +80,18 @@ export abstract class BaseTele extends Application {
                 up.x, up.y, up.z);
         });
 
-        this.env.addEventListener("newcursorloaded", () => {
+        this.env.addScopedEventListener(this, "newcursorloaded", () => {
             for (const user of this.users.values()) {
                 user.refreshCursors();
             }
         });
 
-        this.env.addEventListener("roomjoined", (evt) => this.join(evt.roomName));
-        this.env.addEventListener("sceneclearing", () => this.env.foreground.remove(this.remoteUsers));
-        this.env.addEventListener("scenecleared", () => objGraph(this.env.foreground, this.remoteUsers));
+        this.env.addScopedEventListener(this, "roomjoined", (evt) => {
+            console.log(evt);
+            this.join(evt.roomName);
+        });
+        this.env.addScopedEventListener(this, "sceneclearing", () => this.env.foreground.remove(this.remoteUsers));
+        this.env.addScopedEventListener(this, "scenecleared", () => objGraph(this.env.foreground, this.remoteUsers));
 
         this.env.muteMicButton.visible = true;
         this.env.muteMicButton.addEventListener("click", async () => {
@@ -111,10 +114,10 @@ export abstract class BaseTele extends Application {
             this.updateUserOffsets();
         };
 
-        this.conference.addEventListener("roomJoined", onLocalUserIDChange);
-        this.conference.addEventListener("roomLeft", onLocalUserIDChange);
+        this.conference.addScopedEventListener(this, "roomJoined", onLocalUserIDChange);
+        this.conference.addScopedEventListener(this, "roomLeft", onLocalUserIDChange);
 
-        this.conference.addEventListener("userJoined", (evt: UserJoinedEvent) => {
+        this.conference.addScopedEventListener(this, "userJoined", (evt: UserJoinedEvent) => {
             const avatar = this.avatarModel
                 ? this.avatarModel.clone()
                 : new DebugObject(0xffff00);
@@ -135,14 +138,14 @@ export abstract class BaseTele extends Application {
             this.env.audio.playClip("join");
         });
 
-        this.conference.addEventListener("userNameChanged", (evt: UserNameChangedEvent) => {
+        this.conference.addScopedEventListener(this, "userNameChanged", (evt: UserNameChangedEvent) => {
             const user = this.users.get(evt.user.userID);
             if (user) {
                 user.userName = evt.newUserName;
             }
         });
 
-        this.conference.addEventListener("userLeft", (evt: UserLeftEvent) => {
+        this.conference.addScopedEventListener(this, "userLeft", (evt: UserLeftEvent) => {
             const user = this.users.get(evt.user.userID);
             if (user) {
                 this.remoteUsers.remove(user);
@@ -166,6 +169,11 @@ export abstract class BaseTele extends Application {
 
     dispose(): void {
         this.hiding();
+        this.env.avatar.removeScope(this);
+        this.env.eventSys.removeScope(this);
+        this.env.removeScope(this);
+        this.conference.removeScope(this);
+        this.conference.dispose();
     }
 
     protected hiding() {

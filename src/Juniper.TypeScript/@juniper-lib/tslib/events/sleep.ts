@@ -27,5 +27,7 @@ export class SleepTask extends Task {
 }
 
 export function sleep(milliseconds: number): SleepTask {
-    return new SleepTask(milliseconds);
+    const task = new SleepTask(milliseconds);
+    task.start();
+    return task;
 }

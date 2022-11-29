@@ -56,6 +56,7 @@ export abstract class Application<EventsT extends ApplicationEvents = Applicatio
 
     join(roomName: string) {
         this.dispatchEvent(new ApplicationJoinRoomEvent(this, roomName));
+        this.env.avatar.reset();
     }
 
     async show(prog?: IProgress): Promise<void> {

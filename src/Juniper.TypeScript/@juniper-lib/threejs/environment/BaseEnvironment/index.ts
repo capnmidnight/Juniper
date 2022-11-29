@@ -70,7 +70,7 @@ export class BaseEnvironment<Events = unknown>
     readonly skybox: Skybox;
     readonly avatar: AvatarLocal;
     readonly cursor3D: Cursor3D;
-    readonly screenControl: ScreenControl;
+    readonly screenControl: ScreenControl = null;
     readonly eventSys: EventSystem;
 
     enableSpectator = false;
