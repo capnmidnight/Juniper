@@ -24,14 +24,12 @@ export class PDFImage extends CanvasImage {
             uri.query("v", pdfjsVersion);
             workerPath = uri.toString();
 
-            const workerSrc = await fetcher
+            pdfJS.GlobalWorkerOptions.workerSrc = await fetcher
                 .get(workerPath)
                 .useCache(!debug)
                 .progress(prog)
                 .file()
                 .then(unwrapResponse);
-
-            pdfJS.GlobalWorkerOptions.workerSrc = workerSrc;
             pdfReady.resolve();
         }
 

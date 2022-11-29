@@ -35,12 +35,14 @@ export class RequestBuilder implements
     IFetcherResult,
     IFetcherBodilessResult {
 
-    private readonly path: URL;
     private readonly request: IRequestWithBody;
     private prog: IProgress = null;
 
-    constructor(private readonly fetcher: IFetchingService, private readonly method: HTTPMethods, path: URL) {
-        this.path = path;
+    constructor(
+        private readonly fetcher: IFetchingService,
+        private readonly method: HTTPMethods,
+        private readonly path: URL,
+        private readonly usBLOBs = false) {
         this.request = {
             method,
             path: this.path.href,
@@ -158,16 +160,22 @@ export class RequestBuilder implements
         }
     }
 
-    file(acceptType?: string | MediaType): Promise<IResponse<string>> {
+    async file(acceptType?: string | MediaType): Promise<IResponse<string>> {
         this.accept(acceptType);
         if (this.method === "POST"
             || this.method === "PUT"
             || this.method === "PATCH"
             || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetFile(this.request, this.prog);
+            return await this.fetcher.sendObjectGetFile(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetFile(this.request, this.prog);
+            if (this.usBLOBs) {
+                return await this.fetcher.sendNothingGetFile(this.request, this.prog);
+            }
+            else {
+                const response = await this.fetcher.sendNothingGetNothing(this.request);
+                return translateResponse(response, () => this.request.path);
+            }
         }
         else if (this.method === "HEAD"
             || this.method === "OPTIONS") {
@@ -494,7 +502,7 @@ export class RequestBuilder implements
 
     async worker(type: WorkerType = "module"): Promise<IResponse<Worker>> {
         const scriptPath = this.request.path;
-            const response = await this.file(Application_Javascript);
+        const response = await this.file(Application_Javascript);
         this.prog = null;
         this.request.timeout = null;
         const worker = new Worker(response.content, { type });
