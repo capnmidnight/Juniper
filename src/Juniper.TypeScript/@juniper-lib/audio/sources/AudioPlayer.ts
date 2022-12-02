@@ -73,7 +73,7 @@ export class AudioPlayer
         this.input = MediaElementSource(
             "JuniperAudioPlayer-Input",
             audioCtx,
-            this.element);
+            { mediaElement: this.element });
 
         this.loadingEvt = new MediaPlayerLoadingEvent(this);
         this.loadEvt = new MediaElementSourceLoadedEvent(this);

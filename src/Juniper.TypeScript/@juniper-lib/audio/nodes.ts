@@ -313,16 +313,16 @@ export function IIRFilter(name: string, audioCtx: BaseAudioContext, options?: II
     return initAudio(name, new IIRFilterNode(audioCtx, options), ...rest);
 }
 
-export function MediaElementSource(name: string, audioCtx: AudioContext, mediaElement: HTMLMediaElement, ...rest: AudioConnection[]): MediaElementAudioSourceNode {
-    return initAudio(name, audioCtx.createMediaElementSource(mediaElement), ...rest);
+export function MediaElementSource(name: string, audioCtx: AudioContext, options?: MediaElementAudioSourceOptions, ...rest: AudioConnection[]): MediaElementAudioSourceNode {
+    return initAudio(name, new MediaElementAudioSourceNode(audioCtx, options), ...rest);
 }
 
 export function MediaStreamDestination(name: string, audioCtx: AudioContext, options?: AudioNodeOptions, ...rest: AudioConnection[]): MediaStreamAudioDestinationNode {
     return initAudio(name, new MediaStreamAudioDestinationNode(audioCtx, options), ...rest);
 }
 
-export function MediaStreamSource(name: string, audioCtx: AudioContext, mediaStream: MediaStream, ...rest: AudioConnection[]): MediaStreamAudioSourceNode {
-    return initAudio(name, audioCtx.createMediaStreamSource(mediaStream), ...rest);
+export function MediaStreamSource(name: string, audioCtx: AudioContext, options?: MediaStreamAudioSourceOptions, ...rest: AudioConnection[]): MediaStreamAudioSourceNode {
+    return initAudio(name, new MediaStreamAudioSourceNode(audioCtx, options), ...rest);
 }
 
 export function Oscillator(name: string, audioCtx: BaseAudioContext, options?: OscillatorOptions, ...rest: AudioConnection[]): OscillatorNode {

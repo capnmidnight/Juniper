@@ -8,9 +8,9 @@ import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { AudioDestination } from "./destinations/AudioDestination";
 import { WebAudioListenerNew } from "./destinations/spatializers/WebAudioListenerNew";
 import { WebAudioListenerOld } from "./destinations/spatializers/WebAudioListenerOld";
+import { WebAudioDestination } from "./destinations/WebAudioDestination";
 import type { IPoseable } from "./IPoseable";
 import {
     audioReady,
@@ -75,7 +75,7 @@ export class AudioManager
     get algorithm(): DistanceModelType { return this._algorithm; }
 
     readonly element: HTMLAudioElement = null;
-    readonly audioDestination: AudioDestination = null;
+    readonly audioDestination: WebAudioDestination = null;
 
     readonly speakers: SpeakerManager;
     readonly input: GainNode;
@@ -132,12 +132,23 @@ export class AudioManager
                     },
                         this.output = MediaStreamDestination(
                             "local-mic-destination",
-                            this.audioCtx)))));
+                            this.audioCtx
+                        )
+                    )
+                )
+            )
+        );
 
-        this.audioDestination = new AudioDestination(this.audioCtx, destination, hasNewAudioListener
-            ? new WebAudioListenerNew(this.audioCtx)
-            : new WebAudioListenerOld(this.audioCtx));
-        NoSpatializationNode.instance(this.audioCtx).setAudioProperties(this._minDistance, this._maxDistance, this.algorithm);
+        this.audioDestination = new WebAudioDestination(
+            this.audioCtx,
+            destination,
+            hasNewAudioListener
+                ? new WebAudioListenerNew(this.audioCtx)
+                : new WebAudioListenerOld(this.audioCtx));
+
+        NoSpatializationNode
+            .instance(this.audioCtx)
+            .setAudioProperties(this._minDistance, this._maxDistance, this.algorithm);
 
         this.setLocalUserID(defaultLocalUserID);
 
@@ -285,7 +296,7 @@ export class AudioManager
     /**
      * Create a new user for the audio listener.
      */
-    setLocalUserID(id: string): AudioDestination {
+    setLocalUserID(id: string): WebAudioDestination {
         if (this.audioDestination) {
             this.localUserID = id;
         }
@@ -411,7 +422,7 @@ export class AudioManager
             return MediaStreamSource(
                 stringToName("media-stream-source", id, stream.id),
                 this.audioCtx,
-                stream);
+                { mediaStream: stream });
         }
     }
 
@@ -419,7 +430,7 @@ export class AudioManager
         return MediaElementSource(
             stringToName("media-element-source", id),
             this.audioCtx,
-            elem);
+            { mediaElement: elem });
     }
 
     private makeClip(
