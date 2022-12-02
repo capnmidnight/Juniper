@@ -605,7 +605,7 @@ export class TeleconferenceManager
                 this.localStreamIn = MediaStreamSource(
                     "local-mic",
                     this.audio.audioCtx,
-                    v,
+                    { mediaStream: v },
                     this.audio);
             }
         }

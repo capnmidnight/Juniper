@@ -5,7 +5,7 @@ import type { BaseListener } from "./spatializers/BaseListener";
 
 export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestinationNode;
 
-export class AudioDestination extends BaseAudioElement<BaseListener, void> {
+export class WebAudioDestination extends BaseAudioElement<BaseListener, void> {
     private _remoteUserInput: AudioNode;
     private _spatializedInput: AudioNode;
     private _nonSpatializedInput: AudioNode;
