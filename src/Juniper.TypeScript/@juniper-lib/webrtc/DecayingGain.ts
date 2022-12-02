@@ -1,4 +1,4 @@
-import { connect, disconnect } from "@juniper-lib/audio/nodes";
+import { connect, disconnect } from "@juniper-lib/audio/util";
 import { unproject } from "@juniper-lib/tslib/math";
 import type { ITimer } from "@juniper-lib/tslib/timers/ITimer";
 import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";

@@ -8,7 +8,8 @@ import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeC
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { AudioRecord, FullAudioRecord } from "../data";
-import { audioReady, MediaElementSource, removeVertex } from "../nodes";
+import { MediaElementSource } from "../nodes";
+import { audioReady, removeVertex } from "../util";
 import { BaseAudioSource } from "./BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "./IPlayer";

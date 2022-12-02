@@ -1,12 +1,16 @@
-import type { AudioConnection, WrappedAudioNode } from "../nodes";
-import { BiquadFilter, removeVertex } from "../nodes";
+import { BiquadFilter } from "../nodes";
+import type { AudioConnection, ErsatzAudioNode } from "../util";
+import { removeVertex } from "../util";
 
 export function RadioEffect(name: string, audioCtx: AudioContext, connectTo?: AudioConnection): RadioEffectNode {
     return new RadioEffectNode(name, audioCtx, connectTo);
 };
 
-class RadioEffectNode implements WrappedAudioNode {
-    readonly node: BiquadFilterNode;
+class RadioEffectNode implements ErsatzAudioNode {
+    private readonly node: BiquadFilterNode;
+
+    get input() { return this.node; }
+    get output() { return this.node; }
 
     constructor(name: string, audioCtx: AudioContext, connectTo?: AudioConnection) {
         this.node = BiquadFilter(`${name}-biquad-filter`, audioCtx, {

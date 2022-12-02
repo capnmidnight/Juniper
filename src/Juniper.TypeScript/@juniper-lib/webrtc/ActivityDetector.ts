@@ -1,4 +1,5 @@
-import { Analyser, ErsatzAudioNode, removeVertex } from "@juniper-lib/audio/nodes";
+import { Analyser } from "@juniper-lib/audio/nodes";
+import { ErsatzAudioNode, removeVertex } from "@juniper-lib/audio/util";
 
 export class ActivityDetector implements ErsatzAudioNode {
 

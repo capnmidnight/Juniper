@@ -7,6 +7,10 @@ export const FWD = /*@__PURE__*/ vec3.fromValues(0, 0, -1);
 export const Pi =/*@__PURE__*/ Math.PI;
 export const HalfPi =/*@__PURE__*/ 0.5 * Pi;
 export const Tau = /*@__PURE__*/ 2 * Pi;
+export const TWENTY_FOUR_LOG10 = /*@__PURE__*/ 55.2620422318571;
+export const LOG1000 = /*@__PURE__*/ 6.90775527898214;
+export const LOG2_DIV2 = /*@__PURE__*/ 0.346573590279973;
+export const EPSILON_FLOAT = /*@__PURE__*/ 1e-8;
 
 export function xy2i(x: number, y: number, width: number, components: number = 1): number {
     return components * (x + width * y);

@@ -1,5 +1,5 @@
 import { BaseSpatializer } from "../../BaseSpatializer";
-import { ErsatzAudioNode, removeVertex } from "../../nodes";
+import { ErsatzAudioNode, removeVertex } from "../../util";
 
 /**
  * Base class providing functionality for audio listeners.
