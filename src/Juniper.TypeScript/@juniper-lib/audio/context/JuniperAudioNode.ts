@@ -1,6 +1,5 @@
 ﻿import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Exception } from "@juniper-lib/tslib/Exception";
-import { identity } from "@juniper-lib/tslib/identity";
 import { isNumber } from "@juniper-lib/tslib/typeChecks";
 import { IAudioNode } from "./IAudioNode";
 import { JuniperAudioContext } from "./JuniperAudioContext";
@@ -10,16 +9,17 @@ export abstract class JuniperAudioNode<EventsT = void>
     extends TypedEventBase<EventsT & void>
     implements IAudioNode {
 
-    private readonly exemplar: IAudioNode;
+    private readonly outputs: ReadonlyArray<IAudioNode>;
+    private readonly allNodes: ReadonlyArray<IAudioNode>;
 
     constructor(type: string,
         public readonly context: JuniperAudioContext,
         private readonly inputs: ReadonlyArray<IAudioNode>,
-        private readonly outputs: ReadonlyArray<IAudioNode>,
-        exemplar?: IAudioNode) {
+        outputs?: ReadonlyArray<IAudioNode>,
+        extra?: ReadonlyArray<IAudioNode>) {
         super();
         this.context._init(type, this);
-        this.exemplar = [exemplar, ...inputs, ...outputs].filter(identity)[0];
+        this.allNodes = [...extra, ...inputs, ...outputs];
     }
 
     get name(): string { return this.context._getName(this); }
@@ -34,11 +34,11 @@ export abstract class JuniperAudioNode<EventsT = void>
     }
 
     protected onDispose() {
-        this.exemplar.dispose();
-        this.outputs.forEach(v => v.dispose());
-        this.inputs.forEach(v => v.dispose());
+        this.allNodes.forEach(v => v.dispose());
         this.context._dispose(this);
     }
+
+    private get exemplar() { return this.allNodes[0]; }
 
     get channelCount(): number { return this.exemplar.channelCount; }
     get channelCountMode(): ChannelCountMode { return this.exemplar.channelCountMode; }

@@ -1,121 +1,97 @@
-﻿import { isArray } from "@juniper-lib/tslib/typeChecks";
-import { IAudioNode } from "./IAudioNode";
-import { JuniperAnalyserNode as AnalyserNode } from "./JuniperAnalyserNode";
-import { JuniperAudioBufferSourceNode as AudioBufferSourceNode } from "./JuniperAudioBufferSourceNode";
-import type { JuniperAudioContext as AudioContext } from "./JuniperAudioContext";
-import { AudioConnection } from "./util";
-import { JuniperAudioWorkletNode as AudioWorkletNode } from "./JuniperAudioWorkletNode";
-import { JuniperBiquadFilterNode as BiquadFilterNode } from "./JuniperBiquadFilterNode";
-import { JuniperChannelMergerNode as ChannelMergerNode } from "./JuniperChannelMergerNode";
-import { JuniperChannelSplitterNode as ChannelSplitterNode } from "./JuniperChannelSplitterNode";
-import { JuniperConstantSourceNode as ConstantSourceNode } from "./JuniperConstantSourceNode";
-import { JuniperConvolverNode as ConvolverNode } from "./JuniperConvolverNode";
-import { JuniperDelayNode as DelayNode } from "./JuniperDelayNode";
-import { JuniperDynamicsCompressorNode as DynamicsCompressorNode } from "./JuniperDynamicsCompressorNode";
-import { JuniperGainNode as GainNode } from "./JuniperGainNode";
-import { JuniperIIRFilterNode as IIRFilterNode } from "./JuniperIIRFilterNode";
-import { JuniperMediaElementAudioSourceNode as MediaElementAudioSourceNode } from "./JuniperMediaElementAudioSourceNode";
-import { JuniperMediaStreamAudioDestinationNode as MediaStreamAudioDestinationNode } from "./JuniperMediaStreamAudioDestinationNode";
-import { JuniperMediaStreamAudioSourceNode as MediaStreamAudioSourceNode } from "./JuniperMediaStreamAudioSourceNode";
-import { JuniperOscillatorNode as OscillatorNode } from "./JuniperOscillatorNode";
-import { JuniperPannerNode as PannerNode } from "./JuniperPannerNode";
-import { JuniperStereoPannerNode as StereoPannerNode } from "./JuniperStereoPannerNode";
-import { JuniperWaveShaperNode as WaveShaperNode } from "./JuniperWaveShaperNode";
+﻿import { JuniperAnalyserNode } from "./JuniperAnalyserNode";
+import { JuniperAudioBufferSourceNode } from "./JuniperAudioBufferSourceNode";
+import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioWorkletNode } from "./JuniperAudioWorkletNode";
+import { JuniperBiquadFilterNode } from "./JuniperBiquadFilterNode";
+import { JuniperChannelMergerNode } from "./JuniperChannelMergerNode";
+import { JuniperChannelSplitterNode } from "./JuniperChannelSplitterNode";
+import { JuniperConstantSourceNode } from "./JuniperConstantSourceNode";
+import { JuniperConvolverNode } from "./JuniperConvolverNode";
+import { JuniperDelayNode } from "./JuniperDelayNode";
+import { JuniperDynamicsCompressorNode } from "./JuniperDynamicsCompressorNode";
+import { JuniperGainNode } from "./JuniperGainNode";
+import { JuniperIIRFilterNode } from "./JuniperIIRFilterNode";
+import { JuniperMediaElementAudioSourceNode } from "./JuniperMediaElementAudioSourceNode";
+import { JuniperMediaStreamAudioDestinationNode } from "./JuniperMediaStreamAudioDestinationNode";
+import { JuniperMediaStreamAudioSourceNode } from "./JuniperMediaStreamAudioSourceNode";
+import { JuniperOscillatorNode } from "./JuniperOscillatorNode";
+import { JuniperPannerNode } from "./JuniperPannerNode";
+import { JuniperStereoPannerNode } from "./JuniperStereoPannerNode";
+import { JuniperWaveShaperNode } from "./JuniperWaveShaperNode";
+import { init } from "./util";
 
-function init<T extends IAudioNode>(name: string, node: T, ...rest: AudioConnection[]): T {
-    node.name = name;
-    return fan(node, ...rest);
+export function Analyser(name: string, audioCtx: JuniperAudioContext, options?: AnalyserOptions): JuniperAnalyserNode {
+    return init(name, new JuniperAnalyserNode(audioCtx, options));
 }
 
-function fan<T extends IAudioNode>(node: T, ...rest: AudioConnection[]): T {
-    for (const right of rest) {
-        let dest: AudioNode | AudioParam;
-        let output: number = undefined;
-        let input: number = undefined;
-        if (isArray(right)) {
-            [dest, output, input] = right;
-        }
-        else {
-            dest = right;
-        }
-
-        node.connect(dest as any, output, input);
-    }
-    return node;
+export function AudioWorklet(name: string, audioCtx: JuniperAudioContext, workletName: string, options?: AudioWorkletNodeOptions): JuniperAudioWorkletNode {
+    return init(name, new JuniperAudioWorkletNode(audioCtx, workletName, options));
 }
 
-export function Analyser(name: string, audioCtx: AudioContext, options?: AnalyserOptions, ...rest: AudioConnection[]): AnalyserNode {
-    return init(name, new AnalyserNode(audioCtx, options), ...rest);
+export function BiquadFilter(name: string, audioCtx: JuniperAudioContext, options?: BiquadFilterOptions): JuniperBiquadFilterNode {
+    return init(name, new JuniperBiquadFilterNode(audioCtx, options));
 }
 
-export function AudioWorklet(name: string, audioCtx: AudioContext, workletName: string, options?: AudioWorkletNodeOptions, ...rest: AudioConnection[]): AudioWorkletNode {
-    return init(name, new AudioWorkletNode(audioCtx, workletName, options), ...rest);
+export function BufferSource(name: string, audioCtx: JuniperAudioContext, options?: AudioBufferSourceOptions): JuniperAudioBufferSourceNode {
+    return init(name, new JuniperAudioBufferSourceNode(audioCtx, options));
 }
 
-export function BiquadFilter(name: string, audioCtx: AudioContext, options?: BiquadFilterOptions, ...rest: AudioConnection[]): BiquadFilterNode {
-    return init(name, new BiquadFilterNode(audioCtx, options), ...rest);
+export function ChannelMerger(name: string, audioCtx: JuniperAudioContext, options?: ChannelMergerOptions): JuniperChannelMergerNode {
+    return init(name, new JuniperChannelMergerNode(audioCtx, options));
 }
 
-export function BufferSource(name: string, audioCtx: AudioContext, options?: AudioBufferSourceOptions, ...rest: AudioConnection[]): AudioBufferSourceNode {
-    return init(name, new AudioBufferSourceNode(audioCtx, options), ...rest);
+export function ChannelSplitter(name: string, audioCtx: JuniperAudioContext, options?: ChannelSplitterOptions): JuniperChannelSplitterNode {
+    return init(name, new JuniperChannelSplitterNode(audioCtx, options));
 }
 
-export function ChannelMerger(name: string, audioCtx: AudioContext, options?: ChannelMergerOptions, ...rest: AudioConnection[]): ChannelMergerNode {
-    return init(name, new ChannelMergerNode(audioCtx, options), ...rest);
+export function ConstantSource(name: string, audioCtx: JuniperAudioContext, options?: ConstantSourceOptions): JuniperConstantSourceNode {
+    return init(name, new JuniperConstantSourceNode(audioCtx, options));
 }
 
-export function ChannelSplitter(name: string, audioCtx: AudioContext, options?: ChannelSplitterOptions, ...rest: AudioConnection[]): ChannelSplitterNode {
-    return init(name, new ChannelSplitterNode(audioCtx, options), ...rest);
+export function Convolver(name: string, audioCtx: JuniperAudioContext, options?: ConvolverOptions): JuniperConvolverNode {
+    return init(name, new JuniperConvolverNode(audioCtx, options));
 }
 
-export function ConstantSource(name: string, audioCtx: AudioContext, options?: ConstantSourceOptions, ...rest: AudioConnection[]): ConstantSourceNode {
-    return init(name, new ConstantSourceNode(audioCtx, options), ...rest);
+export function Delay(name: string, audioCtx: JuniperAudioContext, options?: DelayOptions): JuniperDelayNode {
+    return init(name, new JuniperDelayNode(audioCtx, options));
 }
 
-export function Convolver(name: string, audioCtx: AudioContext, options?: ConvolverOptions, ...rest: AudioConnection[]): ConvolverNode {
-    return init(name, new ConvolverNode(audioCtx, options), ...rest);
+export function DynamicsCompressor(name: string, audioCtx: JuniperAudioContext, options?: DynamicsCompressorOptions): JuniperDynamicsCompressorNode {
+    return init(name, new JuniperDynamicsCompressorNode(audioCtx, options));
 }
 
-export function Delay(name: string, audioCtx: AudioContext, options?: DelayOptions, ...rest: AudioConnection[]): DelayNode {
-    return init(name, new DelayNode(audioCtx, options), ...rest);
+export function Gain(name: string, audioCtx: JuniperAudioContext, options?: GainOptions): JuniperGainNode {
+    return init(name, new JuniperGainNode(audioCtx, options));
 }
 
-export function DynamicsCompressor(name: string, audioCtx: AudioContext, options?: DynamicsCompressorOptions, ...rest: AudioConnection[]): DynamicsCompressorNode {
-    return init(name, new DynamicsCompressorNode(audioCtx, options), ...rest);
+export function IIRFilter(name: string, audioCtx: JuniperAudioContext, options?: IIRFilterOptions): JuniperIIRFilterNode {
+    return init(name, new JuniperIIRFilterNode(audioCtx, options));
 }
 
-export function Gain(name: string, audioCtx: AudioContext, options?: GainOptions, ...rest: AudioConnection[]): GainNode {
-    return init(name, new GainNode(audioCtx, options), ...rest);
+export function MediaElementSource(name: string, audioCtx: JuniperAudioContext, options?: MediaElementAudioSourceOptions): JuniperMediaElementAudioSourceNode {
+    return init(name, new JuniperMediaElementAudioSourceNode(audioCtx, options));
 }
 
-export function IIRFilter(name: string, audioCtx: AudioContext, options?: IIRFilterOptions, ...rest: AudioConnection[]): IIRFilterNode {
-    return init(name, new IIRFilterNode(audioCtx, options), ...rest);
+export function MediaStreamDestination(name: string, audioCtx: JuniperAudioContext, options?: AudioNodeOptions): JuniperMediaStreamAudioDestinationNode {
+    return init(name, new JuniperMediaStreamAudioDestinationNode(audioCtx, options));
 }
 
-export function MediaElementSource(name: string, audioCtx: AudioContext, options?: MediaElementAudioSourceOptions, ...rest: AudioConnection[]): MediaElementAudioSourceNode {
-    return init(name, new MediaElementAudioSourceNode(audioCtx, options), ...rest);
+export function MediaStreamSource(name: string, audioCtx: JuniperAudioContext, options?: MediaStreamAudioSourceOptions): JuniperMediaStreamAudioSourceNode {
+    return init(name, new JuniperMediaStreamAudioSourceNode(audioCtx, options));
 }
 
-export function MediaStreamDestination(name: string, audioCtx: AudioContext, options?: AudioNodeOptions, ...rest: AudioConnection[]): MediaStreamAudioDestinationNode {
-    return init(name, new MediaStreamAudioDestinationNode(audioCtx, options), ...rest);
+export function Oscillator(name: string, audioCtx: JuniperAudioContext, options?: OscillatorOptions): JuniperOscillatorNode {
+    return init(name, new JuniperOscillatorNode(audioCtx, options));
 }
 
-export function MediaStreamSource(name: string, audioCtx: AudioContext, options?: MediaStreamAudioSourceOptions, ...rest: AudioConnection[]): MediaStreamAudioSourceNode {
-    return init(name, new MediaStreamAudioSourceNode(audioCtx,  options), ...rest);
+export function Panner(name: string, audioCtx: JuniperAudioContext, options?: PannerOptions): JuniperPannerNode {
+    return init(name, new JuniperPannerNode(audioCtx, options));
 }
 
-export function Oscillator(name: string, audioCtx: AudioContext, options?: OscillatorOptions, ...rest: AudioConnection[]): OscillatorNode {
-    return init(name, new OscillatorNode(audioCtx, options), ...rest);
+export function StereoPanner(name: string, audioCtx: JuniperAudioContext, options?: StereoPannerOptions): JuniperStereoPannerNode {
+    return init(name, new JuniperStereoPannerNode(audioCtx, options));
 }
 
-export function Panner(name: string, audioCtx: AudioContext, options?: PannerOptions, ...rest: AudioConnection[]): PannerNode {
-    return init(name, new PannerNode(audioCtx, options), ...rest);
-}
-
-export function StereoPanner(name: string, audioCtx: AudioContext, options?: StereoPannerOptions, ...rest: AudioConnection[]): StereoPannerNode {
-    return init(name, new StereoPannerNode(audioCtx, options), ...rest);
-}
-
-export function WaveShaper(name: string, audioCtx: AudioContext, options?: WaveShaperOptions, ...rest: AudioConnection[]): WaveShaperNode {
-    return init(name, new WaveShaperNode(audioCtx, options), ...rest);
+export function WaveShaper(name: string, audioCtx: JuniperAudioContext, options?: WaveShaperOptions): JuniperWaveShaperNode {
+    return init(name, new JuniperWaveShaperNode(audioCtx, options));
 }
