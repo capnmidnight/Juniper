@@ -1,6 +1,6 @@
-import { connect } from "@juniper-lib/audio/nodes";
 import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
+import { connect } from "@juniper-lib/audio/util";
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";

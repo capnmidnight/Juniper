@@ -1,6 +1,7 @@
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
-import type { AudioConnection, ErsatzAudioNode } from "../nodes";
-import { Delay, Gain, removeVertex } from "../nodes";
+import { Delay, Gain } from "../nodes";
+import type { AudioConnection, ErsatzAudioNode } from "../util";
+import { removeVertex } from "../util";
 
 
 function* fibGen(a: number, b: number, count: number = -1) {

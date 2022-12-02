@@ -1,4 +1,4 @@
-import type { AudioNodeType, AudioVertex } from "../nodes";
+import type { AudioNodeType, AudioVertex } from "../util";
 import { EchoEffect } from "./EchoEffect";
 import { RadioEffect } from "./RadioEffect";
 import { WallEffect } from "./WallEffect";

@@ -1,6 +1,7 @@
 import { BaseAudioElement } from "../BaseAudioElement";
-import { connect, Gain, removeVertex } from "../nodes";
+import { Gain } from "../nodes";
 import { NoSpatializationNode } from "../sources/spatializers/NoSpatializationNode";
+import { connect, removeVertex } from "../util";
 import type { BaseListener } from "./spatializers/BaseListener";
 
 export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestinationNode;

@@ -21,12 +21,21 @@ export function isNumber(obj: any): obj is number {
 
 /**
  * Check a value to see if it is of a number type
- * and is not the special NaN value.
+ * and is the special NaN value or one of the Infinities.
+ */
+export function isBadNumber(num: number): boolean {
+    return isNullOrUndefined(num)
+        || !Number.isFinite(num)
+        || Number.isNaN(num);
+}
+
+/**
+ * Check a value to see if it is of a number type
+ * and is not the special NaN value nor one of the Infinities.
  */
 export function isGoodNumber(obj: any): obj is number {
     return isNumber(obj)
-        && Number.isFinite(obj)
-        && !Number.isNaN(obj);
+        && !isBadNumber(obj);
 }
 
 export function isObject(obj: any): obj is object {

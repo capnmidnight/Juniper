@@ -4,7 +4,7 @@ import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { isDisposable } from "@juniper-lib/tslib/using";
 import { BaseAudioElement } from "../BaseAudioElement";
 import { effectStore } from "../effects";
-import { AudioNodeType, chain, connect, disconnect, ErsatzAudioNode, removeVertex } from "../nodes";
+import { AudioNodeType, chain, connect, disconnect, ErsatzAudioNode, removeVertex } from "../util";
 import type { BaseEmitter } from "./spatializers/BaseEmitter";
 import { NoSpatializationNode } from "./spatializers/NoSpatializationNode";
 

@@ -1,5 +1,5 @@
-import { hasOldAudioListener } from "../../nodes";
 import type { Pose } from "../../Pose";
+import { hasOldAudioListener } from "../../util";
 import { BaseListener } from "./BaseListener";
 
 /**

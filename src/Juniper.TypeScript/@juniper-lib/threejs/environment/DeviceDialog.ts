@@ -1,5 +1,5 @@
-import { connect } from "@juniper-lib/audio/nodes";
 import { canChangeAudioOutput } from "@juniper-lib/audio/SpeakerManager";
+import { connect } from "@juniper-lib/audio/util";
 import {
     className,
     max,

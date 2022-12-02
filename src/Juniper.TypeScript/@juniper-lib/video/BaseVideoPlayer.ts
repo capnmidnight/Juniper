@@ -1,10 +1,11 @@
 import { AudioRecord } from "@juniper-lib/audio/data";
-import { audioReady, Gain, MediaElementSource, removeVertex } from "@juniper-lib/audio/nodes";
+import { Gain, MediaElementSource } from "@juniper-lib/audio/nodes";
 import { BaseAudioSource } from "@juniper-lib/audio/sources/BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper-lib/audio/sources/IPlayer";
 import { PlaybackState } from "@juniper-lib/audio/sources/PlaybackState";
 import { NoSpatializationNode } from "@juniper-lib/audio/sources/spatializers/NoSpatializationNode";
+import { audioReady, removeVertex } from "@juniper-lib/audio/util";
 import { autoPlay, controls, loop, playsInline } from "@juniper-lib/dom/attrs";
 import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper-lib/dom/tags";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";

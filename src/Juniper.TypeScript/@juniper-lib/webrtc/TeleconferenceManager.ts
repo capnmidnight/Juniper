@@ -1,6 +1,7 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { AudioInputChangedEvent, MicrophoneManager } from "@juniper-lib/audio/MicrophoneManager";
-import { MediaStreamSource, removeVertex } from "@juniper-lib/audio/nodes";
+import { MediaStreamSource } from "@juniper-lib/audio/nodes";
+import { removeVertex } from "@juniper-lib/audio/util";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { singleton } from "@juniper-lib/tslib/singleton";

@@ -13,9 +13,7 @@ import { WebAudioListenerOld } from "./destinations/spatializers/WebAudioListene
 import { WebAudioDestination } from "./destinations/WebAudioDestination";
 import type { IPoseable } from "./IPoseable";
 import {
-    audioReady,
-    BiquadFilter, connect, disconnect,
-    DynamicsCompressor, ErsatzAudioNode, Gain, hasNewAudioListener, MediaElementSource,
+    BiquadFilter, DynamicsCompressor, Gain, MediaElementSource,
     MediaStreamDestination,
     MediaStreamSource
 } from "./nodes";
@@ -28,6 +26,11 @@ import { NoSpatializationNode } from "./sources/spatializers/NoSpatializationNod
 import { WebAudioPannerNew } from "./sources/spatializers/WebAudioPannerNew";
 import { WebAudioPannerOld } from "./sources/spatializers/WebAudioPannerOld";
 import { SpeakerManager } from "./SpeakerManager";
+import {
+    audioReady,
+    connect, disconnect,
+    ErsatzAudioNode, hasNewAudioListener
+} from "./util";
 
 if (!("AudioContext" in globalThis) && "webkitAudioContext" in globalThis) {
     globalThis.AudioContext = (globalThis as any).webkitAudioContext;
