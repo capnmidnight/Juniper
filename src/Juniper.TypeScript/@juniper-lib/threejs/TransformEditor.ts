@@ -9,7 +9,8 @@ import { cone } from "./Cone";
 import { cube } from "./Cube";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { VirtualButton } from "./eventSystem/devices/VirtualButton";
-import { RayTarget } from "./eventSystem/RayTarget";
+import { IntersectionSortFunction } from "./eventSystem/EventSystem";
+import { getRayTarget, RayTarget } from "./eventSystem/RayTarget";
 import { blue, green, litTransparent, red } from "./materials";
 import { ErsatzObject, mesh, obj, objectResolve, Objects, objectSetVisible } from "./objects";
 import { sphere } from "./Sphere";
@@ -132,6 +133,14 @@ export class TransformEditor
     set mode(v) {
         if (v !== this.mode) {
             this._mode = v;
+
+            if (this.mode === "None") {
+                this.env.eventSys.sortFunction = null;
+            }
+            else {
+                this.env.eventSys.sortFunction = this.prioritizeTransformerSort;
+            }
+
             for (const translator of this.translators) {
                 translator.mode = v;
             }
@@ -145,6 +154,23 @@ export class TransformEditor
             }
 
             this.refresh();
+        }
+    }
+
+
+    private readonly prioritizeTransformerSort: IntersectionSortFunction = (a, b) => {
+        const rayTargetA = getRayTarget(a) as Translator;
+        const rayTargetB = getRayTarget(b) as Translator;
+        const isTranslatorA = isDefined(rayTargetA) && this.translators.indexOf(rayTargetA) >= 0;
+        const isTranslatorB = isDefined(rayTargetB) && this.translators.indexOf(rayTargetB) >= 0;
+        if (isTranslatorA === isTranslatorB) {
+            return a.distance - b.distance;
+        }
+        else if (isTranslatorA) {
+            return -1;
+        }
+        else {
+            return 1;
         }
     }
 
@@ -466,6 +492,7 @@ export class Translator extends RayTarget<void> {
         }
 
         this.addMeshes(
+            ...this.bars,
             ...this.spherePads,
             ...this.conePads,
             ...this.arcPads

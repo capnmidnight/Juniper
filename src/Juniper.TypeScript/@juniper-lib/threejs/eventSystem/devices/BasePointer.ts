@@ -1,4 +1,3 @@
-import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { PointerID, PointerType } from "@juniper-lib/tslib/events/Pointers";
 import { Intersection, Vector3 } from "three";
@@ -30,7 +29,6 @@ export abstract class BasePointer
     protected _isActive = false;
     protected moveDistance = 0;
 
-    private readonly hits = new Array<Intersection>();
     private readonly pointerEvents = new Map<string, Pointer3DEvent>();
 
     private lastButtons = 0;
@@ -65,14 +63,6 @@ export abstract class BasePointer
 
     private get curHit() {
         return this._curHit;
-    }
-
-    private set curHit(v) {
-        if (v !== this.curHit) {
-            const t = getRayTarget(v);
-            this._curHit = v;
-            this._curTarget = t;
-        }
     }
 
     private get curTarget() {
@@ -190,24 +180,14 @@ export abstract class BasePointer
         return (this.lastButtons & mask) !== 0;
     }
 
-    protected fireRay(origin: Vector3, direction: Vector3): boolean {
-        arrayClear(this.hits);
+    protected fireRay(origin: Vector3, direction: Vector3): void {
+        const minHit = this.env.eventSys.fireRay(origin, direction);
 
-        this.env.eventSys.fireRay(origin, direction, this.hits);
-
-        let minHit: Intersection = null;
-        let minDist = Number.MAX_VALUE;
-        for (const hit of this.hits) {
-            const rayTarget = getRayTarget(hit);
-            if (rayTarget
-                && hit.distance < minDist) {
-                minHit = hit;
-                minDist = hit.distance;
-            }
+        if (minHit !== this.curHit) {
+            const t = getRayTarget(minHit);
+            this._curHit = minHit;
+            this._curTarget = t;
         }
-
-        this.curHit = minHit;
-        return !!minHit;
     }
 
     private getEvent(type: PointerEventTypes): Pointer3DEvent {

@@ -12,6 +12,10 @@ import { PointerPen } from "./devices/PointerPen";
 import { PointerTouch } from "./devices/PointerTouch";
 import { getRayTarget, RayTarget } from "./RayTarget";
 
+export type IntersectionSortFunction = (a: Intersection, b: Intersection) => number;
+
+const defaultSortFunction: IntersectionSortFunction = (a, b) => a.distance - b.distance;
+
 export class EventSystem extends TypedEventBase<Pointer3DEvents> {
     private readonly raycaster = new Raycaster();
 
@@ -20,11 +24,23 @@ export class EventSystem extends TypedEventBase<Pointer3DEvents> {
     readonly touches: PointerTouch;
     readonly hands = new Array<PointerHand>();
 
+    private readonly hits = new Array<Intersection>();
     private readonly queue = new Array<Object3D>();
     private readonly targetsFound = new Set<RayTarget>();
     private readonly targets = new Array<Mesh>();
 
     private readonly pointers: IPointer[];
+
+    private customSortFunction: IntersectionSortFunction = null;
+
+    set sortFunction(func: IntersectionSortFunction) {
+        this.customSortFunction = func;
+    }
+
+    get sortFunction(): IntersectionSortFunction {
+        return this.customSortFunction
+            || defaultSortFunction;
+    }
 
     constructor(
         private readonly env: BaseEnvironment<unknown>) {
@@ -83,10 +99,13 @@ export class EventSystem extends TypedEventBase<Pointer3DEvents> {
         }
     }
 
-    fireRay(origin: Vector3, direction: Vector3, hits: Intersection[]): void {
+    fireRay(origin: Vector3, direction: Vector3): Intersection {
+        arrayClear(this.hits);
         this.raycaster.ray.origin.copy(origin);
         this.raycaster.ray.direction.copy(direction);
-        this.raycaster.intersectObjects(this.targets, false, hits);
+        this.raycaster.intersectObjects(this.targets, false, this.hits);
+        this.hits.sort(this.sortFunction);
+        return this.hits[0] || null;
     }
 
     update() {
