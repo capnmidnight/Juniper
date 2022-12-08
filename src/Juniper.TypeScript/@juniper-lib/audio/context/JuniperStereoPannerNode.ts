@@ -1,34 +1,17 @@
-﻿import { IAudioNode } from "./IAudioNode";
+﻿import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioParam } from "./JuniperAudioParam";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
-export class JuniperStereoPannerNode extends StereoPannerNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, options?: StereoPannerOptions) {
-        super(jctx, options);
-        this.jctx._init("stereo-panner", this);
-    }
+export class JuniperStereoPannerNode
+    extends JuniperWrappedNode<StereoPannerNode>
+    implements StereoPannerNode {
 
-    dispose() { this.jctx._dispose(this); }
+    public readonly pan: IAudioParam;
 
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
-
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
+    constructor(context: JuniperAudioContext, options?: StereoPannerOptions) {
+        super("stereo-panner", context, new StereoPannerNode(context, options));
+        this.pan = new JuniperAudioParam("pan", this.context, this._node.pan);
     }
 }

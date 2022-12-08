@@ -1,27 +1,12 @@
-import { BiquadFilter } from "../nodes";
-import type { AudioConnection, ErsatzAudioNode } from "../util";
-import { removeVertex } from "../util";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperBiquadFilterNode } from "../context/JuniperBiquadFilterNode";
 
-export function RadioEffect(name: string, audioCtx: AudioContext, connectTo?: AudioConnection): RadioEffectNode {
-    return new RadioEffectNode(name, audioCtx, connectTo);
-};
-
-class RadioEffectNode implements ErsatzAudioNode {
-    private readonly node: BiquadFilterNode;
-
-    get input() { return this.node; }
-    get output() { return this.node; }
-
-    constructor(name: string, audioCtx: AudioContext, connectTo?: AudioConnection) {
-        this.node = BiquadFilter(`${name}-biquad-filter`, audioCtx, {
-            type: "bandpass",
-            frequency: 2500,
-            Q: 4.5
-        }, connectTo);
-    }
-
-    dispose() {
-        removeVertex(this.node);
-    }
+export function RadioEffect(name: string, context: JuniperAudioContext): JuniperBiquadFilterNode {
+    const node = new JuniperBiquadFilterNode(context, {
+        type: "bandpass",
+        frequency: 2500,
+        Q: 4.5
+    });
+    node.name = `${name}-radio-effect`;
+    return node;
 }
-

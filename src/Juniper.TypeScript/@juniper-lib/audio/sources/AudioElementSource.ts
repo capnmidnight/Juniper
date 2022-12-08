@@ -1,47 +1,16 @@
 import { mediaElementCanPlay } from "@juniper-lib/dom/tags";
 import { once } from "@juniper-lib/tslib/events/once";
-import { audioReady, removeVertex } from "../util";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
+import type { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { BaseAudioSource } from "./BaseAudioSource";
 import { IPlayable, MediaElementSourceErroredEvent, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
 import { PlaybackState } from "./PlaybackState";
-import type { BaseEmitter } from "./spatializers/BaseEmitter";
-
-const elementRefCounts = new WeakMap<HTMLMediaElement, number>();
-const nodeRefCounts = new WeakMap<MediaElementAudioSourceNode, number>();
-
-function count(source: MediaElementAudioSourceNode, delta: number) {
-    const nodeCount = (nodeRefCounts.get(source) || 0) + delta;
-    nodeRefCounts.set(source, nodeCount);
-
-    const elem = source.mediaElement;
-    const elementCount = (elementRefCounts.get(elem) || 0) + delta;
-    elementRefCounts.set(elem, elementCount);
-
-    return elementCount;
-}
-
-function inc(source: MediaElementAudioSourceNode) {
-    count(source, 1);
-}
-
-function dec(source: MediaElementAudioSourceNode) {
-    count(source, -1);
-    if (nodeRefCounts.get(source) === 0) {
-        nodeRefCounts.delete(source);
-        removeVertex(source);
-    }
-
-    if (elementRefCounts.get(source.mediaElement) === 0) {
-        elementRefCounts.delete(source.mediaElement);
-        if (source.mediaElement.isConnected) {
-            source.mediaElement.remove();
-        }
-    }
-}
 
 export class AudioElementSource
-    extends BaseAudioSource<MediaElementAudioSourceNode, MediaElementSourceEvents>
+    extends BaseAudioSource<MediaElementSourceEvents>
     implements IPlayable {
+
     private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayable>;
     private readonly playEvt: MediaElementSourcePlayedEvent<IPlayable>;
     private readonly pauseEvt: MediaElementSourcePausedEvent<IPlayable>;
@@ -49,17 +18,18 @@ export class AudioElementSource
     private readonly progEvt: MediaElementSourceProgressEvent<IPlayable>;
     private readonly audio: HTMLMediaElement;
 
-    constructor(id: string,
-        audioCtx: AudioContext,
-        source: MediaElementAudioSourceNode,
+    constructor(
+        context: JuniperAudioContext,
+        source: JuniperMediaElementAudioSourceNode,
         private readonly randomize: boolean,
-        spatializer: BaseEmitter,
+        spatializer: BaseSpatializer,
         ...effectNames: string[]) {
-        super(id, audioCtx, spatializer, ...effectNames);
 
-        inc(this.input = source);
+        super("audio-element-source", context, spatializer, effectNames);
+        source.connect(this.volumeControl);
+
         this.audio = source.mediaElement;
-        this.disconnect();
+        this.disable();
 
         this.loadEvt = new MediaElementSourceLoadedEvent(this);
         this.playEvt = new MediaElementSourcePlayedEvent(this);
@@ -68,7 +38,7 @@ export class AudioElementSource
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
         const halt = (evt: Event) => {
-            this.disconnect();
+            this.disable();
 
             if (this.audio.currentTime === 0 || evt.type === "ended") {
                 this.dispatchEvent(this.stopEvt);
@@ -82,7 +52,7 @@ export class AudioElementSource
         this.audio.addEventListener("pause", halt);
 
         this.audio.addEventListener("play", () => {
-            this.connect();
+            this.enable();
 
             if (this.randomize
                 && this.audio.loop
@@ -124,7 +94,7 @@ export class AudioElementSource
     }
 
     async play(): Promise<void> {
-        await audioReady(this.audioCtx);
+        await this.context.ready;
         await this.audio.play();
     }
 
@@ -146,11 +116,5 @@ export class AudioElementSource
     restart(): Promise<void> {
         this.stop();
         return this.play();
-    }
-
-    protected override onDisposing(): void {
-        this.disconnect();
-        dec(this.input);
-        super.onDisposing();
     }
 }

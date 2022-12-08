@@ -1,20 +1,22 @@
-import type { Pose } from "../../Pose";
-import { hasNewAudioListener } from "../../util";
-import { BaseListener } from "./BaseListener";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import type { Pose } from "../Pose";
+import { hasNewAudioListener } from "../util";
+import { BaseWebAudioListener } from "./BaseWebAudioListener";
 
 /**
  * A positioner that uses WebAudio's playback dependent time progression.
  **/
-export class WebAudioListenerNew extends BaseListener {
+export class WebAudioListenerNew extends BaseWebAudioListener {
     /**
      * Creates a new positioner that uses WebAudio's playback dependent time progression.
      */
-    constructor(audioCtx: AudioContext) {
-        super(audioCtx);
+    constructor(context: JuniperAudioContext) {
 
         if (!hasNewAudioListener) {
             throw new Error("Latest WebAudio Listener API is not supported");
         }
+
+        super("web-audio-listener-new", context);
 
         Object.seal(this);
     }
@@ -22,8 +24,9 @@ export class WebAudioListenerNew extends BaseListener {
     /**
      * Performs the spatialization operation for the audio source's latest location.
      */
-    setPose(loc: Pose, t: number): void {
+    readPose(loc: Pose): void {
         const { p, f, u } = loc;
+        const t = this.context.currentTime;
         this.listener.positionX.setValueAtTime(p[0], t);
         this.listener.positionY.setValueAtTime(p[1], t);
         this.listener.positionZ.setValueAtTime(p[2], t);

@@ -1,28 +1,23 @@
-import { Analyser } from "@juniper-lib/audio/nodes";
-import { ErsatzAudioNode, removeVertex } from "@juniper-lib/audio/util";
+import { JuniperAnalyserNode } from "@juniper-lib/audio/context/JuniperAnalyserNode";
+import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
 
-export class ActivityDetector implements ErsatzAudioNode {
+export class ActivityDetector extends JuniperAnalyserNode {
 
     private _level = 0;
     private maxLevel = 0;
-    private analyzer: AnalyserNode;
     private buffer: Uint8Array;
 
-    constructor(private readonly name: string, audioCtx: AudioContext) {
-        this.analyzer = Analyser(this.name, audioCtx, {
+    constructor(context: JuniperAudioContext) {
+        super(context, {
             fftSize: 32,
             minDecibels: -70
         });
 
-        this.buffer = new Uint8Array(this.analyzer.frequencyBinCount);
-    }
-
-    dispose() {
-        removeVertex(this.analyzer);
+        this.buffer = new Uint8Array(this.frequencyBinCount);
     }
 
     get level() {
-        this.analyzer.getByteFrequencyData(this.buffer);
+        this.getByteFrequencyData(this.buffer);
         this._level = Math.max(...this.buffer);
         if (isFinite(this._level)) {
             this.maxLevel = Math.max(this.maxLevel, this._level);
@@ -32,13 +27,5 @@ export class ActivityDetector implements ErsatzAudioNode {
         }
 
         return this._level;
-    }
-
-    get input() {
-        return this.analyzer;
-    }
-
-    get output() {
-        return this.analyzer;
     }
 }

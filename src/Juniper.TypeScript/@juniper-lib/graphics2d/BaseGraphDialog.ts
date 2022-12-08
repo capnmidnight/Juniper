@@ -1,4 +1,5 @@
 import {
+    checked,
     max,
     min,
     step,
@@ -58,6 +59,7 @@ export class BaseGraphDialog<T> extends DialogBox {
     private readonly cooling: HTMLInputElement;
     private readonly attract: HTMLInputElement;
     private readonly repel: HTMLInputElement;
+    private readonly hideBare: HTMLInputElement;
     private readonly canvas: HTMLCanvasElement;
     private readonly g: CanvasRenderingContext2D;
 
@@ -137,6 +139,14 @@ export class BaseGraphDialog<T> extends DialogBox {
                         step(0.1),
                         value(1)
                     )
+                ),
+
+                ...PreLabeled(
+                    "hideBare" + idPostfix,
+                    "Hide bare nodes",
+                    this.hideBare = InputCheckbox(
+                        checked(true)
+                    )
                 )
             ),
 
@@ -214,13 +224,15 @@ export class BaseGraphDialog<T> extends DialogBox {
         this.g.translate(-mid, -mid);
 
         for (const n1 of this.graph) {
-            this.g.fillStyle = rgb(243, 243, 243);
-            const p1 = this.positions.get(n1);
-            this.g.fillRect(p1[0], p1[1], size, size);
-            this.g.strokeRect(p1[0], p1[1], size, size);
+            if (n1.isConnected || !this.hideBare.checked) {
+                this.g.fillStyle = rgb(243, 243, 243);
+                const p1 = this.positions.get(n1);
+                this.g.fillRect(p1[0], p1[1], size, size);
+                this.g.strokeRect(p1[0], p1[1], size, size);
 
-            this.g.fillStyle = "black";
-            this.g.fillText(this.getNodeName(n1.value), p1[0] + mid, p1[1] + mid);
+                this.g.fillStyle = "black";
+                this.g.fillText(this.getNodeName(n1.value), p1[0] + mid, p1[1] + mid);
+            }
         }
         this.g.restore();
         this.g.restore();

@@ -1,34 +1,17 @@
-﻿import { IAudioNode } from "./IAudioNode";
+﻿import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioParam } from "./JuniperAudioParam";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
-export class JuniperDelayNode extends DelayNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, options?: DelayOptions) {
-        super(jctx, options);
-        this.jctx._init("delay", this);
-    }
+export class JuniperDelayNode
+    extends JuniperWrappedNode<DelayNode>
+    implements DelayNode {
 
-    dispose() { this.jctx._dispose(this); }
+    public readonly delayTime: IAudioParam;
 
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
-
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
+    constructor(context: JuniperAudioContext, options?: DelayOptions) {
+        super("delay", context, new DelayNode(context, options));
+        this.delayTime = new JuniperAudioParam("delay", this.context, this._node.delayTime);
     }
 }

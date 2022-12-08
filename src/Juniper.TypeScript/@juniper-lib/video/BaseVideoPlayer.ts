@@ -1,11 +1,11 @@
+import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
+import { JuniperGainNode } from "@juniper-lib/audio/context/JuniperGainNode";
+import { JuniperMediaElementAudioSourceNode } from "@juniper-lib/audio/context/JuniperMediaElementAudioSourceNode";
 import { AudioRecord } from "@juniper-lib/audio/data";
-import { Gain, MediaElementSource } from "@juniper-lib/audio/nodes";
 import { BaseAudioSource } from "@juniper-lib/audio/sources/BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper-lib/audio/sources/IPlayer";
 import { PlaybackState } from "@juniper-lib/audio/sources/PlaybackState";
-import { NoSpatializationNode } from "@juniper-lib/audio/sources/spatializers/NoSpatializationNode";
-import { audioReady, removeVertex } from "@juniper-lib/audio/util";
 import { autoPlay, controls, loop, playsInline } from "@juniper-lib/dom/attrs";
 import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper-lib/dom/tags";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
@@ -20,7 +20,7 @@ import { IDisposable } from "../tslib/using";
 import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer
-    extends BaseAudioSource<GainNode, MediaPlayerEvents>
+    extends BaseAudioSource<MediaPlayerEvents>
     implements IPlayer, IDisposable {
 
     private readonly loadingEvt: MediaPlayerLoadingEvent;
@@ -52,8 +52,6 @@ export abstract class BaseVideoPlayer
 
     protected readonly video: HTMLVideoElement;
     protected readonly audio: HTMLAudioElement;
-    private readonly videoSource: MediaElementAudioSourceNode;
-    private readonly audioSource: MediaElementAudioSourceNode;
 
     get title() {
         return this.video.title;
@@ -69,25 +67,35 @@ export abstract class BaseVideoPlayer
     private readonly sources = new PriorityList<HTMLMediaElement, AudioRecord>();
     private readonly potatoes = new PriorityList<HTMLMediaElement, string>();
 
-    constructor(audioCtx: AudioContext) {
-        super("JuniperVideoPlayer", audioCtx, NoSpatializationNode.instance(audioCtx));
+    constructor(
+        type: string,
+        context: JuniperAudioContext) {
 
-        this.video = this.createMediaElement(Video, controls(true));
-        this.audio = this.createMediaElement(Audio, controls(false));
+        const video = BaseVideoPlayer.createMediaElement(Video, controls(true));
+        const audio = BaseVideoPlayer.createMediaElement(Audio, controls(false));
 
-        this.input = Gain("JuniperVideoPlayer-combiner", audioCtx);
+        const videoNode = new JuniperMediaElementAudioSourceNode(
+            context, {
+            mediaElement: video
+        });
+        videoNode.name = "JuniperVideoPlayer-VideoNode";
 
-        this.videoSource = MediaElementSource(
-            "JuniperVideoPlayer-VideoNode",
-            audioCtx,
-            { mediaElement: this.video },
-            this.input);
+        const audioNode = new JuniperMediaElementAudioSourceNode(
+            context, {
+            mediaElement: audio
+        });
+        audioNode.name = "JuniperVideoPlayer-AudioNode";
 
-        this.audioSource = MediaElementSource(
-            "JuniperVideoPlayer-AudioNode",
-            audioCtx,
-            { mediaElement: this.audio },
-            this.input);
+        const output = new JuniperGainNode(context);
+        output.name = "JuniperVideoPlayer-Output";
+
+        super(type, context, null, [], [videoNode, audioNode]);
+
+        videoNode.connect(this.volumeControl);
+        audioNode.connect(this.volumeControl);
+
+        this.video = video;
+        this.audio = audio;
 
         this.loadingEvt = new MediaPlayerLoadingEvent(this);
         this.loadEvt = new MediaElementSourceLoadedEvent(this);
@@ -103,18 +111,18 @@ export abstract class BaseVideoPlayer
         };
 
         this.onPlay = async () => {
-            this.connect();
+            this.enable();
 
             this.onSeeked();
             if (this.useAudioElement) {
-                await audioReady(this.audioCtx);
+                await this.context.ready;
                 await this.audio.play();
             }
             this.dispatchEvent(this.playEvt)
         };
 
         this.onPause = (evt: Event) => {
-            this.disconnect();
+            this.disable();
 
             if (this.useAudioElement) {
                 this.onSeeked();
@@ -138,7 +146,7 @@ export abstract class BaseVideoPlayer
 
         this.onCanPlay = async () => {
             if (this.useAudioElement && wasWaiting) {
-                await audioReady(this.audioCtx);
+                await this.context.ready;
                 await this.audio.play();
                 wasWaiting = false;
             }
@@ -195,12 +203,7 @@ export abstract class BaseVideoPlayer
     }
 
     protected override onDisposing(): void {
-        super.onDisposing();
         this.clear();
-        removeVertex(this.input);
-        removeVertex(this.videoSource);
-        removeVertex(this.audioSource);
-
         this.video.removeEventListener("seeked", this.onSeeked);
         this.video.removeEventListener("play", this.onPlay);
         this.video.removeEventListener("pause", this.onPause);
@@ -208,6 +211,7 @@ export abstract class BaseVideoPlayer
         this.video.removeEventListener("waiting", this.onWaiting);
         this.video.removeEventListener("canplay", this.onCanPlay);
         this.video.removeEventListener("timeupdate", this.onTimeUpdate);
+        super.onDisposing();
     }
 
     clear(): void {
@@ -281,7 +285,7 @@ export abstract class BaseVideoPlayer
         }
     }
 
-    private createMediaElement<T extends HTMLMediaElement>(MediaElement: (...rest: ElementChild[]) => T, ...rest: ElementChild[]): T {
+    private static createMediaElement<T extends HTMLMediaElement>(MediaElement: (...rest: ElementChild[]) => T, ...rest: ElementChild[]): T {
         return MediaElement(
             playsInline(true),
             autoPlay(false),
@@ -416,7 +420,7 @@ export abstract class BaseVideoPlayer
     }
 
     async play(): Promise<void> {
-        await audioReady(this.audioCtx);
+        await this.context.ready;
         if (isDefined(this.nextStartTime) && this.nextStartTime > 0) {
             this.video.pause();
             this.video.currentTime = this.nextStartTime;

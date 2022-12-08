@@ -1,15 +1,17 @@
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
-import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { isDisposable } from "@juniper-lib/tslib/using";
-import { BaseAudioElement } from "../BaseAudioElement";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+import { IAudioNode } from "../context/IAudioNode";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperAudioNode } from "../context/JuniperAudioNode";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 import { effectStore } from "../effects";
-import { AudioNodeType, chain, connect, disconnect, ErsatzAudioNode, removeVertex } from "../util";
-import type { BaseEmitter } from "./spatializers/BaseEmitter";
-import { NoSpatializationNode } from "./spatializers/NoSpatializationNode";
+import { Pose } from "../Pose";
+import { BaseSpatializer } from "../spatializers/BaseSpatializer";
+import { IAudioSource } from "./IAudioSource";
 
 export class AudioSourceAddedEvent extends TypedEvent<"sourceadded"> {
-    constructor(public readonly source: AudioNode) {
+    constructor(public readonly source: IAudioNode) {
         super("sourceadded");
     }
 }
@@ -18,97 +20,154 @@ export interface AudioSourceEvents {
     "sourceadded": AudioSourceAddedEvent;
 }
 
-export abstract class BaseAudioSource<AudioNodeT extends AudioNode, EventTypeT = void>
-    extends BaseAudioElement<BaseEmitter, AudioSourceEvents & EventTypeT>
-    implements ErsatzAudioNode {
+export abstract class BaseAudioSource<EventTypeT = void>
+    extends JuniperAudioNode<AudioSourceEvents & EventTypeT>
+    implements IAudioSource {
 
-    private source: AudioNodeT = null;
-    private readonly effects = new Array<AudioNodeType>();
+    private readonly effects = new Array<IAudioNode>();
 
-    constructor(id: string, audioCtx: AudioContext, spatializer: BaseEmitter, ...effectNames: string[]) {
-        super(id, audioCtx, spatializer);
+    protected readonly volumeControl: JuniperGainNode;
 
+    private readonly pose = new Pose();
+    private readonly output: IAudioNode;
+
+    constructor(
+        type: string,
+        context: JuniperAudioContext,
+        public readonly spatializer: BaseSpatializer,
+        effectNames: string[],
+        extras?: ReadonlyArray<IAudioNode>) {
+
+        const volumeControl = new JuniperGainNode(context);
+        volumeControl.name = "volume-control";
+
+        extras = extras || [];
+
+        let output: IAudioNode = spatializer;
+        if (isNullOrUndefined(output)) {
+            output = new JuniperGainNode(context);
+            output.name = "output";
+        }
+
+        super(type, context, [], [output], extras);
+
+        this.volumeControl = volumeControl;
+        this.output = output;
         this.setEffects(...effectNames);
     }
 
     protected override onDisposing(): void {
-        for (const effect of this.effects) {
-            if (isDisposable(effect)) {
-                effect.dispose();
-            }
-        }
-
         arrayClear(this.effects);
-
         super.onDisposing();
     }
 
     setEffects(...effectNames: string[]) {
-        disconnect(this.volumeControl);
+        this.disable();
 
         for (const effect of this.effects) {
-            if (isDisposable(effect)) {
-                effect.dispose();
-            }
+            this.remove(effect);
+            effect.dispose();
         }
 
         arrayClear(this.effects);
 
+        let last: IAudioNode = this.volumeControl;
         for (const effectName of effectNames) {
             if (isDefined(effectName)) {
-                const effect = effectStore.get(effectName);
-                if (isDefined(effect)) {
-                    this.effects.push(effect(`${effectName}-${this.id}`, this.audioCtx));
+                const createEffect = effectStore.get(effectName);
+                if (isDefined(createEffect)) {
+                    const effect = createEffect(effectName, this.context);
+                    this.add(effect);
+                    this.effects.push(effect);
+                    last = last.connect(effect);
                 }
             }
         }
 
-        chain(
-            this.volumeControl,
-            ...this.effects,
-            this.spatializer);
+        this.enable();
     }
 
     get spatialized() {
-        return !(this.spatializer instanceof NoSpatializationNode);
+        return isDefined(this.spatializer);
     }
 
-    get input() {
-        return this.source;
+    private get lastInternal() {
+        return this.effects[this.effects.length - 1] || this.volumeControl;
     }
 
-    private _connected = false;
-    get connected() {
-        return this._connected;
-    }
-
-    protected connect(): void {
+    protected enable(): void {
         if (!this.connected) {
-            connect(this.source, this.volumeControl);
+            this.lastInternal.connect(this.output);
         }
     }
 
-    protected disconnect(): void {
+    protected disable(): void {
         if (this.connected) {
-            disconnect(this.source, this.volumeControl);
+            this.lastInternal.disconnect();
         }
     }
 
-    set input(v: AudioNodeT) {
-        if (v !== this.input) {
-            if (this.source) {
-                removeVertex(this.source);
-            }
+    get volume(): number {
+        return this.volumeControl.gain.value;
+    }
 
-            if (v) {
-                this.source = v;
-                this.connect();
-                this.dispatchEvent(new AudioSourceAddedEvent(this.source));
-            }
+    set volume(v: number) {
+        this.volumeControl.gain.value = v;
+    }
+
+    get minDistance() {
+        if (isDefined(this.spatializer)) {
+            return this.spatializer.minDistance;
+        }
+
+        return null;
+    }
+
+    get maxDistance() {
+        if (isDefined(this.spatializer)) {
+            return this.spatializer.maxDistance;
+        }
+
+        return null;
+    }
+
+    get algorithm(): DistanceModelType {
+        if (isDefined(this.spatializer)) {
+            return this.spatializer.algorithm;
+        }
+
+        return null;
+    }
+
+    setPosition(px: number, py: number, pz: number): void {
+        if (isDefined(this.spatializer)) {
+            this.pose.setPosition(px, py, pz);
+            this.spatializer.readPose(this.pose);
         }
     }
 
-    get output() {
-        return this.volumeControl;
+    setOrientation(fx: number, fy: number, fz: number): void;
+    setOrientation(fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void;
+    setOrientation(fx: number, fy: number, fz: number, ux?: number, uy?: number, uz?: number): void {
+        if (isDefined(this.spatializer)) {
+            this.pose.setOrientation(fx, fy, fz, ux, uy, uz);
+            this.spatializer.readPose(this.pose);
+        }
+    }
+
+
+    set(px: number, py: number, pz: number, fx: number, fy: number, fz: number): void;
+    set(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void;
+    set(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux?: number, uy?: number, uz?: number): void {
+        if (isDefined(this.spatializer)) {
+            this.pose.set(px, py, pz, fx, fy, fz, ux, uy, uz);
+            this.spatializer.readPose(this.pose);
+        }
+    }
+
+    setAudioProperties(minDistance: number, maxDistance: number, algorithm: DistanceModelType): void {
+        if (isDefined(this.spatializer)) {
+            this.spatializer.setAudioProperties(minDistance, maxDistance, algorithm);
+        }
     }
 }

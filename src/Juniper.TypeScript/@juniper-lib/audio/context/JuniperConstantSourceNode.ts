@@ -1,34 +1,27 @@
-﻿import { IAudioNode } from "./IAudioNode";
+﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioParam } from "./JuniperAudioParam";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
-export class JuniperConstantSourceNode extends ConstantSourceNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, options?: ConstantSourceOptions) {
-        super(jctx, options);
-        this.jctx._init("constant-source", this);
+export class JuniperConstantSourceNode
+    extends JuniperWrappedNode<ConstantSourceNode, {
+        ended: TypedEvent<"ended">;
+    }>
+    implements ConstantSourceNode {
+
+    public readonly offset: IAudioParam;
+
+    constructor(context: JuniperAudioContext, options?: ConstantSourceOptions) {
+        super("constant-source", context, new ConstantSourceNode(context, options));
+        this._node.addEventListener("ended", () => this.dispatchEvent(new TypedEvent("ended")));
+        this.offset = new JuniperAudioParam("offset", this.context, this._node.offset);
     }
 
-    dispose() { this.jctx._dispose(this); }
+    get onended(): (this: AudioScheduledSourceNode, ev: Event) => any { return this._node.onended; }
+    set onended(v: (this: AudioScheduledSourceNode, ev: Event) => any) { this._node.onended = v; }
 
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
-
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
-    }
+    start(when?: number): void { this._node.start(when); }
+    stop(when?: number): void { this._node.stop(when); }
 }

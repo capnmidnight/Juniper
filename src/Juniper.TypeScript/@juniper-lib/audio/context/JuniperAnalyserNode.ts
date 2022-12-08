@@ -1,34 +1,26 @@
-﻿import { IAudioNode } from "./IAudioNode";
-import type { JuniperAudioContext } from "./JuniperAudioContext";
+﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
-export class JuniperAnalyserNode extends AnalyserNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, options?: AnalyserOptions) {
-        super(jctx, options);
-        this.jctx._init("analyser", this);
+export class JuniperAnalyserNode
+    extends JuniperWrappedNode<AnalyserNode>
+    implements AnalyserNode {
+
+    constructor(context: JuniperAudioContext, options?: AnalyserOptions) {
+        super("analyser", context, new AnalyserNode(context, options));
     }
 
-    dispose() { this.jctx._dispose(this); }
-
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
-
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
-    }
+    get fftSize(): number { return this._node.fftSize; }
+    set fftSize(v: number) { this._node.fftSize = v; }
+    get frequencyBinCount(): number { return this._node.frequencyBinCount; }
+    get maxDecibels(): number { return this._node.maxDecibels; }
+    set maxDecibels(v: number) { this._node.maxDecibels = v; }
+    get minDecibels(): number { return this._node.minDecibels; }
+    set minDecibels(v: number) { this._node.minDecibels = v; }
+    get smoothingTimeConstant(): number { return this._node.smoothingTimeConstant; }
+    set smoothingTimeConstant(v: number) { this._node.smoothingTimeConstant = v; }
+    getByteFrequencyData(array: Uint8Array): void { this._node.getByteFrequencyData(array); }
+    getByteTimeDomainData(array: Uint8Array): void { this._node.getByteTimeDomainData(array); }
+    getFloatFrequencyData(array: Float32Array): void { this._node.getFloatFrequencyData(array); }
+    getFloatTimeDomainData(array: Float32Array): void { this._node.getFloatTimeDomainData(array); }
 }
 

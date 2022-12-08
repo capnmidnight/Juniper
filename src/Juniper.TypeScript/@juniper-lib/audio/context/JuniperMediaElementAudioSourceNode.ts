@@ -1,34 +1,14 @@
-﻿import { IAudioNode } from "./IAudioNode";
-import type { JuniperAudioContext } from "./JuniperAudioContext";
+﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
-export class JuniperMediaElementAudioSourceNode extends MediaElementAudioSourceNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, options?: MediaElementAudioSourceOptions) {
-        super(jctx, options);
-        this.jctx._init("media-element-audio-source", this);
+export class JuniperMediaElementAudioSourceNode
+    extends JuniperWrappedNode<MediaElementAudioSourceNode>
+    implements MediaElementAudioSourceNode {
+
+    constructor(context: JuniperAudioContext, options?: MediaElementAudioSourceOptions) {
+        super("media-element-audio-source", context, new MediaElementAudioSourceNode(context, options));
     }
 
-    dispose() { this.jctx._dispose(this); }
-
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
-
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
-    }
+    get mediaElement(): HTMLMediaElement { return this._node.mediaElement; }
 }

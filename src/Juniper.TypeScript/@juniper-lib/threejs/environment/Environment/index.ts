@@ -168,9 +168,9 @@ export class Environment
         this.audio = new AudioManager(DEFAULT_LOCAL_USER_ID);
         this.audio.setAudioProperties(1, 4, "exponential");
 
-        this.audioPlayer = new AudioPlayer(this.audio.audioCtx);
+        this.audioPlayer = new AudioPlayer(this.audio.context);
 
-        this.videoPlayer = new VideoPlayer3D(this, this.audio.audioCtx);
+        this.videoPlayer = new VideoPlayer3D(this, this.audio.context);
         this.videoPlayer.object.visible = false;
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSys);
@@ -373,7 +373,6 @@ export class Environment
             }
         }
 
-        this.audio.update();
         this.confirmationDialog.update(evt.dt);
     }
 

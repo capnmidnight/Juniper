@@ -1,35 +1,38 @@
-﻿import { IAudioNode } from "./IAudioNode";
+﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioParam } from "./JuniperAudioParam";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
-export class JuniperAudioBufferSourceNode extends AudioBufferSourceNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, options?: AudioBufferSourceOptions) {
-        super(jctx, options);
-        this.jctx._init("audio-buffer-source", this);
+export class JuniperAudioBufferSourceNode
+    extends JuniperWrappedNode<AudioBufferSourceNode, {
+        ended: TypedEvent<"ended">;
+    }>
+    implements AudioBufferSourceNode {
+
+    public readonly playbackRate: IAudioParam;
+    public readonly detune: IAudioParam;
+
+    constructor(context: JuniperAudioContext, options?: AudioBufferSourceOptions) {
+        super("audio-buffer-source", context, new AudioBufferSourceNode(context, options));
+        this._node.addEventListener("ended", () => this.dispatchEvent(new TypedEvent("ended")));
+        this.playbackRate = new JuniperAudioParam("playbackRate", context, this._node.playbackRate);
+        this.detune = new JuniperAudioParam("detune", context, this._node.detune);
     }
 
-    dispose() { this.jctx._dispose(this); }
+    get buffer(): AudioBuffer { return this._node.buffer; }
+    set buffer(v: AudioBuffer) { this._node.buffer = v; }
+    get loop(): boolean { return this._node.loop; }
+    set loop(v: boolean) { this._node.loop = v; }
+    get loopEnd(): number { return this._node.loopEnd; }
+    set loopEnd(v: number) { this._node.loopEnd = v; }
+    get loopStart(): number { return this._node.loopStart; }
+    set loopStart(v: number) { this._node.loopStart = v; }
 
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
+    get onended(): (this: AudioScheduledSourceNode, ev: Event) => any { return this._node.onended; }
+    set onended(v: (this: AudioScheduledSourceNode, ev: Event) => any) { this._node.onended = v; }
 
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
-    }
+    start(when?: number, offset?: number, duration?: number): void { this._node.start(when, offset, duration); }
+    stop(when?: number): void { this._node.stop(when); }
 }
-

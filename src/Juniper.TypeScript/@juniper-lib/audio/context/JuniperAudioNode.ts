@@ -1,58 +1,70 @@
-﻿import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+﻿import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
 import { Exception } from "@juniper-lib/tslib/Exception";
-import { isNumber } from "@juniper-lib/tslib/typeChecks";
-import { IAudioNode } from "./IAudioNode";
+import { IAudioNode, IAudioParam } from "./IAudioNode";
 import { JuniperAudioContext } from "./JuniperAudioContext";
-
+import { JuniperBaseNode } from "./JuniperBaseNode";
 
 export abstract class JuniperAudioNode<EventsT = void>
-    extends TypedEventBase<EventsT & void>
+    extends JuniperBaseNode<EventsT>
     implements IAudioNode {
 
+    private readonly inputs: ReadonlyArray<IAudioNode | IAudioParam>;
     private readonly outputs: ReadonlyArray<IAudioNode>;
-    private readonly allNodes: ReadonlyArray<IAudioNode>;
-
-    constructor(type: string,
-        public readonly context: JuniperAudioContext,
-        private readonly inputs: ReadonlyArray<IAudioNode>,
-        outputs?: ReadonlyArray<IAudioNode>,
-        extra?: ReadonlyArray<IAudioNode>) {
-        super();
-        this.context._init(type, this);
-        this.allNodes = [...extra, ...inputs, ...outputs];
-    }
-
-    get name(): string { return this.context._getName(this); }
-    set name(v: string) { this.context._setName(v, this); }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            this.onDispose();
-        }
-    }
-
-    protected onDispose() {
-        this.allNodes.forEach(v => v.dispose());
-        this.context._dispose(this);
-    }
+    private readonly allNodes: IAudioNode[];
 
     private get exemplar() { return this.allNodes[0]; }
 
+    constructor(type: string,
+        context: JuniperAudioContext,
+        inputs?: ReadonlyArray<IAudioNode | IAudioParam>,
+        endpoints?: ReadonlyArray<IAudioNode | IAudioParam>,
+        extras?: ReadonlyArray<IAudioNode>) {
+        super(type, context);
+
+        inputs = inputs || [];
+        extras = extras || [];
+        const exits = endpoints || inputs;
+
+        this.inputs = inputs;
+        const entries = inputs
+            .filter(o => o instanceof JuniperBaseNode)
+            .map(o => o as IAudioNode)
+        this.outputs = exits
+            .filter(o => o instanceof JuniperBaseNode)
+            .map(o => o as IAudioNode);
+
+        this.allNodes = Array.from(new Set([
+            ...entries,
+            ...this.outputs,
+            ...extras
+        ]));
+    }
+
+    protected override onDisposing() {
+        for (const node of this.allNodes) {
+            node.disconnect();
+        }
+        super.onDisposing();
+    }
+
+    protected remove(node: IAudioNode) {
+        arrayRemove(this.allNodes, node);
+    }
+
+    protected add(node: IAudioNode) {
+        this.allNodes.push(node);
+    }
+
     get channelCount(): number { return this.exemplar.channelCount; }
+    set channelCount(v: number) { this.allNodes.forEach(n => n.channelCount = v); }
     get channelCountMode(): ChannelCountMode { return this.exemplar.channelCountMode; }
+    set channelCountMode(v: ChannelCountMode) { this.allNodes.forEach(n => n.channelCountMode = v);; }
     get channelInterpretation(): ChannelInterpretation { return this.exemplar.channelInterpretation; }
+    set channelInterpretation(v: ChannelInterpretation) { this.allNodes.forEach(n => n.channelInterpretation = v); }
+    get numberOfInputs(): number { return this.inputs.length; }
+    get numberOfOutputs(): number { return this.outputs.length; }
 
-    get numberOfInputs(): number {
-        return this.inputs.length;
-    }
-
-    get numberOfOutputs(): number {
-        return this.outputs.length;
-    }
-
-    private static resolve(type: string, source: ReadonlyArray<IAudioNode>, index?: number): IAudioNode {
+    private static resolve<T>(type: string, source: ReadonlyArray<T>, index?: number): T {
         index = index || 0;
         if (index < 0 || source.length <= index) {
             throw new Exception(`Index out of range: ${type}`);
@@ -61,66 +73,11 @@ export abstract class JuniperAudioNode<EventsT = void>
         return source[index];
     }
 
-    private resolveOutput(output?: number): IAudioNode {
-        return JuniperAudioNode.resolve("output", this.outputs, output);
+    _resolveInput(input?: number): { destination: AudioNode | AudioParam; input?: number } {
+        return { destination: JuniperAudioNode.resolve("input", this.inputs, input) };
     }
 
-    private resolveInput(input?: number): IAudioNode {
-        return JuniperAudioNode.resolve("input", this.inputs, input);
-    }
-
-    connect(destinationNode: IAudioNode, output?: number, input?: number): IAudioNode;
-    connect(destinationParam: AudioParam, output?: number): void;
-    connect(destination: IAudioNode | AudioParam, output?: number, input?: number): IAudioNode | void {
-        this.context._connect(this, destination, output, input);
-
-        const source = this.resolveOutput(output);
-
-        if (destination instanceof AudioNode) {
-            if (destination instanceof JuniperAudioNode) {
-                destination = destination.resolveInput(input);
-                output = undefined;
-            }
-
-            source.connect(destination, output, input);
-            return destination;
-        }
-        else {
-            source.connect(destination, output);
-        }
-    }
-
-    disconnect(): void;
-    disconnect(output: number): void;
-    disconnect(destinationNode: IAudioNode): void;
-    disconnect(destinationNode: IAudioNode, output: number): void;
-    disconnect(destinationNode: IAudioNode, output: number, input: number): void;
-    disconnect(destinationParam: AudioParam): void;
-    disconnect(destinationParam: AudioParam, output: number): void;
-    disconnect(destinationOrOutput?: IAudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.context._disconnect(this, destinationOrOutput, output, input);
-
-        let destination: IAudioNode | AudioParam = undefined;
-        if (isNumber(destinationOrOutput)) {
-            output = destinationOrOutput;
-        }
-        else {
-            destination = destinationOrOutput;
-            output = undefined;
-        }
-
-        const source = this.resolveOutput(output);
-
-        if (destination instanceof AudioNode) {
-            if (destination instanceof JuniperAudioNode) {
-                destination = destination.resolveInput(input);
-                output = undefined;
-            }
-
-            source.disconnect(destination, output, input);
-        }
-        else {
-            source.disconnect(destination, output);
-        }
+    protected _resolveOutput(output?: number): { source: AudioNode; output?: number } {
+        return { source: JuniperAudioNode.resolve("output", this.outputs, output) };
     }
 }

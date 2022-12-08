@@ -1,6 +1,5 @@
 import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
-import { connect } from "@juniper-lib/audio/util";
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
@@ -116,10 +115,12 @@ export class AvatarRemote extends Object3D implements IDisposable {
         user.addEventListener("userPointer", (evt: UserPointerEvent) =>
             this.setPointer(evt.pointerID, evt.pose));
 
-        this.activity = new ActivityDetector(`remote-user-activity-${user.userName}-${user.userID}`, this.env.audio.audioCtx);
+        this.activity = new ActivityDetector(this.env.audio.context);
+        this.activity.name = `remote-user-activity-${user.userName}-${user.userID}`;
 
         source.addEventListener("sourceadded", (evt) => {
-            connect(evt.source, this.activity);
+            evt.source.connect(this.activity);
+            evt.source.name = `remote-user-stream-${user.userName}-${user.userID}`
         });
 
         this.headFollower = new BodyFollower("AvatarBody", 0.05, HalfPi, 0, 5);

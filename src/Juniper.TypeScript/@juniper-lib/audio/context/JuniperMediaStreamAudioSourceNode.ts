@@ -1,34 +1,42 @@
-﻿import { IAudioNode } from "./IAudioNode";
+﻿import { srcObject } from "@juniper-lib/dom/attrs";
+import { BackgroundAudio } from "@juniper-lib/dom/tags";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
+const hasStreamSources = "createMediaStreamSource" in AudioContext.prototype;
 
-export class JuniperMediaStreamAudioSourceNode extends MediaStreamAudioSourceNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, options?: MediaStreamAudioSourceOptions) {
-        super(jctx, options);
-        this.jctx._init("media-stream-audio-source", this);
+export interface JuniperMediaStreamAudioSourceOptions extends MediaStreamAudioSourceOptions {
+    muted?: boolean;
+}
+
+export class JuniperMediaStreamAudioSourceNode
+    extends JuniperWrappedNode<MediaStreamAudioSourceNode | MediaElementAudioSourceNode>
+    implements MediaStreamAudioSourceNode {
+
+    private readonly _stream: MediaStream;
+
+    constructor(context: JuniperAudioContext, options: JuniperMediaStreamAudioSourceOptions) {
+        let node: MediaStreamAudioSourceNode | MediaElementAudioSourceNode;
+        if (hasStreamSources) {
+            node = new MediaStreamAudioSourceNode(context, options);
+        }
+        else {
+            const element = BackgroundAudio(
+                true,
+                options.muted,
+                false,
+                srcObject(options.mediaStream)
+            );
+            node = new MediaElementAudioSourceNode(context, {
+
+                mediaElement: element
+            });
+        }
+
+        super("media-stream-audio-source", context, node);
+
+        this._stream = options.mediaStream;
     }
 
-    dispose() { this.jctx._dispose(this); }
-
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
-
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
-    }
+    get mediaStream(): MediaStream { return this._stream; }
 }

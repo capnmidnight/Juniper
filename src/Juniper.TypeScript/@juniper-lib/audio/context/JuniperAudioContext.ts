@@ -1,8 +1,12 @@
-import { Exception } from "@juniper-lib/tslib/Exception";
-import { isArray, isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
-import { AudioConnection } from "./util";
+import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
+import { GraphNode } from "@juniper-lib/tslib/collections/GraphNode";
+import { once } from "@juniper-lib/tslib/events/once";
+import { assertNever } from "@juniper-lib/tslib/typeChecks";
+import { IAudioNode, IAudioParam } from "./IAudioNode";
 import { JuniperAnalyserNode } from "./JuniperAnalyserNode";
 import { JuniperAudioBufferSourceNode } from "./JuniperAudioBufferSourceNode";
+import { JuniperAudioDestinationNode } from "./JuniperAudioDestinationNode";
+import { JuniperBaseNode } from "./JuniperBaseNode";
 import { JuniperBiquadFilterNode } from "./JuniperBiquadFilterNode";
 import { JuniperChannelMergerNode } from "./JuniperChannelMergerNode";
 import { JuniperChannelSplitterNode } from "./JuniperChannelSplitterNode";
@@ -21,95 +25,68 @@ import { JuniperStereoPannerNode } from "./JuniperStereoPannerNode";
 import { JuniperWaveShaperNode } from "./JuniperWaveShaperNode";
 
 
+if (!("AudioContext" in globalThis) && "webkitAudioContext" in globalThis) {
+    globalThis.AudioContext = (globalThis as any).webkitAudioContext;
+}
+
+if (!("OfflineAudioContext" in globalThis) && "webkitOfflineAudioContext" in globalThis) {
+    globalThis.OfflineAudioContext = (globalThis as any).webkitOfflineAudioContext;
+}
+
 export class JuniperAudioContext extends AudioContext {
     private readonly counters = new Map<string, number>();
 
-    private readonly conns = new Map<AudioNode, Set<AudioConnection>>();
-    private readonly types = new Map<AudioNode, string>();
-    private readonly names = new Map<AudioNode, string>();
+    private readonly _destination: JuniperAudioDestinationNode;
+
+    private readonly nodes = new Set<IAudioNode | IAudioParam>();
+
+    public readonly ready: Promise<void>;
+    private _isReady = false;
+    get isReady() { return this._isReady; }
 
     constructor(contextOptions?: AudioContextOptions) {
         super(contextOptions);
-        this._init("destination", this.destination);
+        this._destination = new JuniperAudioDestinationNode(this, super.destination);
+        this.ready = this.checkReady();
     }
 
-    _setName(name: string, node: AudioNode): void {
-        this.names.set(node, name);
-    }
-
-    _getName(node: AudioNode): string {
-        return this.names.get(node);
-    }
-
-    _init(type: string, node: AudioNode): void {
-        if (!this.counters.has(type)) {
-            this.counters.set(type, 0);
-        }
-
-        const count = this.counters.get(type);
-        const name = `${type}-${count}`;
-
-        this.counters.set(type, count + 1);
-        this._setName(name, node);
-        this.types.set(node, type);
-    }
-
-    _dispose(node: AudioNode): void {
-        node.disconnect();
-        this.names.delete(node);
-        this.types.delete(node);
-    }
-
-    private getConnections(src: AudioNode) {
-        if (!this.conns.has(src)) {
-            this.conns.set(src, new Set());
-        }
-
-        return this.conns.get(src);
-    }
-
-    _connect(src: AudioNode, dest: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        const conns = this.getConnections(src);
-
-        if (dest instanceof AudioNode) {
-            if (!this.names.has(dest)) {
-                throw new Exception("The given destination node was not a Juniper Audio Node and cannot be tracked.");
+    private async checkReady(): Promise<void> {
+        if (this.state !== "running") {
+            if (this.state === "closed") {
+                await this.resume();
             }
-
-            if (isDefined(input)) {
-                conns.add([dest, output, input]);
-            }
-            else if (isDefined(output)) {
-                conns.add([dest, output]);
+            else if (this.state === "suspended") {
+                const stateChange = once<BaseAudioContextEventMap>(this, "statechange");
+                onUserGesture(() => this.resume());
+                await stateChange;
             }
             else {
-                conns.add(dest);
+                assertNever(this.state);
             }
-        }
-        else if (isDefined(output)) {
-            conns.add([dest, output]);
-        }
-        else {
-            conns.add(dest);
+
+            this._isReady = true;
         }
     }
 
-    _disconnect(src: AudioNode, destinationOrOutput?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        const conns = this.getConnections(src);
-        const toDelete = new Set<AudioConnection>();
-        for (const conn of conns) {
-            if (isMatchingConnection(conn, destinationOrOutput, output, input)) {
-                toDelete.add(conn);
-            }
+    _init(node: IAudioNode | IAudioParam): void {
+        this.nodes.add(node);
+
+        if (!this.counters.has(node.nodeType)) {
+            this.counters.set(node.nodeType, 0);
         }
 
-        for (const conn of toDelete) {
-            conns.delete(conn);
-        }
+        const count = this.counters.get(node.nodeType);
+        node.name = `${node.nodeType}-${count}`;
 
-        if (conns.size === 0) {
-            this.conns.delete(src);
-        }
+        this.counters.set(node.nodeType, count + 1);
+    }
+
+    _dispose(node: IAudioNode | IAudioParam): void {
+        this.nodes.delete(node);
+    }
+
+    override get destination(): JuniperAudioDestinationNode {
+        return this._destination;
     }
 
     override createAnalyser(): JuniperAnalyserNode {
@@ -200,28 +177,26 @@ export class JuniperAudioContext extends AudioContext {
     override createScriptProcessor(): ScriptProcessorNode {
         throw new Error("Script processor nodes are deprecated");
     }
-}
 
-function isMatchingConnection(conn: AudioConnection, destinationOrOutput?: AudioNode | AudioParam | number, output?: number, input?: number): boolean {
-    let destination: AudioNode | AudioParam = null;
-    if (isNumber(destinationOrOutput)) {
-        output = destinationOrOutput;
-    }
-    else {
-        destination = destinationOrOutput;
-    }
+    getAudioGraph(): Array<GraphNode<IAudioNode | IAudioParam>> {
+        const nodes = new Map<IAudioNode | IAudioParam, GraphNode<IAudioNode | IAudioParam>>();
 
-    if (isArray(conn)) {
-        return (isNullOrUndefined(destination)
-            || destination === conn[0])
-            && (isNullOrUndefined(output)
-                || output === conn[1])
-            && (conn.length == 2
-                || isNullOrUndefined(input)
-                || input === conn[2]);
-    }
-    else {
-        return (isNullOrUndefined(destination)
-            || destination === conn);
+        for (const node of this.nodes) {
+            nodes.set(node, new GraphNode(node));
+        }
+
+        for (const parent of this.nodes) {
+            if (parent instanceof JuniperBaseNode) {
+                const branch = nodes.get(parent);
+                for (const child of parent.connections) {
+                    const node = child[0];
+                    if (nodes.has(node)) {
+                        branch.connectTo(nodes.get(node));
+                    }
+                }
+            }
+        }
+
+        return Array.from(nodes.values());
     }
 }

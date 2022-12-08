@@ -209,7 +209,7 @@ export interface IFetcherBodiedResult {
     canvas(acceptType?: string | MediaType): Promise<IResponse<OffscreenCanvas | HTMLCanvasElement>>;
 
     audio(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLAudioElement>>;
-    audioBuffer(audioCtx: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>>;
+    audioBuffer(context: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>>;
 
     video(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLVideoElement>>;
 

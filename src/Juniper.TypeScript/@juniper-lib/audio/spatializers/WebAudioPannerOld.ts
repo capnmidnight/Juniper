@@ -1,3 +1,4 @@
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { BaseWebAudioPanner } from "./BaseWebAudioPanner";
 
 /**
@@ -8,8 +9,8 @@ export class WebAudioPannerOld extends BaseWebAudioPanner {
     /**
      * Creates a new positioner that uses the WebAudio API's old setPosition method.
      */
-    constructor(id: string, audioCtx: AudioContext) {
-        super(id, audioCtx);
+    constructor(context: JuniperAudioContext) {
+        super("web-audio-panner-old", context);
 
         Object.seal(this);
     }

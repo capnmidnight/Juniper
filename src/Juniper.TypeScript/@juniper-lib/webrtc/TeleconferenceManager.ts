@@ -1,7 +1,6 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
+import { JuniperMediaStreamAudioSourceNode } from "@juniper-lib/audio/context/JuniperMediaStreamAudioSourceNode";
 import { AudioInputChangedEvent, MicrophoneManager } from "@juniper-lib/audio/MicrophoneManager";
-import { MediaStreamSource } from "@juniper-lib/audio/nodes";
-import { removeVertex } from "@juniper-lib/audio/util";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { singleton } from "@juniper-lib/tslib/singleton";
@@ -26,7 +25,7 @@ import {
 } from "./ConferenceEvents";
 import { ConnectionState, settleConnected, whenDisconnected } from "./ConnectionState";
 import { DEFAULT_LOCAL_USER_ID } from "./constants";
-import { DecayingGain } from "./DecayingGain";
+import { GainDecayer } from "./GainDecayer";
 import {
     HubAnswerReceivedEvent,
     HubIceReceivedEvent,
@@ -118,9 +117,9 @@ export class TeleconferenceManager
 
     private users = new Map<string, RemoteUser>();
 
-    private localStreamIn: MediaStreamAudioSourceNode = null;
+    private localStreamIn: JuniperMediaStreamAudioSourceNode = null;
 
-    private readonly remoteGainDecay: DecayingGain;
+    private readonly remoteGainDecay: GainDecayer;
 
     readonly microphones = new MicrophoneManager();
 
@@ -154,10 +153,8 @@ export class TeleconferenceManager
         this.hub.addEventListener("userPointer", this.onUserPointer.bind(this));
         this.hub.addEventListener("chat", this.onChat.bind(this));
 
-        this.remoteGainDecay = new DecayingGain(
-            this.audio.audioCtx,
-            this.audio.audioDestination.remoteUserInput,
-            this.audio.localAutoControlledGain,
+        this.remoteGainDecay = new GainDecayer(
+            this.audio.context,
             0.05,
             1,
             0.25,
@@ -435,12 +432,12 @@ export class TeleconferenceManager
     }
 
     private onStreamNeeded(evt: RemoteUserStreamNeededEvent) {
-        evt.user.sendStream(this.audio.output.stream);
+        evt.user.sendStream(this.audio.localMic.outStream);
     }
 
     private onTrackAdded(evt: RemoteUserTrackAddedEvent) {
         if (evt.track.kind === "audio") {
-            this.audio.setUserStream(evt.user.userID, evt.user.userName, evt.stream);
+            this.audio.setUserStream(evt.user.userID, evt.stream);
             this.dispatchEvent(new UserAudioStreamAddedEvent(evt.user, evt.stream));
         }
         else if (evt.track.kind === "video") {
@@ -459,7 +456,7 @@ export class TeleconferenceManager
 
     private onTrackRemoved(evt: RemoteUserTrackRemovedEvent) {
         if (evt.track.kind === "audio") {
-            this.audio.setUserStream(evt.user.userID, evt.user.userName, null);
+            this.audio.setUserStream(evt.user.userID, null);
             this.dispatchEvent(new UserAudioStreamRemovedEvent(evt.user, evt.stream));
         }
         else if (evt.track.kind === "video") {
@@ -595,25 +592,13 @@ export class TeleconferenceManager
 
     set localStream(v: MediaStream) {
         if (v !== this.localStream) {
-            if (this.localStreamIn) {
-                removeVertex(this.localStreamIn);
-                this.localStreamIn = null;
-            }
-
             this.microphones.currentStream = v;
-
-            if (v) {
-                this.localStreamIn = MediaStreamSource(
-                    "local-mic",
-                    this.audio.audioCtx,
-                    { mediaStream: v },
-                    this.audio);
-            }
+            this.audio.localMic.inStream = v;
         }
     }
 
     private isMediaMuted(type: StreamType) {
-        for (const track of this.audio.output.stream.getTracks()) {
+        for (const track of this.audio.localMic.outStream.getTracks()) {
             if (track.kind === type) {
                 return !track.enabled;
             }
@@ -623,7 +608,7 @@ export class TeleconferenceManager
     }
 
     private setMediaMuted(type: StreamType, muted: boolean) {
-        for (const track of this.audio.output.stream.getTracks()) {
+        for (const track of this.audio.localMic.outStream.getTracks()) {
             if (track.kind === type) {
                 track.enabled = !muted;
             }

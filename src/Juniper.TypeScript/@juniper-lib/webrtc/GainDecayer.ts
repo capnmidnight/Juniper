@@ -1,14 +1,13 @@
-import { connect, disconnect } from "@juniper-lib/audio/util";
+import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
+import { JuniperAudioNode } from "@juniper-lib/audio/context/JuniperAudioNode";
+import { JuniperGainNode } from "@juniper-lib/audio/context/JuniperGainNode";
 import { unproject } from "@juniper-lib/tslib/math";
 import type { ITimer } from "@juniper-lib/tslib/timers/ITimer";
 import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { SetIntervalTimer } from "@juniper-lib/tslib/timers/SetIntervalTimer";
-import { IDisposable } from "@juniper-lib/tslib/using";
 import { ActivityDetector } from "./ActivityDetector";
 
-export class DecayingGain implements IDisposable {
-    private readonly activity: ActivityDetector;
-
+export class GainDecayer extends JuniperAudioNode {
     private curLength = 0;
 
     private timer: ITimer = null;
@@ -17,10 +16,11 @@ export class DecayingGain implements IDisposable {
     private shouldRun = false;
     private readonly onTick: (evt: TimerTickEvent) => void;
 
+    private readonly activity: ActivityDetector;
+    private readonly output: JuniperGainNode;
+
     constructor(
-        audioCtx: AudioContext,
-        private readonly input: AudioNode,
-        private readonly output: GainNode,
+        context: JuniperAudioContext,
         public min: number,
         public max: number,
         public threshold: number,
@@ -30,17 +30,29 @@ export class DecayingGain implements IDisposable {
         public hold: number,
         public release: number) {
 
-        this.activity = new ActivityDetector("remote-audio-activity", audioCtx);
-        connect(this.input, this.activity);
+        const input = new JuniperGainNode(context);
+        input.name = "gain-decayer-input";
+        const output = new JuniperGainNode(context);
+        output.name = "gain-decayer-output";
+        const activity = new ActivityDetector(context);
+
+        super("gain-decayer", context, [input], [output], [activity]);
+
+        this.output = output;
+
+        this.name = "remote-audio-activity";
+        activity.name = "remote-audio-activity";
+
+        input.connect(activity);
+        input.connect(output);
 
         this.timer = new SetIntervalTimer(30);
         this.timer.addTickHandler(this.onTick = (evt) => this.update(evt));
     }
 
-    dispose(): void {
+    override onDisposing() {
+        super.onDisposing();
         this.timer.removeTickHandler(this.onTick);
-        disconnect(this.input, this.activity);
-        this.activity.dispose();
     }
 
     update(evt: TimerTickEvent) {

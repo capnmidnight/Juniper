@@ -1,34 +1,22 @@
-﻿import { IAudioNode } from "./IAudioNode";
+﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
-export class JuniperAudioWorkletNode extends AudioWorkletNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, name: string, options?: AudioWorkletNodeOptions) {
-        super(jctx, name, options);
-        this.jctx._init("audio-worklet", this);
+export class JuniperAudioWorkletNode
+    extends JuniperWrappedNode<AudioWorkletNode, {
+        processorerror: TypedEvent<"processorerror">
+    }>
+    implements AudioWorkletNode {
+
+    constructor(context: JuniperAudioContext, name: string, options?: AudioWorkletNodeOptions) {
+        super("audio-worklet", context, new AudioWorkletNode(context, name, options));
+        this._node.addEventListener("processorerror", () => this.dispatchEvent(new TypedEvent("processorerror")));
     }
 
-    dispose() { this.jctx._dispose(this); }
+    get parameters(): AudioParamMap { return this._node.parameters; }
+    get port(): MessagePort { return this._node.port; }
 
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
-
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
-    }
+    get onprocessorerror(): (this: AudioWorkletNode, ev: Event) => any { return this._node.onprocessorerror; }
+    set onprocessorerror(v: (this: AudioWorkletNode, ev: Event) => any) { this._node.onprocessorerror = v; }
 }

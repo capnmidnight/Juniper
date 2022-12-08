@@ -1,29 +1,31 @@
-import { assertNever } from "@juniper-lib/tslib/typeChecks";
-import { Panner } from "../../nodes";
-import { Pose } from "../../Pose";
-import { BaseEmitter } from "./BaseEmitter";
+import { BaseSpatializer } from "./BaseSpatializer";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperPannerNode } from "../context/JuniperPannerNode";
+import { Pose } from "../Pose";
 
 /**
  * Base class for spatializers that uses WebAudio's PannerNode
  **/
-export abstract class BaseWebAudioPanner extends BaseEmitter {
+export abstract class BaseWebAudioPanner extends BaseSpatializer {
 
     protected readonly panner: PannerNode;
 
     /**
      * Creates a new spatializer that uses WebAudio's PannerNode.
      */
-    constructor(id: string, audioCtx: AudioContext) {
-        super(id);
-
-        this.input = this.output = this.panner = Panner(this.id,
-            audioCtx, {
+    constructor(
+        type: string,
+        context: JuniperAudioContext) {
+        const panner = new JuniperPannerNode(context, {
             panningModel: "HRTF",
             distanceModel: "inverse",
             coneInnerAngle: 360,
             coneOuterAngle: 0,
             coneOuterGain: 0
         });
+        super(type, context, [panner]);
+
+        this.panner = panner;
     }
 
     /**
@@ -37,7 +39,7 @@ export abstract class BaseWebAudioPanner extends BaseEmitter {
             this.panner.rolloffFactor = Infinity;
         }
         else {
-            this.panner.rolloffFactor = 1 / this.maxDistance;
+            this.panner.rolloffFactor = 10 / this.maxDistance;
         }
     }
 
@@ -51,7 +53,7 @@ export abstract class BaseWebAudioPanner extends BaseEmitter {
     /**
      * Performs the spatialization operation for the audio source's latest location.
      */
-    setPose(loc: Pose, t: number): void {
+    readPose(loc: Pose): void {
         const { p, f } = loc;
         const [px, py, pz] = p;
         const [ox, oy, oz] = f;
@@ -61,7 +63,7 @@ export abstract class BaseWebAudioPanner extends BaseEmitter {
             this.lpx = px;
             this.lpy = py;
             this.lpz = pz;
-            this.setPosition(px, py, pz, t);
+            this.setPosition(px, py, pz, this.context.currentTime);
         }
 
         if (ox !== this.lox
@@ -70,7 +72,7 @@ export abstract class BaseWebAudioPanner extends BaseEmitter {
             this.lox = ox;
             this.loy = oy;
             this.loz = oz;
-            this.setOrientation(ox, oy, oz, t);
+            this.setOrientation(ox, oy, oz, this.context.currentTime);
         }
     }
 

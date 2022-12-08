@@ -8,6 +8,7 @@ import { progressSplitWeighted } from "@juniper-lib/tslib/progress/progressSplit
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseVideoPlayer } from "./BaseVideoPlayer";
 import { FullVideoRecord } from "./data";
+import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
 
 const loadingCursor: CSSCursorValue = "wait";
 const loadedCursor: CSSCursorValue = "pointer";
@@ -20,8 +21,8 @@ export class VideoPlayer
     readonly element: HTMLElement;
     readonly thumbnail: HTMLImageElement;
 
-    constructor(audioCtx: AudioContext) {
-        super(audioCtx);
+    constructor(context: JuniperAudioContext) {
+        super("video-player", context);
 
         this.element = Div(
             display("inline-block"),

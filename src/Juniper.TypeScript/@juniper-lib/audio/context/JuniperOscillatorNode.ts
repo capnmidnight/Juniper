@@ -1,34 +1,33 @@
-﻿import { IAudioNode } from "./IAudioNode";
+﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioParam } from "./JuniperAudioParam";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
-export class JuniperOscillatorNode extends OscillatorNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, options?: OscillatorOptions) {
-        super(jctx, options);
-        this.jctx._init("oscillator", this);
+export class JuniperOscillatorNode
+    extends JuniperWrappedNode<OscillatorNode, {
+        ended: TypedEvent<"ended">;
+    }>
+    implements OscillatorNode {
+
+    public readonly detune: IAudioParam;
+    public readonly frequency: IAudioParam;
+
+    constructor(context: JuniperAudioContext, options?: OscillatorOptions) {
+        super("oscillator", context, new OscillatorNode(context, options));
+        this._node.addEventListener("ended", () => this.dispatchEvent(new TypedEvent("ended")));
+        this.detune = new JuniperAudioParam("detune", this.context, this._node.detune);
+        this.frequency = new JuniperAudioParam("frequency", this.context, this._node.frequency);
     }
 
-    dispose() { this.jctx._dispose(this); }
+    get type(): OscillatorType { return this._node.type; }
+    set type(v: OscillatorType) { this._node.type = v; }
 
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
+    get onended(): (this: AudioScheduledSourceNode, ev: Event) => any { return this._node.onended; }
+    set onended(v: (this: AudioScheduledSourceNode, ev: Event) => any) { this._node.onended = v; }
 
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
-    }
+    setPeriodicWave(periodicWave: PeriodicWave): void { this._node.setPeriodicWave(periodicWave); }
+    start(when?: number): void { this._node.start(when); }
+    stop(when?: number): void { this._node.stop(when); }
 }

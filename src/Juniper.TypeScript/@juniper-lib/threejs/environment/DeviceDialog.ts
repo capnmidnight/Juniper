@@ -1,5 +1,4 @@
 import { canChangeAudioOutput } from "@juniper-lib/audio/SpeakerManager";
-import { connect } from "@juniper-lib/audio/util";
 import {
     className,
     max,
@@ -88,7 +87,7 @@ export class DeviceDialog extends DialogBox {
                         step(1),
                         value(0),
                         onInput(() => {
-                            env.audio.input.gain.setValueAtTime(this.micVolumeControl.valueAsNumber / 100, 0);
+                            env.audio.localMic.gain.setValueAtTime(this.micVolumeControl.valueAsNumber / 100, 0);
                         })
                     )],
 
@@ -150,7 +149,8 @@ export class DeviceDialog extends DialogBox {
                 )]
         );
 
-        this.activity = new ActivityDetector("device-settings-dialog-activity", this.env.audio.audioCtx);
+        this.activity = new ActivityDetector(this.env.audio.context);
+        this.activity.name = "device-settings-dialog-activity";
 
         this.timer.addTickHandler(() => {
             this.micScenario.value = this.activity.level;
@@ -172,7 +172,7 @@ export class DeviceDialog extends DialogBox {
             this.microphones.value = evt.audio && evt.audio.deviceId || "";
         });
 
-        connect(this.env.audio.input, this.activity);
+        this.env.audio.localMic.connect(this.activity);
     }
 
     private async load() {
@@ -206,7 +206,7 @@ export class DeviceDialog extends DialogBox {
 
             const curMic = await this.tele.conference.microphones.getAudioInputDevice();
             this.microphones.value = curMic && curMic.deviceId || "";
-            this.micVolumeControl.valueAsNumber = this.env.audio.input.gain.value * 100;
+            this.micVolumeControl.valueAsNumber = this.env.audio.localMic.gain.value * 100;
         }
 
         if (canChangeAudioOutput) {

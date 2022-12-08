@@ -1,3 +1,4 @@
+import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { and } from "@juniper-lib/tslib/identity";
@@ -51,8 +52,8 @@ export class VideoPlayer3D
 
     readonly object: Object3D;
 
-    constructor(env: BaseEnvironment, audioCtx: AudioContext) {
-        super(audioCtx);
+    constructor(env: BaseEnvironment, context: JuniperAudioContext) {
+        super("video-player-3d", context);
 
         this.material = solidTransparent({ name: "videoPlayer-material" });
 

@@ -7,17 +7,16 @@ import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
 import { IDisposable } from "@juniper-lib/tslib/using";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
 import { AudioRecord, FullAudioRecord } from "../data";
-import { MediaElementSource } from "../nodes";
-import { audioReady, removeVertex } from "../util";
 import { BaseAudioSource } from "./BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "./IPlayer";
 import { PlaybackState } from "./PlaybackState";
-import { NoSpatializationNode } from "./spatializers/NoSpatializationNode";
 
 export class AudioPlayer
-    extends BaseAudioSource<MediaElementAudioSourceNode, MediaPlayerEvents>
+    extends BaseAudioSource<MediaPlayerEvents>
     implements ErsatzElement<HTMLAudioElement>, IPlayer, IDisposable {
 
     private readonly cacheBustSources = new Map<FullAudioRecord | string, number>();
@@ -47,7 +46,6 @@ export class AudioPlayer
     }
 
     readonly element: HTMLAudioElement;
-    private readonly audioSource: MediaElementAudioSourceNode;
 
     get title() {
         return this.element.title;
@@ -61,20 +59,25 @@ export class AudioPlayer
     private readonly sources = new Array<AudioRecord>();
     private readonly potatoes = new Array<string>();
 
-    constructor(audioCtx: AudioContext) {
-        super("JuniperAudioPlayer", audioCtx, NoSpatializationNode.instance(audioCtx));
-
-        this.element = Audio(
+    constructor(context: JuniperAudioContext) {
+        const mediaElement = Audio(
             playsInline(true),
             autoPlay(false),
             loop(false),
             controls(true)
         );
 
-        this.input = MediaElementSource(
-            "JuniperAudioPlayer-Input",
-            audioCtx,
-            { mediaElement: this.element });
+        const elementNode = new JuniperMediaElementAudioSourceNode(context, {
+            mediaElement
+        });
+
+        elementNode.name = "JuniperAudioPlayer-Input";
+        
+        super("audio-player", context, null, [], [elementNode]);
+
+        elementNode.connect(this.volumeControl);
+
+        this.element = mediaElement;
 
         this.loadingEvt = new MediaPlayerLoadingEvent(this);
         this.loadEvt = new MediaElementSourceLoadedEvent(this);
@@ -84,12 +87,12 @@ export class AudioPlayer
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
         this.onPlay = async () => {
-            this.connect();
+            this.enable();
             this.dispatchEvent(this.playEvt)
         };
 
         this.onPause = (evt: Event) => {
-            this.disconnect();
+            this.disable();
 
             if (this.element.currentTime === 0 || evt.type === "ended") {
                 this.dispatchEvent(this.stopEvt);
@@ -130,8 +133,6 @@ export class AudioPlayer
     protected override onDisposing(): void {
         super.onDisposing();
         this.clear();
-        removeVertex(this.input);
-        removeVertex(this.audioSource);
 
         this.element.removeEventListener("play", this.onPlay);
         this.element.removeEventListener("pause", this.onPause);
@@ -301,7 +302,7 @@ export class AudioPlayer
     }
 
     async play(): Promise<void> {
-        await audioReady(this.audioCtx);
+        await this.context.ready;
         await this.element.play();
     }
 

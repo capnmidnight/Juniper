@@ -310,10 +310,10 @@ export class RequestBuilder implements
         throw new Error(`Cannot play file of type "${response.contentType}" at path: ${this.request.path}`);
     }
 
-    async audioBuffer(audioCtx: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>> {
+    async audioBuffer(context: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>> {
         return translateResponse(
             await this.audioBlob(acceptType),
-            async (blob) => await audioCtx.decodeAudioData(await blob.arrayBuffer()));
+            async (blob) => await context.decodeAudioData(await blob.arrayBuffer()));
     }
 
 

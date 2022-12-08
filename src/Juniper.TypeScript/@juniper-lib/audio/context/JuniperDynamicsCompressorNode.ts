@@ -1,34 +1,27 @@
-﻿import { IAudioNode } from "./IAudioNode";
+﻿import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioParam } from "./JuniperAudioParam";
+import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
-export class JuniperDynamicsCompressorNode extends DynamicsCompressorNode implements IAudioNode {
-    constructor(private readonly jctx: JuniperAudioContext, options?: DynamicsCompressorOptions) {
-        super(jctx, options);
-        this.jctx._init("dynamics-compressor", this);
+export class JuniperDynamicsCompressorNode
+    extends JuniperWrappedNode<DynamicsCompressorNode>
+    implements DynamicsCompressorNode {
+
+    public readonly attack: IAudioParam;
+    public readonly knee: IAudioParam;
+    public readonly ratio: IAudioParam;
+    public readonly release: IAudioParam;
+    public readonly threshold: IAudioParam;
+
+    constructor(context: JuniperAudioContext, options?: DynamicsCompressorOptions) {
+        super("dynamics-compressor", context, new DynamicsCompressorNode(context, options));
+        this.attack = new JuniperAudioParam("attack", this.context, this._node.attack);
+        this.knee = new JuniperAudioParam("knee", this.context, this._node.knee);
+        this.ratio = new JuniperAudioParam("ratio", this.context, this._node.ratio);
+        this.release = new JuniperAudioParam("release", this.context, this._node.release);
+        this.threshold = new JuniperAudioParam("threshold", this.context, this._node.threshold);
     }
 
-    dispose() { this.jctx._dispose(this); }
-
-    get name(): string { return this.jctx._getName(this); }
-    set name(v: string) { this.jctx._setName(v, this); }
-
-    override connect(destinationNode: AudioNode, output?: number, input?: number): AudioNode;
-    override connect(destinationParam: AudioParam, output?: number): void;
-    override connect(destination: AudioNode | AudioParam, output?: number, input?: number): AudioNode | void {
-        this.jctx._connect(this, destination, output, input);
-        return super.connect(destination as any, output, input);
-    }
-
-    override disconnect(): void;
-    override disconnect(output: number): void;
-    override disconnect(destinationNode: AudioNode): void;
-    override disconnect(destinationNode: AudioNode, output: number): void;
-    override disconnect(destinationNode: AudioNode, output: number, input: number): void;
-    override disconnect(destinationParam: AudioParam): void;
-    override disconnect(destinationParam: AudioParam, output: number): void;
-    override disconnect(destination?: AudioNode | AudioParam | number, output?: number, input?: number): void {
-        this.jctx._disconnect(this, destination, output, input);
-        super.disconnect(destination as any, output, input);
-    }
+    get reduction(): number { return this._node.reduction; }
 }
