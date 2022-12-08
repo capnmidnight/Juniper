@@ -80,13 +80,13 @@ export abstract class BaseVideoPlayer
         this.videoSource = MediaElementSource(
             "JuniperVideoPlayer-VideoNode",
             audioCtx,
-            this.video,
+            { mediaElement: this.video },
             this.input);
 
         this.audioSource = MediaElementSource(
             "JuniperVideoPlayer-AudioNode",
             audioCtx,
-            this.audio,
+            { mediaElement: this.audio },
             this.input);
 
         this.loadingEvt = new MediaPlayerLoadingEvent(this);
