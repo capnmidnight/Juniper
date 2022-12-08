@@ -1,10 +1,10 @@
-﻿import { IAudioNode, IAudioParam } from "../IAudioNode";
-import { BaseNode } from "../BaseNode";
-import { InputResolution, JuniperAudioContext, OutputResolution } from "./JuniperAudioContext";
+﻿import { IAudioNode } from "./IAudioNode";
+import { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperBaseNode } from "./JuniperBaseNode";
 
 
-export abstract class JuniperAudioNode<NodeT extends AudioNode = AudioNode, EventsT = void>
-    extends BaseNode<EventsT>
+export abstract class JuniperWrappedNode<NodeT extends AudioNode = AudioNode, EventsT = void>
+    extends JuniperBaseNode<EventsT>
     implements IAudioNode {
 
     constructor(
@@ -12,17 +12,11 @@ export abstract class JuniperAudioNode<NodeT extends AudioNode = AudioNode, Even
         context: JuniperAudioContext,
         protected readonly _node: NodeT) {
         super(type, context);
-        this.context._init(this._node, this.nodeType);
     }
 
     protected override onDisposing() {
         this.disconnect();
-        this.context._dispose(this._node);
         super.onDisposing();
-    }
-
-    protected parent(param: IAudioParam) {
-        this.context._parent(this, param);
     }
 
     get channelCount(): number { return this._node.channelCount; }
@@ -34,14 +28,14 @@ export abstract class JuniperAudioNode<NodeT extends AudioNode = AudioNode, Even
     get numberOfInputs(): number { return this._node.numberOfInputs; }
     get numberOfOutputs(): number { return this._node.numberOfOutputs; }
 
-    _resolveInput(input?: number): InputResolution {
+    _resolveInput(input?: number): { destination: AudioNode | AudioParam; input?: number; } {
         return {
             destination: this._node,
             input
         };
     }
 
-    _resolveOutput(output?: number): OutputResolution {
+    protected _resolveOutput(output?: number): { source: AudioNode; output?: number } {
         return {
             source: this._node,
             output

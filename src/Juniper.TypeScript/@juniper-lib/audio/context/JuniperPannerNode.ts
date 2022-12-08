@@ -1,4 +1,4 @@
-import { IAudioParam } from "../IAudioNode";
+﻿import { IAudioParam } from "../IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioNode } from "./JuniperAudioNode";
 import { JuniperAudioParam } from "./JuniperAudioParam";
@@ -17,12 +17,12 @@ export class JuniperPannerNode
 
     constructor(context: JuniperAudioContext, options?: PannerOptions) {
         super("panner", context, new PannerNode(context, options));
-        this.parent(this.positionX = new JuniperAudioParam("positionX", this.context, this._node.positionX));
-        this.parent(this.positionY = new JuniperAudioParam("positionY", this.context, this._node.positionY));
-        this.parent(this.positionZ = new JuniperAudioParam("positionZ", this.context, this._node.positionZ));
-        this.parent(this.orientationX = new JuniperAudioParam("orientationX", this.context, this._node.orientationX));
-        this.parent(this.orientationY = new JuniperAudioParam("orientationY", this.context, this._node.orientationY));
-        this.parent(this.orientationZ = new JuniperAudioParam("orientationZ", this.context, this._node.orientationZ));
+        this.positionX = new JuniperAudioParam("positionX", this.context, this._node.positionX);
+        this.positionY = new JuniperAudioParam("positionY", this.context, this._node.positionY);
+        this.positionZ = new JuniperAudioParam("positionZ", this.context, this._node.positionZ);
+        this.orientationX = new JuniperAudioParam("orientationX", this.context, this._node.orientationX);
+        this.orientationY = new JuniperAudioParam("orientationY", this.context, this._node.orientationY);
+        this.orientationZ = new JuniperAudioParam("orientationZ", this.context, this._node.orientationZ);
     }
     
     get coneInnerAngle(): number { return this._node.coneInnerAngle; }

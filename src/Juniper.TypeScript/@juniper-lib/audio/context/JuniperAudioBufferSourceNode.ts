@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { IAudioParam } from "../IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioNode } from "./JuniperAudioNode";
@@ -17,8 +17,8 @@ export class JuniperAudioBufferSourceNode
     constructor(context: JuniperAudioContext, options?: AudioBufferSourceOptions) {
         super("audio-buffer-source", context, new AudioBufferSourceNode(context, options));
         this._node.addEventListener("ended", () => this.dispatchEvent(new TypedEvent("ended")));
-        this.parent(this.playbackRate = new JuniperAudioParam("playbackRate", context, this._node.playbackRate));
-        this.parent(this.detune = new JuniperAudioParam("detune", context, this._node.detune));
+        this.parent(this.playbackRate = new JuniperAudioParam("playbackRate", context, this._node.playbackRate);
+        this.detune = new JuniperAudioParam("detune", context, this._node.detune));
     }
 
     get buffer(): AudioBuffer { return this._node.buffer; }

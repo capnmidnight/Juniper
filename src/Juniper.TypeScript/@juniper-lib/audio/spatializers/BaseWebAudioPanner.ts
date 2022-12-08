@@ -39,16 +39,14 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
         if (algorithm === "linear") {
             this.panner.rolloffFactor = 1;
         }
+        else if (this.maxDistance <= 0) {
+            this.panner.rolloffFactor = Infinity;
+        }
+        else if (algorithm === "inverse") {
+            this.panner.rolloffFactor = 1 / this.maxDistance;
+        }
         else {
-            if (this.maxDistance <= 0) {
-                this.panner.rolloffFactor = Infinity;
-            }
-            else if (algorithm === "inverse") {
-                this.panner.rolloffFactor = 1 / this.maxDistance;
-            }
-            else {
-                this.panner.rolloffFactor = Math.pow(this.maxDistance, -0.2);
-            }
+            this.panner.rolloffFactor = Math.pow(this.maxDistance, -0.2);
         }
     }
 

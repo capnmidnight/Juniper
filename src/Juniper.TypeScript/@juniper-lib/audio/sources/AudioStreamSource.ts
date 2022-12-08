@@ -42,7 +42,7 @@ export class AudioStreamSource extends BaseAudioSource<AudioSourceEvents> {
                 this._node = new JuniperMediaStreamAudioSourceNode(
                     this.context,
                     {
-                        mediaStream: mediaStream
+                        mediaStream
                     });
                 this._node.name = stringToName("media-stream-source", mediaStream.id);
                 this._node.connect(this.volumeControl);

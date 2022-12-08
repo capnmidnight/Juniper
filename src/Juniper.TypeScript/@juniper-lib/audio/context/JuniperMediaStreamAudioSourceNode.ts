@@ -1,4 +1,4 @@
-import { srcObject } from "@juniper-lib/dom/attrs";
+﻿import { srcObject } from "@juniper-lib/dom/attrs";
 import { BackgroundAudio } from "@juniper-lib/dom/tags";
 import { hasStreamSources } from "../util";
 import type { JuniperAudioContext } from "./JuniperAudioContext";

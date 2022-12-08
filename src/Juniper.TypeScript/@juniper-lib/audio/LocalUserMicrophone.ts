@@ -1,7 +1,7 @@
-import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
+import { JuniperAudioNode } from "./context/JuniperAudioNode";
 import { JuniperBiquadFilterNode } from "./context/JuniperBiquadFilterNode";
 import { JuniperDynamicsCompressorNode } from "./context/JuniperDynamicsCompressorNode";
 import { JuniperGainNode } from "./context/JuniperGainNode";
@@ -9,23 +9,22 @@ import { JuniperMediaStreamAudioDestinationNode } from "./context/JuniperMediaSt
 import { JuniperMediaStreamAudioSourceNode } from "./context/JuniperMediaStreamAudioSourceNode";
 
 
-export class LocalUserMicrophone extends BaseNodeCluster<{
+export class LocalUserMicrophone extends JuniperAudioNode<{
     started: TypedEvent<"started">;
     stopped: TypedEvent<"stopped">;
 }> {
 
-    readonly localAutoControlledGain: JuniperGainNode;
-
     private localStream: JuniperMediaStreamAudioSourceNode;
     private readonly localVolume: JuniperGainNode;
+    //private readonly localAutoControlledGain: JuniperGainNode;
     private readonly localOutput: JuniperMediaStreamAudioDestinationNode;
 
     constructor(context: JuniperAudioContext) {
         const localVolume = context.createGain();
         localVolume.name = "local-mic-user-gain";
 
-        const localAutoControlledGain = new JuniperGainNode(context);
-        localAutoControlledGain.name = "local-mic-auto-gain";
+        //const localAutoControlledGain = new JuniperGainNode(context);
+        //localAutoControlledGain.name = "local-mic-auto-gain";
 
         const localFilter = new JuniperBiquadFilterNode(context, {
             type: "bandpass",
@@ -44,22 +43,22 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
         const localOutput = new JuniperMediaStreamAudioDestinationNode(context);
         localOutput.name = "local-mic-destination";
 
-        super("local-user-microphone", context, [], [localCompressor], [
-            localVolume,
-            localAutoControlledGain,
+        super("local-user-microphone", context, [localVolume], [localCompressor], [
+//            localAutoControlledGain,
             localFilter,
             localOutput
         ]);
 
         this.localVolume = localVolume;
         this.localOutput = localOutput;
-        this.localAutoControlledGain = localAutoControlledGain;
+        //this.localAutoControlledGain = localAutoControlledGain;
 
         localVolume
-            .connect(localAutoControlledGain)
-            .connect(localFilter)
-            .connect(localCompressor)
-            .connect(localOutput);
+        //    .connect(localAutoControlledGain);
+        //localAutoControlledGain
+            .connect(localFilter);
+        localFilter.connect(localCompressor);
+        localCompressor.connect(localOutput);
     }
 
     get gain() {
@@ -75,17 +74,17 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
         }
     }
 
-    set inStream(mediaStream) {
-        if (mediaStream !== this.inStream) {
+    set inStream(v) {
+        if (v !== this.inStream) {
             if (isDefined(this.localStream)) {
                 this.remove(this.localStream);
                 this.localStream.dispose();
                 this.localStream = null;
             }
 
-            if (isDefined(mediaStream)) {
+            if (isDefined(v)) {
                 this.localStream = new JuniperMediaStreamAudioSourceNode(this.context, {
-                    mediaStream
+                    mediaStream: v
                 });
                 this.add(this.localStream);
                 this.localStream.connect(this.localVolume);

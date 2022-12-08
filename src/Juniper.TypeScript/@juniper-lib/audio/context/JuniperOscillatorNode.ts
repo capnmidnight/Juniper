@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { IAudioParam } from "../IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioNode } from "./JuniperAudioNode";
@@ -17,8 +17,8 @@ export class JuniperOscillatorNode
     constructor(context: JuniperAudioContext, options?: OscillatorOptions) {
         super("oscillator", context, new OscillatorNode(context, options));
         this._node.addEventListener("ended", () => this.dispatchEvent(new TypedEvent("ended")));
-        this.parent(this.detune = new JuniperAudioParam("detune", this.context, this._node.detune));
-        this.parent(this.frequency = new JuniperAudioParam("frequency", this.context, this._node.frequency));
+        this.detune = new JuniperAudioParam("detune", this.context, this._node.detune);
+        this.frequency = new JuniperAudioParam("frequency", this.context, this._node.frequency);
     }
 
     get type(): OscillatorType { return this._node.type; }
