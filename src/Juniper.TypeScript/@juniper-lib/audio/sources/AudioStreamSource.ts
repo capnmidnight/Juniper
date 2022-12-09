@@ -1,3 +1,4 @@
+import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IAudioNode } from "../context/IAudioNode";
@@ -8,10 +9,18 @@ import type { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { BaseAudioSource } from "./BaseAudioSource";
 
 export type AudioStreamSourceNode = JuniperMediaElementAudioSourceNode | JuniperMediaStreamAudioSourceNode;
-const hasStreamSources = "createMediaStreamSource" in AudioContext.prototype;
-const useElementSourceForUsers = !hasStreamSources;
 
-export class AudioStreamSource extends BaseAudioSource<AudioStreamSourceNode> {
+export class AudioSourceAddedEvent extends TypedEvent<"sourceadded"> {
+    constructor(public readonly source: IAudioNode) {
+        super("sourceadded");
+    }
+}
+
+export interface AudioSourceEvents {
+    "sourceadded": AudioSourceAddedEvent;
+}
+
+export class AudioStreamSource extends BaseAudioSource<AudioSourceEvents> {
 
     private _stream: MediaStream = null;
     private _node: IAudioNode = null;
@@ -24,24 +33,24 @@ export class AudioStreamSource extends BaseAudioSource<AudioStreamSourceNode> {
         return this._stream;
     }
 
-    set stream(v: MediaStream) {
-        if (v !== this.stream) {
+    set stream(mediaStream: MediaStream) {
+        if (mediaStream !== this.stream) {
             if (isDefined(this.stream)) {
                 this.remove(this._node);
                 this._node.dispose();
                 this._node = null;
             }
 
-            if (isDefined(v)) {
+            if (isDefined(mediaStream)) {
                 this._node = new JuniperMediaStreamAudioSourceNode(
                     this.context,
                     {
-                        mediaStream: v,
-                        muted: !useElementSourceForUsers
+                        mediaStream: mediaStream
                     });
-                this._node.name = stringToName("media-stream-source", v.id);
+                this._node.name = stringToName("media-stream-source", mediaStream.id);
                 this._node.connect(this.volumeControl);
                 this.add(this._node);
+                this.dispatchEvent(new AudioSourceAddedEvent(this));
             }
         }
     }

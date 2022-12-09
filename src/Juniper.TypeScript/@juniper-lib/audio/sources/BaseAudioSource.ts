@@ -1,5 +1,4 @@
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
-import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { IAudioNode } from "../context/IAudioNode";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
@@ -10,18 +9,8 @@ import { Pose } from "../Pose";
 import { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { IAudioSource } from "./IAudioSource";
 
-export class AudioSourceAddedEvent extends TypedEvent<"sourceadded"> {
-    constructor(public readonly source: IAudioNode) {
-        super("sourceadded");
-    }
-}
-
-export interface AudioSourceEvents {
-    "sourceadded": AudioSourceAddedEvent;
-}
-
 export abstract class BaseAudioSource<EventTypeT = void>
-    extends JuniperAudioNode<AudioSourceEvents & EventTypeT>
+    extends JuniperAudioNode<EventTypeT>
     implements IAudioSource {
 
     private readonly effects = new Array<IAudioNode>();

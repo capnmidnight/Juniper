@@ -157,11 +157,11 @@ export class AudioManager
      * @param isRemoteStream - whether or not the audio stream is coming from a remote user.
      */
     private createSpatializer(spatialize: boolean, isRemoteStream: boolean): BaseSpatializer {
-        const destIndex = spatialize
+        const destination = spatialize
             ? isRemoteStream
-                ? this.audioDestination.remoteUserInputIndex
-                : this.audioDestination.spatializedInputIndex
-            : this.audioDestination.nonSpatializedInputIndex;
+                ? this.audioDestination.remoteUserInput
+                : this.audioDestination.spatializedInput
+            : this.audioDestination.nonSpatializedInput;
 
         const spatializer = spatialize
             ? hasNewAudioListener
@@ -171,7 +171,7 @@ export class AudioManager
 
         if (isDefined(spatializer)) {
             spatializer.setAudioProperties(this._minDistance, this._maxDistance, this._algorithm);
-            spatializer.connect(this.audioDestination, 0, destIndex);
+            spatializer.connect(destination);
         }
 
         return spatializer;

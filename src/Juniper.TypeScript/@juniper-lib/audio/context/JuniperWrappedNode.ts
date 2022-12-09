@@ -1,6 +1,6 @@
-﻿import { IAudioNode } from "./IAudioNode";
+import { IAudioNode } from "./IAudioNode";
 import { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperBaseNode } from "./JuniperBaseNode";
+import { InputResolution, JuniperBaseNode, OutputResolution } from "./JuniperBaseNode";
 
 
 export abstract class JuniperWrappedNode<NodeT extends AudioNode = AudioNode, EventsT = void>
@@ -28,14 +28,14 @@ export abstract class JuniperWrappedNode<NodeT extends AudioNode = AudioNode, Ev
     get numberOfInputs(): number { return this._node.numberOfInputs; }
     get numberOfOutputs(): number { return this._node.numberOfOutputs; }
 
-    _resolveInput(input?: number): { destination: AudioNode | AudioParam; input?: number; } {
+    _resolveInput(input?: number): InputResolution {
         return {
             destination: this._node,
             input
         };
     }
 
-    protected _resolveOutput(output?: number): { source: AudioNode; output?: number } {
+    _resolveOutput(output?: number): OutputResolution {
         return {
             source: this._node,
             output

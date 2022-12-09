@@ -1,4 +1,4 @@
-﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioParam } from "./JuniperAudioParam";
@@ -16,7 +16,7 @@ export class JuniperConstantSourceNode
     constructor(context: JuniperAudioContext, options?: ConstantSourceOptions) {
         super("constant-source", context, new ConstantSourceNode(context, options));
         this._node.addEventListener("ended", () => this.dispatchEvent(new TypedEvent("ended")));
-        this.offset = new JuniperAudioParam("offset", this.context, this._node.offset);
+        this.parent(this.offset = new JuniperAudioParam("offset", this.context, this._node.offset));
     }
 
     get onended(): (this: AudioScheduledSourceNode, ev: Event) => any { return this._node.onended; }

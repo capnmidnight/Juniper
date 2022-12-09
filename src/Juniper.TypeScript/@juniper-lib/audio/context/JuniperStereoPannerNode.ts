@@ -1,4 +1,4 @@
-﻿import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioParam } from "./JuniperAudioParam";
 import { JuniperWrappedNode } from "./JuniperWrappedNode";
@@ -12,6 +12,6 @@ export class JuniperStereoPannerNode
 
     constructor(context: JuniperAudioContext, options?: StereoPannerOptions) {
         super("stereo-panner", context, new StereoPannerNode(context, options));
-        this.pan = new JuniperAudioParam("pan", this.context, this._node.pan);
+        this.parent(this.pan = new JuniperAudioParam("pan", this.context, this._node.pan));
     }
 }

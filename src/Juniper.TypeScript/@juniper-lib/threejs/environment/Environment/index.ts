@@ -3,10 +3,12 @@ import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
 import { id } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { display, em, flexDirection, gap } from "@juniper-lib/dom/css";
+import { isModifierless } from "@juniper-lib/dom/evts";
 import { Div, elementApply } from "@juniper-lib/dom/tags";
 import { AssetAudio, AssetStyleSheet, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
+import { AudioGraphDialog } from "@juniper-lib/graphics2d/AudioGraphDialog";
 import { BatteryImage } from "@juniper-lib/graphics2d/BatteryImage";
 import { ClockImage } from "@juniper-lib/graphics2d/ClockImage";
 import { StatsImage } from "@juniper-lib/graphics2d/StatsImage";
@@ -111,6 +113,7 @@ export class Environment
     readonly uiButtons: ButtonFactory;
     readonly audioPlayer: AudioPlayer;
     readonly videoPlayer: VideoPlayer3D;
+    readonly graph: AudioGraphDialog;
 
     private readonly envAudioToggleEvt = new TypedEvent("environmentaudiotoggled");
 
@@ -133,6 +136,8 @@ export class Environment
         options = options || {};
 
         super(canvas, fetcher, defaultAvatarHeight, defaultFOV, enableFullResolution, options && options.DEBUG);
+
+
         this.screenUISpace = new ScreenUI(buttonFillColor);
         this.compassImage = new ArtificialHorizon();
 
@@ -167,6 +172,13 @@ export class Environment
 
         this.audio = new AudioManager(DEFAULT_LOCAL_USER_ID);
         this.audio.setAudioProperties(1, 4, "exponential");
+
+        this.graph = new AudioGraphDialog(this.audio.context);
+        this.renderer.getContext().canvas.addEventListener("keypress", (evt) => {
+            if (isModifierless(evt) && evt.key === "`") {
+                this.graph.showDialog();
+            }
+        });
 
         this.audioPlayer = new AudioPlayer(this.audio.context);
 

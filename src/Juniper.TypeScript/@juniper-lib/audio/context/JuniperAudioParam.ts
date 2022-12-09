@@ -1,15 +1,21 @@
-﻿import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "./IAudioNode";
 import { JuniperAudioContext } from "./JuniperAudioContext";
+import { InputResolution } from "./JuniperBaseNode";
 
 
 export class JuniperAudioParam implements IAudioParam {
-    name: string = null;
+
+    private _name: string = null;
+    get name(): string { return this._name; }
+    set name(v: string) {
+        this._name = v;
+        this.context._name(this, v);
+    }
 
     constructor(
         public readonly nodeType: string,
         private readonly context: JuniperAudioContext,
         private readonly param: AudioParam) {
-        this.context._init(this);
     }
 
     private disposed = false;
@@ -73,7 +79,7 @@ export class JuniperAudioParam implements IAudioParam {
         return this;
     }
 
-    _resolveInput(_?: number): { destination: AudioNode | AudioParam; input?: number; } {
+    _resolveInput(): InputResolution {
         return {
             destination: this.param
         };

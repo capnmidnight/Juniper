@@ -1,4 +1,4 @@
-﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
+import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
@@ -6,7 +6,7 @@ export class JuniperIIRFilterNode
     extends JuniperWrappedNode<IIRFilterNode>
     implements IIRFilterNode {
 
-    constructor(context: JuniperAudioContext, options?: IIRFilterOptions) {
+    constructor(context: JuniperAudioContext, options: IIRFilterOptions) {
         super("iir-filter", context, new IIRFilterNode(context, options));
     }
 

@@ -1,4 +1,4 @@
-﻿import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioParam } from "./JuniperAudioParam";
 import { JuniperWrappedNode } from "./JuniperWrappedNode";
@@ -15,10 +15,10 @@ export class JuniperBiquadFilterNode
 
     constructor(context: JuniperAudioContext, options?: BiquadFilterOptions) {
         super("biquad-filter", context, new BiquadFilterNode(context, options));
-        this.Q = new JuniperAudioParam("Q", this.context, this._node.Q);
-        this.detune = new JuniperAudioParam("detune", this.context, this._node.detune);
-        this.frequency = new JuniperAudioParam("frequency", this.context, this._node.frequency);
-        this.gain = new JuniperAudioParam("gain", this.context, this._node.gain);
+        this.parent(this.Q = new JuniperAudioParam("Q", this.context, this._node.Q));
+        this.parent(this.detune = new JuniperAudioParam("detune", this.context, this._node.detune));
+        this.parent(this.frequency = new JuniperAudioParam("frequency", this.context, this._node.frequency));
+        this.parent(this.gain = new JuniperAudioParam("gain", this.context, this._node.gain));
     }
 
     get type(): BiquadFilterType { return this._node.type; }

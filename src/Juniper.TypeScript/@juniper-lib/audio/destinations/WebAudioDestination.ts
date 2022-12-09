@@ -10,11 +10,11 @@ export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestination
 
 export class WebAudioDestination extends JuniperAudioNode<void> implements IPoseable {
     readonly pose = new Pose();
-    readonly remoteUserInputIndex: number
-    readonly spatializedInputIndex: number;
-    readonly nonSpatializedInputIndex: number;
     private readonly volumeControl: JuniperGainNode;
     private readonly destination: JuniperMediaStreamAudioDestinationNode;
+    readonly remoteUserInput: JuniperGainNode
+    readonly spatializedInput: JuniperGainNode;
+    readonly nonSpatializedInput: JuniperGainNode;
 
     constructor(context: JuniperAudioContext, protected readonly listener: BaseListener) {
         const remoteUserInput = new JuniperGainNode(context);
@@ -26,22 +26,20 @@ export class WebAudioDestination extends JuniperAudioNode<void> implements IPose
         const destination = new JuniperMediaStreamAudioDestinationNode(context);
 
         const volumeControl = new JuniperGainNode(context);
+        volumeControl.name = "final";
 
         super("web-audio-destination", context,
             [remoteUserInput, spatializedInput, volumeControl],
             null,
             [destination, volumeControl]);
 
-        this.remoteUserInputIndex = 0;
-        this.spatializedInputIndex = 1;
-        this.nonSpatializedInputIndex = 2;
-
-        this.name = "final";
-
+        this.remoteUserInput= remoteUserInput;
+        this.spatializedInput = spatializedInput;
+        this.nonSpatializedInput = volumeControl;
         this.volumeControl = volumeControl;
         this.destination = destination;
 
-        remoteUserInput.disconnect(this.volumeControl);
+        this.name = "destination";
 
         remoteUserInput
             .connect(spatializedInput)

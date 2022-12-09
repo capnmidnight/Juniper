@@ -1,4 +1,4 @@
-﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
 import { JuniperAudioNode } from "./context/JuniperAudioNode";
@@ -16,15 +16,15 @@ export class LocalUserMicrophone extends JuniperAudioNode<{
 
     private localStream: JuniperMediaStreamAudioSourceNode;
     private readonly localVolume: JuniperGainNode;
-    //private readonly localAutoControlledGain: JuniperGainNode;
+    private readonly localAutoControlledGain: JuniperGainNode;
     private readonly localOutput: JuniperMediaStreamAudioDestinationNode;
 
     constructor(context: JuniperAudioContext) {
         const localVolume = context.createGain();
         localVolume.name = "local-mic-user-gain";
 
-        //const localAutoControlledGain = new JuniperGainNode(context);
-        //localAutoControlledGain.name = "local-mic-auto-gain";
+        const localAutoControlledGain = new JuniperGainNode(context);
+        localAutoControlledGain.name = "local-mic-auto-gain";
 
         const localFilter = new JuniperBiquadFilterNode(context, {
             type: "bandpass",
@@ -43,22 +43,22 @@ export class LocalUserMicrophone extends JuniperAudioNode<{
         const localOutput = new JuniperMediaStreamAudioDestinationNode(context);
         localOutput.name = "local-mic-destination";
 
-        super("local-user-microphone", context, [localVolume], [localCompressor], [
-//            localAutoControlledGain,
+        super("local-user-microphone", context, [], [localCompressor], [
+            localVolume,
+            localAutoControlledGain,
             localFilter,
             localOutput
         ]);
 
         this.localVolume = localVolume;
         this.localOutput = localOutput;
-        //this.localAutoControlledGain = localAutoControlledGain;
+        this.localAutoControlledGain = localAutoControlledGain;
 
         localVolume
-        //    .connect(localAutoControlledGain);
-        //localAutoControlledGain
-            .connect(localFilter);
-        localFilter.connect(localCompressor);
-        localCompressor.connect(localOutput);
+            .connect(localAutoControlledGain)
+            .connect(localFilter)
+            .connect(localCompressor)
+            .connect(localOutput);
     }
 
     get gain() {
@@ -74,17 +74,17 @@ export class LocalUserMicrophone extends JuniperAudioNode<{
         }
     }
 
-    set inStream(v) {
-        if (v !== this.inStream) {
+    set inStream(mediaStream) {
+        if (mediaStream !== this.inStream) {
             if (isDefined(this.localStream)) {
                 this.remove(this.localStream);
                 this.localStream.dispose();
                 this.localStream = null;
             }
 
-            if (isDefined(v)) {
+            if (isDefined(mediaStream)) {
                 this.localStream = new JuniperMediaStreamAudioSourceNode(this.context, {
-                    mediaStream: v
+                    mediaStream
                 });
                 this.add(this.localStream);
                 this.localStream.connect(this.localVolume);

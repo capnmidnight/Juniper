@@ -1,4 +1,4 @@
-﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
+import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
@@ -6,7 +6,7 @@ export class JuniperMediaElementAudioSourceNode
     extends JuniperWrappedNode<MediaElementAudioSourceNode>
     implements MediaElementAudioSourceNode {
 
-    constructor(context: JuniperAudioContext, options?: MediaElementAudioSourceOptions) {
+    constructor(context: JuniperAudioContext, options: MediaElementAudioSourceOptions) {
         super("media-element-audio-source", context, new MediaElementAudioSourceNode(context, options));
     }
 

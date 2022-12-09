@@ -155,6 +155,7 @@ export class TeleconferenceManager
 
         this.remoteGainDecay = new GainDecayer(
             this.audio.context,
+            this.audio.audioDestination.remoteUserInput,
             0.05,
             1,
             0.25,

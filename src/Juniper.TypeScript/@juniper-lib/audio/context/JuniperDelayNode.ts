@@ -1,4 +1,4 @@
-﻿import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "./IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioParam } from "./JuniperAudioParam";
 import { JuniperWrappedNode } from "./JuniperWrappedNode";
@@ -12,6 +12,6 @@ export class JuniperDelayNode
 
     constructor(context: JuniperAudioContext, options?: DelayOptions) {
         super("delay", context, new DelayNode(context, options));
-        this.delayTime = new JuniperAudioParam("delay", this.context, this._node.delayTime);
+        this.parent(this.delayTime = new JuniperAudioParam("delay", this.context, this._node.delayTime));
     }
 }

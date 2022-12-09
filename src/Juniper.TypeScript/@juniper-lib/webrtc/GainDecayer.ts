@@ -1,5 +1,4 @@
 import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
-import { JuniperAudioNode } from "@juniper-lib/audio/context/JuniperAudioNode";
 import { JuniperGainNode } from "@juniper-lib/audio/context/JuniperGainNode";
 import { unproject } from "@juniper-lib/tslib/math";
 import type { ITimer } from "@juniper-lib/tslib/timers/ITimer";
@@ -7,7 +6,7 @@ import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { SetIntervalTimer } from "@juniper-lib/tslib/timers/SetIntervalTimer";
 import { ActivityDetector } from "./ActivityDetector";
 
-export class GainDecayer extends JuniperAudioNode {
+export class GainDecayer extends ActivityDetector {
     private curLength = 0;
 
     private timer: ITimer = null;
@@ -16,11 +15,9 @@ export class GainDecayer extends JuniperAudioNode {
     private shouldRun = false;
     private readonly onTick: (evt: TimerTickEvent) => void;
 
-    private readonly activity: ActivityDetector;
-    private readonly output: JuniperGainNode;
-
     constructor(
         context: JuniperAudioContext,
+        private readonly control: JuniperGainNode,
         public min: number,
         public max: number,
         public threshold: number,
@@ -30,21 +27,9 @@ export class GainDecayer extends JuniperAudioNode {
         public hold: number,
         public release: number) {
 
-        const input = new JuniperGainNode(context);
-        input.name = "gain-decayer-input";
-        const output = new JuniperGainNode(context);
-        output.name = "gain-decayer-output";
-        const activity = new ActivityDetector(context);
-
-        super("gain-decayer", context, [input], [output], [activity]);
-
-        this.output = output;
+        super(context);
 
         this.name = "remote-audio-activity";
-        activity.name = "remote-audio-activity";
-
-        input.connect(activity);
-        input.connect(output);
 
         this.timer = new SetIntervalTimer(30);
         this.timer.addTickHandler(this.onTick = (evt) => this.update(evt));
@@ -57,7 +42,7 @@ export class GainDecayer extends JuniperAudioNode {
 
     update(evt: TimerTickEvent) {
         if (this.enabled) {
-            const level = this.activity.level;
+            const level = this.level;
 
             if (level >= this.threshold && this.time >= this.length) {
                 this.time = 0;
@@ -72,7 +57,7 @@ export class GainDecayer extends JuniperAudioNode {
                 this.time = this.holdStart;
             }
 
-            this.output.gain.value = this.gain;
+            this.control.gain.value = this.gain;
         }
     }
 
@@ -104,7 +89,7 @@ export class GainDecayer extends JuniperAudioNode {
                 }
                 else {
                     this.timer.stop();
-                    this.output.gain.value = 1;
+                    this.control.gain.value = 1;
                 }
             }
         }

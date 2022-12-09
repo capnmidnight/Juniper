@@ -69,7 +69,6 @@ export class BaseGraphDialog<T> extends DialogBox {
     private readonly mousePoint = vec2.create();
 
     private grabbed: GraphNode<T> = null;
-    private mouseForce = vec2.create();
 
     private graph: Array<GraphNode<T>> = null;
     private origin: GraphNode<T> = null;
@@ -82,7 +81,9 @@ export class BaseGraphDialog<T> extends DialogBox {
         return this.canvas.height - 2 * size;
     }
 
-    constructor(title: string, private readonly getNodeName: (value: T) => string) {
+    constructor(title: string,
+        private readonly getNodeName: (value: T) => string,
+        private readonly getNodeColor: (value: T) => CSSColorValue) {
         super(title);
 
         this.cancelButton.style.display = "none";
@@ -227,6 +228,7 @@ export class BaseGraphDialog<T> extends DialogBox {
             if (n1.isConnected || !this.hideBare.checked) {
                 this.g.fillStyle = rgb(243, 243, 243);
                 const p1 = this.positions.get(n1);
+                this.g.fillStyle = this.getNodeColor(n1.value);
                 this.g.fillRect(p1[0], p1[1], size, size);
                 this.g.strokeRect(p1[0], p1[1], size, size);
 
@@ -246,7 +248,10 @@ export class BaseGraphDialog<T> extends DialogBox {
         // calculate forces
         for (const n1 of this.graph) {
             const p1 = this.positions.get(n1);
-            if (n1 === this.origin) {
+            if (n1 === this.grabbed) {
+                vec2.copy(p1, this.mousePoint);
+            }
+            else if (n1 === this.origin) {
                 vec2.set(p1, this.w / 2, this.h / 2);
             }
             else {
@@ -257,9 +262,15 @@ export class BaseGraphDialog<T> extends DialogBox {
                     vec2.add(f1, f1, f0);
                 }
 
-                if (n1 === this.grabbed) {
-                    vec2.sub(this.mouseForce, this.mousePoint, p1);
-                    vec2.scaleAndAdd(f1, f1, this.mouseForce, 10);
+                vec2.set(delta, this.w, this.h);
+                vec2.scaleAndAdd(delta, p1, delta, -0.5);
+
+                const len = vec2.length(delta);
+                if (len > 0) {
+                    vec2.normalize(delta, delta);
+                    let f = -10000 * len;
+                    f = Math.sign(f) * Math.pow(Math.abs(f), 0.2);
+                    vec2.scaleAndAdd(f1, f1, delta, f);
                 }
 
                 for (const n2 of this.graph) {

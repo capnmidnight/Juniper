@@ -1,8 +1,8 @@
-﻿import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
+import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
 import { Exception } from "@juniper-lib/tslib/Exception";
-import { IAudioNode, IAudioParam } from "./IAudioNode";
+import { IAudioNode, IAudioParam, isIAudioNode } from "./IAudioNode";
 import { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperBaseNode } from "./JuniperBaseNode";
+import { InputResolution, JuniperBaseNode, OutputResolution } from "./JuniperBaseNode";
 
 export abstract class JuniperAudioNode<EventsT = void>
     extends JuniperBaseNode<EventsT>
@@ -27,10 +27,10 @@ export abstract class JuniperAudioNode<EventsT = void>
 
         this.inputs = inputs;
         const entries = inputs
-            .filter(o => o instanceof JuniperBaseNode)
+            .filter(isIAudioNode)
             .map(o => o as IAudioNode)
         this.outputs = exits
-            .filter(o => o instanceof JuniperBaseNode)
+            .filter(isIAudioNode)
             .map(o => o as IAudioNode);
 
         this.allNodes = Array.from(new Set([
@@ -38,21 +38,20 @@ export abstract class JuniperAudioNode<EventsT = void>
             ...this.outputs,
             ...extras
         ]));
-    }
 
-    protected override onDisposing() {
-        for (const node of this.allNodes) {
-            node.disconnect();
-        }
-        super.onDisposing();
+        [...inputs, ...exits, ...extras]
+            .forEach(p => this.parent(p));
     }
 
     protected remove(node: IAudioNode) {
         arrayRemove(this.allNodes, node);
+        this.context._dispose(node);
     }
 
     protected add(node: IAudioNode) {
         this.allNodes.push(node);
+        this.context._init(node, node.nodeType);
+        this.parent(node);
     }
 
     get channelCount(): number { return this.exemplar.channelCount; }
@@ -73,11 +72,15 @@ export abstract class JuniperAudioNode<EventsT = void>
         return source[index];
     }
 
-    _resolveInput(input?: number): { destination: AudioNode | AudioParam; input?: number } {
-        return { destination: JuniperAudioNode.resolve("input", this.inputs, input) };
+    _resolveInput(input?: number): InputResolution {
+        return {
+            destination: JuniperAudioNode.resolve("input", this.inputs, input)
+        };
     }
 
-    protected _resolveOutput(output?: number): { source: AudioNode; output?: number } {
-        return { source: JuniperAudioNode.resolve("output", this.outputs, output) };
+    _resolveOutput(output?: number): OutputResolution {
+        return {
+            source: JuniperAudioNode.resolve("output", this.outputs, output)
+        };
     }
 }
