@@ -1,7 +1,6 @@
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import type { JuniperAudioContext } from "./JuniperAudioContext";
-import { AudioConnection, InputResolution, OutputResolution } from "./JuniperBaseNode";
+import type { InputResolution, JuniperAudioContext, OutputResolution } from "./JuniperAudioContext";
 
 export interface IAudioEndPoint extends IDisposable {
     name: string;
@@ -11,8 +10,9 @@ export interface IAudioEndPoint extends IDisposable {
 
 export interface IAudioNode extends AudioNode, IAudioEndPoint {
     readonly context: JuniperAudioContext;
-    readonly connected: boolean;
-    readonly connections: ReadonlySet<AudioConnection>;
+
+
+    isConnected(output?: number): boolean;
 
     connect(destinationParam: IAudioParam, output?: number): void;
     connect(destinationNode: IAudioNode, output?: number, input?: number): IAudioNode;
@@ -30,11 +30,10 @@ export interface IAudioParam extends AudioParam, IAudioEndPoint {
 
 export function isEndpoint(obj: any): obj is IAudioEndPoint {
     return isDefined(obj)
-        && "nodeType" in obj
-        && "name" in obj;
+        && "_resolveInput" in obj;
 }
 
 export function isIAudioNode(obj: any): obj is IAudioNode {
     return isEndpoint(obj)
-        && "connections" in obj;
+        && "_resolveOutput" in obj;
 }

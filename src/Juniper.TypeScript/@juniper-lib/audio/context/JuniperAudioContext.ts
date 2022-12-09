@@ -1,8 +1,8 @@
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { GraphNode } from "@juniper-lib/tslib/collections/GraphNode";
 import { once } from "@juniper-lib/tslib/events/once";
-import { assertNever } from "@juniper-lib/tslib/typeChecks";
-import { isEndpoint, isIAudioNode } from "./IAudioNode";
+import { assertNever, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
+import { IAudioNode, IAudioParam, isEndpoint } from "./IAudioNode";
 import { JuniperAnalyserNode } from "./JuniperAnalyserNode";
 import { JuniperAudioBufferSourceNode } from "./JuniperAudioBufferSourceNode";
 import { JuniperAudioDestinationNode } from "./JuniperAudioDestinationNode";
@@ -34,11 +34,26 @@ if (!("OfflineAudioContext" in globalThis) && "webkitOfflineAudioContext" in glo
 
 
 export type ClassID =
-    | "jnode"
     | "node"
-    | "jparam"
     | "param"
     | "unknown";
+
+export interface OutputResolution {
+    source: AudioNode;
+    output?: number;
+}
+
+export interface InputResolution {
+    destination: AudioNode | AudioParam;
+    input?: number;
+}
+
+export interface AudioConnection {
+    type: "conn" | "parent";
+    destination: AudioNode | AudioParam;
+    output?: number;
+    input?: number;
+}
 
 export interface Vertex {
     type: string;
@@ -46,14 +61,39 @@ export interface Vertex {
     classID: ClassID;
 }
 
+class NodeInfo {
+    public readonly connections = new Set<AudioConnection>();
+
+    constructor(public readonly type: string, public name: string) {
+
+    }
+}
+
+
+function isMatchingConnection(conn: AudioConnection, destinationOrOutput?: AudioNode | AudioParam | number, output?: number, input?: number): boolean {
+    let destination: AudioNode | AudioParam = null;
+    if (isNumber(destinationOrOutput)) {
+        output = destinationOrOutput;
+    }
+    else {
+        destination = destinationOrOutput;
+    }
+
+    return conn.type === "conn"
+        && (isNullOrUndefined(destination)
+            || destination === conn.destination)
+        && (isNullOrUndefined(output)
+            || output === conn.output)
+        && (isNullOrUndefined(input)
+            || input === conn.input);
+}
+
 export class JuniperAudioContext extends AudioContext {
     private readonly counters = new Map<string, number>();
 
     private readonly _destination: JuniperAudioDestinationNode;
 
-    private readonly nodes = new Set<AudioNode | AudioParam>();
-    private readonly types = new Map<AudioNode | AudioParam, string>();
-    private readonly names = new Map<AudioNode | AudioParam, string>();
+    private readonly nodes = new Map<AudioNode | AudioParam, NodeInfo>();
 
     public readonly ready: Promise<void>;
     private _isReady = false;
@@ -84,64 +124,127 @@ export class JuniperAudioContext extends AudioContext {
     }
 
     _init(node: AudioNode | AudioParam, type: string): void {
-        if (!this.counters.has(type)) {
-            this.counters.set(type, 0);
+        if (!this.nodes.has(node)) {
+            if (!this.counters.has(type)) {
+                this.counters.set(type, 0);
+            }
+
+            const count = this.counters.get(type);
+            const name = `${type}-${count}`;
+
+            this.nodes.set(node, new NodeInfo(type, name));
+
+            if (isEndpoint(node)) {
+                node.name = name;
+            }
+
+            this.counters.set(type, count + 1);
         }
-
-        const count = this.counters.get(type);
-        const name = `${type}-${count}`;
-
-        this.nodes.add(node);
-        this.types.set(node, type);
-        this.names.set(node, name);
-
-        if (isEndpoint(node)) {
-            node.name = name;
-        }
-
-        this.counters.set(type, count + 1);
     }
 
-    _name(node: AudioNode | AudioParam, name: string): void {
-        if (this.names.has(node)) {
-            this.names.set(node, name);
+    _name(dest: IAudioNode | IAudioParam, name: string): void {
+        const { destination } = dest._resolveInput();
+        if (this.nodes.has(destination)) {
+            const info = this.nodes.get(destination);
+            info.name = `${name}-${info.type}`;
         }
     }
 
     _dispose(node: AudioNode | AudioParam): void {
         this.nodes.delete(node);
-        this.types.delete(node);
-        this.names.delete(node);
     }
+
+    _isConnected(src: IAudioNode, outp?: number): boolean {
+        const { source, output } = src._resolveOutput(outp);
+        if (isNullOrUndefined(source)
+            || !this.nodes.has(source)) {
+            return null;
+        }
+        else {
+            const info = this.nodes.get(source);
+            for (const conn of info.connections) {
+                if (isMatchingConnection(conn, null, output, null)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    _parent(src: IAudioNode, dest: IAudioParam) {
+        const { source } = src._resolveOutput();
+        const { destination } = dest._resolveInput();
+        if (this.nodes.has(source)) {
+            const info = this.nodes.get(source);
+            info.connections.add({
+                type: "parent",
+                destination
+            });
+        }
+    }
+
+    _connect(source: AudioNode, destination?: AudioNode | AudioParam, output?: number, input?: number) {
+        if (this.nodes.has(source)) {
+            const conns = this.nodes.get(source).connections;
+            let matchFound = false;
+            for (const conn of conns) {
+                if (isMatchingConnection(conn, destination, output, input)) {
+                    matchFound = true;
+                }
+            }
+
+            if (!matchFound) {
+                conns.add({
+                    type: "conn",
+                    destination,
+                    output,
+                    input
+                });
+            }
+        }
+    }
+
+    _disconnect(source: AudioNode, destination?: AudioNode | AudioParam, output?: number, input?: number) {
+        if (this.nodes.has(source)) {
+            const conns = this.nodes.get(source).connections;
+            const toDelete = new Set<AudioConnection>();
+            for (const conn of conns) {
+                if (isMatchingConnection(conn, destination, output, input)) {
+                    toDelete.add(conn);
+                }
+            }
+
+            for (const conn of toDelete) {
+                conns.delete(conn);
+            }
+        }
+    }
+
 
     getAudioGraph(): Array<GraphNode<Vertex>> {
         const nodes = new Map<AudioNode | AudioParam, GraphNode<Vertex>>();
 
-        for (const node of this.nodes) {
-            const classID = isIAudioNode(node)
-                ? "jnode"
-                : isEndpoint(node)
-                    ? "jparam"
-                    : node instanceof AudioNode
-                        ? "node"
-                        : "param";
+        for (const [node, info] of this.nodes) {
+            const classID = node instanceof AudioNode
+                ? "node"
+                : node instanceof AudioParam
+                    ? "param"
+                    : "unknown";
             nodes.set(node, new GraphNode({
-                name: this.names.get(node),
-                type: this.types.get(node),
+                name: info.name,
+                type: info.type,
                 classID
             }));
         }
 
-        for (const parent of this.nodes) {
-            if (isIAudioNode(parent)) {
-                const branch = nodes.get(parent);
-                for (const child of parent.connections) {
-                    const node = child[0];
-                    if (nodes.has(node)) {
-                        const cnode = nodes.get(node);
-                        branch.connectTo(cnode);
-                        cnode.connectTo(branch);
-                    }
+        for (const [source, info] of this.nodes) {
+            const branch = nodes.get(source);
+            for (const child of info.connections) {
+                const destination = child.destination;
+                if (nodes.has(destination)) {
+                    const cnode = nodes.get(destination);
+                    branch.connectTo(cnode);
+                    cnode.connectTo(branch);
                 }
             }
         }

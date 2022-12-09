@@ -1,8 +1,7 @@
 import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
-import { Exception } from "@juniper-lib/tslib/Exception";
 import { IAudioNode, IAudioParam, isIAudioNode } from "./IAudioNode";
-import { JuniperAudioContext } from "./JuniperAudioContext";
-import { InputResolution, JuniperBaseNode, OutputResolution } from "./JuniperBaseNode";
+import { InputResolution, JuniperAudioContext, OutputResolution } from "./JuniperAudioContext";
+import { JuniperBaseNode } from "./JuniperBaseNode";
 
 export abstract class JuniperAudioNode<EventsT = void>
     extends JuniperBaseNode<EventsT>
@@ -38,20 +37,19 @@ export abstract class JuniperAudioNode<EventsT = void>
             ...this.outputs,
             ...extras
         ]));
-
-        [...inputs, ...exits, ...extras]
-            .forEach(p => this.parent(p));
-    }
-
-    protected remove(node: IAudioNode) {
-        arrayRemove(this.allNodes, node);
-        this.context._dispose(node);
     }
 
     protected add(node: IAudioNode) {
         this.allNodes.push(node);
-        this.context._init(node, node.nodeType);
-        this.parent(node);
+    }
+
+    protected remove(node: IAudioNode) {
+        arrayRemove(this.allNodes, node);
+    }
+
+    protected override onDisposing() {
+        this.allNodes.forEach(node => node.dispose());
+        super.onDisposing();
     }
 
     get channelCount(): number { return this.exemplar.channelCount; }
@@ -63,10 +61,10 @@ export abstract class JuniperAudioNode<EventsT = void>
     get numberOfInputs(): number { return this.inputs.length; }
     get numberOfOutputs(): number { return this.outputs.length; }
 
-    private static resolve<T>(type: string, source: ReadonlyArray<T>, index?: number): T {
+    private static resolve<T>(source: ReadonlyArray<T>, index?: number): T {
         index = index || 0;
         if (index < 0 || source.length <= index) {
-            throw new Exception(`Index out of range: ${type}`);
+            return null;
         }
 
         return source[index];
@@ -74,13 +72,13 @@ export abstract class JuniperAudioNode<EventsT = void>
 
     _resolveInput(input?: number): InputResolution {
         return {
-            destination: JuniperAudioNode.resolve("input", this.inputs, input)
+            destination: JuniperAudioNode.resolve(this.inputs, input)
         };
     }
 
     _resolveOutput(output?: number): OutputResolution {
         return {
-            source: JuniperAudioNode.resolve("output", this.outputs, output)
+            source: JuniperAudioNode.resolve(this.outputs, output)
         };
     }
 }

@@ -6,7 +6,7 @@ import type { BaseEnvironment } from "./BaseEnvironment";
 
 export class SceneGraphDialog extends BaseGraphDialog<Object3D> {
     constructor(private readonly env: BaseEnvironment<unknown>) {
-        super("Scene graph", (obj) => obj.name);
+        super("Scene graph", (obj) => obj.name, () => "grey");
 
         window.addEventListener("keypress", (evt) => {
             if (evt.key === '~') {

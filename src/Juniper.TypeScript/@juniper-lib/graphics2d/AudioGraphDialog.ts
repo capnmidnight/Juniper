@@ -8,14 +8,8 @@ function getVertexName(n: Vertex) {
 }
 
 function getVertexColor(n: Vertex): CSSColorValue {
-    if (n.classID === "jnode") {
-        return "green";
-    }
-    else if (n.classID === "node") {
+    if (n.classID === "node") {
         return "lightgreen";
-    }
-    else if (n.classID === "jparam") {
-        return "yellow";
     }
     else if (n.classID === "param") {
         return "lightyellow";
@@ -37,7 +31,7 @@ export class AudioGraphDialog extends BaseGraphDialog<Vertex>{
         const graph = this.context.getAudioGraph();
         this.setGraph(graph);
         this.setOrigin(arrayScan(graph, (g) =>
-            getVertexName(g.value) === "destination"));
+            g.value.type === "media-stream-audio-destination"));
         super.onShown();
     }
 }

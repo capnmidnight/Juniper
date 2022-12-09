@@ -1,28 +1,12 @@
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { assertNever, isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
+import { assertNever, isDefined, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { IAudioNode, IAudioParam, isEndpoint, isIAudioNode } from "./IAudioNode";
-import type { JuniperAudioContext } from "./JuniperAudioContext";
+import type { InputResolution, JuniperAudioContext, OutputResolution } from "./JuniperAudioContext";
 
-
-export type AudioConnection = [AudioNode | AudioParam, number, number];
-export interface OutputResolution {
-    source: AudioNode;
-    output?: number;
-}
-export interface InputResolution {
-    destination: AudioNode | AudioParam;
-    input?: number;
-}
 
 export abstract class JuniperBaseNode<EventsT = void>
     extends TypedEventBase<EventsT & void>
     implements IAudioNode {
-
-    private readonly conns = new Set<AudioConnection>()
-    get connections(): ReadonlySet<AudioConnection> { return this.conns; }
-    parent(p: AudioNode | AudioParam) {
-        this.conns.add([p, null, null]);
-    }
 
     private _name: string = null;
     get name(): string { return this._name; }
@@ -35,7 +19,6 @@ export abstract class JuniperBaseNode<EventsT = void>
         public readonly nodeType: string,
         public readonly context: JuniperAudioContext) {
         super();
-        this.context._init(this, nodeType);
     }
 
     private disposed = false;
@@ -47,10 +30,9 @@ export abstract class JuniperBaseNode<EventsT = void>
     }
 
     protected onDisposing() {
-        this.context._dispose(this);
     }
 
-    get connected() { return this.conns.size > 0; }
+    isConnected(output?: number): boolean { return this.context._isConnected(this, output); }
 
     private __resolveOutput(output: number): OutputResolution {
         let resolution: OutputResolution = {
@@ -90,9 +72,7 @@ export abstract class JuniperBaseNode<EventsT = void>
         const { source, output } = sourceRes;
         const { destination, input } = destRes;
 
-        this.conns.add([source, outp, null]);
-        this.conns.add([dest, null, inp]);
-        this.conns.add([destination, output, input]);
+        this.context._connect(source, destination, output, input);
 
         if (destination instanceof AudioNode) {
             dest = dest as IAudioNode;
@@ -142,22 +122,7 @@ export abstract class JuniperBaseNode<EventsT = void>
         const { source, output } = sourceRes;
         const { destination, input } = destRes;
 
-        this.conns.add([source, outp, null]);
-        this.conns.add([dest, null, inp]);
-        this.conns.add([destination, output, input]);
-
-        const toDelete = new Set<AudioConnection>();
-        for (const conn of this.conns) {
-            if (isMatchingConnection(conn, source, outp, null)
-                || isMatchingConnection(conn, dest, null, inp)
-                || isMatchingConnection(conn, destination, output, input)) {
-                toDelete.add(conn);
-            }
-        }
-
-        for (const conn of toDelete) {
-            this.conns.delete(conn);
-        }
+        this.context._disconnect(source, destination, output, input);
 
         if (destination instanceof AudioNode) {
             if (isDefined(inp)) {
@@ -192,22 +157,4 @@ export abstract class JuniperBaseNode<EventsT = void>
     abstract set channelInterpretation(v: ChannelInterpretation);
     abstract get numberOfInputs(): number;
     abstract get numberOfOutputs(): number;
-}
-
-
-function isMatchingConnection(conn: AudioConnection, destinationOrOutput?: AudioNode | AudioParam | number, output?: number, input?: number): boolean {
-    let destination: AudioNode | AudioParam = null;
-    if (isNumber(destinationOrOutput)) {
-        output = destinationOrOutput;
-    }
-    else {
-        destination = destinationOrOutput;
-    }
-
-    return (isNullOrUndefined(destination)
-        || destination === conn[0])
-        && (isNullOrUndefined(output)
-            || output === conn[1])
-        && (isNullOrUndefined(input)
-            || input === conn[2]);
 }

@@ -1,7 +1,5 @@
 import { IAudioParam } from "./IAudioNode";
-import { JuniperAudioContext } from "./JuniperAudioContext";
-import { InputResolution } from "./JuniperBaseNode";
-
+import { InputResolution, JuniperAudioContext } from "./JuniperAudioContext";
 
 export class JuniperAudioParam implements IAudioParam {
 
@@ -16,6 +14,7 @@ export class JuniperAudioParam implements IAudioParam {
         public readonly nodeType: string,
         private readonly context: JuniperAudioContext,
         private readonly param: AudioParam) {
+        this.context._init(this.param, this.nodeType);
     }
 
     private disposed = false;
@@ -27,7 +26,7 @@ export class JuniperAudioParam implements IAudioParam {
     }
 
     protected onDisposing() {
-        this.context._dispose(this);
+        this.context._dispose(this.param);
     }
 
     get automationRate(): AutomationRate { return this.param.automationRate; }

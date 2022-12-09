@@ -1,6 +1,6 @@
-import { IAudioNode } from "./IAudioNode";
-import { JuniperAudioContext } from "./JuniperAudioContext";
-import { InputResolution, JuniperBaseNode, OutputResolution } from "./JuniperBaseNode";
+import { IAudioNode, IAudioParam } from "./IAudioNode";
+import { InputResolution, JuniperAudioContext, OutputResolution } from "./JuniperAudioContext";
+import { JuniperBaseNode } from "./JuniperBaseNode";
 
 
 export abstract class JuniperWrappedNode<NodeT extends AudioNode = AudioNode, EventsT = void>
@@ -12,11 +12,17 @@ export abstract class JuniperWrappedNode<NodeT extends AudioNode = AudioNode, Ev
         context: JuniperAudioContext,
         protected readonly _node: NodeT) {
         super(type, context);
+        this.context._init(this._node, this.nodeType);
     }
 
     protected override onDisposing() {
         this.disconnect();
+        this.context._dispose(this._node);
         super.onDisposing();
+    }
+
+    protected parent(param: IAudioParam) {
+        this.context._parent(this, param);
     }
 
     get channelCount(): number { return this._node.channelCount; }

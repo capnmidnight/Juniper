@@ -85,13 +85,13 @@ export abstract class BaseAudioSource<EventTypeT = void>
     }
 
     protected enable(): void {
-        if (!this.connected) {
+        if (!this.lastInternal.isConnected()) {
             this.lastInternal.connect(this.output);
         }
     }
 
     protected disable(): void {
-        if (this.connected) {
+        if (this.lastInternal.isConnected()) {
             this.lastInternal.disconnect();
         }
     }

@@ -99,7 +99,7 @@ export class BaseGraphDialog<T> extends DialogBox {
             this.contentArea,
             Div(
                 display("grid"),
-                gridTemplateColumns("repeat(9, auto)", fr(1)),
+                gridTemplateColumns("repeat(11, auto)", fr(1)),
                 columnGap(px(5)),
                 alignItems("center"),
 
@@ -251,10 +251,7 @@ export class BaseGraphDialog<T> extends DialogBox {
             if (n1 === this.grabbed) {
                 vec2.copy(p1, this.mousePoint);
             }
-            else if (n1 === this.origin) {
-                vec2.set(p1, this.w / 2, this.h / 2);
-            }
-            else {
+            else if (n1 !== this.origin) {
                 const f1 = forces.get(n1);
 
                 const f0 = this.forces.get(n1);
