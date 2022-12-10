@@ -181,9 +181,11 @@ export class Environment
         });
 
         this.audioPlayer = new AudioPlayer(this.audio.context);
+        this.audioPlayer.connect(this.audio.audioDestination.nonSpatializedInput);
 
         this.videoPlayer = new VideoPlayer3D(this, this.audio.context);
         this.videoPlayer.object.visible = false;
+        this.videoPlayer.connect(this.audio.audioDestination.nonSpatializedInput);
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSys);
 
