@@ -6,6 +6,7 @@ import { BaseAudioSource } from "@juniper-lib/audio/sources/BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper-lib/audio/sources/IPlayer";
 import { PlaybackState } from "@juniper-lib/audio/sources/PlaybackState";
+import { NoSpatializer } from "@juniper-lib/audio/spatializers/NoSpatializer";
 import { autoPlay, controls, loop, playsInline } from "@juniper-lib/dom/attrs";
 import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper-lib/dom/tags";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
@@ -89,7 +90,7 @@ export abstract class BaseVideoPlayer
         const output = new JuniperGainNode(context);
         output.name = "JuniperVideoPlayer-Output";
 
-        super(type, context, null, [], [videoNode, audioNode]);
+        super(type, context, new NoSpatializer(context), [], [videoNode, audioNode]);
 
         videoNode.connect(this.volumeControl);
         audioNode.connect(this.volumeControl);

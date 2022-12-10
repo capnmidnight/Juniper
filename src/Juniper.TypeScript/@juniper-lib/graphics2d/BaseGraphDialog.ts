@@ -72,7 +72,6 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
     private grabbed: GraphNode<T> = null;
 
     private graph: Array<GraphNode<T>> = null;
-    private origin: GraphNode<T> = null;
 
     get w() {
         return this.canvas.width - 2 * size - 200;
@@ -259,7 +258,7 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
             if (n1 === this.grabbed) {
                 vec2.copy(p1, this.mousePoint);
             }
-            else if (n1 !== this.origin && !this.wasGrabbed.has(n1)) {
+            else if (!this.wasGrabbed.has(n1)) {
                 const f1 = forces.get(n1);
 
                 const f0 = this.forces.get(n1);
@@ -352,25 +351,16 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
 
         for (let i = 0; i < this.graph.length; ++i) {
             const node = this.graph[i];
-            if (node === this.origin) {
-                this.positions.set(node, vec2.fromValues(this.w / 2, this.h / 2));
-            }
-            else {
-                const a = Tau * i / this.graph.length;
-                const r = R;
-                const x = r * Math.cos(a) + this.w / 2;
-                const y = r * Math.sin(a) + this.h / 2;
-                this.positions.set(node, vec2.fromValues(x, y));
-            }
+            const a = Tau * i / this.graph.length;
+            const r = R;
+            const x = r * Math.cos(a) + this.w / 2;
+            const y = r * Math.sin(a) + this.h / 2;
+            this.positions.set(node, vec2.fromValues(x, y));
         }
     }
 
     protected setGraph(graph: GraphNode<T>[]) {
         this.graph = graph;
-    }
-
-    protected setOrigin(node: GraphNode<T>) {
-        this.origin = node;
     }
 
     protected override onClosed() {

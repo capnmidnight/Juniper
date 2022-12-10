@@ -10,6 +10,7 @@ import { IDisposable } from "@juniper-lib/tslib/using";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
 import { AudioRecord, FullAudioRecord } from "../data";
+import { NoSpatializer } from "../spatializers/NoSpatializer";
 import { BaseAudioSource } from "./BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "./IPlayer";
@@ -73,7 +74,7 @@ export class AudioPlayer
 
         elementNode.name = "JuniperAudioPlayer-Input";
         
-        super("audio-player", context, null, [], [elementNode]);
+        super("audio-player", context, new NoSpatializer(context), [], [elementNode]);
 
         elementNode.connect(this.volumeControl);
 

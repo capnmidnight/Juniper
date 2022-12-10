@@ -33,10 +33,14 @@ if (!("OfflineAudioContext" in globalThis) && "webkitOfflineAudioContext" in glo
 }
 
 
-export type ClassID =
+export type NodeClass =
     | "node"
     | "param"
     | "unknown";
+
+export type ConnectionType =
+    | "conn"
+    | "parent";
 
 export interface OutputResolution {
     source: AudioNode;
@@ -49,16 +53,16 @@ export interface InputResolution {
 }
 
 export interface AudioConnection {
-    type: "conn" | "parent";
+    type: ConnectionType;
     destination: AudioNode | AudioParam;
     output?: number;
     input?: number;
 }
 
 export interface Vertex {
+    nodeClass: NodeClass;
     type: string;
     name: string;
-    classID: ClassID;
 }
 
 class NodeInfo {
@@ -70,7 +74,7 @@ class NodeInfo {
 }
 
 
-function isMatchingConnection(conn: AudioConnection, type: "conn" | "parent", destinationOrOutput?: AudioNode | AudioParam | number, output?: number, input?: number): boolean {
+function isMatchingConnection(conn: AudioConnection, type: ConnectionType, destinationOrOutput?: AudioNode | AudioParam | number, output?: number, input?: number): boolean {
     let destination: AudioNode | AudioParam = null;
     if (isNumber(destinationOrOutput)) {
         output = destinationOrOutput;
@@ -319,20 +323,22 @@ export class JuniperAudioContext extends AudioContext {
     }
 
 
-    getAudioGraph(): Array<GraphNode<Vertex>> {
+    getAudioGraph(includeParams: boolean): Array<GraphNode<Vertex>> {
         const nodes = new Map<AudioNode | AudioParam, GraphNode<Vertex>>();
 
         for (const [node, info] of this.nodes) {
-            const classID = node instanceof AudioNode
+            const nodeClass = node instanceof AudioNode
                 ? "node"
                 : node instanceof AudioParam
                     ? "param"
                     : "unknown";
-            nodes.set(node, new GraphNode({
-                name: info.name,
-                type: info.type,
-                classID
-            }));
+            if (includeParams || nodeClass !== "param") {
+                nodes.set(node, new GraphNode({
+                    name: info.name,
+                    type: info.type,
+                    nodeClass
+                }));
+            }
         }
 
         for (const [source, info] of this.nodes) {
