@@ -82,6 +82,19 @@ export abstract class DialogBox
         return elementIsDisplayed(this);
     }
 
+    hide() {
+        this.show(false);
+    }
+
+    async toggle() {
+        if (this.isOpen) {
+            this.hide();
+        }
+        else {
+            this.showDialog();
+        }
+    }
+
     async showDialog(): Promise<boolean> {
         await this.onShowing();
         this.show(true);

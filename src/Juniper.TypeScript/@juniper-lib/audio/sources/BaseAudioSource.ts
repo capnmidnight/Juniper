@@ -43,6 +43,8 @@ export abstract class BaseAudioSource<EventTypeT = void>
         this.volumeControl = volumeControl;
         this.output = output;
         this.setEffects(...effectNames);
+
+        this.enable();
     }
 
     protected override onDisposing(): void {
@@ -51,8 +53,6 @@ export abstract class BaseAudioSource<EventTypeT = void>
     }
 
     setEffects(...effectNames: string[]) {
-        this.disable();
-
         for (const effect of this.effects) {
             this.remove(effect);
             effect.dispose();
@@ -72,8 +72,6 @@ export abstract class BaseAudioSource<EventTypeT = void>
                 }
             }
         }
-
-        this.enable();
     }
 
     get spatialized() {
@@ -84,15 +82,24 @@ export abstract class BaseAudioSource<EventTypeT = void>
         return this.effects[this.effects.length - 1] || this.volumeControl;
     }
 
-    protected enable(): void {
+    enable(): void {
         if (!this.lastInternal.isConnected()) {
             this.lastInternal.connect(this.output);
         }
     }
 
-    protected disable(): void {
+    disable(): void {
         if (this.lastInternal.isConnected()) {
             this.lastInternal.disconnect();
+        }
+    }
+
+    tog() {
+        if (this.lastInternal.isConnected()) {
+            this.disable();
+        }
+        else {
+            this.enable();
         }
     }
 

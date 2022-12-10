@@ -83,4 +83,6 @@ export class JuniperAudioParam implements IAudioParam {
             destination: this.param
         };
     }
+
+    resolveInput() { return this._resolveInput(); }
 }

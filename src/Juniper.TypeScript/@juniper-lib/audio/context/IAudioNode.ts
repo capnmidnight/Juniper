@@ -5,14 +5,14 @@ import type { InputResolution, JuniperAudioContext, OutputResolution } from "./J
 export interface IAudioEndPoint extends IDisposable {
     name: string;
     readonly nodeType: string;
+    resolveInput(input?: number): InputResolution;
     _resolveInput(input?: number): InputResolution;
 }
 
 export interface IAudioNode extends AudioNode, IAudioEndPoint {
     readonly context: JuniperAudioContext;
 
-
-    isConnected(output?: number): boolean;
+    isConnected(dest?: IAudioNode | IAudioParam, output?: number, input?: number): boolean;
 
     connect(destinationParam: IAudioParam, output?: number): void;
     connect(destinationNode: IAudioNode, output?: number, input?: number): IAudioNode;
@@ -22,6 +22,7 @@ export interface IAudioNode extends AudioNode, IAudioEndPoint {
     disconnect(destinationParam: IAudioParam, output?: number): void;
     disconnect(destinationNode: IAudioNode, output?: number, input?: number): void;
 
+    resolveOutput(output?: number): OutputResolution;
     _resolveOutput(output?: number): OutputResolution;
 }
 

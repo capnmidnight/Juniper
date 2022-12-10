@@ -41,10 +41,12 @@ export abstract class JuniperAudioNode<EventsT = void>
 
     protected add(node: IAudioNode) {
         this.allNodes.push(node);
+        this.context._parent(this, node);
     }
 
     protected remove(node: IAudioNode) {
         arrayRemove(this.allNodes, node);
+        this.context._unparent(this, node);
     }
 
     protected override onDisposing() {

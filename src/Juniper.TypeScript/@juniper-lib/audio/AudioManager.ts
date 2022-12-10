@@ -1,6 +1,6 @@
 import { autoPlay, id, playsInline, src, srcObject } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
-import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "@juniper-lib/dom/tags";
+import { Audio, BackgroundAudio, ErsatzElement, mediaElementCanPlay } from "@juniper-lib/dom/tags";
 import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { isMobileVR } from "@juniper-lib/tslib/flags";
@@ -80,19 +80,18 @@ export class AudioManager
                 ? new WebAudioListenerNew(context)
                 : new WebAudioListenerOld(context));
 
-        super("audio-manager", context, null, null, [destination]);
-
-        this.audioDestination = destination;
-        this.localMic = localMic;
-
-        this.element = Audio(
+        const element = Audio(
             id("Audio-Device-Manager"),
             display("none"),
             playsInline(true),
             autoPlay(true),
             srcObject(destination.stream));
 
-        elementApply(document.body, this);
+        super("audio-manager", context, null, null, [destination]);
+
+        this.localMic = localMic;
+        this.audioDestination = destination;
+        this.element = element;
 
         this.speakers = new SpeakerManager(this.element);
 

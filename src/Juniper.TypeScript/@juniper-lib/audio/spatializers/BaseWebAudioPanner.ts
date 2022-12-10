@@ -107,6 +107,6 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
         }
     }
 
-    protected abstract setPosition(x: number, y: number, z: number, t: number): void;
-    protected abstract setOrientation(x: number, y: number, z: number, t: number): void;
+    protected abstract setPosition(x: number, y: number, z: number, t?: number): void;
+    protected abstract setOrientation(x: number, y: number, z: number, t?: number): void;
 }

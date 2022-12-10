@@ -15,11 +15,11 @@ export class WebAudioPannerOld extends BaseWebAudioPanner {
         Object.seal(this);
     }
 
-    override setPosition(x: number, y: number, z: number, _t: number) {
+    override setPosition(x: number, y: number, z: number) {
         this.panner.setPosition(x, y, z);
     }
 
-    override setOrientation(x: number, y: number, z: number, _t: number) {
+    override setOrientation(x: number, y: number, z: number) {
         this.panner.setOrientation(x, y, z);
     }
 }

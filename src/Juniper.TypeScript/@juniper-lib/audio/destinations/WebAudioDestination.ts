@@ -23,23 +23,21 @@ export class WebAudioDestination extends JuniperAudioNode<void> implements IPose
         const spatializedInput = new JuniperGainNode(context);
         spatializedInput.name = "spatialized-input";
 
+        const nonSpatializedInput = new JuniperGainNode(context);
+        nonSpatializedInput.name = "non-spatialized-input";
+
         const destination = new JuniperMediaStreamAudioDestinationNode(context);
 
-        const volumeControl = new JuniperGainNode(context);
-        volumeControl.name = "final";
-
         super("web-audio-destination", context,
-            [remoteUserInput, spatializedInput, volumeControl],
-            null,
-            [destination, volumeControl]);
+            [remoteUserInput, spatializedInput, nonSpatializedInput],
+            [],
+            [destination, nonSpatializedInput]);
 
-        this.remoteUserInput= remoteUserInput;
+        this.remoteUserInput = remoteUserInput;
         this.spatializedInput = spatializedInput;
-        this.nonSpatializedInput = volumeControl;
-        this.volumeControl = volumeControl;
+        this.nonSpatializedInput = nonSpatializedInput;
+        this.volumeControl = nonSpatializedInput;
         this.destination = destination;
-
-        this.name = "destination";
 
         remoteUserInput
             .connect(spatializedInput)

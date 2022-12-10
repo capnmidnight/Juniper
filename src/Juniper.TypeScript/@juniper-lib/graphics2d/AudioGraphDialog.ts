@@ -22,16 +22,22 @@ function getVertexColor(n: Vertex): CSSColorValue {
     }
 }
 
+function getWeightMod(a: Vertex, b: Vertex, connected: boolean): number {
+    return !connected || a.classID === b.classID
+        ? 1
+        : 1.8;
+}
+
 export class AudioGraphDialog extends BaseGraphDialog<Vertex>{
     constructor(private readonly context: JuniperAudioContext) {
-        super("Audio graph", getVertexName, getVertexColor);
+        super("Audio graph", getVertexName, getVertexColor, getWeightMod);
     }
 
-    override onShown() {
+    override refreshData() {
         const graph = this.context.getAudioGraph();
         this.setGraph(graph);
         this.setOrigin(arrayScan(graph, (g) =>
             g.value.type === "media-stream-audio-destination"));
-        super.onShown();
+        super.refreshData();
     }
 }

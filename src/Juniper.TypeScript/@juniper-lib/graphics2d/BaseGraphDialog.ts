@@ -53,7 +53,7 @@ function clamp(a: number, b: number) {
     }
 }
 
-export class BaseGraphDialog<T> extends DialogBox {
+export abstract class BaseGraphDialog<T> extends DialogBox {
 
     private readonly t: HTMLInputElement;
     private readonly cooling: HTMLInputElement;
@@ -66,6 +66,7 @@ export class BaseGraphDialog<T> extends DialogBox {
     private readonly timer = new RequestAnimationFrameTimer();
     private readonly positions = new Map<GraphNode<T>, vec2>();
     private readonly forces = new Map<GraphNode<T>, vec2>();
+    private readonly wasGrabbed = new Set<GraphNode<T>>();
     private readonly mousePoint = vec2.create();
 
     private grabbed: GraphNode<T> = null;
@@ -83,7 +84,8 @@ export class BaseGraphDialog<T> extends DialogBox {
 
     constructor(title: string,
         private readonly getNodeName: (value: T) => string,
-        private readonly getNodeColor: (value: T) => CSSColorValue) {
+        private readonly getNodeColor: (value: T) => CSSColorValue,
+        private readonly getWeightMod: (a: T, b: T, connected: boolean) => number) {
         super(title);
 
         this.cancelButton.style.display = "none";
@@ -180,6 +182,12 @@ export class BaseGraphDialog<T> extends DialogBox {
                 const d = vec2.length(delta);
                 if (d < dist) {
                     this.grabbed = node;
+                    if (this.wasGrabbed.has(node)) {
+                        this.wasGrabbed.delete(node);
+                    }
+                    else {
+                        this.wasGrabbed.add(node);
+                    }
                     dist = d;
                 }
             }
@@ -251,7 +259,7 @@ export class BaseGraphDialog<T> extends DialogBox {
             if (n1 === this.grabbed) {
                 vec2.copy(p1, this.mousePoint);
             }
-            else if (n1 !== this.origin) {
+            else if (n1 !== this.origin && !this.wasGrabbed.has(n1)) {
                 const f1 = forces.get(n1);
 
                 const f0 = this.forces.get(n1);
@@ -278,8 +286,10 @@ export class BaseGraphDialog<T> extends DialogBox {
                         if (len > 0) {
                             vec2.normalize(delta, delta);
                             const connected = n1.isConnectedTo(n2);
-                            const f = this.attract.valueAsNumber * attract(connected, len)
-                                - this.repel.valueAsNumber * repel(connected, len);
+                            const weight = this.getWeightMod(n1.value, n2.value, connected);
+                            const invWeight = 2 - weight;
+                            const f = weight * this.attract.valueAsNumber * attract(connected, len)
+                                - invWeight * this.repel.valueAsNumber * repel(connected, len);
                             vec2.scaleAndAdd(f1, f1, delta, f);
                         }
                     }
@@ -323,13 +333,23 @@ export class BaseGraphDialog<T> extends DialogBox {
     override onShown() {
         super.onShown();
 
+        this.refreshData();
+
         this.t.valueAsNumber = 5;
-        this.positions.clear();
         resizeCanvas(this.canvas);
 
+        if (!this.timer.isRunning) {
+            this.timer.start();
+        }
+    }
+
+    refreshData(): void {
+        this.positions.clear();
         this.forces.clear();
+        this.wasGrabbed.clear();
 
         const R = Math.min(this.w, this.h) / 2;
+
         for (let i = 0; i < this.graph.length; ++i) {
             const node = this.graph[i];
             if (node === this.origin) {
@@ -342,10 +362,6 @@ export class BaseGraphDialog<T> extends DialogBox {
                 const y = r * Math.sin(a) + this.h / 2;
                 this.positions.set(node, vec2.fromValues(x, y));
             }
-        }
-
-        if (!this.timer.isRunning) {
-            this.timer.start();
         }
     }
 

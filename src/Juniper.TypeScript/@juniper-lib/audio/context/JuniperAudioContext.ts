@@ -1,7 +1,7 @@
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { GraphNode } from "@juniper-lib/tslib/collections/GraphNode";
 import { once } from "@juniper-lib/tslib/events/once";
-import { assertNever, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
+import { assertNever, isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { IAudioNode, IAudioParam, isEndpoint } from "./IAudioNode";
 import { JuniperAnalyserNode } from "./JuniperAnalyserNode";
 import { JuniperAudioBufferSourceNode } from "./JuniperAudioBufferSourceNode";
@@ -70,7 +70,7 @@ class NodeInfo {
 }
 
 
-function isMatchingConnection(conn: AudioConnection, destinationOrOutput?: AudioNode | AudioParam | number, output?: number, input?: number): boolean {
+function isMatchingConnection(conn: AudioConnection, type: "conn" | "parent", destinationOrOutput?: AudioNode | AudioParam | number, output?: number, input?: number): boolean {
     let destination: AudioNode | AudioParam = null;
     if (isNumber(destinationOrOutput)) {
         output = destinationOrOutput;
@@ -79,13 +79,22 @@ function isMatchingConnection(conn: AudioConnection, destinationOrOutput?: Audio
         destination = destinationOrOutput;
     }
 
-    return conn.type === "conn"
+    return conn.type === type
         && (isNullOrUndefined(destination)
             || destination === conn.destination)
         && (isNullOrUndefined(output)
             || output === conn.output)
         && (isNullOrUndefined(input)
             || input === conn.input);
+}
+
+function resolveInput(dest?: IAudioParam | IAudioNode, inp?: number): InputResolution {
+    let destination: AudioNode | AudioParam = null;
+    let input: number = null;
+    if (isDefined(dest)) {
+        ({ destination, input } = dest.resolveInput(inp));
+    }
+    return { destination, input };
 }
 
 export class JuniperAudioContext extends AudioContext {
@@ -143,7 +152,7 @@ export class JuniperAudioContext extends AudioContext {
     }
 
     _name(dest: IAudioNode | IAudioParam, name: string): void {
-        const { destination } = dest._resolveInput();
+        const { destination } = resolveInput(dest);
         if (this.nodes.has(destination)) {
             const info = this.nodes.get(destination);
             info.name = `${name}-${info.type}`;
@@ -154,8 +163,10 @@ export class JuniperAudioContext extends AudioContext {
         this.nodes.delete(node);
     }
 
-    _isConnected(src: IAudioNode, outp?: number): boolean {
-        const { source, output } = src._resolveOutput(outp);
+    _isConnected(src: IAudioNode, dest?: IAudioNode | IAudioParam, outp?: number, inp?: number): boolean {
+        const { source, output } = src.resolveOutput(outp);
+        const { destination, input } = resolveInput(dest, inp);
+
         if (isNullOrUndefined(source)
             || !this.nodes.has(source)) {
             return null;
@@ -163,7 +174,7 @@ export class JuniperAudioContext extends AudioContext {
         else {
             const info = this.nodes.get(source);
             for (const conn of info.connections) {
-                if (isMatchingConnection(conn, null, output, null)) {
+                if (isMatchingConnection(conn, "conn", destination, output, input)) {
                     return true;
                 }
             }
@@ -171,24 +182,45 @@ export class JuniperAudioContext extends AudioContext {
         }
     }
 
-    _parent(src: IAudioNode, dest: IAudioParam) {
-        const { source } = src._resolveOutput();
-        const { destination } = dest._resolveInput();
+    _parent(src: IAudioNode, dest: IAudioNode | IAudioParam) {
+        const { source } = src.resolveOutput();
+        const { destination } = resolveInput(dest);
         if (this.nodes.has(source)) {
-            const info = this.nodes.get(source);
-            info.connections.add({
+            const conns = this.nodes.get(source).connections;
+            conns.add({
                 type: "parent",
                 destination
             });
         }
     }
 
-    _connect(source: AudioNode, destination?: AudioNode | AudioParam, output?: number, input?: number) {
+    _unparent(src: IAudioNode, dest: IAudioNode | IAudioParam) {
+        const { source } = src.resolveOutput();
+        const { destination } = resolveInput(dest);
+        if (this.nodes.has(source)) {
+            const conns = this.nodes.get(source).connections;
+            const toDelete = new Set<AudioConnection>();
+            for (const conn of conns) {
+                if (isMatchingConnection(conn, "parent", destination)) {
+                    toDelete.add(conn);
+                }
+            }
+
+            for (const conn of toDelete) {
+                conns.delete(conn);
+            }
+        }
+    }
+
+    _connect(src: IAudioNode, dest?: IAudioNode | IAudioParam, outp?: number, inp?: number): IAudioNode | void {
+        const { source, output } = src.resolveOutput(outp);
+        const { destination, input } = resolveInput(dest, inp);
+
         if (this.nodes.has(source)) {
             const conns = this.nodes.get(source).connections;
             let matchFound = false;
             for (const conn of conns) {
-                if (isMatchingConnection(conn, destination, output, input)) {
+                if (isMatchingConnection(conn, "conn", destination, output, input)) {
                     matchFound = true;
                 }
             }
@@ -202,14 +234,56 @@ export class JuniperAudioContext extends AudioContext {
                 });
             }
         }
+
+        if (destination instanceof AudioNode) {
+            dest = dest as IAudioNode;
+            if (isDefined(input)) {
+                source.connect(destination, output, input);
+                return dest;
+            }
+            else if (isDefined(output)) {
+                source.connect(destination, output);
+                return dest;
+            }
+            else {
+                source.connect(destination);
+                return dest;
+            }
+        }
+        else if (destination instanceof AudioParam) {
+            if (isDefined(output)) {
+                source.connect(destination, output);
+            }
+            else if (isDefined(destination)) {
+                source.connect(destination);
+            }
+            else {
+                assertNever(destination);
+            }
+        }
+        else {
+            assertNever(destination);
+        }
     }
 
-    _disconnect(source: AudioNode, destination?: AudioNode | AudioParam, output?: number, input?: number) {
+    _disconnect(src: IAudioNode, destinationOrOutput?: IAudioNode | IAudioParam | number, outp?: number, inp?: number) {
+        let dest: IAudioNode | IAudioParam;
+        if (isNumber(destinationOrOutput)) {
+            dest = undefined;
+            outp = destinationOrOutput;
+        }
+        else {
+            dest = destinationOrOutput;
+        }
+
+        const { source, output } = src.resolveOutput(outp);
+        const { destination, input } = resolveInput(dest, inp);
+
         if (this.nodes.has(source)) {
             const conns = this.nodes.get(source).connections;
             const toDelete = new Set<AudioConnection>();
             for (const conn of conns) {
-                if (isMatchingConnection(conn, destination, output, input)) {
+                if (isMatchingConnection(conn, "conn", destination, output, input)) {
                     toDelete.add(conn);
                 }
             }
@@ -217,6 +291,30 @@ export class JuniperAudioContext extends AudioContext {
             for (const conn of toDelete) {
                 conns.delete(conn);
             }
+        }
+
+        if (destination instanceof AudioNode) {
+            if (isDefined(inp)) {
+                source.disconnect(destination, outp, inp);
+            }
+            else if (isDefined(outp)) {
+                source.disconnect(destination, outp);
+            }
+            else if (isDefined(destination)) {
+                source.disconnect(destination);
+            }
+            else {
+                source.disconnect();
+            }
+        }
+        else if (isDefined(outp)) {
+            source.disconnect(destination, outp);
+        }
+        else if (isDefined(destination)) {
+            source.disconnect(destination);
+        }
+        else {
+            source.disconnect();
         }
     }
 

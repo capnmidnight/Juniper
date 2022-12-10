@@ -16,7 +16,7 @@ export class WebAudioPannerNew extends BaseWebAudioPanner {
         Object.seal(this);
     }
 
-    setPosition(x: number, y: number, z: number, t: number) {
+    setPosition(x: number, y: number, z: number, t?: number) {
         if (isGoodNumber(x)
             && isGoodNumber(y)
             && isGoodNumber(z)) {
@@ -29,7 +29,7 @@ export class WebAudioPannerNew extends BaseWebAudioPanner {
         }
     }
 
-    setOrientation(x: number, y: number, z: number, t: number) {
+    setOrientation(x: number, y: number, z: number, t?: number) {
         if (isGoodNumber(x)
             && isGoodNumber(y)
             && isGoodNumber(z)) {
