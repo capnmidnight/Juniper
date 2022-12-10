@@ -20,6 +20,7 @@ import { AudioElementSource } from "./sources/AudioElementSource";
 import { AudioStreamSource } from "./sources/AudioStreamSource";
 import type { IAudioSource } from "./sources/IAudioSource";
 import { BaseSpatializer } from "./spatializers/BaseSpatializer";
+import { NoSpatializer } from "./spatializers/NoSpatializer";
 import { WebAudioPannerNew } from "./spatializers/WebAudioPannerNew";
 import { WebAudioPannerOld } from "./spatializers/WebAudioPannerOld";
 import { SpeakerManager } from "./SpeakerManager";
@@ -166,12 +167,10 @@ export class AudioManager
             ? hasNewAudioListener
                 ? new WebAudioPannerNew(this.context)
                 : new WebAudioPannerOld(this.context)
-            : null;
+            : new NoSpatializer(this.context);
 
-        if (isDefined(spatializer)) {
-            spatializer.setAudioProperties(this._minDistance, this._maxDistance, this._algorithm);
-            spatializer.connect(destination);
-        }
+        spatializer.setAudioProperties(this._minDistance, this._maxDistance, this._algorithm);
+        spatializer.connect(destination);
 
         return spatializer;
     }

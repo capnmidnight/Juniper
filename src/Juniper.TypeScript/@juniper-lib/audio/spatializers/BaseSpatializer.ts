@@ -16,6 +16,7 @@ export abstract class BaseSpatializer extends JuniperAudioNode implements IPoseR
     constructor(
         type: string,
         context: JuniperAudioContext,
+        public readonly spatialized: boolean,
         input?: ReadonlyArray<IAudioNode>,
         output?: ReadonlyArray<IAudioNode>,
         nodes?: ReadonlyArray<IAudioNode>
@@ -41,3 +42,4 @@ export abstract class BaseSpatializer extends JuniperAudioNode implements IPoseR
      */
     abstract readPose(loc: Pose): void;
 }
+

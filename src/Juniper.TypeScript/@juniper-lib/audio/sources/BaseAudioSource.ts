@@ -1,5 +1,5 @@
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IAudioNode } from "../context/IAudioNode";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperAudioNode } from "../context/JuniperAudioNode";
@@ -18,7 +18,6 @@ export abstract class BaseAudioSource<EventTypeT = void>
     protected readonly volumeControl: JuniperGainNode;
 
     private readonly pose = new Pose();
-    private readonly output: IAudioNode;
 
     constructor(
         type: string,
@@ -32,16 +31,9 @@ export abstract class BaseAudioSource<EventTypeT = void>
 
         extras = extras || [];
 
-        let output: IAudioNode = spatializer;
-        if (isNullOrUndefined(output)) {
-            output = new JuniperGainNode(context);
-            output.name = "output";
-        }
-
-        super(type, context, [], [output], extras);
+        super(type, context, [], [spatializer], extras);
 
         this.volumeControl = volumeControl;
-        this.output = output;
         this.setEffects(...effectNames);
 
         this.enable();
@@ -75,7 +67,7 @@ export abstract class BaseAudioSource<EventTypeT = void>
     }
 
     get spatialized() {
-        return isDefined(this.spatializer);
+        return this.spatializer.spatialized;
     }
 
     private get lastInternal() {
@@ -84,7 +76,7 @@ export abstract class BaseAudioSource<EventTypeT = void>
 
     enable(): void {
         if (!this.lastInternal.isConnected()) {
-            this.lastInternal.connect(this.output);
+            this.lastInternal.connect(this.spatializer);
         }
     }
 

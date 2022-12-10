@@ -23,7 +23,7 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
             coneOuterAngle: 0,
             coneOuterGain: 0
         });
-        super(type, context, [panner]);
+        super(type, context, true, [panner]);
 
         this.panner = panner;
     }
