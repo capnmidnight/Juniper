@@ -1,5 +1,5 @@
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
-import { JuniperAudioNode } from "../context/JuniperAudioNode";
+import { BaseNodeCluster } from "../BaseNodeCluster";
 import { JuniperGainNode } from "../context/JuniperGainNode";
 import { JuniperMediaStreamAudioDestinationNode } from "../context/JuniperMediaStreamAudioDestinationNode";
 import { IPoseable } from "../IPoseable";
@@ -8,7 +8,7 @@ import { Pose } from "../Pose";
 
 export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestinationNode;
 
-export class WebAudioDestination extends JuniperAudioNode<void> implements IPoseable {
+export class WebAudioDestination extends BaseNodeCluster<void> implements IPoseable {
     readonly pose = new Pose();
     private readonly volumeControl: JuniperGainNode;
     private readonly destination: JuniperMediaStreamAudioDestinationNode;

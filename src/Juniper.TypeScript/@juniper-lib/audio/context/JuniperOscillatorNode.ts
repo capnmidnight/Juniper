@@ -1,12 +1,12 @@
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
-import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "../IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 import { JuniperAudioParam } from "./JuniperAudioParam";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
 export class JuniperOscillatorNode
-    extends JuniperWrappedNode<OscillatorNode, {
+    extends JuniperAudioNode<OscillatorNode, {
         ended: TypedEvent<"ended">;
     }>
     implements OscillatorNode {

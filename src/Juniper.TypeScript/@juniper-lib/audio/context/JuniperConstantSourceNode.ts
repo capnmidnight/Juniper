@@ -1,12 +1,12 @@
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
-import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "../IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 import { JuniperAudioParam } from "./JuniperAudioParam";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
 export class JuniperConstantSourceNode
-    extends JuniperWrappedNode<ConstantSourceNode, {
+    extends JuniperAudioNode<ConstantSourceNode, {
         ended: TypedEvent<"ended">;
     }>
     implements ConstantSourceNode {

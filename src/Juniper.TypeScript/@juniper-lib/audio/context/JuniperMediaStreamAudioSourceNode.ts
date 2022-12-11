@@ -2,10 +2,10 @@ import { srcObject } from "@juniper-lib/dom/attrs";
 import { BackgroundAudio } from "@juniper-lib/dom/tags";
 import { hasStreamSources } from "../util";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 
 export class JuniperMediaStreamAudioSourceNode
-    extends JuniperWrappedNode<MediaStreamAudioSourceNode | MediaElementAudioSourceNode>
+    extends JuniperAudioNode<MediaStreamAudioSourceNode | MediaElementAudioSourceNode>
     implements MediaStreamAudioSourceNode {
 
     private readonly _stream: MediaStream;

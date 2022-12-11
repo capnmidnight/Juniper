@@ -1,9 +1,9 @@
-﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
+import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 
 
 export class JuniperChannelSplitterNode
-    extends JuniperWrappedNode<ChannelSplitterNode>
+    extends JuniperAudioNode<ChannelSplitterNode>
     implements ChannelSplitterNode {
 
     constructor(context: JuniperAudioContext, options?: ChannelSplitterOptions) {

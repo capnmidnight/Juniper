@@ -1,7 +1,7 @@
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
-import { JuniperAudioNode } from "./context/JuniperAudioNode";
 import { JuniperBiquadFilterNode } from "./context/JuniperBiquadFilterNode";
 import { JuniperDynamicsCompressorNode } from "./context/JuniperDynamicsCompressorNode";
 import { JuniperGainNode } from "./context/JuniperGainNode";
@@ -9,14 +9,15 @@ import { JuniperMediaStreamAudioDestinationNode } from "./context/JuniperMediaSt
 import { JuniperMediaStreamAudioSourceNode } from "./context/JuniperMediaStreamAudioSourceNode";
 
 
-export class LocalUserMicrophone extends JuniperAudioNode<{
+export class LocalUserMicrophone extends BaseNodeCluster<{
     started: TypedEvent<"started">;
     stopped: TypedEvent<"stopped">;
 }> {
 
+    readonly localAutoControlledGain: JuniperGainNode;
+
     private localStream: JuniperMediaStreamAudioSourceNode;
     private readonly localVolume: JuniperGainNode;
-    private readonly localAutoControlledGain: JuniperGainNode;
     private readonly localOutput: JuniperMediaStreamAudioDestinationNode;
 
     constructor(context: JuniperAudioContext) {

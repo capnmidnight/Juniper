@@ -1,9 +1,9 @@
-﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
+import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 
 
 export class JuniperMediaStreamAudioDestinationNode
-    extends JuniperWrappedNode<MediaStreamAudioDestinationNode>
+    extends JuniperAudioNode<MediaStreamAudioDestinationNode>
     implements MediaStreamAudioDestinationNode {
 
     constructor(context: JuniperAudioContext, options?: AudioNodeOptions) {

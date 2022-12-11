@@ -1,11 +1,11 @@
-import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "../IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 import { JuniperAudioParam } from "./JuniperAudioParam";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
 export class JuniperBiquadFilterNode
-    extends JuniperWrappedNode<BiquadFilterNode>
+    extends JuniperAudioNode<BiquadFilterNode>
     implements BiquadFilterNode {
 
     public readonly Q: IAudioParam;

@@ -1,9 +1,9 @@
-﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
+import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 
 
 export class JuniperWaveShaperNode
-    extends JuniperWrappedNode<WaveShaperNode>
+    extends JuniperAudioNode<WaveShaperNode>
     implements WaveShaperNode {
 
     constructor(context: JuniperAudioContext, options?: WaveShaperOptions) {

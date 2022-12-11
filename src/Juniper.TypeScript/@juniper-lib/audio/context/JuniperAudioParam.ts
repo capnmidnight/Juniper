@@ -1,4 +1,4 @@
-import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "../IAudioNode";
 import { InputResolution, JuniperAudioContext } from "./JuniperAudioContext";
 
 export class JuniperAudioParam implements IAudioParam {

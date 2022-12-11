@@ -1,11 +1,11 @@
-import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "../IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 import { JuniperAudioParam } from "./JuniperAudioParam";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
 export class JuniperStereoPannerNode
-    extends JuniperWrappedNode<StereoPannerNode>
+    extends JuniperAudioNode<StereoPannerNode>
     implements StereoPannerNode {
 
     public readonly pan: IAudioParam;

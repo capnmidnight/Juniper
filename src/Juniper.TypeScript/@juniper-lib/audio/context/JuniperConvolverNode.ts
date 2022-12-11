@@ -1,9 +1,9 @@
-﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
+import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 
 
 export class JuniperConvolverNode
-    extends JuniperWrappedNode<ConvolverNode>
+    extends JuniperAudioNode<ConvolverNode>
     implements ConvolverNode {
 
     constructor(context: JuniperAudioContext, options?: ConvolverOptions) {

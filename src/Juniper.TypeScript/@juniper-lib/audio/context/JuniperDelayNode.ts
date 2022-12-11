@@ -1,11 +1,11 @@
-import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "../IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 import { JuniperAudioParam } from "./JuniperAudioParam";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
 
 
 export class JuniperDelayNode
-    extends JuniperWrappedNode<DelayNode>
+    extends JuniperAudioNode<DelayNode>
     implements DelayNode {
 
     public readonly delayTime: IAudioParam;

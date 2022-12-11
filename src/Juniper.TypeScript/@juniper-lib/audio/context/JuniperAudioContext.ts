@@ -2,7 +2,7 @@ import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { GraphNode } from "@juniper-lib/tslib/collections/GraphNode";
 import { once } from "@juniper-lib/tslib/events/once";
 import { assertNever, isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
-import { IAudioNode, IAudioParam, isEndpoint } from "./IAudioNode";
+import { IAudioNode, IAudioParam, isEndpoint } from "../IAudioNode";
 import { JuniperAnalyserNode } from "./JuniperAnalyserNode";
 import { JuniperAudioBufferSourceNode } from "./JuniperAudioBufferSourceNode";
 import { JuniperAudioDestinationNode } from "./JuniperAudioDestinationNode";

@@ -1,8 +1,8 @@
-﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
+import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 
 export class JuniperAnalyserNode
-    extends JuniperWrappedNode<AnalyserNode>
+    extends JuniperAudioNode<AnalyserNode>
     implements AnalyserNode {
 
     constructor(context: JuniperAudioContext, options?: AnalyserOptions) {

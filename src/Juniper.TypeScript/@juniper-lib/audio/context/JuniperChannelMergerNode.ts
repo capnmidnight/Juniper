@@ -1,9 +1,9 @@
-﻿import type { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
+import type { JuniperAudioContext } from "./JuniperAudioContext";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 
 
 export class JuniperChannelMergerNode
-    extends JuniperWrappedNode<ChannelMergerNode>
+    extends JuniperAudioNode<ChannelMergerNode>
     implements ChannelMergerNode {
 
     constructor(context: JuniperAudioContext, options?: ChannelMergerOptions) {

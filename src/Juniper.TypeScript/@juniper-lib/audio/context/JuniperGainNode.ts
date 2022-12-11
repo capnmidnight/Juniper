@@ -1,11 +1,11 @@
-import { IAudioParam } from "./IAudioNode";
+import { IAudioParam } from "../IAudioNode";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioParam } from "./JuniperAudioParam";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 
 
 export class JuniperGainNode
-    extends JuniperWrappedNode<GainNode>
+    extends JuniperAudioNode<GainNode>
     implements GainNode {
 
     public readonly gain: IAudioParam;

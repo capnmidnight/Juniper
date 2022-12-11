@@ -1,10 +1,10 @@
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { IAudioNode } from "../context/IAudioNode";
 import type { JuniperAudioContext } from "../context/JuniperAudioContext";
 import type { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
 import { JuniperMediaStreamAudioSourceNode } from "../context/JuniperMediaStreamAudioSourceNode";
+import { IAudioNode } from "../IAudioNode";
 import type { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { BaseAudioSource } from "./BaseAudioSource";
 

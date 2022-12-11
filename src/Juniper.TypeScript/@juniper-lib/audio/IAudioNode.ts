@@ -1,6 +1,6 @@
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import type { InputResolution, JuniperAudioContext, OutputResolution } from "./JuniperAudioContext";
+import type { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
 
 export interface IAudioEndPoint extends IDisposable {
     name: string;

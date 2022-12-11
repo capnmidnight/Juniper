@@ -9,7 +9,7 @@ import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
-import { JuniperAudioNode } from "./context/JuniperAudioNode";
+import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperMediaElementAudioSourceNode } from "./context/JuniperMediaElementAudioSourceNode";
 import { WebAudioDestination } from "./destinations/WebAudioDestination";
 import { IPoseable } from "./IPoseable";
@@ -39,7 +39,7 @@ interface AudioManagerEvents {
  * A manager of audio sources, destinations, and their spatialization.
  **/
 export class AudioManager
-    extends JuniperAudioNode<AudioManagerEvents>
+    extends BaseNodeCluster<AudioManagerEvents>
     implements ErsatzElement {
 
     private readonly users = new Map<string, AudioStreamSource>();

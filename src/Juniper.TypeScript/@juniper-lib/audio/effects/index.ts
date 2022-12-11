@@ -1,5 +1,5 @@
-import { IAudioNode } from "../context/IAudioNode";
 import type { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { IAudioNode } from "../IAudioNode";
 import { RadioEffect } from "./RadioEffect";
 import { WallEffect } from "./WallEffect";
 

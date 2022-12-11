@@ -1,4 +1,4 @@
-import { IAudioNode } from "../context/IAudioNode";
+import { IAudioNode } from "../IAudioNode";
 import { Pose } from "../Pose";
 import { BaseSpatializer } from "./BaseSpatializer";
 

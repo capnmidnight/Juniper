@@ -1,10 +1,10 @@
-﻿import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
-import { JuniperWrappedNode } from "./JuniperWrappedNode";
+import { JuniperAudioNode } from "./JuniperAudioNode";
 
 
 export class JuniperAudioWorkletNode
-    extends JuniperWrappedNode<AudioWorkletNode, {
+    extends JuniperAudioNode<AudioWorkletNode, {
         processorerror: TypedEvent<"processorerror">
     }>
     implements AudioWorkletNode {
