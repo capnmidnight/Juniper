@@ -1,5 +1,4 @@
 import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
-import { JuniperGainNode } from "@juniper-lib/audio/context/JuniperGainNode";
 import { JuniperMediaElementAudioSourceNode } from "@juniper-lib/audio/context/JuniperMediaElementAudioSourceNode";
 import { AudioRecord } from "@juniper-lib/audio/data";
 import { BaseAudioSource } from "@juniper-lib/audio/sources/BaseAudioSource";
