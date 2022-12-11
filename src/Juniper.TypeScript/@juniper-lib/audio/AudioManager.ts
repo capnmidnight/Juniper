@@ -58,6 +58,7 @@ export class AudioManager
     readonly element: HTMLAudioElement = null;
     readonly localMic: LocalUserMicrophone;
     readonly destination: WebAudioDestination = null;
+    readonly noSpatializer: NoSpatializer;
     readonly speakers: SpeakerManager;
     readonly ready: Promise<void>;
 
@@ -88,11 +89,14 @@ export class AudioManager
             autoPlay(true),
             srcObject(destination.stream));
 
-        super("audio-manager", context, null, null, [destination]);
+        const noSpatializer = new NoSpatializer(destination.nonSpatializedInput);
+
+        super("audio-manager", context, null, null, [noSpatializer, destination]);
 
         this.localMic = localMic;
         this.destination = destination;
         this.element = element;
+        this.noSpatializer = noSpatializer;
 
         this.speakers = new SpeakerManager(this.element);
 
@@ -156,23 +160,24 @@ export class AudioManager
      * @param spatialize - whether or not the audio stream should be spatialized. Stereo audio streams that are spatialized will get down-mixed to a single channel.
      * @param isRemoteStream - whether or not the audio stream is coming from a remote user.
      */
-    private createSpatializer(spatialize: boolean, isRemoteStream: boolean): BaseSpatializer {
-        const destination = spatialize
-            ? isRemoteStream
+    createSpatializer(spatialize: boolean, isRemoteStream: boolean): BaseSpatializer {
+        if (!spatialize) {
+            return this.noSpatializer;
+        }
+        else {
+            const destination = isRemoteStream
                 ? this.destination.remoteUserInput
-                : this.destination.spatializedInput
-            : this.destination.nonSpatializedInput;
+                : this.destination.spatializedInput;
 
-        const spatializer = spatialize
-            ? hasNewAudioListener
+            const spatializer = hasNewAudioListener
                 ? new WebAudioPannerNew(this.context)
-                : new WebAudioPannerOld(this.context)
-            : new NoSpatializer(this.context);
+                : new WebAudioPannerOld(this.context);
 
-        spatializer.setAudioProperties(this._minDistance, this._maxDistance, this._algorithm);
-        spatializer.connect(destination);
+            spatializer.setAudioProperties(this._minDistance, this._maxDistance, this._algorithm);
+            spatializer.connect(destination);
 
-        return spatializer;
+            return spatializer;
+        }
     }
 
     /**

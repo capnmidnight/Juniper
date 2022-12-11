@@ -6,7 +6,7 @@ import { BaseAudioSource } from "@juniper-lib/audio/sources/BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "@juniper-lib/audio/sources/IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper-lib/audio/sources/IPlayer";
 import { PlaybackState } from "@juniper-lib/audio/sources/PlaybackState";
-import { NoSpatializer } from "@juniper-lib/audio/spatializers/NoSpatializer";
+import { BaseSpatializer } from "@juniper-lib/audio/spatializers/BaseSpatializer";
 import { autoPlay, controls, loop, playsInline } from "@juniper-lib/dom/attrs";
 import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper-lib/dom/tags";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
@@ -70,7 +70,8 @@ export abstract class BaseVideoPlayer
 
     constructor(
         type: string,
-        context: JuniperAudioContext) {
+        context: JuniperAudioContext,
+        spatializer: BaseSpatializer) {
 
         const video = BaseVideoPlayer.createMediaElement(Video, controls(true));
         const audio = BaseVideoPlayer.createMediaElement(Audio, controls(false));
@@ -79,18 +80,15 @@ export abstract class BaseVideoPlayer
             context, {
             mediaElement: video
         });
-        videoNode.name = "JuniperVideoPlayer-VideoNode";
+        videoNode.name = `${type}-video`;
 
         const audioNode = new JuniperMediaElementAudioSourceNode(
             context, {
             mediaElement: audio
         });
-        audioNode.name = "JuniperVideoPlayer-AudioNode";
+        audioNode.name = `${type}-audio`;
 
-        const output = new JuniperGainNode(context);
-        output.name = "JuniperVideoPlayer-Output";
-
-        super(type, context, new NoSpatializer(context), [], [videoNode, audioNode]);
+        super(type, context, spatializer, [], [videoNode, audioNode]);
 
         videoNode.connect(this.volumeControl);
         audioNode.connect(this.volumeControl);

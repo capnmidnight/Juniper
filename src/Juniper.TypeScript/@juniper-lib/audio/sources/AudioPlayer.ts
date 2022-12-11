@@ -10,7 +10,7 @@ import { IDisposable } from "@juniper-lib/tslib/using";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
 import { AudioRecord, FullAudioRecord } from "../data";
-import { NoSpatializer } from "../spatializers/NoSpatializer";
+import { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { BaseAudioSource } from "./BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "./IPlayer";
@@ -60,7 +60,7 @@ export class AudioPlayer
     private readonly sources = new Array<AudioRecord>();
     private readonly potatoes = new Array<string>();
 
-    constructor(context: JuniperAudioContext) {
+    constructor(context: JuniperAudioContext, spatializer: BaseSpatializer) {
         const mediaElement = Audio(
             playsInline(true),
             autoPlay(false),
@@ -74,7 +74,7 @@ export class AudioPlayer
 
         elementNode.name = "JuniperAudioPlayer-Input";
         
-        super("audio-player", context, new NoSpatializer(context), [], [elementNode]);
+        super("audio-player", context, spatializer, [], [elementNode]);
 
         elementNode.connect(this.volumeControl);
 
