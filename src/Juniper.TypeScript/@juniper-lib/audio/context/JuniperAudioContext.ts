@@ -54,6 +54,11 @@ export interface InputResolution {
 
 export interface AudioConnection {
     type: ConnectionType;
+    src: IAudioNode;
+    dest: IAudioNode | IAudioParam;
+    outp?: number;
+    inp?: number;
+    source: AudioNode;
     destination: AudioNode | AudioParam;
     output?: number;
     input?: number;
@@ -74,15 +79,7 @@ class NodeInfo {
 }
 
 
-function isMatchingConnection(conn: AudioConnection, type: ConnectionType, destinationOrOutput?: AudioNode | AudioParam | number, output?: number, input?: number): boolean {
-    let destination: AudioNode | AudioParam = null;
-    if (isNumber(destinationOrOutput)) {
-        output = destinationOrOutput;
-    }
-    else {
-        destination = destinationOrOutput;
-    }
-
+function isMatchingConnection(conn: AudioConnection, type: ConnectionType, destination?: AudioNode | AudioParam, output?: number, input?: number): boolean {
     return conn.type === type
         && (isNullOrUndefined(destination)
             || destination === conn.destination)
@@ -193,7 +190,10 @@ export class JuniperAudioContext extends AudioContext {
             const conns = this.nodes.get(source).connections;
             conns.add({
                 type: "parent",
-                destination
+                src,
+                dest,
+                destination,
+                source
             });
         }
     }
@@ -216,6 +216,14 @@ export class JuniperAudioContext extends AudioContext {
         }
     }
 
+    _getConnections(node: IAudioNode): Set<AudioConnection> {
+        if (!this.nodes.has(node)) {
+            return null;
+        }
+
+        return this.nodes.get(node).connections;
+    }
+
     _connect(src: IAudioNode, dest?: IAudioNode | IAudioParam, outp?: number, inp?: number): IAudioNode | void {
         const { source, output } = src.resolveOutput(outp);
         const { destination, input } = resolveInput(dest, inp);
@@ -232,6 +240,11 @@ export class JuniperAudioContext extends AudioContext {
             if (!matchFound) {
                 conns.add({
                     type: "conn",
+                    src,
+                    dest,
+                    outp,
+                    inp,
+                    source,
                     destination,
                     output,
                     input

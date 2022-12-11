@@ -171,7 +171,6 @@ export class Environment
         });
 
         this.audio = new AudioManager(DEFAULT_LOCAL_USER_ID);
-        this.audio.setAudioProperties(1, 4, "exponential");
 
         this.graph = new AudioGraphDialog(this.audio.context);
         this.renderer.getContext().canvas.addEventListener("keypress", (evt) => {

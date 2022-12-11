@@ -43,12 +43,13 @@ export class AudioManager
     private readonly pathSources = new Map<string, Promise<JuniperMediaElementAudioSourceNode>>();
     private readonly pathCounts = new Map<string, number>();
 
-    private _minDistance = 1;
-    private _maxDistance = 10;
-    private _useHeadphones = false;
-
+    private _minDistance = 0.25;
+    private _maxDistance = 100;
     private _algorithm: DistanceModelType = "inverse";
     get algorithm(): DistanceModelType { return this._algorithm; }
+
+    private _useHeadphones = false;
+
 
     readonly element: HTMLAudioElement = null;
     readonly localMic: LocalUserMicrophone;

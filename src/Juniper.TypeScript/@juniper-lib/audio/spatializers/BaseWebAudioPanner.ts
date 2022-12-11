@@ -35,11 +35,19 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
         super.setAudioProperties(minDistance, maxDistance, algorithm);
         this.panner.refDistance = this.minDistance;
         this.panner.distanceModel = algorithm;
-        if (this.maxDistance <= 0) {
-            this.panner.rolloffFactor = Infinity;
+        if (algorithm === "linear") {
+            this.panner.rolloffFactor = 1;
         }
         else {
-            this.panner.rolloffFactor = 10 / this.maxDistance;
+            if (this.maxDistance <= 0) {
+                this.panner.rolloffFactor = Infinity;
+            }
+            else if (algorithm === "inverse") {
+                this.panner.rolloffFactor = 1 / this.maxDistance;
+            }
+            else {
+                this.panner.rolloffFactor = Math.pow(this.maxDistance, -0.2);
+            }
         }
     }
 
