@@ -8,23 +8,18 @@ import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { JuniperAudioContext } from "./context/JuniperAudioContext";
 import { BaseNodeCluster } from "./BaseNodeCluster";
+import { JuniperAudioContext } from "./context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "./context/JuniperMediaElementAudioSourceNode";
 import { WebAudioDestination } from "./destinations/WebAudioDestination";
 import { IPoseable } from "./IPoseable";
-import { WebAudioListenerNew } from "./listeners/WebAudioListenerNew";
-import { WebAudioListenerOld } from "./listeners/WebAudioListenerOld";
 import { LocalUserMicrophone } from "./LocalUserMicrophone";
 import { AudioElementSource } from "./sources/AudioElementSource";
 import { AudioStreamSource } from "./sources/AudioStreamSource";
 import type { IAudioSource } from "./sources/IAudioSource";
 import { BaseSpatializer } from "./spatializers/BaseSpatializer";
 import { NoSpatializer } from "./spatializers/NoSpatializer";
-import { WebAudioPannerNew } from "./spatializers/WebAudioPannerNew";
-import { WebAudioPannerOld } from "./spatializers/WebAudioPannerOld";
 import { SpeakerManager } from "./SpeakerManager";
-import { hasNewAudioListener } from "./util";
 
 type withPoserCallback<T> = (source: IPoseable) => T;
 
@@ -76,11 +71,7 @@ export class AudioManager
 
         const localMic = new LocalUserMicrophone(context);
 
-        const destination = new WebAudioDestination(
-            context,
-            hasNewAudioListener
-                ? new WebAudioListenerNew(context)
-                : new WebAudioListenerOld(context));
+        const destination = new WebAudioDestination(context);
 
         const element = Audio(
             id("Audio-Device-Manager"),
@@ -165,16 +156,9 @@ export class AudioManager
             return this.noSpatializer;
         }
         else {
-            const destination = isRemoteStream
-                ? this.destination.remoteUserInput
-                : this.destination.spatializedInput;
-
-            const spatializer = hasNewAudioListener
-                ? new WebAudioPannerNew(this.context)
-                : new WebAudioPannerOld(this.context);
+            const spatializer = this.destination.createSpatializer(isRemoteStream);
 
             spatializer.setAudioProperties(this._minDistance, this._maxDistance, this._algorithm);
-            spatializer.connect(destination);
 
             return spatializer;
         }

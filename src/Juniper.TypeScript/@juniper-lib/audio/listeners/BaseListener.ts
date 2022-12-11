@@ -16,3 +16,4 @@ export abstract class BaseListener implements IPoseReader {
 
     abstract readPose(loc: Pose): void;
 }
+

@@ -1,8 +1,9 @@
-import { IAudioNode } from "../IAudioNode";
-import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { IAudioNode } from "../IAudioNode";
 import { IPoseReader } from "../IPoseReader";
 import { Pose } from "../Pose";
+
 
 /**
  * Base class providing functionality for spatializers.
@@ -42,4 +43,3 @@ export abstract class BaseSpatializer extends BaseNodeCluster implements IPoseRe
      */
     abstract readPose(loc: Pose): void;
 }
-
