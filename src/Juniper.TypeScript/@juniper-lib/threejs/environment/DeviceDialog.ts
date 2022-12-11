@@ -144,7 +144,7 @@ export class DeviceDialog extends DialogBox {
                     step(1),
                     value(0),
                     onInput(() =>
-                        env.audio.audioDestination.volume
+                        env.audio.destination.volume
                         = this.spkrVolumeControl.valueAsNumber / 100)
                 )]
         );
@@ -232,7 +232,7 @@ export class DeviceDialog extends DialogBox {
             this.speakers.value = curSpker && curSpker.deviceId || "";
         }
 
-        this.spkrVolumeControl.valueAsNumber = this.env.audio.audioDestination.volume * 100;
+        this.spkrVolumeControl.valueAsNumber = this.env.audio.destination.volume * 100;
 
         this.useHeadphones.checked = this.env.audio.useHeadphones;
         elementSetDisplay(this.headphoneWarning, !this.env.audio.useHeadphones, "inline-block");

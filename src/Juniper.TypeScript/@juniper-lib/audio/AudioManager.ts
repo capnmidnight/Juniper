@@ -57,7 +57,7 @@ export class AudioManager
 
     readonly element: HTMLAudioElement = null;
     readonly localMic: LocalUserMicrophone;
-    readonly audioDestination: WebAudioDestination = null;
+    readonly destination: WebAudioDestination = null;
     readonly speakers: SpeakerManager;
     readonly ready: Promise<void>;
 
@@ -91,7 +91,7 @@ export class AudioManager
         super("audio-manager", context, null, null, [destination]);
 
         this.localMic = localMic;
-        this.audioDestination = destination;
+        this.destination = destination;
         this.element = element;
 
         this.speakers = new SpeakerManager(this.element);
@@ -159,9 +159,9 @@ export class AudioManager
     private createSpatializer(spatialize: boolean, isRemoteStream: boolean): BaseSpatializer {
         const destination = spatialize
             ? isRemoteStream
-                ? this.audioDestination.remoteUserInput
-                : this.audioDestination.spatializedInput
-            : this.audioDestination.nonSpatializedInput;
+                ? this.destination.remoteUserInput
+                : this.destination.spatializedInput
+            : this.destination.nonSpatializedInput;
 
         const spatializer = spatialize
             ? hasNewAudioListener
@@ -192,11 +192,11 @@ export class AudioManager
      * Create a new user for the audio listener.
      */
     setLocalUserID(id: string): WebAudioDestination {
-        if (this.audioDestination) {
+        if (this.destination) {
             this.localUserID = id;
         }
 
-        return this.audioDestination;
+        return this.destination;
     }
 
     loadBasicClip(id: string, path: string, vol: number, prog?: IProgress): Promise<AudioElementSource> {
@@ -459,7 +459,7 @@ export class AudioManager
      */
     private withPoser<ElementT extends IAudioSource, ResultT>(sources: Map<string, ElementT>, id: string, poseCallback: withPoserCallback<ResultT>): ResultT {
         const source = sources.get(id);
-        const poser = source || this.audioDestination;
+        const poser = source || this.destination;
         return poseCallback(poser);
     }
 
