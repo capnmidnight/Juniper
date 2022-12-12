@@ -30,4 +30,8 @@ export class NoSpatializationNode extends BaseEmitter {
     setPose(_loc: Pose, _t: number): void {
         // do nothing
     }
+
+    getGainAtDistance(_: number): number {
+        return 1;
+    }
 }

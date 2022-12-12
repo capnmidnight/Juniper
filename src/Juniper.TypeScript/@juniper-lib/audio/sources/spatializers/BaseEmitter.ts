@@ -11,6 +11,10 @@ export abstract class BaseEmitter
     input: AudioNode;
     output: AudioNode;
 
+    minDistance = 1;
+    maxDistance = 10;
+    protected algorithm: DistanceModelType = "inverse";
+
     private disposed = false;
     dispose(): void {
         if (!this.disposed) {
@@ -22,5 +26,16 @@ export abstract class BaseEmitter
     protected onDisposing() {
         removeVertex(this.input);
     }
+
+    /**
+     * Sets parameters that alter spatialization.
+     **/
+    setAudioProperties(minDistance: number, maxDistance: number, algorithm: DistanceModelType): void {
+        this.minDistance = minDistance;
+        this.maxDistance = maxDistance;
+        this.algorithm = algorithm;
+    }
+
+    abstract getGainAtDistance(distance: number): number;
 }
 

@@ -1,3 +1,4 @@
+import { MediaType } from "@juniper-lib/mediatypes";
 import { once } from "@juniper-lib/tslib/events/once";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
@@ -303,7 +304,11 @@ export function resizeContext(ctx: CanvasRenderingContext2D, superscale = 1) {
         superscale);
 }
 
-export function canvasToBlob(canvas: CanvasTypes, type?: string, quality?: number): Promise<Blob> {
+export function canvasToBlob(canvas: CanvasTypes, type?: string | MediaType, quality?: number): Promise<Blob> {
+    if (type instanceof MediaType) {
+        type = type.value;
+    }
+
     if (isOffscreenCanvas(canvas)) {
         return canvas.convertToBlob({ type, quality });
     }

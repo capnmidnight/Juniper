@@ -1,3 +1,4 @@
+import { assertNever } from "@juniper-lib/tslib/typeChecks";
 import { Panner } from "../../nodes";
 import { Pose } from "../../Pose";
 import { BaseEmitter } from "./BaseEmitter";
@@ -70,6 +71,37 @@ export abstract class BaseWebAudioPanner extends BaseEmitter {
             this.loy = oy;
             this.loz = oz;
             this.setOrientation(ox, oy, oz, t);
+        }
+    }
+
+    /**
+     * Computes an expected level of gain at a given distance based on the
+     * algorithms expressed in the WebAudio API standard.
+     * @param distance the distance to check
+     * @returns the multiplicative gain that the panner node will end up applying to the audio signal
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/PannerNode/distanceModel
+     **/
+    getGainAtDistance(distance: number) {
+        const { rolloffFactor, refDistance, maxDistance, distanceModel } = this.panner;
+        
+        if (distance <= refDistance) {
+            return 1;
+        }
+        else {
+            const dDist = distance - refDistance;
+            const dRef = maxDistance - refDistance;
+            if (distanceModel === "linear") {
+                return 1 - rolloffFactor * dDist / dRef;
+            }
+            else if (distanceModel === "inverse") {
+                return refDistance / (refDistance + rolloffFactor * dDist);
+            }
+            else if (distanceModel === "exponential") {
+                return Math.pow(distance / refDistance, -rolloffFactor);
+            }
+            else {
+                assertNever(distanceModel);
+            }
         }
     }
 
