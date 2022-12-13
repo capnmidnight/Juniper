@@ -1,9 +1,9 @@
-import { JuniperGainNode } from "../context/JuniperGainNode";
+import { IAudioNode } from "../IAudioNode";
 import { Pose } from "../Pose";
 import { BaseSpatializer } from "./BaseSpatializer";
 
 export class NoSpatializer extends BaseSpatializer {
-    constructor(private readonly node: JuniperGainNode) {
+    constructor(node: IAudioNode) {
         super("no-spatializer", node.context, false, [node], [node]);
     }
 
@@ -12,6 +12,6 @@ export class NoSpatializer extends BaseSpatializer {
     }
 
     getGainAtDistance(_: number): number {
-        return this.node.gain.value;
+        return 1;
     }
 }
