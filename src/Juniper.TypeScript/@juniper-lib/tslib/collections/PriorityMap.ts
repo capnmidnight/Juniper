@@ -91,7 +91,13 @@ export class PriorityMap<Key1T, Key2T, ValueT> {
             return this.items.delete(key1);
         }
         else if (this.items.has(key1)) {
-            return this.items.get(key1).delete(key2);
+            const items = this.items.get(key1);
+            const deleted = items.delete(key2);
+            if (items.size === 0) {
+                this.items.delete(key1);
+            }
+
+            return deleted;
         }
         else {
             return false;

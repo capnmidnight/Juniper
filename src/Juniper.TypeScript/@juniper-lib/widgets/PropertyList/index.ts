@@ -26,6 +26,7 @@ import {
     isNumber,
     isString
 } from "@juniper-lib/tslib/typeChecks";
+import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
 
 import "./styles.css";
 
@@ -63,7 +64,7 @@ export class PropertyList
     implements ErsatzElement {
 
     public readonly element: HTMLElement;
-    private readonly rowGroups = new Map<string, Row[]>();
+    private readonly rowGroups = new PriorityList<string, Row>();
     private readonly controls = new Array<IDisableable>();
     private _disabled = false;
 
@@ -124,11 +125,7 @@ export class PropertyList
             group.push(this.createRow(entry));
         }
 
-        if (!this.rowGroups.has(name)) {
-            this.rowGroups.set(name, []);
-        }
-
-        this.rowGroups.get(name).push(...group);
+        this.rowGroups.add(name, ...group);
         return group;
     }
 

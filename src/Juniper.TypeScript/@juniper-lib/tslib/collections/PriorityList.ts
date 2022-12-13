@@ -13,17 +13,19 @@ export class PriorityList<KeyT, ValueT> {
         }
     }
 
-    add(key: KeyT, value: ValueT): this {
-        if (isNullOrUndefined(key)) {
-            this.defaultItems.push(value);
-        }
-        else {
-            let list = this.items.get(key);
-            if (isNullOrUndefined(list)) {
-                this.items.set(key, list = []);
+    add(key: KeyT, ...values: ValueT[]): this {
+        for (const value of values) {
+            if (isNullOrUndefined(key)) {
+                this.defaultItems.push(value);
             }
+            else {
+                let list = this.items.get(key);
+                if (isNullOrUndefined(list)) {
+                    this.items.set(key, list = []);
+                }
 
-            list.push(value);
+                list.push(value);
+            }
         }
 
         return this;
