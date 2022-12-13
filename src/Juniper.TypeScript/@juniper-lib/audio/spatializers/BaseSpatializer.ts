@@ -42,4 +42,6 @@ export abstract class BaseSpatializer extends BaseNodeCluster implements IPoseRe
      * Performs the spatialization operation for the audio source's latest location.
      */
     abstract readPose(loc: Pose): void;
+
+    abstract getGainAtDistance(distance: number): number;
 }

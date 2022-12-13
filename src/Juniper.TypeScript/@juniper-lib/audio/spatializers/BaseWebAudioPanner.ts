@@ -2,6 +2,7 @@ import { BaseSpatializer } from "./BaseSpatializer";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperPannerNode } from "../context/JuniperPannerNode";
 import { Pose } from "../Pose";
+import { assertNever } from "@juniper-lib/tslib/typeChecks";
 
 /**
  * Base class for spatializers that uses WebAudio's PannerNode
@@ -91,7 +92,7 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
      * @returns the multiplicative gain that the panner node will end up applying to the audio signal
      * @see https://developer.mozilla.org/en-US/docs/Web/API/PannerNode/distanceModel
      **/
-    getGainAtDistance(distance: number) {
+    getGainAtDistance(distance: number): number {
         const { rolloffFactor, refDistance, maxDistance, distanceModel } = this.panner;
         
         if (distance <= refDistance) {
