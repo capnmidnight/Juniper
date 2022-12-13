@@ -24,8 +24,8 @@
 
 import { EPSILON_FLOAT } from "@juniper-lib/tslib/math";
 import { isBadNumber, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { Gain } from "../nodes";
-import { ErsatzAudioNode, removeVertex } from "../util";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 import * as Utils from "./utils";
 
 export interface AttenuationOptions {
@@ -46,7 +46,7 @@ export interface AttenuationOptions {
     rolloff: Utils.AttenuationRolloff;
 }
 
-export class Attenuation implements ErsatzAudioNode {
+export class Attenuation extends JuniperGainNode {
 
     /**
      * Min. distance (in meters).
@@ -58,29 +58,14 @@ export class Attenuation implements ErsatzAudioNode {
      */
     maxDistance: number;
 
-    /**
-     * Mono (1-channel) input 
-     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    get input(): AudioNode { return this._gainNode; }
-
-    /**
-     * Mono (1-channel) output
-     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    get output(): AudioNode { return this._gainNode; }
-
-    private readonly _gainNode: GainNode;
-
     private _rolloff: Utils.AttenuationRolloff;
 
     /**
      * Distance-based attenuation filter.
-     * @param name a name for this node, to help differentiate it from other nodes in graph rendering.
      * @param {AudioContext} context Associated {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioContext AudioContext}.
      * @param options
      */
-    constructor(name: string, context: BaseAudioContext, options?: Partial<AttenuationOptions>) {
+    constructor(context: JuniperAudioContext, options?: Partial<AttenuationOptions>) {
         // Use defaults for undefined arguments.
         if (isNullOrUndefined(options)) {
             options = {};
@@ -95,26 +80,18 @@ export class Attenuation implements ErsatzAudioNode {
             options.rolloff = Utils.DEFAULT_ATTENUATION_ROLLOFF;
         }
 
+        super(context);
+        this.name = "attenuation";
+
         // Assign values.
         this.minDistance = options.minDistance;
         this.maxDistance = options.maxDistance;
         this.setRolloff(options.rolloff);
 
-        // Create node.
-        this._gainNode = Gain(`${name}-attenuation-gain`, context);
-
         // Initialize distance to max distance.
         this.setDistance(options.maxDistance);
 
         Object.seal(this);
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this._gainNode);
-        }
     }
 
 
@@ -148,7 +125,7 @@ export class Attenuation implements ErsatzAudioNode {
                 }
             }
         }
-        this._gainNode.gain.value = gain;
+        this.gain.value = gain;
     }
 
 

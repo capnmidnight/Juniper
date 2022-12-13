@@ -25,9 +25,11 @@
 
 import { EPSILON_FLOAT, TWENTY_FOUR_LOG10 } from "@juniper-lib/tslib/math";
 import { isDefined, isGoodNumber, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/using";
 import { ReadonlyVec3 } from "gl-matrix";
-import { connect, removeVertex } from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperChannelMergerNode } from "../context/JuniperChannelMergerNode";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 import { EarlyReflections } from "./EarlyReflections";
 import { LateReflections } from "./LateReflections";
 import * as Utils from "./utils";
@@ -192,19 +194,17 @@ https://developer.mozilla.org/en-US/docs/Web/API/AudioContext AudioContext}.
  * (in meters/second). Defaults to
  * {@linkcode Utils.DEFAULT_SPEED_OF_SOUND DEFAULT_SPEED_OF_SOUND}.
  */
-export class Room implements IDisposable {
+export class Room extends BaseNodeCluster {
 
     private _early: EarlyReflections;
     private _late: LateReflections;
-    private _merger: ChannelMergerNode;
+    private merger: JuniperChannelMergerNode;
 
-    readonly output: GainNode;
+    readonly output: JuniperGainNode;
     get early() { return this._early; }
     get late() { return this._late; }
 
-    private readonly _name: string;
-
-    constructor(name: string, context: BaseAudioContext, options: Partial<RoomOptions>) {
+    constructor(context: JuniperAudioContext, options: Partial<RoomOptions>) {
         // Public variables.
         /**
          * EarlyReflections {@link EarlyReflections EarlyReflections} submodule.
@@ -237,36 +237,23 @@ export class Room implements IDisposable {
             options.speedOfSound = Utils.DEFAULT_SPEED_OF_SOUND;
         }
 
+        const output = new JuniperGainNode(context);
+        const merger = new JuniperChannelMergerNode(context);
+
+        merger.connect(output);
+
+        super("ort-room", context, [], [output], [merger])
+
         this.speedOfSound = options.speedOfSound;
 
-        this._name = `${name}-room`;
-
-        this.output = context.createGain();
-        this._merger = context.createChannelMerger(4);
+        this.output = output;
+        this.merger = merger;
 
         // Sanitize room-properties-related arguments.
         this._setProperties(options.dimensions, options.materials, options.listenerPosition);
 
-        // Construct auxillary audio nodes.
-        connect(this.early, this.output);
-        connect(this.late, [0, 0, this._merger]);
-        connect(this._merger, this.output);
-
         Object.seal(this);
     }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            this.early.dispose();
-            this.late.dispose();
-            removeVertex(this.output);
-            removeVertex(this._merger);
-        }
-    }
-
-    private get _context() { return this.output.context; }
 
     /**
      * Set the room's dimensions and wall materials.
@@ -288,21 +275,25 @@ export class Room implements IDisposable {
         const coefficients = _computeReflectionCoefficients(materialCoeffs);
 
         if (isNullOrUndefined(this.early)) {
-            this._early = new EarlyReflections(`${this._name}-room`, this._context, {
+            this._early = new EarlyReflections(this.context, {
                 dimensions,
                 coefficients,
                 speedOfSound: this.speedOfSound,
                 listenerPosition,
             });
+            this.add(this._early);
+            this._early.connect(this.output);
         }
         else {
             this.early.setRoomProperties(dimensions, coefficients);
         }
 
         if (isNullOrUndefined(this.late)) {
-            this._late = new LateReflections(`${this._name}-room`, this._context, {
+            this._late = new LateReflections(this.context, {
                 durations,
             });
+            this.add(this._late);
+            this._late.connect(this.merger, 0, 0);
         }
         else {
             this.late.setDurations(durations);

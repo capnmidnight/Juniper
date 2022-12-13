@@ -26,8 +26,9 @@
 import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
 import { isBadNumber, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { ReadonlyMat4, ReadonlyVec3 } from "gl-matrix";
-import { Gain } from "../nodes";
-import { connect } from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 import { Listener } from "./Listener";
 import { Room } from "./Room";
 import { Source, SourceOptions } from "./Source";
@@ -77,18 +78,17 @@ https://developer.mozilla.org/en-US/docs/Web/API/AudioContext AudioContext}.
  * @param {Scene~ResonanceAudioOptions} options
  * Options for constructing a new ResonanceAudio scene.
  */
-export class Scene {
+export class Scene extends BaseNodeCluster {
 
     readonly room: Room;
 
-    private readonly _name: string;
     private readonly _sources = new Array<Source>();
-    readonly output: GainNode;
-    readonly ambisonicOutput: GainNode;
+    readonly output: JuniperGainNode;
+    readonly ambisonicOutput: JuniperGainNode;
 
     readonly listener: Listener;
 
-    constructor(name: string, context: BaseAudioContext, options?: Partial<SceneOptions>) {
+    constructor(context: JuniperAudioContext, options?: Partial<SceneOptions>) {
         // Public variables.
         /**
          * Binaurally-rendered stereo (2-channel) output {@link
@@ -140,31 +140,35 @@ export class Scene {
             options.speedOfSound = Utils.DEFAULT_SPEED_OF_SOUND;
         }
 
-        // Create member submodules.
-        this._name = `${name}-scene`;
-
         // Create auxillary audio nodes.
-        this.output = Gain(`${this._name}-output-gain`, context);
-        this.ambisonicOutput = Gain(`${this._name}-ambisonic-output-gain`, context);
+        const output = new JuniperGainNode(context);
+        const ambisonicOutput = new JuniperGainNode(context);
 
-        this.listener = new Listener(this._name, context, {
+        const listener = new Listener(context, {
             ambisonicOrder: options.ambisonicOrder,
             position: options.listenerPosition,
             forward: options.listenerForward,
             up: options.listenerUp,
         });
 
-        this.room = new Room(this._name, context, {
-            listenerPosition: this.listener.position,
+        const room = new Room(context, {
+            listenerPosition: listener.position,
             dimensions: options.dimensions,
             materials: options.materials,
             speedOfSound: options.speedOfSound,
         });
 
         // Connect audio graph.
-        connect(this.room.output, this.listener);
-        connect(this.listener, this.output);
-        connect(this.listener.ambisonicOutput, this.ambisonicOutput);
+        room.connect(listener);
+        listener.connect(output);
+        listener.ambisonicOutput.connect(ambisonicOutput);
+
+        super("ort-scene", context, [], [output, ambisonicOutput], [listener, room]);
+
+        this.output = output;
+        this.ambisonicOutput = ambisonicOutput;
+        this.listener = listener;
+        this.room = room;
 
         Object.seal(this);
     }
@@ -180,12 +184,8 @@ export class Scene {
         }
     }
 
-    private get _context() {
-        return this.output.context;
-    }
-
     get ambisonicInput() {
-        return this.listener.input;
+        return this.listener;
     }
 
     /**
@@ -197,13 +197,15 @@ export class Scene {
     createSource(options?: Partial<SourceOptions>) {
         // Create a source and push it to the internal sources array, returning
         // the object's reference to the user.
-        const source = new Source(this._name, this, this._context, options);
+        const source = new Source(this, options);
+        this.add(source);
         this._sources.push(source);
         return source;
     }
 
     removeSource(source: Source) {
         arrayRemove(this._sources, source);
+        this.remove(source);
     }
 
 

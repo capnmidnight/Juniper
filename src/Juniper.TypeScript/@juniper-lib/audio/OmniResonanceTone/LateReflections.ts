@@ -24,8 +24,11 @@
 
 // Internal dependencies.
 import { LOG1000, LOG2_DIV2, Tau } from "@juniper-lib/tslib/math";
-import { Convolver, Delay, Gain } from "../nodes";
-import { chain, ErsatzAudioNode, removeVertex } from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperConvolverNode } from "../context/JuniperConvolverNode";
+import { JuniperDelayNode } from "../context/JuniperDelayNode";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 import * as Utils from "./utils";
 
 export interface LateReflectionsOptions {
@@ -59,22 +62,8 @@ export interface LateReflectionsOptions {
     tailonset: number;
 }
 
-export class LateReflections implements ErsatzAudioNode {
-
-    /**
-     * Mono (1-channel) input {@link
-     * https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    readonly input: GainNode;
-
-    /**
-     * Mono (1-channel) output {@link
-     * https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    readonly output: GainNode;
-
-    private readonly _predelay: DelayNode;
-    private readonly _convolver: ConvolverNode;
+export class LateReflections extends BaseNodeCluster {
+    private readonly _convolver: JuniperConvolverNode;
     private readonly _bandwidthCoeff: number;
     private readonly _tailonsetSamples: number;
 
@@ -86,7 +75,7 @@ export class LateReflections implements ErsatzAudioNode {
     https://developer.mozilla.org/en-US/docs/Web/API/AudioContext AudioContext}.
      * @param {Object} options
      */
-    constructor(name: string, context: BaseAudioContext, options: Partial<LateReflectionsOptions>) {
+    constructor(context: JuniperAudioContext, options: Partial<LateReflectionsOptions>) {
         // Use defaults for undefined arguments.
         if (options == undefined) {
             options = {};
@@ -108,46 +97,37 @@ export class LateReflections implements ErsatzAudioNode {
         }
 
         // Assign pre-computed variables.
-        let delayTime = options.predelay / 1000;
-        this._bandwidthCoeff = options.bandwidth * LOG2_DIV2;
-        this._tailonsetSamples = options.tailonset / 1000;
+        const delayTime = options.predelay / 1000;
+        const bandwidthCoeff = options.bandwidth * LOG2_DIV2;
+        const tailonsetSamples = options.tailonset / 1000;
 
         // Create nodes.
-        this.input = Gain(`${name}-late-reflections-input-gain`, context);
-        this._predelay = Delay(`${name}-late-reflections-predelay`, context, {
+        const predelay = new JuniperDelayNode(context, {
             delayTime
         });
-        this._convolver = Convolver(`${name}-late-reflections-convolver`, context, {
+        const convolver = new JuniperConvolverNode(context, {
             disableNormalization: true
         });
 
-        this.output = Gain(`${name}-late-reflections-output-gain`, context, {
+        const output = new JuniperGainNode(context, {
             // Set reverb attenuation.
             gain: options.gain
         });
 
-        // Connect nodes.
-        chain(this.input, this._predelay, this._convolver, this.output);
+        predelay
+            .connect(convolver)
+            .connect(output);
+
+        super("late-reflection", context, [predelay], [output], [convolver]);
+
+        this._bandwidthCoeff = bandwidthCoeff;
+        this._tailonsetSamples = tailonsetSamples;
+        this._convolver = convolver;
 
         // Compute IR using RT60 values.
         this.setDurations(options.durations);
 
         Object.seal(this);
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this.input);
-            removeVertex(this._predelay);
-            removeVertex(this._convolver);
-            removeVertex(this.output);
-        }
-    }
-
-    private get _context() {
-        return this.input.context;
     }
 
     /**
@@ -166,7 +146,7 @@ export class LateReflections implements ErsatzAudioNode {
         // Compute impulse response.
         let durationsSamples =
             new Float32Array(Utils.NUMBER_REVERB_FREQUENCY_BANDS);
-        let sampleRate = this._context.sampleRate;
+        let sampleRate = this.context.sampleRate;
 
         for (let i = 0; i < durations.length; i++) {
             // Clamp within suitable range.
@@ -192,7 +172,7 @@ export class LateReflections implements ErsatzAudioNode {
         }
 
         // Create impulse response buffer.
-        let buffer = this._context.createBuffer(1, durationsSamplesMax, sampleRate);
+        let buffer = this.context.createBuffer(1, durationsSamplesMax, sampleRate);
         let bufferData = buffer.getChannelData(0);
 
         // Create noise signal (computed once, referenced in each band's routine).

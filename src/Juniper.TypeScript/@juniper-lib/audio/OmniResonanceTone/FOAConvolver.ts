@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperChannelMergerNode } from "../context/JuniperChannelMergerNode";
+import { JuniperChannelSplitterNode } from "../context/JuniperChannelSplitterNode";
+import { JuniperConvolverNode } from "../context/JuniperConvolverNode";
+import { JuniperGainNode } from "../context/JuniperGainNode";
+
 
 /**
  * @file A collection of convolvers. Can be used for the optimized FOA binaural
@@ -25,39 +32,19 @@
  */
 
 
-import {
-    ChannelMerger,
-    ChannelSplitter,
-    Convolver,
-    Gain
-} from "../nodes";
-import {
-    chain,
-    connect,
-    disconnect,
-    ErsatzAudioNode,
-    removeVertex
-} from "../util";
-
-
 /**
  * FOAConvolver. A collection of 2 stereo convolvers for 4-channel FOA stream.
  */
-export class FOAConvolver implements ErsatzAudioNode {
+export class FOAConvolver extends BaseNodeCluster {
 
     private _active = false;
     private _isBufferLoaded = false;
 
-    private readonly _splitterWYZX: ChannelSplitterNode;
-    private readonly _summingBus: GainNode;
-    private readonly _mergerWY: ChannelMergerNode;
-    private readonly _mergerZX: ChannelMergerNode;
-    private readonly _convolverWY: ConvolverNode;
-    private readonly _convolverZX: ConvolverNode;
-    private readonly _splitterWY: ChannelSplitterNode;
-    private readonly _splitterZX: ChannelSplitterNode;
-    private readonly _inverter: GainNode;
-    private readonly _mergerBinaural: ChannelMergerNode;
+    private readonly _splitterWYZX: JuniperChannelSplitterNode;
+    private readonly _summingBus: JuniperGainNode;
+    private readonly _convolverWY: JuniperConvolverNode;
+    private readonly _convolverZX: JuniperConvolverNode;
+    private readonly _mergerBinaural: JuniperChannelMergerNode;
 
     get input() { return this._splitterWYZX; }
     get output() { return this._summingBus; }
@@ -68,46 +55,60 @@ export class FOAConvolver implements ErsatzAudioNode {
      * @param hrirBufferList - An ordered-list of stereo
      * AudioBuffers for convolution. (i.e. 2 stereo AudioBuffers for FOA)
      */
-    constructor(name: string, context: BaseAudioContext, hrirBufferList?: AudioBuffer[]) {
+    constructor(context: JuniperAudioContext, hrirBufferList?: AudioBuffer[]) {
 
-        this._splitterWYZX = ChannelSplitter(`${name}-foa-convolver-splitterWYZX`, context, { channelCount: 4 } );
-        this._mergerWY = ChannelMerger(`${name}-foa-convolver-mergerWY`, context, { channelCount: 2 });
-        this._mergerZX = ChannelMerger(`${name}-foa-convolver-mergerZX`, context, { channelCount: 2 });
+        const splitterWYZX = new JuniperChannelSplitterNode(context, { channelCount: 4 });
+        const summingBus = new JuniperGainNode(context);
+
+        const mergerWY = new JuniperChannelMergerNode(context, { channelCount: 2 });
+        const mergerZX = new JuniperChannelMergerNode(context, { channelCount: 2 });
 
         // By default, WebAudio's convolver does the normalization based on IR's
         // energy. For the precise convolution, it must be disabled before the buffer
         // assignment.
-        this._convolverWY = Convolver(`${name}-foa-convolver-convolverWY`, context, { disableNormalization: true });
-        this._convolverZX = Convolver(`${name}-foa-convolver-convolverZX`, context, { disableNormalization: true });
+        const convolverWY = new JuniperConvolverNode(context, { disableNormalization: true });
+        const convolverZX = new JuniperConvolverNode(context, { disableNormalization: true });
 
-        this._splitterWY = ChannelSplitter(`${name}-foa-convolver-splitterWY`, context, { channelCount: 2 });
-        this._splitterZX = ChannelSplitter(`${name}-foa-convolver-splitterZX`, context, { channelCount: 2 });
+        const splitterWY = new JuniperChannelSplitterNode(context, { channelCount: 2 });
+        const splitterZX = new JuniperChannelSplitterNode(context, { channelCount: 2 });
 
         // For asymmetric degree.
-        this._inverter = Gain(`${name}-foa-convolver-inverter`, context, { gain: -1 });
-        this._mergerBinaural = ChannelMerger(`${name}-foa-convolver-mergerBinaural`, context, { channelCount: 2 });
-        this._summingBus = Gain(`${name}-foa-convolver-summingBus`, context);
+        const inverter = new JuniperGainNode(context, { gain: -1 });
+        const mergerBinaural = new JuniperChannelMergerNode(context, { channelCount: 2 });
 
         // Group W and Y, then Z and X.
 
-        connect(this._splitterWYZX, [0, 0, this._mergerWY]);
-        connect(this._splitterWYZX, [1, 1, this._mergerWY]);
-        connect(this._splitterWYZX, [2, 0, this._mergerZX]);
-        connect(this._splitterWYZX, [3, 1, this._mergerZX]);
+        splitterWYZX.connect(mergerWY, 0, 0);
+        splitterWYZX.connect(mergerWY, 1, 1);
+        splitterWYZX.connect(mergerZX, 2, 0);
+        splitterWYZX.connect(mergerZX, 3, 1);
 
         // Create a network of convolvers using splitter/merger.
-        chain(this._mergerWY, this._convolverWY, this._splitterWY);
-        chain(this._mergerZX, this._convolverZX, this._splitterZX);
+        mergerWY
+            .connect(convolverWY)
+            .connect(splitterWY);
+        mergerZX
+            .connect(convolverZX)
+            .connect(splitterZX);
 
-        connect(this._splitterWY, [0, 0, this._mergerBinaural]);
-        connect(this._splitterWY, [0, 1, this._mergerBinaural]);
-        connect(this._splitterWY, [1, 0, this._mergerBinaural]);
-        connect(this._splitterWY, [1, 0, this._inverter]);
-        connect(this._inverter, [0, 1, this._mergerBinaural]);
-        connect(this._splitterZX, [0, 0, this._mergerBinaural]);
-        connect(this._splitterZX, [0, 1, this._mergerBinaural]);
-        connect(this._splitterZX, [1, 0, this._mergerBinaural]);
-        connect(this._splitterZX, [1, 1, this._mergerBinaural]);
+        splitterWY.connect(mergerBinaural, 0, 0);
+        splitterWY.connect(mergerBinaural, 0, 1);
+        splitterWY.connect(mergerBinaural, 1, 0);
+        splitterWY.connect(inverter, 1, 0);
+        inverter.connect(mergerBinaural, 0, 1);
+        splitterZX.connect(mergerBinaural, 0, 0);
+        splitterZX.connect(mergerBinaural, 0, 1);
+        splitterZX.connect(mergerBinaural, 1, 0);
+        splitterZX.connect(mergerBinaural, 1, 1);
+
+        super("foa-convolver", context, [splitterWYZX], [summingBus], [mergerWY,
+            mergerZX,
+            convolverWY,
+            convolverZX,
+            splitterWY,
+            splitterZX,
+            inverter,
+            mergerBinaural]);
 
         if (hrirBufferList) {
             this.setHRIRBufferList(hrirBufferList);
@@ -116,23 +117,6 @@ export class FOAConvolver implements ErsatzAudioNode {
         this.enable();
 
         Object.seal(this);
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this._splitterWYZX);
-            removeVertex(this._splitterWY);
-            removeVertex(this._splitterZX);
-            removeVertex(this._mergerBinaural);
-            removeVertex(this._mergerWY);
-            removeVertex(this._mergerZX);
-            removeVertex(this._convolverWY);
-            removeVertex(this._convolverZX);
-            removeVertex(this._inverter);
-            removeVertex(this._summingBus);
-        }
     }
 
 
@@ -164,7 +148,7 @@ export class FOAConvolver implements ErsatzAudioNode {
      * the WebAudio engine. (i.e. consume CPU cycle)
      */
     enable() {
-        connect(this._mergerBinaural, this._summingBus);
+        this._mergerBinaural.connect(this._summingBus);
         this._active = true;
     }
 
@@ -174,7 +158,7 @@ export class FOAConvolver implements ErsatzAudioNode {
      * audio destination, thus no CPU cycle will be consumed.
      */
     disable() {
-        disconnect(this._mergerBinaural, this._summingBus);
+        this._mergerBinaural.disconnect(this._summingBus);
         this._active = false;
     }
 

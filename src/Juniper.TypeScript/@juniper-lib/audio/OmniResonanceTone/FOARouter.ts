@@ -25,16 +25,10 @@
 
 
 import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
-import {
-    ChannelMerger,
-    ChannelSplitter
-} from "../nodes";
-import {
-    connect,
-    disconnect,
-    ErsatzAudioNode,
-    removeVertex
-} from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperChannelMergerNode } from "../context/JuniperChannelMergerNode";
+import { JuniperChannelSplitterNode } from "../context/JuniperChannelSplitterNode";
 
 
 type ChannelMapTypes =
@@ -47,13 +41,10 @@ export type ChannelMapValues = [number, number, number, number];
 /**
  * Channel router for FOA stream.
  */
-export class FOARouter implements ErsatzAudioNode {
-    private readonly _splitter: ChannelSplitterNode;
-    private readonly _merger: ChannelMergerNode;
+export class FOARouter extends BaseNodeCluster {
+    private readonly _splitter: JuniperChannelSplitterNode;
+    private readonly _merger: JuniperChannelMergerNode;
     private readonly _channelMap: ChannelMapValues;
-
-    get input() { return this._splitter; }
-    get output() { return this._merger; }
 
     /**
      * Static channel map ENUM.
@@ -71,27 +62,20 @@ export class FOARouter implements ErsatzAudioNode {
 
     /**
      * Channel router for FOA stream.
-     * @param name
      * @param context - Associated AudioContext.
      * @param channelMap - Routing destination array.
      */
-    constructor(name: string, context: BaseAudioContext, channelMap: ChannelMapValues) {
+    constructor(context: JuniperAudioContext, channelMap: ChannelMapValues) {
 
-        this._splitter = ChannelSplitter(`${name}-foa-router-splitter`, context, { channelCount: 4 });
-        this._merger = ChannelMerger(`${name}-foa-router-merger`, context, { channelCount: 4 });
+        const splitter = new JuniperChannelSplitterNode(context, { channelCount: 4 });
+        const merger = new JuniperChannelMergerNode(context, { channelCount: 4 });
+        super("foa-router", context, [splitter], [merger]);
 
+        this._splitter = splitter;
+        this._merger = merger;
         this.setChannelMap(channelMap || FOARouter.ChannelMap.get("DEFAULT"));
 
         Object.seal(this);
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this._splitter);
-            removeVertex(this._merger);
-        }
     }
 
     /**
@@ -103,10 +87,10 @@ export class FOARouter implements ErsatzAudioNode {
             return;
         }
         arrayReplace(this._channelMap, ...channelMap);
-        disconnect(this._splitter);
-        connect(this._splitter, [0, this._channelMap[0], this._merger]);
-        connect(this._splitter, [1, this._channelMap[1], this._merger]);
-        connect(this._splitter, [2, this._channelMap[2], this._merger]);
-        connect(this._splitter, [3, this._channelMap[3], this._merger]);
+        this._splitter.disconnect();
+        for (let i = 0; i < this._channelMap.length; ++i) {
+            this._splitter
+                .connect(this._merger, i, this._channelMap[i]);
+        }
     }
 }

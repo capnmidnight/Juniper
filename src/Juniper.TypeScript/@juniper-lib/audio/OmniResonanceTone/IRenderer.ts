@@ -22,10 +22,10 @@
  */
 
 import { ReadonlyMat3, ReadonlyMat4 } from "gl-matrix";
-import { ErsatzAudioNode } from "../util";
+import { IAudioNode } from "../IAudioNode";
 
-export interface IRenderer extends ErsatzAudioNode {
-    readonly rotator: ErsatzAudioNode;
+export interface IRenderer extends IAudioNode {
+    readonly rotator: IAudioNode;
     initialize(): Promise<void>;
     setRotationMatrix3(rotationMatrix3: ReadonlyMat3): void;
     setRotationMatrix4(rotationMatrix4: ReadonlyMat4): void;

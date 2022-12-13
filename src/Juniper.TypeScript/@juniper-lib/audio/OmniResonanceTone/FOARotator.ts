@@ -24,40 +24,29 @@
 
 
 import { mat3, mat4, ReadonlyMat3, ReadonlyMat4 } from "gl-matrix";
-import {
-    ChannelMerger,
-    ChannelSplitter,
-    Gain
-} from "../nodes";
-import {
-    connect,
-    ErsatzAudioNode,
-    removeVertex
-} from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperChannelMergerNode } from "../context/JuniperChannelMergerNode";
+import { JuniperChannelSplitterNode } from "../context/JuniperChannelSplitterNode";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 
 
 /**
  * First-order-ambisonic decoder based on gain node network.
  */
-export class FOARotator implements ErsatzAudioNode {
+export class FOARotator extends BaseNodeCluster {
 
-    private readonly _splitter: ChannelSplitterNode;
-    private readonly _inY: GainNode;
-    private readonly _inZ: GainNode;
-    private readonly _inX: GainNode;
-    private readonly _m0: GainNode;
-    private readonly _m1: GainNode;
-    private readonly _m2: GainNode;
-    private readonly _m3: GainNode;
-    private readonly _m4: GainNode;
-    private readonly _m5: GainNode;
-    private readonly _m6: GainNode;
-    private readonly _m7: GainNode;
-    private readonly _m8: GainNode;
-    private readonly _outY: GainNode;
-    private readonly _outZ: GainNode;
-    private readonly _outX: GainNode;
-    private readonly _merger: ChannelMergerNode;
+    private readonly _splitter: JuniperChannelSplitterNode;
+    private readonly _m0: JuniperGainNode;
+    private readonly _m1: JuniperGainNode;
+    private readonly _m2: JuniperGainNode;
+    private readonly _m3: JuniperGainNode;
+    private readonly _m4: JuniperGainNode;
+    private readonly _m5: JuniperGainNode;
+    private readonly _m6: JuniperGainNode;
+    private readonly _m7: JuniperGainNode;
+    private readonly _m8: JuniperGainNode;
+    private readonly _merger: JuniperChannelMergerNode;
 
     get input() { return this._splitter; }
     get output() { return this._merger; }
@@ -66,94 +55,101 @@ export class FOARotator implements ErsatzAudioNode {
      * First-order-ambisonic decoder based on gain node network.
      * @param context - Associated AudioContext.
      */
-    constructor(name: string, context: BaseAudioContext) {
-
-        this._splitter = ChannelSplitter(`${name}-foa-rotator-splitter`, context, { channelCount: 4 });
-        this._inY = Gain(`${name}-foa-rotator-inY`, context, { gain: -1 });
-        this._inZ = Gain(`${name}-foa-rotator-inZ`, context);
-        this._inX = Gain(`${name}-foa-rotator-inX`, context, { gain: -1 });
-        this._m0 = Gain(`${name}-foa-rotator-m0`, context);
-        this._m1 = Gain(`${name}-foa-rotator-m1`, context);
-        this._m2 = Gain(`${name}-foa-rotator-m2`, context);
-        this._m3 = Gain(`${name}-foa-rotator-m3`, context);
-        this._m4 = Gain(`${name}-foa-rotator-m4`, context);
-        this._m5 = Gain(`${name}-foa-rotator-m5`, context);
-        this._m6 = Gain(`${name}-foa-rotator-m6`, context);
-        this._m7 = Gain(`${name}-foa-rotator-m7`, context);
-        this._m8 = Gain(`${name}-foa-rotator-m8`, context);
-        this._outY = Gain(`${name}-foa-rotator-outY`, context, { gain: -1 });
-        this._outX = Gain(`${name}-foa-rotator-outX`, context, { gain: -1 });
-        this._outZ = Gain(`${name}-foa-rotator-outZ`, context);
-        this._merger = ChannelMerger(`${name}-foa-rotator-merger`, context, { channelCount: 4 });
+    constructor(context: JuniperAudioContext) {
+        const splitter = new JuniperChannelSplitterNode(context, { channelCount: 4 });
+        const inY = new JuniperGainNode(context, { gain: -1 });
+        const inZ = new JuniperGainNode(context);
+        const inX = new JuniperGainNode(context, { gain: -1 });
+        const m0 = new JuniperGainNode(context);
+        const m1 = new JuniperGainNode(context);
+        const m2 = new JuniperGainNode(context);
+        const m3 = new JuniperGainNode(context);
+        const m4 = new JuniperGainNode(context);
+        const m5 = new JuniperGainNode(context);
+        const m6 = new JuniperGainNode(context);
+        const m7 = new JuniperGainNode(context);
+        const m8 = new JuniperGainNode(context);
+        const outY = new JuniperGainNode(context, { gain: -1 });
+        const outX = new JuniperGainNode(context, { gain: -1 });
+        const outZ = new JuniperGainNode(context);
+        const merger = new JuniperChannelMergerNode(context, { channelCount: 4 });
 
         // ACN channel ordering: [1, 2, 3] => [-Y, Z, -X]
         // Y (from channel 1)
-        connect(this._splitter, [1, this._inY]);
+        splitter.connect(inY, 1);
         // Z (from channel 2)
-        connect(this._splitter, [2, this._inZ]);
+        splitter.connect(inZ, 2);
         // X (from channel 3)
-        connect(this._splitter, [3, this._inX]);
+        splitter.connect(inX, 3);
 
         // Apply the rotation in the world space.
         // |Y|   | m0  m3  m6 |   | Y * m0 + Z * m3 + X * m6 |   | Yr |
         // |Z| * | m1  m4  m7 | = | Y * m1 + Z * m4 + X * m7 | = | Zr |
         // |X|   | m2  m5  m8 |   | Y * m2 + Z * m5 + X * m8 |   | Xr |
-        connect(this._inY, this._m0);
-        connect(this._inY, this._m1);
-        connect(this._inY, this._m2);
-        connect(this._inZ, this._m3);
-        connect(this._inZ, this._m4);
-        connect(this._inZ, this._m5);
-        connect(this._inX, this._m6);
-        connect(this._inX, this._m7);
-        connect(this._inX, this._m8);
-        connect(this._m0, this._outY);
-        connect(this._m1, this._outZ);
-        connect(this._m2, this._outX);
-        connect(this._m3, this._outY);
-        connect(this._m4, this._outZ);
-        connect(this._m5, this._outX);
-        connect(this._m6, this._outY);
-        connect(this._m7, this._outZ);
-        connect(this._m8, this._outX);
+        inY.connect(m0);
+        inY.connect(m1);
+        inY.connect(m2);
+        inZ.connect(m3);
+        inZ.connect(m4);
+        inZ.connect(m5);
+        inX.connect(m6);
+        inX.connect(m7);
+        inX.connect(m8);
+        m0.connect(outY);
+        m1.connect(outZ);
+        m2.connect(outX);
+        m3.connect(outY);
+        m4.connect(outZ);
+        m5.connect(outX);
+        m6.connect(outY);
+        m7.connect(outZ);
+        m8.connect(outX);
 
         // Transform 3: world space to audio space.
         // W -> W (to channel 0)
-        connect(this._splitter, [0, 0, this._merger]);
+        splitter.connect(merger, 0, 0);
         // Y (to channel 1)
-        connect(this._outY, [0, 1, this._merger]);
+        outY.connect(merger, 0, 1);
         // Z (to channel 2)
-        connect(this._outZ, [0, 2, this._merger]);
+        outZ.connect(merger, 0, 2);
         // X (to channel 3)
-        connect(this._outX, [0, 3, this._merger]);
+        outX.connect(merger, 0, 3);
+
+        super("foa-rotator", context, [splitter], [merger], [
+            splitter,
+            inY,
+            inZ,
+            inX,
+            m0,
+            m1,
+            m2,
+            m3,
+            m4,
+            m5,
+            m6,
+            m7,
+            m8,
+            outY,
+            outX,
+            outZ,
+            merger
+        ]);
+
+        this._splitter = splitter;
+        this._m0 = m0;
+        this._m1 = m1;
+        this._m2 = m2;
+        this._m3 = m3;
+        this._m4 = m4;
+        this._m5 = m5;
+        this._m6 = m6;
+        this._m7 = m7;
+        this._m8 = m8;
+        this._merger = merger;
 
         this.setRotationMatrix3(mat3.identity(mat3.create()));
 
         Object.seal(this);
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this._splitter);
-            removeVertex(this._inY);
-            removeVertex(this._inZ);
-            removeVertex(this._inX);
-            removeVertex(this._m0);
-            removeVertex(this._m1);
-            removeVertex(this._m2);
-            removeVertex(this._m3);
-            removeVertex(this._m4);
-            removeVertex(this._m5);
-            removeVertex(this._m6);
-            removeVertex(this._m7);
-            removeVertex(this._m8);
-            removeVertex(this._outY);
-            removeVertex(this._outZ);
-            removeVertex(this._outX);
-            removeVertex(this._merger);
-        }
     }
 
 

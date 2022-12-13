@@ -24,8 +24,10 @@
 
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { isBadNumber, isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { ChannelMerger, Gain } from "../nodes";
-import { connect, disconnect, ErsatzAudioNode, removeVertex } from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperChannelMergerNode } from "../context/JuniperChannelMergerNode";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 import * as Tables from "./Tables";
 import * as Utils from "./utils";
 
@@ -60,7 +62,7 @@ export interface EncoderOptions {
 /**
  * Spatially encodes input using weighted spherical harmonics.
  */
-export class Encoder implements ErsatzAudioNode {
+export class Encoder extends BaseNodeCluster {
 
     /**
      * Validate the provided ambisonic order.
@@ -87,33 +89,23 @@ export class Encoder implements ErsatzAudioNode {
         return ambisonicOrder;
     }
 
-
-    // Public variables.
-    /**
-     * Mono (1-channel) input {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    readonly input: GainNode;
-
-    /**
-     * Ambisonic (multichannel) output {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    readonly output: GainNode;
-
     private _ambisonicOrder: number;
     private _azimuth: number;
     private _elevation: number;
     private _spreadIndex: number;
 
-    private readonly _channelGain = new Array<GainNode>();
-    private _merger: ChannelMergerNode = null;
+    private readonly _channelGain = new Array<JuniperGainNode>();
+    private _merger: JuniperChannelMergerNode = null;
+
+    private readonly input: JuniperGainNode;
+    private readonly output: JuniperGainNode;
 
     /**
      * Spatially encodes input using weighted spherical harmonics.
-     * @param name a name for this node, to help differentiate it from other nodes in graph rendering.
      * @param context Associated {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioContext AudioContext}.
      * @param options
      */
-    constructor(private readonly name: string, context: BaseAudioContext, options?: Partial<EncoderOptions>) {
+    constructor(context: JuniperAudioContext, options?: Partial<EncoderOptions>) {
 
         // Use defaults for undefined arguments.
         if (isNullOrUndefined(options)) {
@@ -133,8 +125,12 @@ export class Encoder implements ErsatzAudioNode {
         }
 
         // Create I/O nodes.
-        this.input = Gain(`${name}-encoder-input-gain`, context);
-        this.output = Gain(`${name}-encoder-output-gain`, context);
+        const input = new JuniperGainNode(context);
+        const output = new JuniperGainNode(context);
+        super("encoder", context, [input], [output]);
+
+        this.input = input;
+        this.output = output;
         this._azimuth = options.azimuth;
         this._elevation = options.elevation;
         this.setSourceWidth(options.sourceWidth);
@@ -145,28 +141,19 @@ export class Encoder implements ErsatzAudioNode {
         Object.seal(this);
     }
 
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this.input);
-            removeVertex(this.output);
-            this.removeMiddle();
-        }
-    }
-
     private removeMiddle() {
         if (this._channelGain.length > 0) {
-            this._channelGain.forEach(removeVertex);
+            this._channelGain.forEach(n => {
+                this.remove(n);
+                n.dispose();
+            });
             arrayClear(this._channelGain);
         }
         if (isDefined(this._merger)) {
-            removeVertex(this._merger);
+            this.remove(this._merger);
+            this._merger.dispose();
+            this._merger = null;
         }
-    }
-
-    private get _context() {
-        return this.input.context;
     }
 
     get ambisonicOrder() {
@@ -180,21 +167,23 @@ export class Encoder implements ErsatzAudioNode {
     set ambisonicOrder(ambisonicOrder: number) {
         this._ambisonicOrder = Encoder.validateAmbisonicOrder(ambisonicOrder);
 
-        disconnect(this.input);
+        this.input.disconnect();
         this.removeMiddle();
 
         // Create audio graph.
         const channelCount = (this._ambisonicOrder + 1) * (this._ambisonicOrder + 1);
-        this._merger = ChannelMerger(`${this.name}-encoder-channel-merger`, this._context, {
+        this._merger = new JuniperChannelMergerNode(this.context, {
             channelCount
         });
 
         for (let i = 0; i < channelCount; i++) {
-            this._channelGain[i] = Gain(`${this.name}-encoder-channel-${i}-gain`, this._context);
-            connect(this.input, this._channelGain[i]);
-            connect(this._channelGain[i], [0, i, this._merger]);
+            this._channelGain[i] = new JuniperGainNode(this.context);
+            this.input
+                .connect(this._channelGain[i])
+                .connect(this._merger, 0, i);
         }
-        connect(this._merger, this.output);
+
+        this._merger.connect(this.output);
     }
 
 

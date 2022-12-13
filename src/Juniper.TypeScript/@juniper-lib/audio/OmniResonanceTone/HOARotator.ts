@@ -23,9 +23,13 @@
  */
 
 
+import { identity } from "@juniper-lib/tslib/identity";
 import { mat3, mat4, ReadonlyMat3, ReadonlyMat4 } from "gl-matrix";
-import { ChannelMerger, ChannelSplitter, Gain } from "../nodes";
-import { connect, ErsatzAudioNode, removeVertex } from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperChannelMergerNode } from "../context/JuniperChannelMergerNode";
+import { JuniperChannelSplitterNode } from "../context/JuniperChannelSplitterNode";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 
 /**
  * Kronecker Delta function.
@@ -266,34 +270,22 @@ function computeHOAMatrices(matrix: GainNode[][]) {
  * @param {AudioContext} context - Associated AudioContext.
  * @param {Number} ambisonicOrder - Ambisonic order.
  */
-export class HOARotator implements ErsatzAudioNode {
-
-    private readonly _splitter: ChannelSplitterNode;
-    private readonly _merger: ChannelMergerNode;
-    private readonly _gainNodeMatrix: GainNode[][];
-
-    get input() { return this._splitter; }
-    get output() { return this._merger; }
+export class HOARotator extends BaseNodeCluster {
+    private readonly _gainNodeMatrix: JuniperGainNode[][];
 
     readonly ambisonicOrder: number;
 
-    constructor(name: string, context: BaseAudioContext, ambisonicOrder: number) {
-        this.ambisonicOrder = ambisonicOrder;
-
+    constructor(context: JuniperAudioContext, ambisonicOrder: number) {
         // We need to determine the number of channels K based on the ambisonic order
         // N where K = (N + 1)^2.
         const channelCount = (ambisonicOrder + 1) * (ambisonicOrder + 1);
 
-        this._splitter = ChannelSplitter(`${name}-hoa-rotator-splitter`, context, { channelCount });
-        this._merger = ChannelMerger(`${name}-hoa-rotator-splitter`, context, { channelCount });
+        const splitter = new JuniperChannelSplitterNode(context, { channelCount });
+        const merger = new JuniperChannelMergerNode(context, { channelCount });
 
         // Create a set of per-order rotation matrices using gain nodes.
-        this._gainNodeMatrix = [];
-        let orderOffset;
-        let rows;
-        let inputIndex;
-        let outputIndex;
-        let matrixIndex;
+        const gainNodeMatrix = new Array<JuniperGainNode[]>(ambisonicOrder);
+
         for (let i = 1; i <= ambisonicOrder; i++) {
             // Each ambisonic order requires a separate (2l + 1) x (2l + 1) rotation
             // matrix. We compute the offset value as the first channel index of the
@@ -301,40 +293,40 @@ export class HOARotator implements ErsatzAudioNode {
             //   k_last = l^2 + l + m,
             // and m = -l
             //   k_last = l^2
-            orderOffset = i * i;
+            const orderOffset = i * i;
 
             // Uses row-major indexing.
-            rows = (2 * i + 1);
+            const rows = (2 * i + 1);
 
-            this._gainNodeMatrix[i - 1] = [];
+            gainNodeMatrix[i - 1] = [];
             for (let j = 0; j < rows; j++) {
-                inputIndex = orderOffset + j;
+                const inputIndex = orderOffset + j;
                 for (let k = 0; k < rows; k++) {
-                    outputIndex = orderOffset + k;
-                    matrixIndex = j * rows + k;
-                    this._gainNodeMatrix[i - 1][matrixIndex] = Gain(`${name}-hoa-rotator-gain-node-matrix-${i - 1}-${matrixIndex}`, context);
-                    connect(this._splitter, [inputIndex, this._gainNodeMatrix[i - 1][matrixIndex]]);
-                    connect(this._gainNodeMatrix[i - 1][matrixIndex], [0, outputIndex, this._merger]);
+                    const outputIndex = orderOffset + k;
+                    const matrixIndex = j * rows + k;
+                    gainNodeMatrix[i - 1][matrixIndex] = new JuniperGainNode(context);
+                    splitter
+                        .connect(gainNodeMatrix[i - 1][matrixIndex], inputIndex)
+                        .connect(merger, 0, outputIndex);
                 }
             }
         }
 
         // W-channel is not involved in rotation, skip straight to ouput.
-        connect(this._splitter, [0, 0, this._merger]);
+        splitter.connect(merger, 0, 0);
+
+        super("hoa-rotator", context, [splitter], [merger], [
+            ...gainNodeMatrix.flatMap(identity)
+        ]);
+
+        this.ambisonicOrder = ambisonicOrder;
+        this._gainNodeMatrix = gainNodeMatrix;
+        
 
         // Default Identity matrix.
         this.setRotationMatrix3(mat3.identity(mat3.create()));
 
         Object.seal(this);
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this._splitter);
-            removeVertex(this._merger);
-        }
     }
 
 

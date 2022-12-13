@@ -25,8 +25,8 @@
 import { EPSILON_FLOAT } from "@juniper-lib/tslib/math";
 import { isBadNumber, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { ReadonlyVec3, vec3 } from "gl-matrix";
-import { BiquadFilter } from "../nodes";
-import { ErsatzAudioNode, removeVertex } from "../util";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperBiquadFilterNode } from "../context/JuniperBiquadFilterNode";
 import * as Utils from "./utils";
 
 export interface DirectivityOptions {
@@ -48,32 +48,17 @@ export interface DirectivityOptions {
 /**
  * Directivity/occlusion filter.
  */
-export class Directivity implements ErsatzAudioNode {
-    private readonly _lowpass: BiquadFilterNode;
+export class Directivity extends JuniperBiquadFilterNode {
     private _alpha: number;
     private _sharpness: number;
     private _cosTheta: number;
 
     /**
-     * Mono (1-channel) input {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    get input() { return this._lowpass; }
-
-
-    /**
-     * Mono (1-channel) output {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    get output() { return this._lowpass; }
-
-    private get _context() { return this._lowpass.context; }
-
-    /**
      * Directivity/occlusion filter.
-     * @param name a name for this node, to help differentiate it from other nodes in graph rendering.
      * @param context Associated {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioContext AudioContext}.
      * @param options
      */
-    constructor(name: string, context: BaseAudioContext, options?: Partial<DirectivityOptions>) {
+    constructor(context: JuniperAudioContext, options?: Partial<DirectivityOptions>) {
         // Use defaults for undefined arguments.
         if (isNullOrUndefined(options)) {
             options = {};
@@ -84,9 +69,7 @@ export class Directivity implements ErsatzAudioNode {
         if (isNullOrUndefined(options.sharpness) || Number.isNaN(options.sharpness)) {
             options.sharpness = Utils.DEFAULT_DIRECTIVITY_SHARPNESS;
         }
-
-        // Create audio node.
-        this._lowpass = BiquadFilter(`${name}-directivity-biquad-filter`, context, {
+        super(context, {
             type: "lowpass",
             Q: 0,
             frequency: 0.5 * context.sampleRate
@@ -96,14 +79,6 @@ export class Directivity implements ErsatzAudioNode {
         this.setPattern(options.alpha, options.sharpness);
 
         Object.seal(this);
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this._lowpass);
-        }
     }
 
     private _forwardNorm = vec3.create();
@@ -125,7 +100,7 @@ export class Directivity implements ErsatzAudioNode {
             coeff = (1 - this._alpha) + this._alpha * this._cosTheta;
             coeff = Math.pow(Math.abs(coeff), this._sharpness);
         }
-        this._lowpass.frequency.value = this._context.sampleRate * 0.5 * coeff;
+        this.frequency.value = this.context.sampleRate * 0.5 * coeff;
     }
 
 

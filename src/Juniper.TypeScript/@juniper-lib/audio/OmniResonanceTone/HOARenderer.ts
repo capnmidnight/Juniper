@@ -27,8 +27,9 @@
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
 import { ReadonlyMat3, ReadonlyMat4 } from "gl-matrix";
-import { Gain } from "../nodes";
-import { chain, connect, disconnect, isAudioContext, removeVertex } from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 import { BufferList } from "./BufferList";
 import { HOAConvolver } from "./HOAConvolver";
 import { HOARotator } from "./HOARotator";
@@ -64,11 +65,11 @@ function isHOARendererURLOptions(obj: HOARendererOptions): obj is HOARendererURL
             || "fetcher" in obj);
 }
 
-export class HOARenderer implements IRenderer {
+export class HOARenderer extends BaseNodeCluster implements IRenderer {
 
-    readonly input: GainNode;
-    readonly output: GainNode;
-    private readonly _bypass: GainNode;
+    readonly input: JuniperGainNode;
+    readonly output: JuniperGainNode;
+    private readonly _bypass: JuniperGainNode;
     readonly rotator: HOARotator;
     private readonly _hoaConvolver: HOAConvolver;
 
@@ -87,13 +88,8 @@ export class HOARenderer implements IRenderer {
      * overrides the internal HRIR list if given.
      * @param {RenderingMode} [config.renderingMode='ambisonic'] - Rendering mode.
      */
-    constructor(name: string, context: BaseAudioContext, config?: HOARendererOptions) {
-
-        if (!isAudioContext(context)) {
-            throw Utils.formatError('FOARenderer: Invalid BaseAudioContext.');
-        }
-
-        this._config = {
+    constructor(context: JuniperAudioContext, config?: HOARendererOptions) {
+        const _config: HOARendererOptions = {
             ambisonicOrder: 3,
             renderingMode: RenderingMode.AMBISONIC,
             numberOfChannels: null,
@@ -104,7 +100,7 @@ export class HOARenderer implements IRenderer {
 
         if (isDefined(config) && isDefined(config.ambisonicOrder)) {
             if (SupportedAmbisonicOrder.includes(config.ambisonicOrder)) {
-                this._config.ambisonicOrder = config.ambisonicOrder;
+                _config.ambisonicOrder = config.ambisonicOrder;
             } else {
                 Utils.log(
                     'HOARenderer: Invalid ambisonic order. (got ' +
@@ -112,27 +108,27 @@ export class HOARenderer implements IRenderer {
             }
         }
 
-        this._config.numberOfChannels =
-            (this._config.ambisonicOrder + 1) * (this._config.ambisonicOrder + 1);
-        this._config.numberOfStereoChannels =
-            Math.ceil(this._config.numberOfChannels / 2);
+        _config.numberOfChannels =
+            (config.ambisonicOrder + 1) * (config.ambisonicOrder + 1);
+        _config.numberOfStereoChannels =
+            Math.ceil(config.numberOfChannels / 2);
 
         if (isHOARendererURLOptions(config)) {
             if (isArray(config.hrirPathList) &&
-                config.hrirPathList.length === this._config.numberOfStereoChannels) {
-                this._config.hrirPathList = config.hrirPathList;
-                this._config.fetcher = config.fetcher;
+                _config.hrirPathList.length === config.numberOfStereoChannels) {
+                _config.hrirPathList = config.hrirPathList;
+                _config.fetcher = config.fetcher;
             } else {
                 throw Utils.formatError(
                     'HOARenderer: Invalid HRIR URLs. It must be an array with ' +
-                    this._config.numberOfStereoChannels + ' URLs to HRIR files.' +
+                    config.numberOfStereoChannels + ' URLs to HRIR files.' +
                     ' (got ' + config.hrirPathList + ')');
             }
         }
 
         if (isDefined(config) && isDefined(config.renderingMode)) {
             if (Object.values(RenderingMode).includes(config.renderingMode)) {
-                this._config.renderingMode = config.renderingMode;
+                _config.renderingMode = config.renderingMode;
             } else {
                 Utils.log(
                     'HOARenderer: Invalid rendering mode. (got ' +
@@ -140,32 +136,32 @@ export class HOARenderer implements IRenderer {
             }
         }
 
-        this.input = Gain(`${name}-hoa-renderer-input-gain`, context, {
-            channelCount: this._config.numberOfChannels,
+        const input = new JuniperGainNode(context, {
+            channelCount: config.numberOfChannels,
             channelCountMode: "explicit",
             channelInterpretation: "discrete"
         });
-        this.output = Gain(`${name}-hoa-renderer-output-gain`, context);
-        this._bypass = Gain(`${name}-hoa-renderer-bypass-gain`, context);
-        this.rotator = new HOARotator(`${name}-hoa-renderer`, context, this._config.ambisonicOrder);
-        this._hoaConvolver = new HOAConvolver(`${name}-hoa-renderer`, context, this._config.ambisonicOrder);
+        const output = new JuniperGainNode(context);
+        const bypass = new JuniperGainNode(context);
+        const rotator = new HOARotator(context, config.ambisonicOrder);
+        const hoaConvolver = new HOAConvolver(context, config.ambisonicOrder);
 
-        chain(this.input, this.rotator, this._hoaConvolver, this.output);
-        connect(this.input, this._bypass);
+        input
+            .connect(rotator)
+            .connect(hoaConvolver)
+            .connect(output);
+        input.connect(bypass);
+
+        super("hoa-renderer", context, [input], [output], [bypass, rotator, hoaConvolver]);
+
+        this._config = _config;
+        this.input = input;
+        this.output = output;
+        this._bypass = bypass
+        this.rotator = rotator
+        this._hoaConvolver = hoaConvolver
 
         Object.seal(this);
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this.input);
-            removeVertex(this.output);
-            removeVertex(this._bypass);
-            this.rotator.dispose();
-            this._hoaConvolver.dispose();
-        }
     }
 
 
@@ -247,15 +243,15 @@ export class HOARenderer implements IRenderer {
         switch (mode) {
             case RenderingMode.AMBISONIC:
                 this._hoaConvolver.enable();
-                disconnect(this._bypass, this.output);
+                this._bypass.disconnect(this.output);
                 break;
             case RenderingMode.BYPASS:
                 this._hoaConvolver.disable();
-                connect(this._bypass, this.output);
+                this._bypass.connect(this.output);
                 break;
             case RenderingMode.OFF:
                 this._hoaConvolver.disable();
-                disconnect(this._bypass, this.output);
+                this._bypass.disconnect(this.output);
                 break;
             default:
                 Utils.log(

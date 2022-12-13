@@ -25,10 +25,9 @@
 
 import { EPSILON_FLOAT, rad2deg } from "@juniper-lib/tslib/math";
 import { isBadNumber, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/using";
 import { mat4, ReadonlyVec3, vec3 } from "gl-matrix";
-import { Gain } from "../nodes";
-import { chain, removeVertex } from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 import { Attenuation } from "./Attenuation";
 import { Directivity } from "./Directivity";
 import { Encoder } from "./Encoder";
@@ -104,8 +103,7 @@ export interface SourceOptions {
     sourceWidth: number;
 }
 
-export class Source implements IDisposable {
-    private readonly _scene: Scene;
+export class Source extends BaseNodeCluster {
     private readonly _position: vec3;
     private readonly _forward: vec3;
     private readonly _up: vec3;
@@ -113,8 +111,8 @@ export class Source implements IDisposable {
     private readonly _right: vec3;
     private readonly _encoder: Encoder
     private readonly _directivity: Directivity;
-    private readonly _toEarly: GainNode;
-    private readonly _toLate: GainNode;
+    private readonly _toEarly: JuniperGainNode;
+    private readonly _toLate: JuniperGainNode;
     private readonly _attenuation: Attenuation;
 
     /**
@@ -130,7 +128,7 @@ export class Source implements IDisposable {
      * @param {Source~SourceOptions} options
      * Options for constructing a new Source.
      */
-    constructor(name: string, private readonly scene: Scene, context: BaseAudioContext, options: Partial<SourceOptions>) {
+    constructor(private readonly scene: Scene, options: Partial<SourceOptions>) {
         // Public variables.
         /**
          *
@@ -171,39 +169,55 @@ export class Source implements IDisposable {
             options.sourceWidth = Utils.DEFAULT_SOURCE_WIDTH;
         }
 
-        // Member variables.
-        this._scene = scene;
+
+        const output = new JuniperGainNode(scene.context, { gain: options.gain });
+        const directivity = new Directivity(scene.context, {
+            alpha: options.alpha,
+            sharpness: options.sharpness,
+        });
+        const toEarly = new JuniperGainNode(scene.context);
+        const toLate = new JuniperGainNode(scene.context);
+        const attenuation = new Attenuation(scene.context, {
+            minDistance: options.minDistance,
+            maxDistance: options.maxDistance,
+            rolloff: options.rolloff,
+        });
+        const encoder = new Encoder(scene.context, {
+            ambisonicOrder: scene.listener.ambisonicOrder,
+            sourceWidth: options.sourceWidth,
+        });
+
+        output
+            .connect(attenuation)
+            .connect(toEarly)
+            .connect(scene.room.early);
+
+        output
+            .connect(toLate)
+            .connect(scene.room.late);
+
+        output
+            .connect(attenuation)
+            .connect(directivity)
+            .connect(encoder)
+            .connect(scene.listener);
+
+        super("ort-source", scene.context, [], [output], [
+            directivity,
+            toEarly,
+            toLate,
+            attenuation,
+            encoder
+        ]);
+
         this._position = vec3.clone(options.position);
         this._forward = vec3.clone(options.forward);
         this._up = vec3.clone(options.up);
         this._dx = vec3.create();
         this._right = vec3.cross(vec3.create(), this._forward, this._up);
 
-        // Create audio nodes.
-        this.output = Gain(`${name}-res-source-input`, context, { gain: options.gain });
-        this._directivity = new Directivity(`${name}-res-source`, context, {
-            alpha: options.alpha,
-            sharpness: options.sharpness,
-        });
-        this._toEarly = Gain(`${name}-res-source-to-early`, context);
-        this._toLate = Gain(`${name}-res-source-to-late`, context);
-        this._attenuation = new Attenuation(`${name}-res-source`, context, {
-            minDistance: options.minDistance,
-            maxDistance: options.maxDistance,
-            rolloff: options.rolloff,
-        });
-        this._encoder = new Encoder(`${name}-res-source`, context, {
-            ambisonicOrder: scene.listener.ambisonicOrder,
-            sourceWidth: options.sourceWidth,
-        });
-
         // Assign initial conditions.
         this.setPosition(options.position);
-
-        // Connect nodes.
-        chain(this.output, this._attenuation, this._toEarly, scene.room.early);
-        chain(this.output, this._toLate, scene.room.late);
-        chain(this._attenuation, this._directivity, this._encoder, scene.listener);
 
         Object.seal(this);
     }
@@ -214,20 +228,6 @@ export class Source implements IDisposable {
 
     set ambisonicOrder(v) {
         this._encoder.ambisonicOrder = v;
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this.output);
-            this._directivity.dispose();
-            removeVertex(this._toEarly);
-            removeVertex(this._toLate);
-            this._attenuation.dispose();
-            this._encoder.dispose();
-            this.scene.removeSource(this);
-        }
     }
 
 
@@ -356,12 +356,12 @@ export class Source implements IDisposable {
 
     update() {
         // Handle far-field effect.
-        let distance = this._scene.room.getDistanceOutsideRoom(this._position);
+        let distance = this.scene.room.getDistanceOutsideRoom(this._position);
         let gain = _computeDistanceOutsideRoom(distance);
         this._toLate.gain.value = gain;
         this._toEarly.gain.value = gain;
 
-        vec3.sub(this._dx, this._position, this._scene.listener.position);
+        vec3.sub(this._dx, this._position, this.scene.listener.position);
         distance = vec3.len(this._dx);
         if (distance > EPSILON_FLOAT) {
             // Normalize direction vector.

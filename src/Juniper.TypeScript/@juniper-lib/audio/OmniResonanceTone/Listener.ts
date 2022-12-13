@@ -24,8 +24,9 @@
 
 import { isBadNumber, isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { mat3, ReadonlyMat4, ReadonlyVec3, vec3 } from "gl-matrix";
-import { Gain } from "../nodes";
-import { connect, disconnect, ErsatzAudioNode, removeVertex } from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperGainNode } from "../context/JuniperGainNode";
 import { Encoder } from "./Encoder";
 import { FOARenderer } from "./FOARenderer";
 import { HOARenderer } from "./HOARenderer";
@@ -40,22 +41,12 @@ export interface ListenerOptions {
 }
 
 
-export class Listener implements ErsatzAudioNode {
+export class Listener extends BaseNodeCluster {
 
-    /**
-     * Ambisonic (multichannel) input {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    readonly input: GainNode;
-
-    /**
-     * Binaurally-rendered stereo (2-channel) output {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    readonly output: GainNode;
-
-    /**
-     * Ambisonic (multichannel) output {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    readonly ambisonicOutput: GainNode;
+    private readonly input: JuniperGainNode;
+    readonly output: JuniperGainNode;
+    readonly ambisonicOutput: JuniperGainNode;
+    private renderer: IRenderer;
 
     /**
      * Position (in meters).
@@ -63,8 +54,6 @@ export class Listener implements ErsatzAudioNode {
     readonly position = vec3.create();
 
     readonly _ambisonicOrder: number;
-
-    private _renderer: IRenderer;
 
     /**
      * @class Listener
@@ -87,7 +76,7 @@ export class Listener implements ErsatzAudioNode {
      * The listener's initial up vector. Defaults to
      * {@linkcode Utils.DEFAULT_UP DEFAULT_UP}.
      */
-    constructor(name: string, context: BaseAudioContext, options: Partial<ListenerOptions>) {
+    constructor(context: JuniperAudioContext, options: Partial<ListenerOptions>) {
         // Public variables.
         // Use defaults for undefined arguments.
         if (isNullOrUndefined(options)) {
@@ -109,9 +98,14 @@ export class Listener implements ErsatzAudioNode {
 
         // These nodes are created in order to safely asynchronously load Omnitone
         // while the rest of the scene is being created.
-        this.input = Gain(`${name}-listener-input`, context);
-        this.output = Gain(`${name}-listener-output`, context);
-        this.ambisonicOutput = Gain(`${name}-listener-ambisonic-output`, context);
+        const input = new JuniperGainNode(context);
+        const output = new JuniperGainNode(context);
+        const ambisonicOutput = new JuniperGainNode(context);
+        super("ort-listener", context, [input], [output, ambisonicOutput]);
+
+        this.input = input;
+        this.output = output;
+        this.ambisonicOutput = ambisonicOutput;
 
         // Select the appropriate HRIR filters using 2-channel chunks since
         // multichannel audio is not yet supported by a majority of browsers.
@@ -123,10 +117,6 @@ export class Listener implements ErsatzAudioNode {
         Object.seal(this);
     }
 
-    private get _context() {
-        return this.input.context;
-    }
-
     get ambisonicOrder() {
         return this._ambisonicOrder;
     }
@@ -135,41 +125,37 @@ export class Listener implements ErsatzAudioNode {
         v = Encoder.validateAmbisonicOrder(v);
         if (v !== this._ambisonicOrder) {
             // Create audio nodes.
-            if (isDefined(this._renderer)) {
-                disconnect(this.input, this._renderer);
-                disconnect(this._renderer.rotator, this.ambisonicOutput);
-                disconnect(this._renderer, this.output);
-                this._renderer.dispose();
+            if (isDefined(this.renderer)) {
+                this.input.disconnect();
+                this.renderer.rotator.disconnect();
+                this.renderer.disconnect();
+                this.remove(this.renderer);
+                this.renderer.dispose();
+                this.renderer = null;
             }
 
-            if (this.ambisonicOrder == 1) {
-                this._renderer = new FOARenderer(`${name}-listener-renderer`, this._context);
+            if (this.ambisonicOrder === 1) {
+                this.renderer = new FOARenderer(this.context);
             } else if (this.ambisonicOrder > 1) {
-                this._renderer = new HOARenderer(`${name}-listener-renderer`, this._context, {
+                this.renderer = new HOARenderer(this.context, {
                     ambisonicOrder: this.ambisonicOrder,
                 });
             }
 
-            // Initialize Omnitone (async) and connect to audio graph when complete.
-            this._renderer.initialize().then(async () => {
-                // Connect pre-rotated soundfield to renderer.
-                connect(this.input, this._renderer);
-                // Connect rotated soundfield to ambisonic output.
-                connect(this._renderer.rotator, this.ambisonicOutput);
-                // Connect binaurally-rendered soundfield to binaural output.
-                connect(this._renderer, this.output);
-            });
-        }
-    }
+            this.add(this.renderer);
 
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this.input);
-            removeVertex(this.output);
-            removeVertex(this.ambisonicOutput);
-            this._renderer.dispose();
+            // Initialize Omnitone (async) and connect to audio graph when complete.
+            this.renderer.initialize().then(async () => {
+                // Connect pre-rotated soundfield to renderer.
+                this.input
+                    .connect(this.renderer)
+                // Connect binaurally-rendered soundfield to binaural output.
+                    .connect(this.output);
+
+                // Connect rotated soundfield to ambisonic output.
+                this.renderer.rotator
+                    .connect(this.ambisonicOutput);
+            });
         }
     }
 
@@ -184,7 +170,7 @@ export class Listener implements ErsatzAudioNode {
             this._right[0], this._right[1], this._right[2],
             up[0], up[1], up[2],
             fwd[0], fwd[1], fwd[2]);
-        this._renderer.setRotationMatrix3(this._tempMatrix3);
+        this.renderer.setRotationMatrix3(this._tempMatrix3);
     }
 
     setPosition(v: ReadonlyVec3) {
@@ -199,7 +185,7 @@ export class Listener implements ErsatzAudioNode {
      */
     setFromMatrix(mat: ReadonlyMat4) {
         // Update ambisonic rotation matrix internally.
-        this._renderer.setRotationMatrix4(mat);
+        this.renderer.setRotationMatrix4(mat);
 
         // Extract position from matrix.
         this.position[0] = mat[12];

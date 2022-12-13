@@ -29,8 +29,10 @@ import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
 import { ReadonlyMat3, ReadonlyMat4 } from "gl-matrix";
-import { Gain } from "../nodes";
-import { chain, connect, disconnect, isAudioContext, removeVertex } from "../util";
+import { BaseNodeCluster } from "../BaseNodeCluster";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { JuniperGainNode } from "../context/JuniperGainNode";
+import { IAudioNode } from "../IAudioNode";
 import { BufferList } from "./BufferList";
 import { FOAConvolver } from "./FOAConvolver";
 import { FOARotator } from "./FOARotator";
@@ -64,33 +66,27 @@ function isFOARendererURLOptions(obj: FOARendererOptions): obj is FOARendererURL
 /**
  * Omnitone FOA renderer class. Uses the optimized convolution technique.
  */
-export class FOARenderer implements IRenderer {
+export class FOARenderer extends BaseNodeCluster implements IRenderer {
 
-    readonly input: GainNode;
-    readonly output: GainNode;
-    readonly _bypass: GainNode;
+    readonly input: JuniperGainNode;
+    readonly output: JuniperGainNode;
+    readonly _bypass: JuniperGainNode;
     readonly _foaRouter: FOARouter;
-    readonly rotator: FOARotator;
+    readonly _rotator: FOARotator;
+    get rotator(): IAudioNode { return this._rotator; }
     readonly _foaConvolver: FOAConvolver;
     private readonly _config: FOARendererURLOptions;
     private _isRendererReady = false;
-    private get _context() { return this.input.context; }
 
 
     /**
      * Omnitone FOA renderer class. Uses the optimized convolution technique.
      * @constructor
-     * @param name
      * @param context - Associated AudioContext.
      * @param options
      */
-    constructor(name: string, context: BaseAudioContext, options?: FOARendererOptions) {
-
-        if (!isAudioContext(context)) {
-            throw Utils.formatError('FOARenderer: Invalid BaseAudioContext.');
-        }
-
-        this._config = {
+    constructor(context: JuniperAudioContext, options?: FOARendererOptions) {
+        const config: FOARendererURLOptions = {
             hrirPathList: null,
             fetcher: null,
             channelMap: FOARouter.ChannelMap.get("DEFAULT"),
@@ -100,7 +96,7 @@ export class FOARenderer implements IRenderer {
         if (isDefined(options)) {
             if (isDefined(options.channelMap)) {
                 if (Array.isArray(options.channelMap) && options.channelMap.length === 4) {
-                    this._config.channelMap = options.channelMap;
+                    config.channelMap = options.channelMap;
                 } else {
                     throw Utils.formatError(
                         'FOARenderer: Invalid channel map. (got ' + options.channelMap
@@ -110,7 +106,7 @@ export class FOARenderer implements IRenderer {
 
             if (isDefined(options.renderingMode)) {
                 if (Object.values(RenderingMode).includes(options.renderingMode)) {
-                    this._config.renderingMode = options.renderingMode;
+                    config.renderingMode = options.renderingMode;
                 } else {
                     Utils.log(
                         'FOARenderer: Invalid rendering mode order. (got' +
@@ -122,7 +118,7 @@ export class FOARenderer implements IRenderer {
                 if (isDefined(options.hrirPathList)) {
                     if (isArray(options.hrirPathList) &&
                         options.hrirPathList.length === 2) {
-                        this._config.hrirPathList = options.hrirPathList;
+                        config.hrirPathList = options.hrirPathList;
                     } else {
                         throw Utils.formatError(
                             'FOARenderer: Invalid HRIR URLs. It must be an array with ' +
@@ -131,42 +127,48 @@ export class FOARenderer implements IRenderer {
                 }
 
                 if (isDefined(options.fetcher)) {
-                    this._config.fetcher = options.fetcher;
+                    config.fetcher = options.fetcher;
                 }
             }
         }
 
-        this.input = Gain(`${name}-foa-renderer-input-gain`, context, {
+        const input = new JuniperGainNode(context, {
             channelCount: 4,
             channelCountMode: "explicit",
             channelInterpretation: "discrete"
         });
 
-        this.output = Gain(`${name}-foa-renderer-output-gain`, context);
-        this._bypass = Gain(`${name}-foa-renderer-bypass-gain`, context);
-        this._foaRouter = new FOARouter(`${name}-foa-renderer`, context, this._config.channelMap);
-        this.rotator = new FOARotator(`${name}-foa-renderer`, context);
-        this._foaConvolver = new FOAConvolver(`${name}-foa-renderer`, context);
+        const output = new JuniperGainNode(context);
+        const bypass = new JuniperGainNode(context);
+        const foaRouter = new FOARouter(context, config.channelMap);
+        const foaRotator = new FOARotator(context);
+        const foaConvolver = new FOAConvolver(context);
 
-        chain(this.input, this.rotator, this.rotator, this._foaConvolver, this.output);
-        connect(this.input, this._bypass);
-        
+        input
+            .connect(foaRotator)
+            .connect(foaConvolver)
+            .connect(output);
+
+        input
+            .connect(bypass);
+
+        super("foa-renderer", context, [input], [output], [
+            bypass,
+            foaRouter,
+            foaRotator,
+            foaConvolver
+        ]);
+
+        this._config = config;
+        this.input = input;
+        this.output = output;
+        this._bypass = bypass;
+        this._foaRouter = foaRouter
+        this._rotator = foaRotator;
+        this._foaConvolver = foaConvolver;        
         this._isRendererReady = false;
 
         Object.seal(this);
-    }
-
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            removeVertex(this.input);
-            removeVertex(this.output);
-            removeVertex(this._bypass);
-            this._foaRouter.dispose();
-            this.rotator.dispose();
-            this._foaConvolver.dispose();
-        }
     }
 
 
@@ -180,11 +182,11 @@ export class FOARenderer implements IRenderer {
             ')');
 
         const bufferList = this._config.hrirPathList
-            ? new BufferList(this._context, this._config.hrirPathList, {
+            ? new BufferList(this.context, this._config.hrirPathList, {
                 fetcher: this._config.fetcher,
                 dataType: 'url'
             })
-            : new BufferList(this._context, OmnitoneFOAHRIRBase64);
+            : new BufferList(this.context, OmnitoneFOAHRIRBase64);
         try {
             const hrirBufferList = await bufferList.load();
             this._foaConvolver.setHRIRBufferList(hrirBufferList);
@@ -228,7 +230,7 @@ export class FOARenderer implements IRenderer {
             return;
         }
 
-        this.rotator.setRotationMatrix3(rotationMatrix3);
+        this._rotator.setRotationMatrix3(rotationMatrix3);
     }
 
 
@@ -241,7 +243,7 @@ export class FOARenderer implements IRenderer {
             return;
         }
 
-        this.rotator.setRotationMatrix4(rotationMatrix4);
+        this._rotator.setRotationMatrix4(rotationMatrix4);
     }
 
 
@@ -261,15 +263,15 @@ export class FOARenderer implements IRenderer {
         switch (mode) {
             case RenderingMode.AMBISONIC:
                 this._foaConvolver.enable();
-                disconnect(this._bypass, this);
+                this._bypass.disconnect(this.output);
                 break;
             case RenderingMode.BYPASS:
                 this._foaConvolver.disable();
-                connect(this._bypass, this);
+                this._bypass.connect(this.output);
                 break;
             case RenderingMode.OFF:
                 this._foaConvolver.disable();
-                disconnect(this._bypass, this);
+                this._bypass.disconnect(this.output);
                 break;
             default:
                 Utils.log(
