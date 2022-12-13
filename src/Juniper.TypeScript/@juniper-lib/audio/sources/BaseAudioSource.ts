@@ -43,10 +43,7 @@ export abstract class BaseAudioSource<EventTypeT = void>
     }
 
     setEffects(...effectNames: string[]) {
-        const wasEnabled = this.lastInternal.isConnected();
-        if (wasEnabled) {
-            this.disable();
-        }
+        this.disable();
 
         for (const effect of this.effects) {
             this.remove(effect);
@@ -68,9 +65,7 @@ export abstract class BaseAudioSource<EventTypeT = void>
             }
         }
 
-        if (wasEnabled) {
-            this.enable();
-        }
+        this.enable();
     }
 
     get spatialized() {

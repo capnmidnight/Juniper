@@ -109,8 +109,6 @@ export abstract class BaseVideoPlayer
         };
 
         this.onPlay = async () => {
-            this.enable();
-
             this.onSeeked();
             if (this.useAudioElement) {
                 await this.context.ready;
@@ -120,8 +118,6 @@ export abstract class BaseVideoPlayer
         };
 
         this.onPause = (evt: Event) => {
-            this.disable();
-
             if (this.useAudioElement) {
                 this.onSeeked();
                 this.audio.pause();

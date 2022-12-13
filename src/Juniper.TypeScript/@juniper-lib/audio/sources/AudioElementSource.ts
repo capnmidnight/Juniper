@@ -16,7 +16,7 @@ export class AudioElementSource
     private readonly pauseEvt: MediaElementSourcePausedEvent<IPlayable>;
     private readonly stopEvt: MediaElementSourceStoppedEvent<IPlayable>;
     private readonly progEvt: MediaElementSourceProgressEvent<IPlayable>;
-    private readonly audio: HTMLMediaElement;
+    readonly audio: HTMLMediaElement;
 
     constructor(
         context: JuniperAudioContext,
@@ -38,8 +38,6 @@ export class AudioElementSource
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
         const halt = (evt: Event) => {
-            this.disable();
-
             if (this.audio.currentTime === 0 || evt.type === "ended") {
                 this.dispatchEvent(this.stopEvt);
             }
@@ -52,8 +50,6 @@ export class AudioElementSource
         this.audio.addEventListener("pause", halt);
 
         this.audio.addEventListener("play", () => {
-            this.enable();
-
             if (this.randomize
                 && this.audio.loop
                 && this.audio.duration > 1) {
@@ -94,6 +90,7 @@ export class AudioElementSource
     }
 
     async play(): Promise<void> {
+        this.enable();
         await this.context.ready;
         await this.audio.play();
     }
@@ -105,6 +102,7 @@ export class AudioElementSource
     }
 
     pause(): void {
+        this.disable();
         this.audio.pause();
     }
 
