@@ -109,16 +109,13 @@ export class Source extends BaseNodeCluster {
     private readonly _up: vec3;
     private readonly _dx: vec3;
     private readonly _right: vec3;
-    private readonly _encoder: Encoder
+
+    private readonly input: GainNode;
     private readonly _directivity: Directivity;
     private readonly _toEarly: JuniperGainNode;
     private readonly _toLate: JuniperGainNode;
     private readonly _attenuation: Attenuation;
-
-    /**
-     * Mono (1-channel) input {@link https://developer.mozilla.org/en-US/docs/Web/API/AudioNode AudioNode}.
-     */
-    readonly output: GainNode;
+    private readonly _encoder: Encoder
 
     /**
      * @class Source
@@ -170,7 +167,7 @@ export class Source extends BaseNodeCluster {
         }
 
 
-        const output = new JuniperGainNode(scene.context, { gain: options.gain });
+        const input = new JuniperGainNode(scene.context, { gain: options.gain });
         const directivity = new Directivity(scene.context, {
             alpha: options.alpha,
             sharpness: options.sharpness,
@@ -187,22 +184,22 @@ export class Source extends BaseNodeCluster {
             sourceWidth: options.sourceWidth,
         });
 
-        output
+        input
             .connect(attenuation)
             .connect(toEarly)
             .connect(scene.room.early);
 
-        output
+        input
             .connect(toLate)
             .connect(scene.room.late);
 
-        output
+        input
             .connect(attenuation)
             .connect(directivity)
             .connect(encoder)
             .connect(scene.listener);
 
-        super("ort-source", scene.context, [], [output], [
+        super("ort-source", scene.context, [input], [], [
             directivity,
             toEarly,
             toLate,
@@ -265,7 +262,7 @@ export class Source extends BaseNodeCluster {
      * @param {Number} gain
      */
     setGain(gain: number) {
-        this.output.gain.value = gain;
+        this.input.gain.value = gain;
     }
 
 
