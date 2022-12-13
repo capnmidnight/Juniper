@@ -35,8 +35,6 @@ export abstract class BaseAudioSource<EventTypeT = void>
 
         this.volumeControl = volumeControl;
         this.setEffects(...effectNames);
-
-        this.enable();
     }
 
     protected override onDisposing(): void {
@@ -45,6 +43,11 @@ export abstract class BaseAudioSource<EventTypeT = void>
     }
 
     setEffects(...effectNames: string[]) {
+        const wasEnabled = this.lastInternal.isConnected();
+        if (wasEnabled) {
+            this.disable();
+        }
+
         for (const effect of this.effects) {
             this.remove(effect);
             effect.dispose();
@@ -63,6 +66,10 @@ export abstract class BaseAudioSource<EventTypeT = void>
                     last = last.connect(effect);
                 }
             }
+        }
+
+        if (wasEnabled) {
+            this.enable();
         }
     }
 
