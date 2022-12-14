@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 
 using System.Text;
@@ -9,6 +9,15 @@ namespace Juniper.Data
 
     public static class IdentityExt
     {
+        public static void Check(this IdentityResult result)
+        {
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description).ToArray().Join(", ");
+                throw new Exception(errors);
+            }
+        }
+
 
         public static async Task<Dictionary<string, IdentityRole>> SeedRoles(this RoleManager<IdentityRole> roleMgr, string[] roles)
         {
