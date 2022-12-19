@@ -50,8 +50,14 @@ export class RequestBuilder implements
             headers: null,
             timeout: null,
             withCredentials: false,
-            useCache: false
+            useCache: false,
+            retryCount: 3
         };
+    }
+
+    retries(count: number) {
+        this.request.retryCount = count;
+        return this;
     }
 
     query(name: string, value: string) {

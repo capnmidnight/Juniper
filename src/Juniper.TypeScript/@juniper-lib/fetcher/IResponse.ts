@@ -8,3 +8,5 @@ export interface IResponse<T = void> {
     contentLength: number;
     content: T;
 }
+
+export type ResponseCallback<T> = () => Promise<IResponse<T>>;

@@ -2,6 +2,7 @@ import { IDexDB, IDexStore } from "@juniper-lib/indexdb";
 import { mapJoin } from "@juniper-lib/tslib/collections/mapJoin";
 import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
+import { withRetry } from "@juniper-lib/tslib/events/withRetry";
 import { identity } from "@juniper-lib/tslib/identity";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { assertNever, isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
@@ -10,7 +11,7 @@ import { isXHRBodyInit } from "./FetchingServiceImplXHR";
 import type { HTTPMethods } from "./HTTPMethods";
 import type { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
 import type { IRequest, IRequestWithBody } from "./IRequest";
-import type { IResponse } from "./IResponse";
+import type { IResponse, ResponseCallback } from "./IResponse";
 import { translateResponse } from "./translateResponse";
 
 function isBodyInit(obj: any): obj is BodyInit {
@@ -245,45 +246,47 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
     }
 
     sendNothingGetNothing(request: IRequest): Promise<IResponse> {
-        return this.withCachedTask(request, async () => {
-            const res = await sendRequest(request.method, request.path, request.headers);
-            return await this.readResponseHeaders(request.path, res);
-        });
+        return this.withCachedTask(request,
+            withRetry(request.retryCount, async () => {
+                const res = await sendRequest(request.method, request.path, request.headers);
+                return await this.readResponseHeaders(request.path, res);
+            }));
     }
 
     sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
-        return this.withCachedTask(request, async () => {
-            let response: IResponse<Blob> = null;
+        return this.withCachedTask(request,
+            withRetry(request.retryCount, async () => {
+                let response: IResponse<Blob> = null;
 
-            const useCache = request.useCache && request.method === "GET";
-
-            if (useCache) {
-                if (isDefined(progress)) {
-                    progress.start();
-                }
-                await this.cacheReady;
-                response = await this.store.get(request.path);
-            }
-
-            const noCachedResponse = isNullOrUndefined(response);
-
-            if (noCachedResponse) {
-                const res = await sendRequest(request.method, request.path, request.headers);
-                response = await this.readResponse(request.path, res);
+                const useCache = request.useCache && request.method === "GET";
 
                 if (useCache) {
-                    await this.store.add(response);
+                    if (isDefined(progress)) {
+                        progress.start();
+                    }
+                    await this.cacheReady;
+                    response = await this.store.get(request.path);
                 }
-            }
 
-            const value = await this.decodeContent<K, T>(xhrType, response);
+                const noCachedResponse = isNullOrUndefined(response);
 
-            if (noCachedResponse && isDefined(progress)) {
-                progress.end();
-            }
+                if (noCachedResponse) {
+                    const res = await sendRequest(request.method, request.path, request.headers);
+                    response = await this.readResponse(request.path, res);
 
-            return value;
-        });
+                    if (useCache) {
+                        await this.store.add(response);
+                    }
+                }
+
+                const value = await this.decodeContent<K, T>(xhrType, response);
+
+                if (noCachedResponse && isDefined(progress)) {
+                    progress.end();
+                }
+
+                return value;
+            }));
     }
 
     async sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, _progress: IProgress): Promise<IResponse<T>> {
@@ -311,8 +314,12 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
             body = JSON.stringify(request.body);
         }
 
-        const res = await sendRequest(request.method, request.path, headers, body);
-        const response = await this.readResponse(request.path, res);
-        return await this.decodeContent(xhrType, response);
+        const query: ResponseCallback<T> = async () => {
+            const res = await sendRequest(request.method, request.path, headers, body);
+            const response = await this.readResponse(request.path, res);
+            return await this.decodeContent(xhrType, response);
+        };
+
+        return withRetry(request.retryCount, query)();
     }
 }
