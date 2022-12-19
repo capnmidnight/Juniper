@@ -97,6 +97,10 @@ export class AudioManager
 
         this.audioCtx = new AudioContext();
 
+        if ("THREE" in globalThis) {
+            globalThis.THREE.AudioContext.setContext(this.audioCtx);
+        }
+
         const destination = MediaStreamDestination("final-destination", this.audioCtx);
 
         this.element = Audio(
