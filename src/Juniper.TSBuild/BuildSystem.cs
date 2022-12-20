@@ -1,6 +1,7 @@
 using Juniper.Logging;
 using Juniper.Processes;
 
+using System.Net.NetworkInformation;
 using System.Text.Json;
 
 namespace Juniper.TSBuild
@@ -587,6 +588,17 @@ namespace Juniper.TSBuild
                     };
                 }
             }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
+
+            foreach (var line in from i in NetworkInterface.GetAllNetworkInterfaces()
+                                 where i.OperationalStatus == OperationalStatus.Up
+                                    && i.NetworkInterfaceType != NetworkInterfaceType.Loopback
+                                 let p = i.GetIPProperties()
+                                 from a in p.UnicastAddresses
+                                 where a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
+                                 select $"{i.Name}: {a.Address}")
+            {
+                WriteInfo(line);
+            }
         }
 
         private async Task ValidateDependencies()
