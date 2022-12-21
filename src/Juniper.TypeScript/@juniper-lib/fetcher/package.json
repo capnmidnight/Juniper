@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@juniper-lib/dom": "*",
-    "@juniper-lib/fetcher": "*",
     "@juniper-lib/mediatypes": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-lib/workers": "*",

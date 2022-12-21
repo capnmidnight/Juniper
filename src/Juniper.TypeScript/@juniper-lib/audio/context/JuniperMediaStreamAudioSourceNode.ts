@@ -12,7 +12,6 @@ export class JuniperMediaStreamAudioSourceNode
     private readonly _element: HTMLAudioElement;
 
     constructor(context: JuniperAudioContext, options: MediaStreamAudioSourceOptions) {
-        let node: MediaStreamAudioSourceNode | MediaElementAudioSourceNode;
         const element = BackgroundAudio(
             true,
             hasStreamSources,
@@ -20,6 +19,7 @@ export class JuniperMediaStreamAudioSourceNode
             srcObject(options.mediaStream)
         );
 
+        let node: MediaStreamAudioSourceNode | MediaElementAudioSourceNode;
         if (hasStreamSources) {
             node = new MediaStreamAudioSourceNode(context, options);
         }

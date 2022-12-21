@@ -20,6 +20,7 @@ export interface IFetcher {
     put(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
     patch(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
     delete(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
+    assets(...assets: BaseAsset[]): Promise<void>;
     assets(progress: IProgress, ...assets: BaseAsset[]): Promise<void>;
 }
 

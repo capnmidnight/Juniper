@@ -1,4 +1,5 @@
 import type { AudioManager } from "@juniper-lib/audio/AudioManager";
+import type { AssetAudio } from "@juniper-lib/fetcher/Asset";
 import type { Pointer3DEvent } from "./devices/Pointer3DEvent";
 import type { EventSystem } from "./EventSystem";
 
@@ -32,7 +33,7 @@ export class InteractionAudio {
         this.eventSys.addEventListener("click", playClip);
     }
 
-    create(type: string, element: HTMLAudioElement, volume: number) {
-        return this.audio.createClip(makeClipName(type, false), element, false, true, false, volume, []);
+    create(type: string, asset: AssetAudio, volume: number) {
+        return this.audio.createClip(makeClipName(type, false), asset, false, true, false, volume, []);
     }
 }

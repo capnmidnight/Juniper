@@ -1,10 +1,10 @@
+import { AssetAudio, BaseFetchedAsset } from "@juniper-lib/fetcher/Asset";
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import { MediaType, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
+import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
-import { progressTasks } from "@juniper-lib/tslib/progress/progressTasks";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import {
     RoomJoinedEvent,
@@ -41,8 +41,24 @@ export abstract class BaseTele extends Application {
     private roomName: string = null;
     private _offsetRadius = 0;
 
+
+    private readonly doorOpenSound: AssetAudio;
+    private readonly doorCloseSound: AssetAudio;
+    private readonly avatarModelAsset: AssetGltfModel;
+
+    private readonly assets: ReadonlyArray<BaseFetchedAsset<any>>;
+
     constructor(env: Environment) {
         super(env);
+
+        this.doorOpenSound = new AssetAudio("/audio/door_open.mp3", Audio_Mpeg, !this.env.DEBUG);
+        this.doorCloseSound = new AssetAudio("/audio/door_close.mp3", Audio_Mpeg, !this.env.DEBUG);
+        this.avatarModelAsset = new AssetGltfModel(this.env, "/models/Avatar.glb", Model_Gltf_Binary, !this.env.DEBUG);
+        this.assets = [
+            this.doorOpenSound,
+            this.doorCloseSound,
+            this.avatarModelAsset
+        ];
 
         this.env.addScopedEventListener(this, "update", (evt) => {
             for (const user of this.users.values()) {
@@ -159,6 +175,14 @@ export abstract class BaseTele extends Application {
         });
     }
 
+    async load(prog?: IProgress) {
+        await this.env.fetcher.assets(prog, ...this.assets);
+        this.env.audio.createBasicClip("join", this.doorOpenSound, 0.25);
+        this.env.audio.createBasicClip("leave", this.doorCloseSound, 0.25);
+        this.avatarModel = this.avatarModelAsset.result.scene.children[0];
+        convertMaterials(this.avatarModel, materialStandardToPhong);
+    }
+
     protected abstract createConference(): TeleconferenceManager;
 
     async showing(_onProgress?: IProgress): Promise<void> {
@@ -183,13 +207,6 @@ export abstract class BaseTele extends Application {
 
     get visible() {
         return isDefined(this.remoteUsers.parent);
-    }
-
-    async loadAvatar(path: string, type: string | MediaType, prog?: IProgress) {
-        const avatarAsset = new AssetGltfModel(this.env, path, type, !this.env.DEBUG);
-        await this.env.fetcher.assets(prog, avatarAsset);
-        this.avatarModel = avatarAsset.result.scene.children[0];
-        convertMaterials(this.avatarModel, materialStandardToPhong);
     }
 
     async setConferenceInfo(userType: string, userName: string, meetingID: string): Promise<void> {
@@ -275,12 +292,5 @@ export abstract class BaseTele extends Application {
                 await this.conference.join(isoRoomName);
             }
         }
-    }
-
-    async load(prog?: IProgress) {
-        await progressTasks(prog,
-            (prog) => this.env.audio.loadBasicClip("join", "/audio/door_open.mp3", 0.25, prog),
-            (prog) => this.env.audio.loadBasicClip("leave", "/audio/door_close.mp3", 0.25, prog),
-            (prog) => this.loadAvatar("/models/Avatar.glb", Model_Gltf_Binary, prog));
     }
 }

@@ -19,6 +19,8 @@ import {
     Option,
     Select
 } from "@juniper-lib/dom/tags";
+import { AssetAudio } from "@juniper-lib/fetcher/Asset";
+import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { makeLookup } from "@juniper-lib/tslib/collections/makeLookup";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import { SetTimeoutTimer } from "@juniper-lib/tslib/timers/SetTimeoutTimer";
@@ -56,7 +58,10 @@ export class DeviceDialog extends DialogBox {
 
         this.cancelButton.style.display = "none";
 
-        const clipLoaded = this.env.audio.loadBasicClip("test-audio", "/audio/test-clip.mp3", 0.5);
+        const clipAsset = new AssetAudio("/audio/test-clip.mp3", Audio_Mpeg, !this.env.DEBUG);
+        
+        const clipLoaded = this.env.fetcher.assets(clipAsset)
+            .then(() => this.env.audio.createBasicClip("test-audio", clipAsset, 0.5));
 
         elementApply(this.container,
             minWidth("max-content")

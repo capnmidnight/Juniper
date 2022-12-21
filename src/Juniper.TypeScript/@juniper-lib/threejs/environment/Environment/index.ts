@@ -440,10 +440,10 @@ export class Environment
 
         await super.load(prog, ...assets);
 
-        this.audio.createBasicClip("footsteps", footsteps.result, 0.5);
-        this.interactionAudio.create("enter", enter.result, 0.25);
-        this.interactionAudio.create("exit", exit.result, 0.25);
-        this.interactionAudio.create("error", error.result, 0.25);
-        this.interactionAudio.create("click", click.result, 1);
+        this.audio.createBasicClip("footsteps", footsteps, 0.5);
+        this.interactionAudio.create("enter", enter, 0.25);
+        this.interactionAudio.create("exit", exit, 0.25);
+        this.interactionAudio.create("error", error, 0.25);
+        this.interactionAudio.create("click", click, 1);
     }
 }

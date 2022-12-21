@@ -1,7 +1,7 @@
 import { getInput } from "@juniper-lib/dom/tags";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressTasksWeighted } from "@juniper-lib/tslib/progress/progressTasks";
-import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseAsset } from "./Asset";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetcher } from "./IFetcher";
@@ -65,7 +65,22 @@ export class Fetcher implements IFetcher {
         return this.createRequest("DELETE", path, base);
     }
 
-    async assets(progress: IProgress, ...assets: BaseAsset[]): Promise<void> {
+    async assets(...assets: BaseAsset[]): Promise<void>;
+    async assets(progress: IProgress, ...assets: BaseAsset[]): Promise<void>;
+    async assets(progressOrAsset: IProgress | BaseAsset, ...assets: BaseAsset[]): Promise<void> {
+
+        if (isNullOrUndefined(assets)) {
+            assets = [];
+        }
+
+        let progress: IProgress;
+        if (progressOrAsset instanceof BaseAsset) {
+            assets.unshift(progressOrAsset);
+        }
+        else {
+            progress = progressOrAsset;
+        }
+
         assets = assets.filter(isDefined);
         const sizes = await Promise.all(assets
             .map((asset) =>

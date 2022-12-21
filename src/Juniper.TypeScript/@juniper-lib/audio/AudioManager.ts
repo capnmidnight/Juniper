@@ -1,12 +1,12 @@
-import { autoPlay, id, playsInline, src, srcObject } from "@juniper-lib/dom/attrs";
+import { autoPlay, id, playsInline, srcObject } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
-import { Audio, BackgroundAudio, ErsatzElement, mediaElementCanPlay } from "@juniper-lib/dom/tags";
+import { Audio, ErsatzElement } from "@juniper-lib/dom/tags";
+import { AssetAudio } from "@juniper-lib/fetcher/Asset";
 import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { isMobileVR } from "@juniper-lib/tslib/flags";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
@@ -65,7 +65,7 @@ export class AudioManager
      **/
     constructor(defaultLocalUserID: string) {
         const context = new JuniperAudioContext();
-        
+
         if ("THREE" in globalThis) {
             globalThis.THREE.AudioContext.setContext(context);
         }
@@ -189,18 +189,21 @@ export class AudioManager
         return this.destination;
     }
 
-    loadBasicClip(id: string, path: string, vol: number, prog?: IProgress): Promise<AudioElementSource> {
-        return this.loadClip(id, path, false, false, false, false, vol, [], prog);
+    createBasicClip(id: string, asset: AssetAudio, vol: number): AudioElementSource {
+        return this.createClip(id, asset, false, false, false, vol, []);
     }
 
-    createBasicClip(id: string, element: HTMLMediaElement, vol: number): AudioElementSource {
-        return this.createClip(id, element, false, false, false, vol, []);
+    private elements = new Map<HTMLMediaElement, JuniperMediaElementAudioSourceNode>();
+
+    hasClip(id: string): boolean {
+        return this.clips.has(id);
     }
 
     /**
      * Creates a new sound effect from a series of fallback paths
      * for media files.
      * @param id - the name of the sound effect, to reference when executing playback.
+     * @param element - the element to register as a clip
      * @param looping - whether or not the sound effect should be played on loop.
      * @param autoPlaying - whether or not the sound effect should be played immediately.
      * @param spatialize - whether or not the sound effect should be spatialized.
@@ -209,131 +212,39 @@ export class AudioManager
      * @param path - a path for loading the media of the sound effect, or the sound effect that has already been loaded.
      * @param prog - an optional callback function to use for tracking progress of loading the clip.
      */
-    async loadClip(
-        id: string,
-        path: string,
-        looping: boolean,
-        autoPlaying: boolean,
-        spatialize: boolean,
-        randomize: boolean,
-        vol: number,
-        effectNames: string[],
-        prog?: IProgress): Promise<AudioElementSource> {
-        if (isNullOrUndefined(path)
-            || isString(path)
-            && path.length === 0) {
-            throw new Error("No clip source path provided");
-        }
-
-        if (isDefined(prog)) {
-            prog.start(path);
-        }
-
-        const source = await this.getSourceTask(id, path, path, looping, autoPlaying, prog);
-        const clip = this.makeClip(source, id, path, spatialize, randomize, autoPlaying, vol, ...effectNames);
-        this.clips.set(id, clip);
-
-        if (isDefined(prog)) {
-            prog.end(path);
-        }
-
-        return clip;
-    }
-
     createClip(
         id: string,
-        element: HTMLMediaElement,
+        asset: AssetAudio,
         autoPlaying: boolean,
         spatialize: boolean,
         randomize: boolean,
         vol: number,
         effectNames: string[]): AudioElementSource {
-        if (isNullOrUndefined(element)
-            || isString(element)
-            && element.length === 0) {
-            throw new Error("No clip source path provided");
-        }
-
-        const curPath = element.currentSrc;
-        const source = this.createSourceFromElement(id, element);
-        const clip = this.makeClip(source, id, curPath, spatialize, randomize, autoPlaying, vol, ...effectNames);
-        this.clips.set(id, clip);
-
-        return clip;
-    }
-
-    private getSourceTask(id: string, curPath: string, path: string, looping: boolean, autoPlaying: boolean, prog: IProgress): Promise<JuniperMediaElementAudioSourceNode> {
-        this.clipPaths.set(id, curPath);
-        let sourceTask = this.pathSources.get(curPath);
-        if (isDefined(sourceTask)) {
-            this.pathCounts.set(curPath, this.pathCounts.get(curPath) + 1);
-        }
-        else {
-            sourceTask = this.createSourceFromFile(id, path, looping, autoPlaying, prog);
-            this.pathSources.set(curPath, sourceTask);
-            this.pathCounts.set(curPath, 1);
-        }
-        return sourceTask;
-    }
-
-    private async createSourceFromFile(id: string, path: string, looping: boolean, autoPlaying: boolean, prog?: IProgress): Promise<JuniperMediaElementAudioSourceNode> {
-        if (isDefined(prog)) {
-            prog.start(id);
-        }
-
-        const elem = BackgroundAudio(autoPlaying, false, looping, src(path));
-        if (!await mediaElementCanPlay(elem)) {
-            throw elem.error;
-        }
-
-        if (isDefined(prog)) {
-            prog.end(id);
-        }
-
-        return this.createSourceFromElement(id, elem);
-    }
-
-    private elements = new Map<HTMLMediaElement, JuniperMediaElementAudioSourceNode>();
-
-    private createSourceFromElement(id: string, elem: HTMLMediaElement) {
-        if (!this.elements.has(elem)) {
+        const element = asset.result;
+        if (!this.elements.has(element)) {
             const node = new JuniperMediaElementAudioSourceNode(
                 this.context,
-                { mediaElement: elem });
+                { mediaElement: element });
             node.name = stringToName("media-element-source", id);
-            this.elements.set(elem, node);
+            this.elements.set(element, node);
         }
-        return this.elements.get(elem);
-    }
-
-    private makeClip(
-        source: JuniperMediaElementAudioSourceNode,
-        id: string,
-        path: string,
-        spatialize: boolean,
-        randomize: boolean,
-        autoPlaying: boolean,
-        vol: number,
-        ...effectNames: string[]): AudioElementSource {
+        const source = this.elements.get(element);
         const clip = new AudioElementSource(
             this.context,
             source,
             randomize,
             this.createSpatializer(spatialize, false),
             ...effectNames);
-        clip.name = stringToName("audio-clip-element", id, path);
+        clip.name = stringToName("audio-clip-element", id, element.currentSrc);
 
         if (autoPlaying) {
             clip.play();
         }
 
         clip.volume = vol;
+        this.clips.set(id, clip);
 
         return clip;
-    }
-
-    hasClip(id: string): boolean {
-        return this.clips.has(id);
     }
 
     /**

@@ -17,6 +17,11 @@ import { translateResponse } from "./translateResponse";
 
 declare const IS_WORKER: boolean;
 
+// This HTML Audio Element is just used to get access to the
+// canPlayType method. It is not used for any other functionality.
+// This is to get around some of the crappy problems various
+// browsers have with being able to report the types of media
+// they can play.
 let testAudio: HTMLAudioElement = null;
 function canPlay(type: string): boolean {
 
