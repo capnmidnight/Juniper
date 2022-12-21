@@ -173,6 +173,30 @@ export class AssetAudio<ErrorT = unknown> extends BaseFetchedAsset<HTMLAudioElem
     }
 }
 
+export class AssetAudioBuffer<ErrorT = unknown> extends BaseFetchedAsset<AudioBuffer, ErrorT> {
+
+    private readonly context: BaseAudioContext;
+
+    constructor(context: BaseAudioContext, path: string);
+    constructor(context: BaseAudioContext, path: string, useCache: boolean);
+    constructor(context: BaseAudioContext, path: string, type: string | MediaType);
+    constructor(context: BaseAudioContext, path: string, type: string | MediaType, useCache: boolean);
+    constructor(context: BaseAudioContext, path: string, typeOrUseCache?: string | MediaType | boolean, useCache?: boolean) {
+        if (isBoolean(typeOrUseCache)) {
+            super(path, typeOrUseCache);
+        }
+        else {
+            super(path, typeOrUseCache, useCache);
+        }
+
+        this.context = context;
+    }
+
+    protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<AudioBuffer>> {
+        return request.audioBuffer(this.context, this.type);
+    }
+}
+
 export class AssetFile<ErrorT = unknown> extends BaseFetchedAsset<string, ErrorT> {
     protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<string>> {
         return request.file(this.type);
