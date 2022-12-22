@@ -46,7 +46,7 @@ export class RequestBuilder implements
         private readonly fetcher: IFetchingService,
         private readonly method: HTTPMethods,
         private readonly path: URL,
-        private readonly usBLOBs = false) {
+        private readonly useBLOBs = false) {
         this.request = {
             method,
             path: this.path.href,
@@ -179,7 +179,7 @@ export class RequestBuilder implements
             return await this.fetcher.sendObjectGetFile(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            if (this.usBLOBs) {
+            if (this.useBLOBs) {
                 return await this.fetcher.sendNothingGetFile(this.request, this.prog);
             }
             else {

@@ -1,5 +1,5 @@
 import { canvasToBlob, CanvasTypes } from "@juniper-lib/dom/canvas";
-import { makeBlobURL } from "@juniper-lib/dom/makeBlobURL";
+import { blobToObjectURL } from "@juniper-lib/tslib/blobToObjectURL";
 import { openWindow } from "./windowing";
 
 declare const IS_WORKER: boolean;
@@ -10,7 +10,7 @@ export async function canvasView(canvas: CanvasTypes): Promise<void> {
     }
 
     const blob: Blob = await canvasToBlob(canvas);
-    const url = makeBlobURL(blob);
+    const url = blobToObjectURL(blob);
 
     openWindow(url, 0, 0, canvas.width + 10, canvas.height + 100);
 }

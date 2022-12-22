@@ -12,7 +12,7 @@ import { RequestBuilder } from "./RequestBuilder";
 declare const IS_WORKER: boolean;
 
 export class Fetcher implements IFetcher {
-    constructor(private readonly service: IFetchingService, private readonly usBLOBs = false) {
+    constructor(private readonly service: IFetchingService, private readonly useBLOBs = false) {
         if (!IS_WORKER) {
             const antiforgeryToken = getInput("input[name=__RequestVerificationToken]");
             if (antiforgeryToken) {
@@ -26,7 +26,7 @@ export class Fetcher implements IFetcher {
             this.service,
             method,
             new URL(path, base || location.href),
-            this.usBLOBs);
+            this.useBLOBs);
     }
 
     clearCache(): Promise<void> {
