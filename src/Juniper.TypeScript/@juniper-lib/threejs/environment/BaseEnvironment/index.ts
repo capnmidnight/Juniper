@@ -75,7 +75,13 @@ export class BaseEnvironment<Events = unknown>
 
     enableSpectator = false;
 
-    constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, defaultFOV: number, enableFullResolution: boolean, public DEBUG: boolean) {
+    constructor(canvas: CanvasTypes,
+        private readonly styleSheetPath: string,
+        public readonly fetcher: IFetcher,
+        public readonly defaultAvatarHeight: number,
+        defaultFOV: number,
+        enableFullResolution: boolean,
+        public DEBUG: boolean) {
         super();
 
         this.camera = new PerspectiveCamera(defaultFOV, 1, 0.01, 1000);
@@ -167,10 +173,19 @@ export class BaseEnvironment<Events = unknown>
             )
         );
 
+
         this.timer.addTickHandler((evt) => this.update(evt));
-        this.timer.start();
+
+        this._start();
 
         (globalThis as any).env = this;
+    }
+
+    private async _start() {
+        if (isDefined(this.styleSheetPath)) {
+            await this.fetcher.get(this.styleSheetPath).style();
+        }
+        this.timer.start();
     }
 
     get gl(): WebGLRenderingContext | WebGL2RenderingContext {

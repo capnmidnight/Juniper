@@ -126,22 +126,26 @@ export class ScreenControl
         return this._currentMode;
     }
 
-    private lastWidth: number = 0;
-    private lastHeight: number = 0;
     resize(): void {
         if (!this.renderer.xr.isPresenting) {
-            const width = this.renderer.domElement.clientWidth;
-            const height = this.renderer.domElement.clientHeight;
-            if (width > 0
-                && height > 0
-                && (width !== this.lastWidth
-                    || height !== this.lastHeight)) {
+            const {
+                clientWidth,
+                clientHeight,
+                width,
+                height
+            } = this.renderer.domElement;
+
+            const nextWidth = Math.floor(clientWidth * devicePixelRatio);
+            const nextHeight = Math.floor(clientHeight * devicePixelRatio);
+
+            if (clientWidth > 0
+                && clientHeight > 0
+                && (width !== nextWidth
+                    || height !== nextHeight)) {
                 this.renderer.setPixelRatio(devicePixelRatio);
-                this.renderer.setSize(width, height, false);
-                this.camera.aspect = width / height;
+                this.renderer.setSize(clientWidth, clientHeight, false);
+                this.camera.aspect = clientWidth / clientHeight;
                 this.camera.updateProjectionMatrix();
-                this.lastWidth = width;
-                this.lastHeight = height;
             }
         }
     }

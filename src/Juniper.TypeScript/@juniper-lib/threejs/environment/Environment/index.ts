@@ -5,7 +5,7 @@ import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { display, em, flexDirection, gap } from "@juniper-lib/dom/css";
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { Div, elementApply } from "@juniper-lib/dom/tags";
-import { AssetFile, AssetStyleSheet, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
+import { AssetFile, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
 import { AudioGraphDialog } from "@juniper-lib/graphics2d/AudioGraphDialog";
@@ -132,11 +132,18 @@ export class Environment
         defaultAvatarHeight: number,
         defaultFOV: number,
         enableFullResolution: boolean,
-        private readonly options?: Partial<EnvironmentOptions>) {
+        options?: Partial<EnvironmentOptions>) {
 
         options = options || {};
 
-        super(canvas, fetcher, defaultAvatarHeight, defaultFOV, enableFullResolution, options && options.DEBUG);
+        super(
+            canvas,
+            options.styleSheetPath,
+            fetcher,
+            defaultAvatarHeight,
+            defaultFOV,
+            enableFullResolution,
+            options.DEBUG);
 
 
         this.screenUISpace = new ScreenUI(buttonFillColor);
@@ -435,10 +442,6 @@ export class Environment
         assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click);
         if (isDefined(this.watch)) {
             assets.push(this.watch.asset);
-        }
-
-        if (isDefined(this.options.styleSheetPath)) {
-            assets.push(new AssetStyleSheet(this.options.styleSheetPath, !this.DEBUG));
         }
 
         await super.load(prog, ...assets);
