@@ -2,6 +2,7 @@ import { autoPlay, controls, id, playsInline, srcObject } from "@juniper-lib/dom
 import { display } from "@juniper-lib/dom/css";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, ErsatzElement } from "@juniper-lib/dom/tags";
+import { IReadyable } from "@juniper-lib/tslib/events/IReadyable";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { BaseNodeCluster } from "../BaseNodeCluster";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
@@ -19,7 +20,9 @@ import { hasNewAudioListener } from "../util";
 
 export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestinationNode;
 
-export class WebAudioDestination extends BaseNodeCluster<void> implements IPoseable, ErsatzElement<HTMLAudioElement> {
+export class WebAudioDestination
+    extends BaseNodeCluster<void>
+    implements IReadyable, IPoseable, ErsatzElement<HTMLAudioElement> {
     readonly pose = new Pose();
     private readonly volumeControl: JuniperGainNode;
     private readonly destination: JuniperMediaStreamAudioDestinationNode;

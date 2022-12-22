@@ -4,6 +4,7 @@ import { AssetFile } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { IReadyable } from "@juniper-lib/tslib/events/IReadyable";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { isMobileVR } from "@juniper-lib/tslib/flags";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
@@ -35,7 +36,8 @@ interface AudioManagerEvents {
  * A manager of audio sources, destinations, and their spatialization.
  **/
 export class AudioManager
-    extends BaseNodeCluster<AudioManagerEvents> {
+    extends BaseNodeCluster<AudioManagerEvents>
+    implements IReadyable {
 
     private readonly users = new Map<string, AudioStreamSource>();
     private readonly clips = new Map<string, AudioElementSource>();

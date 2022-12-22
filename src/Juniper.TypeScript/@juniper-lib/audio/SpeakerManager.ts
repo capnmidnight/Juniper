@@ -1,5 +1,6 @@
 import { arrayScan, arraySortByKey } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { IReadyable } from "@juniper-lib/tslib/events/IReadyable";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
@@ -21,7 +22,8 @@ const PREFERRED_AUDIO_OUTPUT_ID_KEY = "calla:preferredAudioOutputID";
 export class SpeakerManager
     extends TypedEventBase<{
         audiooutputchanged: AudioOutputChangedEvent;
-    }> {
+    }>
+    implements IReadyable {
 
     private _hasAudioPermission = false;
     get hasAudioPermission(): boolean {
