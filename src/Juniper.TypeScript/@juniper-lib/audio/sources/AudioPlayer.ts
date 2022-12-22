@@ -1,4 +1,4 @@
-import { autoPlay, controls, loop, playsInline } from "@juniper-lib/dom/attrs";
+import { autoPlay, controls, loop } from "@juniper-lib/dom/attrs";
 import { Audio, ErsatzElement, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayReplace, arraySortByKeyInPlace } from "@juniper-lib/tslib/collections/arrays";
 import { once } from "@juniper-lib/tslib/events/once";
@@ -62,7 +62,6 @@ export class AudioPlayer
 
     constructor(context: JuniperAudioContext, spatializer: BaseSpatializer) {
         const mediaElement = Audio(
-            playsInline(true),
             autoPlay(false),
             loop(false),
             controls(true)

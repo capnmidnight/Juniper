@@ -6,7 +6,7 @@ import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElem
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper-lib/audio/sources/IPlayer";
 import { PlaybackState } from "@juniper-lib/audio/sources/PlaybackState";
 import { BaseSpatializer } from "@juniper-lib/audio/spatializers/BaseSpatializer";
-import { autoPlay, controls, loop, playsInline } from "@juniper-lib/dom/attrs";
+import { autoPlay, controls, loop } from "@juniper-lib/dom/attrs";
 import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper-lib/dom/tags";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
 import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
@@ -281,7 +281,6 @@ export abstract class BaseVideoPlayer
 
     private static createMediaElement<T extends HTMLMediaElement>(MediaElement: (...rest: ElementChild[]) => T, ...rest: ElementChild[]): T {
         return MediaElement(
-            playsInline(true),
             autoPlay(false),
             loop(false),
             ...rest

@@ -1,7 +1,7 @@
 import { once } from "@juniper-lib/tslib/events/once";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/typeChecks";
-import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
+import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, type } from "./attrs";
 import { display, margin, PropSet } from "./css";
 
 export interface ErsatzElement<T extends Element = Element> {
@@ -573,7 +573,6 @@ export function Style(...props: PropSet[]) {
 
 export function BackgroundAudio(autoplay: boolean, mute: boolean, looping: boolean, ...rest: ElementChild[]) {
     return Audio(
-        playsInline(true),
         controls(false),
         muted(mute),
         autoPlay(autoplay),
@@ -584,7 +583,6 @@ export function BackgroundAudio(autoplay: boolean, mute: boolean, looping: boole
 
 export function BackgroundVideo(autoplay: boolean, mute: boolean, looping: boolean, ...rest: ElementChild[]) {
     return Video(
-        playsInline(true),
         controls(false),
         muted(mute),
         autoPlay(autoplay),

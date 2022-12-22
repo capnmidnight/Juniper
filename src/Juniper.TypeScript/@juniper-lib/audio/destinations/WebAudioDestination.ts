@@ -1,5 +1,6 @@
-import { autoPlay, controls, id, playsInline, srcObject } from "@juniper-lib/dom/attrs";
+import { autoPlay, controls, id, srcObject } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
+import { onPlay } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, ErsatzElement } from "@juniper-lib/dom/tags";
 import { IReadyable } from "@juniper-lib/tslib/events/IReadyable";
@@ -52,18 +53,17 @@ export class WebAudioDestination
 
         const destination = new JuniperMediaStreamAudioDestinationNode(context);
 
+        const ready = new Task();
         const element = Audio(
             id("Audio-Device-Manager"),
             display("none"),
-            playsInline(true),
             autoPlay(true),
             controls(true),
-            srcObject(destination.stream));
-
-        const ready = new Task();
+            srcObject(destination.stream),
+            onPlay(() => ready.resolve())
+        );
 
         onUserGesture(() => element.play());
-        element.addEventListener("play", () => ready.resolve());
 
         super("web-audio-destination", context,
             [nonSpatializedInput, spatializedInput, remoteUserInput],

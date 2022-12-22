@@ -770,11 +770,6 @@ export function ping(value: string) { return new Attr("ping", value, false, "a",
 export function placeHolder(value: string) { return new Attr("placeholder", value, false, "input", "textarea"); }
 
 /**
- * Indicates that the media element should play automatically on iOS.
-  **/
-export function playsInline(value: boolean) { return new Attr("playsInline", value, false, "audio", "video"); }
-
-/**
  * A URL indicating a poster frame to show until the user plays or seeks.
   **/
 export function poster(value: string) { return new Attr("poster", value, false, "video"); }
