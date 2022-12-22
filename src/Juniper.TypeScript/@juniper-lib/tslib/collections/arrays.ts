@@ -204,6 +204,14 @@ export function arrayReplace<T>(arr: T[], ...items: T[]) {
     arr.splice(0, arr.length, ...items);
 }
 
+export function arrayCreate<T>(count: number, make: (i: number, len?: number) => T): T[]{
+    const arr = new Array<T>(count);
+    for (let i = 0; i < count; ++i) {
+        arr[i] = make(i, count);
+    }
+    return arr;
+}
+
 
 function _arrayScan<T>(forward: boolean, arr: readonly T[], tests: ((val: T) => boolean)[]): T {
     const start = forward ? 0 : arr.length - 1;
