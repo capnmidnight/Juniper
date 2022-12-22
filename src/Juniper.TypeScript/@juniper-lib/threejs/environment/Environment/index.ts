@@ -5,7 +5,7 @@ import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { display, em, flexDirection, gap } from "@juniper-lib/dom/css";
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { Div, elementApply } from "@juniper-lib/dom/tags";
-import { AssetAudio, AssetStyleSheet, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
+import { AssetFile, AssetStyleSheet, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
 import { AudioGraphDialog } from "@juniper-lib/graphics2d/AudioGraphDialog";
@@ -14,6 +14,7 @@ import { ClockImage } from "@juniper-lib/graphics2d/ClockImage";
 import { StatsImage } from "@juniper-lib/graphics2d/StatsImage";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
+import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
 import { rad2deg } from "@juniper-lib/tslib/math";
@@ -170,7 +171,7 @@ export class Environment
             });
         });
 
-        this.audio = new AudioManager(DEFAULT_LOCAL_USER_ID);
+        this.audio = new AudioManager(this.fetcher, DEFAULT_LOCAL_USER_ID);
 
         this.graph = new AudioGraphDialog(this.audio.context);
         if (isHTMLCanvas(canvas)) {
@@ -425,11 +426,11 @@ export class Environment
                 this.renderer.domElement);
         }
 
-        const footsteps = new AssetAudio("/audio/footsteps.mp3", Audio_Mpeg, !this.DEBUG);
-        const enter = new AssetAudio("/audio/basic_enter.mp3", Audio_Mpeg, !this.DEBUG);
-        const exit = new AssetAudio("/audio/basic_exit.mp3", Audio_Mpeg, !this.DEBUG);
-        const error = new AssetAudio("/audio/basic_error.mp3", Audio_Mpeg, !this.DEBUG);
-        const click = new AssetAudio("/audio/vintage_radio_button_pressed.mp3", Audio_Mpeg, !this.DEBUG);
+        const footsteps = new AssetFile("/audio/footsteps.mp3", Audio_Mpeg, !this.DEBUG);
+        const enter = new AssetFile("/audio/basic_enter.mp3", Audio_Mpeg, !this.DEBUG);
+        const exit = new AssetFile("/audio/basic_exit.mp3", Audio_Mpeg, !this.DEBUG);
+        const error = new AssetFile("/audio/basic_error.mp3", Audio_Mpeg, !this.DEBUG);
+        const click = new AssetFile("/audio/vintage_radio_button_pressed.mp3", Audio_Mpeg, !this.DEBUG);
 
         assets.push(...this.uiButtons.assets, footsteps, enter, exit, error, click);
         if (isDefined(this.watch)) {
@@ -442,11 +443,13 @@ export class Environment
 
         await super.load(prog, ...assets);
 
-        this.audio.createBasicClip("footsteps", footsteps, 0.5);
-        this.interactionAudio.create("enter", enter, 0.25);
-        this.interactionAudio.create("exit", exit, 0.25);
-        this.interactionAudio.create("error", error, 0.25);
-        this.interactionAudio.create("click", click, 1);
+        await all(
+            this.audio.createBasicClip("footsteps", footsteps, 0.5),
+            this.interactionAudio.create("enter", enter, 0.25),
+            this.interactionAudio.create("exit", exit, 0.25),
+            this.interactionAudio.create("error", error, 0.25),
+            this.interactionAudio.create("click", click, 1)
+        );
 
         this.screenUISpace.show();
     }

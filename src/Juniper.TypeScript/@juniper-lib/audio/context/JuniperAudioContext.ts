@@ -1,6 +1,6 @@
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { GraphNode } from "@juniper-lib/tslib/collections/GraphNode";
-import { once } from "@juniper-lib/tslib/events/once";
+import { Task } from "@juniper-lib/tslib/events/Task";
 import { assertNever, isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { IAudioNode, IAudioParam, isEndpoint } from "../IAudioNode";
 import { JuniperAnalyserNode } from "./JuniperAnalyserNode";
@@ -105,31 +105,23 @@ export class JuniperAudioContext extends AudioContext {
 
     private readonly nodes = new Map<AudioNode | AudioParam, NodeInfo>();
 
-    public readonly ready: Promise<void>;
-    private _isReady = false;
-    get isReady() { return this._isReady; }
+    private readonly _ready = new Task();
+    get ready(): Promise<void> { return this._ready; }
+    get isReady() { return this._ready.finished && this._ready.resolved; }
 
     constructor(contextOptions?: AudioContextOptions) {
         super(contextOptions);
         this._destination = new JuniperAudioDestinationNode(this, super.destination);
-        this.ready = this.checkReady();
-    }
-
-    private async checkReady(): Promise<void> {
-        if (this.state !== "running") {
-            if (this.state === "closed") {
-                await this.resume();
-            }
-            else if (this.state === "suspended") {
-                const stateChange = once<BaseAudioContextEventMap>(this, "statechange");
-                onUserGesture(() => this.resume());
-                await stateChange;
-            }
-            else {
-                assertNever(this.state);
-            }
-
-            this._isReady = true;
+        if (this.state === "running") {
+            this._ready.resolve();
+        }
+        else if (this.state === "closed") {
+            this.resume()
+                .then(() => this._ready.resolve());
+        }
+        else {
+            onUserGesture(() => this.resume()
+                .then(() => this._ready.resolve()));
         }
     }
 

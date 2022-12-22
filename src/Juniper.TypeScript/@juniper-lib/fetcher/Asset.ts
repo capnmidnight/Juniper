@@ -5,6 +5,15 @@ import { IFetcher, IFetcherBodiedResult } from "./IFetcher";
 import { IResponse } from "./IResponse";
 import { unwrapResponse } from "./unwrapResponse";
 
+export function isAsset(obj: any): obj is BaseAsset {
+    return isDefined(obj)
+        && isFunction(obj.then)
+        && isFunction(obj.catch)
+        && isFunction(obj.finally)
+        && isFunction(obj.fetch)
+        && isFunction(obj.getSize);
+}
+
 export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Promise<ResultT> {
 
     private readonly promise: Promise<ResultT>;
@@ -96,15 +105,6 @@ export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Prom
     }
 }
 
-export function isAsset(obj: any): obj is BaseAsset {
-    return isDefined(obj)
-        && isFunction(obj.then)
-        && isFunction(obj.catch)
-        && isFunction(obj.finally)
-        && isFunction(obj.fetch)
-        && isFunction(obj.getSize);
-}
-
 export class AssetWorker<ErrorT = unknown> extends BaseAsset<Worker, ErrorT> {
 
     constructor(path: string, private readonly workerType: WorkerType = "module") {
@@ -167,12 +167,6 @@ export abstract class BaseFetchedAsset<ResultT, ErrorT = unknown> extends BaseAs
     protected abstract getResponse(request: IFetcherBodiedResult): Promise<IResponse<ResultT>>;
 }
 
-export class AssetAudio<ErrorT = unknown> extends BaseFetchedAsset<HTMLAudioElement, ErrorT> {
-    protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<HTMLAudioElement>> {
-        return request.audio(false, false, this.type);
-    }
-}
-
 export class AssetAudioBuffer<ErrorT = unknown> extends BaseFetchedAsset<AudioBuffer, ErrorT> {
 
     private readonly context: BaseAudioContext;
@@ -222,12 +216,6 @@ export class AssetObject<T, ErrorT = unknown> extends BaseFetchedAsset<T, ErrorT
 export class AssetText<ErrorT = unknown> extends BaseFetchedAsset<string, ErrorT> {
     protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<string>> {
         return request.text(this.type);
-    }
-}
-
-export class AssetVideo<ErrorT = unknown> extends BaseFetchedAsset<HTMLVideoElement, ErrorT> {
-    protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<HTMLVideoElement>> {
-        return request.video(false, false, this.type);
     }
 }
 

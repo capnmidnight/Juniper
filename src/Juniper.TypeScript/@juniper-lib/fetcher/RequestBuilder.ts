@@ -1,6 +1,6 @@
 import { rel, type } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom/canvas";
-import { BackgroundAudio, BackgroundVideo, Img, Link, Script } from "@juniper-lib/dom/tags";
+import { Img, Link, Script } from "@juniper-lib/dom/tags";
 import { Application_Javascript, Application_Json, Application_Wasm, MediaType, Text_Css, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
 import { once } from "@juniper-lib/tslib/events/once";
 import { waitFor } from "@juniper-lib/tslib/events/waitFor";
@@ -14,7 +14,6 @@ import { IFetchingService } from "./IFetchingService";
 import { IRequestWithBody } from "./IRequest";
 import { IResponse } from "./IResponse";
 import { translateResponse } from "./translateResponse";
-
 declare const IS_WORKER: boolean;
 
 // This HTML Audio Element is just used to get access to the
@@ -426,22 +425,6 @@ export class RequestBuilder implements
         else {
             assertNever(this.method);
         }
-    }
-
-    audio(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLAudioElement>> {
-        return this.htmlElement(
-            BackgroundAudio(autoPlaying, false, looping),
-            "canplay",
-            acceptType
-        );
-    }
-
-    video(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLVideoElement>> {
-        return this.htmlElement(
-            BackgroundVideo(autoPlaying, false, looping),
-            "canplay",
-            acceptType
-        );
     }
 
     async style(): Promise<IResponse> {

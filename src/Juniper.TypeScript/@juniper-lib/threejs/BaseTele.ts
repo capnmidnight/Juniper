@@ -1,7 +1,8 @@
-import { AssetAudio, BaseFetchedAsset } from "@juniper-lib/fetcher/Asset";
+import { AssetFile, BaseFetchedAsset } from "@juniper-lib/fetcher/Asset";
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
+import { all } from "@juniper-lib/tslib/events/all";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
@@ -42,8 +43,8 @@ export abstract class BaseTele extends Application {
     private _offsetRadius = 0;
 
 
-    private readonly doorOpenSound: AssetAudio;
-    private readonly doorCloseSound: AssetAudio;
+    private readonly doorOpenSound: AssetFile;
+    private readonly doorCloseSound: AssetFile;
     private readonly avatarModelAsset: AssetGltfModel;
 
     private readonly assets: ReadonlyArray<BaseFetchedAsset<any>>;
@@ -51,8 +52,8 @@ export abstract class BaseTele extends Application {
     constructor(env: Environment) {
         super(env);
 
-        this.doorOpenSound = new AssetAudio("/audio/door_open.mp3", Audio_Mpeg, !this.env.DEBUG);
-        this.doorCloseSound = new AssetAudio("/audio/door_close.mp3", Audio_Mpeg, !this.env.DEBUG);
+        this.doorOpenSound = new AssetFile("/audio/door_open.mp3", Audio_Mpeg, !this.env.DEBUG);
+        this.doorCloseSound = new AssetFile("/audio/door_close.mp3", Audio_Mpeg, !this.env.DEBUG);
         this.avatarModelAsset = new AssetGltfModel(this.env, "/models/Avatar.glb", Model_Gltf_Binary, !this.env.DEBUG);
         this.assets = [
             this.doorOpenSound,
@@ -177,8 +178,10 @@ export abstract class BaseTele extends Application {
 
     async load(prog?: IProgress) {
         await this.env.fetcher.assets(prog, ...this.assets);
-        this.env.audio.createBasicClip("join", this.doorOpenSound, 0.25);
-        this.env.audio.createBasicClip("leave", this.doorCloseSound, 0.25);
+        await all(
+            this.env.audio.createBasicClip("join", this.doorOpenSound, 0.25),
+            this.env.audio.createBasicClip("leave", this.doorCloseSound, 0.25)
+        );
         this.avatarModel = this.avatarModelAsset.result.scene.children[0];
         convertMaterials(this.avatarModel, materialStandardToPhong);
     }

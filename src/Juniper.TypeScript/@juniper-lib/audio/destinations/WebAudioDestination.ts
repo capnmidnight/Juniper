@@ -1,3 +1,8 @@
+import { autoPlay, controls, id, playsInline, srcObject } from "@juniper-lib/dom/attrs";
+import { display } from "@juniper-lib/dom/css";
+import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
+import { Audio, ErsatzElement } from "@juniper-lib/dom/tags";
+import { Task } from "@juniper-lib/tslib/events/Task";
 import { BaseNodeCluster } from "../BaseNodeCluster";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperGainNode } from "../context/JuniperGainNode";
@@ -14,7 +19,7 @@ import { hasNewAudioListener } from "../util";
 
 export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestinationNode;
 
-export class WebAudioDestination extends BaseNodeCluster<void> implements IPoseable {
+export class WebAudioDestination extends BaseNodeCluster<void> implements IPoseable, ErsatzElement<HTMLAudioElement> {
     readonly pose = new Pose();
     private readonly volumeControl: JuniperGainNode;
     private readonly destination: JuniperMediaStreamAudioDestinationNode;
@@ -22,6 +27,11 @@ export class WebAudioDestination extends BaseNodeCluster<void> implements IPosea
     readonly remoteUserInput: JuniperGainNode
     readonly spatializedInput: JuniperGainNode;
     readonly nonSpatializedInput: JuniperGainNode;
+    readonly element: HTMLAudioElement;
+
+    private readonly _ready: Task;
+    get ready(): Promise<void> { return this._ready; }
+    get isReady() { return this._ready.finished && this._ready.resolved; }
 
     constructor(context: JuniperAudioContext) {
         const listener = hasNewAudioListener
@@ -39,17 +49,32 @@ export class WebAudioDestination extends BaseNodeCluster<void> implements IPosea
 
         const destination = new JuniperMediaStreamAudioDestinationNode(context);
 
-        super("web-audio-destination", context,
-            [remoteUserInput, spatializedInput, nonSpatializedInput],
-            [],
-            [destination, nonSpatializedInput]);
+        const element = Audio(
+            id("Audio-Device-Manager"),
+            display("none"),
+            playsInline(true),
+            autoPlay(true),
+            controls(true),
+            srcObject(destination.stream));
 
+        const ready = new Task();
+
+        onUserGesture(() => element.play());
+        element.addEventListener("play", () => ready.resolve());
+
+        super("web-audio-destination", context,
+            [nonSpatializedInput, spatializedInput, remoteUserInput],
+            [],
+            [destination]);
+
+        this._ready = ready;
         this.listener = listener;
         this.remoteUserInput = remoteUserInput;
         this.spatializedInput = spatializedInput;
         this.nonSpatializedInput = nonSpatializedInput;
         this.volumeControl = nonSpatializedInput;
         this.destination = destination;
+        this.element = element;
 
         remoteUserInput
             .connect(spatializedInput)

@@ -1,5 +1,6 @@
 import { arrayScan, arraySortByKey } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { Task } from "@juniper-lib/tslib/events/Task";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 
@@ -27,12 +28,22 @@ export class SpeakerManager
         return this._hasAudioPermission;
     }
 
-    readonly ready: Promise<void>;
+
+    private readonly _ready = new Task();
+
+    get ready(): Promise<void> {
+        return this._ready;
+    }
+
+    get isReady() {
+        return this._ready.finished
+            && this._ready.resolved;
+    }
 
     constructor(private element: HTMLAudioElement) {
         super();
 
-        this.ready = this.start();
+        this.start();
 
         Object.seal(this);
     }
@@ -49,6 +60,7 @@ export class SpeakerManager
                 }
             }
         }
+        this._ready.resolve();
     }
 
     get preferredAudioOutputID(): string {

@@ -2,7 +2,7 @@ import { getInput } from "@juniper-lib/dom/tags";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressTasksWeighted } from "@juniper-lib/tslib/progress/progressTasks";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { BaseAsset } from "./Asset";
+import { BaseAsset, isAsset } from "./Asset";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetcher } from "./IFetcher";
 import { IFetchingService } from "./IFetchingService";
@@ -65,19 +65,21 @@ export class Fetcher implements IFetcher {
         return this.createRequest("DELETE", path, base);
     }
 
-    async assets(...assets: BaseAsset[]): Promise<void>;
-    async assets(progress: IProgress, ...assets: BaseAsset[]): Promise<void>;
-    async assets(progressOrAsset: IProgress | BaseAsset, ...assets: BaseAsset[]): Promise<void> {
+    async assets(firstAsset: BaseAsset, ...assets: BaseAsset[]): Promise<void>;
+    async assets(progress: IProgress, firstAsset: BaseAsset, ...assets: BaseAsset[]): Promise<void>;
+    async assets(progressOrAsset: IProgress | BaseAsset, firstAsset: BaseAsset, ...assets: BaseAsset[]): Promise<void> {
 
         if (isNullOrUndefined(assets)) {
             assets = [];
         }
 
+        assets.unshift(firstAsset);
+
         let progress: IProgress;
-        if (progressOrAsset instanceof BaseAsset) {
+        if (isAsset(progressOrAsset)) {
             assets.unshift(progressOrAsset);
         }
-        else {
+        else if(isDefined(progressOrAsset)) {
             progress = progressOrAsset;
         }
 

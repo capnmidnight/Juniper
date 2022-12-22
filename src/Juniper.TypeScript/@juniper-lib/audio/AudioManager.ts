@@ -1,9 +1,10 @@
-import { autoPlay, id, playsInline, srcObject } from "@juniper-lib/dom/attrs";
-import { display } from "@juniper-lib/dom/css";
-import { Audio, ErsatzElement } from "@juniper-lib/dom/tags";
-import { AssetAudio } from "@juniper-lib/fetcher/Asset";
+import { src } from "@juniper-lib/dom/attrs";
+import { Audio } from "@juniper-lib/dom/tags";
+import { AssetFile } from "@juniper-lib/fetcher/Asset";
+import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { Task } from "@juniper-lib/tslib/events/Task";
 import { isMobileVR } from "@juniper-lib/tslib/flags";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -34,8 +35,7 @@ interface AudioManagerEvents {
  * A manager of audio sources, destinations, and their spatialization.
  **/
 export class AudioManager
-    extends BaseNodeCluster<AudioManagerEvents>
-    implements ErsatzElement {
+    extends BaseNodeCluster<AudioManagerEvents> {
 
     private readonly users = new Map<string, AudioStreamSource>();
     private readonly clips = new Map<string, AudioElementSource>();
@@ -51,19 +51,29 @@ export class AudioManager
     private _useHeadphones = false;
 
 
-    readonly element: HTMLAudioElement = null;
+    get element() { return this.destination.element; }
+
     readonly localMic: LocalUserMicrophone;
     readonly destination: WebAudioDestination = null;
     readonly noSpatializer: NoSpatializer;
     readonly speakers: SpeakerManager;
-    readonly ready: Promise<void>;
+
+    private readonly _ready = new Task();
+    get ready(): Promise<void> {
+        return this._ready;
+    }
+
+    get isReady() {
+        return this._ready.finished
+            && this._ready.resolved;
+    }
 
     localUserID: string = null;
 
     /**
      * Creates a new manager of audio sources, destinations, and their spatialization.
      **/
-    constructor(defaultLocalUserID: string) {
+    constructor(public readonly fetcher: IFetcher, defaultLocalUserID: string) {
         const context = new JuniperAudioContext();
 
         if ("THREE" in globalThis) {
@@ -74,23 +84,22 @@ export class AudioManager
 
         const destination = new WebAudioDestination(context);
 
-        const element = Audio(
-            id("Audio-Device-Manager"),
-            display("none"),
-            playsInline(true),
-            autoPlay(true),
-            srcObject(destination.stream));
-
         const noSpatializer = new NoSpatializer(destination.nonSpatializedInput);
+
+        const speakers = new SpeakerManager(destination.element);
 
         super("audio-manager", context, null, null, [noSpatializer, destination]);
 
         this.localMic = localMic;
         this.destination = destination;
-        this.element = element;
         this.noSpatializer = noSpatializer;
+        this.speakers = speakers;
 
-        this.speakers = new SpeakerManager(this.element);
+        all(
+            this.context.ready,
+            this.destination.ready,
+            this.speakers.ready
+        ).then(() => this._ready.resolve());
 
         this.setLocalUserID(defaultLocalUserID);
 
@@ -101,8 +110,6 @@ export class AudioManager
         else {
             this._useHeadphones = isMobileVR();
         }
-
-        this.ready = this.start();
 
         Object.seal(this);
     }
@@ -131,13 +138,6 @@ export class AudioManager
         }
 
         super.onDisposing();
-    }
-
-    private async start(): Promise<void> {
-        await all(
-            this.context.ready.then(() => this.element.play()),
-            this.speakers.ready
-        );
     }
 
     /**
@@ -189,11 +189,11 @@ export class AudioManager
         return this.destination;
     }
 
-    createBasicClip(id: string, asset: AssetAudio, vol: number): AudioElementSource {
+    createBasicClip(id: string, asset: AssetFile, vol: number) {
         return this.createClip(id, asset, false, false, false, vol, []);
     }
 
-    private elements = new Map<HTMLMediaElement, JuniperMediaElementAudioSourceNode>();
+    private elements = new Map<string, JuniperMediaElementAudioSourceNode>();
 
     hasClip(id: string): boolean {
         return this.clips.has(id);
@@ -212,30 +212,36 @@ export class AudioManager
      * @param path - a path for loading the media of the sound effect, or the sound effect that has already been loaded.
      * @param prog - an optional callback function to use for tracking progress of loading the clip.
      */
-    createClip(
+    async createClip(
         id: string,
-        asset: AssetAudio,
+        asset: AssetFile,
         autoPlaying: boolean,
         spatialize: boolean,
         randomize: boolean,
         vol: number,
-        effectNames: string[]): AudioElementSource {
-        const element = asset.result;
-        if (!this.elements.has(element)) {
+        effectNames: string[]) {
+
+        await this.ready;
+
+        if (!this.elements.has(asset.path)) {
+            const mediaElement = Audio(src(asset.result));
             const node = new JuniperMediaElementAudioSourceNode(
                 this.context,
-                { mediaElement: element });
+                { mediaElement });
             node.name = stringToName("media-element-source", id);
-            this.elements.set(element, node);
+            this.elements.set(asset.path, node);
         }
-        const source = this.elements.get(element);
+
+        const source = this.elements.get(asset.path);
+
         const clip = new AudioElementSource(
             this.context,
             source,
             randomize,
             this.createSpatializer(spatialize, false),
             ...effectNames);
-        clip.name = stringToName("audio-clip-element", id, element.currentSrc);
+
+        clip.name = stringToName("audio-clip-element", id);
 
         if (autoPlaying) {
             clip.play();

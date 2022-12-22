@@ -2,13 +2,10 @@ import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import type { JuniperAudioContext } from "../context/JuniperAudioContext";
-import type { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
 import { JuniperMediaStreamAudioSourceNode } from "../context/JuniperMediaStreamAudioSourceNode";
 import { IAudioNode } from "../IAudioNode";
 import type { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { BaseAudioSource } from "./BaseAudioSource";
-
-export type AudioStreamSourceNode = JuniperMediaElementAudioSourceNode | JuniperMediaStreamAudioSourceNode;
 
 export class AudioSourceAddedEvent extends TypedEvent<"sourceadded"> {
     constructor(public readonly source: IAudioNode) {
@@ -23,7 +20,7 @@ export interface AudioSourceEvents {
 export class AudioStreamSource extends BaseAudioSource<AudioSourceEvents> {
 
     private _stream: MediaStream = null;
-    private _node: IAudioNode = null;
+    private _node: JuniperMediaStreamAudioSourceNode = null;
 
     constructor(context: JuniperAudioContext, spatializer: BaseSpatializer, ...effectNames: string[]) {
         super("audio-stream-source", context, spatializer, effectNames);

@@ -1,3 +1,4 @@
+import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { mediaElementCanPlay } from "@juniper-lib/dom/tags";
 import { once } from "@juniper-lib/tslib/events/once";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
@@ -65,6 +66,13 @@ export class AudioElementSource
             this.progEvt.total = this.audio.duration;
             this.dispatchEvent(this.progEvt);
         });
+
+        if (this.audio.autoplay) {
+            this.play()
+                .catch(() =>
+                    onUserGesture(() =>
+                        this.play()));
+        }
 
         mediaElementCanPlay(this.audio)
             .then((success) => this.dispatchEvent(success
