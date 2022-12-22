@@ -24,7 +24,6 @@ export class ScreenUI implements ErsatzElement {
     readonly cells: Array<Array<HTMLElement>>;
 
     constructor(buttonFillColor: CSSColorValue) {
-
         singleton("Juniper.ThreeJS.ScreenUI.ButtonFillColor", () =>
             Style(
                 rule("#controls > .row > .cell > .btn",
@@ -51,5 +50,15 @@ export class ScreenUI implements ErsatzElement {
             [this.middleLeft, this.middleCenter, this.middleRight],
             [this.bottomLeft, this.bottomCenter, this.bottomRight]
         ];
+
+        this.hide();
+    }
+
+    show() {
+        this.element.style.removeProperty("display");
+    }
+
+    hide() {
+        this.element.style.display = "none";
     }
 }

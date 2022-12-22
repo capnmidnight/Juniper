@@ -445,5 +445,7 @@ export class Environment
         this.interactionAudio.create("exit", exit, 0.25);
         this.interactionAudio.create("error", error, 0.25);
         this.interactionAudio.create("click", click, 1);
+
+        this.screenUISpace.show();
     }
 }
