@@ -1,5 +1,3 @@
-import { alwaysTrue } from "@juniper-lib/tslib/identity";
-
 const gestures = [
     "change",
     "click",
@@ -16,16 +14,14 @@ const gestures = [
  * This is not an event handler that you can add to an element. It's a global event that
  * waits for the user to perform some sort of interaction with the website.
   */
-export function onUserGesture(callback: () => any, test?: () => Promise<boolean>): void {
-    const realTest = test || alwaysTrue;
-
+export function onUserGesture(callback: () => any): void {
     const check = async (evt: Event) => {
-        if (evt.isTrusted && await realTest()) {
+        if (evt.isTrusted) {
             for (const gesture of gestures) {
                 window.removeEventListener(gesture, check);
             }
 
-            await callback();
+            callback();
         }
     };
 
