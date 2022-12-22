@@ -173,11 +173,13 @@ export class Environment
         this.audio = new AudioManager(DEFAULT_LOCAL_USER_ID);
 
         this.graph = new AudioGraphDialog(this.audio.context);
-        this.renderer.getContext().canvas.addEventListener("keypress", (evt) => {
-            if (isModifierless(evt) && evt.key === "`") {
-                this.graph.showDialog();
-            }
-        });
+        if (isHTMLCanvas(canvas)) {
+            canvas.addEventListener("keypress", (evt) => {
+                if (isModifierless(evt) && evt.key === "`") {
+                    this.graph.showDialog();
+                }
+            });
+        }
 
         this.audioPlayer = new AudioPlayer(this.audio.context, this.audio.createSpatializer(false, false));
 
