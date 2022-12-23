@@ -1,5 +1,6 @@
 import { arrayClear, arrayRemoveByKey } from "@juniper-lib/tslib/collections/arrays";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
+import { isFunction } from "@juniper-lib/tslib/typeChecks";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { BaseScreenPointer } from "./BaseScreenPointer";
 
@@ -103,7 +104,18 @@ export class PointerTouch
         this.dz = 0;
     }
 
+    private _canVibrate: boolean = null;
+    private get canVibrate() {
+        if (this._canVibrate === null) {
+            this._canVibrate = "vibrate" in navigator
+                && isFunction(navigator.vibrate);
+        }
+        return this._canVibrate;
+    }
+
     vibrate() {
-        navigator.vibrate(125);
+        if (this.canVibrate) {
+            navigator.vibrate(125);
+        }
     }
 }
