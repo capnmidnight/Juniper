@@ -429,8 +429,8 @@ export class Environment
         if (isHTMLCanvas(this.renderer.domElement)) {
             elementApply(
                 this.renderer.domElement.parentElement,
-                this.screenUISpace,
-                this.renderer.domElement);
+                this.renderer.domElement,
+                ...this.screenUISpace.elements);
         }
 
         const footsteps = new AssetFile("/audio/footsteps.mp3", Audio_Mpeg, !this.DEBUG);

@@ -1,70 +1,54 @@
-#controls {
+
+#appContainer > .cell {
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    margin: 10px 5px;
 }
 
-#controls {
-    font-size: 20pt;
-    z-index: 1;
-}
-    #controls, #controls * {
-        pointer-events: none;
+    #appContainer > .cell.top {
+        top: 0;
     }
 
-        #controls canvas {
-            height: 58px;
-        }
+    #appContainer > .cell.middle {
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
-        #controls > .cell {
-            position: absolute;
-            display: flex;
-            margin: 10px 5px;
-        }
+    #appContainer > .cell.bottom {
+        bottom: 0;
+    }
 
-            #controls > .cell.top {
-                top: 0;
-            }
+    #appContainer > .cell.right {
+        right: 0;
+    }
 
-            #controls > .cell.middle {
-                top: 50%;
-                transform: translateY(-50%);
-            }
+    #appContainer > .cell.center {
+        left: 50%;
+        transform: translateX(-50%);
+    }
 
-            #controls > .cell.bottom {
-                bottom: 0;
-            }
+    #appContainer > .cell.left {
+        left: 0;
+    }
 
-            #controls > .cell.right {
-                right: 0;
-            }
+    #appContainer > .cell .btn {
+        border-radius: 0;
+        height: 58px !important;
+        width: 58px;
+        padding: 0.25em;
+        margin: 0 5px;
+        color: white;
+        font-weight: bold;
+    }
 
-            #controls > .cell.center {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            #controls > .cell.left {
-                left: 0;
-            }
-
-                #controls > .cell .btn {
-                    border-radius: 0;
-                    height: 58px !important;
-                    width: 58px;
-                    padding: 0.25em;
-                    margin: 0 5px;
-                    pointer-events: initial;
-                    color: white;
-                    font-weight: bold;
-                }
-
-        #controls .btn img {
+        #appContainer > .cell .btn img {
             height: calc(100% - 0.5em);
         }
 
-        #controls button:disabled img {
-            filter: invert(.5);
-        }
+    #appContainer > .cell canvas {
+        height: 58px;
+    }
+
+#appContainer button:disabled img {
+    filter: invert(.5);
+}

@@ -1,13 +1,13 @@
-import { classList, id } from "@juniper-lib/dom/attrs";
+import { classList } from "@juniper-lib/dom/attrs";
 import { backgroundColor, rule } from "@juniper-lib/dom/css";
-import { Div, ErsatzElement, Style } from "@juniper-lib/dom/tags";
+import { Div, Style } from "@juniper-lib/dom/tags";
 import { singleton } from "@juniper-lib/tslib/singleton";
 
 import "./style.css";
 
-export class ScreenUI implements ErsatzElement {
+export class ScreenUI {
 
-    readonly element: HTMLElement;
+    readonly elements: Array<HTMLElement>;
 
     readonly topLeft: HTMLElement;
     readonly topCenter: HTMLElement;
@@ -26,14 +26,13 @@ export class ScreenUI implements ErsatzElement {
     constructor(buttonFillColor: CSSColorValue) {
         singleton("Juniper.ThreeJS.ScreenUI.ButtonFillColor", () =>
             Style(
-                rule("#controls > .row > .cell > .btn",
+                rule("#appContainer > .row > .cell > .btn",
                     backgroundColor(buttonFillColor)
                 )
             )
         );
 
-        this.element = Div(
-            id("controls"),
+        this.elements = [
             this.topLeft = Div(classList("cell", "top", "left")),
             this.topCenter = Div(classList("cell", "top", "center")),
             this.topRight = Div(classList("cell", "top", "right")),
@@ -43,7 +42,7 @@ export class ScreenUI implements ErsatzElement {
             this.bottomLeft = Div(classList("cell", "bottom", "left")),
             this.bottomCenter = Div(classList("cell", "bottom", "center")),
             this.bottomRight = Div(classList("cell", "bottom", "right"))
-        );
+        ];
 
         this.cells = [
             [this.topLeft, this.topCenter, this.topRight],
@@ -55,10 +54,10 @@ export class ScreenUI implements ErsatzElement {
     }
 
     show() {
-        this.element.style.removeProperty("display");
+        this.elements.forEach(v => v.style.removeProperty("display"));
     }
 
     hide() {
-        this.element.style.display = "none";
+        this.elements.forEach(v => v.style.display = "none");
     }
 }
