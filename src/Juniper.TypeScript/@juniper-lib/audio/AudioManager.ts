@@ -2,13 +2,15 @@ import { src } from "@juniper-lib/dom/attrs";
 import { Audio } from "@juniper-lib/dom/tags";
 import { AssetFile } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
+import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
 import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { IReadyable } from "@juniper-lib/tslib/events/IReadyable";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { isMobileVR } from "@juniper-lib/tslib/flags";
+import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
-import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { isDefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
@@ -216,25 +218,41 @@ export class AudioManager
      */
     async createClip(
         id: string,
-        asset: AssetFile,
+        asset: AssetFile | string,
         autoPlaying: boolean,
         spatialize: boolean,
         randomize: boolean,
         vol: number,
-        effectNames: string[]) {
+        effectNames: string[],
+        prog?: IProgress) {
 
         await this.ready;
 
-        if (!this.elements.has(asset.path)) {
-            const mediaElement = Audio(src(asset.result));
+        let key: string;
+        let path: string;
+
+        if (isString(asset)) {
+            key = asset;
+            path = await this.fetcher.get(asset)
+                .progress(prog)
+                .file()
+                .then(unwrapResponse);
+        }
+        else {
+            key = asset.path;
+            path = asset.result;
+        }
+
+        if (!this.elements.has(key)) {
+            const mediaElement = Audio(src(path));
             const node = new JuniperMediaElementAudioSourceNode(
                 this.context,
                 { mediaElement });
             node.name = stringToName("media-element-source", id);
-            this.elements.set(asset.path, node);
+            this.elements.set(key, node);
         }
 
-        const source = this.elements.get(asset.path);
+        const source = this.elements.get(key);
 
         const clip = new AudioElementSource(
             this.context,
