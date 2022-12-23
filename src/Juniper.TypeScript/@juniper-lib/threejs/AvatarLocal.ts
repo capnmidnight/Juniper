@@ -1,7 +1,8 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
+import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
+import { isMobile, isMobileVR, isSafari } from "@juniper-lib/tslib/flags";
 import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/math";
 import { assertNever, isFunction, isGoodNumber } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
@@ -251,7 +252,13 @@ export class AvatarLocal
                 }
             };
 
-            this.startMotionControl();
+            // Safar is a bit of a point in the butt on this issue.
+            if (isSafari) {
+                onUserGesture(() => this.startMotionControl());
+            }
+            else {
+                this.startMotionControl();
+            }
         }
     }
 
