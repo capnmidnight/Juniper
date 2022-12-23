@@ -31,11 +31,6 @@ export class PointerTouch
         arrayClear(this.points);
     }
 
-    protected override onCheckEvent(evt: PointerEvent): boolean {
-        return super.onCheckEvent(evt)
-            && evt.pointerId > -1;
-    }
-
     protected override onReadEvent(evt: PointerEvent): void {
         arrayRemoveByKey(this.points, evt.pointerId, getPointerID);
 

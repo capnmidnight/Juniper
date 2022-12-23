@@ -46,9 +46,7 @@ export abstract class BaseScreenPointer extends BasePointer {
     }
 
     private readEvent(evt: PointerEvent): void {
-        if (this.checkEvent(evt)) {
-            this.onReadEvent(evt);
-        }
+        this.onReadEvent(evt);
     }
 
     protected onReadEvent(_evt: PointerEvent): void {
