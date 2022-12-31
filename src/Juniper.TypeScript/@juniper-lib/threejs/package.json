@@ -24,7 +24,7 @@
   "devDependencies": {
     "typescript": "4.8.4",
     "@types/offscreencanvas": "2019.7.0",
-    "@types/three": "0.147.0",
+    "@types/three": "0.147.1",
     "@types/webxr": "0.5.0"
   }
 }
