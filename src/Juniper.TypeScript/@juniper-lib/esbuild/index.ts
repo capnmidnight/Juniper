@@ -1,20 +1,13 @@
 import { globalExternals, ModuleInfo } from "@fal-works/esbuild-plugin-global-externals";
 import { build as esbuild, Plugin } from "esbuild";
 import * as fs from "fs";
-
+import * as path from "path";
 
 type Define = [string, string];
 type DefineFactory = (minify: boolean) => Define;
 type DefMap = { [key: string]: string };
 
 type PluginFactory = (minify: boolean) => Plugin;
-
-function normalizeDirName(dirName: string): string {
-    if (!dirName.endsWith('/')) {
-        dirName += '/';
-    }
-    return dirName;
-}
 
 export class Build {
     private readonly browserEntries = new Array<string>();
@@ -32,7 +25,6 @@ export class Build {
 
     private entryNames = "[dir]/[name]";
     private outbase = "src";
-    private rootDirName = "src/";
     private outDirName = "wwwroot/js/";
 
     constructor(args: string[], private readonly buildWorkers: boolean) {
@@ -44,13 +36,8 @@ export class Build {
         return this;
     }
 
-    rootDir(name: string) {
-        this.rootDirName = normalizeDirName(name);
-        return this;
-    }
-
     outDir(name: string) {
-        this.outDirName = normalizeDirName(name);
+        this.outDirName = name;
         return this;
     }
 
@@ -96,8 +83,7 @@ export class Build {
     }
 
     bundle(name: string) {
-        name = normalizeDirName(name);
-        const entry = this.rootDirName + name + "index.ts"
+        const entry = path.join(name, "index.ts");
         this.browserEntries.push(entry);
         this.minBrowserEntries.push(entry);
         return this;

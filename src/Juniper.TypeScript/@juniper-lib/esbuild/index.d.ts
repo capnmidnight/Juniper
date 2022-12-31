@@ -15,11 +15,9 @@ export declare class Build {
     get buildType(): "watch" | "build";
     private entryNames;
     private outbase;
-    private rootDirName;
     private outDirName;
     constructor(args: string[], buildWorkers: boolean);
     entryName(name: string): this;
-    rootDir(name: string): this;
     outDir(name: string): this;
     outBase(name: string): this;
     plugin(pgn: PluginFactory): this;
