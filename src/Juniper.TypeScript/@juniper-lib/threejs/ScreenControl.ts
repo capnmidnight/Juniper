@@ -118,7 +118,12 @@ export class ScreenControl
     set visible(v: boolean) {
         elementSetDisplay(this.renderer.domElement, v);
         if (this.screenUI) {
-            elementSetDisplay(this.screenUI, v, "grid");
+            if (v) {
+                this.screenUI.show();
+            }
+            else {
+                this.screenUI.hide();
+            }
         }
     }
 
