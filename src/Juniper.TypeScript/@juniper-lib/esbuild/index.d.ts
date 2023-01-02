@@ -26,7 +26,8 @@ export declare class Build {
     globalExternal(packageName: string, info: ModuleInfo): this;
     addThreeJS(): this;
     bundle(name: string): this;
-    bundles(names: string[]): this;
+    bundles(...names: string[]): this;
+    find(...rootDirs: string[]): this;
     run(): Promise<void>;
     private makeBundle;
 }

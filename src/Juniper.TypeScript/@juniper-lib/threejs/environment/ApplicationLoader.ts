@@ -104,7 +104,7 @@ export class ApplicationLoader
     private async loadAppConstructor(name: string, prog?: IProgress): Promise<ApplicationConstructor> {
         if (!this.loadedModules.has(name)) {
             const JS_EXT = this.env.DEBUG ? ".js" : ".min.js";
-            let url = `/js/${name}/index${JS_EXT}`;
+            let url = `/js/vr-apps/${name}/index${JS_EXT}`;
             if (isDefined(this.cacheBustString)) {
                 const uri = new URLBuilder(url, location.href);
                 uri.query("v", this.cacheBustString);

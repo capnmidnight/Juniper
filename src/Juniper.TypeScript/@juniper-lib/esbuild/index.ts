@@ -2,6 +2,8 @@ import { globalExternals, ModuleInfo } from "@fal-works/esbuild-plugin-global-ex
 import { build as esbuild, Plugin } from "esbuild";
 import * as fs from "fs";
 import * as path from "path";
+import { isNullOrUndefined } from "util";
+
 
 type Define = [string, string];
 type DefineFactory = (minify: boolean) => Define;
@@ -89,12 +91,20 @@ export class Build {
         return this;
     }
 
-    bundles(names: string[]) {
+    bundles(...names: string[]) {
         for (const name of names) {
             console.log(this.buildType, this.buildWorkers ? "worker" : "bundle", name);
             this.bundle(name);
         }
         return this;
+    }
+
+    find(...rootDirs: string[]) {
+        const dirs = rootDirs
+            .map(LS)
+            .filter(identity);
+        const entryPoints = findEntries(...dirs);
+        return this.bundles(...entryPoints);
     }
 
     async run() {
@@ -162,4 +172,51 @@ export class Build {
             }
         });
     }
+}
+
+type DirSpec = [string, fs.Dirent[]];
+
+function LS(path: string): DirSpec {
+    if (!fs.existsSync(path)) {
+        return null;
+    }
+
+    return [path, fs.readdirSync(path, {
+        withFileTypes: true
+    })];
+}
+
+function findEntries(...dirs: DirSpec[]) {
+    return dirs
+        .filter(identity)
+        .map(withIndexDirs)
+        .flatMap(identity);
+}
+
+function identity<T>(x: T): T {
+    return x;
+}
+
+function withIndexDirs(dirSpec: DirSpec) {
+    const [parent, dirs] = dirSpec;
+    return dirs
+        .filter(dir => hasIndexFile(parent, dir))
+        .map(dir => path.join(parent, dir.name));
+}
+
+function hasIndexFile(parent: string, dir: fs.Dirent) {
+    if (!dir.isDirectory()) {
+        return false;
+    }
+
+    const fileName = path.join(parent, dir.name);
+    const results = LS(fileName);
+    if (isNullOrUndefined(results)) {
+        return false;
+    }
+
+    const [_, files] = results
+    return files.filter(f => f.isFile()
+        && f.name === "index.ts")
+        .length === 1;
 }

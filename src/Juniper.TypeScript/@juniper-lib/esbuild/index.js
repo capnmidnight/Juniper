@@ -2,6 +2,7 @@ import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
 import { build as esbuild } from "esbuild";
 import * as fs from "fs";
 import * as path from "path";
+import { isNullOrUndefined } from "util";
 export class Build {
     constructor(args, buildWorkers) {
         this.buildWorkers = buildWorkers;
@@ -67,12 +68,19 @@ export class Build {
         this.minBrowserEntries.push(entry);
         return this;
     }
-    bundles(names) {
+    bundles(...names) {
         for (const name of names) {
             console.log(this.buildType, this.buildWorkers ? "worker" : "bundle", name);
             this.bundle(name);
         }
         return this;
+    }
+    find(...rootDirs) {
+        const dirs = rootDirs
+            .map(LS)
+            .filter(identity);
+        const entryPoints = findEntries(...dirs);
+        return this.bundles(...entryPoints);
     }
     async run() {
         const start = Date.now();
@@ -132,5 +140,42 @@ export class Build {
             }
         });
     }
+}
+function LS(path) {
+    if (!fs.existsSync(path)) {
+        return null;
+    }
+    return [path, fs.readdirSync(path, {
+            withFileTypes: true
+        })];
+}
+function findEntries(...dirs) {
+    return dirs
+        .filter(identity)
+        .map(withIndexDirs)
+        .flatMap(identity);
+}
+function identity(x) {
+    return x;
+}
+function withIndexDirs(dirSpec) {
+    const [parent, dirs] = dirSpec;
+    return dirs
+        .filter(dir => hasIndexFile(parent, dir))
+        .map(dir => path.join(parent, dir.name));
+}
+function hasIndexFile(parent, dir) {
+    if (!dir.isDirectory()) {
+        return false;
+    }
+    const fileName = path.join(parent, dir.name);
+    const results = LS(fileName);
+    if (isNullOrUndefined(results)) {
+        return false;
+    }
+    const [_, files] = results;
+    return files.filter(f => f.isFile()
+        && f.name === "index.ts")
+        .length === 1;
 }
 //# sourceMappingURL=index.js.map
