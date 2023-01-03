@@ -126,6 +126,8 @@ export class JuniperAudioContext
             onUserGesture(() => this.resume()
                 .then(() => this._ready.resolve()));
         }
+
+        this.ready.then(() => console.log("Audio is now ready"));
     }
 
     _init(node: AudioNode | AudioParam, type: string): void {

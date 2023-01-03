@@ -170,7 +170,6 @@ export class Environment
 
         this.apps.addEventListener("apploaded", (evt) => {
             evt.app.addEventListener("joinroom", (evt) => {
-                console.log("Join", evt.roomName, this._currentRoom);
                 if (evt.roomName !== this._currentRoom) {
                     this._currentRoom = evt.roomName;
                     this.dispatchEvent(new EnvironmentRoomJoinedEvent(evt.roomName));
