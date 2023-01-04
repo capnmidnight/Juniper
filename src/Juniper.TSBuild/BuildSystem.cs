@@ -116,6 +116,7 @@ namespace Juniper.TSBuild
         private readonly FileInfo projectAppSettings;
 
         private readonly Dictionary<FileInfo, (string, FileInfo, bool)> dependencies = new();
+        private readonly Dictionary<string, (string, string)> mapFileReplacements = new();
         private readonly List<DirectoryInfo> TSProjects = new();
         private readonly List<DirectoryInfo> ESBuildProjects = new();
         private readonly List<DirectoryInfo> NPMProjects = new();
@@ -242,6 +243,12 @@ namespace Juniper.TSBuild
         private BuildSystem AddDependency(string name, FileInfo from, FileInfo to, bool warnIfNotExists)
         {
             dependencies.Add(from, (name, to, warnIfNotExists));
+            var scriptFile = from.FullName;
+            if (from.Name.EndsWith(".js.map"))
+            {
+                scriptFile = scriptFile[..^4];
+                mapFileReplacements.Add(scriptFile, (from.Name, to.Name));
+            }
             return this;
         }
 
@@ -496,22 +503,19 @@ namespace Juniper.TSBuild
                 commands.AddCommands(TryMake(
                     NPMProjects,
                     dir =>
-                    {
-                        if (dir == inProjectDir)
-                        {
-                            return new ShellCommand(dir, "npm", "run", "check");
-                        }
-                        else
-                        {
-                            return new ShellCommand(dir, "npm", "run", "check", "--workspaces", "--if-present");
-                        }
-                    }
+                        dir == inProjectDir
+                            ? new ShellCommand(dir, "npm", "run", "check")
+                            : new ShellCommand(dir, "npm", "run", "check", "--workspaces", "--if-present")
                 )));
         }
 
         private CopyCommand[] GetDependecies() =>
             dependencies
-                .Select(kv => new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2, kv.Value.Item3))
+                .Select(kv =>
+                    mapFileReplacements.ContainsKey(kv.Key.FullName)
+                        ? new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2, kv.Value.Item3, mapFileReplacements[kv.Key.FullName])
+                        : new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2, kv.Value.Item3)
+                )
                 .ToArray();
 
         private async Task BuildAsync()
