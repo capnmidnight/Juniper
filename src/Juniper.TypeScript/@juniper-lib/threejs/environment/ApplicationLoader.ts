@@ -68,7 +68,8 @@ export class ApplicationLoader
 
     cacheBustString: string = null;
 
-    constructor(private readonly env: Environment) {
+    constructor(private readonly env: Environment,
+        private readonly getAppUrl: (name: string) => string) {
         super();
     }
 
@@ -103,8 +104,7 @@ export class ApplicationLoader
 
     private async loadAppConstructor(name: string, prog?: IProgress): Promise<ApplicationConstructor> {
         if (!this.loadedModules.has(name)) {
-            const JS_EXT = this.env.DEBUG ? ".js" : ".min.js";
-            let url = `/js/vr-apps/${name}/index${JS_EXT}`;
+            let url = this.getAppUrl(name);
             if (isDefined(this.cacheBustString)) {
                 const uri = new URLBuilder(url, location.href);
                 uri.query("v", this.cacheBustString);

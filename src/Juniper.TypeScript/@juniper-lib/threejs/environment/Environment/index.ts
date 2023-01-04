@@ -72,6 +72,7 @@ export interface EnvironmentConstructor {
     new(canvas: CanvasTypes,
         fetcher: IFetcher,
         dialogFontFamily: string,
+        getAppUrl: (name: string) => string,
         uiImagePaths: PriorityMap<string, string, string>,
         buttonFillColor: CSSColorValue,
         labelFillColor: CSSColorValue,
@@ -126,6 +127,7 @@ export class Environment
     constructor(canvas: CanvasTypes,
         fetcher: IFetcher,
         dialogFontFamily: string,
+        getAppUrl: (name: string) => string,
         uiImagePaths: PriorityMap<string, string, string>,
         buttonFillColor: CSSColorValue,
         labelFillColor: CSSColorValue,
@@ -166,7 +168,7 @@ export class Environment
             textFillColor: "white"
         });
 
-        this.apps = new ApplicationLoader(this);
+        this.apps = new ApplicationLoader(this, getAppUrl);
 
         this.apps.addEventListener("apploaded", (evt) => {
             evt.app.addEventListener("joinroom", (evt) => {
