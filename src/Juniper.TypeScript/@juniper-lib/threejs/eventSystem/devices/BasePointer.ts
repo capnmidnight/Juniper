@@ -3,7 +3,7 @@ import { PointerID, PointerType } from "@juniper-lib/tslib/events/Pointers";
 import { Intersection, Vector3 } from "three";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { objGraph } from "../../objects";
-import type { BaseCursor } from "../cursors/BaseCursor";
+import type { BaseCursor3D } from "../cursors/BaseCursor3D";
 import { CursorXRMouse } from "../cursors/CursorXRMouse";
 import { getRayTarget, RayTarget } from "../RayTarget";
 import type { IPointer } from "./IPointer";
@@ -35,7 +35,7 @@ export abstract class BasePointer
     private canClick = false;
     private dragDistance = 0;
     private _enabled = false;
-    private _cursor: BaseCursor = null;
+    private _cursor: BaseCursor3D = null;
     private _curHit: Intersection = null;
     private _curTarget: RayTarget = null;
     private _hoveredHit: Intersection = null;
@@ -45,7 +45,7 @@ export abstract class BasePointer
         public readonly type: PointerType,
         public id: PointerID,
         protected readonly env: BaseEnvironment,
-        cursor: BaseCursor) {
+        cursor: BaseCursor3D) {
         super();
 
         this._cursor = cursor;

@@ -31,8 +31,17 @@ class ScaleState implements IDisposable {
         this.running = false;
         this.wasDisabled = this.disabled;
 
-        this.target.addScopedEventListener(this, "enter", () => this.run(1));
-        this.target.addScopedEventListener(this, "exit", () => this.run(-1));
+        this.target.addScopedEventListener(this, "enter", (evt) => {
+            if (evt.pointer.type !== "nose") {
+                this.run(1);
+            }
+        });
+
+        this.target.addScopedEventListener(this, "exit", (evt) => {
+            if (evt.pointer.type !== "nose") {
+                this.run(-1);
+            }
+        });
 
         this.obj.traverse(child => {
             if (isMesh(child)) {

@@ -1,3 +1,4 @@
+import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Mesh, Object3D } from "three";
 import { ErsatzObject, objectIsFullyVisible, objectResolve, Objects } from "../objects";
@@ -27,9 +28,25 @@ export class RayTarget<EventsT = void>
         return this;
     }
 
+    removeMesh(mesh: Mesh): this {
+        if (arrayRemove(this.meshes, mesh)) {
+            delete mesh.userData[RAY_TARGET_KEY];
+        }
+
+        return this;
+    }
+
     addMeshes(...meshes: Mesh[]): this {
         for (const mesh of meshes) {
             this.addMesh(mesh);
+        }
+
+        return this;
+    }
+
+    removeMeshes(...meshes: Mesh[]): this {
+        for (const mesh of meshes) {
+            this.removeMesh(mesh);
         }
 
         return this;

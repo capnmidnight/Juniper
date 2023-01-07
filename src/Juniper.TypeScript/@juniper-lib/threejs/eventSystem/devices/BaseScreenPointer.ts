@@ -2,7 +2,7 @@ import { PointerID, PointerType } from "@juniper-lib/tslib/events/Pointers";
 import { Vector2 } from "three";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { resolveCamera } from "../../resolveCamera";
-import type { BaseCursor } from "../cursors/BaseCursor";
+import type { BaseCursor3D } from "../cursors/BaseCursor3D";
 import { BasePointer } from "./BasePointer";
 
 export abstract class BaseScreenPointer extends BasePointer {
@@ -19,7 +19,7 @@ export abstract class BaseScreenPointer extends BasePointer {
         type: PointerType,
         id: PointerID,
         env: BaseEnvironment,
-        cursor: BaseCursor) {
+        cursor: BaseCursor3D) {
         super(type, id, env, cursor);
 
         this.canMoveView = true;

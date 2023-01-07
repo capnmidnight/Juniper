@@ -8,6 +8,7 @@ import type { IPointer } from "./devices/IPointer";
 import { Pointer3DEvents } from "./devices/Pointer3DEvent";
 import { PointerHand } from "./devices/PointerHand";
 import { PointerMouse } from "./devices/PointerMouse";
+import { PointerNose } from "./devices/PointerNose";
 import { PointerPen } from "./devices/PointerPen";
 import { PointerTouch } from "./devices/PointerTouch";
 import { getRayTarget, RayTarget } from "./RayTarget";
@@ -22,6 +23,7 @@ export class EventSystem extends TypedEventBase<Pointer3DEvents> {
     readonly mouse: PointerMouse;
     readonly pen: PointerPen;
     readonly touches: PointerTouch;
+    readonly nose: PointerNose;
     readonly hands = new Array<PointerHand>();
 
     private readonly hits = new Array<Intersection>();
@@ -52,6 +54,7 @@ export class EventSystem extends TypedEventBase<Pointer3DEvents> {
         this.mouse = new PointerMouse(this.env);
         this.pen = new PointerPen(this.env);
         this.touches = new PointerTouch(this.env);
+        this.nose = new PointerNose(this.env);
 
         for (let i = 0; i < 2; ++i) {
             this.hands[i] = new PointerHand(this.env, i);
@@ -61,6 +64,7 @@ export class EventSystem extends TypedEventBase<Pointer3DEvents> {
             this.mouse,
             this.pen,
             this.touches,
+            this.nose,
             ...this.hands
         ];
 
@@ -127,9 +131,7 @@ export class EventSystem extends TypedEventBase<Pointer3DEvents> {
         }
 
         for (const pointer of this.pointers) {
-            if (pointer.needsUpdate) {
-                pointer.update();
-            }
+            pointer.update();
         }
     }
 }

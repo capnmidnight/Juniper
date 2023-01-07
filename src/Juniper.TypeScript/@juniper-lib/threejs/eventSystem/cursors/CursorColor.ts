@@ -5,9 +5,9 @@ import { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { solid } from "../../materials";
 import { objectIsVisible, objectSetVisible } from "../../objects";
 import { isMesh } from "../../typeChecks";
-import { BaseCursor } from "./BaseCursor";
+import { BaseCursor3D } from "./BaseCursor3D";
 
-export class CursorColor extends BaseCursor {
+export class CursorColor extends BaseCursor3D {
     private _currentStyle: CSSCursorValue;
     private material: MeshBasicMaterial;
 
@@ -18,10 +18,6 @@ export class CursorColor extends BaseCursor {
             color: 0xffff00
         });
         this.object = new Cube(0.01, 0.01, 0.01, this.material);
-    }
-
-    get position() {
-        return this.object.position;
     }
 
     override get style() {

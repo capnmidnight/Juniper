@@ -299,8 +299,9 @@ export class AvatarLocal
     }
 
     setMode(pointer: IPointer) {
-        if (pointer.type === "remote") {
-            // do nothing
+        if (pointer.type === "remote"
+            || pointer.type === "nose") {
+            // never change control mode for remote or nose pointers
         }
         else if (pointer.type === "hand") {
             this.controlMode = CameraControlMode.None;

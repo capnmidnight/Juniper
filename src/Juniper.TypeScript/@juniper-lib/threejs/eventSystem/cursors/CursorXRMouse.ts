@@ -1,19 +1,19 @@
 import { Vector3 } from "three";
 import { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { objectSetVisible } from "../../objects";
-import { BaseCursor } from "./BaseCursor";
+import { BaseCursor3D } from "./BaseCursor3D";
 import { CursorColor } from "./CursorColor";
 import { CursorSystem } from "./CursorSystem";
 
-export class CursorXRMouse extends BaseCursor {
+export class CursorXRMouse extends BaseCursor3D {
     private readonly system: CursorSystem;
-    private xr: BaseCursor;
+    private xr: BaseCursor3D;
 
     constructor(env: BaseEnvironment) {
         super(env);
 
         this.xr = env.cursor3D && env.cursor3D.clone() || new CursorColor(this.env);
-        this.system = new CursorSystem(this.env, this.env.renderer.domElement);
+        this.system = new CursorSystem(this.env.renderer.domElement);
         this.xr.side = this.side;
         this.visible = false;
 
@@ -39,10 +39,6 @@ export class CursorXRMouse extends BaseCursor {
     set cursor(v) {
         this.xr = v;
         this._refresh();
-    }
-
-    get position() {
-        return this.object.position;
     }
 
     override get style() {

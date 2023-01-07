@@ -17,7 +17,8 @@ export class InteractionAudio {
         private readonly eventSys: EventSystem) {
 
         const playClip = (evt: Pointer3DEvent<"enter" | "exit" | "click">) => {
-            if (evt.rayTarget
+            if (evt.pointer.type !== "nose"
+                && evt.rayTarget
                 && evt.rayTarget.clickable) {
                 const clipName = makeClipName(evt.type, !evt.rayTarget.enabled);
                 if (this.audio.hasClip(clipName)) {

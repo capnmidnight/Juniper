@@ -1,15 +1,12 @@
 import { arrayScan } from "@juniper-lib/tslib/collections/arrays";
-import { Object3D, Vector3 } from "three";
+import { Object3D } from "three";
 import { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { deepEnableLayer, PURGATORY } from "../../layers";
-import { ErsatzObject, obj, objectIsVisible, objectSetVisible, objGraph } from "../../objects";
-import { setMatrixFromUpFwdPos } from "../../setMatrixFromUpFwdPos";
-import { BaseCursor } from "./BaseCursor";
+import { obj, objectIsVisible, objectSetVisible, objGraph } from "../../objects";
+import { BaseCursor3D } from "./BaseCursor3D";
 import { CursorSystem } from "./CursorSystem";
 
-export class Cursor3D
-    extends BaseCursor
-    implements ErsatzObject {
+export class Cursor3D extends BaseCursor3D {
 
     private readonly cursorSystem: CursorSystem = null;
 
@@ -24,10 +21,6 @@ export class Cursor3D
         objGraph(this, obj);
         deepEnableLayer(obj, PURGATORY);
         obj.visible = name === "default";
-    }
-
-    get position() {
-        return this.object.position;
     }
 
     override get style() {
@@ -65,34 +58,6 @@ export class Cursor3D
 
     override set visible(v) {
         objectSetVisible(this, v);
-    }
-
-    private readonly f = new Vector3();
-    private readonly up = new Vector3();
-    private readonly right = new Vector3();
-
-    override lookAt(p: Vector3, v: Vector3) {
-        this.f
-            .copy(v)
-            .sub(p)
-            .multiplyScalar(this.side)
-            .normalize();
-
-        this.up
-            .set(0, 1, 0)
-            .applyQuaternion(this.env.avatar.worldQuat);
-
-        this.right.crossVectors(this.up, this.f);
-        this.up.crossVectors(this.f, this.right);
-
-        setMatrixFromUpFwdPos(this.up, this.f, p, this.object.matrixWorld);
-        this.object.matrix
-            .copy(this.object.parent.matrixWorld)
-            .invert()
-            .multiply(this.object.matrixWorld);
-
-        this.object.matrix
-            .decompose(this.object.position, this.object.quaternion, this.object.scale);
     }
 
     clone() {

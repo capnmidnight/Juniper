@@ -78,6 +78,10 @@ export class VideoPlayer3D
         );
     }
 
+    get meshes() {
+        return this.vidMeshes.map(v => v.mesh);
+    }
+
     protected override onDisposing(): void {
         super.onDisposing();
         cleanup(this.object);

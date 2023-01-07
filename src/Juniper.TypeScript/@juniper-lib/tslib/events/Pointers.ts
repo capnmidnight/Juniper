@@ -3,6 +3,7 @@ export type PointerType = "mouse"
     | "gamepad"
     | "pen"
     | "hand"
+    | "nose"
     | "remote";
 
 export enum PointerID {
@@ -13,5 +14,6 @@ export enum PointerID {
     MotionController,
     MotionControllerLeft,
     MotionControllerRight,
+    Nose,
     RemoteUser
 }

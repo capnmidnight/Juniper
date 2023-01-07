@@ -1,12 +1,10 @@
-import { Vector3 } from "three";
-import { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { BaseCursor } from "./BaseCursor";
 
 export class CursorSystem extends BaseCursor {
     private _hidden = false;
 
-    constructor(env: BaseEnvironment, public element: HTMLElement) {
-        super(env);
+    constructor(public readonly element: HTMLElement) {
+        super();
 
         this.visible = true;
         this.style = "default";
@@ -15,10 +13,6 @@ export class CursorSystem extends BaseCursor {
             this._hidden = !!document.pointerLockElement;
             this.refresh();
         });
-    }
-
-    get position(): Vector3 {
-        throw new Error("BaseCursor::get_Position(): Method not implemented.");
     }
 
     override get style() {
