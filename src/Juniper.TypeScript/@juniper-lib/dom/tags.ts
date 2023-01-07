@@ -160,12 +160,24 @@ export function getElement<T extends Element = HTMLElement>(selector: string): T
     return document.querySelector<T>(selector);
 }
 
+export function getElements<T extends Element = HTMLElement>(selector: string): T[] {
+    return Array.from(document.querySelectorAll<T>(selector));
+}
+
 export function getButton(selector: string) {
     return getElement<HTMLButtonElement>(selector);
 }
 
+export function getButtons(selector: string) {
+    return getElements<HTMLButtonElement>(selector);
+}
+
 export function getInput(selector: string) {
     return getElement<HTMLInputElement>(selector);
+}
+
+export function getInputs(selector: string) {
+    return getElements<HTMLInputElement>(selector);
 }
 
 export function getSelect(selector: string) {
