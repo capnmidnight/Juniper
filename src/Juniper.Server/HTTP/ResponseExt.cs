@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.Http
+namespace Microsoft.AspNetCore.Http
 {
     public static class ResponseExt
     {
@@ -6,7 +6,10 @@
         {
             foreach(var obj in disposables)
             {
-                response.RegisterForDispose(obj);
+                if (obj is not null)
+                {
+                    response.RegisterForDispose(obj);
+                }
             }
         }
     }
