@@ -25,7 +25,10 @@ namespace Juniper.EntityFramework.Identity
                 var hasPassword = !string.IsNullOrEmpty(user.PasswordHash);
                 var code = await users.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var expiry = DateTime.Now.AddDays(1).ToString(CultureInfo.CurrentCulture);
+                var expiry = DateTime.UtcNow
+                    .AddDays(1)
+                    .ToLocalTime()
+                    .ToString(CultureInfo.CurrentCulture);
                 var callbackUrl = urls.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,

@@ -1,6 +1,8 @@
+using Juniper;
+
 using Microsoft.Net.Http.Headers;
 
-namespace Juniper.HTTP
+namespace Microsoft.AspNetCore.Http
 {
     public static class RequestExt
     {
