@@ -596,7 +596,7 @@ namespace Juniper.Puzzles
         public override int GetHashCode()
         {
             var hash = new HashCode();
-            foreach(var value in grid)
+            foreach (var value in grid)
             {
                 hash.Add(value);
             }

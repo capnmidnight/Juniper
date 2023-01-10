@@ -1,6 +1,6 @@
-using System;
-
 using Hjg.Pngcs.Chunks;
+
+using System;
 
 namespace Hjg.Pngcs
 {

@@ -1,10 +1,10 @@
+using Juniper.Sound;
+using Juniper.Speech.Azure.CognitiveServices;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-
-using Juniper.Sound;
-using Juniper.Speech.Azure.CognitiveServices;
 
 namespace Juniper
 {

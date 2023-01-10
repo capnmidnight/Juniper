@@ -71,7 +71,7 @@ namespace Juniper.Mathematics
         public override int GetHashCode()
         {
             var hash = new HashCode();
-            foreach(var value in Values)
+            foreach (var value in Values)
             {
                 hash.Add(value);
             }

@@ -11,7 +11,7 @@ namespace Juniper.TSBuild
 
         private static string MakeCommandName(DirectoryInfo? workingDir, ref string command, ref string[] args)
         {
-            if(workingDir is null)
+            if (workingDir is null)
             {
                 throw new ShellCommandNotFoundException("No working directory provided.");
             }

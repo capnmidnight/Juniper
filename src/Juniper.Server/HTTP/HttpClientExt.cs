@@ -85,7 +85,7 @@ namespace System.Net.Http
                 requestMessage.Dispose();
                 responseMessage.Dispose();
 
-                if(responseMessage.Headers.Location is null)
+                if (responseMessage.Headers.Location is null)
                 {
                     throw new Exception("Couldn't find redirect location");
                 }

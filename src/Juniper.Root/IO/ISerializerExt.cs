@@ -8,7 +8,7 @@ namespace Juniper.IO
     public static class ISerializerExt
     {
         public static byte[] Serialize<T, M>(this ISerializer<T, M> serializer, T value)
-            where M :MediaType
+            where M : MediaType
         {
             if (serializer is null)
             {

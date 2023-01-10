@@ -29,7 +29,7 @@ namespace Juniper.Processes
         private CommandProxyDescription(SerializationInfo info, StreamingContext context)
         {
             var command = info.GetString(nameof(Command));
-            if(command is null)
+            if (command is null)
             {
                 throw new InvalidDataException($"Field '{nameof(Command)} not found.");
             }

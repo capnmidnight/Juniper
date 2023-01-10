@@ -41,7 +41,7 @@ namespace System.Net.Http
                 throw new ArgumentNullException(nameof(name));
             }
 
-            if(name.Length == 0)
+            if (name.Length == 0)
             {
                 throw new ArgumentException("Header name must not be empty string", nameof(name));
             }
@@ -96,9 +96,9 @@ namespace System.Net.Http
             }
 
             var parts = agent.Split(' ').ToList();
-            for(var i = parts.Count -1; i > 0; i--)
+            for (var i = parts.Count - 1; i > 0; i--)
             {
-                if(parts[i].EndsWith(')')
+                if (parts[i].EndsWith(')')
                     && !parts[i].StartsWith('('))
                 {
                     parts[i - 1] += " " + parts[i];
@@ -108,14 +108,14 @@ namespace System.Net.Http
 
             request.Headers.UserAgent.Clear();
 
-            foreach(var part in parts)
+            foreach (var part in parts)
             {
-                if(ProductInfoHeaderValue.TryParse(part, out var value))
+                if (ProductInfoHeaderValue.TryParse(part, out var value))
                 {
                     request.Headers.UserAgent.Add(value);
                 }
             }
-            
+
             return request;
         }
 
@@ -271,7 +271,7 @@ namespace System.Net.Http
                 throw new ArgumentException("Key must have a value.", nameof(key));
             }
 
-            if(value.Contains(';')
+            if (value.Contains(';')
                 || value.Contains(','))
             {
                 value = JsonConvert.ToString(value);
@@ -282,19 +282,19 @@ namespace System.Net.Http
             sb.Append('=');
             sb.Append(value);
 
-            if(path is not null)
+            if (path is not null)
             {
                 sb.Append("; Path=");
                 sb.Append(path);
             }
 
-            if(domain is not null)
+            if (domain is not null)
             {
                 sb.Append("; Domain=");
                 sb.Append(domain);
             }
 
-            if(expiration is not null)
+            if (expiration is not null)
             {
                 sb.Append("; Expires=");
                 sb.Append(expiration.Value
@@ -382,7 +382,7 @@ namespace System.Net.Http
 
             request.Content = content;
 
-            if(contentType is not null)
+            if (contentType is not null)
             {
                 request.ContentType(contentType);
             }

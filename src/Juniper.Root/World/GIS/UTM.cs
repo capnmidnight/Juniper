@@ -22,7 +22,7 @@ namespace Juniper.Units
             }
 
             var N0 = (utm.Hemisphere == GlobeHemisphere.Northern || utm.Northing < 0)
-                ? 0.0 
+                ? 0.0
                 : DatumWGS_84.FalseNorthing;
             var xi = (utm.Northing - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
             var eta = (utm.Easting - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);

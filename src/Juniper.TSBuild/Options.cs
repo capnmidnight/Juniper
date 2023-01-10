@@ -89,7 +89,7 @@ namespace Juniper.TSBuild
                 ProcessArg(arg);
             }
 
-            if(curAnyArg is null)
+            if (curAnyArg is null)
             {
                 Build = true;
             }

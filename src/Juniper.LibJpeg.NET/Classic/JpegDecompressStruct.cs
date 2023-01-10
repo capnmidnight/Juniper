@@ -1,9 +1,9 @@
+using BitMiracle.LibJpeg.Classic.Internal;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-
-using BitMiracle.LibJpeg.Classic.Internal;
 
 namespace BitMiracle.LibJpeg.Classic
 {

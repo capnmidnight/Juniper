@@ -1,4 +1,3 @@
-using Juniper.HTTP;
 using Juniper.HTTP.REST;
 
 using System;

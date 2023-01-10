@@ -39,7 +39,7 @@ namespace Juniper.Processes
                     OnWarning($"File does not exist! {fromRel}");
                 }
             }
-            else if(to.Exists && to.LastWriteTime >= from.LastWriteTime)
+            else if (to.Exists && to.LastWriteTime >= from.LastWriteTime)
             {
                 lastWriteTime = from.LastWriteTime;
                 //OnInfo($"Up to date: {toRel}");

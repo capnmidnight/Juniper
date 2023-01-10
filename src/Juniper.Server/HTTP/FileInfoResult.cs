@@ -90,7 +90,7 @@ namespace Juniper.HTTP
             {
 
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 logger?.LogError(exp, "Download cancelled: {path}", context.HttpContext.Request.Path);
             }

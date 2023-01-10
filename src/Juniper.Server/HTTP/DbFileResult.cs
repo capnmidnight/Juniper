@@ -1,10 +1,10 @@
-using System.Buffers;
-using System.Data;
-using System.Data.Common;
-
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+
+using System.Buffers;
+using System.Data;
+using System.Data.Common;
 
 namespace Juniper.HTTP
 {

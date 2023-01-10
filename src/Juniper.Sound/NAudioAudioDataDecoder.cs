@@ -85,7 +85,7 @@ namespace Juniper.Sound
             {
                 return new ManagedMpegStream(stream);
             }
-            else if(Format.ContentType == MediaType.Audio_OggVorbis)
+            else if (Format.ContentType == MediaType.Audio_OggVorbis)
             {
                 return new VorbisWaveReader(stream, true);
             }

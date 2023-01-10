@@ -76,7 +76,7 @@ namespace Juniper
                               .ConfigureAwait(true);
                           SaveStream(newStream, e.FileName);
                       }
-                      else if(!e.DecodeRequired)
+                      else if (!e.DecodeRequired)
                       {
                           var newStream = await client.GetAudioDataStreamAsync(e.Format, e.Text, e.Voice, e.RateChange, e.PitchChange)
                               .ConfigureAwait(true);

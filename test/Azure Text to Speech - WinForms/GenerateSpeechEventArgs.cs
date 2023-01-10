@@ -1,7 +1,7 @@
-using System;
-
 using Juniper.Sound;
 using Juniper.Speech.Azure.CognitiveServices;
+
+using System;
 
 namespace Juniper
 {

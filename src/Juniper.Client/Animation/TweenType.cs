@@ -1,7 +1,7 @@
+using Juniper.Input;
+
 using System;
 using System.Collections.Generic;
-
-using Juniper.Input;
 
 namespace Juniper.Animation
 {

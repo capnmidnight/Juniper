@@ -1,9 +1,9 @@
+using Hjg.Pngcs.Zlib;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-
-using Hjg.Pngcs.Zlib;
 
 namespace Hjg.Pngcs
 {

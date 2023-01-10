@@ -58,7 +58,7 @@ stdInEventer.Line += (_, e) =>
 
             Run(desc, cmd);
         }
-        catch(ShellCommandNotFoundException exp)
+        catch (ShellCommandNotFoundException exp)
         {
             Error(desc, exp.Unroll());
         }
@@ -72,27 +72,27 @@ void Message(CommandProxyDescription? desc, string cmdName, params string[] mess
     WriteLine(cmd);
 }
 
-void Send(string cmdName, params string[] messageParts) => 
+void Send(string cmdName, params string[] messageParts) =>
     Message(null, cmdName, messageParts);
 
-void Info(CommandProxyDescription desc, string message) => 
+void Info(CommandProxyDescription desc, string message) =>
     Message(desc, "info", message);
 
-void Warn(CommandProxyDescription desc, string message) => 
+void Warn(CommandProxyDescription desc, string message) =>
     Message(desc, "warn", message);
 
-void Error(CommandProxyDescription desc, string message) => 
+void Error(CommandProxyDescription desc, string message) =>
     Message(desc, "error", message);
 
 async void Run(CommandProxyDescription desc, ShellCommand cmd)
 {
-    void Cmd_Info(object? sender, StringEventArgs e) => 
+    void Cmd_Info(object? sender, StringEventArgs e) =>
         Info(desc, e.Value);
 
-    void Cmd_Warning(object? sender, StringEventArgs e) => 
+    void Cmd_Warning(object? sender, StringEventArgs e) =>
         Warn(desc, e.Value);
 
-    void Cmd_Err(object? sender, Juniper.ErrorEventArgs e) => 
+    void Cmd_Err(object? sender, Juniper.ErrorEventArgs e) =>
         Error(desc, e.Value.Unroll());
 
     cmd.Info += Cmd_Info;

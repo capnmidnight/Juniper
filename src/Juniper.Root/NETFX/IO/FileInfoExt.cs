@@ -86,7 +86,7 @@ namespace System.IO
                 }
                 else
                 {
-                    for(var i = sb.Length - 1; i >= 0; i--)
+                    for (var i = sb.Length - 1; i >= 0; i--)
                     {
                         if (sb[i] == ' '
                             && (i == 0

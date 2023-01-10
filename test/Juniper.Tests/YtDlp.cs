@@ -30,7 +30,7 @@ namespace Juniper
         [Test]
         public async Task Parse1()
         {
-            if(http is null)
+            if (http is null)
             {
                 throw new NullReferenceException("don't have an http client");
             }

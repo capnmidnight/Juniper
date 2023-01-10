@@ -1,10 +1,9 @@
+using BitMiracle.LibJpeg.Classic;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
 using System.IO;
-
-using BitMiracle.LibJpeg.Classic;
 
 namespace BitMiracle.LibJpeg
 {

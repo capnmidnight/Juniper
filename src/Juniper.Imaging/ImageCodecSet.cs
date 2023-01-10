@@ -137,8 +137,8 @@ namespace Juniper.Imaging
             }
 
             var type = (from t in MediaType.GuessByFileName(fileName)
-                              where t is MediaType.Image
-                              select t)
+                        where t is MediaType.Image
+                        select t)
                     .FirstOrDefault();
 
             if (!decoders.ContainsKey(type))

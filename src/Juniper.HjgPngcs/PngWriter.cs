@@ -1,9 +1,8 @@
+using Hjg.Pngcs.Chunks;
+using Hjg.Pngcs.Zlib;
+
 using System;
 using System.IO;
-
-using Hjg.Pngcs.Chunks;
-
-using Hjg.Pngcs.Zlib;
 
 namespace Hjg.Pngcs
 {

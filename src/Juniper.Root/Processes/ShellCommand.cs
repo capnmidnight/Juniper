@@ -7,7 +7,8 @@ namespace Juniper.Processes
     public class ShellCommandNotFoundException : Exception
     {
         public ShellCommandNotFoundException(string message)
-            : base(message) { 
+            : base(message)
+        {
         }
     }
 
@@ -260,7 +261,7 @@ namespace Juniper.Processes
                     throw new ProcessStartException("Could not start process.");
                 }
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 throw new ProcessStartException("Could not start process.", exp);
             }
