@@ -21,14 +21,6 @@ export class Fetcher implements IFetcher {
         }
     }
 
-    private createRequest(method: HTTPMethods, path: string | URL, base?: string | URL) {
-        return new RequestBuilder(
-            this.service,
-            method,
-            new URL(path, base || location.href),
-            this.useBLOBs);
-    }
-
     clearCache(): Promise<void> {
         return this.service.clearCache();
     }
@@ -37,32 +29,40 @@ export class Fetcher implements IFetcher {
         return this.service.evict(new URL(path, base || location.href).href);
     }
 
+    request<T extends HTTPMethods>(method: T, path: string | URL, base?: string | URL) {
+        return new RequestBuilder(
+            this.service,
+            method,
+            new URL(path, base || location.href),
+            this.useBLOBs);
+    }
+
     head(path: string | URL, base?: string | URL) {
-        return this.createRequest("HEAD", path, base);
+        return this.request("HEAD", path, base);
     }
 
     options(path: string | URL, base?: string | URL) {
-        return this.createRequest("OPTIONS", path, base);
+        return this.request("OPTIONS", path, base);
     }
 
     get(path: string | URL, base?: string | URL) {
-        return this.createRequest("GET", path, base);
+        return this.request("GET", path, base);
     }
 
     post(path: string | URL, base?: string | URL) {
-        return this.createRequest("POST", path, base);
+        return this.request("POST", path, base);
     }
 
     put(path: string | URL, base?: string | URL) {
-        return this.createRequest("PUT", path, base);
+        return this.request("PUT", path, base);
     }
 
     patch(path: string | URL, base?: string | URL) {
-        return this.createRequest("PATCH", path, base);
+        return this.request("PATCH", path, base);
     }
 
     delete(path: string | URL, base?: string | URL) {
-        return this.createRequest("DELETE", path, base);
+        return this.request("DELETE", path, base);
     }
 
     async assets(firstAsset: BaseAsset, ...assets: BaseAsset[]): Promise<void>;

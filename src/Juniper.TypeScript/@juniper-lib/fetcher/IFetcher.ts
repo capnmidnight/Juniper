@@ -1,6 +1,7 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
 import type { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import type { BaseAsset } from "./Asset";
+import type { HTTPMethods } from "./HTTPMethods";
 import type { IResponse } from "./IResponse";
 
 export interface IFetcherBasic {
@@ -10,11 +11,20 @@ export interface IFetcherBasic {
     accept(type: string | MediaType): this;
 }
 
+interface MethodReturnTypes extends Record<HTTPMethods, any> {
+    GET: IFetcherSendProgressTimeoutCredentialsCacheGetBody & IFetcherBodiedResult;
+    POST: IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
+    PUT: IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
+    PATCH: IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
+    DELETE: IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
+}
+
 export interface IFetcher {
     clearCache(): Promise<void>;
     evict(path: string | URL, base?: string | URL): Promise<void>;
     head(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendTimeoutCredentials & IFetcherBodilessResult;
     options(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendTimeoutCredentials & IFetcherBodilessResult;
+    request<T extends HTTPMethods>(method: T, path: string | URL, base?: string | URL): IFetcherBasic & MethodReturnTypes[T];
     get(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressTimeoutCredentialsCacheGetBody & IFetcherBodiedResult;
     post(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
     put(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
