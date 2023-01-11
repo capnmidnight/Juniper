@@ -57,31 +57,31 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public string PostalCodeFilter
         {
-            get => components.Get(AddressComponentTypes.postal_code, default);
+            get => components.Get(AddressComponentTypes.postal_code);
             set => SetComponent(AddressComponentTypes.postal_code, value);
         }
 
         public string CountryFilter
         {
-            get => components.Get(AddressComponentTypes.country, default);
+            get => components.Get(AddressComponentTypes.country);
             set => SetComponent(AddressComponentTypes.country, value);
         }
 
         public string RouteHint
         {
-            get => components.Get(AddressComponentTypes.route, default);
+            get => components.Get(AddressComponentTypes.route);
             set => SetComponent(AddressComponentTypes.route, value);
         }
 
         public string LocalityHint
         {
-            get => components.Get(AddressComponentTypes.locality, default);
+            get => components.Get(AddressComponentTypes.locality);
             set => SetComponent(AddressComponentTypes.locality, value);
         }
 
         public string AdministrativeAreaHint
         {
-            get => components.Get(AddressComponentTypes.administrative_area, default);
+            get => components.Get(AddressComponentTypes.administrative_area);
             set => SetComponent(AddressComponentTypes.administrative_area, value);
         }
 

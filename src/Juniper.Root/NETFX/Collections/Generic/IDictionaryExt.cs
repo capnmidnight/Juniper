@@ -13,9 +13,6 @@ namespace System.Collections.Generic
         /// <typeparam name="TValue"></typeparam>
         /// <param name="dict">        The dictionary to search.</param>
         /// <param name="key">         The key to look for in <paramref name="dict"/>.</param>
-        /// <param name="defaultValue">
-        /// The value to return if <paramref name="key"/> does not exist in <paramref name="dict"/>.
-        /// </param>
         /// <returns>
         /// If <paramref name="key"/> exists in <paramref name="dict"/>, returns the mapped value. If
         /// it doesn't, returns <paramref name="defaultValue"/>.
@@ -30,52 +27,34 @@ namespace System.Collections.Generic
         /// dict.Get("c"); // --> 0
         /// dict.Get("d", 3); // --> 3
         /// ]]></code></example>
-        public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
+        public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key)
         {
-            if (key is null)
+            if (key is null || dict?.ContainsKey(key) != true)
             {
-                return defaultValue;
+                return default;
             }
-            else if (dict?.ContainsKey(key) == true)
-            {
-                return dict[key];
-            }
-            else
-            {
-                return defaultValue;
-            }
+
+            return dict[key];
         }
 
-        public static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
+        public static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
         {
-            if (key is null)
+            if (key is null || dict?.ContainsKey(key) != true)
             {
-                return defaultValue;
+                return default;
             }
-            else if (dict?.ContainsKey(key) == true)
-            {
-                return dict[key];
-            }
-            else
-            {
-                return defaultValue;
-            }
+
+            return dict[key];
         }
 
-        public static TValue Get<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
+        public static TValue Get<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dict, TKey key)
         {
-            if (key is null)
+            if (key is null || dict?.ContainsKey(key) != true)
             {
-                return defaultValue;
+                return default;
             }
-            else if (dict?.ContainsKey(key) == true)
-            {
-                return dict[key];
-            }
-            else
-            {
-                return defaultValue;
-            }
+
+            return dict[key];
         }
 
         /// <summary>
@@ -319,6 +298,19 @@ namespace System.Collections.Generic
             }
 
             return dict;
+        }
+
+        public static Dictionary<int, T> FilterBy<T, U>(this Dictionary<int, T> toFilter, Dictionary<int, U> lookup)
+        {
+            if (lookup is null
+                || toFilter is null)
+            {
+                return null;
+            }
+
+            return toFilter
+                .Where(kv => lookup.ContainsKey(kv.Key))
+                .ToDictionary(kv => kv.Key, kv => kv.Value);
         }
     }
 }
