@@ -8,59 +8,59 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from square micrometers to square miles.
         /// </summary>
-        public const float PER_SQUARE_MICROMETER = Miles.PER_MICROMETER * Miles.PER_MICROMETER;
+        public const double PER_SQUARE_MICROMETER = Miles.PER_MICROMETER * Miles.PER_MICROMETER;
 
         /// <summary>
         /// Conversion factor from square millimeters to square miles.
         /// </summary>
-        public const float PER_SQUARE_MILLIMETER = Miles.PER_MILLIMETER * Miles.PER_MILLIMETER;
+        public const double PER_SQUARE_MILLIMETER = Miles.PER_MILLIMETER * Miles.PER_MILLIMETER;
 
         /// <summary>
         /// Conversion factor from square centimeters to square miles.
         /// </summary>
-        public const float PER_SQUARE_CENTIMETER = Miles.PER_CENTIMETER * Miles.PER_CENTIMETER;
+        public const double PER_SQUARE_CENTIMETER = Miles.PER_CENTIMETER * Miles.PER_CENTIMETER;
 
         /// <summary>
         /// Conversion factor from square inches to square miles.
         /// </summary>
-        public const float PER_SQUARE_INCH = Miles.PER_INCH * Miles.PER_INCH;
+        public const double PER_SQUARE_INCH = Miles.PER_INCH * Miles.PER_INCH;
 
         /// <summary>
         /// Conversion factor from square feet to square miles.
         /// </summary>
-        public const float PER_SQUARE_FOOT = Miles.PER_FOOT * Miles.PER_FOOT;
+        public const double PER_SQUARE_FOOT = Miles.PER_FOOT * Miles.PER_FOOT;
 
         /// <summary>
         /// Conversion factor from square yards to square miles.
         /// </summary>
-        public const float PER_SQUARE_YARD = Miles.PER_YARD * Miles.PER_YARD;
+        public const double PER_SQUARE_YARD = Miles.PER_YARD * Miles.PER_YARD;
 
         /// <summary>
         /// Conversion factor from square meters to square miles.
         /// </summary>
-        public const float PER_SQUARE_METER = Miles.PER_METER * Miles.PER_METER;
+        public const double PER_SQUARE_METER = Miles.PER_METER * Miles.PER_METER;
 
         /// <summary>
         /// Conversion factor from square rod to square miles.
         /// </summary>
-        public const float PER_SQUARE_ROD = Miles.PER_ROD * Miles.PER_ROD;
+        public const double PER_SQUARE_ROD = Miles.PER_ROD * Miles.PER_ROD;
 
         /// <summary>
         /// Conversion factor from acres to square miles.
         /// </summary>
-        public const float PER_ACRE = 1 / Units.Acres.PER_SQUARE_MILE;
+        public const double PER_ACRE = 1 / Units.Acres.PER_SQUARE_MILE;
 
         /// <summary>
         /// Conversion factor from square kilometers to square miles.
         /// </summary>
-        public const float PER_SQUARE_KILOMETER = Miles.PER_KILOMETER * Miles.PER_KILOMETER;
+        public const double PER_SQUARE_KILOMETER = Miles.PER_KILOMETER * Miles.PER_KILOMETER;
 
         /// <summary>
         /// Convert from square miles to square micrometers.
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of square micrometers</returns>
-        public static float SquareMicrometers(float squareMiles)
+        public static double SquareMicrometers(double squareMiles)
         {
             return squareMiles * Units.SquareMicrometers.PER_SQUARE_MILE;
         }
@@ -70,7 +70,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of square millimeters</returns>
-        public static float SquareMillimeters(float squareMiles)
+        public static double SquareMillimeters(double squareMiles)
         {
             return squareMiles * Units.SquareMillimeters.PER_SQUARE_MILE;
         }
@@ -80,7 +80,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of square centimeters</returns>
-        public static float SquareCentimeters(float squareMiles)
+        public static double SquareCentimeters(double squareMiles)
         {
             return squareMiles * Units.SquareCentimeters.PER_SQUARE_MILE;
         }
@@ -90,7 +90,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of square inches</returns>
-        public static float SquareInches(float squareMiles)
+        public static double SquareInches(double squareMiles)
         {
             return squareMiles * Units.SquareInches.PER_SQUARE_MILE;
         }
@@ -100,7 +100,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of square feet</returns>
-        public static float SquareFeet(float squareMiles)
+        public static double SquareFeet(double squareMiles)
         {
             return squareMiles * Units.SquareFeet.PER_SQUARE_MILE;
         }
@@ -110,7 +110,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of square yards</returns>
-        public static float SquareYards(float squareMiles)
+        public static double SquareYards(double squareMiles)
         {
             return squareMiles * Units.SquareYards.PER_SQUARE_MILE;
         }
@@ -120,7 +120,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of square meters</returns>
-        public static float SquareMeters(float squareMiles)
+        public static double SquareMeters(double squareMiles)
         {
             return squareMiles * Units.SquareMeters.PER_SQUARE_MILE;
         }
@@ -130,7 +130,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of square rods</returns>
-        public static float SquareRods(float squareMiles)
+        public static double SquareRods(double squareMiles)
         {
             return squareMiles * Units.SquareRods.PER_SQUARE_MILE;
         }
@@ -140,7 +140,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of acres</returns>
-        public static float Acres(float squareMiles)
+        public static double Acres(double squareMiles)
         {
             return squareMiles * Units.Acres.PER_SQUARE_MILE;
         }
@@ -150,7 +150,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMiles">The number of square miles</param>
         /// <returns>The number of square kilometers</returns>
-        public static float SquareKilometers(float squareMiles)
+        public static double SquareKilometers(double squareMiles)
         {
             return squareMiles * Units.SquareKilometers.PER_SQUARE_MILE;
         }

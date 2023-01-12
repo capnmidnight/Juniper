@@ -11,17 +11,17 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The number of degrees above the Earth's orbital disk at which to find the object.
         /// </summary>
-        public float LatitudeDegrees { get; }
+        public double LatitudeDegrees { get; }
 
         /// <summary>
         /// The number of degrees along the Earth's orbital disk at which to find the object.
         /// </summary>
-        public float LongitudeDegrees { get; }
+        public double LongitudeDegrees { get; }
 
         /// <summary>
         /// The distance in Astronomical Units from the center of Earth's orbit to find the object.
         /// </summary>
-        public float RadiusAU { get; }
+        public double RadiusAU { get; }
 
         /// <summary>
         /// Create a new bearing to an object.
@@ -29,7 +29,7 @@ namespace Juniper.World.GIS
         /// <param name="beta">The latitude to the object, in degrees</param>
         /// <param name="lambda">The longitude to the object, in degrees.</param>
         /// <param name="r">The distance to the object, in Astronomical Units.</param>
-        public GeocentricEclipticSphericalPosition(float beta, float lambda, float r)
+        public GeocentricEclipticSphericalPosition(double beta, double lambda, double r)
         {
             LatitudeDegrees = beta;
             LongitudeDegrees = lambda;

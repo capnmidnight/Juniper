@@ -10,44 +10,44 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from ticks to nonoseconds.
         /// </summary>
-        public const float PER_NANOSECOND = 100;
+        public const double PER_NANOSECOND = 100;
 
         /// <summary>
         /// Conversion factor from ticks to nonoseconds.
         /// </summary>
-        public const float PER_MICROSECOND = PER_NANOSECOND * Units.Nanoseconds.PER_MICROSECOND;
+        public const double PER_MICROSECOND = PER_NANOSECOND * Units.Nanoseconds.PER_MICROSECOND;
 
         /// <summary>
         /// Conversion factor from mircoseconds to microseconds.
         /// </summary>
-        public const float PER_MILLISECOND = TimeSpan.TicksPerMillisecond;
+        public const double PER_MILLISECOND = TimeSpan.TicksPerMillisecond;
 
         /// <summary>
         /// Conversion factor from seconds to microseconds.
         /// </summary>
-        public const float PER_SECOND = TimeSpan.TicksPerSecond;
+        public const double PER_SECOND = TimeSpan.TicksPerSecond;
 
         /// <summary>
         /// Conversion factor from minutes to microseconds.
         /// </summary>
-        public const float PER_MINUTE = TimeSpan.TicksPerMinute;
+        public const double PER_MINUTE = TimeSpan.TicksPerMinute;
 
         /// <summary>
         /// Conversion factor from hours to microseconds.
         /// </summary>
-        public const float PER_HOUR = TimeSpan.TicksPerHour;
+        public const double PER_HOUR = TimeSpan.TicksPerHour;
 
         /// <summary>
         /// Conversion factor from days to microseconds.
         /// </summary>
-        public const float PER_DAY = TimeSpan.TicksPerDay;
+        public const double PER_DAY = TimeSpan.TicksPerDay;
 
         /// <summary>
         /// Convert from ticks to ticks.
         /// </summary>
         /// <param name="ms">The number of ticks</param>
         /// <returns>The number of microsecondss</returns>
-        public static float Nanoseconds(float ms)
+        public static double Nanoseconds(double ms)
         {
             return ms * Units.Nanoseconds.PER_TICK;
         }
@@ -57,7 +57,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ms">The number of ticks</param>
         /// <returns>The number of microsecondss</returns>
-        public static float Microseconds(float ms)
+        public static double Microseconds(double ms)
         {
             return ms * Units.Microseconds.PER_TICK;
         }
@@ -67,7 +67,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ms">The number of ms</param>
         /// <returns>The number of milliseconds</returns>
-        public static float Milliseconds(float ms)
+        public static double Milliseconds(double ms)
         {
             return ms * Units.Milliseconds.PER_TICK;
         }
@@ -77,7 +77,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ms">The number of ms</param>
         /// <returns>The number of seconds</returns>
-        public static float Seconds(float ms)
+        public static double Seconds(double ms)
         {
             return ms * Units.Seconds.PER_TICK;
         }
@@ -87,7 +87,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ms">The number of ms</param>
         /// <returns>The number of minutes</returns>
-        public static float Minutes(float ms)
+        public static double Minutes(double ms)
         {
             return ms * Units.Minutes.PER_TICK;
         }
@@ -97,7 +97,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ms">The number of ms</param>
         /// <returns>The number of hours</returns>
-        public static float Hours(float ms)
+        public static double Hours(double ms)
         {
             return ms * Units.Hours.PER_TICK;
         }
@@ -107,7 +107,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ms">The number of ms</param>
         /// <returns>The number of days</returns>
-        public static float Days(float ms)
+        public static double Days(double ms)
         {
             return ms * Units.Days.PER_TICK;
         }
@@ -117,7 +117,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ms">The number of ms</param>
         /// <returns>The number of hertz</returns>
-        public static float Hertz(float ms)
+        public static double Hertz(double ms)
         {
             return Units.Seconds.Hertz(Seconds(ms));
         }

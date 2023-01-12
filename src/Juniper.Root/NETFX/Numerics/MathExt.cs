@@ -238,7 +238,10 @@ namespace System.Numerics
                 throw new ArgumentNullException(nameof(v));
             }
 
-            return new Vector3(v.Easting, v.Altitude, v.Northing);
+            return new Vector3(
+                (float)v.Easting,
+                (float)v.Altitude,
+                (float)v.Northing);
         }
 
         /// <summary>
@@ -285,7 +288,10 @@ namespace System.Numerics
             var lng = Degrees.Radians(value.Lng);
             var x = DatumWGS_84.equatorialRadius * lng;
             var y = DatumWGS_84.equatorialRadius * Math.Log(Math.Tan((0.25 * Math.PI) + (0.5 * lat)));
-            return new Vector3((float)x, (float)y, value.Alt);
+            return new Vector3(
+                (float)x,
+                (float)y,
+                (float)value.Alt);
         }
 
         /// <summary>
@@ -410,7 +416,10 @@ namespace System.Numerics
                 throw new ArgumentNullException(nameof(p));
             }
 
-            return Quaternion.CreateFromYawPitchRoll(p.AzimuthDegrees, p.AltitudeDegrees, 0);
+            return Quaternion.CreateFromYawPitchRoll(
+                (float)p.AzimuthDegrees,
+                (float)p.AltitudeDegrees,
+                0);
         }
 
         /// <summary>
@@ -423,7 +432,10 @@ namespace System.Numerics
                 throw new ArgumentNullException(nameof(p));
             }
 
-            return new Vector3(p.AltitudeDegrees, p.AzimuthDegrees, 0);
+            return new Vector3(
+                (float)p.AltitudeDegrees,
+                (float)p.AzimuthDegrees,
+                0);
         }
     }
 }

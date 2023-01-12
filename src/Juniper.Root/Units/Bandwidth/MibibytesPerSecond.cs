@@ -8,94 +8,94 @@ namespace Juniper.Units
         /// <summary>
         /// The number of mibibytes per second per bit per second
         /// </summary>
-        public const float PER_BIT_PER_SECOND = 1 / Units.BitsPerSecond.PER_MIBIBYTE_PER_SECOND;
+        public const double PER_BIT_PER_SECOND = 1 / Units.BitsPerSecond.PER_MIBIBYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per byte per second
         /// </summary>
-        public const float PER_BYTE_PER_SECOND = 1 / Units.BytesPerSecond.PER_MIBIBYTE_PER_SECOND;
+        public const double PER_BYTE_PER_SECOND = 1 / Units.BytesPerSecond.PER_MIBIBYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per kilobyte per second
         /// </summary>
-        public const float PER_KILOBYTE_PER_SECOND = 1 / Units.KilobytesPerSecond.PER_MIBIBYTE_PER_SECOND;
+        public const double PER_KILOBYTE_PER_SECOND = 1 / Units.KilobytesPerSecond.PER_MIBIBYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per megabyte per second
         /// </summary>
-        public const float PER_MEGABYTE_PER_SECOND = Units.BytesPerSecond.PER_MEGABYTE_PER_SECOND / Units.BytesPerSecond.PER_MIBIBYTE_PER_SECOND;
+        public const double PER_MEGABYTE_PER_SECOND = Units.BytesPerSecond.PER_MEGABYTE_PER_SECOND / Units.BytesPerSecond.PER_MIBIBYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per gigabyte per second
         /// </summary>
-        public const float PER_GIGABYTE_PER_SECOND = PER_MEGABYTE_PER_SECOND * Units.MegabytesPerSecond.PER_GIGABYTE_PER_SECOND;
+        public const double PER_GIGABYTE_PER_SECOND = PER_MEGABYTE_PER_SECOND * Units.MegabytesPerSecond.PER_GIGABYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per terabyte per second
         /// </summary>
-        public const float PER_TERABYTE_PER_SECOND = PER_GIGABYTE_PER_SECOND * Units.GigabytesPerSecond.PER_TERABYTE_PER_SECOND;
+        public const double PER_TERABYTE_PER_SECOND = PER_GIGABYTE_PER_SECOND * Units.GigabytesPerSecond.PER_TERABYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per petabyte per second
         /// </summary>
-        public const float PER_PETABYTE_PER_SECOND = PER_TERABYTE_PER_SECOND * Units.TerabytesPerSecond.PER_PETABYTE_PER_SECOND;
+        public const double PER_PETABYTE_PER_SECOND = PER_TERABYTE_PER_SECOND * Units.TerabytesPerSecond.PER_PETABYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per exabyte per second
         /// </summary>
-        public const float PER_EXABYTE_PER_SECOND = PER_PETABYTE_PER_SECOND * Units.PetabytesPerSecond.PER_EXABYTE_PER_SECOND;
+        public const double PER_EXABYTE_PER_SECOND = PER_PETABYTE_PER_SECOND * Units.PetabytesPerSecond.PER_EXABYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per zettabyte per second
         /// </summary>
-        public const float PER_ZETTABYTE_PER_SECOND = PER_EXABYTE_PER_SECOND * Units.ExabytesPerSecond.PER_ZETTABYTE_PER_SECOND;
+        public const double PER_ZETTABYTE_PER_SECOND = PER_EXABYTE_PER_SECOND * Units.ExabytesPerSecond.PER_ZETTABYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per yotabyte per second
         /// </summary>
-        public const float PER_YOTABYTE_PER_SECOND = PER_ZETTABYTE_PER_SECOND * Units.ZettabytesPerSecond.PER_YOTABYTE_PER_SECOND;
+        public const double PER_YOTABYTE_PER_SECOND = PER_ZETTABYTE_PER_SECOND * Units.ZettabytesPerSecond.PER_YOTABYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per kibibyte per second
         /// </summary>
-        public const float PER_KIBIBYTE_PER_SECOND = 1 / Units.KibibytesPerSecond.PER_MIBIBYTE_PER_SECOND;
+        public const double PER_KIBIBYTE_PER_SECOND = 1 / Units.KibibytesPerSecond.PER_MIBIBYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per gibibyte per second
         /// </summary>
-        public const float PER_GIBIBYTE_PER_SECOND = 1024;
+        public const double PER_GIBIBYTE_PER_SECOND = 1024;
 
         /// <summary>
         /// The number of mibibytes per second per tebibyte per second
         /// </summary>
-        public const float PER_TEBIBYTE_PER_SECOND = PER_GIBIBYTE_PER_SECOND * Units.GibibytesPerSecond.PER_TEBIBYTE_PER_SECOND;
+        public const double PER_TEBIBYTE_PER_SECOND = PER_GIBIBYTE_PER_SECOND * Units.GibibytesPerSecond.PER_TEBIBYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per pebibyte per second
         /// </summary>
-        public const float PER_PEBIBYTE_PER_SECOND = PER_TEBIBYTE_PER_SECOND * Units.TebibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+        public const double PER_PEBIBYTE_PER_SECOND = PER_TEBIBYTE_PER_SECOND * Units.TebibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per exbibyte per second
         /// </summary>
-        public const float PER_EXBIBYTE_PER_SECOND = PER_PEBIBYTE_PER_SECOND * Units.PebibytesPerSecond.PER_EXBIBYTE_PER_SECOND;
+        public const double PER_EXBIBYTE_PER_SECOND = PER_PEBIBYTE_PER_SECOND * Units.PebibytesPerSecond.PER_EXBIBYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per zebibyte per second
         /// </summary>
-        public const float PER_ZEBIBYTE_PER_SECOND = PER_EXBIBYTE_PER_SECOND * Units.ExbibytesPerSecond.PER_ZEBIBYTE_PER_SECOND;
+        public const double PER_ZEBIBYTE_PER_SECOND = PER_EXBIBYTE_PER_SECOND * Units.ExbibytesPerSecond.PER_ZEBIBYTE_PER_SECOND;
 
         /// <summary>
         /// The number of mibibytes per second per yobibyte per second
         /// </summary>
-        public const float PER_YOBIBYTE_PER_SECOND = PER_ZEBIBYTE_PER_SECOND * Units.ZebibytesPerSecond.PER_YOBIBYTE_PER_SECOND;
+        public const double PER_YOBIBYTE_PER_SECOND = PER_ZEBIBYTE_PER_SECOND * Units.ZebibytesPerSecond.PER_YOBIBYTE_PER_SECOND;
 
         /// <summary>
         /// Convert mibibytes per second to bits per second
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of bits per second</returns>
-        public static float BitsPerSecond(float mibibytesPerSecond)
+        public static double BitsPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.BitsPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -105,7 +105,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of bytes per second</returns>
-        public static float BytesPerSecond(float mibibytesPerSecond)
+        public static double BytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.BytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -115,7 +115,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of kilobytes per second</returns>
-        public static float KilobytesPerSecond(float mibibytesPerSecond)
+        public static double KilobytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.KilobytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -125,7 +125,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of megabytes per second</returns>
-        public static float MegabytesPerSecond(float mibibytesPerSecond)
+        public static double MegabytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.MegabytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -135,7 +135,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of gigabytes per second</returns>
-        public static float GigabytesPerSecond(float mibibytesPerSecond)
+        public static double GigabytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.GigabytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -145,7 +145,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of terabytes per second</returns>
-        public static float TerabytesPerSecond(float mibibytesPerSecond)
+        public static double TerabytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.TerabytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -155,7 +155,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of Petabytes per second</returns>
-        public static float PetabytesPerSecond(float mibibytesPerSecond)
+        public static double PetabytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.PetabytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -165,7 +165,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of exabytes per second</returns>
-        public static float ExabytesPerSecond(float mibibytesPerSecond)
+        public static double ExabytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.ExabytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -175,7 +175,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of zettabytes per second</returns>
-        public static float ZettabytesPerSecond(float mibibytesPerSecond)
+        public static double ZettabytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.ZettabytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -185,7 +185,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of yotabytes per second</returns>
-        public static float YotabytesPerSecond(float mibibytesPerSecond)
+        public static double YotabytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.YotabytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -195,7 +195,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of kibibytes per second</returns>
-        public static float KibibytesPerSecond(float mibibytesPerSecond)
+        public static double KibibytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.KibibytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -205,7 +205,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of gibibytes per second</returns>
-        public static float GibibytesPerSecond(float mibibytesPerSecond)
+        public static double GibibytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.GibibytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -215,7 +215,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of tebibytes per second</returns>
-        public static float TebibytesPerSecond(float mibibytesPerSecond)
+        public static double TebibytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.TebibytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -225,7 +225,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of pebibytes per second</returns>
-        public static float PebibytesPerSecond(float mibibytesPerSecond)
+        public static double PebibytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.PebibytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -235,7 +235,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of exbibytes per second</returns>
-        public static float ExbibytesPerSecond(float mibibytesPerSecond)
+        public static double ExbibytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.ExbibytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -245,7 +245,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of zebibytes per second</returns>
-        public static float ZebibytesPerSecond(float mibibytesPerSecond)
+        public static double ZebibytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.ZebibytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }
@@ -255,7 +255,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="mibibytesPerSecond">The number of mibibytes per second</param>
         /// <returns>The number of yobibytes per second</returns>
-        public static float YobibytesPerSecond(float mibibytesPerSecond)
+        public static double YobibytesPerSecond(double mibibytesPerSecond)
         {
             return mibibytesPerSecond * Units.YobibytesPerSecond.PER_MIBIBYTE_PER_SECOND;
         }

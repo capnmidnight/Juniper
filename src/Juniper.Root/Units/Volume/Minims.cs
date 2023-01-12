@@ -5,29 +5,29 @@ namespace Juniper.Units
     /// </summary>
     public static class Minims
     {
-        public const float PER_CUBIC_MICROMETER = 1 / Units.CubicMicrometers.PER_MINIM;
-        public const float PER_CUBIC_MILLIMETER = 1 / Units.CubicMillimeters.PER_MINIM;
-        public const float PER_MINIM = 1;
-        public const float PER_CUBIC_CENTIMETER = PER_MILLILITER;
-        public const float PER_MILLILITER = 16.230730828281f;
-        public const float PER_FLUID_DRAM = 60;
-        public const float PER_TEASPOON = 80;
-        public const float PER_TABLESPOON = PER_TEASPOON * Units.Teaspoons.PER_TABLESPOON;
-        public const float PER_FLUID_OUNCE = PER_FLUID_DRAM * Units.FluidDrams.PER_FLUID_OUNCE;
-        public const float PER_CUBIC_INCH = PER_TABLESPOON * Units.Tablespoons.PER_CUBIC_INCH;
-        public const float PER_GILL = PER_FLUID_OUNCE * Units.FluidOunces.PER_GILL;
-        public const float PER_CUP = PER_GILL * Units.Gills.PER_CUP;
-        public const float PER_LIQUID_PINT = PER_CUP * Units.Cups.PER_LIQUID_PINT;
-        public const float PER_LIQUID_QUART = PER_LIQUID_PINT * Units.LiquidPints.PER_LIQUID_QUART;
-        public const float PER_LITER = PER_LIQUID_QUART * Units.LiquidQuarts.PER_LITER;
-        public const float PER_GALLON = PER_LIQUID_QUART * Units.LiquidQuarts.PER_GALLON;
-        public const float PER_CUBIC_FOOT = PER_GALLON * Units.Gallons.PER_CUBIC_FOOT;
-        public const float PER_CUBIC_METER = PER_LITER * Units.Liters.PER_CUBIC_METER;
-        public const float PER_KILOLITER = PER_CUBIC_METER;
-        public const float PER_CUBIC_KILOMETER = PER_CUBIC_METER * Units.CubicMeters.PER_CUBIC_KILOMETER;
-        public const float PER_CUBIC_MILE = PER_CUBIC_FOOT * Units.CubicFeet.PER_CUBIC_MILE;
+        public const double PER_CUBIC_MICROMETER = 1 / Units.CubicMicrometers.PER_MINIM;
+        public const double PER_CUBIC_MILLIMETER = 1 / Units.CubicMillimeters.PER_MINIM;
+        public const double PER_MINIM = 1;
+        public const double PER_CUBIC_CENTIMETER = PER_MILLILITER;
+        public const double PER_MILLILITER = 16.230730828281;
+        public const double PER_FLUID_DRAM = 60;
+        public const double PER_TEASPOON = 80;
+        public const double PER_TABLESPOON = PER_TEASPOON * Units.Teaspoons.PER_TABLESPOON;
+        public const double PER_FLUID_OUNCE = PER_FLUID_DRAM * Units.FluidDrams.PER_FLUID_OUNCE;
+        public const double PER_CUBIC_INCH = PER_TABLESPOON * Units.Tablespoons.PER_CUBIC_INCH;
+        public const double PER_GILL = PER_FLUID_OUNCE * Units.FluidOunces.PER_GILL;
+        public const double PER_CUP = PER_GILL * Units.Gills.PER_CUP;
+        public const double PER_LIQUID_PINT = PER_CUP * Units.Cups.PER_LIQUID_PINT;
+        public const double PER_LIQUID_QUART = PER_LIQUID_PINT * Units.LiquidPints.PER_LIQUID_QUART;
+        public const double PER_LITER = PER_LIQUID_QUART * Units.LiquidQuarts.PER_LITER;
+        public const double PER_GALLON = PER_LIQUID_QUART * Units.LiquidQuarts.PER_GALLON;
+        public const double PER_CUBIC_FOOT = PER_GALLON * Units.Gallons.PER_CUBIC_FOOT;
+        public const double PER_CUBIC_METER = PER_LITER * Units.Liters.PER_CUBIC_METER;
+        public const double PER_KILOLITER = PER_CUBIC_METER;
+        public const double PER_CUBIC_KILOMETER = PER_CUBIC_METER * Units.CubicMeters.PER_CUBIC_KILOMETER;
+        public const double PER_CUBIC_MILE = PER_CUBIC_FOOT * Units.CubicFeet.PER_CUBIC_MILE;
 
-        public static float CubicMicrometers(float minims)
+        public static double CubicMicrometers(double minims)
         {
             return minims * Units.CubicMicrometers.PER_MINIM;
         }
@@ -37,7 +37,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of cubic millimeters</returns>
-        public static float CubicMillimeters(float minims)
+        public static double CubicMillimeters(double minims)
         {
             return minims * Units.CubicMillimeters.PER_MINIM;
         }
@@ -47,7 +47,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of cubic centimeters</returns>
-        public static float CubicCentimeters(float minims)
+        public static double CubicCentimeters(double minims)
         {
             return minims * Units.CubicCentimeters.PER_MINIM;
         }
@@ -57,22 +57,22 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of milliliters</returns>
-        public static float Milliliters(float minims)
+        public static double Milliliters(double minims)
         {
             return CubicCentimeters(minims);
         }
 
-        public static float FluidDrams(float minims)
+        public static double FluidDrams(double minims)
         {
             return minims * Units.FluidDrams.PER_MINIM;
         }
 
-        public static float Teaspoons(float minims)
+        public static double Teaspoons(double minims)
         {
             return minims * Units.Teaspoons.PER_MINIM;
         }
 
-        public static float Tablespoons(float minims)
+        public static double Tablespoons(double minims)
         {
             return minims * Units.Tablespoons.PER_MINIM;
         }
@@ -82,32 +82,32 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of cubic inches</returns>
-        public static float CubicInches(float minims)
+        public static double CubicInches(double minims)
         {
             return minims * Units.CubicInches.PER_MINIM;
         }
 
-        public static float FluidOunces(float minims)
+        public static double FluidOunces(double minims)
         {
             return minims * Units.FluidOunces.PER_MINIM;
         }
 
-        public static float Gills(float minims)
+        public static double Gills(double minims)
         {
             return minims * Units.Gills.PER_MINIM;
         }
 
-        public static float Cups(float minims)
+        public static double Cups(double minims)
         {
             return minims * Units.Cups.PER_MINIM;
         }
 
-        public static float LiquidPints(float minims)
+        public static double LiquidPints(double minims)
         {
             return minims * Units.LiquidPints.PER_MINIM;
         }
 
-        public static float LiquidQuarts(float minims)
+        public static double LiquidQuarts(double minims)
         {
             return minims * Units.LiquidQuarts.PER_MINIM;
         }
@@ -117,12 +117,12 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of liters</returns>
-        public static float Liters(float minims)
+        public static double Liters(double minims)
         {
             return minims * Units.Liters.PER_MINIM;
         }
 
-        public static float Gallons(float minims)
+        public static double Gallons(double minims)
         {
             return minims * Units.Gallons.PER_MINIM;
         }
@@ -132,7 +132,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of cubic feet</returns>
-        public static float CubicFeet(float minims)
+        public static double CubicFeet(double minims)
         {
             return minims * Units.CubicFeet.PER_MINIM;
         }
@@ -142,7 +142,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of cubic meters</returns>
-        public static float CubicMeters(float minims)
+        public static double CubicMeters(double minims)
         {
             return minims * Units.CubicMeters.PER_MINIM;
         }
@@ -152,7 +152,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of kiloliters</returns>
-        public static float Kiloliters(float minims)
+        public static double Kiloliters(double minims)
         {
             return CubicMeters(minims);
         }
@@ -162,7 +162,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of cubic kilometers</returns>
-        public static float CubicKilometers(float minims)
+        public static double CubicKilometers(double minims)
         {
             return minims * Units.CubicKilometers.PER_MINIM;
         }
@@ -172,7 +172,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minims">The number of cubic micrometers</param>
         /// <returns>The number of cubic miles</returns>
-        public static float CubicMiles(float minims)
+        public static double CubicMiles(double minims)
         {
             return minims * Units.CubicMiles.PER_MINIM;
         }

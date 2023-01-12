@@ -8,59 +8,59 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from micrometers to meters.
         /// </summary>
-        public const float PER_MICROMETER = 1 / Units.Micrometers.PER_METER;
+        public const double PER_MICROMETER = 1 / Units.Micrometers.PER_METER;
 
         /// <summary>
         /// Conversion factor from millimeters to meters.
         /// </summary>
-        public const float PER_MILLIMETER = 1 / Units.Millimeters.PER_METER;
+        public const double PER_MILLIMETER = 1 / Units.Millimeters.PER_METER;
 
         /// <summary>
         /// Conversion factor from centimeters to meters.
         /// </summary>
-        public const float PER_CENTIMETER = 1 / Units.Centimeters.PER_METER;
+        public const double PER_CENTIMETER = 1 / Units.Centimeters.PER_METER;
 
         /// <summary>
         /// Conversion factor from inches to meters.
         /// </summary>
-        public const float PER_INCH = 1 / Units.Inches.PER_METER;
+        public const double PER_INCH = 1 / Units.Inches.PER_METER;
 
         /// <summary>
         /// Conversion factor from feet to meters.
         /// </summary>
-        public const float PER_FOOT = 1 / Units.Feet.PER_METER;
+        public const double PER_FOOT = 1 / Units.Feet.PER_METER;
 
         /// <summary>
         /// Conversion factor from yards to meters.
         /// </summary>
-        public const float PER_YARD = 1 / Units.Yards.PER_METER;
+        public const double PER_YARD = 1 / Units.Yards.PER_METER;
 
         /// <summary>
         /// Conversion factor from rods to meters.
         /// </summary>
-        public const float PER_ROD = PER_FOOT * Units.Feet.PER_ROD;
+        public const double PER_ROD = PER_FOOT * Units.Feet.PER_ROD;
 
         /// <summary>
         /// Conversion factor from furlongs to meters.
         /// </summary>
-        public const float PER_FURLONG = PER_ROD * Units.Rods.PER_FURLONG;
+        public const double PER_FURLONG = PER_ROD * Units.Rods.PER_FURLONG;
 
         /// <summary>
         /// Conversion factor from kilometers to meters.
         /// </summary>
-        public const float PER_KILOMETER = 1000f;
+        public const double PER_KILOMETER = 1000;
 
         /// <summary>
         /// Conversion factor from miles to meters.
         /// </summary>
-        public const float PER_MILE = PER_FURLONG * Units.Furlongs.PER_MILE;
+        public const double PER_MILE = PER_FURLONG * Units.Furlongs.PER_MILE;
 
         /// <summary>
         /// Convert from meters to micrometers.
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of micrometers</returns>
-        public static float Micrometers(float meters)
+        public static double Micrometers(double meters)
         {
             return meters * Units.Micrometers.PER_METER;
         }
@@ -70,7 +70,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of millimeters</returns>
-        public static float Millimeters(float meters)
+        public static double Millimeters(double meters)
         {
             return meters * Units.Millimeters.PER_METER;
         }
@@ -80,7 +80,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of centimeters</returns>
-        public static float Centimeters(float meters)
+        public static double Centimeters(double meters)
         {
             return meters * Units.Centimeters.PER_METER;
         }
@@ -90,7 +90,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of inches</returns>
-        public static float Inches(float meters)
+        public static double Inches(double meters)
         {
             return meters * Units.Inches.PER_METER;
         }
@@ -100,7 +100,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of feet</returns>
-        public static float Feet(float meters)
+        public static double Feet(double meters)
         {
             return meters * Units.Feet.PER_METER;
         }
@@ -110,7 +110,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of yards</returns>
-        public static float Yards(float meters)
+        public static double Yards(double meters)
         {
             return meters * Units.Yards.PER_METER;
         }
@@ -120,7 +120,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of rods</returns>
-        public static float Rods(float meters)
+        public static double Rods(double meters)
         {
             return meters * Units.Rods.PER_METER;
         }
@@ -130,7 +130,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of furlongs</returns>
-        public static float Furlongs(float meters)
+        public static double Furlongs(double meters)
         {
             return meters * Units.Furlongs.PER_METER;
         }
@@ -140,7 +140,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of kilometers</returns>
-        public static float Kilometers(float meters)
+        public static double Kilometers(double meters)
         {
             return meters * Units.Kilometers.PER_METER;
         }
@@ -150,7 +150,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="meters">The number of meters</param>
         /// <returns>The number of miles</returns>
-        public static float Miles(float meters)
+        public static double Miles(double meters)
         {
             return meters * Units.Miles.PER_METER;
         }

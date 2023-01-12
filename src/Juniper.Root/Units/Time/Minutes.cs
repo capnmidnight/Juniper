@@ -10,44 +10,44 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from nanoseconds to minutes.
         /// </summary>
-        public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_MINUTE;
+        public const double PER_NANOSECOND = 1 / Units.Nanoseconds.PER_MINUTE;
 
         /// <summary>
         /// Conversion factor from nanoseconds to minutes.
         /// </summary>
-        public const float PER_TICK = 1 / Units.Ticks.PER_MINUTE;
+        public const double PER_TICK = 1 / Units.Ticks.PER_MINUTE;
 
         /// <summary>
         /// Conversion factor from microseconds to minutes.
         /// </summary>
-        public const float PER_MICROSECOND = 1 / Units.Microseconds.PER_MINUTE;
+        public const double PER_MICROSECOND = 1 / Units.Microseconds.PER_MINUTE;
 
         /// <summary>
         /// Conversion factor from milliseconds to minutes.
         /// </summary>
-        public const float PER_MILLISECOND = 1 / Units.Milliseconds.PER_MINUTE;
+        public const double PER_MILLISECOND = 1 / Units.Milliseconds.PER_MINUTE;
 
         /// <summary>
         /// Conversion factor from seconds to minutes.
         /// </summary>
-        public const float PER_SECOND = 1 / Units.Seconds.PER_MINUTE;
+        public const double PER_SECOND = 1 / Units.Seconds.PER_MINUTE;
 
         /// <summary>
         /// Conversion factor from hours to minutes.
         /// </summary>
-        public const float PER_HOUR = 60;
+        public const double PER_HOUR = 60;
 
         /// <summary>
         /// Conversion factor from days to minutes.
         /// </summary>
-        public const float PER_DAY = PER_HOUR * Units.Hours.PER_DAY;
+        public const double PER_DAY = PER_HOUR * Units.Hours.PER_DAY;
 
         /// <summary>
         /// Convert from minutes to nanoseconds.
         /// </summary>
         /// <param name="minutes">The number of minutes</param>
         /// <returns>The number of nanoseconds</returns>
-        public static float Nanoseconds(float minutes)
+        public static double Nanoseconds(double minutes)
         {
             return minutes * Units.Nanoseconds.PER_MINUTE;
         }
@@ -57,7 +57,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minutes">The number of minutes</param>
         /// <returns>The number of ticks</returns>
-        public static float Ticks(float minutes)
+        public static double Ticks(double minutes)
         {
             return minutes * Units.Ticks.PER_MINUTE;
         }
@@ -67,7 +67,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minutes">The number of minutes</param>
         /// <returns>The number of microseconds</returns>
-        public static float Microseconds(float minutes)
+        public static double Microseconds(double minutes)
         {
             return minutes * Units.Microseconds.PER_MINUTE;
         }
@@ -77,7 +77,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minutes">The number of minutes</param>
         /// <returns>The number of milliseconds</returns>
-        public static float Milliseconds(float minutes)
+        public static double Milliseconds(double minutes)
         {
             return minutes * Units.Milliseconds.PER_MINUTE;
         }
@@ -87,7 +87,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minutes">The number of minutes</param>
         /// <returns>The number of minutes</returns>
-        public static float Seconds(float minutes)
+        public static double Seconds(double minutes)
         {
             return minutes * Units.Seconds.PER_MINUTE;
         }
@@ -97,7 +97,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minutes">The number of minutes</param>
         /// <returns>The number of hours</returns>
-        public static float Hours(float minutes)
+        public static double Hours(double minutes)
         {
             return minutes * Units.Hours.PER_MINUTE;
         }
@@ -107,7 +107,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minutes">The number of minutes</param>
         /// <returns>The number of days</returns>
-        public static float Days(float minutes)
+        public static double Days(double minutes)
         {
             return minutes * Units.Days.PER_MINUTE;
         }
@@ -117,7 +117,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minutes">The number of minutes</param>
         /// <returns>The number of hertz</returns>
-        public static float Hertz(float minutes)
+        public static double Hertz(double minutes)
         {
             return Units.Seconds.Hertz(Seconds(minutes));
         }
@@ -127,7 +127,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="minutes"></param>
         /// <returns></returns>
-        public static IEnumerator Wait(float minutes)
+        public static IEnumerator Wait(double minutes)
         {
             var start = DateTime.Now;
             var ts = TimeSpan.FromMinutes(minutes);

@@ -39,9 +39,9 @@ namespace System
         /// The number of days since the Celestial Julian Day Calculation Epoch (Day 2451545 on the
         /// Julian Calendar).
         /// </returns>
-        public static float ToJulianDays(this DateTime time)
+        public static double ToJulianDays(this DateTime time)
         {
-            const float JDEpoch = 2451545f;
+            const double JDEpoch = 2451545;
             // Julian Day
             var jdDate = new DateTime(time.Year, time.Month, time.Day, 12, 0, 0);
             if (time.Hour < 12)
@@ -61,7 +61,7 @@ namespace System
                 - (3 * ((Y + 4900 + ((M - 14) / 12)) / 100) / 4)
                 + D - 32075;
 
-            return JD + (float)delta.TotalDays - JDEpoch;
+            return JD + delta.TotalDays - JDEpoch;
         }
     }
 }

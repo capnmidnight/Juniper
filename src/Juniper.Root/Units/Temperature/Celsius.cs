@@ -8,34 +8,34 @@ namespace Juniper.Units
         /// <summary>
         /// The temperature in Celsius at which pure water freezes.
         /// </summary>
-        public const float FREEZING_POINT = 0f;
+        public const double FREEZING_POINT = 0;
 
         /// <summary>
         /// The temperature in Celsius at which pure water boils.
         /// </summary>
-        public const float BOILING_POINT = 100f;
+        public const double BOILING_POINT = 100;
 
         /// <summary>
         /// The range across the freezing and boiling point of pure water.
         /// </summary>
-        public const float LIQUID_BAND = BOILING_POINT - FREEZING_POINT;
+        public const double LIQUID_BAND = BOILING_POINT - FREEZING_POINT;
 
         /// <summary>
         /// Conversion factor from farenheit to celsius.
         /// </summary>
-        public const float PER_FARENHEIT = LIQUID_BAND / Units.Farenheit.LIQUID_BAND;
+        public const double PER_FARENHEIT = LIQUID_BAND / Units.Farenheit.LIQUID_BAND;
 
         /// <summary>
         /// Conversion factor from kelvin to celsius.
         /// </summary>
-        public const float PER_KELVIN = LIQUID_BAND / Units.Kelvin.LIQUID_BAND;
+        public const double PER_KELVIN = LIQUID_BAND / Units.Kelvin.LIQUID_BAND;
 
         /// <summary>
         /// Convert from celsius to farenheit.
         /// </summary>
         /// <param name="celcius">The number of celcius</param>
         /// <returns>The number of degrees farenheit</returns>
-        public static float Farenheit(float celcius)
+        public static double Farenheit(double celcius)
         {
             return ((celcius - FREEZING_POINT) * Units.Farenheit.PER_CELSIUS) + Units.Farenheit.FREEZING_POINT;
         }
@@ -45,7 +45,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="celcius">The number of celcius</param>
         /// <returns>The number of degrees kelvin</returns>
-        public static float Kelvin(float celcius)
+        public static double Kelvin(double celcius)
         {
             return ((celcius - FREEZING_POINT) * Units.Kelvin.PER_CELSIUS) + Units.Kelvin.FREEZING_POINT;
         }

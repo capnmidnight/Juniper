@@ -12,7 +12,7 @@ namespace Juniper.Units
         /// <param name="a">The amount to compare to <paramref name="b"/></param>
         /// <param name="b">The amount that <paramref name="a"/> is being compared to</param>
         /// <returns>The percentage of the whole that <paramref name="a"/> represents</returns>
-        public static float Percent(float a, float b)
+        public static double Percent(double a, double b)
         {
             return Units.Proportion.Percent(Proportion(a, b));
         }
@@ -23,7 +23,7 @@ namespace Juniper.Units
         /// <param name="a">The amount to compare to <paramref name="b"/></param>
         /// <param name="b">The amount that <paramref name="a"/> is being compared to</param>
         /// <returns>The proportion of the whole that <paramref name="a"/> represents</returns>
-        public static float Proportion(float a, float b)
+        public static double Proportion(double a, double b)
         {
             return a / (a + b);
         }

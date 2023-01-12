@@ -10,9 +10,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="percent">The percentage of a whole</param>
         /// <returns>The proportion the percentage represents</returns>
-        public static float Proportion(float percent)
+        public static double Proportion(double percent)
         {
-            return percent * 0.01f;
+            return percent * 0.01;
         }
     }
 }

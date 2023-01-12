@@ -18,17 +18,17 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The east/west component of the coordinate.
         /// </summary>
-        public float Easting { get; }
+        public double Easting { get; }
 
         /// <summary>
         /// The north/south component of the coordinate.
         /// </summary>
-        public float Northing { get; }
+        public double Northing { get; }
 
         /// <summary>
         /// An altitude component.
         /// </summary>
-        public float Altitude { get; }
+        public double Altitude { get; }
 
         /// <summary>
         /// The UTM Zone for which this coordinate represents.
@@ -48,7 +48,7 @@ namespace Juniper.World.GIS
         /// <param name="z">The number of z</param>
         /// <param name="zone">The number of zone</param>
         /// <param name="hemisphere">The hemisphere in which the UTM point sits</param>
-        public UTMPoint(float x, float y, float z, int zone, GlobeHemisphere hemisphere)
+        public UTMPoint(double x, double y, double z, int zone, GlobeHemisphere hemisphere)
         {
             Easting = x;
             Northing = y;

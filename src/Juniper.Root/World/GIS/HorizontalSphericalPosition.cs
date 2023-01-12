@@ -12,17 +12,17 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The altitude of the object (angle off of the Ecliptic), in degrees.
         /// </summary>
-        public float AltitudeDegrees { get; }
+        public double AltitudeDegrees { get; }
 
         /// <summary>
         /// The azimuth of the object (angle off of prime azimuth), in degrees.
         /// </summary>
-        public float AzimuthDegrees { get; }
+        public double AzimuthDegrees { get; }
 
         /// <summary>
         /// The distance from the origin of the system (the sun) in astronomical units (earth-distances).
         /// </summary>
-        public float RadiusAU { get; }
+        public double RadiusAU { get; }
 
         /// <summary>
         /// Create a new bearing to an object.
@@ -30,7 +30,7 @@ namespace Juniper.World.GIS
         /// <param name="alt">The altitude to the object, in degrees</param>
         /// <param name="az">The azimuth to the object, in degrees.</param>
         /// <param name="r">The distance from the sun, in astronomical units.</param>
-        public HorizontalSphericalPosition(float alt, float az, float r)
+        public HorizontalSphericalPosition(double alt, double az, double r)
         {
             AltitudeDegrees = alt;
             AzimuthDegrees = az;

@@ -10,7 +10,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="hertz">The number of hertz</param>
         /// <returns>The number of nanoseconds</returns>
-        public static float Nanoseconds(float hertz)
+        public static double Nanoseconds(double hertz)
         {
             return Seconds(Units.Nanoseconds.Seconds(hertz));
         }
@@ -20,7 +20,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="hertz">The number of hertz</param>
         /// <returns>The number of ticks</returns>
-        public static float Ticks(float hertz)
+        public static double Ticks(double hertz)
         {
             return Seconds(Units.Ticks.Seconds(hertz));
         }
@@ -30,7 +30,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="hertz">The number of hertz</param>
         /// <returns>The number of microseconds</returns>
-        public static float Microseconds(float hertz)
+        public static double Microseconds(double hertz)
         {
             return Seconds(Units.Microseconds.Seconds(hertz));
         }
@@ -40,7 +40,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="hertz">The number of hertz</param>
         /// <returns>The number of milliseconds</returns>
-        public static float Milliseconds(float hertz)
+        public static double Milliseconds(double hertz)
         {
             return Seconds(Units.Milliseconds.Seconds(hertz));
         }
@@ -50,7 +50,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="hertz">The number of hertz</param>
         /// <returns>The number of minutes</returns>
-        public static float Minutes(float hertz)
+        public static double Minutes(double hertz)
         {
             return Seconds(Units.Minutes.Seconds(hertz));
         }
@@ -60,7 +60,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="hertz">The number of hertz</param>
         /// <returns>The number of hours</returns>
-        public static float Hours(float hertz)
+        public static double Hours(double hertz)
         {
             return Seconds(Units.Hours.Seconds(hertz));
         }
@@ -70,7 +70,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="hertz">The number of hertz</param>
         /// <returns>The number of days</returns>
-        public static float Days(float hertz)
+        public static double Days(double hertz)
         {
             return Seconds(Units.Days.Seconds(hertz));
         }
@@ -80,7 +80,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="hertz">The number of hertz</param>
         /// <returns>The number of seconds</returns>
-        public static float Seconds(float hertz)
+        public static double Seconds(double hertz)
         {
             return 1 / hertz;
         }

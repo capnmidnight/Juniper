@@ -8,59 +8,59 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from square centimeters to square micrometers.
         /// </summary>
-        public const float PER_SQUARE_MILLIMETER = Micrometers.PER_MILLIMETER * Micrometers.PER_MILLIMETER;
+        public const double PER_SQUARE_MILLIMETER = Micrometers.PER_MILLIMETER * Micrometers.PER_MILLIMETER;
 
         /// <summary>
         /// Conversion factor from square centimeters to square micrometers.
         /// </summary>
-        public const float PER_SQUARE_CENTIMETER = Micrometers.PER_CENTIMETER * Micrometers.PER_CENTIMETER;
+        public const double PER_SQUARE_CENTIMETER = Micrometers.PER_CENTIMETER * Micrometers.PER_CENTIMETER;
 
         /// <summary>
         /// Conversion factor from square inches to square micrometers.
         /// </summary>
-        public const float PER_SQUARE_INCH = Micrometers.PER_INCH * Micrometers.PER_INCH;
+        public const double PER_SQUARE_INCH = Micrometers.PER_INCH * Micrometers.PER_INCH;
 
         /// <summary>
         /// Conversion factor from square feet to square micrometers.
         /// </summary>
-        public const float PER_SQUARE_FOOT = Micrometers.PER_FOOT * Micrometers.PER_FOOT;
+        public const double PER_SQUARE_FOOT = Micrometers.PER_FOOT * Micrometers.PER_FOOT;
 
         /// <summary>
         /// Conversion factor from square yards to square micrometers.
         /// </summary>
-        public const float PER_SQUARE_YARD = Micrometers.PER_YARD * Micrometers.PER_YARD;
+        public const double PER_SQUARE_YARD = Micrometers.PER_YARD * Micrometers.PER_YARD;
 
         /// <summary>
         /// Conversion factor from square meters to square micrometers.
         /// </summary>
-        public const float PER_SQUARE_METER = Micrometers.PER_METER * Micrometers.PER_METER;
+        public const double PER_SQUARE_METER = Micrometers.PER_METER * Micrometers.PER_METER;
 
         /// <summary>
         /// Conversion factor from square rod to square micrometers.
         /// </summary>
-        public const float PER_SQUARE_ROD = Micrometers.PER_ROD * Micrometers.PER_ROD;
+        public const double PER_SQUARE_ROD = Micrometers.PER_ROD * Micrometers.PER_ROD;
 
         /// <summary>
         /// Conversion factor from acres to square micrometers.
         /// </summary>
-        public const float PER_ACRE = PER_SQUARE_ROD * Units.SquareRods.PER_ACRE;
+        public const double PER_ACRE = PER_SQUARE_ROD * Units.SquareRods.PER_ACRE;
 
         /// <summary>
         /// Conversion factor from square kilometers to square micrometers.
         /// </summary>
-        public const float PER_SQUARE_KILOMETER = Micrometers.PER_KILOMETER * Micrometers.PER_KILOMETER;
+        public const double PER_SQUARE_KILOMETER = Micrometers.PER_KILOMETER * Micrometers.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from square miles to square micrometers.
         /// </summary>
-        public const float PER_SQUARE_MILE = Micrometers.PER_MILE * Micrometers.PER_MILE;
+        public const double PER_SQUARE_MILE = Micrometers.PER_MILE * Micrometers.PER_MILE;
 
         /// <summary>
         /// Convert from square micrometers to square millimeters.
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of square millimeters</returns>
-        public static float SquareMillimeters(float squareMicrometers)
+        public static double SquareMillimeters(double squareMicrometers)
         {
             return squareMicrometers * Units.SquareMillimeters.PER_SQUARE_MICROMETER;
         }
@@ -70,7 +70,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of square centimeters</returns>
-        public static float SquareCentimeters(float squareMicrometers)
+        public static double SquareCentimeters(double squareMicrometers)
         {
             return squareMicrometers * Units.SquareCentimeters.PER_SQUARE_MICROMETER;
         }
@@ -80,7 +80,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of square inches</returns>
-        public static float SquareInches(float squareMicrometers)
+        public static double SquareInches(double squareMicrometers)
         {
             return squareMicrometers * Units.SquareInches.PER_SQUARE_MICROMETER;
         }
@@ -90,7 +90,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of square feet</returns>
-        public static float SquareFeet(float squareMicrometers)
+        public static double SquareFeet(double squareMicrometers)
         {
             return squareMicrometers * Units.SquareFeet.PER_SQUARE_MICROMETER;
         }
@@ -100,7 +100,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of square yards</returns>
-        public static float SquareYards(float squareMicrometers)
+        public static double SquareYards(double squareMicrometers)
         {
             return squareMicrometers * Units.SquareYards.PER_SQUARE_MICROMETER;
         }
@@ -110,7 +110,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of square meters</returns>
-        public static float SquareMeters(float squareMicrometers)
+        public static double SquareMeters(double squareMicrometers)
         {
             return squareMicrometers * Units.SquareMeters.PER_SQUARE_MICROMETER;
         }
@@ -120,7 +120,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of square rods</returns>
-        public static float SquareRods(float squareMicrometers)
+        public static double SquareRods(double squareMicrometers)
         {
             return squareMicrometers * Units.SquareRods.PER_SQUARE_MICROMETER;
         }
@@ -130,7 +130,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of acres</returns>
-        public static float Acres(float squareMicrometers)
+        public static double Acres(double squareMicrometers)
         {
             return squareMicrometers * Units.Acres.PER_SQUARE_MICROMETER;
         }
@@ -140,7 +140,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of square kilometers</returns>
-        public static float SquareKilometers(float squareMicrometers)
+        public static double SquareKilometers(double squareMicrometers)
         {
             return squareMicrometers * Units.SquareKilometers.PER_SQUARE_MICROMETER;
         }
@@ -150,7 +150,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="squareMicrometers">The number of square micrometers</param>
         /// <returns>The number of square miles</returns>
-        public static float SquareMiles(float squareMicrometers)
+        public static double SquareMiles(double squareMicrometers)
         {
             return squareMicrometers * Units.SquareMiles.PER_SQUARE_MICROMETER;
         }

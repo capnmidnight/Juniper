@@ -8,29 +8,29 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from grams to pounds.
         /// </summary>
-        public const float PER_GRAM = 1 / Units.Grams.PER_POUND;
+        public const double PER_GRAM = 1 / Units.Grams.PER_POUND;
 
         /// <summary>
         /// Conversion factor from ounces to pounds.
         /// </summary>
-        public const float PER_OUNCE = 1 / Units.Ounces.PER_POUND;
+        public const double PER_OUNCE = 1 / Units.Ounces.PER_POUND;
 
         /// <summary>
         /// Conversion factor from kilograms to pounds.
         /// </summary>
-        public const float PER_KILOGRAM = 2.2046228f;
+        public const double PER_KILOGRAM = 2.20462262;
 
         /// <summary>
         /// Conversion factor from tons to pounds.
         /// </summary>
-        public const float PER_TON = 2000f;
+        public const double PER_TON = 2000;
 
         /// <summary>
         /// Convert from pounds to grams.
         /// </summary>
         /// <param name="pounds">The number of pounds</param>
         /// <returns>The number of grams</returns>
-        public static float Grams(float pounds)
+        public static double Grams(double pounds)
         {
             return pounds * Units.Grams.PER_POUND;
         }
@@ -40,7 +40,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="pounds">The number of pounds</param>
         /// <returns>The number of ounces</returns>
-        public static float Ounces(float pounds)
+        public static double Ounces(double pounds)
         {
             return pounds * Units.Ounces.PER_POUND;
         }
@@ -50,7 +50,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="pounds">The number of pounds</param>
         /// <returns>The number of kilograms</returns>
-        public static float Kilograms(float pounds)
+        public static double Kilograms(double pounds)
         {
             return pounds * Units.Kilograms.PER_POUND;
         }
@@ -60,7 +60,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="pounds">The number of pounds</param>
         /// <returns>The number of tons</returns>
-        public static float Tons(float pounds)
+        public static double Tons(double pounds)
         {
             return pounds * Units.Tons.PER_POUND;
         }

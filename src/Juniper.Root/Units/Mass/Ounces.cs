@@ -8,29 +8,29 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from grams to ounces.
         /// </summary>
-        public const float PER_GRAM = 1 / Units.Grams.PER_OUNCE;
+        public const double PER_GRAM = 1 / Units.Grams.PER_OUNCE;
 
         /// <summary>
         /// Conversion factor from pounds to ounces.
         /// </summary>
-        public const float PER_POUND = 16;
+        public const double PER_POUND = 16;
 
         /// <summary>
         /// Conversion factor from kilograms to ounces.
         /// </summary>
-        public const float PER_KILOGRAM = PER_GRAM * Units.Grams.PER_KILOGRAM;
+        public const double PER_KILOGRAM = PER_GRAM * Units.Grams.PER_KILOGRAM;
 
         /// <summary>
         /// Conversion factor from tons to ounces.
         /// </summary>
-        public const float PER_TON = PER_POUND * Units.Pounds.PER_TON;
+        public const double PER_TON = PER_POUND * Units.Pounds.PER_TON;
 
         /// <summary>
         /// Convert from ounces to grams.
         /// </summary>
         /// <param name="ounces">The number of ounces</param>
         /// <returns>The number of grams</returns>
-        public static float Grams(float ounces)
+        public static double Grams(double ounces)
         {
             return ounces * Units.Grams.PER_OUNCE;
         }
@@ -40,7 +40,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ounces">The number of ounces</param>
         /// <returns>The number of pounds</returns>
-        public static float Pounds(float ounces)
+        public static double Pounds(double ounces)
         {
             return ounces * Units.Pounds.PER_OUNCE;
         }
@@ -50,7 +50,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ounces">The number of ounces</param>
         /// <returns>The number of kilograms</returns>
-        public static float Kilograms(float ounces)
+        public static double Kilograms(double ounces)
         {
             return ounces * Units.Kilograms.PER_OUNCE;
         }
@@ -60,7 +60,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="ounces">The number of ounces</param>
         /// <returns>The number of tons</returns>
-        public static float Tons(float ounces)
+        public static double Tons(double ounces)
         {
             return ounces * Units.Tons.PER_OUNCE;
         }

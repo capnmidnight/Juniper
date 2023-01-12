@@ -10,29 +10,29 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from circles to radians.
         /// </summary>
-        public const float PER_CIRCLE = (float)(2 * PI);
+        public const double PER_CIRCLE = (double)(2 * PI);
 
         /// <summary>
         /// Conversion factor from degrees to radians.
         /// </summary>
-        public const float PER_DEGREE = PER_CIRCLE / Units.Degrees.PER_CIRCLE;
+        public const double PER_DEGREE = PER_CIRCLE / Units.Degrees.PER_CIRCLE;
 
         /// <summary>
         /// Conversion factor from gradians to radians.
         /// </summary>
-        public const float PER_GRADIAN = PER_CIRCLE / Units.Gradians.PER_CIRCLE;
+        public const double PER_GRADIAN = PER_CIRCLE / Units.Gradians.PER_CIRCLE;
 
         /// <summary>
         /// Conversion factor from hours to radians.
         /// </summary>
-        public const float PER_HOUR = PER_CIRCLE / Units.Hours.PER_CIRCLE;
+        public const double PER_HOUR = PER_CIRCLE / Units.Hours.PER_CIRCLE;
 
         /// <summary>
         /// Convert from radians to degrees.
         /// </summary>
         /// <param name="radians">The number of radians</param>
         /// <returns>The number of degrees</returns>
-        public static float Degrees(float radians)
+        public static double Degrees(double radians)
         {
             return radians * Units.Degrees.PER_RADIAN;
         }
@@ -42,7 +42,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="radians">The number of radians</param>
         /// <returns>The number of gradians</returns>
-        public static float Gradians(float radians)
+        public static double Gradians(double radians)
         {
             return radians * Units.Gradians.PER_RADIAN;
         }
@@ -52,7 +52,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="radians">The number of radians</param>
         /// <returns>The number of hours</returns>
-        public static float Hours(float radians)
+        public static double Hours(double radians)
         {
             return radians * Units.Hours.PER_RADIAN;
         }

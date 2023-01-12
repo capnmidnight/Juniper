@@ -8,19 +8,19 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from Lumens to Nits.
         /// </summary>
-        public const float PER_LUMEN = 1 / Units.Lumens.PER_NIT;
+        public const double PER_LUMEN = 1 / Units.Lumens.PER_NIT;
 
         /// <summary>
         /// Conversion factor from Brightness to Nits.
         /// </summary>
-        public const float PER_BRIGHTNESS = Units.Lumens.PER_BRIGHTNESS / Units.Lumens.PER_NIT;
+        public const double PER_BRIGHTNESS = Units.Lumens.PER_BRIGHTNESS / Units.Lumens.PER_NIT;
 
         /// <summary>
         /// Convert from Nits to Lumens
         /// </summary>
         /// <param name="nits">The number of nits</param>
         /// <returns>The number of lumens</returns>
-        public static float Lumens(float nits)
+        public static double Lumens(double nits)
         {
             return nits * Units.Lumens.PER_NIT;
         }
@@ -30,7 +30,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="nits">The number of nits</param>
         /// <returns>The brightness</returns>
-        public static float Brightness(float nits)
+        public static double Brightness(double nits)
         {
             return nits * Units.Brightness.PER_NIT;
         }

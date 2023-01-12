@@ -97,7 +97,7 @@ namespace Juniper.Units
             return new UTMPoint(
                 (float)easting,
                 (float)northing,
-                latlng.Alt,
+                (float)latlng.Alt,
                 utmz,
                 hemisphere);
         }

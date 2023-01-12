@@ -12,7 +12,7 @@ namespace Juniper.Units
         /// <param name="location">The point on earth</param>
         /// <param name="n">The Julian day</param>
         /// <returns>The elevation above the horizon</returns>
-        public static HorizontalSphericalPosition ToHorizontal(this EquitorialSphericalPosition value, LatLngPoint location, float n)
+        public static HorizontalSphericalPosition ToHorizontal(this EquitorialSphericalPosition value, LatLngPoint location, double n)
         {
             if (value is null)
             {
@@ -24,7 +24,7 @@ namespace Juniper.Units
                 throw new ArgumentNullException(nameof(location));
             }
 
-            var GMST = (18.697374558f + (24.06570982441908f * n)).Repeat(24);
+            var GMST = (18.697374558 + (24.06570982441908 * n)).Repeat(24);
             var LST = GMST + Degrees.Hours(location.Lng);
             var RA = Degrees.Hours(value.RightAscensionDegrees);
             var H = Hours.Radians(LST - RA);
@@ -42,8 +42,8 @@ namespace Juniper.Units
             var sin_azm = sin_H * cos_delta / cos_alt;
             var cos_azm = (sin_delta - (sin_lat * sin_alt)) / (cos_lat * cos_alt);
 
-            var altitude_rad = (float)Atan2(sin_alt, cos_alt);
-            var azimuth_rad = (float)Atan2(sin_azm, cos_azm);
+            var altitude_rad = Atan2(sin_alt, cos_alt);
+            var azimuth_rad = Atan2(sin_azm, cos_azm);
 
             return new HorizontalSphericalPosition(
                 Radians.Degrees(altitude_rad),

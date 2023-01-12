@@ -366,7 +366,7 @@ namespace Juniper.Mathematics
             var stateVectorDim = EstimateCovariance.GetLength(0);
 
             var errorCovDet = EstimateCovariance.Determinant();
-            return 0.5f * ((stateVectorDim * Log(4 * PI)) + Log(errorCovDet));
+            return 0.5 * ((stateVectorDim * Log(4 * PI)) + Log(errorCovDet));
         }
 
         /// <summary>

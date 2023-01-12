@@ -8,29 +8,29 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from pascals to millibars.
         /// </summary>
-        public const float PER_PASCAL = Units.Hectopascals.PER_PASCAL;
+        public const double PER_PASCAL = Units.Hectopascals.PER_PASCAL;
 
         /// <summary>
         /// Conversion factor from hectopascals to millibars.
         /// </summary>
-        public const float PER_HECTOPASCAL = 1;
+        public const double PER_HECTOPASCAL = 1;
 
         /// <summary>
         /// Conversion factor from kilopascals to millibars.
         /// </summary>
-        public const float PER_KILOPASCAL = Units.Hectopascals.PER_KILOPASCAL;
+        public const double PER_KILOPASCAL = Units.Hectopascals.PER_KILOPASCAL;
 
         /// <summary>
         /// Conversion factor from pounds per square inch to millibars.
         /// </summary>
-        public const float PER_POUND_PER_SQUARE_INCH = Units.Hectopascals.PER_POUND_PER_SQUARE_INCH;
+        public const double PER_POUND_PER_SQUARE_INCH = Units.Hectopascals.PER_POUND_PER_SQUARE_INCH;
 
         /// <summary>
         /// Convert from millibars to pascals.
         /// </summary>
         /// <param name="millibars">The number of millibars</param>
         /// <returns>The number of pascals</returns>
-        public static float Pascals(float millibars)
+        public static double Pascals(double millibars)
         {
             return millibars * Units.Pascals.PER_MILLIBAR;
         }
@@ -40,7 +40,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="millibars">The number of millibars</param>
         /// <returns>The number of hectopascals</returns>
-        public static float Hectopascals(float millibars)
+        public static double Hectopascals(double millibars)
         {
             return millibars * Units.Hectopascals.PER_MILLIBAR;
         }
@@ -50,7 +50,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="millibars">The number of millibars</param>
         /// <returns>The number of kilopascals</returns>
-        public static float Kilopascals(float millibars)
+        public static double Kilopascals(double millibars)
         {
             return millibars * Units.Kilopascals.PER_MILLIBAR;
         }
@@ -60,7 +60,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="millibars">The number of millibars</param>
         /// <returns>The number of pounds per square inch</returns>
-        public static float PoundsPerSquareInch(float millibars)
+        public static double PoundsPerSquareInch(double millibars)
         {
             return millibars * Units.PoundsPerSquareInch.PER_MILLIBAR;
         }

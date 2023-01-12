@@ -8,44 +8,44 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from nanosecond to microseconds.
         /// </summary>
-        public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_MICROSECOND;
+        public const double PER_NANOSECOND = 1 / Units.Nanoseconds.PER_MICROSECOND;
 
         /// <summary>
         /// Conversion factor from ticks to microseconds;
         /// </summary>
-        public const float PER_TICK = 1 / Units.Ticks.PER_MICROSECOND;
+        public const double PER_TICK = 1 / Units.Ticks.PER_MICROSECOND;
 
         /// <summary>
         /// Conversion factor from microseconds to microseconds.
         /// </summary>
-        public const float PER_MILLISECOND = 1000;
+        public const double PER_MILLISECOND = 1000;
 
         /// <summary>
         /// Conversion factor from seconds to microseconds.
         /// </summary>
-        public const float PER_SECOND = PER_MILLISECOND * Units.Milliseconds.PER_SECOND;
+        public const double PER_SECOND = PER_MILLISECOND * Units.Milliseconds.PER_SECOND;
 
         /// <summary>
         /// Conversion factor from minutes to microseconds.
         /// </summary>
-        public const float PER_MINUTE = PER_SECOND * Units.Seconds.PER_MINUTE;
+        public const double PER_MINUTE = PER_SECOND * Units.Seconds.PER_MINUTE;
 
         /// <summary>
         /// Conversion factor from hours to microseconds.
         /// </summary>
-        public const float PER_HOUR = PER_MINUTE * Units.Minutes.PER_HOUR;
+        public const double PER_HOUR = PER_MINUTE * Units.Minutes.PER_HOUR;
 
         /// <summary>
         /// Conversion factor from days to microseconds.
         /// </summary>
-        public const float PER_DAY = PER_HOUR * Units.Hours.PER_DAY;
+        public const double PER_DAY = PER_HOUR * Units.Hours.PER_DAY;
 
         /// <summary>
         /// Convert from microseconds to nanoseconds.
         /// </summary>
         /// <param name="us">The number of us</param>
         /// <returns>The number of nanoseconds</returns>
-        public static float Nanoseconds(float us)
+        public static double Nanoseconds(double us)
         {
             return us * Units.Nanoseconds.PER_MICROSECOND;
         }
@@ -55,7 +55,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="us">The number of us</param>
         /// <returns>The number of nanoseconds</returns>
-        public static float Ticks(float us)
+        public static double Ticks(double us)
         {
             return us * Units.Ticks.PER_MICROSECOND;
         }
@@ -65,7 +65,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="us">The number of us</param>
         /// <returns>The number of milliseconds</returns>
-        public static float Milliseconds(float us)
+        public static double Milliseconds(double us)
         {
             return us * Units.Milliseconds.PER_MICROSECOND;
         }
@@ -75,7 +75,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="us">The number of us</param>
         /// <returns>The number of seconds</returns>
-        public static float Seconds(float us)
+        public static double Seconds(double us)
         {
             return us * Units.Seconds.PER_MICROSECOND;
         }
@@ -85,7 +85,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="us">The number of us</param>
         /// <returns>The number of minutes</returns>
-        public static float Minutes(float us)
+        public static double Minutes(double us)
         {
             return us * Units.Minutes.PER_MICROSECOND;
         }
@@ -95,7 +95,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="us">The number of us</param>
         /// <returns>The number of hours</returns>
-        public static float Hours(float us)
+        public static double Hours(double us)
         {
             return us * Units.Hours.PER_MICROSECOND;
         }
@@ -105,7 +105,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="us">The number of us</param>
         /// <returns>The number of days</returns>
-        public static float Days(float us)
+        public static double Days(double us)
         {
             return us * Units.Days.PER_MICROSECOND;
         }
@@ -115,7 +115,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="us">The number of us</param>
         /// <returns>The number of hertz</returns>
-        public static float Hertz(float us)
+        public static double Hertz(double us)
         {
             return Units.Seconds.Hertz(Seconds(us));
         }

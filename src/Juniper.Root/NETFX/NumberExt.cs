@@ -71,6 +71,67 @@ namespace System
                 }
             }
         }
+        private static void AppendSigFig(double value, int numDigits, StringBuilder output)
+        {
+            if (numDigits < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(numDigits), "Must specify at least 1 significant digit.");
+            }
+
+            if (value == 0)
+            {
+                output.Append('0');
+            }
+            else if (double.IsPositiveInfinity(value))
+            {
+                output.Append('∞');
+            }
+            else if (double.IsNegativeInfinity(value))
+            {
+                output.Append("-∞");
+            }
+            else
+            {
+                if (value < 0)
+                {
+                    output.Append('-');
+                    value = -value;
+                }
+
+                var numLeftDigits = (int)Log10(value) + 1;
+
+                var numRightDigits = numDigits - numLeftDigits;
+
+                var clampingFactor = Pow(10, numRightDigits);
+                var clampedValue = Round(value * clampingFactor) / clampingFactor;
+                output.Append(clampedValue);
+
+                if (numRightDigits > 0)
+                {
+                    var indexOfDecimal = -1;
+
+                    for (var i = 0; i < output.Length && indexOfDecimal == -1; ++i)
+                    {
+                        if (output[i] == '.')
+                        {
+                            indexOfDecimal = i;
+                        }
+                    }
+
+                    if (indexOfDecimal == -1)
+                    {
+                        output.Append('.');
+                        indexOfDecimal = output.Length - 1;
+                    }
+
+                    var totalStringLength = numDigits + indexOfDecimal;
+                    while (output.Length < totalStringLength)
+                    {
+                        output.Append('0');
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Print a number to a string with the proper number of significant digits (not just number
@@ -82,6 +143,22 @@ namespace System
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
         public static string SigFig(this float value, int numDigits)
+        {
+            var output = new StringBuilder();
+            AppendSigFig(value, numDigits, output);
+            return output.ToString();
+        }
+
+        /// <summary>
+        /// Print a number to a string with the proper number of significant digits (not just number
+        /// of digits after the decimal). In other words, `2345` printed to 3 significant digits will
+        /// print as `2350`.
+        /// </summary>
+        /// <param name="value">The number to format.</param>
+        /// <param name="numDigits">The number of significant digits to print.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
+        public static string SigFig(this double value, int numDigits)
         {
             var output = new StringBuilder();
             AppendSigFig(value, numDigits, output);
@@ -382,6 +459,28 @@ namespace System
         /// <param name="range"></param>
         /// <returns></returns>
         public static float Repeat(this float value, float range)
+        {
+            while (value < 0)
+            {
+                value += range;
+            }
+
+            while (value > range)
+            {
+                value -= range;
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Loops a circular value around an range. Unity has this function already, but we
+        /// re-implement it here to make sure the Units subsystem does not depend on Unity.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public static double Repeat(this double value, double range)
         {
             while (value < 0)
             {

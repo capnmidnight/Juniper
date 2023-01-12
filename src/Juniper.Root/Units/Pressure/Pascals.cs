@@ -8,29 +8,29 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from hectopascals to pascals.
         /// </summary>
-        public const float PER_HECTOPASCAL = 100;
+        public const double PER_HECTOPASCAL = 100;
 
         /// <summary>
         /// Conversion factor from millibars to pascals.
         /// </summary>
-        public const float PER_MILLIBAR = 100;
+        public const double PER_MILLIBAR = 100;
 
         /// <summary>
         /// Conversion factor from kilopascals to pascals.
         /// </summary>
-        public const float PER_KILOPASCAL = 1000;
+        public const double PER_KILOPASCAL = 1000;
 
         /// <summary>
         /// Conversion factor from pounds per square inch to pascals.
         /// </summary>
-        public const float PER_POUND_PER_SQUARE_INCH = 6894.7572799999125f;
+        public const double PER_POUND_PER_SQUARE_INCH = 6894.7572799999125;
 
         /// <summary>
         /// Convert from pascals to hectopascals.
         /// </summary>
         /// <param name="pascals">The number of pascals</param>
         /// <returns>The number of hectopascals</returns>
-        public static float Hectopascals(float pascals)
+        public static double Hectopascals(double pascals)
         {
             return pascals * Units.Hectopascals.PER_PASCAL;
         }
@@ -40,7 +40,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="pascals">The number of pascals</param>
         /// <returns>The number of millibars</returns>
-        public static float Millibars(float pascals)
+        public static double Millibars(double pascals)
         {
             return pascals * Units.Millibars.PER_PASCAL;
         }
@@ -50,7 +50,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="pascals">The number of pascals</param>
         /// <returns>The number of kilopascals</returns>
-        public static float Kilopascals(float pascals)
+        public static double Kilopascals(double pascals)
         {
             return pascals * Units.Kilopascals.PER_PASCAL;
         }
@@ -60,7 +60,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="pascals">The number of pascals</param>
         /// <returns>The number of pounds per square inch</returns>
-        public static float PoundsPerSquareInch(float pascals)
+        public static double PoundsPerSquareInch(double pascals)
         {
             return pascals * Units.PoundsPerSquareInch.PER_PASCAL;
         }

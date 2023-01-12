@@ -8,59 +8,59 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from micrometers to kilometers.
         /// </summary>
-        public const float PER_MICROMETER = 1 / Units.Micrometers.PER_KILOMETER;
+        public const double PER_MICROMETER = 1 / Units.Micrometers.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from millimeters to kilometers.
         /// </summary>
-        public const float PER_MILLIMETER = 1 / Units.Millimeters.PER_KILOMETER;
+        public const double PER_MILLIMETER = 1 / Units.Millimeters.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from centimeters to kilometers.
         /// </summary>
-        public const float PER_CENTIMETER = 1 / Units.Centimeters.PER_KILOMETER;
+        public const double PER_CENTIMETER = 1 / Units.Centimeters.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from inches to kilometers.
         /// </summary>
-        public const float PER_INCH = 1 / Units.Inches.PER_KILOMETER;
+        public const double PER_INCH = 1 / Units.Inches.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from feet to kilometers.
         /// </summary>
-        public const float PER_FOOT = 1 / Units.Feet.PER_KILOMETER;
+        public const double PER_FOOT = 1 / Units.Feet.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from yards to kilometers.
         /// </summary>
-        public const float PER_YARD = 1 / Units.Yards.PER_KILOMETER;
+        public const double PER_YARD = 1 / Units.Yards.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from meters to kilometers.
         /// </summary>
-        public const float PER_METER = 1 / Units.Meters.PER_KILOMETER;
+        public const double PER_METER = 1 / Units.Meters.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from rods to kilometers.
         /// </summary>
-        public const float PER_ROD = 1 / Units.Rods.PER_KILOMETER;
+        public const double PER_ROD = 1 / Units.Rods.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from furlongs to kilometers.
         /// </summary>
-        public const float PER_FURLONG = 1 / Units.Furlongs.PER_KILOMETER;
+        public const double PER_FURLONG = 1 / Units.Furlongs.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from miles to kilometers.
         /// </summary>
-        public const float PER_MILE = PER_FURLONG * Units.Furlongs.PER_MILE;
+        public const double PER_MILE = PER_FURLONG * Units.Furlongs.PER_MILE;
 
         /// <summary>
         /// Convert from kilometers to micrometers.
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of micrometers</returns>
-        public static float Micrometers(float kilometers)
+        public static double Micrometers(double kilometers)
         {
             return kilometers * Units.Micrometers.PER_MILLIMETER;
         }
@@ -70,7 +70,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of millimeters</returns>
-        public static float Millimeters(float kilometers)
+        public static double Millimeters(double kilometers)
         {
             return kilometers * Units.Millimeters.PER_KILOMETER;
         }
@@ -80,7 +80,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of centimeters</returns>
-        public static float Centimeters(float kilometers)
+        public static double Centimeters(double kilometers)
         {
             return kilometers * Units.Centimeters.PER_KILOMETER;
         }
@@ -90,7 +90,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of inches</returns>
-        public static float Inches(float kilometers)
+        public static double Inches(double kilometers)
         {
             return kilometers * Units.Inches.PER_KILOMETER;
         }
@@ -100,7 +100,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of feet</returns>
-        public static float Feet(float kilometers)
+        public static double Feet(double kilometers)
         {
             return kilometers * Units.Feet.PER_KILOMETER;
         }
@@ -110,7 +110,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of yards</returns>
-        public static float Yards(float kilometers)
+        public static double Yards(double kilometers)
         {
             return kilometers * Units.Yards.PER_KILOMETER;
         }
@@ -120,7 +120,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of meters</returns>
-        public static float Meters(float kilometers)
+        public static double Meters(double kilometers)
         {
             return kilometers * Units.Meters.PER_KILOMETER;
         }
@@ -130,7 +130,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of rods</returns>
-        public static float Rods(float kilometers)
+        public static double Rods(double kilometers)
         {
             return kilometers * Units.Rods.PER_KILOMETER;
         }
@@ -139,7 +139,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of furlongs</returns>
-        public static float Furlongs(float kilometers)
+        public static double Furlongs(double kilometers)
         {
             return kilometers * Units.Furlongs.PER_KILOMETER;
         }
@@ -149,7 +149,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
         /// <returns>The number of miles</returns>
-        public static float Miles(float kilometers)
+        public static double Miles(double kilometers)
         {
             return kilometers * Units.Miles.PER_KILOMETER;
         }

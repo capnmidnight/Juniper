@@ -8,94 +8,94 @@ namespace Juniper.Units
         /// <summary>
         /// The number of zettabytes per bit
         /// </summary>
-        public const float PER_BIT = 1 / Units.Bits.PER_ZETTABYTE;
+        public const double PER_BIT = 1 / Units.Bits.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per byte
         /// </summary>
-        public const float PER_BYTE = 1 / Units.Bytes.PER_ZETTABYTE;
+        public const double PER_BYTE = 1 / Units.Bytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per kilobyte
         /// </summary>
-        public const float PER_KILOBYTE = 1 / Units.Kilobytes.PER_ZETTABYTE;
+        public const double PER_KILOBYTE = 1 / Units.Kilobytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per megabyte
         /// </summary>
-        public const float PER_MEGABYTE = 1 / Units.Megabytes.PER_ZETTABYTE;
+        public const double PER_MEGABYTE = 1 / Units.Megabytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per gigabyte
         /// </summary>
-        public const float PER_GIGABYTE = 1 / Units.Gigabytes.PER_ZETTABYTE;
+        public const double PER_GIGABYTE = 1 / Units.Gigabytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per terabyte
         /// </summary>
-        public const float PER_TERABYTE = 1 / Units.Gigabytes.PER_ZETTABYTE;
+        public const double PER_TERABYTE = 1 / Units.Gigabytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per petabyte
         /// </summary>
-        public const float PER_PETABYTE = 1 / Units.Petabytes.PER_ZETTABYTE;
+        public const double PER_PETABYTE = 1 / Units.Petabytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per exabyte
         /// </summary>
-        public const float PER_EXABYTE = 1 / Units.Exabytes.PER_ZETTABYTE;
+        public const double PER_EXABYTE = 1 / Units.Exabytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per yotabyte
         /// </summary>
-        public const float PER_YOTABYTE = 1000;
+        public const double PER_YOTABYTE = 1000;
 
         /// <summary>
         /// The number of zettabytes per kibibyte
         /// </summary>
-        public const float PER_KIBIBYTE = 1 / Units.Kibibytes.PER_ZETTABYTE;
+        public const double PER_KIBIBYTE = 1 / Units.Kibibytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per mibibyte
         /// </summary>
-        public const float PER_MIBIBYTE = 1 / Units.Mibibytes.PER_ZETTABYTE;
+        public const double PER_MIBIBYTE = 1 / Units.Mibibytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per gibibyte
         /// </summary>
-        public const float PER_GIBIBYTE = 1 / Units.Gibibytes.PER_ZETTABYTE;
+        public const double PER_GIBIBYTE = 1 / Units.Gibibytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per tebibyte
         /// </summary>
-        public const float PER_TEBIBYTE = 1 / Units.Tebibytes.PER_ZETTABYTE;
+        public const double PER_TEBIBYTE = 1 / Units.Tebibytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per pebibyte
         /// </summary>
-        public const float PER_PEBIBYTE = 1 / Units.Pebibytes.PER_ZETTABYTE;
+        public const double PER_PEBIBYTE = 1 / Units.Pebibytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per exbibyte
         /// </summary>
-        public const float PER_EXBIBYTE = 1 / Units.Exbibytes.PER_ZETTABYTE;
+        public const double PER_EXBIBYTE = 1 / Units.Exbibytes.PER_ZETTABYTE;
 
         /// <summary>
         /// The number of zettabytes per zebibyte
         /// </summary>
-        public const float PER_ZEBIBYTE = PER_EXBIBYTE * Units.Exbibytes.PER_ZEBIBYTE;
+        public const double PER_ZEBIBYTE = PER_EXBIBYTE * Units.Exbibytes.PER_ZEBIBYTE;
 
         /// <summary>
         /// The number of zettabytes per yobibyte
         /// </summary>
-        public const float PER_YOBIBYTE = PER_ZEBIBYTE * Units.Zebibytes.PER_YOBIBYTE;
+        public const double PER_YOBIBYTE = PER_ZEBIBYTE * Units.Zebibytes.PER_YOBIBYTE;
 
         /// <summary>
         /// Convert zettabytes to bits
         /// </summary>
         /// <param name="zettabytes">The number of zettabytes</param>
         /// <returns>the number of bits</returns>
-        public static float Bits(float zettabytes)
+        public static double Bits(double zettabytes)
         {
             return zettabytes * Units.Bits.PER_ZETTABYTE;
         }
@@ -105,7 +105,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of bytes</returns>
-        public static float Bytes(float zettabytes)
+        public static double Bytes(double zettabytes)
         {
             return zettabytes * Units.Bytes.PER_ZETTABYTE;
         }
@@ -115,7 +115,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of kilobytes</returns>
-        public static float Kilobytes(float zettabytes)
+        public static double Kilobytes(double zettabytes)
         {
             return zettabytes * Units.Kilobytes.PER_ZETTABYTE;
         }
@@ -125,7 +125,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of megabytes</returns>
-        public static float Megabytes(float zettabytes)
+        public static double Megabytes(double zettabytes)
         {
             return zettabytes * Units.Megabytes.PER_ZETTABYTE;
         }
@@ -135,7 +135,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of gigabytes</returns>
-        public static float Gigabytes(float zettabytes)
+        public static double Gigabytes(double zettabytes)
         {
             return zettabytes * Units.Gigabytes.PER_ZETTABYTE;
         }
@@ -145,7 +145,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of terabytes</returns>
-        public static float Terabytes(float zettabytes)
+        public static double Terabytes(double zettabytes)
         {
             return zettabytes * Units.Terabytes.PER_ZETTABYTE;
         }
@@ -155,7 +155,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of petabytes</returns>
-        public static float Petabytes(float zettabytes)
+        public static double Petabytes(double zettabytes)
         {
             return zettabytes * Units.Petabytes.PER_ZETTABYTE;
         }
@@ -165,7 +165,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of exabytes</returns>
-        public static float Exabytes(float zettabytes)
+        public static double Exabytes(double zettabytes)
         {
             return zettabytes * Units.Exabytes.PER_ZETTABYTE;
         }
@@ -175,7 +175,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of yotabytes</returns>
-        public static float Yotabytes(float zettabytes)
+        public static double Yotabytes(double zettabytes)
         {
             return zettabytes * Units.Yotabytes.PER_ZETTABYTE;
         }
@@ -185,7 +185,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of kibibytes</returns>
-        public static float Kibibytes(float zettabytes)
+        public static double Kibibytes(double zettabytes)
         {
             return zettabytes * Units.Kibibytes.PER_ZETTABYTE;
         }
@@ -195,7 +195,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of mibibytes</returns>
-        public static float Mibibytes(float zettabytes)
+        public static double Mibibytes(double zettabytes)
         {
             return zettabytes * Units.Mibibytes.PER_ZETTABYTE;
         }
@@ -205,7 +205,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of gibibytes</returns>
-        public static float Gibibytes(float zettabytes)
+        public static double Gibibytes(double zettabytes)
         {
             return zettabytes * Units.Gibibytes.PER_ZETTABYTE;
         }
@@ -215,7 +215,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of tebibytes</returns>
-        public static float Tebibytes(float zettabytes)
+        public static double Tebibytes(double zettabytes)
         {
             return zettabytes * Units.Tebibytes.PER_ZETTABYTE;
         }
@@ -225,7 +225,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of pebibytes</returns>
-        public static float Pebibytes(float zettabytes)
+        public static double Pebibytes(double zettabytes)
         {
             return zettabytes * Units.Pebibytes.PER_ZETTABYTE;
         }
@@ -235,7 +235,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of exbibytes</returns>
-        public static float Exbibytes(float zettabytes)
+        public static double Exbibytes(double zettabytes)
         {
             return zettabytes * Units.Exbibytes.PER_ZETTABYTE;
         }
@@ -245,7 +245,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of zebibytes</returns>
-        public static float Zebibytes(float zettabytes)
+        public static double Zebibytes(double zettabytes)
         {
             return zettabytes * Units.Zebibytes.PER_ZETTABYTE;
         }
@@ -255,7 +255,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="zettabytes">the number of zettabytes</param>
         /// <returns>the number of yobibytes</returns>
-        public static float Yobibytes(float zettabytes)
+        public static double Yobibytes(double zettabytes)
         {
             return zettabytes * Units.Yobibytes.PER_ZETTABYTE;
         }

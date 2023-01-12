@@ -14,7 +14,7 @@ namespace Juniper.Units
         [Test]
         public void LatLng_2_UTM()
         {
-            var latLng = new LatLngPoint(38.8974146f, -77.0743107f);
+            var latLng = new LatLngPoint(38.8974146, -77.0743107);
             var utm = latLng.ToUTM();
             var latLng2 = utm.ToLatLng();
             var utm2 = latLng2.ToUTM();
@@ -30,577 +30,577 @@ namespace Juniper.Units
         [Test]
         public void Farenheit_2_celsius()
         {
-            FloatCompare(0, Farenheit.Celsius(32), 4);
-            FloatCompare(100, Farenheit.Celsius(212), 4);
+            NumberCompare(0, Farenheit.Celsius(32), 4);
+            NumberCompare(100, Farenheit.Celsius(212), 4);
         }
 
         [Test]
         public void Farenheit_2_kelvin()
         {
-            FloatCompare(273.15f, Farenheit.Kelvin(32));
-            FloatCompare(373.15f, Farenheit.Kelvin(212));
+            NumberCompare(273.15, Farenheit.Kelvin(32));
+            NumberCompare(373.15, Farenheit.Kelvin(212));
         }
 
         [Test]
         public void Celsius_2_farenheit()
         {
-            FloatCompare(32, Celsius.Farenheit(0));
-            FloatCompare(212, Celsius.Farenheit(100));
+            NumberCompare(32, Celsius.Farenheit(0));
+            NumberCompare(212, Celsius.Farenheit(100));
         }
 
         [Test]
         public void Celsius_2_kelvin()
         {
-            FloatCompare(273.15f, Celsius.Kelvin(0));
-            FloatCompare(373.15f, Celsius.Kelvin(100));
+            NumberCompare(273.15, Celsius.Kelvin(0));
+            NumberCompare(373.15, Celsius.Kelvin(100));
         }
 
         [Test]
         public void Kelvin_2_farenheit()
         {
-            FloatCompare(32, Kelvin.Farenheit(273.15f));
-            FloatCompare(212, Kelvin.Farenheit(373.15f));
+            NumberCompare(32, Kelvin.Farenheit(273.15));
+            NumberCompare(212, Kelvin.Farenheit(373.15));
         }
 
         [Test]
         public void Kelvin_2_celsius()
         {
-            FloatCompare(0, Kelvin.Celsius(273.15f));
-            FloatCompare(100, Kelvin.Celsius(373.15f));
+            NumberCompare(0, Kelvin.Celsius(273.15));
+            NumberCompare(100, Kelvin.Celsius(373.15));
         }
 
         [Test]
         public void Degrees_2_radians()
         {
-            FloatCompare(TAU, Degrees.Radians(360));
+            NumberCompare(TAU, Degrees.Radians(360));
         }
 
         [Test]
         public void Degrees_2_hours()
         {
-            FloatCompare(24, Degrees.Hours(360), 3);
+            NumberCompare(24, Degrees.Hours(360), 3);
         }
 
         [Test]
         public void Hours_2_degrees()
         {
-            FloatCompare(360, Hours.Degrees(24));
+            NumberCompare(360, Hours.Degrees(24));
         }
 
         [Test]
         public void Hours_2_radians()
         {
-            FloatCompare(TAU, Hours.Radians(24));
+            NumberCompare(TAU, Hours.Radians(24));
         }
 
         [Test]
         public void Radians_2_degrees()
         {
-            FloatCompare(360, Radians.Degrees(TAU));
+            NumberCompare(360, Radians.Degrees(TAU));
         }
 
         [Test]
         public void Radians_2_hours()
         {
-            FloatCompare(24, Radians.Hours(TAU));
+            NumberCompare(24, Radians.Hours(TAU));
         }
 
         [Test]
         public void Grams_2_ounces()
         {
-            FloatCompare(0.035273962f, Grams.Ounces(1));
+            NumberCompare(0.035273962, Grams.Ounces(1));
         }
 
         [Test]
         public void Grams_2_pounds()
         {
-            FloatCompare(0.0022046228f, Grams.Pounds(1));
+            NumberCompare(0.0022046228, Grams.Pounds(1));
         }
 
         [Test]
         public void Grams_2_kilograms()
         {
-            FloatCompare(0.001f, Grams.Kilograms(1));
+            NumberCompare(0.001, Grams.Kilograms(1));
         }
 
         [Test]
         public void Grams_2_tons()
         {
-            FloatCompare(0.0000011023113f, Grams.Tons(1));
+            NumberCompare(0.0000011023113, Grams.Tons(1));
         }
 
         [Test]
         public void Ounces_2_grams()
         {
-            FloatCompare(28.349523f, Ounces.Grams(1));
+            NumberCompare(28.349523, Ounces.Grams(1));
         }
 
         [Test]
         public void Ounces_2_pounds()
         {
-            FloatCompare(0.0625f, Ounces.Pounds(1));
+            NumberCompare(0.0625, Ounces.Pounds(1));
         }
 
         [Test]
         public void Ounces_2_kilograms()
         {
-            FloatCompare(0.028349524f, Ounces.Kilograms(1));
+            NumberCompare(0.028349523, Ounces.Kilograms(1));
         }
 
         [Test]
         public void Ounces_2_tons()
         {
-            FloatCompare(3.125e-5f, Ounces.Tons(1));
+            NumberCompare(3.125e-5, Ounces.Tons(1));
         }
 
         [Test]
         public void Pounds_2_grams()
         {
-            FloatCompare(453.59233f, Pounds.Grams(1));
+            NumberCompare(453.59233, Pounds.Grams(1));
         }
 
         [Test]
         public void Pounds_2_ounces()
         {
-            FloatCompare(16, Pounds.Ounces(1));
+            NumberCompare(16, Pounds.Ounces(1));
         }
 
         [Test]
         public void Pounds_2_kilograms()
         {
-            FloatCompare(0.45359233f, Pounds.Kilograms(1));
+            NumberCompare(0.45359237, Pounds.Kilograms(1));
         }
 
         [Test]
         public void Pounds_2_tons()
         {
-            FloatCompare(0.0005f, Pounds.Tons(1));
+            NumberCompare(0.0005, Pounds.Tons(1));
         }
 
         [Test]
         public void Kilograms_2_grams()
         {
-            FloatCompare(1000f, Kilograms.Grams(1));
+            NumberCompare(1000, Kilograms.Grams(1));
         }
 
         [Test]
         public void Kilograms_2_ounces()
         {
-            FloatCompare(35.273962f, Kilograms.Ounces(1));
+            NumberCompare(35.2739621, Kilograms.Ounces(1));
         }
 
         [Test]
         public void Kilograms_2_pounds()
         {
-            FloatCompare(2.2046228f, Kilograms.Pounds(1));
+            NumberCompare(2.20462262, Kilograms.Pounds(1));
         }
 
         [Test]
         public void Kilograms_2_tons()
         {
-            FloatCompare(0.0011023113f, Kilograms.Tons(1));
+            NumberCompare(0.0011023113, Kilograms.Tons(1));
         }
 
         [Test]
         public void Tons_2_grams()
         {
-            FloatCompare(907184.75f, Tons.Grams(1));
+            NumberCompare(907184.75, Tons.Grams(1));
         }
 
         [Test]
         public void Tons_2_ounces()
         {
-            FloatCompare(32000f, Tons.Ounces(1));
+            NumberCompare(32000, Tons.Ounces(1));
         }
 
         [Test]
         public void Tons_2_pounds()
         {
-            FloatCompare(2000, Tons.Pounds(1));
+            NumberCompare(2000, Tons.Pounds(1));
         }
 
         [Test]
         public void Tons_2_kilograms()
         {
-            FloatCompare(907.18475f, Tons.Kilograms(1));
+            NumberCompare(907.18475, Tons.Kilograms(1));
         }
 
         [Test]
         public void Millimeters_2_centimeters()
         {
-            FloatCompare(0.1f, Millimeters.Centimeters(1));
+            NumberCompare(0.1, Millimeters.Centimeters(1));
         }
 
         [Test]
         public void Millimeters_2_inches()
         {
-            FloatCompare(0.039370079f, Millimeters.Inches(1));
+            NumberCompare(0.039370079, Millimeters.Inches(1));
         }
 
         [Test]
         public void Millimeters_2_feet()
         {
-            FloatCompare(0.00328084f, Millimeters.Feet(1));
+            NumberCompare(0.00328083989501312335958005249344, Millimeters.Feet(1));
         }
 
         [Test]
         public void Millimeters_2_miles()
         {
-            FloatCompare(0.00000062137119f, Millimeters.Miles(1));
+            NumberCompare(0.00000062137119, Millimeters.Miles(1));
         }
 
         [Test]
         public void Millimeters_2_kilometers()
         {
-            FloatCompare(1e-6f, Millimeters.Kilometers(1));
+            NumberCompare(1e-6, Millimeters.Kilometers(1));
         }
 
         [Test]
         public void Centimeters_2_inches()
         {
-            FloatCompare(0.39370079f, Centimeters.Inches(1));
+            NumberCompare(0.39370079, Centimeters.Inches(1));
         }
 
         [Test]
         public void Centimeters_2_feet()
         {
-            FloatCompare(0.0328084f, Centimeters.Feet(1));
+            NumberCompare(0.03280839895013123359580052493438, Centimeters.Feet(1));
         }
 
         [Test]
         public void Centimeters_2_miles()
         {
-            FloatCompare(6.21371e-6f, Centimeters.Miles(1), 6);
+            NumberCompare(6.21371e-6, Centimeters.Miles(1), 6);
         }
 
         [Test]
         public void Centimeters_2_millimeters()
         {
-            FloatCompare(10, Centimeters.Millimeters(1));
+            NumberCompare(10, Centimeters.Millimeters(1));
         }
 
         [Test]
         public void Centimeters_2_kilometers()
         {
-            FloatCompare(1e-5f, Centimeters.Kilometers(1));
+            NumberCompare(1e-5, Centimeters.Kilometers(1));
         }
 
         [Test]
         public void Inches_2_feet()
         {
-            FloatCompare(1 / 12f, Inches.Feet(1));
+            NumberCompare(1 / 12.0, Inches.Feet(1));
         }
 
         [Test]
         public void Inches_2_miles()
         {
-            FloatCompare(0.000015782828f, Inches.Miles(1), 8);
+            NumberCompare(0.000015782828, Inches.Miles(1), 8);
         }
 
         [Test]
         public void Inches_2_centimeters()
         {
-            FloatCompare(2.54f, Inches.Centimeters(1));
+            NumberCompare(2.54, Inches.Centimeters(1));
         }
 
         [Test]
         public void Inches_2_millimeters()
         {
-            FloatCompare(25.4f, Inches.Millimeters(1));
+            NumberCompare(25.4, Inches.Millimeters(1));
         }
 
         [Test]
         public void Inches_2_meters()
         {
-            FloatCompare(0.0254f, Inches.Meters(1));
+            NumberCompare(0.0254, Inches.Meters(1));
         }
 
         [Test]
         public void Inches_2_kilometers()
         {
-            FloatCompare(0.0000254f, Inches.Kilometers(1));
+            NumberCompare(0.0000254, Inches.Kilometers(1));
         }
 
         [Test]
         public void Feet_2_inches()
         {
-            FloatCompare(12, Feet.Inches(1));
+            NumberCompare(12, Feet.Inches(1));
         }
 
         [Test]
         public void Feet_2_miles()
         {
-            FloatCompare(0.00018939394f, Feet.Miles(1));
+            NumberCompare(0.00018939394, Feet.Miles(1));
         }
 
         [Test]
         public void Feet_2_centimeters()
         {
-            FloatCompare(30.48f, Feet.Centimeters(1));
+            NumberCompare(30.48, Feet.Centimeters(1));
         }
 
         [Test]
         public void Feet_2_millimeters()
         {
-            FloatCompare(304.8f, Feet.Millimeters(1));
+            NumberCompare(304.8, Feet.Millimeters(1));
         }
 
         [Test]
         public void Feet_2_meters()
         {
-            FloatCompare(0.3048f, Feet.Meters(1));
+            NumberCompare(0.3048, Feet.Meters(1));
         }
 
         [Test]
         public void Feet_2_kilometers()
         {
-            FloatCompare(0.0003048f, Feet.Kilometers(1));
+            NumberCompare(0.0003048, Feet.Kilometers(1));
         }
 
         [Test]
         public void Meters_2_inches()
         {
-            FloatCompare(39.370079f, Meters.Inches(1));
+            NumberCompare(39.37007874015748031496062992126, Meters.Inches(1));
         }
 
         [Test]
         public void Meters_2_feet()
         {
-            FloatCompare(3.28084f, Meters.Feet(1));
+            NumberCompare(3.2808398950131233595800524934383, Meters.Feet(1));
         }
 
         [Test]
         public void Meters_2_miles()
         {
-            FloatCompare(0.00062137119f, Meters.Miles(1));
+            NumberCompare(0.00062137119, Meters.Miles(1));
         }
 
         [Test]
         public void Meters_2_centimeters()
         {
-            FloatCompare(100f, Meters.Centimeters(1));
+            NumberCompare(100, Meters.Centimeters(1));
         }
 
         [Test]
         public void Meters_2_millimeters()
         {
-            FloatCompare(1000f, Meters.Millimeters(1));
+            NumberCompare(1000, Meters.Millimeters(1));
         }
 
         [Test]
         public void Meters_2_kilometers()
         {
-            FloatCompare(0.001f, Meters.Kilometers(1));
+            NumberCompare(0.001, Meters.Kilometers(1));
         }
 
         [Test]
         public void Kilometers_2_inches()
         {
-            FloatCompare(39370.079f, Kilometers.Inches(1));
+            NumberCompare(39370.07874015748031496062992126, Kilometers.Inches(1));
         }
 
         [Test]
         public void Kilometers_2_feet()
         {
-            FloatCompare(3280.84f, Kilometers.Feet(1), 6);
+            NumberCompare(3280.84, Kilometers.Feet(1), 6);
         }
 
         [Test]
         public void Kilometers_2_miles()
         {
-            FloatCompare(0.62137119f, Kilometers.Miles(1));
+            NumberCompare(0.62137119, Kilometers.Miles(1));
         }
 
         [Test]
         public void Kilometers_2_centimeters()
         {
-            FloatCompare(100000f, Kilometers.Centimeters(1));
+            NumberCompare(100000, Kilometers.Centimeters(1));
         }
 
         [Test]
         public void Kilometers_2_millimeters()
         {
-            FloatCompare(1000000f, Kilometers.Millimeters(1));
+            NumberCompare(1000000, Kilometers.Millimeters(1));
         }
 
         [Test]
         public void Miles_2_inches()
         {
-            FloatCompare(63360f, Miles.Inches(1));
+            NumberCompare(63360, Miles.Inches(1));
         }
 
         [Test]
         public void Miles_2_feet()
         {
-            FloatCompare(5280f, Miles.Feet(1));
+            NumberCompare(5280, Miles.Feet(1));
         }
 
         [Test]
         public void Miles_2_centimeters()
         {
-            FloatCompare(160934.391f, Miles.Centimeters(1));
+            NumberCompare(160934.4, Miles.Centimeters(1));
         }
 
         [Test]
         public void Miles_2_millimeters()
         {
-            FloatCompare(1609343.88f, Miles.Millimeters(1));
+            NumberCompare(1609344, Miles.Millimeters(1));
         }
 
         [Test]
         public void Miles_2_meters()
         {
-            FloatCompare(1609.3440f, Miles.Meters(1));
+            NumberCompare(1609.3440, Miles.Meters(1));
         }
 
         [Test]
         public void Miles_2_kilometers()
         {
-            FloatCompare(1.6093440f, Miles.Kilometers(1));
+            NumberCompare(1.6093440, Miles.Kilometers(1));
         }
 
         [Test]
         public void Milesperhour_2_kilometersperhour()
         {
-            FloatCompare(1.6093440f, MilesPerHour.KilometersPerHour(1));
+            NumberCompare(1.6093440, MilesPerHour.KilometersPerHour(1));
         }
 
         [Test]
         public void Milesperhour_2_meterspersecond()
         {
-            FloatCompare(0.44704f, MilesPerHour.MetersPerSecond(1));
+            NumberCompare(0.44704, MilesPerHour.MetersPerSecond(1));
         }
 
         [Test]
         public void Milesperhour_2_feetpersecond()
         {
-            FloatCompare(1.46666666666666666666666666666667f, MilesPerHour.FeetPerSecond(1));
+            NumberCompare(1.46666666666666666666666666666667, MilesPerHour.FeetPerSecond(1));
         }
 
         [Test]
         public void Kilometersperhour_2_milesperhour()
         {
-            FloatCompare(0.62137119f, KilometersPerHour.MilesPerHour(1));
+            NumberCompare(0.62137119, KilometersPerHour.MilesPerHour(1));
         }
 
         [Test]
         public void Kilometersperhour_2_meterspersecond()
         {
-            FloatCompare(0.27777777777777777777777777777777777778f, KilometersPerHour.MetersPerSecond(1));
+            NumberCompare(0.27777777777777777777777777777777777778, KilometersPerHour.MetersPerSecond(1));
         }
 
         [Test]
         public void Kilometersperhour_2_feetpersecond()
         {
-            FloatCompare(0.91134442f, KilometersPerHour.FeetPerSecond(1));
+            NumberCompare(0.91134442, KilometersPerHour.FeetPerSecond(1));
         }
 
         [Test]
         public void Meterspersecond_2_milesperhour()
         {
-            FloatCompare(2.2369363f, MetersPerSecond.MilesPerHour(1));
+            NumberCompare(2.2369362920544022906227630637079, MetersPerSecond.MilesPerHour(1));
         }
 
         [Test]
         public void Meterspersecond_2_kilometersperhour()
         {
-            FloatCompare(3.6f, MetersPerSecond.KilometersPerHour(1), 5);
+            NumberCompare(3.6, MetersPerSecond.KilometersPerHour(1), 5);
         }
 
         [Test]
         public void Meterspersecond_2_feetpersecond()
         {
-            FloatCompare(3.28084f, MetersPerSecond.FeetPerSecond(1));
+            NumberCompare(3.2808398950131233595800524934383, MetersPerSecond.FeetPerSecond(1));
         }
 
         [Test]
         public void Feetpersecond_2_milesperhour()
         {
-            FloatCompare(0.68181818f, FeetPerSecond.MilesPerHour(1));
+            NumberCompare(0.68181818, FeetPerSecond.MilesPerHour(1));
         }
 
         [Test]
         public void Feetpersecond_2_kilometersperhour()
         {
-            FloatCompare(1.09728f, FeetPerSecond.KilometersPerHour(1));
+            NumberCompare(1.09728, FeetPerSecond.KilometersPerHour(1));
         }
 
         [Test]
         public void Feetpersecond_2_meterspersecond()
         {
-            FloatCompare(0.3048f, FeetPerSecond.MetersPerSecond(1));
+            NumberCompare(0.3048, FeetPerSecond.MetersPerSecond(1));
         }
 
         [Test]
         public void Pascals_2_hectopascals()
         {
-            FloatCompare(0.01f, Pascals.Hectopascals(1));
+            NumberCompare(0.01, Pascals.Hectopascals(1));
         }
 
         [Test]
         public void Pascals_2_poundspersquareinch()
         {
-            FloatCompare(0.00014503773800722f, Pascals.PoundsPerSquareInch(1));
+            NumberCompare(0.00014503773800722, Pascals.PoundsPerSquareInch(1));
         }
 
         [Test]
         public void Pascals_2_kilopascals()
         {
-            FloatCompare(0.001f, Pascals.Kilopascals(1));
+            NumberCompare(0.001, Pascals.Kilopascals(1));
         }
 
         [Test]
         public void Hectopascals_2_pascals()
         {
-            FloatCompare(100f, Hectopascals.Pascals(1));
+            NumberCompare(100, Hectopascals.Pascals(1));
         }
 
         [Test]
         public void Hectopascals_2_poundspersquareinch()
         {
-            FloatCompare(0.014503773800722f, Hectopascals.PoundsPerSquareInch(1));
+            NumberCompare(0.014503773800722, Hectopascals.PoundsPerSquareInch(1));
         }
 
         [Test]
         public void Hectopascals_2_kilopascals()
         {
-            FloatCompare(0.1f, Hectopascals.Kilopascals(1));
+            NumberCompare(0.1, Hectopascals.Kilopascals(1));
         }
 
         [Test]
         public void Poundspersquareinch_2_pascals()
         {
-            FloatCompare(6894.7572799999125f, PoundsPerSquareInch.Pascals(1));
+            NumberCompare(6894.7572799999125, PoundsPerSquareInch.Pascals(1));
         }
 
         [Test]
         public void Poundspersquareinch_2_hectopascals()
         {
-            FloatCompare(68.947572799999125f, PoundsPerSquareInch.Hectopascals(1));
+            NumberCompare(68.947572799999125, PoundsPerSquareInch.Hectopascals(1));
         }
 
         [Test]
         public void Poundspersquareinch_2_kilopascals()
         {
-            FloatCompare(6.8947572799999125f, PoundsPerSquareInch.Kilopascals(1));
+            NumberCompare(6.8947572799999125, PoundsPerSquareInch.Kilopascals(1));
         }
 
         [Test]
         public void Kilopascals_2_hectopascals()
         {
-            FloatCompare(10f, Kilopascals.Hectopascals(1));
+            NumberCompare(10, Kilopascals.Hectopascals(1));
         }
 
         [Test]
         public void Kilopascals_2_poundspersquareinch()
         {
-            FloatCompare(0.14503773800722f, Kilopascals.PoundsPerSquareInch(1));
+            NumberCompare(0.14503773800722, Kilopascals.PoundsPerSquareInch(1));
         }
 
         [Test]
         public void Kilopascals_2_pascals()
         {
-            FloatCompare(1000f, Kilopascals.Pascals(1));
+            NumberCompare(1000, Kilopascals.Pascals(1));
         }
 
         [Test]
@@ -609,8 +609,8 @@ namespace Juniper.Units
             Assert.AreEqual(PI.Label(UnitOfMeasure.Meters, 3), "3.14 m");
         }
 
-        private const float PI = (float)System.Math.PI;
-        private const float TAU = 2 * PI;
+        private const double PI = System.Math.PI;
+        private const double TAU = 2 * PI;
 
         private static string SigFig(float value, int sigfigs)
         {
@@ -636,8 +636,37 @@ namespace Juniper.Units
 
             return v;
         }
+        private static string SigFig(double value, int sigfigs)
+        {
+            var q = (int)Log10(value) + 1;
+            sigfigs -= q;
+            var p = Pow(10, sigfigs);
+            var v = (Round(value * p) / p).ToString(CultureInfo.InvariantCulture);
+            if (sigfigs > 0)
+            {
+                var i = v.IndexOf(".", System.StringComparison.Ordinal);
+                if (i == -1)
+                {
+                    v += ".";
+                    i = v.Length - 1;
+                }
 
-        private static void FloatCompare(float expected, float actual, int sigFigs = 9, string msg = null, params object[] args)
+                var z = sigfigs + i + 1;
+                while (v.Length < z)
+                {
+                    v += "0";
+                }
+            }
+
+            return v;
+        }
+
+        private static void NumberCompare(float expected, float actual, int sigFigs = 9, string msg = null, params object[] args)
+        {
+            Assert.AreEqual(SigFig(expected, sigFigs), SigFig(actual, sigFigs), msg, args);
+        }
+
+        private static void NumberCompare(double expected, double actual, int sigFigs = 9, string msg = null, params object[] args)
         {
             Assert.AreEqual(SigFig(expected, sigFigs), SigFig(actual, sigFigs), msg, args);
         }

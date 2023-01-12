@@ -19,19 +19,19 @@ namespace Juniper.World.GIS
         /// An altitude value thrown in just for kicks. It makes some calculations and conversions
         /// easier if we keep the Altitude value.
         /// </summary>
-        public float Alt { get; }
+        public double Alt { get; }
 
         /// <summary>
         /// Lines of latitude run east/west around the globe, parallel to the equator, never
         /// intersecting. They measure angular distance north/south.
         /// </summary>
-        public float Lat { get; }
+        public double Lat { get; }
 
         /// <summary>
         /// Lines of longitude run north/south around the globe, intersecting at the poles. They
         /// measure angular distance east/west.
         /// </summary>
-        public float Lng { get; }
+        public double Lng { get; }
 
         /// <summary>
         /// Create a new instance of LatLngPoint.
@@ -40,7 +40,7 @@ namespace Juniper.World.GIS
         /// <param name="lng">The longitude</param>
         /// <param name="alt">The altitude</param>
         [JsonConstructor]
-        public LatLngPoint(float lat, float lng, float alt)
+        public LatLngPoint(double lat, double lng, double alt)
         {
             Lat = lat;
             Lng = lng;
@@ -53,7 +53,7 @@ namespace Juniper.World.GIS
         /// <param name="lat">The latitude</param>
         /// <param name="lng">The longitude</param>
         /// <param name="alt">The altitude</param>
-        public LatLngPoint(float lat, float lng)
+        public LatLngPoint(double lat, double lng)
             : this(lat, lng, 0)
         {
         }
@@ -120,16 +120,16 @@ namespace Juniper.World.GIS
         /// <param name="value">A degrees/minutes/seconds formated degree value.</param>
         /// <param name="dec">The decimal degrees formated degree value that the <paramref name="value"/> represents</param>
         /// <returns>Whether or not the degrees/minutes/seconds value parsed correctly</returns>
-        private static bool TryParseDMS(string value, out float dec)
+        private static bool TryParseDMS(string value, out double dec)
         {
             dec = 0;
             var parts = value.SplitX(' ');
             var hemisphere = parts[0];
             if ((hemisphere == "N" || hemisphere == "S" || hemisphere == "E" || hemisphere == "W")
                 && int.TryParse(parts[1], out var degrees)
-                && float.TryParse(parts[2], out var minutes))
+                && double.TryParse(parts[2], out var minutes))
             {
-                dec = degrees + (minutes / 60.0f);
+                dec = degrees + (minutes / 60);
                 if (hemisphere == "S" || hemisphere == "W")
                 {
                     dec *= -1;
@@ -166,8 +166,8 @@ namespace Juniper.World.GIS
             point = null;
             var parts = value.SplitX(',');
             if (parts.Length == 2
-                && float.TryParse(parts[0].Trim(), out var lat)
-                && float.TryParse(parts[1].Trim(), out var lng))
+                && double.TryParse(parts[0].Trim(), out var lat)
+                && double.TryParse(parts[1].Trim(), out var lng))
             {
                 point = new LatLngPoint(lat, lng);
             }
@@ -213,7 +213,7 @@ namespace Juniper.World.GIS
         /// <param name="positive">The string prefix to use when the value is positive</param>
         /// <param name="sigfigs">The number of significant figures to which to print the value</param>
         /// <returns>The degrees/minutes/seconds version of the decimal degree</returns>
-        private static string ToDMS(float value, string negative, string positive, int sigfigs, IFormatProvider provider)
+        private static string ToDMS(double value, string negative, string positive, int sigfigs, IFormatProvider provider)
         {
             var hemisphere = value < 0
                 ? negative

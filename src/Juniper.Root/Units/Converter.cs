@@ -409,40 +409,40 @@ namespace Juniper.Units
         /// A look-up to quickly find the conversion function for each unit of measure pairing
         /// without having to use reflection every time.
         /// </summary>
-        private static readonly Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>> Conversions = new(99)
+        private static readonly Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<double, double>>> Conversions = new(99)
         {
-            [UnitOfMeasure.FeetPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
+            [UnitOfMeasure.FeetPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<double, double>>(1)
             {
                 [UnitOfMeasure.MetersPerSecondSquared] = FeetPerSecondSquared.MetersPerSecondSquared
             },
 
-            [UnitOfMeasure.MetersPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
+            [UnitOfMeasure.MetersPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<double, double>>(1)
             {
                 [UnitOfMeasure.FeetPerSecondSquared] = MetersPerSecondSquared.FeetPerSecondSquared
             },
 
-            [UnitOfMeasure.Degrees] = new Dictionary<UnitOfMeasure, Func<float, float>>(3)
+            [UnitOfMeasure.Degrees] = new Dictionary<UnitOfMeasure, Func<double, double>>(3)
             {
                 [UnitOfMeasure.Radians] = Degrees.Radians,
                 [UnitOfMeasure.Gradians] = Degrees.Gradians,
                 [UnitOfMeasure.Hours] = Degrees.Hours
             },
 
-            [UnitOfMeasure.Gradians] = new Dictionary<UnitOfMeasure, Func<float, float>>(3)
+            [UnitOfMeasure.Gradians] = new Dictionary<UnitOfMeasure, Func<double, double>>(3)
             {
                 [UnitOfMeasure.Degrees] = Gradians.Degrees,
                 [UnitOfMeasure.Radians] = Gradians.Radians,
                 [UnitOfMeasure.Hours] = Gradians.Hours
             },
 
-            [UnitOfMeasure.Radians] = new Dictionary<UnitOfMeasure, Func<float, float>>(3)
+            [UnitOfMeasure.Radians] = new Dictionary<UnitOfMeasure, Func<double, double>>(3)
             {
                 [UnitOfMeasure.Degrees] = Radians.Degrees,
                 [UnitOfMeasure.Gradians] = Radians.Gradians,
                 [UnitOfMeasure.Hours] = Radians.Hours
             },
 
-            [UnitOfMeasure.Bits] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Bits] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bytes] = Bits.Bytes,
                 [UnitOfMeasure.Kilobytes] = Bits.Kilobytes,
@@ -463,7 +463,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Bits.Yobibytes
             },
 
-            [UnitOfMeasure.Bytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Bytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Bytes.Bits,
                 [UnitOfMeasure.Kilobytes] = Bytes.Kilobytes,
@@ -484,7 +484,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Bytes.Yobibytes
             },
 
-            [UnitOfMeasure.Exabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Exabytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Exabytes.Bits,
                 [UnitOfMeasure.Bytes] = Exabytes.Bytes,
@@ -505,7 +505,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Exabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Exbibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Exbibytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Exbibytes.Bits,
                 [UnitOfMeasure.Bytes] = Exbibytes.Bytes,
@@ -526,7 +526,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Exbibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Gibibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Gibibytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Gibibytes.Bits,
                 [UnitOfMeasure.Bytes] = Gibibytes.Bytes,
@@ -547,7 +547,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Gibibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Gigabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Gigabytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Gigabytes.Bits,
                 [UnitOfMeasure.Bytes] = Gigabytes.Bytes,
@@ -568,7 +568,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Gigabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Kibibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Kibibytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Kibibytes.Bits,
                 [UnitOfMeasure.Bytes] = Kibibytes.Bytes,
@@ -589,7 +589,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Kibibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Kilobytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Kilobytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Kilobytes.Bits,
                 [UnitOfMeasure.Bytes] = Kilobytes.Bytes,
@@ -610,7 +610,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Kilobytes.Yobibytes
             },
 
-            [UnitOfMeasure.Megabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Megabytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Megabytes.Bits,
                 [UnitOfMeasure.Bytes] = Megabytes.Bytes,
@@ -631,7 +631,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Megabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Mibibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Mibibytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Mibibytes.Bits,
                 [UnitOfMeasure.Bytes] = Mibibytes.Bytes,
@@ -652,7 +652,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Mibibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Pebibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Pebibytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Pebibytes.Bits,
                 [UnitOfMeasure.Bytes] = Pebibytes.Bytes,
@@ -673,7 +673,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Pebibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Petabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Petabytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Petabytes.Bits,
                 [UnitOfMeasure.Bytes] = Petabytes.Bytes,
@@ -694,7 +694,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Petabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Tebibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Tebibytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Tebibytes.Bits,
                 [UnitOfMeasure.Bytes] = Tebibytes.Bytes,
@@ -715,7 +715,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Tebibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Terabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Terabytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Terabytes.Bits,
                 [UnitOfMeasure.Bytes] = Terabytes.Bytes,
@@ -736,7 +736,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Terabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Yobibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Yobibytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Yobibytes.Bits,
                 [UnitOfMeasure.Bytes] = Yobibytes.Bytes,
@@ -757,7 +757,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Zebibytes] = Yobibytes.Zebibytes
             },
 
-            [UnitOfMeasure.Yotabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Yotabytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Yotabytes.Bits,
                 [UnitOfMeasure.Bytes] = Yotabytes.Bytes,
@@ -778,7 +778,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Yotabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Zebibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Zebibytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Zebibytes.Bits,
                 [UnitOfMeasure.Bytes] = Zebibytes.Bytes,
@@ -799,7 +799,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Zebibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Zettabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.Zettabytes] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.Bits] = Zettabytes.Bits,
                 [UnitOfMeasure.Bytes] = Zettabytes.Bytes,
@@ -820,7 +820,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Zettabytes.Yobibytes
             },
 
-            [UnitOfMeasure.BitsPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.BitsPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BytesPerSecond] = BitsPerSecond.BytesPerSecond,
                 [UnitOfMeasure.KilobytesPerSecond] = BitsPerSecond.KilobytesPerSecond,
@@ -841,7 +841,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = BitsPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.BytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.BytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = BytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.KilobytesPerSecond] = BytesPerSecond.KilobytesPerSecond,
@@ -862,7 +862,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = BytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.ExabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.ExabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = ExabytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = ExabytesPerSecond.BytesPerSecond,
@@ -883,7 +883,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = ExabytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.ExbibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.ExbibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = ExbibytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = ExbibytesPerSecond.BytesPerSecond,
@@ -904,7 +904,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = ExbibytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.GibibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.GibibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = GibibytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = GibibytesPerSecond.BytesPerSecond,
@@ -925,7 +925,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = GibibytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.GigabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.GigabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = GigabytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = GigabytesPerSecond.BytesPerSecond,
@@ -946,7 +946,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = GigabytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.KibibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.KibibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = KibibytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = KibibytesPerSecond.BytesPerSecond,
@@ -967,7 +967,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = KibibytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.KilobytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.KilobytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = KilobytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = KilobytesPerSecond.BytesPerSecond,
@@ -988,7 +988,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = KilobytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.MegabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.MegabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = MegabytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = MegabytesPerSecond.BytesPerSecond,
@@ -1009,7 +1009,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = MegabytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.MibibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.MibibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = MibibytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = MibibytesPerSecond.BytesPerSecond,
@@ -1030,7 +1030,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = MibibytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.PebibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.PebibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = PebibytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = PebibytesPerSecond.BytesPerSecond,
@@ -1051,7 +1051,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = PebibytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.PetabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.PetabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = PetabytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = PetabytesPerSecond.BytesPerSecond,
@@ -1072,7 +1072,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = PetabytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.TebibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.TebibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = TebibytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = TebibytesPerSecond.BytesPerSecond,
@@ -1093,7 +1093,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = TebibytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.TerabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.TerabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = TerabytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = TerabytesPerSecond.BytesPerSecond,
@@ -1114,7 +1114,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = TerabytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.YobibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.YobibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = YobibytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = YobibytesPerSecond.BytesPerSecond,
@@ -1135,7 +1135,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.ZebibytesPerSecond] = YobibytesPerSecond.ZebibytesPerSecond
             },
 
-            [UnitOfMeasure.YotabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.YotabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = YotabytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = YotabytesPerSecond.BytesPerSecond,
@@ -1156,7 +1156,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = YotabytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.ZebibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.ZebibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = ZebibytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = ZebibytesPerSecond.BytesPerSecond,
@@ -1177,7 +1177,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = ZebibytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.ZettabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            [UnitOfMeasure.ZettabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(17)
             {
                 [UnitOfMeasure.BitsPerSecond] = ZettabytesPerSecond.BitsPerSecond,
                 [UnitOfMeasure.BytesPerSecond] = ZettabytesPerSecond.BytesPerSecond,
@@ -1198,7 +1198,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = ZettabytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.SquareMicrometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.SquareMicrometers] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.SquareMillimeters] = SquareMicrometers.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareMicrometers.SquareCentimeters,
@@ -1209,7 +1209,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareMicrometers.SquareMiles
             },
 
-            [UnitOfMeasure.SquareCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.SquareCentimeters] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.SquareMicrometers] = SquareCentimeters.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareCentimeters.SquareMillimeters,
@@ -1220,7 +1220,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareCentimeters.SquareMiles
             },
 
-            [UnitOfMeasure.SquareFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.SquareFeet] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.SquareMicrometers] = SquareFeet.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareFeet.SquareMillimeters,
@@ -1231,7 +1231,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareFeet.SquareMiles
             },
 
-            [UnitOfMeasure.SquareInches] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.SquareInches] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.SquareMicrometers] = SquareInches.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareInches.SquareMillimeters,
@@ -1242,7 +1242,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareInches.SquareMiles
             },
 
-            [UnitOfMeasure.SquareKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.SquareKilometers] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.SquareMicrometers] = SquareKilometers.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareKilometers.SquareMillimeters,
@@ -1253,7 +1253,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareKilometers.SquareMiles
             },
 
-            [UnitOfMeasure.SquareMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.SquareMeters] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.SquareMicrometers] = SquareMeters.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareMeters.SquareMillimeters,
@@ -1264,7 +1264,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareMeters.SquareMiles
             },
 
-            [UnitOfMeasure.SquareMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.SquareMiles] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.SquareMicrometers] = SquareMiles.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareMiles.SquareMillimeters,
@@ -1275,7 +1275,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareKilometers] = SquareMiles.SquareKilometers
             },
 
-            [UnitOfMeasure.SquareMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.SquareMillimeters] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.SquareMicrometers] = SquareMillimeters.SquareMicrometers,
                 [UnitOfMeasure.SquareCentimeters] = SquareMillimeters.SquareCentimeters,
@@ -1286,7 +1286,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareMillimeters.SquareMiles
             },
 
-            [UnitOfMeasure.Micrometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.Micrometers] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.Centimeters] = Micrometers.Centimeters,
                 [UnitOfMeasure.Millimeters] = Micrometers.Millimeters,
@@ -1297,7 +1297,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Micrometers.Miles
             },
 
-            [UnitOfMeasure.Centimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.Centimeters] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.Micrometers] = Centimeters.Micrometers,
                 [UnitOfMeasure.Millimeters] = Centimeters.Millimeters,
@@ -1308,7 +1308,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Centimeters.Miles
             },
 
-            [UnitOfMeasure.Feet] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.Feet] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.Micrometers] = Feet.Micrometers,
                 [UnitOfMeasure.Millimeters] = Feet.Millimeters,
@@ -1319,7 +1319,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Feet.Miles
             },
 
-            [UnitOfMeasure.Inches] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.Inches] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.Micrometers] = Inches.Micrometers,
                 [UnitOfMeasure.Millimeters] = Inches.Millimeters,
@@ -1330,7 +1330,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Inches.Miles
             },
 
-            [UnitOfMeasure.Kilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.Kilometers] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.Micrometers] = Kilometers.Micrometers,
                 [UnitOfMeasure.Millimeters] = Kilometers.Millimeters,
@@ -1341,7 +1341,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Kilometers.Miles
             },
 
-            [UnitOfMeasure.Meters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.Meters] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.Micrometers] = Meters.Micrometers,
                 [UnitOfMeasure.Millimeters] = Meters.Millimeters,
@@ -1352,7 +1352,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Meters.Miles
             },
 
-            [UnitOfMeasure.Miles] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.Miles] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.Micrometers] = Miles.Micrometers,
                 [UnitOfMeasure.Millimeters] = Miles.Millimeters,
@@ -1363,7 +1363,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Kilometers] = Miles.Kilometers
             },
 
-            [UnitOfMeasure.Millimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            [UnitOfMeasure.Millimeters] = new Dictionary<UnitOfMeasure, Func<double, double>>(7)
             {
                 [UnitOfMeasure.Micrometers] = Millimeters.Micrometers,
                 [UnitOfMeasure.Centimeters] = Millimeters.Centimeters,
@@ -1374,7 +1374,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Millimeters.Miles
             },
 
-            [UnitOfMeasure.CubicCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.CubicCentimeters] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicFeet] = CubicCentimeters.CubicFeet,
                 [UnitOfMeasure.CubicInches] = CubicCentimeters.CubicInches,
@@ -1398,7 +1398,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = CubicCentimeters.Teaspoons
             },
 
-            [UnitOfMeasure.CubicFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.CubicFeet] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = CubicFeet.CubicCentimeters,
                 [UnitOfMeasure.CubicInches] = CubicFeet.CubicInches,
@@ -1422,7 +1422,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = CubicFeet.Teaspoons
             },
 
-            [UnitOfMeasure.CubicInches] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.CubicInches] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicInches] = CubicInches.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = CubicInches.CubicFeet,
@@ -1446,7 +1446,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = CubicInches.Teaspoons
             },
 
-            [UnitOfMeasure.CubicKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.CubicKilometers] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = CubicKilometers.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = CubicKilometers.CubicFeet,
@@ -1470,7 +1470,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = CubicKilometers.Teaspoons
             },
 
-            [UnitOfMeasure.CubicMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.CubicMeters] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = CubicMeters.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = CubicMeters.CubicFeet,
@@ -1494,7 +1494,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = CubicMeters.Teaspoons
             },
 
-            [UnitOfMeasure.CubicMicrometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.CubicMicrometers] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = CubicMicrometers.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = CubicMicrometers.CubicFeet,
@@ -1518,7 +1518,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = CubicMicrometers.Teaspoons
             },
 
-            [UnitOfMeasure.CubicMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.CubicMiles] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = CubicMiles.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = CubicMiles.CubicFeet,
@@ -1542,7 +1542,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = CubicMiles.Teaspoons
             },
 
-            [UnitOfMeasure.CubicMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.CubicMillimeters] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = CubicMillimeters.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = CubicMillimeters.CubicFeet,
@@ -1566,7 +1566,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = CubicMillimeters.Teaspoons
             },
 
-            [UnitOfMeasure.Cups] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.Cups] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = Cups.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = Cups.CubicFeet,
@@ -1590,7 +1590,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = Cups.Teaspoons
             },
 
-            [UnitOfMeasure.FluidDrams] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.FluidDrams] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = FluidDrams.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = FluidDrams.CubicFeet,
@@ -1614,7 +1614,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = FluidDrams.Teaspoons
             },
 
-            [UnitOfMeasure.FluidOunces] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.FluidOunces] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = FluidOunces.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = FluidOunces.CubicFeet,
@@ -1638,7 +1638,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = FluidOunces.Teaspoons
             },
 
-            [UnitOfMeasure.Gallons] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.Gallons] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = Gallons.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = Gallons.CubicFeet,
@@ -1662,7 +1662,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = Gallons.Teaspoons
             },
 
-            [UnitOfMeasure.Gills] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.Gills] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = Gills.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = Gills.CubicFeet,
@@ -1686,7 +1686,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = Gills.Teaspoons
             },
 
-            [UnitOfMeasure.Kiloliters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.Kiloliters] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = Kiloliters.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = Kiloliters.CubicFeet,
@@ -1710,7 +1710,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = Kiloliters.Teaspoons
             },
 
-            [UnitOfMeasure.LiquidPints] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.LiquidPints] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = LiquidPints.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = LiquidPints.CubicFeet,
@@ -1734,7 +1734,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = LiquidPints.Teaspoons
             },
 
-            [UnitOfMeasure.LiquidQuarts] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.LiquidQuarts] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = LiquidQuarts.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = LiquidQuarts.CubicFeet,
@@ -1758,7 +1758,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = LiquidQuarts.Teaspoons
             },
 
-            [UnitOfMeasure.Liters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.Liters] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = Liters.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = Liters.CubicFeet,
@@ -1782,7 +1782,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = Liters.Teaspoons
             },
 
-            [UnitOfMeasure.Milliliters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.Milliliters] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = Milliliters.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = Milliliters.CubicFeet,
@@ -1806,7 +1806,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = Milliliters.Teaspoons
             },
 
-            [UnitOfMeasure.Minims] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.Minims] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = Minims.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = Minims.CubicFeet,
@@ -1830,7 +1830,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = Minims.Teaspoons
             },
 
-            [UnitOfMeasure.Tablespoons] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.Tablespoons] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = Tablespoons.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = Tablespoons.CubicFeet,
@@ -1854,7 +1854,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Teaspoons] = Tablespoons.Teaspoons
             },
 
-            [UnitOfMeasure.Teaspoons] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            [UnitOfMeasure.Teaspoons] = new Dictionary<UnitOfMeasure, Func<double, double>>(20)
             {
                 [UnitOfMeasure.CubicCentimeters] = Teaspoons.CubicCentimeters,
                 [UnitOfMeasure.CubicFeet] = Teaspoons.CubicFeet,
@@ -1878,25 +1878,25 @@ namespace Juniper.Units
                 [UnitOfMeasure.Tablespoons] = Teaspoons.Tablespoons
             },
 
-            [UnitOfMeasure.Brightness] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
+            [UnitOfMeasure.Brightness] = new Dictionary<UnitOfMeasure, Func<double, double>>(2)
             {
                 [UnitOfMeasure.Lumens] = Brightness.Lumens,
                 [UnitOfMeasure.Nits] = Brightness.Nits
             },
 
-            [UnitOfMeasure.Lumens] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
+            [UnitOfMeasure.Lumens] = new Dictionary<UnitOfMeasure, Func<double, double>>(2)
             {
                 [UnitOfMeasure.Nits] = Lumens.Nits,
                 [UnitOfMeasure.Brightness] = Lumens.Brightness
             },
 
-            [UnitOfMeasure.Nits] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
+            [UnitOfMeasure.Nits] = new Dictionary<UnitOfMeasure, Func<double, double>>(2)
             {
                 [UnitOfMeasure.Lumens] = Nits.Lumens,
                 [UnitOfMeasure.Brightness] = Nits.Brightness
             },
 
-            [UnitOfMeasure.Grams] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.Grams] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Ounces] = Grams.Ounces,
                 [UnitOfMeasure.Pounds] = Grams.Pounds,
@@ -1904,7 +1904,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Tons] = Grams.Tons
             },
 
-            [UnitOfMeasure.Kilograms] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.Kilograms] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Grams] = Kilograms.Grams,
                 [UnitOfMeasure.Ounces] = Kilograms.Ounces,
@@ -1912,7 +1912,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Tons] = Kilograms.Tons
             },
 
-            [UnitOfMeasure.Ounces] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.Ounces] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Grams] = Ounces.Grams,
                 [UnitOfMeasure.Pounds] = Ounces.Pounds,
@@ -1920,7 +1920,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Tons] = Ounces.Tons
             },
 
-            [UnitOfMeasure.Pounds] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.Pounds] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Grams] = Pounds.Grams,
                 [UnitOfMeasure.Ounces] = Pounds.Ounces,
@@ -1928,7 +1928,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Tons] = Pounds.Tons
             },
 
-            [UnitOfMeasure.Tons] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.Tons] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Grams] = Tons.Grams,
                 [UnitOfMeasure.Ounces] = Tons.Ounces,
@@ -1936,7 +1936,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Kilograms] = Tons.Kilograms
             },
 
-            [UnitOfMeasure.Hectopascals] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.Hectopascals] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Pascals] = Hectopascals.Pascals,
                 [UnitOfMeasure.Millibars] = Hectopascals.Millibars,
@@ -1944,7 +1944,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.PoundsPerSquareInch] = Hectopascals.PoundsPerSquareInch
             },
 
-            [UnitOfMeasure.Kilopascals] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.Kilopascals] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Pascals] = Kilopascals.Pascals,
                 [UnitOfMeasure.Hectopascals] = Kilopascals.Hectopascals,
@@ -1952,7 +1952,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.PoundsPerSquareInch] = Kilopascals.PoundsPerSquareInch
             },
 
-            [UnitOfMeasure.Millibars] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.Millibars] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Pascals] = Millibars.Pascals,
                 [UnitOfMeasure.Hectopascals] = Millibars.Hectopascals,
@@ -1960,7 +1960,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.PoundsPerSquareInch] = Millibars.PoundsPerSquareInch
             },
 
-            [UnitOfMeasure.Pascals] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.Pascals] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Hectopascals] = Pascals.Hectopascals,
                 [UnitOfMeasure.Millibars] = Pascals.Millibars,
@@ -1968,7 +1968,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.PoundsPerSquareInch] = Pascals.PoundsPerSquareInch
             },
 
-            [UnitOfMeasure.PoundsPerSquareInch] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.PoundsPerSquareInch] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.Pascals] = PoundsPerSquareInch.Pascals,
                 [UnitOfMeasure.Hectopascals] = PoundsPerSquareInch.Hectopascals,
@@ -1976,17 +1976,17 @@ namespace Juniper.Units
                 [UnitOfMeasure.Kilopascals] = PoundsPerSquareInch.Kilopascals
             },
 
-            [UnitOfMeasure.Percent] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
+            [UnitOfMeasure.Percent] = new Dictionary<UnitOfMeasure, Func<double, double>>(1)
             {
                 [UnitOfMeasure.Proportion] = Percent.Proportion
             },
 
-            [UnitOfMeasure.Proportion] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
+            [UnitOfMeasure.Proportion] = new Dictionary<UnitOfMeasure, Func<double, double>>(1)
             {
                 [UnitOfMeasure.Percent] = Proportion.Percent
             },
 
-            [UnitOfMeasure.FeetPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.FeetPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.MilesPerHour] = FeetPerSecond.MilesPerHour,
                 [UnitOfMeasure.KilometersPerHour] = FeetPerSecond.KilometersPerHour,
@@ -1994,7 +1994,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.MillimetersPerSecond] = FeetPerSecond.MillimetersPerSecond
             },
 
-            [UnitOfMeasure.KilometersPerHour] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.KilometersPerHour] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.MilesPerHour] = KilometersPerHour.MilesPerHour,
                 [UnitOfMeasure.FeetPerSecond] = KilometersPerHour.FeetPerSecond,
@@ -2002,7 +2002,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.MillimetersPerSecond] = KilometersPerHour.MillimetersPerSecond
             },
 
-            [UnitOfMeasure.MetersPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.MetersPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.MilesPerHour] = MetersPerSecond.MilesPerHour,
                 [UnitOfMeasure.KilometersPerHour] = MetersPerSecond.KilometersPerHour,
@@ -2010,7 +2010,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.MillimetersPerSecond] = MetersPerSecond.MillimetersPerSecond
             },
 
-            [UnitOfMeasure.MilesPerHour] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.MilesPerHour] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.KilometersPerHour] = MilesPerHour.KilometersPerHour,
                 [UnitOfMeasure.FeetPerSecond] = MilesPerHour.FeetPerSecond,
@@ -2018,7 +2018,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.MillimetersPerSecond] = MilesPerHour.MillimetersPerSecond
             },
 
-            [UnitOfMeasure.MillimetersPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
+            [UnitOfMeasure.MillimetersPerSecond] = new Dictionary<UnitOfMeasure, Func<double, double>>(4)
             {
                 [UnitOfMeasure.MilesPerHour] = MillimetersPerSecond.MilesPerHour,
                 [UnitOfMeasure.KilometersPerHour] = MillimetersPerSecond.KilometersPerHour,
@@ -2026,25 +2026,25 @@ namespace Juniper.Units
                 [UnitOfMeasure.MetersPerSecond] = MillimetersPerSecond.MetersPerSecond
             },
 
-            [UnitOfMeasure.Celsius] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
+            [UnitOfMeasure.Celsius] = new Dictionary<UnitOfMeasure, Func<double, double>>(2)
             {
                 [UnitOfMeasure.Farenheit] = Celsius.Farenheit,
                 [UnitOfMeasure.Kelvin] = Celsius.Kelvin
             },
 
-            [UnitOfMeasure.Farenheit] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
+            [UnitOfMeasure.Farenheit] = new Dictionary<UnitOfMeasure, Func<double, double>>(2)
             {
                 [UnitOfMeasure.Celsius] = Farenheit.Celsius,
                 [UnitOfMeasure.Kelvin] = Farenheit.Kelvin
             },
 
-            [UnitOfMeasure.Kelvin] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
+            [UnitOfMeasure.Kelvin] = new Dictionary<UnitOfMeasure, Func<double, double>>(2)
             {
                 [UnitOfMeasure.Farenheit] = Kelvin.Farenheit,
                 [UnitOfMeasure.Celsius] = Kelvin.Celsius
             },
 
-            [UnitOfMeasure.Days] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
+            [UnitOfMeasure.Days] = new Dictionary<UnitOfMeasure, Func<double, double>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Days.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Days.Ticks,
@@ -2056,7 +2056,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Days.Hertz
             },
 
-            [UnitOfMeasure.Hours] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
+            [UnitOfMeasure.Hours] = new Dictionary<UnitOfMeasure, Func<double, double>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Hours.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Hours.Ticks,
@@ -2070,7 +2070,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Hours.Hertz
             },
 
-            [UnitOfMeasure.Minutes] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
+            [UnitOfMeasure.Minutes] = new Dictionary<UnitOfMeasure, Func<double, double>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Minutes.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Minutes.Ticks,
@@ -2082,7 +2082,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Minutes.Hertz
             },
 
-            [UnitOfMeasure.Seconds] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
+            [UnitOfMeasure.Seconds] = new Dictionary<UnitOfMeasure, Func<double, double>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Seconds.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Seconds.Ticks,
@@ -2094,7 +2094,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Seconds.Hertz
             },
 
-            [UnitOfMeasure.Milliseconds] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
+            [UnitOfMeasure.Milliseconds] = new Dictionary<UnitOfMeasure, Func<double, double>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Milliseconds.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Milliseconds.Ticks,
@@ -2106,7 +2106,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Milliseconds.Hertz
             },
 
-            [UnitOfMeasure.Microseconds] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
+            [UnitOfMeasure.Microseconds] = new Dictionary<UnitOfMeasure, Func<double, double>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Microseconds.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Microseconds.Ticks,
@@ -2118,7 +2118,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Microseconds.Hertz
             },
 
-            [UnitOfMeasure.Ticks] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
+            [UnitOfMeasure.Ticks] = new Dictionary<UnitOfMeasure, Func<double, double>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Ticks.Nanoseconds,
                 [UnitOfMeasure.Microseconds] = Ticks.Microseconds,
@@ -2130,7 +2130,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Ticks.Hertz
             },
 
-            [UnitOfMeasure.Nanoseconds] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
+            [UnitOfMeasure.Nanoseconds] = new Dictionary<UnitOfMeasure, Func<double, double>>(8)
             {
                 [UnitOfMeasure.Ticks] = Nanoseconds.Ticks,
                 [UnitOfMeasure.Microseconds] = Nanoseconds.Microseconds,
@@ -2142,7 +2142,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Nanoseconds.Hertz
             },
 
-            [UnitOfMeasure.Hertz] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
+            [UnitOfMeasure.Hertz] = new Dictionary<UnitOfMeasure, Func<double, double>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Hertz.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Hertz.Ticks,
@@ -2201,7 +2201,31 @@ namespace Juniper.Units
         /// <param name="fromUnit"></param>
         /// <param name="toUnit"></param>
         /// <returns></returns>
-        public static float Convert(this float value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        public static double Convert(this float value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            if (fromUnit == toUnit)
+            {
+                return value;
+            }
+            else if (Conversions.TryGetValue(fromUnit, out var forFromUnit)
+                && Conversions[fromUnit].TryGetValue(toUnit, out var conversion))
+            {
+                return (float)conversion(value);
+            }
+            else
+            {
+                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit} to {toUnit}.");
+            }
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to another.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static double Convert(this double value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
         {
             if (fromUnit == toUnit)
             {
@@ -2235,8 +2259,8 @@ namespace Juniper.Units
                 && Conversions[fromUnit].TryGetValue(toUnit, out var conversion))
             {
                 return new Vector2(
-                    conversion(value.X),
-                    conversion(value.Y));
+                    (float)conversion(value.X),
+                    (float)conversion(value.Y));
             }
             else
             {
@@ -2261,9 +2285,9 @@ namespace Juniper.Units
                 && Conversions[fromUnit].TryGetValue(toUnit, out var conversion))
             {
                 return new Vector3(
-                    conversion(value.X),
-                    conversion(value.Y),
-                    conversion(value.Z));
+                    (float)conversion(value.X),
+                    (float)conversion(value.Y),
+                    (float)conversion(value.Z));
             }
             else
             {
@@ -2288,10 +2312,10 @@ namespace Juniper.Units
                 && Conversions[fromUnit].TryGetValue(toUnit, out var conversion))
             {
                 return new Vector4(
-                    conversion(value.X),
-                    conversion(value.Y),
-                    conversion(value.Z),
-                    conversion(value.W));
+                    (float)conversion(value.X),
+                    (float)conversion(value.Y),
+                    (float)conversion(value.Z),
+                    (float)conversion(value.W));
             }
             else
             {
@@ -2308,6 +2332,19 @@ namespace Juniper.Units
         /// <param name="toSystem"></param>
         /// <returns></returns>
         public static float Convert(this float value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return (float)(((double)value).Convert(fromUnit, FindConversion(fromUnit, toSystem)));
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to the analogous unit of measure in a different
+        /// system of measure.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static double Convert(this double value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
         {
             return value.Convert(fromUnit, FindConversion(fromUnit, toSystem));
         }
@@ -2352,106 +2389,6 @@ namespace Juniper.Units
         }
 
         /// <summary>
-        /// Convert a value from one unit of measure to another.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <returns></returns>
-        public static float? Convert(this float? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
-        {
-            return value?.Convert(fromUnit, toUnit);
-        }
-
-        /// <summary>
-        /// Convert a value from one unit of measure to another.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <returns></returns>
-        public static Vector2? Convert(this Vector2? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
-        {
-            return value?.Convert(fromUnit, toUnit);
-        }
-
-        /// <summary>
-        /// Convert a value from one unit of measure to another.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <returns></returns>
-        public static Vector3? Convert(this Vector3? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
-        {
-            return value?.Convert(fromUnit, toUnit);
-        }
-
-        /// <summary>
-        /// Convert a value from one unit of measure to another.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <returns></returns>
-        public static Vector4? Convert(this Vector4? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
-        {
-            return value?.Convert(fromUnit, toUnit);
-        }
-
-        /// <summary>
-        /// Convert a value from one unit of measure to the analogous unit of measure in a different
-        /// system of measure.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <returns></returns>
-        public static float? Convert(this float? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
-        {
-            return value?.Convert(fromUnit, toSystem);
-        }
-
-        /// <summary>
-        /// Convert a value from one unit of measure to the analogous unit of measure in a different
-        /// system of measure.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <returns></returns>
-        public static Vector2? Convert(this Vector2? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
-        {
-            return value?.Convert(fromUnit, toSystem);
-        }
-
-        /// <summary>
-        /// Convert a value from one unit of measure to the analogous unit of measure in a different
-        /// system of measure.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <returns></returns>
-        public static Vector3? Convert(this Vector3? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
-        {
-            return value?.Convert(fromUnit, toSystem);
-        }
-
-        /// <summary>
-        /// Convert a value from one unit of measure to the analogous unit of measure in a different
-        /// system of measure.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <returns></returns>
-        public static Vector4? Convert(this Vector4? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
-        {
-            return value?.Convert(fromUnit, toSystem);
-        }
-
-        /// <summary>
         /// Retrieve the abbreviation for the given unit of measure.
         /// </summary>
         /// <param name="unit"></param>
@@ -2474,6 +2411,21 @@ namespace Juniper.Units
         public static string Label(this float value, UnitOfMeasure unit, int sigfigs)
         {
             return (float.IsInfinity(value) || float.IsNaN(value))
+                ? value.ToString(CultureInfo.CurrentCulture)
+                : value.SigFig(sigfigs) + unit.Abbreviate();
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this double value, UnitOfMeasure unit, int sigfigs)
+        {
+            return (double.IsInfinity(value) || double.IsNaN(value))
                 ? value.ToString(CultureInfo.CurrentCulture)
                 : value.SigFig(sigfigs) + unit.Abbreviate();
         }
@@ -2538,6 +2490,20 @@ namespace Juniper.Units
         /// <param name="value"></param>
         /// <param name="unit"></param>
         /// <returns></returns>
+        public static string Label(this double value, UnitOfMeasure unit)
+        {
+            return (double.IsInfinity(value) || double.IsNaN(value))
+                ? value.ToString(CultureInfo.CurrentCulture)
+                : value.SigFig(DEFAULT_SIGNIFICANT_FIGURES) + unit.Abbreviate();
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
         public static string Label(this Vector2 value, UnitOfMeasure unit)
         {
             return value.SigFig(DEFAULT_SIGNIFICANT_FIGURES) + unit.Abbreviate();
@@ -2577,6 +2543,22 @@ namespace Juniper.Units
         /// <param name="sigfigs"></param>
         /// <returns></returns>
         public static string Label(this float value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
+        {
+            return value
+                .Convert(fromUnit, toUnit)
+                .Label(toUnit, sigfigs);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this double value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
         {
             return value
                 .Convert(fromUnit, toUnit)
@@ -2654,6 +2636,20 @@ namespace Juniper.Units
         /// <param name="toSystem"></param>
         /// <param name="sigfigs"></param>
         /// <returns></returns>
+        public static string Label(this double value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
+        {
+            return value.Label(fromUnit, FindConversion(fromUnit, toSystem), sigfigs);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
         public static string Label(this Vector2 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
         {
             return value.Label(fromUnit, FindConversion(fromUnit, toSystem), sigfigs);
@@ -2696,6 +2692,21 @@ namespace Juniper.Units
         /// <param name="toUnit"></param>
         /// <returns></returns>
         public static string Label(this float value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value
+                .Convert(fromUnit, toUnit)
+                .Label(toUnit);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static string Label(this double value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
         {
             return value
                 .Convert(fromUnit, toUnit)
@@ -2768,6 +2779,19 @@ namespace Juniper.Units
         /// <param name="fromUnit"></param>
         /// <param name="toSystem"></param>
         /// <returns></returns>
+        public static string Label(this double value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value.Label(fromUnit, FindConversion(fromUnit, toSystem));
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
         public static string Label(this Vector2 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
         {
             return value.Label(fromUnit, FindConversion(fromUnit, toSystem));
@@ -2797,322 +2821,6 @@ namespace Juniper.Units
         public static string Label(this Vector4 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
         {
             return value.Label(fromUnit, FindConversion(fromUnit, toSystem));
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted to a given system of
-        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this float? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
-        {
-            return value?.Label(fromUnit, toSystem, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted to a given system of
-        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this Vector2? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
-        {
-            return value?.Label(fromUnit, toSystem, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted to a given system of
-        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this Vector3? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
-        {
-            return value?.Label(fromUnit, toSystem, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted to a given system of
-        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this Vector4? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
-        {
-            return value?.Label(fromUnit, toSystem, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted to a given system of
-        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <returns></returns>
-        public static string Label(this float? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
-        {
-            return value?.Label(fromUnit, toSystem) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted to a given system of
-        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <returns></returns>
-        public static string Label(this Vector2? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
-        {
-            return value?.Label(fromUnit, toSystem) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted to a given system of
-        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <returns></returns>
-        public static string Label(this Vector3? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
-        {
-            return value?.Label(fromUnit, toSystem) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted to a given system of
-        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toSystem"></param>
-        /// <returns></returns>
-        public static string Label(this Vector4? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
-        {
-            return value?.Label(fromUnit, toSystem) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted directly to a different unit
-        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this float? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
-        {
-            return value?.Label(fromUnit, toUnit, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted directly to a different unit
-        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this Vector2? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
-        {
-            return value?.Label(fromUnit, toUnit, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted directly to a different unit
-        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this Vector3? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
-        {
-            return value?.Label(fromUnit, toUnit, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted directly to a different unit
-        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this Vector4? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
-        {
-            return value?.Label(fromUnit, toUnit, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted directly to a different unit
-        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <returns></returns>
-        public static string Label(this float? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
-        {
-            return value?.Label(fromUnit, toUnit) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted directly to a different unit
-        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <returns></returns>
-        public static string Label(this Vector2? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
-        {
-            return value?.Label(fromUnit, toUnit) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted directly to a different unit
-        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <returns></returns>
-        public static string Label(this Vector3? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
-        {
-            return value?.Label(fromUnit, toUnit) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted directly to a different unit
-        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <returns></returns>
-        public static string Label(this Vector4? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
-        {
-            return value?.Label(fromUnit, toUnit) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, with no unit conversion, with its
-        /// abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="unit"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this float? value, UnitOfMeasure unit, int sigfigs)
-        {
-            return value?.Label(unit, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, with no unit conversion, with its
-        /// abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="unit"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this Vector2? value, UnitOfMeasure unit, int sigfigs)
-        {
-            return value?.Label(unit, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, with no unit conversion, with its
-        /// abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="unit"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this Vector3? value, UnitOfMeasure unit, int sigfigs)
-        {
-            return value?.Label(unit, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, with no unit conversion, with its
-        /// abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="unit"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this Vector4? value, UnitOfMeasure unit, int sigfigs)
-        {
-            return value?.Label(unit, sigfigs) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, with no unit conversion, with its
-        /// abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="unit"></param>
-        /// <returns></returns>
-        public static string Label(this float? value, UnitOfMeasure unit)
-        {
-            return value?.Label(unit) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, with no unit conversion, with its
-        /// abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="unit"></param>
-        /// <returns></returns>
-        public static string Label(this Vector2? value, UnitOfMeasure unit)
-        {
-            return value?.Label(unit) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, with no unit conversion, with its
-        /// abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="unit"></param>
-        /// <returns></returns>
-        public static string Label(this Vector3? value, UnitOfMeasure unit)
-        {
-            return value?.Label(unit) ?? "N/A";
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, with no unit conversion, with its
-        /// abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="unit"></param>
-        /// <returns></returns>
-        public static string Label(this Vector4? value, UnitOfMeasure unit)
-        {
-            return value?.Label(unit) ?? "N/A";
         }
     }
 }

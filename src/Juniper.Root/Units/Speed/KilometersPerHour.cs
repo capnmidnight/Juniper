@@ -8,29 +8,29 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from miles per hour to kilometers per hour.
         /// </summary>
-        public const float PER_MILE_PER_HOUR = Units.Kilometers.PER_MILE;
+        public const double PER_MILE_PER_HOUR = Units.Kilometers.PER_MILE;
 
         /// <summary>
         /// Conversion factor from feet per second to kilometers per hour.
         /// </summary>
-        public const float PER_FOOT_PER_SECOND = Units.Kilometers.PER_FOOT * Units.Seconds.PER_HOUR;
+        public const double PER_FOOT_PER_SECOND = Units.Kilometers.PER_FOOT * Units.Seconds.PER_HOUR;
 
         /// <summary>
         /// Conversion factor from meters per second to kilometers per hour.
         /// </summary>
-        public const float PER_METER_PER_SECOND = Units.Kilometers.PER_METER * Units.Seconds.PER_HOUR;
+        public const double PER_METER_PER_SECOND = Units.Kilometers.PER_METER * Units.Seconds.PER_HOUR;
 
         /// <summary>
         /// Conversion factor from millimeters per second to kilometers per hour.
         /// </summary>
-        public const float PER_MILLIMETER_PER_SECOND = Units.Kilometers.PER_MILLIMETER * Units.Seconds.PER_HOUR;
+        public const double PER_MILLIMETER_PER_SECOND = Units.Kilometers.PER_MILLIMETER * Units.Seconds.PER_HOUR;
 
         /// <summary>
         /// Convert from kilometers per hour to miles per hour.
         /// </summary>
         /// <param name="kph">The number of kilometers per hour</param>
         /// <returns>The number of miles per hour</returns>
-        public static float MilesPerHour(float kph)
+        public static double MilesPerHour(double kph)
         {
             return kph * Units.MilesPerHour.PER_KILOMETER_PER_HOUR;
         }
@@ -40,7 +40,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kph">The number of kilometers per hour</param>
         /// <returns>The number of feet per second</returns>
-        public static float FeetPerSecond(float kph)
+        public static double FeetPerSecond(double kph)
         {
             return kph * Units.FeetPerSecond.PER_KILOMETER_PER_HOUR;
         }
@@ -50,7 +50,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kph">The number of kilometers per hour</param>
         /// <returns>The number of meters per second</returns>
-        public static float MetersPerSecond(float kph)
+        public static double MetersPerSecond(double kph)
         {
             return kph * Units.MetersPerSecond.PER_KILOMETER_PER_HOUR;
         }
@@ -60,7 +60,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="kph">The number of kilometers per hour</param>
         /// <returns>The number of millimeters per second</returns>
-        public static float MillimetersPerSecond(float kph)
+        public static double MillimetersPerSecond(double kph)
         {
             return kph * Units.MillimetersPerSecond.PER_KILOMETER_PER_HOUR;
         }
