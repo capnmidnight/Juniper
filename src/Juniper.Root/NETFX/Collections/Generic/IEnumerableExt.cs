@@ -434,5 +434,15 @@ namespace System.Collections.Generic
         {
             return value.ToString();
         }
+
+        public static TimeSpan Sum(this IEnumerable<TimeSpan> values)
+        {
+            return values.Aggregate(TimeSpan.Zero, (a, b) => a + b);
+        }
+
+        public static TimeSpan Sum<T>(this IEnumerable<T> values, Func<T, TimeSpan> selector)
+        {
+            return values.Select(selector).Sum();
+        }
     }
 }

@@ -264,5 +264,16 @@ namespace System.Collections.Generic
 
             return hands;
         }
+
+        public static int InsertSorted<T>(this List<T> list, T item) where T : IComparable<T>
+        {
+            var index = list.BinarySearch(item);
+            if(index < 0)
+            {
+                index = ~index;
+            }
+            list.Insert(index, item);
+            return index;
+        }
     }
 }
