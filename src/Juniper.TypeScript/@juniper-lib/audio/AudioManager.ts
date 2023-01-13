@@ -1,4 +1,4 @@
-import { src } from "@juniper-lib/dom/attrs";
+import { autoPlay, loop, src } from "@juniper-lib/dom/attrs";
 import { Audio } from "@juniper-lib/dom/tags";
 import { AssetFile } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
@@ -153,8 +153,8 @@ export class AudioManager
 
     /**
      * Creates a spatialzer for an audio source.
-     * @param spatialize - whether or not the audio stream should be spatialized. Stereo audio streams that are spatialized will get down-mixed to a single channel.
-     * @param isRemoteStream - whether or not the audio stream is coming from a remote user.
+     * @param spatialize - whether the audio stream should be spatialized. Stereo audio streams that are spatialized will get down-mixed to a single channel.
+     * @param isRemoteStream - whether the audio stream is coming from a remote user.
      */
     createSpatializer(spatialize: boolean, isRemoteStream: boolean): BaseSpatializer {
         if (!spatialize) {
@@ -194,7 +194,7 @@ export class AudioManager
     }
 
     createBasicClip(id: string, asset: AssetFile, vol: number) {
-        return this.createClip(id, asset, false, false, false, vol, []);
+        return this.createClip(id, asset, false, false, false, false, vol, []);
     }
 
     private elements = new Map<string, JuniperMediaElementAudioSourceNode>();
@@ -207,10 +207,10 @@ export class AudioManager
      * Creates a new sound effect from a series of fallback paths
      * for media files.
      * @param id - the name of the sound effect, to reference when executing playback.
-     * @param element - the element to register as a clip
-     * @param looping - whether or not the sound effect should be played on loop.
-     * @param autoPlaying - whether or not the sound effect should be played immediately.
-     * @param spatialize - whether or not the sound effect should be spatialized.
+     * @param asset - the element to register as a clip
+     * @param looping - whether the sound effect should be played on loop.
+     * @param autoPlaying - whether the sound effect should be played immediately.
+     * @param spatialize - whether the sound effect should be spatialized.
      * @param vol - the volume at which to set the clip.
      * @param effectNames - names of pre-canned effects to load on the control.
      * @param path - a path for loading the media of the sound effect, or the sound effect that has already been loaded.
@@ -219,6 +219,7 @@ export class AudioManager
     async createClip(
         id: string,
         asset: AssetFile | string,
+        looping: boolean,
         autoPlaying: boolean,
         spatialize: boolean,
         randomize: boolean,
@@ -244,7 +245,10 @@ export class AudioManager
         }
 
         if (!this.elements.has(key)) {
-            const mediaElement = Audio(src(path));
+            const mediaElement = Audio(
+                src(path),
+                loop(looping),
+                autoPlay(autoPlaying));
             const node = new JuniperMediaElementAudioSourceNode(
                 this.context,
                 { mediaElement });
