@@ -35,6 +35,6 @@ export class InteractionAudio {
     }
 
     create(type: string, asset: AssetFile, volume: number) {
-        return this.audio.createClip(makeClipName(type, false), asset, false, false, true, false, volume, []);
+        return this.audio.createClip(makeClipName(type, false), asset, false, false, true, false, true, volume, []);
     }
 }

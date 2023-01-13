@@ -22,7 +22,8 @@ export class AudioElementSource
     constructor(
         context: JuniperAudioContext,
         source: JuniperMediaElementAudioSourceNode,
-        private readonly randomize: boolean,
+        randomizeStart: boolean,
+        randomizePitch: boolean,
         spatializer: BaseSpatializer,
         ...effectNames: string[]) {
 
@@ -50,14 +51,24 @@ export class AudioElementSource
         this.audio.addEventListener("ended", halt);
         this.audio.addEventListener("pause", halt);
 
-        this.audio.addEventListener("play", () => {
-            if (this.randomize
-                && this.audio.loop
-                && this.audio.duration > 1) {
-                const startTime = this.audio.duration * Math.random();
-                this.audio.currentTime = startTime;
-            }
+        if (randomizeStart) {
+            this.audio.addEventListener("play", () => {
+                if (this.audio.loop
+                    && this.audio.duration > 1) {
+                    const startTime = this.audio.duration * Math.random();
+                    this.audio.currentTime = startTime;
+                }
+            });
+        }
 
+        if (randomizePitch) {
+            source.mediaElement.preservesPitch = false;
+            this.audio.addEventListener("play", () => {
+                source.mediaElement.playbackRate = 1 + 0.1 * (2 * Math.random() - 1);
+            });
+        }
+
+        this.audio.addEventListener("play", () => {
             this.dispatchEvent(this.playEvt);
         });
 

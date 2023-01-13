@@ -194,7 +194,7 @@ export class AudioManager
     }
 
     createBasicClip(id: string, asset: AssetFile, vol: number) {
-        return this.createClip(id, asset, false, false, false, false, vol, []);
+        return this.createClip(id, asset, false, false, false, false, true, vol, []);
     }
 
     private elements = new Map<string, JuniperMediaElementAudioSourceNode>();
@@ -211,6 +211,8 @@ export class AudioManager
      * @param looping - whether the sound effect should be played on loop.
      * @param autoPlaying - whether the sound effect should be played immediately.
      * @param spatialize - whether the sound effect should be spatialized.
+     * @param randomizeStart - whether the looping sound effect should be started somewhere in the middle.
+     * @param randomizePitch - whether the sound effect should be pitch-bent whenever it is played.
      * @param vol - the volume at which to set the clip.
      * @param effectNames - names of pre-canned effects to load on the control.
      * @param path - a path for loading the media of the sound effect, or the sound effect that has already been loaded.
@@ -222,7 +224,8 @@ export class AudioManager
         looping: boolean,
         autoPlaying: boolean,
         spatialize: boolean,
-        randomize: boolean,
+        randomizeStart: boolean,
+        randomizePitch: boolean,
         vol: number,
         effectNames: string[],
         prog?: IProgress) {
@@ -261,7 +264,8 @@ export class AudioManager
         const clip = new AudioElementSource(
             this.context,
             source,
-            randomize,
+            randomizeStart,
+            randomizePitch,
             this.createSpatializer(spatialize, false),
             ...effectNames);
 
