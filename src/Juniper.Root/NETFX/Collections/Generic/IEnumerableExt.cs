@@ -103,7 +103,8 @@ namespace System.Collections.Generic
             {
                 while (c.MoveNext() && d.MoveNext())
                 {
-                    if (!c.Current.Equals(d.Current))
+                    if ((c.Current is null) != (d.Current is null)
+                        || !c.Current.Equals(d.Current))
                     {
                         return false;
                     }
@@ -135,14 +136,9 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static bool Matches<T>(this IEnumerable<T> a, IEnumerable b)
         {
-            if (a is null && b is null)
+            if (a is null || b is null)
             {
-                return true;
-            }
-
-            if ((a is null) != (b is null))
-            {
-                return false;
+                return (a is null) == (b is null);
             }
 
             return a.Matches(b.Cast<T>());
@@ -171,14 +167,9 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static bool Matches<T>(this IEnumerable<T> a, IEnumerator b)
         {
-            if (a is null && b is null)
+            if (a is null || b is null)
             {
-                return true;
-            }
-
-            if ((a is null) != (b is null))
-            {
-                return false;
+                return (a is null) == (b is null);
             }
 
             return a.Matches(b.AsEnumerable().Cast<T>());
@@ -443,6 +434,126 @@ namespace System.Collections.Generic
         public static TimeSpan Sum<T>(this IEnumerable<T> values, Func<T, TimeSpan> selector)
         {
             return values.Select(selector).Sum();
+        }
+
+        public static TResult MaybeMax<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            TResult value = default;
+            using (IEnumerator<TSource> e = source.GetEnumerator())
+            {
+                if (value == null)
+                {
+                    do
+                    {
+                        if (!e.MoveNext())
+                        {
+                            return value;
+                        }
+
+                        value = selector(e.Current);
+                    }
+                    while (value == null);
+
+                    Comparer<TResult> comparer = Comparer<TResult>.Default;
+                    while (e.MoveNext())
+                    {
+                        TResult x = selector(e.Current);
+                        if (x != null && comparer.Compare(x, value) > 0)
+                        {
+                            value = x;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!e.MoveNext())
+                    {
+                        return default;
+                    }
+
+                    value = selector(e.Current);
+                    while (e.MoveNext())
+                    {
+                        TResult x = selector(e.Current);
+                        if (Comparer<TResult>.Default.Compare(x, value) > 0)
+                        {
+                            value = x;
+                        }
+                    }
+                }
+            }
+
+            return value;
+        }
+
+        public static TResult MaybeMin<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            TResult value = default;
+            using (IEnumerator<TSource> e = source.GetEnumerator())
+            {
+                if (value == null)
+                {
+                    do
+                    {
+                        if (!e.MoveNext())
+                        {
+                            return value;
+                        }
+
+                        value = selector(e.Current);
+                    }
+                    while (value == null);
+
+                    Comparer<TResult> comparer = Comparer<TResult>.Default;
+                    while (e.MoveNext())
+                    {
+                        TResult x = selector(e.Current);
+                        if (x != null && comparer.Compare(x, value) < 0)
+                        {
+                            value = x;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!e.MoveNext())
+                    {
+                        return default;
+                    }
+
+                    value = selector(e.Current);
+                    while (e.MoveNext())
+                    {
+                        TResult x = selector(e.Current);
+                        if (Comparer<TResult>.Default.Compare(x, value) < 0)
+                        {
+                            value = x;
+                        }
+                    }
+                }
+            }
+
+            return value;
         }
     }
 }
