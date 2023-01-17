@@ -169,7 +169,7 @@ should not be used and is only offered to support legacy devices.")]
             {
                 if (!Enum.IsDefined(options.Protocol.Value))
                 {
-                    throw new InvalidOperationException($"{nameof(SCPOptions)}.{nameof(options.Protocol)} must only one of {string.Join(", ", Enum.GetNames<SSHProtocol>())}. Was: {options.Protocol}");
+                    throw new InvalidOperationException($"{nameof(SCPOptions)}.{nameof(options.Protocol)} must only one of {Enum.GetNames<SSHProtocol>().ToString(", ")}. Was: {options.Protocol}");
                 }
                 else
                 {

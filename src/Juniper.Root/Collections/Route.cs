@@ -163,7 +163,7 @@ namespace Juniper.Collections
 
         public override string ToString()
         {
-            var pathString = string.Join(" -> ", nodes);
+            var pathString = nodes.ToString(" -> ");
             return $"[{Cost.ToString(CultureInfo.CurrentCulture)}] {pathString}";
         }
 
