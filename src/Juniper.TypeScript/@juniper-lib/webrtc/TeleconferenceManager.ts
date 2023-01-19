@@ -49,6 +49,7 @@ import {
     RemoteUserTrackMutedEvent,
     RemoteUserTrackRemovedEvent
 } from "./RemoteUser";
+import { WindowQuitEventer } from "@juniper-lib/tslib/events/WindowQuitEventer";
 
 const sockets = singleton("Juniper:Sockets", () => new Array<WebSocket>());
 function fakeSocket(...args: any[]): WebSocket {
@@ -132,6 +133,8 @@ export class TeleconferenceManager
         return this._ready;
     }
 
+    private readonly windowQuitter = new WindowQuitEventer();
+
     constructor(
         public readonly audio: AudioManager,
         private readonly hub: IHub,
@@ -172,14 +175,11 @@ export class TeleconferenceManager
             this.restartStream();
         });
 
-        const onWindowClosed = () => {
+        this.windowQuitter.addScopedEventListener(this, "quitting", () => {
             if (this.conferenceState === ConnectionState.Connected) {
                 this.toRoom("leave");
             }
-        };
-        window.addEventListener("beforeunload", onWindowClosed);
-        window.addEventListener("unload", onWindowClosed);
-        window.addEventListener("pagehide", onWindowClosed);
+        });
 
         this.localStream = this.microphones.currentStream;
     }
@@ -219,6 +219,7 @@ export class TeleconferenceManager
         if (!this.disposed) {
             this.leave();
             this.disconnect();
+            this.windowQuitter.removeScope(this);
             this.remoteGainDecay.dispose();
             this.disposed = true;
         }
