@@ -70,7 +70,7 @@ export abstract class BaseTele extends Application {
 
     public readonly ready = new Task<void>();
 
-    async init(params: Map<string, unknown>): Promise<void> {
+    override async init(params: Map<string, unknown>): Promise<void> {
         this.defaultAvatarHeight = params.get("defaultAvatarHeight") as number;
         if (!this.defaultAvatarHeight) {
             throw new Error("Missing defaultAvatarHeight parameter");
@@ -174,6 +174,8 @@ export abstract class BaseTele extends Application {
                 this.env.audio.playClip("leave");
             }
         });
+
+        return await super.init(params);
     }
 
     async load(prog?: IProgress) {

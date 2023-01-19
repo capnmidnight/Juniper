@@ -1,5 +1,6 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import type { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { isDefined, isFunction } from "@juniper-lib/tslib/typeChecks";
 import type { IDisposable } from "@juniper-lib/tslib/using";
 import type { Environment } from "./Environment";
 
@@ -46,6 +47,8 @@ export abstract class Application<EventsT extends ApplicationEvents = Applicatio
     extends TypedEventBase<EventsT>
     implements IDisposable {
 
+    private dataLogger: (key: string, value?: object) => void = null;
+
     constructor(public readonly env: Environment) {
         super();
     }
@@ -69,12 +72,26 @@ export abstract class Application<EventsT extends ApplicationEvents = Applicatio
         this.dispatchEvent(new ApplicationHiddenEvent(this));
     }
 
+    init(params: Map<string, unknown>): Promise<void> {
+        const dataLogger = params.get("dataLogger");
+        if (isFunction(dataLogger)) {
+            this.dataLogger = dataLogger as (key: string, value?: object) => void;
+        }
+
+        return Promise.resolve();
+    }
+
+    protected log(key: string, value?: object): void {
+        if (isDefined(this.dataLogger)) {
+            this.dataLogger(key, value);
+        }
+    }
+
     protected abstract showing(prog?: IProgress): Promise<void>;
     protected abstract hiding(): void;
 
     abstract get visible(): boolean;
 
-    abstract init(params: Map<string, unknown>): Promise<void>;
     abstract load(prog?: IProgress): Promise<void>;
     abstract dispose(): void;
 }
