@@ -300,7 +300,7 @@ namespace System.Collections.Generic
             return dict;
         }
 
-        public static Dictionary<int, T> FilterBy<T, U>(this Dictionary<int, T> toFilter, Dictionary<int, U> lookup)
+        public static Dictionary<K, V> FilterBy<K, V, T>(this Dictionary<K, V> toFilter, Dictionary<K, T> lookup)
         {
             if (lookup is null
                 || toFilter is null)
@@ -311,6 +311,48 @@ namespace System.Collections.Generic
             return toFilter
                 .Where(kv => lookup.ContainsKey(kv.Key))
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
+
+        public static T PopKey<K, V, T>(this Dictionary<K, V> dict, K type, Func<V, T> action)
+        {
+            if (dict.ContainsKey(type))
+            {
+                var value = action(dict[type]);
+                dict.Remove(type);
+                return value;
+            }
+
+            return default;
+        }
+
+        public static void PopKey<K, V>(this Dictionary<K, V> dict, K type, Action<V> action)
+        {
+            if (dict.ContainsKey(type))
+            {
+                action(dict[type]);
+                dict.Remove(type);
+            }
+        }
+
+        public static async Task<T> PopKey<K, V, T>(this Dictionary<K, V> dict, K type, Func<V, Task<T>> action)
+        {
+            if (dict.ContainsKey(type))
+            {
+                var value = await action(dict[type]);
+                dict.Remove(type);
+                return value;
+            }
+
+            return default;
+        }
+
+        public static async Task PopKey<K, V>(this Dictionary<K, V> dict, K type, Func<V, Task> action)
+        {
+            if (dict.ContainsKey(type))
+            {
+                await action(dict[type]);
+                dict.Remove(type);
+            }
         }
     }
 }
