@@ -19,17 +19,12 @@ export function buildTree<V>(
 
     for (const node of nodes.values()) {
         const parent = getParent(node.value);
-        const isParentNodeDefined = parent != null;
-        const hasParentNode = isParentNodeDefined && nodes.has(parent);
-        const parentNode = !isParentNodeDefined
-            ? rootNode
-            : hasParentNode
-                ? nodes.get(parent)
-                : null;
+        const hasParentNode = parent != null && nodes.has(parent);
+        const parentNode = hasParentNode
+            ? nodes.get(parent)
+            : rootNode;
 
-        if (parentNode) {
-            parentNode.connectSorted(node, getOrder);
-        }
+        parentNode.connectSorted(node, getOrder);
     }
 
     return rootNode;
