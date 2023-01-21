@@ -54,7 +54,8 @@ export class Skybox {
 
     private layerOrientation: DOMPointReadOnly = null;
     private images: CanvasImageTypes[] = null;
-    private cube: CubeTexture;
+    private _cube: CubeTexture;
+    get envMap() { return this._cube; }
     private curImagePath: string = null;
     private layer: XRCubeLayer = null;
     private wasVisible = false;
@@ -124,30 +125,38 @@ export class Skybox {
     setImage(imageID: string, image: CanvasImageTypes) {
         if (imageID !== this.curImagePath) {
             if (isDefined(image)) {
-                const width = image.width / CUBEMAP_PATTERN.columns;
-                const height = image.height / CUBEMAP_PATTERN.rows;
-                for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
-                    const indices = CUBEMAP_PATTERN.indices[row];
-                    for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
-                        const i = indices[column];
-                        if (i > -1) {
-                            const g = this.contexts[i];
-                            g.drawImage(
-                                image,
-                                column * width, row * height,
-                                width, height,
-                                0, 0,
-                                FACE_SIZE, FACE_SIZE);
-                        }
-                    }
-                }
+                this.sliceImage(image);
 
-                this.setImages(imageID, this.canvases);
+                return this.setImages(imageID, this.canvases);
             }
             else {
-                this.setImages(imageID, null);
+                return this.setImages(imageID, null);
             }
         }
+
+        return null;
+    }
+
+    sliceImage(image: CanvasImageTypes) {
+        const width = image.width / CUBEMAP_PATTERN.columns;
+        const height = image.height / CUBEMAP_PATTERN.rows;
+        for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
+            const indices = CUBEMAP_PATTERN.indices[row];
+            for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
+                const i = indices[column];
+                if (i > -1) {
+                    const g = this.contexts[i];
+                    g.drawImage(
+                        image,
+                        column * width, row * height,
+                        width, height,
+                        0, 0,
+                        FACE_SIZE, FACE_SIZE);
+                }
+            }
+        }
+
+        return this.canvases;
     }
 
     setImages(imageID: string, images: CanvasImageTypes[]) {
@@ -157,8 +166,9 @@ export class Skybox {
             this.curImagePath = imageID;
 
             if (images !== this.images) {
-                if (isDefined(this.cube)) {
-                    cleanup(this.cube);
+                if (isDefined(this._cube)) {
+                    cleanup(this._cube);
+                    this._cube = null;
                 }
 
                 if (isDefined(this.images)) {
@@ -170,8 +180,10 @@ export class Skybox {
                 this.images = images;
 
                 if (isDefined(this.images)) {
-                    this.rtScene.background = this.cube = new CubeTexture(this.images);
-                    this.cube.name = "SkyboxInput";
+                    this.rtScene.background
+                        = this._cube
+                        = new CubeTexture(this.images);
+                    this._cube.name = "SkyboxInput";
                 }
                 else {
                     this.rtScene.background = black;
@@ -180,10 +192,12 @@ export class Skybox {
         }
 
         this.updateImages();
+
+        return this._cube;
     }
 
     updateImages() {
-        this.cube.needsUpdate = true;
+        this._cube.needsUpdate = true;
         this.imageNeedsUpdate = true;
     }
 
@@ -229,7 +243,7 @@ export class Skybox {
     }
 
     private checkWebXRLayer(frame: XRFrame) {
-        if (this.cube) {
+        if (this._cube) {
             const isWebXRLayerAvailable = this.useWebXRLayers
                 && this.env.hasXRCompositionLayers
                 && isDefined(frame)
@@ -307,7 +321,7 @@ export class Skybox {
                     if (this.layer) {
                         const gl = this.env.renderer.getContext();
                         const gLayer = this.env.xrBinding.getSubImage(this.layer, frame);
-                        const imgs = this.cube.images as CanvasImageTypes[];
+                        const imgs = this._cube.images as CanvasImageTypes[];
 
                         this.flipper.fillRect(0, 0, FACE_SIZE, FACE_SIZE);
 
