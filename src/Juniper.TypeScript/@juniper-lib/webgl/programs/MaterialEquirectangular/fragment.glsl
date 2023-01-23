@@ -9,13 +9,12 @@ uniform float uGamma;
 in vec3 vDir;
 out vec4 fragmentColor;
 
-const float pi = radians(180.0);
-const float tau = radians(360.0);
-
 vec3 gammaCorrect(vec3 color) {
     return pow(color, vec3(uGamma));
 }
 
+const float pi = radians(180.0);
+const float tau = radians(360.0);
 vec3 equirectUVW(vec3 dir) {
     float x = dir.x;
     float y = dir.y;

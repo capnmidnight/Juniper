@@ -1,6 +1,6 @@
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { Color, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, MeshPhongMaterial, MeshPhongMaterialParameters, MeshStandardMaterial, Object3D, SpriteMaterial, SpriteMaterialParameters } from "three";
+import { Color, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, MeshPhongMaterial, MeshPhongMaterialParameters, MeshStandardMaterial, Object3D, ShaderMaterial, ShaderMaterialParameters, SpriteMaterial, SpriteMaterialParameters } from "three";
 import { LineMaterial, LineMaterialParameters } from "./examples/lines/LineMaterial";
 import { isMaterial, isMesh } from "./typeChecks";
 
@@ -12,8 +12,8 @@ function del(obj: any, name: string) {
     }
 }
 
-export type SolidMaterial = MeshBasicMaterial | MeshPhongMaterial;
-export type SolidMaterialOpts = MeshBasicMaterialParameters | MeshPhongMaterialParameters;
+export type SolidMaterial = MeshBasicMaterial | MeshPhongMaterial | ShaderMaterial;
+export type SolidMaterialOpts = MeshBasicMaterialParameters | MeshPhongMaterialParameters | ShaderMaterialParameters;
 
 function makeMaterial<MaterialT extends Material, OptionsT extends MaterialParameters>(slug: string, material: (new (opts: OptionsT) => MaterialT), options: OptionsT): MaterialT {
 
