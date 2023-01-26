@@ -515,9 +515,9 @@ export function disabled(value: boolean) { return new Attr("disabled", value, fa
 export function dirName(value: string) { return new Attr("dirname", value, false, "input", "textarea"); }
 
 /**
- * Indicates that the hyperlink is to be used for downloading a resource.
+ * Indicates that the hyperlink is to be used for downloading a resource by giving the file a name.
   **/
-export function download(value: boolean) { return new Attr("download", value, false, "a", "area"); }
+export function download(value: string) { return new Attr("download", value, false, "a", "area"); }
 
 /**
  * Defines whether the element can be dragged.
