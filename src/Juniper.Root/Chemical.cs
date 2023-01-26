@@ -16,6 +16,16 @@ namespace Juniper
                     AllChem.Add(this);
                 }
             }
+
+            public Chemical(MediaType copy)
+                : this(
+                      copy.Type == "chemical"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
         }
     }
 }

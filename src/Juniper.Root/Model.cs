@@ -16,6 +16,16 @@ namespace Juniper
                     AllMod.Add(this);
                 }
             }
+
+            public Model(MediaType copy)
+                : this(
+                      copy.Type == "model"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
         }
     }
 }

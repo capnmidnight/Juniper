@@ -16,6 +16,16 @@ namespace Juniper
                     AllMsg.Add(this);
                 }
             }
+
+            public Message(MediaType copy)
+                : this(
+                      copy.Type == "message"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
         }
     }
 }

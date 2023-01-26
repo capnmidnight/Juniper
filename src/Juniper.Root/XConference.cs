@@ -16,6 +16,16 @@ namespace Juniper
                     AllXConf.Add(this);
                 }
             }
+
+            public XConference(MediaType copy)
+                : this(
+                      copy.Type == "xconference"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
         }
     }
 }

@@ -16,6 +16,16 @@ namespace Juniper
                     AllVid.Add(this);
                 }
             }
+
+            public Video(MediaType copy)
+                : this(
+                      copy.Type == "video"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
         }
     }
 }

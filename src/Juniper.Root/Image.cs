@@ -16,6 +16,16 @@ namespace Juniper
                     AllImg.Add(this);
                 }
             }
+
+            public Image(MediaType copy)
+                : this(
+                      copy.Type == "image"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
         }
     }
 }

@@ -94,7 +94,8 @@ namespace Juniper
             var subTypeName = match.Groups[2].Value;
             var parsedType = new MediaType(typeName, subTypeName);
             var weight = parsedType.Parameters.Get("q");
-            var basicType = ByValue.Get(parsedType.Value) ?? parsedType;
+            var staticType = ByValue.Get(parsedType.Value);
+            var basicType =  staticType ?? parsedType;
 
             type = weight is not null
                 ? basicType.WithParameter("q", weight)

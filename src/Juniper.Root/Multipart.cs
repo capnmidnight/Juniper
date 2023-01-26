@@ -16,6 +16,16 @@ namespace Juniper
                     AllMulti.Add(this);
                 }
             }
+
+            internal Multipart(MediaType copy)
+                : this(
+                      copy.Type == "multipart"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
         }
     }
 }

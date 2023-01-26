@@ -16,6 +16,16 @@ namespace Juniper
                     AllFnt.Add(this);
                 }
             }
+
+            public Font(MediaType copy)
+                : this(
+                      copy.Type == "font"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
         }
     }
 }

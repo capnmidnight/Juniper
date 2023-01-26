@@ -17,6 +17,16 @@ namespace Juniper
                 }
             }
 
+            public Audio(MediaType copy)
+                : this(
+                      copy.Type == "audio"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
+
             internal Audio(string[] extensions) : base("application", "octet-stream", extensions)
             {
                 AllAud.Add(this);

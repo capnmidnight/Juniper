@@ -16,6 +16,16 @@ namespace Juniper
                     AllXShad.Add(this);
                 }
             }
+
+            public XShader(MediaType copy)
+                : this(
+                      copy.Type == "x-shader"
+                      ? copy.FullSubType
+                      : throw new ArgumentException("Invalid media type", nameof(copy)),
+                      copy.Extensions.ToArray())
+            {
+
+            }
         }
     }
 }
