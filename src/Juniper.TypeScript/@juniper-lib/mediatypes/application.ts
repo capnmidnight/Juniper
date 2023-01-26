@@ -171,7 +171,7 @@ export const Application_JoseJson = /*@__PURE__*/ application("jose+json", "json
 export const Application_JrdJson = /*@__PURE__*/ application("jrd+json", "json");
 export const Application_Json = /*@__PURE__*/ application("json", "json");
 export const Application_Json5 = /*@__PURE__*/ application("json5", "json5");
-export const Application_JsonUTF8 = /*@__PURE__*/ application("json; charset= /*@__PURE__*/ UTF-8", "json");
+export const Application_JsonUTF8 = /*@__PURE__*/ application("json; charset=UTF-8", "json");
 export const Application_Json_PatchJson = /*@__PURE__*/ application("json-patch+json", "json");
 export const Application_Json_Seq = /*@__PURE__*/ application("json-seq");
 export const Application_JsonmlJson = /*@__PURE__*/ application("jsonml+json", "jsonml");

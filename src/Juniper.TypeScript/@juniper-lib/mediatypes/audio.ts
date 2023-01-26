@@ -167,6 +167,7 @@ export const Audio_Vorbis_Config = /*@__PURE__*/  audio("vorbis-config");
 export const Audio_Wav = /*@__PURE__*/  audio("wav", "wav");
 export const Audio_Wave = /*@__PURE__*/  audio("wave", "wav");
 export const Audio_Webm = /*@__PURE__*/  audio("webm", "weba", "webm");
+export const Audio_WebMOpus = /*@__PURE__*/  audio("webm; codec=opus", "weba");
 export const Audio_X_Aac = /*@__PURE__*/  audio("x-aac", "aac");
 export const Audio_X_Aiff = /*@__PURE__*/  audio("x-aiff", "aif", "aiff", "aifc");
 export const Audio_X_Caf = /*@__PURE__*/  audio("x-caf", "caf");

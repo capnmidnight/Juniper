@@ -33,6 +33,7 @@ export const Text_N3 = /*@__PURE__*/ text("n3", "n3");
 export const Text_Parameters = /*@__PURE__*/ text("parameters");
 export const Text_Parityfec = /*@__PURE__*/ text("parityfec");
 export const Text_Plain = /*@__PURE__*/ text("plain", "txt", "text", "conf", "def", "list", "log", "in");
+export const Text_PlainUTF8 = /*@__PURE__*/ text("plain; charset=UTF-8", "txt", "text", "conf", "def", "list", "log", "in");
 export const Text_Provenance_Notation = /*@__PURE__*/ text("provenance-notation");
 export const Text_PrsFallensteinRst = /*@__PURE__*/ text("prs.fallenstein.rst");
 export const Text_PrsLinesTag = /*@__PURE__*/ text("prs.lines.tag", "dsc");
