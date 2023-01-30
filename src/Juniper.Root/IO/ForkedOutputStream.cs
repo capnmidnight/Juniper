@@ -1,10 +1,10 @@
 namespace Juniper.IO
 {
-    public class ForkedStream : Stream
+    public class ForkedOutputStream : Stream
     {
         private readonly List<Stream> streams = new();
 
-        public ForkedStream(params Stream[] streams)
+        public ForkedOutputStream(params Stream[] streams)
         {
             this.streams.AddRange(streams);
         }
