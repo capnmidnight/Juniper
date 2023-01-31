@@ -82,7 +82,9 @@ namespace Juniper.HTTP
             if (!sockets.ContainsKey(id))
             {
                 var token = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
-                if (token.Count == 1 && !userNames.ContainsKey(token[0]))
+                if (token.Count != 1
+                    || token[0] is not string t
+                    || !userNames.ContainsKey(t))
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 }
@@ -90,10 +92,10 @@ namespace Juniper.HTTP
                 {
                     var webSocket = await context
                         .WebSockets
-                        .AcceptWebSocketAsync(token)
+                        .AcceptWebSocketAsync(t)
                         .ConfigureAwait(false);
 
-                    var userName = userNames.Get(token);
+                    var userName = userNames.Get(t);
                     if (userName is not null)
                     {
                         var socket = new ServerWebSocketConnection(webSocket, userName);

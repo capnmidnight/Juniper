@@ -22,10 +22,9 @@ namespace Juniper.Data
         public static async Task<Dictionary<string, IdentityRole>> SeedRoles(this RoleManager<IdentityRole> roleMgr, string[] roles)
         {
             var requiredRoles = new HashSet<string>(roles);
-            var roleObjs = roleMgr.Roles
-                .AsEnumerable()
-                .Where(r => requiredRoles.Contains(r.Name))
-                .GroupBy(r => r.Name)
+            var roleObjs = (from r in roleMgr.Roles.AsEnumerable()
+                            where r.Name is not null && requiredRoles.Contains(r.Name)
+                            group r by r.Name)
                 .ToDictionary(r => r.Key, r => r.First());
 
             foreach (var roleName in roles)
@@ -49,10 +48,9 @@ namespace Juniper.Data
         public static async Task SeedUsers(this UserManager<IdentityUser> userMgr, BootsrapUser[] emails, RoleManager<IdentityRole> roleMgr, Dictionary<string, IdentityRole> roleObjs, ILogger logger)
         {
             var requiredUsers = new HashSet<string>(emails.Select(e => e.Email).Distinct());
-            var users = userMgr.Users
-                .AsEnumerable()
-                .Where(u => requiredUsers.Contains(u.Email))
-                .GroupBy(u => u.Email)
+            var users = (from u in userMgr.Users.AsEnumerable()
+                         where u.Email is not null && requiredUsers.Contains(u.Email)
+                         group u by u.Email)
                 .ToDictionary(u => u.Key, u => u.First());
 
             foreach (var (email, bootstrap, roleNames) in emails)

@@ -289,8 +289,13 @@ namespace Juniper.Services
 #if DEBUG
                     if (env != Environments.Development)
                     {
-                        webBuilder.ConfigureAppConfiguration(app =>
-                            app.AddUserSecrets(Assembly.GetEntryAssembly()));
+                        webBuilder.ConfigureAppConfiguration(app => {
+                            var assembly = Assembly.GetEntryAssembly();
+                            if (assembly is not null)
+                            {
+                                app.AddUserSecrets(assembly);
+                            }
+                        });
                     }
 
                     if (Environment.OSVersion.Platform == PlatformID.Win32NT)

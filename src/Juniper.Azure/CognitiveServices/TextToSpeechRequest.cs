@@ -183,7 +183,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
               .Append("</speak>");
 
             request.Header("X-MICROSOFT-OutputFormat", OutputFormat.Name)
-                .Body(new StringContent(sb.ToString(), Encoding.UTF8, MediaType.Application_SsmlXml));
+                .Body(new StringContent(sb.ToString(), Encoding.UTF8, (string)MediaType.Application_SsmlXml));
         }
     }
 }

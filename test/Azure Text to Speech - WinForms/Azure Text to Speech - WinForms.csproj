@@ -4,7 +4,7 @@
     <AssemblyName>Juniper.Testing.Azure.TTS.WinForms</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <StartupObject>Juniper.Program</StartupObject>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Authors>Sean T. McBeth</Authors>

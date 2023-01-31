@@ -4,7 +4,7 @@
     <AssemblyName>Juniper.Windows</AssemblyName>
     <RootNamespace>Juniper.Windows</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>Sean T. McBeth</Authors>

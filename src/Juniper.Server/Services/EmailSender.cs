@@ -13,11 +13,11 @@ namespace Juniper.Services
         private bool disposedValue;
 
         public EmailSender(IConfiguration config)
-            : this(config.GetValue<string>("Mail:Host"),
-                  config.GetValue<int>("Mail:Port"),
-                  config.GetValue<string>("Mail:From"),
-                  config.GetValue<string>("Mail:User"),
-                  config.GetValue<string>("Mail:Password"))
+            : this(config.GetValue<string>("Mail:Host") ?? throw new Exception("No Mail:Host"),
+                  config.GetValue<int?>("Mail:Port") ?? throw new Exception("No Mail:Port"),
+                  config.GetValue<string>("Mail:From") ?? throw new Exception("No Mail:From"),
+                  config.GetValue<string>("Mail:User") ?? throw new Exception("No Mail:User"),
+                  config.GetValue<string>("Mail:Password") ?? throw new Exception("No Mail:Password"))
         {
         }
 
