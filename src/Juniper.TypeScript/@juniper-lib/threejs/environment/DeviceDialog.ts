@@ -35,9 +35,11 @@ const MIC_GROUP = "micFields" + stringRandom(8);
 
 export class DeviceDialog extends DialogBox {
     private micLookup: Map<string, MediaDeviceInfo> = null;
+    private camLookup: Map<string, MediaDeviceInfo> = null;
     private spkrLookup: Map<string, MediaDeviceInfo> = null;
 
     private readonly microphones: HTMLSelectElement;
+    private readonly webcams: HTMLSelectElement;
     private readonly micScenario: HTMLMeterElement;
     private readonly activity: ActivityDetector;
     private readonly micVolumeControl: InputRangeWithNumber;
@@ -72,6 +74,16 @@ export class DeviceDialog extends DialogBox {
                 group(
                     MIC_GROUP,
                     "Input",
+
+                    ["Webcams",
+                        this.webcams = Select(
+                            onInput(async () => {
+                                const tele = this.env.apps.get<BaseTele>("tele");
+                                const deviceId = this.webcams.value;
+                                const device = this.camLookup.get(deviceId);
+                                await tele.conference.webcams.setVideoInputDevice(device);
+                            })
+                        )],
 
                     ["Microphones",
                         this.microphones = Select(
@@ -198,6 +210,9 @@ export class DeviceDialog extends DialogBox {
             const mics = await this.tele.conference.microphones.getAudioInputDevices();
             this.micLookup = makeLookup(mics, (m) => m.deviceId);
 
+            const cams = await this.tele.conference.webcams.getVideoInputDevices();
+            this.camLookup = makeLookup(cams, (m) => m.deviceId);
+
             elementClearChildren(this.microphones);
             elementApply(this.microphones,
                 Option(value(""), "NONE"),
@@ -209,9 +224,21 @@ export class DeviceDialog extends DialogBox {
                 )
             )
 
-            const curMic = await this.tele.conference.microphones.getAudioInputDevice();
-            this.microphones.value = curMic && curMic.deviceId || "";
+            elementClearChildren(this.webcams);
+            elementApply(this.webcams,
+                Option(value(""), "NONE"),
+                ...cams.map((device) =>
+                    Option(
+                        value(device.deviceId),
+                        device.label
+                    )
+                )
+            )
+
+            this.microphones.value = this.tele.conference.microphones.preferredAudioInputID || "";
             this.micVolumeControl.valueAsNumber = this.env.audio.localMic.gain.value * 100;
+
+            this.webcams.value = this.tele.conference.webcams.preferredVideoInputID || "";
         }
 
         if (canChangeAudioOutput) {

@@ -1,9 +1,9 @@
+import { filterDeviceDuplicates } from "@juniper-lib/audio/filterDeviceDuplicates";
 import { arrayScan, arraySortByKey } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 
-export class DeviceManagerVideoInputChangedEvent
+export class VideoInputChangedEvent
     extends TypedEvent<"videoinputchanged"> {
     public constructor(public readonly video: MediaDeviceInfo) {
         super("videoinputchanged");
@@ -12,9 +12,9 @@ export class DeviceManagerVideoInputChangedEvent
 
 const PREFERRED_VIDEO_INPUT_ID_KEY = "calla:preferredVideoInputID";
 
-export class CameraManager
+export class WebcamManager
     extends TypedEventBase<{
-        videoinputchanged: DeviceManagerVideoInputChangedEvent;
+        videoinputchanged: VideoInputChangedEvent;
     }> {
 
     private _hasVideoPermission = false;
@@ -116,7 +116,7 @@ export class CameraManager
         const curVideo = await this.getVideoInputDevice();
         const curVideoID = curVideo && curVideo.deviceId;
         if (this.preferredVideoInputID !== curVideoID) {
-            this.dispatchEvent(new DeviceManagerVideoInputChangedEvent(device));
+            this.dispatchEvent(new VideoInputChangedEvent(device));
         }
     }
 

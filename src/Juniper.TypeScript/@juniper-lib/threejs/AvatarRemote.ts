@@ -1,6 +1,8 @@
 import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
+import { autoPlay, srcObject } from "@juniper-lib/dom/attrs";
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
+import { Video } from "@juniper-lib/dom/tags";
 import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
@@ -17,6 +19,7 @@ import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
 import { objectRemove, objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
+import { Image2D } from "./widgets/Image2D";
 import { TextMesh } from "./widgets/TextMesh";
 
 const nameTagFont: Partial<TextImageOptions> = {
@@ -132,6 +135,58 @@ export class AvatarRemote extends Object3D implements IDisposable {
         objGraph(this, this.avatar);
     }
 
+    get audioStream(): MediaStream {
+        const source = this.env.audio.getUser(this.userID);
+        return source && source.stream || null;
+    }
+
+    set audioStream(v: MediaStream) {
+        this.env.audio.setUserStream(this.userID, v);
+    }
+
+    private videoElement: HTMLVideoElement = null;
+    private videoMesh: Image2D = null;
+    private _videoStream: MediaStream = null;
+    get videoStream(): MediaStream {
+        return this._videoStream;
+    }
+
+    set videoStream(v: MediaStream) {
+        if (v !== this.videoStream) {
+
+            if (this.videoElement) {
+                this.videoElement.pause();
+                this.videoElement = null;
+            }
+
+            this._videoStream = v;
+
+            if (this.videoStream) {
+
+                this.videoElement = Video(
+                    srcObject(this.videoStream),
+                    autoPlay(true)
+                );
+
+                this.videoElement.play();
+
+                if (!this.videoMesh) {
+                    this.videoMesh = new Image2D(this.env, `webcam-${this.userID}`, "none");
+                    this.videoMesh.sizeMode = "fixed-height";
+                    this.head.add(this.videoMesh);
+                    this.videoMesh.rotateY(Math.PI);
+                    this.videoMesh.position.z = -0.25;
+                    this.videoMesh.scale.setScalar(0.25);
+                }
+
+                this.videoMesh.setTextureMap(this.videoElement);
+            }
+            else if(this.videoMesh) {
+                this.head.remove(this.videoMesh);
+            }
+        }
+    }
+
     dispose() {
         for (const pointerName of this.pointers.keys()) {
             this.removeArm(pointerName);
@@ -244,6 +299,10 @@ export class AvatarRemote extends Object3D implements IDisposable {
         }
 
         this.nameTag.lookAt(this.env.avatar.worldPos);
+
+        if (this.videoStream) {
+            this.videoMesh.updateTexture();
+        }
     }
 
     private setPose(pose: Pose, height: number): void {

@@ -104,6 +104,7 @@ export class Environment
     readonly menuButton: ButtonImageWidget;
     readonly subMenu: Widget;
     readonly settingsButton: ButtonImageWidget;
+    readonly muteCamButton: ToggleButton;
     readonly muteMicButton: ToggleButton;
     readonly muteEnvAudioButton: ToggleButton;
     readonly quitButton: ButtonImageWidget;
@@ -206,6 +207,7 @@ export class Environment
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
         this.quitButton = new ButtonImageWidget(this.uiButtons, "ui", "quit");
         this.muteMicButton = new ToggleButton(this.uiButtons, "microphone", "mute", "unmute");
+        this.muteCamButton = new ToggleButton(this.uiButtons, "media", "pause", "play");
         this.muteEnvAudioButton = new ToggleButton(this.uiButtons, "environment-audio", "mute", "unmute");
         this.muteEnvAudioButton.active = true;
         this.audio.ready.then(() => this.muteEnvAudioButton.active = false)
@@ -295,6 +297,7 @@ export class Environment
 
         widgetApply(this.subMenu,
             this.settingsButton,
+            this.muteCamButton,
             this.muteMicButton,
             this.muteEnvAudioButton,
             this.quitButton
@@ -334,6 +337,7 @@ export class Environment
 
         [
             this.settingsButton,
+            this.muteCamButton,
             this.muteMicButton,
             this.muteEnvAudioButton,
             this.quitButton
@@ -345,6 +349,7 @@ export class Environment
 
         this.vrButton.visible = isDesktop() && hasVR() || isMobileVR();
         this.arButton.visible = false;
+        this.muteCamButton.visible = false;
         this.muteMicButton.visible = false;
     }
 

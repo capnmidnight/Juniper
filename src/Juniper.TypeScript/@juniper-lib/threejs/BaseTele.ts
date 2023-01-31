@@ -102,6 +102,12 @@ export abstract class BaseTele extends Application {
                 = !this.conference.audioMuted;
         });
 
+        this.env.muteCamButton.visible = true;
+        this.env.muteCamButton.addEventListener("click", async () => {
+            this.conference.videoMuted
+                = this.env.muteCamButton.active
+                = !this.conference.videoMuted;
+        });
 
         this.remoteUsers.name = "Remote Users";
 
@@ -158,6 +164,28 @@ export abstract class BaseTele extends Application {
 
             this.updateUserOffsets();
             this.env.audio.playClip("join");
+        });
+
+        this.conference.addScopedEventListener(this, "audioAdded", (evt) => {
+            this.env.audio.setUserStream(evt.user.userID, evt.stream);
+        });
+
+        this.conference.addScopedEventListener(this, "audioRemoved", (evt) => {
+            this.env.audio.setUserStream(evt.user.userID, null);
+        });
+
+        this.conference.addScopedEventListener(this, "videoAdded", (evt) => {
+            const user = this.avatars.get(evt.user.userID);
+            if (user) {
+                user.videoStream = evt.stream;
+            }
+        });
+
+        this.conference.addScopedEventListener(this, "videoRemoved", (evt) => {
+            const user = this.avatars.get(evt.user.userID);
+            if (user) {
+                user.videoStream = null;
+            }
         });
 
         this.conference.addScopedEventListener(this, "userNameChanged", (evt: UserNameChangedEvent) => {
