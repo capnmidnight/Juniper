@@ -3,6 +3,7 @@ import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
 import { all } from "@juniper-lib/tslib/events/all";
+import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
@@ -28,7 +29,7 @@ import { obj, objGraph } from "./objects";
 export abstract class BaseTele extends Application {
 
     private readonly sortedUserIDs = new Array<string>();
-    readonly users = new Map<string, AvatarRemote>();
+    readonly avatars = new Map<string, AvatarRemote>();
     readonly remoteUsers = obj("RemoteUsers");
 
     conference: TeleconferenceManager = null;
@@ -62,7 +63,7 @@ export abstract class BaseTele extends Application {
         ];
 
         this.env.addScopedEventListener(this, "update", (evt) => {
-            for (const user of this.users.values()) {
+            for (const user of this.avatars.values()) {
                 user.update(evt.dt);
             }
         });
@@ -82,7 +83,7 @@ export abstract class BaseTele extends Application {
         }
 
         this.env.addScopedEventListener(this, "newcursorloaded", () => {
-            for (const user of this.users.values()) {
+            for (const user of this.avatars.values()) {
                 user.refreshCursors();
             }
         });
@@ -100,6 +101,7 @@ export abstract class BaseTele extends Application {
                 = this.env.muteMicButton.active
                 = !this.conference.audioMuted;
         });
+
 
         this.remoteUsers.name = "Remote Users";
 
@@ -124,50 +126,52 @@ export abstract class BaseTele extends Application {
         });
 
         this.env.eventSys.addScopedEventListener(this, "move", (evt) => {
-            const { id, origin, direction, up } = evt.pointer;
-            this.conference.setLocalPointer(
-                id,
-                origin.x, origin.y, origin.z,
-                direction.x, direction.y, direction.z,
-                up.x, up.y, up.z);
+            if (evt.pointer.id !== PointerID.Nose) {
+                const { id, origin, direction, up } = evt.pointer;
+                this.conference.setLocalPointer(
+                    id,
+                    origin.x, origin.y, origin.z,
+                    direction.x, direction.y, direction.z,
+                    up.x, up.y, up.z);
+            }
         });
 
         this.conference.addScopedEventListener(this, "roomJoined", onLocalUserIDChange);
         this.conference.addScopedEventListener(this, "roomLeft", onLocalUserIDChange);
 
         this.conference.addScopedEventListener(this, "userJoined", (evt: UserJoinedEvent) => {
-            const avatar = this.avatarModel
+            const model = this.avatarModel
                 ? this.avatarModel.clone()
                 : new DebugObject(0xffff00);
-            const user = new AvatarRemote(
+            const avatar = new AvatarRemote(
                 this.env,
                 evt.user,
                 evt.source,
-                avatar,
+                model,
                 this.defaultAvatarHeight,
                 this.avatarNameTagFont);
 
-            user.userName = evt.user.userName;
-            this.users.set(evt.user.userID, user);
+            avatar.userName = evt.user.userName;
+            this.avatars.set(evt.user.userID, avatar);
             arraySortedInsert(this.sortedUserIDs, evt.user.userID);
-            objGraph(this.remoteUsers, user);
+            objGraph(this.remoteUsers, avatar);
 
             this.updateUserOffsets();
             this.env.audio.playClip("join");
         });
 
         this.conference.addScopedEventListener(this, "userNameChanged", (evt: UserNameChangedEvent) => {
-            const user = this.users.get(evt.user.userID);
+            const user = this.avatars.get(evt.user.userID);
             if (user) {
                 user.userName = evt.newUserName;
             }
         });
 
         this.conference.addScopedEventListener(this, "userLeft", (evt: UserLeftEvent) => {
-            const user = this.users.get(evt.user.userID);
+            const user = this.avatars.get(evt.user.userID);
             if (user) {
                 this.remoteUsers.remove(user);
-                this.users.delete(evt.user.userID);
+                this.avatars.delete(evt.user.userID);
                 arrayRemove(this.sortedUserIDs, evt.user.userID);
                 cleanup(user);
                 this.updateUserOffsets();
@@ -227,8 +231,8 @@ export abstract class BaseTele extends Application {
     }
 
     private withUser<T>(id: string, action: (user: AvatarRemote) => T): T {
-        if (this.users.has(id)) {
-            const user = this.users.get(id);
+        if (this.avatars.has(id)) {
+            const user = this.avatars.get(id);
             if (isDefined(user)) {
                 return action(user);
             }
