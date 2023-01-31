@@ -402,6 +402,17 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
         }
     }
 
+    removeStream(stream: MediaStream): void {
+        const senders = this.connection.getSenders();
+        const sendersByTrack = new Map<MediaStreamTrack, RTCRtpSender>(senders.map(s => [s.track, s]));
+        for (const track of stream.getTracks()) {
+            if (sendersByTrack.has(track)) {
+                const sender = sendersByTrack.get(track);
+                this.connection.removeTrack(sender);
+            }
+        }
+    }
+
     sendStream(stream: MediaStream): void {
         for (const track of stream.getTracks()) {
             if (this.trackSent) {

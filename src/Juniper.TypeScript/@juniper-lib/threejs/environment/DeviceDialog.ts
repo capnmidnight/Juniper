@@ -1,8 +1,10 @@
 import { canChangeAudioOutput } from "@juniper-lib/audio/SpeakerManager";
 import {
+    checked,
     className,
     max,
     min,
+    selected,
     step,
     title,
     value
@@ -22,6 +24,7 @@ import {
 import { AssetFile } from "@juniper-lib/fetcher/Asset";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { makeLookup } from "@juniper-lib/tslib/collections/makeLookup";
+import { all } from "@juniper-lib/tslib/events/all";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import { SetTimeoutTimer } from "@juniper-lib/tslib/timers/SetTimeoutTimer";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
@@ -78,20 +81,18 @@ export class DeviceDialog extends DialogBox {
                     ["Webcams",
                         this.webcams = Select(
                             onInput(async () => {
-                                const tele = this.env.apps.get<BaseTele>("tele");
                                 const deviceId = this.webcams.value;
                                 const device = this.camLookup.get(deviceId);
-                                await tele.conference.webcams.setVideoInputDevice(device);
+                                await this.env.webcams.setDevice(device);
                             })
                         )],
 
                     ["Microphones",
                         this.microphones = Select(
                             onInput(async () => {
-                                const tele = this.env.apps.get<BaseTele>("tele");
                                 const deviceId = this.microphones.value;
                                 const device = this.micLookup.get(deviceId);
-                                await tele.conference.microphones.setAudioInputDevice(device);
+                                await this.mic.setDevice(device);
                             })
                         )],
 
@@ -133,6 +134,7 @@ export class DeviceDialog extends DialogBox {
         this.properties.append(
             ["Using headphones",
                 this.useHeadphones = InputCheckbox(
+                    checked(this.env.audio.useHeadphones),
                     onInput(() => {
                         this.env.audio.useHeadphones = this.useHeadphones.checked;
                         elementSetDisplay(this.headphoneWarning, !this.env.audio.useHeadphones, "inline-block");
@@ -168,6 +170,11 @@ export class DeviceDialog extends DialogBox {
 
         this.activity = new ActivityDetector(this.env.audio.context);
         this.activity.name = "device-settings-dialog-activity";
+        this.mic.connect(this.activity);
+
+        this.mic.addEventListener("devicechanged", (evt) => {
+            this.microphones.value = evt.device && evt.device.deviceId || "";
+        });
 
         this.timer.addTickHandler(() => {
             this.micScenario.value = this.activity.level;
@@ -184,16 +191,14 @@ export class DeviceDialog extends DialogBox {
         this.tele = await this.env.apps.waitFor<BaseTele>("tele");
 
         this.properties.setGroupVisible(MIC_GROUP, true);
-
-        this.tele.conference.microphones.addEventListener("audioinputchanged", (evt) => {
-            this.microphones.value = evt.audio && evt.audio.deviceId || "";
-        });
-
-        this.env.audio.localMic.connect(this.activity);
     }
 
     private async load() {
         await this.env.audio.ready;
+    }
+
+    private get mic() {
+        return this.env.audio.localMic;
     }
 
     protected override async onShowing(): Promise<void> {
@@ -204,13 +209,17 @@ export class DeviceDialog extends DialogBox {
         await this.ready;
 
         if (this.tele) {
-            await this.tele.ready;
-            await this.tele.conference.microphones.ready;
+            await all(
+                this.mic.init(),
+                this.env.webcams.init()
+            );
+            this.mic.usingHeadphones = this.useHeadphones.checked;
+            await this.mic.start();
 
-            const mics = await this.tele.conference.microphones.getAudioInputDevices();
+            const mics = await this.mic.getDevices();
             this.micLookup = makeLookup(mics, (m) => m.deviceId);
 
-            const cams = await this.tele.conference.webcams.getVideoInputDevices();
+            const cams = await this.env.webcams.getDevices();
             this.camLookup = makeLookup(cams, (m) => m.deviceId);
 
             elementClearChildren(this.microphones);
@@ -218,11 +227,13 @@ export class DeviceDialog extends DialogBox {
                 Option(value(""), "NONE"),
                 ...mics.map((device) =>
                     Option(
+                        selected(this.mic.device
+                            && device.deviceId === this.mic.device.deviceId),
                         value(device.deviceId),
                         device.label
                     )
                 )
-            )
+            );
 
             elementClearChildren(this.webcams);
             elementApply(this.webcams,
@@ -233,12 +244,12 @@ export class DeviceDialog extends DialogBox {
                         device.label
                     )
                 )
-            )
+            );
 
-            this.microphones.value = this.tele.conference.microphones.preferredAudioInputID || "";
-            this.micVolumeControl.valueAsNumber = this.env.audio.localMic.gain.value * 100;
+            this.microphones.value = this.mic.preferredDeviceID || "";
+            this.micVolumeControl.valueAsNumber = this.mic.gain.value * 100;
 
-            this.webcams.value = this.tele.conference.webcams.preferredVideoInputID || "";
+            this.webcams.value = this.env.webcams.preferredDeviceID || "";
         }
 
         if (canChangeAudioOutput) {

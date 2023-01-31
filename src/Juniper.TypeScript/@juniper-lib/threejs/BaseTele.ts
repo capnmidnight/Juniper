@@ -4,7 +4,6 @@ import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
 import { all } from "@juniper-lib/tslib/events/all";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
-import { Task } from "@juniper-lib/tslib/events/Task";
 import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -69,8 +68,6 @@ export abstract class BaseTele extends Application {
         });
     }
 
-    public readonly ready = new Task<void>();
-
     override async init(params: Map<string, unknown>): Promise<void> {
         this.defaultAvatarHeight = params.get("defaultAvatarHeight") as number;
         if (!this.defaultAvatarHeight) {
@@ -89,32 +86,20 @@ export abstract class BaseTele extends Application {
         });
 
         this.env.addScopedEventListener(this, "roomjoined", (evt) => {
-            console.log(evt);
             this.join(evt.roomName);
         });
+
         this.env.addScopedEventListener(this, "sceneclearing", () => this.env.foreground.remove(this.remoteUsers));
         this.env.addScopedEventListener(this, "scenecleared", () => objGraph(this.env.foreground, this.remoteUsers));
 
         this.env.muteMicButton.visible = true;
-        this.env.muteMicButton.addEventListener("click", async () => {
-            this.conference.audioMuted
-                = this.env.muteMicButton.active
-                = !this.conference.audioMuted;
-        });
-
         this.env.muteCamButton.visible = true;
-        this.env.muteCamButton.addEventListener("click", async () => {
-            this.conference.videoMuted
-                = this.env.muteCamButton.active
-                = !this.conference.videoMuted;
-        });
 
         this.remoteUsers.name = "Remote Users";
 
         this.offsetRadius = 1.25;
 
         this.conference = this.createConference();
-        this.conference.ready.then(this.ready.resolver());
 
         const onLocalUserIDChange = (evt: RoomJoinedEvent | RoomLeftEvent) => {
             arrayRemove(this.sortedUserIDs, this.env.avatar.name);

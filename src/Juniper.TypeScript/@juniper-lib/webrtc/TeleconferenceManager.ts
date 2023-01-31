@@ -1,13 +1,11 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
-import { JuniperMediaStreamAudioSourceNode } from "@juniper-lib/audio/context/JuniperMediaStreamAudioSourceNode";
-import { AudioInputChangedEvent, MicrophoneManager } from "@juniper-lib/audio/MicrophoneManager";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { WindowQuitEventer } from "@juniper-lib/tslib/events/WindowQuitEventer";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { VideoInputChangedEvent, WebcamManager } from "@juniper-lib/video/WebcamManager";
+import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import "webrtc-adapter";
 import {
     ConferenceErrorEvent,
@@ -15,7 +13,6 @@ import {
     ConferenceServerDisconnectedEvent,
     RoomJoinedEvent,
     RoomLeftEvent,
-    StreamType,
     UserAudioMutedEvent,
     UserAudioStreamAddedEvent,
     UserAudioStreamRemovedEvent,
@@ -119,35 +116,27 @@ export class TeleconferenceManager
 
     private users = new Map<string, RemoteUser>();
 
-    private localStreamIn: JuniperMediaStreamAudioSourceNode = null;
-
     private readonly remoteGainDecay: GainDecayer;
-
-    readonly microphones = new MicrophoneManager();
-    readonly webcams = new WebcamManager();
-
-    private _ready: Promise<void> = null;
-    public get ready(): Promise<void> {
-        if (this._ready === null) {
-            this._ready = this.startInternal();
-        }
-
-        return this._ready;
-    }
 
     private readonly windowQuitter = new WindowQuitEventer();
 
     constructor(
         public readonly audio: AudioManager,
+        private readonly webcams: LocalUserWebcam,
         private readonly hub: IHub,
         public readonly needsVideoDevice = false) {
         super();
 
-        this.microphones.addEventListener("audioinputchanged", (evt) =>
-            this.onAudioInputChanged(evt));
-
-        this.webcams.addEventListener("videoinputchanged", (evt) =>
-            this.onVideoInputChanged(evt));
+        this.webcams.addEventListener("streamchanged", (evt) => {
+            for (const user of this.users.values()) {
+                if (evt.oldStream) {
+                    user.removeStream(evt.oldStream);
+                }
+                if (evt.newStream) {
+                    user.sendStream(evt.newStream);
+                }
+            }
+        });
 
         this.hub.addEventListener("close", this.onClose.bind(this));
         this.hub.addEventListener("reconnecting", this.onReconnecting.bind(this));
@@ -163,7 +152,7 @@ export class TeleconferenceManager
 
         this.remoteGainDecay = new GainDecayer(
             this.audio.context,
-            this.audio.destination.remoteUserInput,
+            this.audio.localMic.autoGainNode,
             0.05,
             1,
             0.25,
@@ -173,11 +162,11 @@ export class TeleconferenceManager
             1000,
             250
         );
+        this.audio.destination.remoteUserInput.connect(this.remoteGainDecay);
 
-        this.remoteGainDecay.setEnabled(!this.audio.useHeadphones);
+        this.remoteGainDecay.enabled = !this.audio.useHeadphones;
         this.audio.addEventListener("useheadphonestoggled", () => {
-            this.remoteGainDecay.setEnabled(!this.audio.useHeadphones);
-            this.restartAudioStream();
+            this.remoteGainDecay.enabled = !this.audio.useHeadphones;
         });
 
         this.windowQuitter.addScopedEventListener(this, "quitting", () => {
@@ -185,14 +174,6 @@ export class TeleconferenceManager
                 this.toRoom("leave");
             }
         });
-
-        this.localAudioStream = this.microphones.currentStream;
-    }
-
-    private async startInternal(): Promise<void> {
-        await this.audio.ready;
-        await this.microphones.startPreferredAudioInput();
-        this.localAudioStream = this.microphones.currentStream;
     }
 
     get connectionState() {
@@ -251,7 +232,6 @@ export class TeleconferenceManager
     }
 
     async connect(): Promise<void> {
-        await this.ready;
         await whenDisconnected("Connecting", () => this.connectionState, async () => {
             await this.hub.start();
             this.dispatchEvent(new ConferenceServerConnectedEvent());
@@ -558,134 +538,5 @@ export class TeleconferenceManager
     getUserNames(): [string, string][] {
         return Array.from(this.users.values())
             .map((u) => [u.userID, u.userName]);
-    }
-
-    protected async onAudioInputChanged(evt: AudioInputChangedEvent): Promise<void> {
-        const deviceId = evt.audio && evt.audio.deviceId;
-
-        if (this.localAudioStream) {
-            this.localAudioStream = await this.startAudioStream(
-                deviceId,
-                this.audio.useHeadphones);
-        }
-    }
-
-    private async startAudioStream(deviceId: string, usingHeadphones: boolean) {
-        if (!deviceId) {
-            return null;
-        }
-        else {
-            return await navigator.mediaDevices.getUserMedia({
-                audio: {
-                    deviceId,
-                    echoCancellation: !usingHeadphones,
-                    autoGainControl: true,
-                    noiseSuppression: true
-                }
-            });
-        }
-    }
-
-    private async startVideoStream(deviceId: string) {
-        if (!deviceId) {
-            return null;
-        }
-        else {
-            return await navigator.mediaDevices.getUserMedia({
-                video: {
-                    deviceId
-                }
-            });
-        }
-    }
-
-    protected async onVideoInputChanged(evt: VideoInputChangedEvent): Promise<void> {
-        const deviceId = evt.video && evt.video.deviceId;
-
-        if (this.localVideoStream) {
-            this.localVideoStream = await this.startVideoStream(
-                deviceId);
-        }
-    }
-
-    private async restartAudioStream() {
-        this.localAudioStream = await this.startAudioStream(
-            this.microphones.preferredAudioInputID,
-            this.audio.useHeadphones);
-    }
-
-    private async restartVideoStream() {
-        this.localVideoStream = await this.startVideoStream(
-            this.webcams.preferredVideoInputID);
-    }
-
-    get localAudioStream(): MediaStream {
-        return this.localStreamIn && this.localStreamIn.mediaStream || null;
-    }
-
-    set localAudioStream(v: MediaStream) {
-        if (v !== this.localAudioStream) {
-            this.microphones.currentStream = v;
-            this.audio.localMic.inStream = v;
-        }
-    }
-
-    get localVideoStream(): MediaStream {
-        return this.webcams.currentStream;
-    }
-
-    set localVideoStream(v: MediaStream) {
-        if (v !== this.localVideoStream) {
-            this.webcams.currentStream = v;
-            if (this.localVideoStream) {
-                for (const user of this.users.values()) {
-                    user.sendStream(this.localVideoStream);
-                }
-            }
-        }
-    }
-
-    private isMediaMuted(type: StreamType) {
-        for (const track of this.audio.localMic.outStream.getTracks()) {
-            if (track.kind === type) {
-                return !track.enabled;
-            }
-        }
-
-        return true;
-    }
-
-    private setMediaMuted(type: StreamType, muted: boolean) {
-        if (type === StreamType.Audio) {
-            for (const track of this.audio.localMic.outStream.getTracks()) {
-                if (track.kind === type) {
-                    track.enabled = !muted;
-                }
-            }
-        }
-        else {
-            if (muted) {
-                this.localVideoStream = null;
-            }
-            else {
-                this.restartVideoStream();
-            }
-        }
-    }
-
-    get audioMuted(): boolean {
-        return this.isMediaMuted(StreamType.Audio);
-    }
-
-    set audioMuted(muted: boolean) {
-        this.setMediaMuted(StreamType.Audio, muted);
-    }
-
-    get videoMuted(): boolean {
-        return this.isMediaMuted(StreamType.Video);
-    }
-
-    set videoMuted(muted: boolean) {
-        this.setMediaMuted(StreamType.Video, muted);
     }
 }

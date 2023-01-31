@@ -2,7 +2,7 @@ import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
 import { id } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
-import { display, em, flexDirection, gap } from "@juniper-lib/dom/css";
+import { display, em, flexDirection, gap, transform } from "@juniper-lib/dom/css";
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { Div, elementApply } from "@juniper-lib/dom/tags";
 import { AssetFile, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
@@ -20,6 +20,7 @@ import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/flags
 import { rad2deg } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
 import { InteractionAudio } from "../../eventSystem/InteractionAudio";
 import { obj, objGraph } from "../../objects";
@@ -91,6 +92,7 @@ export class Environment
 
     readonly audio: AudioManager;
     readonly interactionAudio: InteractionAudio;
+    readonly webcams: LocalUserWebcam;
 
     readonly xrUI: SpaceUI;
     readonly screenUISpace: ScreenUI;
@@ -198,6 +200,8 @@ export class Environment
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSys);
 
+        this.webcams = new LocalUserWebcam();
+
         this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
         this.devicesDialog = new DeviceDialog(this);
 
@@ -251,6 +255,27 @@ export class Environment
         if (isDefined(options.watchModelPath)) {
             this.watch = new Watch(this, options.watchModelPath);
         }
+
+        this.audio.localMic.addEventListener("streamchanged", () => {
+            this.muteMicButton.active = !this.audio.localMic.muted;
+        });
+
+        this.webcams.addEventListener("streamchanged", () => {
+            this.muteCamButton.active = !this.webcams.muted;
+        });
+
+        this.muteMicButton.addEventListener("click", () => {
+            this.audio.localMic.muted = !this.audio.localMic.muted;
+            this.muteMicButton.active = !this.audio.localMic.muted;
+        });
+
+        this.muteCamButton.addEventListener("click", () => {
+            this.webcams.muted = !this.webcams.muted;
+            this.muteCamButton.active = !this.webcams.muted;
+        });
+
+        this.muteMicButton.active = !this.audio.localMic.muted;
+        this.muteCamButton.active = !this.webcams.muted;
     }
 
     private _testSpaceLayout = false;
@@ -284,6 +309,13 @@ export class Environment
         objGraph(this.worldUISpace, this.xrUI);
 
         elementApply(this.screenUISpace.topLeft, this.compassImage, this.statsImage);
+        elementApply(this.screenUISpace.topRight,
+            elementApply(this.webcams,
+                transform(
+                    "translate(50%, -50%)",
+                    "scale(-0.33, 0.33)",
+                    "translate(50%, 50%)")
+            ));
         elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
         elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton);
         elementApply(this.screenUISpace.bottomLeft,

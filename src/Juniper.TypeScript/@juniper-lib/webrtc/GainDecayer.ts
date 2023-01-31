@@ -65,7 +65,7 @@ export class GainDecayer extends ActivityDetector {
         return this._enabled;
     }
 
-    setEnabled(v: boolean) {
+    set enabled(v: boolean) {
         this._enabled = v;
         this.refresh();
     }
