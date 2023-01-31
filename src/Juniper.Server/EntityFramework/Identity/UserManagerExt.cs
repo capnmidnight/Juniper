@@ -22,6 +22,11 @@ namespace Juniper.EntityFramework.Identity
         {
             try
             {
+                if(user.Email is null)
+                {
+                    throw new ArgumentNullException("user.Email");
+                }
+
                 var hasPassword = !string.IsNullOrEmpty(user.PasswordHash);
                 var code = await users.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
