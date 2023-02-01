@@ -17,7 +17,6 @@ import { JuniperAudioContext } from "./context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "./context/JuniperMediaElementAudioSourceNode";
 import { WebAudioDestination } from "./destinations/WebAudioDestination";
 import { IPoseable } from "./IPoseable";
-import { LocalUserMicrophone } from "./LocalUserMicrophone";
 import { AudioElementSource } from "./sources/AudioElementSource";
 import { AudioStreamSource } from "./sources/AudioStreamSource";
 import type { IAudioSource } from "./sources/IAudioSource";
@@ -57,7 +56,6 @@ export class AudioManager
 
     get element() { return this.destination.element; }
 
-    readonly localMic: LocalUserMicrophone;
     readonly destination: WebAudioDestination = null;
     readonly noSpatializer: NoSpatializer;
     readonly speakers: SpeakerManager;
@@ -84,8 +82,6 @@ export class AudioManager
             globalThis.THREE.AudioContext.setContext(context);
         }
 
-        const localMic = new LocalUserMicrophone(context);
-
         const destination = new WebAudioDestination(context);
 
         const noSpatializer = new NoSpatializer(destination.nonSpatializedInput);
@@ -94,7 +90,6 @@ export class AudioManager
 
         super("audio-manager", context, null, null, [noSpatializer, destination]);
 
-        this.localMic = localMic;
         this.destination = destination;
         this.noSpatializer = noSpatializer;
         this.speakers = speakers;

@@ -1,26 +1,22 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
+import { DeviceManager } from "@juniper-lib/audio/DeviceManager";
+import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
+import { StreamChangedEvent } from "@juniper-lib/audio/StreamChangedEvent";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { WindowQuitEventer } from "@juniper-lib/tslib/events/WindowQuitEventer";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import "webrtc-adapter";
 import {
     ConferenceErrorEvent,
     ConferenceEvents, ConferenceServerConnectedEvent,
     ConferenceServerDisconnectedEvent,
     RoomJoinedEvent,
-    RoomLeftEvent,
-    UserAudioMutedEvent,
-    UserAudioStreamAddedEvent,
-    UserAudioStreamRemovedEvent,
-    UserChatEvent,
+    RoomLeftEvent, UserChatEvent,
     UserJoinedEvent,
-    UserLeftEvent, UserVideoMutedEvent,
-    UserVideoStreamAddedEvent,
-    UserVideoStreamRemovedEvent
+    UserLeftEvent
 } from "./ConferenceEvents";
 import { ConnectionState, settleConnected, whenDisconnected } from "./ConnectionState";
 import { DEFAULT_LOCAL_USER_ID } from "./constants";
@@ -122,12 +118,12 @@ export class TeleconferenceManager
 
     constructor(
         public readonly audio: AudioManager,
-        private readonly webcams: LocalUserWebcam,
-        private readonly hub: IHub,
-        public readonly needsVideoDevice = false) {
+        private readonly microphones: LocalUserMicrophone,
+        private readonly devices: DeviceManager,
+        private readonly hub: IHub) {
         super();
 
-        this.webcams.addEventListener("streamchanged", (evt) => {
+        const onStreamChanged = (evt: StreamChangedEvent) => {
             for (const user of this.users.values()) {
                 if (evt.oldStream) {
                     user.removeStream(evt.oldStream);
@@ -136,7 +132,9 @@ export class TeleconferenceManager
                     user.sendStream(evt.newStream);
                 }
             }
-        });
+        };
+
+        this.devices.addEventListener("streamchanged", onStreamChanged);
 
         this.hub.addEventListener("close", this.onClose.bind(this));
         this.hub.addEventListener("reconnecting", this.onReconnecting.bind(this));
@@ -152,7 +150,7 @@ export class TeleconferenceManager
 
         this.remoteGainDecay = new GainDecayer(
             this.audio.context,
-            this.audio.localMic.autoGainNode,
+            this.microphones.autoGainNode,
             0.05,
             1,
             0.25,
@@ -419,34 +417,19 @@ export class TeleconferenceManager
     }
 
     private onStreamNeeded(evt: RemoteUserStreamNeededEvent) {
-        evt.user.sendStream(this.audio.localMic.outStream);
+        evt.user.sendStream(...this.devices.outStreams);
     }
 
     private onTrackAdded(evt: RemoteUserTrackAddedEvent) {
-        if (evt.track.kind === "audio") {
-            this.dispatchEvent(new UserAudioStreamAddedEvent(evt.user, evt.stream));
-        }
-        else if (evt.track.kind === "video") {
-            this.dispatchEvent(new UserVideoStreamAddedEvent(evt.user, evt.stream));
-        }
+        this.dispatchEvent(evt);
     }
 
     private onTrackMuted(evt: RemoteUserTrackMutedEvent) {
-        if (evt.track.kind === "audio") {
-            this.dispatchEvent(new UserAudioMutedEvent(evt.user, evt.track.muted));
-        }
-        else if (evt.track.kind === "video") {
-            this.dispatchEvent(new UserVideoMutedEvent(evt.user, evt.track.muted));
-        }
+        this.dispatchEvent(evt);
     }
 
     private onTrackRemoved(evt: RemoteUserTrackRemovedEvent) {
-        if (evt.track.kind === "audio") {
-            this.dispatchEvent(new UserAudioStreamRemovedEvent(evt.user, evt.stream));
-        }
-        else if (evt.track.kind === "video") {
-            this.dispatchEvent(new UserVideoStreamRemovedEvent(evt.user, evt.stream));
-        }
+        this.dispatchEvent(evt);
     }
 
     private onUserLeft(evt: HubUserLeftEvent): void {

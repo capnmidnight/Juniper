@@ -397,7 +397,6 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
 
     start() {
         if (!this.trackSent) {
-            this.trackSent = true;
             this.dispatchEvent(new RemoteUserStreamNeededEvent(this));
         }
     }
@@ -413,15 +412,20 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
         }
     }
 
-    sendStream(stream: MediaStream): void {
-        for (const track of stream.getTracks()) {
-            if (this.trackSent) {
-                this.connection.addTrack(track, stream);
-            }
-            else {
-                this.transceivers.push(this.connection.addTransceiver(track, {
-                    streams: [stream]
-                }));
+    sendStream(...streams: MediaStream[]): void {
+        for (const stream of streams) {
+            if (stream) {
+                for (const track of stream.getTracks()) {
+                    if (this.trackSent) {
+                        this.connection.addTrack(track, stream);
+                    }
+                    else {
+                        this.trackSent = true;
+                        this.transceivers.push(this.connection.addTransceiver(track, {
+                            streams: [stream]
+                        }));
+                    }
+                }
             }
         }
     }

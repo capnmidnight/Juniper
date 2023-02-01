@@ -1,4 +1,6 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
+import { DeviceManager } from "@juniper-lib/audio/DeviceManager";
+import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
 import { id } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
@@ -92,7 +94,9 @@ export class Environment
 
     readonly audio: AudioManager;
     readonly interactionAudio: InteractionAudio;
+    readonly microphones: LocalUserMicrophone;
     readonly webcams: LocalUserWebcam;
+    readonly devices: DeviceManager;
 
     readonly xrUI: SpaceUI;
     readonly screenUISpace: ScreenUI;
@@ -200,7 +204,9 @@ export class Environment
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSys);
 
+        this.microphones = new LocalUserMicrophone(this.audio.context);
         this.webcams = new LocalUserWebcam();
+        this.devices = new DeviceManager(this.microphones, this.webcams);
 
         this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
         this.devicesDialog = new DeviceDialog(this);
@@ -211,7 +217,7 @@ export class Environment
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");
         this.quitButton = new ButtonImageWidget(this.uiButtons, "ui", "quit");
         this.muteMicButton = new ToggleButton(this.uiButtons, "microphone", "mute", "unmute");
-        this.muteCamButton = new ToggleButton(this.uiButtons, "media", "pause", "play");
+        this.muteCamButton = new ToggleButton(this.uiButtons, "media", "play", "pause");
         this.muteEnvAudioButton = new ToggleButton(this.uiButtons, "environment-audio", "mute", "unmute");
         this.muteEnvAudioButton.active = true;
         this.audio.ready.then(() => this.muteEnvAudioButton.active = false)
@@ -256,26 +262,26 @@ export class Environment
             this.watch = new Watch(this, options.watchModelPath);
         }
 
-        this.audio.localMic.addEventListener("streamchanged", () => {
-            this.muteMicButton.active = !this.audio.localMic.muted;
+        this.microphones.addEventListener("devicesettingschanged", () => {
+            this.muteMicButton.active = this.microphones.enabled && !this.microphones.muted;
         });
 
-        this.webcams.addEventListener("streamchanged", () => {
-            this.muteCamButton.active = !this.webcams.muted;
+        this.webcams.addEventListener("devicesettingschanged", () => {
+            this.muteCamButton.active = this.webcams.enabled;
         });
 
         this.muteMicButton.addEventListener("click", () => {
-            this.audio.localMic.muted = !this.audio.localMic.muted;
-            this.muteMicButton.active = !this.audio.localMic.muted;
+            this.microphones.muted = this.microphones.enabled &&!this.microphones.muted;
+            this.muteMicButton.active = !this.microphones.muted;
         });
 
         this.muteCamButton.addEventListener("click", () => {
-            this.webcams.muted = !this.webcams.muted;
-            this.muteCamButton.active = !this.webcams.muted;
+            this.webcams.enabled = !this.webcams.enabled;
+            this.muteCamButton.active = this.webcams.enabled;
         });
 
-        this.muteMicButton.active = !this.audio.localMic.muted;
-        this.muteCamButton.active = !this.webcams.muted;
+        this.muteMicButton.active = this.microphones.enabled && !this.microphones.muted;
+        this.muteCamButton.active = this.webcams.enabled;
     }
 
     private _testSpaceLayout = false;

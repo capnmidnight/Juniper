@@ -1,7 +1,7 @@
 import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
-import { RemoteUser } from "./RemoteUser";
+import { RemoteUser, RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "./RemoteUser";
 
 export type ConferenceEventTypes = "error"
     | "info"
@@ -135,48 +135,6 @@ export enum StreamOpType {
     Changed = "changed"
 }
 
-export class UserStreamEvent<T extends ConferenceEventTypes> extends RemoteUserEvent<T> {
-    constructor(type: T, public kind: StreamType, public op: StreamOpType, user: RemoteUser, public stream: MediaStream) {
-        super(type, user);
-    }
-}
-
-export class UserStreamAddedEvent<T extends ConferenceEventTypes> extends UserStreamEvent<T> {
-    constructor(type: T, kind: StreamType, user: RemoteUser, stream: MediaStream) {
-        super(type, kind, StreamOpType.Added, user, stream);
-    }
-}
-
-export class UserStreamRemovedEvent<T extends ConferenceEventTypes> extends UserStreamEvent<T> {
-    constructor(type: T, kind: StreamType, user: RemoteUser, stream: MediaStream) {
-        super(type, kind, StreamOpType.Removed, user, stream);
-    }
-}
-
-export class UserAudioStreamAddedEvent extends UserStreamAddedEvent<"audioAdded"> {
-    constructor(user: RemoteUser, stream: MediaStream) {
-        super("audioAdded", StreamType.Audio, user, stream);
-    }
-}
-
-export class UserAudioStreamRemovedEvent extends UserStreamRemovedEvent<"audioRemoved"> {
-    constructor(user: RemoteUser, stream: MediaStream) {
-        super("audioRemoved", StreamType.Audio, user, stream);
-    }
-}
-
-export class UserVideoStreamAddedEvent extends UserStreamAddedEvent<"videoAdded"> {
-    constructor(user: RemoteUser, stream: MediaStream) {
-        super("videoAdded", StreamType.Video, user, stream);
-    }
-}
-
-export class UserVideoStreamRemovedEvent extends UserStreamRemovedEvent<"videoRemoved"> {
-    constructor(user: RemoteUser, stream: MediaStream) {
-        super("videoRemoved", StreamType.Video, user, stream);
-    }
-}
-
 export class UserPoseEvent<T extends ConferenceEventTypes> extends RemoteUserEvent<T> {
 
     public readonly pose = new Pose();
@@ -223,9 +181,7 @@ export interface ConferenceEvents {
     userJoined: UserJoinedEvent;
     userLeft: UserLeftEvent;
     userNameChanged: UserNameChangedEvent;
-    audioAdded: UserAudioStreamAddedEvent;
-    videoAdded: UserVideoStreamAddedEvent;
-    audioRemoved: UserAudioStreamRemovedEvent;
-    videoRemoved: UserVideoStreamRemovedEvent;
+    trackAdded: RemoteUserTrackAddedEvent;
+    trackRemoved: RemoteUserTrackRemovedEvent;
     chat: UserChatEvent;
 }

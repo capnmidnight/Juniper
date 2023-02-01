@@ -1,4 +1,3 @@
-import { arrayScan, arraySortByKey } from "@juniper-lib/tslib/collections/arrays";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
@@ -7,17 +6,21 @@ import { JuniperDynamicsCompressorNode } from "./context/JuniperDynamicsCompress
 import { JuniperGainNode } from "./context/JuniperGainNode";
 import { JuniperMediaStreamAudioDestinationNode } from "./context/JuniperMediaStreamAudioDestinationNode";
 import { JuniperMediaStreamAudioSourceNode } from "./context/JuniperMediaStreamAudioSourceNode";
-import { DeviceChangedEvent } from "./DeviceChangedEvent";
-import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
+import { DeviceSettingsChangedEvent, IDeviceSource } from "./DeviceManager";
 import { StreamChangedEvent } from "./StreamChangedEvent";
 
 
 const PREFERRED_AUDIO_INPUT_ID_KEY = "calla:preferredAudioInputID";
 
+
 export class LocalUserMicrophone extends BaseNodeCluster<{
-    devicechanged: DeviceChangedEvent;
+    devicesettingschanged: DeviceSettingsChangedEvent;
     streamchanged: StreamChangedEvent;
-}> {
+}> implements IDeviceSource {
+
+    get deviceType(): "audio" | "video" {
+        return "audio";
+    }
 
     private localStreamNode: JuniperMediaStreamAudioSourceNode = null;
     private readonly volume: JuniperGainNode;
@@ -25,10 +28,9 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
     private readonly compressor: JuniperDynamicsCompressorNode;
     private readonly output: JuniperMediaStreamAudioDestinationNode;
 
-    private initTask = Promise.resolve(0);
-    private _hasPermission = false;
     private _usingHeadphones = false;
     private _device: MediaDeviceInfo = null;
+    private _enabled = false;
 
     constructor(context: JuniperAudioContext) {
         const volume = context.createGain();
@@ -71,84 +73,22 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
             .connect(compressor)
             .connect(localOutput);
 
-        this.init();
         Object.seal(this);
     }
 
-    get hasPermission(): boolean {
-        return this._hasPermission;
+    get enabled(): boolean {
+        return this._enabled;
     }
 
-    init(): Promise<number> {
-        return this.initTask = this.initTask.then((i) => this._initInternal(i));
-    }
-
-    private async _initInternal(tryCount: number): Promise<number> {
-        if (!this.hasPermission) {
-            const devices = tryCount === 0
-                ? await navigator.mediaDevices.enumerateDevices()
-                : await this.getDevices();
-            const anyDevice = arrayScan(devices, dev => dev.kind === "audioinput" && dev.label.length > 0);
-            if (isDefined(anyDevice)) {
-                this._hasPermission = true;
-                this._device = arrayScan(
-                    devices,
-                    (d) => d.deviceId === this.preferredDeviceID,
-                    (d) => d.deviceId === "default",
-                    (d) => d.deviceId.length > 0);
-            }
+    set enabled(v: boolean) {
+        if (v !== this.enabled) {
+            this._enabled = v;
+            this.onChange();
         }
-
-        return tryCount + 1;
     }
 
     get preferredDeviceID(): string {
         return localStorage.getItem(PREFERRED_AUDIO_INPUT_ID_KEY);
-    }
-
-    async getDevices(filterDuplicates: boolean = false): Promise<MediaDeviceInfo[]> {
-        let devices: MediaDeviceInfo[] = null;
-        let testStream: MediaStream = null;
-        for (let i = 0; i < 3; ++i) {
-            devices = await navigator.mediaDevices.enumerateDevices();
-
-            if (!this.hasPermission) {
-                for (const device of devices) {
-                    this._hasPermission ||= device.kind === "audioinput"
-                        && device.deviceId.length > 0
-                        && device.label.length > 0;
-
-                    if (this.hasPermission) {
-                        break;
-                    }
-                }
-
-                if (!this.hasPermission) {
-                    try {
-                        testStream = await navigator.mediaDevices.getUserMedia({
-                            audio: true
-                        });
-                    }
-                    catch (exp) {
-                        console.warn(exp);
-                    }
-                }
-            }
-        }
-
-        if (testStream) {
-            for (const track of testStream.getTracks()) {
-                track.stop();
-            }
-        }
-
-        devices = arraySortByKey(devices || [], (d) => d.label);
-
-        if (filterDuplicates) {
-            devices = filterDeviceDuplicates(devices);
-        }
-
-        return devices.filter((d) => d.kind === "audioinput");
     }
 
     get device() {
@@ -165,10 +105,7 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
         if (nextAudioID !== curAudioID) {
             this._device = device;
             localStorage.setItem(PREFERRED_AUDIO_INPUT_ID_KEY, nextAudioID);
-            this.dispatchEvent(new DeviceChangedEvent(device));
-            if (this.inStream) {
-                await this.start();
-            }
+            this.onChange();
         }
     }
 
@@ -180,17 +117,8 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
 
     set inStream(mediaStream) {
         if (mediaStream !== this.inStream) {
-            const oldStream = this.inStream;
-
             if (this.localStreamNode) {
                 this.remove(this.localStreamNode);
-
-                if (this.inStream
-                    && this.inStream.active) {
-                    for (const track of this.inStream.getTracks()) {
-                        track.stop();
-                    }
-                }
                 this.localStreamNode.dispose();
                 this.localStreamNode = null;
             }
@@ -202,30 +130,11 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
                 this.add(this.localStreamNode);
                 this.localStreamNode.connect(this.volume);
             }
-
-            this.dispatchEvent(new StreamChangedEvent(this.device, oldStream, this.inStream));
         }
     }
 
     get outStream() {
         return this.output.stream;
-    }
-
-    async start() {
-        if (this.device) {
-            this.inStream = await navigator.mediaDevices.getUserMedia({
-                audio: {
-                    deviceId: this.device.deviceId,
-                    echoCancellation: !this.usingHeadphones,
-                    autoGainControl: true,
-                    noiseSuppression: true
-                }
-            });
-        }
-    }
-
-    stop() {
-        this.inStream = null;
     }
 
     get gain() {
@@ -254,7 +163,28 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
     set usingHeadphones(v: boolean) {
         if (v !== this.usingHeadphones) {
             this._usingHeadphones = v;
-            this.start();
+            this.onChange();
+        }
+    }
+
+    private async onChange() {
+        this.dispatchEvent(new DeviceSettingsChangedEvent());
+        const oldStream = this.inStream;
+        if (this.device && this.enabled) {
+            this.inStream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    deviceId: this.device.deviceId,
+                    echoCancellation: !this.usingHeadphones,
+                    autoGainControl: true,
+                    noiseSuppression: true
+                }
+            });
+        }
+        else {
+            this.inStream = null;
+        }
+        if (this.inStream !== oldStream) {
+            this.dispatchEvent(new StreamChangedEvent(oldStream, this.outStream));
         }
     }
 }

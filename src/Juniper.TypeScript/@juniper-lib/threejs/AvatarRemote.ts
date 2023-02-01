@@ -8,16 +8,16 @@ import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { FWD, HalfPi, UP } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { dispose, IDisposable } from "@juniper-lib/tslib/using";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { UserPointerEvent, UserPosedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
-import { Matrix4, Object3D, Quaternion, Vector3 } from "three";
+import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeadingRadians } from "./animation/lookAngles";
 import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
-import { objectRemove, objGraph } from "./objects";
+import { obj, objectRemove, objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
 import { Image2D } from "./widgets/Image2D";
 import { TextMesh } from "./widgets/TextMesh";
@@ -48,6 +48,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
     private readonly userID: string = null;
     private readonly head: Object3D = null;
     readonly body: Object3D = null;
+    private readonly billboard: Object3D;
     private readonly nameTag: TextMesh;
     private readonly activity: ActivityDetector;
     private readonly pTarget = new Vector3();
@@ -105,11 +106,11 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
         this.userID = user.userID;
         this.name = user.userName;
-        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
-        this.nameTag.position.y = 0.25;
-        this.userName = user.userName;
+        this.billboard = obj("billboard");
 
-        objGraph(this, this.nameTag);
+        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));;
+        this.nameTag.position.y = -0.25;
+        this.userName = user.userName;
 
         user.addEventListener("userPosed", (evt: UserPosedEvent) =>
             this.setPose(evt.pose, evt.height));
@@ -130,7 +131,9 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
         objGraph(this.body.parent,
             objGraph(this.headFollower,
-                objGraph(this.body, this.nameTag)));
+                objGraph(this.body,
+                    objGraph(this.billboard,
+                        this.nameTag))));
 
         objGraph(this, this.avatar);
     }
@@ -153,6 +156,11 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
     set videoStream(v: MediaStream) {
         if (v !== this.videoStream) {
+            if (this.videoMesh) {
+                this.videoMesh.removeFromParent();
+                dispose(this.videoMesh);
+                this.videoMesh = null;
+            }
 
             if (this.videoElement) {
                 this.videoElement.pause();
@@ -170,19 +178,13 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
                 this.videoElement.play();
 
-                if (!this.videoMesh) {
-                    this.videoMesh = new Image2D(this.env, `webcam-${this.userID}`, "none");
-                    this.videoMesh.sizeMode = "fixed-height";
-                    this.head.add(this.videoMesh);
-                    this.videoMesh.rotateY(Math.PI);
-                    this.videoMesh.position.z = -0.25;
-                    this.videoMesh.scale.setScalar(0.25);
-                }
-
+                this.videoMesh = new Image2D(this.env, `webcam-${this.userID}`, "none", {
+                    side: FrontSide
+                });
+                this.videoMesh.sizeMode = "fixed-height";
+                this.videoMesh.scale.setScalar(0.25);
+                this.videoMesh.position.z = 0.25;
                 this.videoMesh.setTextureMap(this.videoElement);
-            }
-            else if(this.videoMesh) {
-                this.head.remove(this.videoMesh);
             }
         }
     }
@@ -291,17 +293,32 @@ export class AvatarRemote extends Object3D implements IDisposable {
         this.F.sub(this.body.position)
             .normalize()
             .multiplyScalar(0.25);
-        this.nameTag.position.set(0, -0.25, 0)
+        this.billboard.position.setScalar(0)
             .add(this.F);
 
         for (const pointer of this.pointers.values()) {
             pointer.animate(dt);
         }
 
-        this.nameTag.lookAt(this.env.avatar.worldPos);
+        this.billboard.lookAt(this.env.avatar.worldPos);
 
-        if (this.videoStream) {
-            this.videoMesh.updateTexture();
+        if (this.videoMesh) {
+            if (this.videoStream
+                && !this.videoStream.active
+                && this.videoMesh.parent) {
+                this.videoStream = null;
+            }
+
+            if (this.videoStream
+                && this.videoStream.active
+                && this.videoElement.videoWidth > 0
+                && !this.videoMesh.parent) {
+                this.billboard.add(this.videoMesh);
+            }
+
+            if (this.videoMesh) {
+                this.videoMesh.updateTexture();
+            }
         }
     }
 

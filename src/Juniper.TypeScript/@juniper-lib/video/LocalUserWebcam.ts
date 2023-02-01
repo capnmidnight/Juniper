@@ -1,8 +1,7 @@
-import { DeviceChangedEvent } from "@juniper-lib/audio/DeviceChangedEvent";
-import { filterDeviceDuplicates } from "@juniper-lib/audio/filterDeviceDuplicates";
+import { DeviceSettingsChangedEvent, IDeviceSource } from "@juniper-lib/audio/DeviceManager";
 import { StreamChangedEvent } from "@juniper-lib/audio/StreamChangedEvent";
+import { muted } from "@juniper-lib/dom/attrs";
 import { ErsatzElement, Video } from "@juniper-lib/dom/tags";
-import { arrayScan, arraySortByKey } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
@@ -10,96 +9,38 @@ const PREFERRED_VIDEO_INPUT_ID_KEY = "calla:preferredVideoInputID";
 
 export class LocalUserWebcam
     extends TypedEventBase<{
-        devicechanged: DeviceChangedEvent;
+        devicesettingschanged: DeviceSettingsChangedEvent;
         streamchanged: StreamChangedEvent;
     }>
-    implements ErsatzElement<HTMLVideoElement> {
+    implements ErsatzElement<HTMLVideoElement>, IDeviceSource {
 
-    readonly element = Video();
+    get deviceType(): "audio" | "video" {
+        return "video";
+    }
 
-    private initTask = Promise.resolve(0);
-    private _hasPermission = false;
+    readonly element = Video(muted(true));
+
     private _device: MediaDeviceInfo = null;
+    private _enabled = false;
 
     constructor() {
         super();
         Object.seal(this);
     }
 
-    get hasPermission(): boolean {
-        return this._hasPermission;
+    get enabled(): boolean {
+        return this._enabled;
     }
 
-    init(): Promise<number> {
-        return this.initTask = this.initTask.then((i) => this._initInternal(i));
-    }
-
-    private async _initInternal(tryCount: number): Promise<number> {
-        if (!this.hasPermission) {
-            const devices = tryCount === 0
-                ? await navigator.mediaDevices.enumerateDevices()
-                : await this.getDevices();
-            const anyDevice = arrayScan(devices, dev => dev.kind === "videoinput" && dev.label.length > 0);
-            if (isDefined(anyDevice)) {
-                this._hasPermission = true;
-                this._device = arrayScan(
-                    devices,
-                    (d) => d.deviceId === this.preferredDeviceID,
-                    (d) => d.deviceId === "default",
-                    (d) => d.deviceId.length > 0);
-            }
+    set enabled(v: boolean) {
+        if (v !== this.enabled) {
+            this._enabled = v;
+            this.onChange();
         }
-
-        return tryCount + 1;
     }
 
     get preferredDeviceID(): string {
         return localStorage.getItem(PREFERRED_VIDEO_INPUT_ID_KEY);
-    }
-
-    async getDevices(filterDuplicates: boolean = false): Promise<MediaDeviceInfo[]> {
-        let devices: MediaDeviceInfo[] = null;
-        let testStream: MediaStream = null;
-        for (let i = 0; i < 3; ++i) {
-            devices = await navigator.mediaDevices.enumerateDevices();
-
-            if (!this.hasPermission) {
-                for (const device of devices) {
-                    this._hasPermission ||= device.kind === "videoinput"
-                        && device.deviceId.length > 0
-                        && device.label.length > 0;
-
-                    if (this.hasPermission) {
-                        break;
-                    }
-                }
-
-                if (!this.hasPermission) {
-                    try {
-                        testStream = await navigator.mediaDevices.getUserMedia({
-                            video: true
-                        });
-                    }
-                    catch (exp) {
-                        console.warn(exp);
-                    }
-                }
-            }
-        }
-
-        if (testStream) {
-            for (const track of testStream.getTracks()) {
-                track.stop();
-            }
-        }
-
-        devices = arraySortByKey(devices || [], (d) => d.label);
-
-        if (filterDuplicates) {
-            devices = filterDeviceDuplicates(devices);
-        }
-
-        return devices.filter((d) => d.kind === "videoinput");
     }
 
     get device() {
@@ -116,64 +57,51 @@ export class LocalUserWebcam
         if (nextVideoID !== curVideoID) {
             this._device = device;
             localStorage.setItem(PREFERRED_VIDEO_INPUT_ID_KEY, nextVideoID);
-            this.dispatchEvent(new DeviceChangedEvent(device));
-            if (this.stream) {
-                await this.start();
-            }
+            await this.onChange();
         }
     }
 
-    get stream(): MediaStream {
-        return this.element.srcObject as MediaStream;
-    }
-
-    set stream(v: MediaStream) {
-        if (v !== this.stream) {
-            const oldStream = this.stream;
-
-            if (this.stream
-                && this.stream.active) {
-                for (const track of this.stream.getTracks()) {
-                    track.stop();
-                }
-            }
-
-            this.element.srcObject = v;
-
-            if (this.stream) {
-                this.element.play();
-            }
-
-            this.dispatchEvent(new StreamChangedEvent(this.device, oldStream, this.stream));
-        }
-    }
-
-    get muted(): boolean {
-        return !!this.stream;
-    }
-
-    set muted(v: boolean) {
-        if (v !== this.muted) {
-            if (v) {
-                this.start();
-            }
-            else {
-                this.stop();
-            }
-        }
-    }
-
-    async start(): Promise<void> {
-        if (this.device) {
-            this.stream = await navigator.mediaDevices.getUserMedia({
+    private async onChange() {
+        this.dispatchEvent(new DeviceSettingsChangedEvent());
+        const oldStream = this.inStream;
+        if (this.device && this.enabled) {
+            this.inStream = await navigator.mediaDevices.getUserMedia({
                 video: {
                     deviceId: this.device.deviceId
                 }
             });
         }
+        else {
+            this.inStream = null;
+        }
+        if (this.inStream !== oldStream) {
+            this.dispatchEvent(new StreamChangedEvent(oldStream, this.outStream));
+        }
+    }
+
+    get inStream(): MediaStream {
+        return this.element.srcObject as MediaStream;
+    }
+
+    set inStream(v: MediaStream) {
+        if (v !== this.inStream) {
+            if (this.inStream) {
+                this.element.pause();
+            }
+
+            this.element.srcObject = v;
+
+            if (this.inStream) {
+                this.element.play();
+            }
+        }
+    }
+
+    get outStream() {
+        return this.inStream;
     }
 
     stop() {
-        this.stream = null;
+        this.inStream = null;
     }
 }

@@ -14,6 +14,7 @@ import {
     UserLeftEvent,
     UserNameChangedEvent
 } from "@juniper-lib/webrtc/ConferenceEvents";
+import { RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "@juniper-lib/webrtc/RemoteUser";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
 import { Object3D, Vector3 } from "three";
 import { AssetGltfModel } from "./AssetGltfModel";
@@ -151,25 +152,29 @@ export abstract class BaseTele extends Application {
             this.env.audio.playClip("join");
         });
 
-        this.conference.addScopedEventListener(this, "audioAdded", (evt) => {
-            this.env.audio.setUserStream(evt.user.userID, evt.stream);
-        });
+        this.conference.addScopedEventListener(this, "trackAdded", (evt: RemoteUserTrackAddedEvent) => {
+            if (evt.stream.getAudioTracks().length > 0) {
+                this.env.audio.setUserStream(evt.user.userID, evt.stream);
+            }
 
-        this.conference.addScopedEventListener(this, "audioRemoved", (evt) => {
-            this.env.audio.setUserStream(evt.user.userID, null);
-        });
-
-        this.conference.addScopedEventListener(this, "videoAdded", (evt) => {
-            const user = this.avatars.get(evt.user.userID);
-            if (user) {
-                user.videoStream = evt.stream;
+            if (evt.stream.getVideoTracks().length > 0) {
+                const user = this.avatars.get(evt.user.userID);
+                if (user) {
+                    user.videoStream = evt.stream;
+                }
             }
         });
 
-        this.conference.addScopedEventListener(this, "videoRemoved", (evt) => {
-            const user = this.avatars.get(evt.user.userID);
-            if (user) {
-                user.videoStream = null;
+        this.conference.addScopedEventListener(this, "trackRemoved", (evt: RemoteUserTrackRemovedEvent) => {
+            if (evt.stream.getAudioTracks().length > 0) {
+                this.env.audio.setUserStream(evt.user.userID, null);
+            }
+
+            if (evt.stream.getVideoTracks().length > 0) {
+                const user = this.avatars.get(evt.user.userID);
+                if (user) {
+                    user.videoStream = null;
+                }
             }
         });
 
