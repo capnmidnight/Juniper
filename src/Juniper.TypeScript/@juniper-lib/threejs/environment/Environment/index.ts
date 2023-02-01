@@ -4,7 +4,7 @@ import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
 import { id } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
-import { display, em, flexDirection, gap, transform } from "@juniper-lib/dom/css";
+import { display, em, flexDirection, gap, perc, pointerEvents, transform, width } from "@juniper-lib/dom/css";
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { Div, elementApply } from "@juniper-lib/dom/tags";
 import { AssetFile, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
@@ -314,14 +314,17 @@ export class Environment
 
         objGraph(this.worldUISpace, this.xrUI);
 
-        elementApply(this.screenUISpace.topLeft, this.compassImage, this.statsImage);
-        elementApply(this.screenUISpace.topRight,
+        elementApply(this.screenUISpace.topLeft,
+            pointerEvents("none"),
             elementApply(this.webcams,
-                transform(
-                    "translate(50%, -50%)",
-                    "scale(-0.33, 0.33)",
-                    "translate(50%, 50%)")
-            ));
+                display("inline-block"),
+                width(perc(50)),
+                transform("scaleX(-1)")
+            )
+        );
+        elementApply(this.screenUISpace.topRight,
+            this.compassImage,
+            this.statsImage);
         elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
         elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton);
         elementApply(this.screenUISpace.bottomLeft,
