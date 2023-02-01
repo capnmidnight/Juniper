@@ -14,18 +14,23 @@ export class LocalUserWebcam
     }>
     implements ErsatzElement<HTMLVideoElement>, IDeviceSource {
 
-    get deviceType(): "audio" | "video" {
-        return "video";
-    }
-
     readonly element = Video(muted(true));
 
+    private _hasPermission = false;
     private _device: MediaDeviceInfo = null;
     private _enabled = false;
 
     constructor() {
         super();
         Object.seal(this);
+    }
+
+    get mediaType(): "audio" | "video" {
+        return "video";
+    }
+
+    get deviceKind(): MediaDeviceKind {
+        return `${this.mediaType}input`;
     }
 
     get enabled(): boolean {
@@ -39,6 +44,10 @@ export class LocalUserWebcam
         }
     }
 
+    get hasPermission(): boolean {
+        return this._hasPermission;
+    }
+
     get preferredDeviceID(): string {
         return localStorage.getItem(PREFERRED_VIDEO_INPUT_ID_KEY);
     }
@@ -47,8 +56,21 @@ export class LocalUserWebcam
         return this._device;
     }
 
+    checkDevices(devices: MediaDeviceInfo[]): void {
+        if (!this.hasPermission) {
+            for (const device of devices) {
+                if (device.kind === this.deviceKind
+                    && device.deviceId.length > 0
+                    && device.label.length > 0) {
+                    this._hasPermission = true;
+                    break;
+                }
+            }
+        }
+    }
+
     async setDevice(device: MediaDeviceInfo) {
-        if (isDefined(device) && device.kind !== "videoinput") {
+        if (isDefined(device) && device.kind !== this.deviceKind) {
             throw new Error(`Device is not an vide input device. Was: ${device.kind}. Label: ${device.label}`);
         }
 

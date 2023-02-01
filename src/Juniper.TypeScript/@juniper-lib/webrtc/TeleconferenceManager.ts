@@ -1,5 +1,5 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
-import { DeviceManager } from "@juniper-lib/audio/DeviceManager";
+import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { StreamChangedEvent } from "@juniper-lib/audio/StreamChangedEvent";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
@@ -117,9 +117,9 @@ export class TeleconferenceManager
     private readonly windowQuitter = new WindowQuitEventer();
 
     constructor(
-        public readonly audio: AudioManager,
+        private readonly audio: AudioManager,
         private readonly microphones: LocalUserMicrophone,
-        private readonly devices: DeviceManager,
+        private readonly webcams: LocalUserWebcam,
         private readonly hub: IHub) {
         super();
 
@@ -134,7 +134,8 @@ export class TeleconferenceManager
             }
         };
 
-        this.devices.addEventListener("streamchanged", onStreamChanged);
+        this.microphones.addEventListener("streamchanged", onStreamChanged);
+        this.webcams.addEventListener("streamchanged", onStreamChanged);
 
         this.hub.addEventListener("close", this.onClose.bind(this));
         this.hub.addEventListener("reconnecting", this.onReconnecting.bind(this));
@@ -417,7 +418,7 @@ export class TeleconferenceManager
     }
 
     private onStreamNeeded(evt: RemoteUserStreamNeededEvent) {
-        evt.user.sendStream(...this.devices.outStreams);
+        evt.user.sendStream(this.microphones.outStream, this.webcams.outStream);
     }
 
     private onTrackAdded(evt: RemoteUserTrackAddedEvent) {

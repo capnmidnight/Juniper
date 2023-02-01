@@ -1,6 +1,5 @@
 import { arrayScan, arraySortByKey } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 import { StreamChangedEvent } from "./StreamChangedEvent";
 
@@ -13,7 +12,8 @@ export class DeviceSettingsChangedEvent extends TypedEvent<"devicesettingschange
 export interface IDeviceSource extends TypedEventBase<{
     "streamchanged": StreamChangedEvent;
 }> {
-    get deviceType(): "audio" | "video";
+    get mediaType(): "audio" | "video";
+    get deviceKind(): MediaDeviceKind;
     get enabled(): boolean;
     get preferredDeviceID(): string;
     get device(): MediaDeviceInfo;
@@ -21,53 +21,36 @@ export interface IDeviceSource extends TypedEventBase<{
     set outStream(v: MediaStream);
 }
 
-export class DeviceManager extends TypedEventBase<{
-    "streamchanged": StreamChangedEvent;
-}>{
-    private _hasPermission = false;
-    private initTask = Promise.resolve(0);
-
+export class DeviceManager {
     private readonly managers: IDeviceSource[];
+    private readonly permissed = new Set<IDeviceSource>();
 
     constructor(...managers: IDeviceSource[]) {
-        super();
         this.managers = managers;
+    }
 
-        const onStreamChanged = (evt: StreamChangedEvent) =>
-            this.dispatchEvent(evt);
-
+    get hasPermissions(): boolean {
         for (const manager of this.managers) {
-            manager.addScopedEventListener(this, "streamchanged", onStreamChanged);
-        }
-    }
-
-    get hasPermission(): boolean {
-        return this._hasPermission;
-    }
-
-    init(): Promise<number> {
-        return this.initTask = this.initTask.then((i) => this._initInternal(i));
-    }
-
-    private async _initInternal(tryCount: number): Promise<number> {
-        if (!this.hasPermission) {
-            const devices = tryCount === 0
-                ? await navigator.mediaDevices.enumerateDevices()
-                : await this.getDevices();
-            const anyDevice = arrayScan(devices, dev => dev.label.length > 0);
-            if (isDefined(anyDevice)) {
-                this._hasPermission = true;
-                await Promise.all(this.managers
-                    .map(m => m.setDevice(arrayScan(
-                        devices,
-                        d => d.kind === m.deviceType + "input" && d.deviceId === m.preferredDeviceID,
-                        d => d.kind === m.deviceType + "input" && d.deviceId === "default",
-                        d => d.kind === m.deviceType + "input" && d.deviceId.length > 0)
-                    )));
+            if (!this.permissed.has(manager)) {
+                return false;
             }
         }
 
-        return tryCount + 1;
+        return true;
+    }
+
+    async init(): Promise<void> {
+        if (!this.hasPermissions) {
+            const devices = await this.getDevices();
+            await Promise.all(this.managers
+                .map(m =>
+                    m.setDevice(arrayScan(
+                        devices,
+                        d => d.kind === m.deviceKind && d.deviceId === m.preferredDeviceID,
+                        d => d.kind === m.deviceKind && d.deviceId === "default",
+                        d => d.kind === m.deviceKind && d.deviceId.length > 0)
+                    )));
+        }
     }
 
     async getDevices(filterDuplicates: boolean = false): Promise<MediaDeviceInfo[]> {
@@ -75,25 +58,27 @@ export class DeviceManager extends TypedEventBase<{
         let testStream: MediaStream = null;
         for (let i = 0; i < 3; ++i) {
             devices = await navigator.mediaDevices.enumerateDevices();
+            if (!this.hasPermissions) {
+                const constraints: Partial<Record<"audio" | "video", boolean>> = {};
+                for (const manager of this.managers) {
+                    if (!this.permissed.has(manager)) {
+                        for (const device of devices) {
+                            if (device.kind === manager.deviceKind
+                                && device.deviceId.length > 0
+                                && device.label.length > 0) {
+                                this.permissed.add(manager);
+                                break;
+                            }
+                        }
 
-            if (!this.hasPermission) {
-                for (const device of devices) {
-                    this._hasPermission ||= device.deviceId.length > 0
-                        && device.label.length > 0;
-
-                    if (this.hasPermission) {
-                        break;
+                        if (!this.permissed.has(manager)) {
+                            constraints[manager.mediaType] = true;
+                        }
                     }
                 }
 
-                if (!this.hasPermission) {
+                if (!this.hasPermissions) {
                     try {
-                        const constraints: Partial<Record<"audio" | "video", boolean>> = {};
-                        for (const manager of this.managers) {
-                            if (manager.enabled) {
-                                constraints[manager.deviceType] = true;
-                            }
-                        }
                         testStream = await navigator.mediaDevices.getUserMedia(constraints);
                     }
                     catch (exp) {

@@ -18,16 +18,13 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
     streamchanged: StreamChangedEvent;
 }> implements IDeviceSource {
 
-    get deviceType(): "audio" | "video" {
-        return "audio";
-    }
-
     private localStreamNode: JuniperMediaStreamAudioSourceNode = null;
     private readonly volume: JuniperGainNode;
     readonly autoGainNode: JuniperGainNode;
     private readonly compressor: JuniperDynamicsCompressorNode;
     private readonly output: JuniperMediaStreamAudioDestinationNode;
 
+    private _hasPermission = false;
     private _usingHeadphones = false;
     private _device: MediaDeviceInfo = null;
     private _enabled = false;
@@ -76,6 +73,14 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
         Object.seal(this);
     }
 
+    get mediaType(): "audio" | "video" {
+        return "audio";
+    }
+
+    get deviceKind(): MediaDeviceKind {
+        return `${this.mediaType}input`;
+    }
+
     get enabled(): boolean {
         return this._enabled;
     }
@@ -87,6 +92,10 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
         }
     }
 
+    get hasPermission(): boolean {
+        return this._hasPermission;
+    }
+
     get preferredDeviceID(): string {
         return localStorage.getItem(PREFERRED_AUDIO_INPUT_ID_KEY);
     }
@@ -96,7 +105,7 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
     }
 
     async setDevice(device: MediaDeviceInfo) {
-        if (isDefined(device) && device.kind !== "audioinput") {
+        if (isDefined(device) && device.kind !== this.deviceKind) {
             throw new Error(`Device is not an audio input device. Was: ${device.kind}. Label: ${device.label}`);
         }
 
