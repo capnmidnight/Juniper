@@ -61,19 +61,19 @@ class XRHandModelFactory {
                 // @todo Detect profile if not provided
 				if ( profile === undefined || profile === 'spheres' ) {
 
-					handModel.motionController = new XRHandPrimitiveModel( handModel, controller, this.path, xrInputSource.handedness, { primitive: 'sphere' } );
+					handModel.motionController = new XRHandPrimitiveModel( handModel, controller, xrInputSource.handedness, { primitive: 'sphere' } );
 
 				} else if ( profile === 'boxes' ) {
 
-					handModel.motionController = new XRHandPrimitiveModel( handModel, controller, this.path, xrInputSource.handedness, { primitive: 'box' } );
+					handModel.motionController = new XRHandPrimitiveModel( handModel, controller, xrInputSource.handedness, { primitive: 'box' } );
 
 				} else if ( profile === 'bones' ) {
 
-					handModel.motionController = new XRHandPrimitiveModel( handModel, controller, this.path, xrInputSource.handedness, { primitive: 'bone' } );
+					handModel.motionController = new XRHandPrimitiveModel( handModel, controller, xrInputSource.handedness, { primitive: 'bone' } );
 
 				} else if ( profile === 'mesh' ) {
 
-					handModel.motionController = new XRHandMeshModel( handModel, controller, this.path, xrInputSource.handedness );
+					handModel.motionController = new XRHandMeshModel( handModel, controller, xrInputSource.handedness, this.path );
 
 				}
             }

@@ -1,6 +1,7 @@
 import { Object3D } from 'three';
 
 export class XRHandMeshModel {
+    isXRHandMeshModel: true;
     controller: Object3D;
     handModel: Object3D;
     bones: Object3D[];

@@ -14,8 +14,9 @@ const DEFAULT_HAND_PROFILE_PATH = 'https://cdn.jsdelivr.net/npm/@webxr-input-pro
 
 class XRHandMeshModel {
 
-    constructor(handModel, controller, path, handedness) {
+    constructor(handModel, controller, handedness, path) {
 
+        this.isXRHandMeshModel = true;
         this.controller = controller;
         this.handModel = handModel;
 
@@ -100,16 +101,10 @@ class XRHandMeshModel {
 
                 if (XRJoint.visible) {
 
-                    const position = XRJoint.position;
-
-                    if (bone) {
-
-                        bone.position.copy(position);
-                        bone.quaternion.copy(XRJoint.quaternion)
-                            .multiply(this.oculusBrowserV14Correction);
-                        // bone.scale.setScalar( XRJoint.jointRadius || defaultRadius );
-
-                    }
+                    bone.position.copy(XRJoint.position);
+                    bone.quaternion.copy(XRJoint.quaternion)
+                        .multiply(this.oculusBrowserV14Correction);
+                    // bone.scale.setScalar( XRJoint.jointRadius || defaultRadius );
 
                 }
 

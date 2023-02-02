@@ -12,8 +12,9 @@ if (/OculusBrowser\/14\./.test(navigator.userAgent)) {
 
 class XRHandPrimitiveModel {
 
-    constructor(handModel, controller, path, handedness, options) {
+    constructor(handModel, controller, handedness, options) {
 
+        this.isXRHandPrimitiveModel = true;
         this.controller = controller;
         this.handModel = handModel;
         this.envMap = null;
@@ -43,6 +44,8 @@ class XRHandPrimitiveModel {
         this.handMesh.castShadow = true;
         this.handMesh.receiveShadow = true;
         this.handModel.add(this.handMesh);
+
+        this.object = this.handMesh;
 
         this.joints = [
             'wrist',
@@ -76,32 +79,38 @@ class XRHandPrimitiveModel {
 
     updateMesh() {
 
-        const defaultRadius = 0.008;
-        const joints = this.controller.joints;
+        if( this.controller ) {
 
-        let count = 0;
+            const defaultRadius = 0.008;
+            const joints = this.controller.joints;
 
-        for (let i = 0; i < this.joints.length; i++) {
+            let count = 0;
 
-            const joint = joints[this.joints[i]];
+            for ( let i = 0 ; i < this.joints.length ; i++ ) {
 
-            if (joint.visible) {
+                const joint = joints[this.joints[i]];
 
-                _vector.setScalar(joint.jointRadius || defaultRadius);
-                _matrix.compose(joint.position, joint.quaternion, _vector);
-                _matrix.multiply(this.oculusBrowserV14Correction);
-                this.handMesh.setMatrixAt(i, _matrix);
+                if ( joint.visible ) {
 
-                count++;
+                    _vector.setScalar( joint.jointRadius || defaultRadius );
+                    _matrix.compose( joint.position, joint.quaternion, _vector );
+                    _matrix.multiply( this.oculusBrowserV14Correction );
+                    this.handMesh.setMatrixAt( i, _matrix );
+
+                    count++;
+
+                }
 
             }
 
+            this.handMesh.count = count;
+            this.handMesh.instanceMatrix.needsUpdate = true;
+
         }
 
-        this.handMesh.count = count;
-        this.handMesh.instanceMatrix.needsUpdate = true;
-
     }
+
+
 
 }
 

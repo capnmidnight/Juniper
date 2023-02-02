@@ -46,6 +46,11 @@ namespace Juniper.TSBuild
             CursorModel = Models.CD("Cursors").Touch("Cursors.glb");
             WatchModel = Models.CD("Watch").Touch("watch1.glb");
 
+            var handModel = Models.CD("Hand");
+            HandModelLeft = handModel.Touch("left.glb");
+            HandModelRight = handModel.Touch("right.glb");
+            HandModelProfile = handModel.Touch("profile.json");
+
             var forestModels = Models.CD("Forest");
             ForestGroundModel = forestModels.Touch("Forest-Ground.glb");
             ForestTreeModel = forestModels.Touch("Forest-Tree.glb");
@@ -90,6 +95,9 @@ namespace Juniper.TSBuild
 
         public FileInfo CursorModel { get; }
         public FileInfo WatchModel { get; }
+        public FileInfo HandModelLeft { get; }
+        public FileInfo HandModelRight { get; }
+        public FileInfo HandModelProfile { get; }
         public FileInfo ForestGroundModel { get; }
         public FileInfo ForestTreeModel { get; }
         public FileInfo ForestAudio { get; }
