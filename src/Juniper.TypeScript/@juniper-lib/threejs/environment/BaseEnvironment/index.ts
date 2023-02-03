@@ -1,3 +1,4 @@
+import type { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
@@ -82,7 +83,8 @@ export class BaseEnvironment<Events = unknown>
         public readonly defaultAvatarHeight: number,
         defaultFOV: number,
         enableFullResolution: boolean,
-        public DEBUG: boolean) {
+        public DEBUG: boolean,
+        audio: AudioManager = null) {
         super();
 
         this.camera = new PerspectiveCamera(defaultFOV, 1, 0.01, 1000);
@@ -124,7 +126,11 @@ export class BaseEnvironment<Events = unknown>
 
         this.worldUISpace = new BodyFollower("WorldUISpace", 0.2, 20, 0.125);
 
-        this.avatar = this.createLocalAvatar();
+        this.avatar = new AvatarLocal(
+            this,
+            this.fader,
+            this.defaultAvatarHeight,
+            audio);
 
 
         this.eventSys = new EventSystem(this);
@@ -177,13 +183,6 @@ export class BaseEnvironment<Events = unknown>
         this._start();
 
         (globalThis as any).env = this;
-    }
-
-    protected createLocalAvatar(): AvatarLocal {
-        return new AvatarLocal(
-            this,
-            this.fader,
-            this.defaultAvatarHeight);
     }
 
     private async _start() {

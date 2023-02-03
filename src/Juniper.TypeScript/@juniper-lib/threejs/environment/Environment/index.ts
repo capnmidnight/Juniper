@@ -24,7 +24,6 @@ import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
-import { AvatarLocal } from "../../AvatarLocal";
 import { InteractionAudio } from "../../eventSystem/InteractionAudio";
 import { obj, objGraph } from "../../objects";
 import { ScreenMode } from "../../ScreenMode";
@@ -146,6 +145,8 @@ export class Environment
 
         options = options || {};
 
+        const audio = new AudioManager(fetcher, DEFAULT_LOCAL_USER_ID);;
+
         super(
             canvas,
             options.styleSheetPath,
@@ -153,7 +154,8 @@ export class Environment
             defaultAvatarHeight,
             defaultFOV,
             enableFullResolution,
-            options.DEBUG);
+            options.DEBUG,
+            audio);
 
 
         this.screenUISpace = new ScreenUI(buttonFillColor);
@@ -187,7 +189,7 @@ export class Environment
             });
         });
 
-        this.audio = new AudioManager(this.fetcher, DEFAULT_LOCAL_USER_ID);
+        this.audio = audio;
 
         this.graph = new AudioGraphDialog(this.audio.context);
         if (isHTMLCanvas(canvas)) {
@@ -265,7 +267,7 @@ export class Environment
         });
 
         this.muteMicButton.addEventListener("click", () => {
-            this.microphones.muted = this.microphones.enabled &&!this.microphones.muted;
+            this.microphones.muted = this.microphones.enabled && !this.microphones.muted;
             this.muteMicButton.active = !this.microphones.muted;
         });
 
@@ -276,15 +278,6 @@ export class Environment
 
         this.muteMicButton.active = this.microphones.enabled && !this.microphones.muted;
         this.muteCamButton.active = this.webcams.enabled;
-    }
-
-    protected override createLocalAvatar(): AvatarLocal {
-        return new AvatarLocal(
-            this,
-            this.fader,
-            this.defaultAvatarHeight,
-            this.audio
-        );
     }
 
     private _testSpaceLayout = false;
