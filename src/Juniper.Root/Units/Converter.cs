@@ -101,6 +101,8 @@ namespace Juniper.Units
             [UnitOfMeasure.Farenheit] = new[] { Category.Temperature },
             [UnitOfMeasure.Kelvin] = new[] { Category.Temperature },
 
+            [UnitOfMeasure.Years] = new[] { Category.Time },
+            [UnitOfMeasure.Months] = new[] { Category.Time },
             [UnitOfMeasure.Days] = new[] { Category.Time },
             [UnitOfMeasure.Hours] = new[] { Category.Time },
             [UnitOfMeasure.Minutes] = new[] { Category.Time },
@@ -353,6 +355,9 @@ namespace Juniper.Units
             [UnitOfMeasure.Celsius] = "C",
             [UnitOfMeasure.Kelvin] = "K",
 
+            [UnitOfMeasure.Years] = "Y",
+            [UnitOfMeasure.Months] = "M",
+            [UnitOfMeasure.Days] = "D",
             [UnitOfMeasure.Hours] = " h",
             [UnitOfMeasure.Minutes] = " m",
             [UnitOfMeasure.Seconds] = " s",

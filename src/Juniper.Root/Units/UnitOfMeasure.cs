@@ -233,6 +233,16 @@ namespace Juniper.Units
         Kelvin,
 
         /// <summary>
+        /// A solar cycle.
+        /// </summary>
+        Years,
+
+        /// <summary>
+        /// A lunar cycle.
+        /// </summary>
+        Months,
+
+        /// <summary>
         /// A planetary cycle.
         /// </summary>
         Days,
