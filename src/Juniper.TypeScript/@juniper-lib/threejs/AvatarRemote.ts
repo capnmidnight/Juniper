@@ -195,7 +195,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
                         pointer.hand.handMesh.instanceMatrix.needsUpdate = true;
                     }
                 }
-            }            
+            }
         });
 
         this.activity = new ActivityDetector(this.env.audio.context);
@@ -208,16 +208,13 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
         this.headFollower = new BodyFollower("AvatarBody", 0.05, HalfPi, 0, 5);
 
-        objGraph(this.body.parent,
-            objGraph(this.headFollower,
-                objGraph(this.body,
-                    this.hands,
-                    objGraph(this.billboard,
-                        this.nameTag))));
-
-        objGraph(this, this.avatar);
-            
-        this.hands.position.y = -defaultAvatarHeight;
+        objGraph(this,
+            objGraph(this.avatar,
+                this.hands,
+                objGraph(this.headFollower,
+                    objGraph(this.body,
+                        objGraph(this.billboard,
+                            this.nameTag)))));
     }
 
     get audioStream(): MediaStream {
@@ -369,14 +366,14 @@ export class AvatarRemote extends Object3D implements IDisposable {
         const scale = this.height / this.defaultAvatarHeight;
         this.headSize = scale;
         this.body.scale.setScalar(scale);
+        this.hands.position.copy(this.comfortOffset);
 
         this.F.copy(this.env.avatar.worldPos);
         this.body.worldToLocal(this.F);
         this.F.sub(this.body.position)
             .normalize()
             .multiplyScalar(0.25);
-        this.billboard.position.setScalar(0)
-            .add(this.F);
+        this.billboard.position.copy(this.F);
 
         for (const pointer of this.pointers.values()) {
             pointer.animate(dt);

@@ -41,7 +41,9 @@ export class PointerRemote
                 this.hand.handMesh.removeFromParent();
                 dispose(this.hand.handMesh);
             }
+
             this._hand = v;
+
             if (!this.hand) {
                 objGraph(this,
                     this.handCube,
