@@ -31,6 +31,7 @@ import {
     HubUserLeftEvent,
     HubUserPointerEvent,
     HubUserPosedEvent,
+    HubUserStateEvent,
     IHub
 } from "./IHub";
 import {
@@ -147,6 +148,7 @@ export class TeleconferenceManager
         this.hub.addEventListener("userLeft", this.onUserLeft.bind(this));
         this.hub.addEventListener("userPosed", this.onUserPosed.bind(this));
         this.hub.addEventListener("userPointer", this.onUserPointer.bind(this));
+        this.hub.addEventListener("userState", this.onUserState.bind(this));
         this.hub.addEventListener("chat", this.onChat.bind(this));
 
         this.remoteGainDecay = new GainDecayer(
@@ -472,6 +474,13 @@ export class TeleconferenceManager
         }
     }
 
+    private onUserState(evt: HubUserStateEvent) {
+        const user = this.users.get(evt.fromUserID);
+        if (user) {
+            user.recvUserState(evt.buffer);
+        }
+    }
+
     private onChat(evt: HubUserChatEvent) {
         const user = this.users.get(evt.fromUserID);
         if (user) {
@@ -491,22 +500,25 @@ export class TeleconferenceManager
         await this.toUser("sendAnswer", toUserID, JSON.stringify(answer));
     }
 
-    async setLocalPose(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number): Promise<void> {
+    private async forEachUser(callback: (user: RemoteUser) => Promise<void>) {
         if (this.conferenceState === ConnectionState.Connected) {
             await Promise.all(
                 Array.from(this.users.values())
-                    .map((user) =>
-                        user.sendPose(px, py, pz, fx, fy, fz, ux, uy, uz, height)));
+                    .map(callback)
+            );
         }
     }
 
+    async setLocalPose(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number): Promise<void> {
+        await this.forEachUser((user) => user.sendPose(px, py, pz, fx, fy, fz, ux, uy, uz, height));
+    }
+
     async setLocalPointer(pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): Promise<void> {
-        if (this.conferenceState === ConnectionState.Connected) {
-            await Promise.all(
-                Array.from(this.users.values())
-                    .map((user) =>
-                        user.sendPointer(pointerID, px, py, pz, fx, fy, fz, ux, uy, uz)));
-        }
+        await this.forEachUser((user) => user.sendPointer(pointerID, px, py, pz, fx, fy, fz, ux, uy, uz));
+    }
+
+    async sendUserState(buffer: Float32Array): Promise<void> {
+        await this.forEachUser((user) => user.sendUserState(buffer));
     }
 
     chat(text: string): void {

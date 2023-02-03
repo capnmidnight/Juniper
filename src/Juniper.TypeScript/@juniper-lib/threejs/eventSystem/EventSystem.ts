@@ -25,13 +25,13 @@ export class EventSystem extends TypedEventBase<Pointer3DEvents> {
     readonly touches: PointerTouch;
     readonly nose: PointerNose;
     readonly hands = new Array<PointerHand>();
+    readonly pointers: IPointer[];
 
     private readonly hits = new Array<Intersection>();
     private readonly queue = new Array<Object3D>();
     private readonly targetsFound = new Set<RayTarget>();
     private readonly targets = new Array<Mesh>();
 
-    private readonly pointers: IPointer[];
 
     private customSortFunction: IntersectionSortFunction = null;
 

@@ -51,7 +51,7 @@ type XRControllerConnectionEvent<T extends XRControllerConnectionEventTypes> = E
 export class PointerHand
     extends BasePointer
     implements ErsatzObject {
-    private readonly laser = new Laser(white, 0.002);
+    private readonly laser = new Laser(white, 0.75, 0.002);
     readonly object: Object3D;
 
     private _isHand = false;

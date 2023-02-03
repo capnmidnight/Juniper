@@ -1,6 +1,6 @@
+import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
-import { AvatarMovedEvent } from "@juniper-lib/threejs/eventSystem/AvatarMovedEvent";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isMobile, isMobileVR, isSafari } from "@juniper-lib/tslib/flags";
 import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/math";
@@ -43,7 +43,6 @@ export class AvatarResetEvent extends TypedEvent<"avatarreset">{
 }
 
 interface AvatarLocalEvents {
-    avatarmoved: AvatarMovedEvent;
     avatarreset: AvatarResetEvent;
 }
 
@@ -84,7 +83,6 @@ export class AvatarLocal
     private readonly Q4 = new Quaternion();
     private readonly motion = new Vector2();
     private readonly rotStage = new Matrix4();
-    private readonly userMovedEvt = new AvatarMovedEvent();
     private readonly axisControl = new Vector2(0, 0);
     private readonly deviceQ = new Quaternion().identity();
     private readonly uv = new Vector2();
@@ -192,7 +190,8 @@ export class AvatarLocal
 
     constructor(private readonly env: BaseEnvironment,
         fader: Fader,
-        defaultAvatarHeight: number) {
+        defaultAvatarHeight: number,
+        private readonly audio: AudioManager = null) {
         super();
         this.disableHorizontal = false;
         this.disableVertical = false;
@@ -482,13 +481,13 @@ export class AvatarLocal
 
             this.updateOrientation();
 
-            this.userMovedEvt.set(
-                this.P.x, this.P.y, this.P.z,
-                this.F.x, this.F.y, this.F.z,
-                this.U.x, this.U.y, this.U.z,
-                this.height);
-
-            this.dispatchEvent(this.userMovedEvt);
+            if (this.audio) {
+                this.audio.setUserPose(
+                    this.audio.localUserID,
+                    this.P.x, this.P.y, this.P.z,
+                    this.F.x, this.F.y, this.F.z,
+                    this.U.x, this.U.y, this.U.z);
+            }
 
             const decay = Math.pow(0.95, 100 * dt);
             this.duv.multiplyScalar(decay);

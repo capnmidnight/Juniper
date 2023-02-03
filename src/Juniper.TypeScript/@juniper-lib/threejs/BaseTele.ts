@@ -1,7 +1,7 @@
 import { AssetFile, BaseFetchedAsset } from "@juniper-lib/fetcher/Asset";
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
+import { arrayClear, arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
 import { all } from "@juniper-lib/tslib/events/all";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { Tau } from "@juniper-lib/tslib/math";
@@ -14,17 +14,21 @@ import {
     UserLeftEvent,
     UserNameChangedEvent
 } from "@juniper-lib/webrtc/ConferenceEvents";
-import { RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "@juniper-lib/webrtc/RemoteUser";
+import { Message, RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "@juniper-lib/webrtc/RemoteUser";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
-import { Object3D, Vector3 } from "three";
+import { Matrix4, Object3D, Vector3 } from "three";
 import { AssetGltfModel } from "./AssetGltfModel";
 import { AvatarRemote } from "./AvatarRemote";
 import { cleanup } from "./cleanup";
 import { DebugObject } from "./DebugObject";
 import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
+import { IPointer } from "./eventSystem/devices/IPointer";
+import { PointerHand } from "./eventSystem/devices/PointerHand";
 import { convertMaterials, materialStandardToPhong } from "./materials";
 import { obj, objGraph } from "./objects";
+
+const M = new Matrix4();
 
 export abstract class BaseTele extends Application {
 
@@ -102,31 +106,132 @@ export abstract class BaseTele extends Application {
 
         this.conference = this.createConference();
 
+
+        let t = 0;
+        let buffer = new Float32Array();
+        let i = 0;
+
+        const setNumber = (n: number) => {
+            buffer[i++] = n;
+        };
+
+        const setVector3 = (vector: Vector3) => {
+            vector.toArray(buffer, i);
+            i += 3;
+        };
+
+        const setMatrix16 = (matrix: Matrix4) => {
+            matrix.toArray(buffer, i);
+            i += 16;
+        };
+
+        const setPointer10 = (pointer: IPointer) => {
+            setNumber(pointer.id);
+            setVector3(pointer.origin);
+            setVector3(pointer.direction);
+            setVector3(pointer.up);
+        };
+
+        const setJoint16 = (matrix: Matrix4) => {
+            setMatrix16(matrix);
+        };
+
+        const numFingerJoints = new Array<number>(2);
+        const DT = 33;
+        this.env.addScopedEventListener(this, "update", (evt) => {
+            t += evt.dt;
+            if (t >= DT) {
+                t -= DT;
+                let numPointers = 0;
+                arrayClear(numFingerJoints);
+                for (const pointer of this.env.eventSys.pointers) {
+                    if (pointer.enabled
+                        && pointer.isActive
+                        && pointer.id !== PointerID.Nose) {
+                        ++numPointers;
+                        if (PointerID.MotionController <= pointer.id
+                            && pointer.id <= PointerID.MotionControllerRight) {
+                            const p = pointer as any as PointerHand;
+                            const mesh = p.model
+                                && p.model.motionController
+                                && p.model.motionController.handMesh;
+                            if (mesh) {
+                                numFingerJoints.push(mesh.count);
+                            }
+                        }
+                    }
+                }
+
+                i = 2;
+
+                let handCounts = 0;
+                for (const numFingerJoint of numFingerJoints) {
+                    handCounts +=
+                        1 // handedness number for each hand
+                        + numFingerJoint * 16 // matrix for each joint;
+                }
+
+                const size =
+                    1 // command ID
+                    + 1 //invocation ID
+                    + 1 // pointer count
+                    + 1 // joint count for hands
+                    + 1 // height
+                    + 16 // head
+                    + numPointers * 10 // id, origin, direction, and up of each pointer
+                    + handCounts; 
+
+                if (buffer.length !== size) {
+                    buffer = new Float32Array(size);
+                    buffer[0] = Message.UserState;
+                    //buffer[1] is the invocation ID
+                }
+
+                setNumber(numPointers);
+                setNumber(this.env.avatar.height);
+                setMatrix16(this.env.avatar.head.matrixWorld);
+
+                for (const pointer of this.env.eventSys.pointers) {
+                    if (pointer.enabled
+                        && pointer.isActive
+                        && pointer.id !== PointerID.Nose) {
+
+                        setPointer10(pointer);
+
+                        if (PointerID.MotionController <= pointer.id && pointer.id <= PointerID.MotionControllerRight) {
+                            const p = pointer as any as PointerHand;
+                            const mesh = p.isHand
+                                && p.model
+                                && p.model.motionController
+                                && p.model.motionController.handMesh;
+                            setNumber(!mesh
+                                ? 0
+                                : p.handedness === "right"
+                                    ? 1
+                                    : p.handedness === "left"
+                                        ? 2
+                                        : 3);
+                            if (mesh) {
+                                setNumber(mesh.count);
+                                for (let n = 0; n < mesh.count; ++n) {
+                                    mesh.getMatrixAt(n, M);
+                                    setJoint16(M);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                this.conference.sendUserState(buffer);
+            }
+        });
+
         const onLocalUserIDChange = (evt: RoomJoinedEvent | RoomLeftEvent) => {
             arrayRemove(this.sortedUserIDs, this.env.avatar.name);
             this.env.avatar.name = evt.userID;
             arraySortedInsert(this.sortedUserIDs, this.env.avatar.name);
             this.updateUserOffsets();
         };
-
-        this.env.avatar.addScopedEventListener(this, "avatarmoved", (evt) => {
-            this.conference.setLocalPose(
-                evt.px, evt.py, evt.pz,
-                evt.fx, evt.fy, evt.fz,
-                evt.ux, evt.uy, evt.uz,
-                evt.height);
-        });
-
-        this.env.eventSys.addScopedEventListener(this, "move", (evt) => {
-            if (evt.pointer.id !== PointerID.Nose) {
-                const { id, origin, direction, up } = evt.pointer;
-                this.conference.setLocalPointer(
-                    id,
-                    origin.x, origin.y, origin.z,
-                    direction.x, direction.y, direction.z,
-                    up.x, up.y, up.z);
-            }
-        });
 
         this.conference.addScopedEventListener(this, "roomJoined", onLocalUserIDChange);
         this.conference.addScopedEventListener(this, "roomLeft", onLocalUserIDChange);

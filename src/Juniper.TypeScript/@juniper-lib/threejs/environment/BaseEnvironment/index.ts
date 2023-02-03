@@ -52,7 +52,8 @@ export class BaseEnvironment<Events = unknown>
     private readonly curViewport = new Vector4();
     private readonly gltfLoader = new GLTFLoader();
 
-    private readonly fader: Fader;
+    protected readonly fader: Fader;
+
     private fadeDepth = 0;
 
     readonly scene = new Scene();
@@ -123,10 +124,7 @@ export class BaseEnvironment<Events = unknown>
 
         this.worldUISpace = new BodyFollower("WorldUISpace", 0.2, 20, 0.125);
 
-        this.avatar = new AvatarLocal(
-            this,
-            this.fader,
-            defaultAvatarHeight);
+        this.avatar = this.createLocalAvatar();
 
 
         this.eventSys = new EventSystem(this);
@@ -179,6 +177,13 @@ export class BaseEnvironment<Events = unknown>
         this._start();
 
         (globalThis as any).env = this;
+    }
+
+    protected createLocalAvatar(): AvatarLocal {
+        return new AvatarLocal(
+            this,
+            this.fader,
+            this.defaultAvatarHeight);
     }
 
     private async _start() {

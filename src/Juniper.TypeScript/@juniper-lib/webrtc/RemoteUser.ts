@@ -2,9 +2,9 @@ import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/tslib/collectio
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { Task } from "@juniper-lib/tslib/events/Task";
-import { isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
+import { assertNever, isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { UserLeftEvent, UserPointerEvent, UserPosedEvent } from "./ConferenceEvents";
+import { UserLeftEvent, UserPointerEvent, UserPosedEvent, UserStateEvent } from "./ConferenceEvents";
 
 class Locker<T> {
     private locks = new Set<T>();
@@ -117,21 +117,24 @@ interface RemoteUserEvents {
     trackRemoved: RemoteUserTrackRemovedEvent;
     userPosed: UserPosedEvent;
     userPointer: UserPointerEvent;
+    userState: UserStateEvent;
     userLeft: UserLeftEvent;
 }
 
 const seenUsers = new Set<string>();
 
-enum Message {
+export enum Message {
     Pointer = 1,
     Pose,
-    InvocationComplete
+    InvocationComplete,
+    UserState
 }
 
 export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDisposable {
 
     private readonly userPosedEvt = new UserPosedEvent(this);
     private readonly userPointerEvt = new UserPointerEvent(this);
+    private readonly userStateEvt = new UserStateEvent(this);
 
     private readonly sendPoseBuffer = new Float32Array(12);
     private readonly sendPointerBuffer = new Float32Array(12);
@@ -285,12 +288,18 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
                             data[8], data[9], data[10],
                             data[11]);
                     }
-                    else {
+                    else if (msg === Message.Pointer) {
                         this.recvPointer(
                             data[11],
                             data[2], data[3], data[4],
                             data[5], data[6], data[7],
                             data[8], data[9], data[10]);
+                    }
+                    else if (msg === Message.UserState) {
+                        this.recvUserState(data.subarray(2));
+                    }
+                    else {
+                        assertNever(msg);
                     }
 
                     if (invocationID >= 0) {
@@ -300,6 +309,11 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
                 }
             }
         });
+    }
+
+    recvUserState(buffer: Float32Array) {
+        this.userStateEvt.buffer = buffer;
+        this.dispatchEvent(this.userStateEvt);
     }
 
     recvPose(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number) {
@@ -318,8 +332,49 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
         this.dispatchEvent(this.userPointerEvt);
     }
 
-    sendPointer(pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) {
-        return this.sendMessage(Message.Pointer, px, py, pz, fx, fy, fz, ux, uy, uz, pointerID);
+    async sendPointer(pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) {
+        await this.sendMessage(Message.Pointer, px, py, pz, fx, fy, fz, ux, uy, uz, pointerID);
+    }
+
+    async sendUserState(buffer: Float32Array): Promise<void> {
+        if (this.channel && this.channel.readyState === "open") {
+            const lockName = "sendUserState";
+            if (!this.tasks.has(lockName)) {
+                this.tasks.set(lockName, new Task());
+            }
+            await this.locks.withSkipLock(lockName, async () => {
+                const invocationID = ++this.invocationCount;
+                buffer[1] = invocationID;
+
+                if (!this.confirmReceipt) {
+                    this.channel.send(buffer);
+                }
+                else {
+                    const task = this.tasks.get(lockName);
+                    task.reset();
+
+                    const timeout = setTimeout(task.reject, 100, "timeout");
+                    const onComplete = () => {
+                        clearTimeout(timeout);
+                        task.resolve();
+                    };
+                    this.invocations.set(invocationID, onComplete);
+
+                    this.channel.send(buffer);
+                    try {
+                        await task;
+                    }
+                    catch (exp) {
+                        if (exp !== "timeout") {
+                            console.error(exp);
+                        }
+                    }
+                    finally {
+                        this.invocations.delete(invocationID);
+                    }
+                }
+            });
+        }
     }
 
     private async sendMessage(msgName: Message.Pose, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number): Promise<void>;
@@ -332,7 +387,7 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
             if (!this.tasks.has(lockName)) {
                 this.tasks.set(lockName, new Task());
             }
-            this.locks.withSkipLock(lockName, async () => {
+            await this.locks.withSkipLock(lockName, async () => {
                 const buffer = msgName === Message.Pose ? this.sendPoseBuffer : this.sendPointerBuffer;
                 const invocationID = ++this.invocationCount;
 

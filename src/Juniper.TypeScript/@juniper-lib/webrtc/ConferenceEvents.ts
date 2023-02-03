@@ -21,6 +21,7 @@ export type ConferenceEventTypes = "error"
     | "videoRemoved"
     | "userPosed"
     | "userPointer"
+    | "userState"
     | "chat";
 
 export class ConferenceEvent<T extends ConferenceEventTypes> extends Event {
@@ -159,6 +160,13 @@ export class UserPointerEvent extends UserPoseEvent<"userPointer"> {
 
     constructor(user: RemoteUser) {
         super("userPointer", user);
+    }
+}
+
+export class UserStateEvent extends RemoteUserEvent<"userState"> {
+    public buffer: Float32Array;
+    constructor(user: RemoteUser) {
+        super("userState", user);
     }
 }
 

@@ -122,6 +122,19 @@ export class HubUserPointerEvent extends TypedEvent<"userPointer">{
     }
 }
 
+export class HubUserStateEvent extends TypedEvent<"userState">{
+    public fromUserID: string = null;
+    public buffer: Float32Array = null;
+    constructor() {
+        super("userState");
+    }
+
+    set(fromUserID: string, buffer: Float32Array) {
+        this.fromUserID = fromUserID;
+        this.buffer = buffer;
+    }
+}
+
 export class HubUserChatEvent extends TypedEvent<"chat">{
     public fromUserID: string = null;
     public text: string = null;
@@ -146,6 +159,7 @@ export interface IHubEvents {
     userLeft: HubUserLeftEvent;
     userPosed: HubUserPosedEvent;
     userPointer: HubUserPointerEvent;
+    userState: HubUserStateEvent;
     chat: HubUserChatEvent;
 }
 

@@ -24,6 +24,7 @@ import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
+import { AvatarLocal } from "../../AvatarLocal";
 import { InteractionAudio } from "../../eventSystem/InteractionAudio";
 import { obj, objGraph } from "../../objects";
 import { ScreenMode } from "../../ScreenMode";
@@ -243,13 +244,6 @@ export class Environment
 
         this.screenControl.setUI(this.screenUISpace, this.fullscreenButton, this.vrButton, this.arButton);
 
-        this.avatar.addEventListener("avatarmoved", (evt) =>
-            this.audio.setUserPose(
-                this.audio.localUserID,
-                evt.px, evt.py, evt.pz,
-                evt.fx, evt.fy, evt.fz,
-                evt.ux, evt.uy, evt.uz));
-
         if (isDefined(this.screenControl)) {
             this.screenControl.addEventListener("sessionstarted", (evt) => {
                 if (evt.mode === ScreenMode.Fullscreen && this.confirmationDialog.element.parentElement !== this.screenControl.fullscreenElement) {
@@ -282,6 +276,15 @@ export class Environment
 
         this.muteMicButton.active = this.microphones.enabled && !this.microphones.muted;
         this.muteCamButton.active = this.webcams.enabled;
+    }
+
+    protected override createLocalAvatar(): AvatarLocal {
+        return new AvatarLocal(
+            this,
+            this.fader,
+            this.defaultAvatarHeight,
+            this.audio
+        );
     }
 
     private _testSpaceLayout = false;

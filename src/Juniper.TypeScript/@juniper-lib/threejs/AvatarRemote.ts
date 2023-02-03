@@ -10,13 +10,14 @@ import { FWD, HalfPi, UP } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { dispose, IDisposable } from "@juniper-lib/tslib/using";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
-import { UserPointerEvent, UserPosedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
+import { UserPointerEvent, UserPosedEvent, UserStateEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeadingRadians } from "./animation/lookAngles";
 import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
+import { XRHandPrimitiveModel } from "./examples/webxr/XRHandPrimitiveModel";
 import { obj, objectRemove, objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
 import { Image2D } from "./widgets/Image2D";
@@ -48,6 +49,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
     private readonly userID: string = null;
     private readonly head: Object3D = null;
     readonly body: Object3D = null;
+    private readonly hands = new Object3D();
     private readonly billboard: Object3D;
     private readonly nameTag: TextMesh;
     private readonly activity: ActivityDetector;
@@ -108,16 +110,93 @@ export class AvatarRemote extends Object3D implements IDisposable {
         this.name = user.userName;
         this.billboard = obj("billboard");
 
-        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));;
+        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
         this.nameTag.position.y = -0.25;
         this.userName = user.userName;
 
         user.addEventListener("userPosed", (evt: UserPosedEvent) =>
-            this.setPose(evt.pose, evt.height));
-
+            this.setPose(evt.height, evt.pose));
 
         user.addEventListener("userPointer", (evt: UserPointerEvent) =>
             this.setPointer(evt.pointerID, evt.pose));
+
+        let buffer: Float32Array = null;
+        let i = 0;
+
+        const getNumber = () => {
+            return buffer[i++];
+        };
+
+        const getVector = (v: Vector3) => {
+            v.fromArray(buffer, i);
+            i += 3;
+        };
+
+        const getMatrix = (m: Matrix4) => {
+            m.fromArray(buffer, i);
+            i += 16;
+        };
+
+        const killers = new Map<PointerRemote, number>();
+        user.addEventListener("userState", (evt: UserStateEvent) => {
+            buffer = evt.buffer;
+            i = 0;
+
+            const numPointers = getNumber();
+            this.height = getNumber();
+            this.hands.position.y = -this.height;
+            getMatrix(this.M);
+
+            this.readPose(this.M);
+
+            for (let n = 0; n < numPointers; ++n) {
+                const pointerID = getNumber() as PointerID;
+                getVector(this.P);
+                getVector(this.F);
+                getVector(this.U);
+
+                const pointer = this.assurePointer(pointerID);
+                pointer.setState(this.P, this.F, this.U);
+
+                if (PointerID.MotionController <= pointerID && pointerID <= PointerID.MotionControllerRight) {
+                    const handedness = getNumber();
+                    if (handedness === 0 && pointer.hand) {
+                        pointer.hand = null;
+                    }
+                    else if (handedness > 0 && !pointer.hand) {
+                        pointer.hand = new XRHandPrimitiveModel(
+                            this.hands,
+                            null,
+                            handedness === 1
+                                ? "right"
+                                : handedness === 2
+                                    ? "left"
+                                    : null,
+                            { primitive: 'bone' });
+                    }
+
+                    if (killers.has(pointer)) {
+                        clearTimeout(killers.get(pointer));
+                        killers.delete(pointer);
+                    }
+
+                    killers.set(pointer, setTimeout(() => {
+                        killers.delete(pointer);
+                        pointer.hand = null;
+                    }, 1000) as any);
+
+                    if (handedness > 0) {
+                        const numFingerJoints = getNumber();
+                        for (let n = 0; n < numFingerJoints; ++n) {
+                            getMatrix(this.M);
+                            pointer.hand.handMesh.setMatrixAt(n, this.M);
+                        }
+                        pointer.hand.handMesh.count = numFingerJoints;
+                        pointer.hand.handMesh.instanceMatrix.needsUpdate = true;
+                    }
+                }
+            }            
+        });
 
         this.activity = new ActivityDetector(this.env.audio.context);
         this.activity.name = `remote-user-activity-${user.userName}-${user.userID}`;
@@ -132,10 +211,13 @@ export class AvatarRemote extends Object3D implements IDisposable {
         objGraph(this.body.parent,
             objGraph(this.headFollower,
                 objGraph(this.body,
+                    this.hands,
                     objGraph(this.billboard,
                         this.nameTag))));
 
         objGraph(this, this.avatar);
+            
+        this.hands.position.y = -defaultAvatarHeight;
     }
 
     get audioStream(): MediaStream {
@@ -322,17 +404,30 @@ export class AvatarRemote extends Object3D implements IDisposable {
         }
     }
 
-    private setPose(pose: Pose, height: number): void {
-        this.P.fromArray(pose.p)
-            .add(this.comfortOffset);
+    private setPose(height: number, pose: Pose): void {
+        this.height = height;
+        this.P.fromArray(pose.p);
         this.F.fromArray(pose.f);
         this.U.fromArray(pose.u);
         setMatrixFromUpFwdPos(this.U, this.F, this.P, this.M);
         this.M.decompose(this.pTarget, this.qTarget, this.scale);
-        this.height = height;
+        this.pTarget.add(this.comfortOffset);
+    }
+
+    private readPose(M: Matrix4) {
+        M.decompose(this.pTarget, this.qTarget, this.scale);
+        this.pTarget.add(this.comfortOffset);
     }
 
     private setPointer(id: PointerID, pose: Pose): void {
+        const pointer = this.assurePointer(id);
+        this.P.fromArray(pose.p);
+        this.F.fromArray(pose.f);
+        this.U.fromArray(pose.u);
+        pointer.setState(this.P, this.F, this.U);
+    }
+
+    private assurePointer(id: PointerID): PointerRemote {
         let pointer = this.pointers.get(id);
 
         if (!pointer) {
@@ -354,11 +449,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
             }
         }
 
-        this.P.fromArray(pose.p);
-        this.F.fromArray(pose.f);
-        this.U.fromArray(pose.u);
-
-        pointer.setState(this.P, this.F, this.U);
+        return pointer;
     }
 
     private removeArmsExcept(...names: PointerID[]): void {

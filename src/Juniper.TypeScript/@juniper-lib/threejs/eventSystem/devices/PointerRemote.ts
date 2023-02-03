@@ -1,8 +1,10 @@
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
+import { dispose } from "@juniper-lib/tslib/using";
 import { Matrix4, Object3D, Vector3 } from "three";
 import { AvatarRemote } from "../../AvatarRemote";
 import { Cube } from "../../Cube";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { XRHandPrimitiveModel } from "../../examples/webxr/XRHandPrimitiveModel";
 import { green, litGrey, yellow } from "../../materials";
 import { ErsatzObject, obj, objGraph } from "../../objects";
 import { setMatrixFromUpFwdPos } from "../../setMatrixFromUpFwdPos";
@@ -24,6 +26,35 @@ export class PointerRemote
     private readonly M = new Matrix4();
     private readonly MW = new Matrix4();
     private readonly pTarget = new Vector3();
+    private readonly handCube: Object3D;
+    private readonly elbowCube: Object3D;
+    private _hand: XRHandPrimitiveModel = null;
+
+
+    get hand() {
+        return this._hand;
+    }
+
+    set hand(v) {
+        if (v !== this.hand) {
+            if (this.hand) {
+                this.hand.handMesh.removeFromParent();
+                dispose(this.hand.handMesh);
+            }
+            this._hand = v;
+            if (!this.hand) {
+                objGraph(this,
+                    this.handCube,
+                    objGraph(this.elbowCube,
+                        this.laser));
+            }
+            else if (this.handCube.parent) {
+                this.handCube.removeFromParent();
+                this.elbowCube.removeFromParent();
+                objGraph(this, this.laser);
+            }
+        }
+    }
 
     constructor(
         private readonly avatar: AvatarRemote,
@@ -34,12 +65,17 @@ export class PointerRemote
 
         super("remote", PointerID.RemoteUser, env, cursor);
 
-        const hand = new Cube(0.05, 0.05, 0.05, litGrey);
-        const elbow = new Cube(0.05, 0.05, 0.05, litGrey);
-
         this.object = obj(`remote:${this.avatar.userName}:${this.name}`,
-            hand,
-            elbow);
+            this.handCube = new Cube(0.05, 0.05, 0.05, litGrey),
+            objGraph(
+                this.elbowCube = new Cube(0.05, 0.05, 0.05, litGrey),
+                this.laser = new Laser(
+                    this.avatar.isInstructor ? green : yellow,
+                    this.avatar.isInstructor ? 1 : 0.5,
+                    0.002)));
+
+        this.cursor.object.name = `${this.object.name}:cursor`;
+        this.cursor.visible = true;
 
         // Fakey "inverse kinematics" arm model. Doesn't actually
         // do any IK, just make an elbow that sits behind the hand
@@ -47,20 +83,13 @@ export class PointerRemote
         if (this.remoteID === PointerID.MotionController
             || this.remoteID === PointerID.MotionControllerLeft
             || this.remoteID === PointerID.MotionControllerRight) {
-            elbow.position.set(0, 0, 0.2);
+            this.elbowCube.position.set(0, 0, 0.2);
         }
         else {
-            hand.position.set(0, 0, -0.2);
+            this.handCube.position.set(0, 0, -0.2);
         }
 
-        this.laser = new Laser(
-            this.avatar.isInstructor ? green : yellow,
-            0.002);
         this.laser.length = 30;
-        objGraph(elbow, this.laser);
-
-        this.cursor.object.name = `${this.object.name}:cursor`;
-        this.cursor.visible = true;
 
         Object.seal(this);
     }
@@ -71,9 +100,11 @@ export class PointerRemote
         pointerUp: Vector3) {
 
         // Target the pointer based on the remote user's perspective
-        this.up.copy(pointerUp);
-        this.pTarget.copy(pointerPosition).sub(this.avatar.worldPos);
+        this.pTarget.copy(pointerPosition);
         this.direction.copy(pointerForward);
+        this.up.copy(pointerUp);
+
+        this.pTarget.sub(this.avatar.worldPos);
 
         if (this.remoteID === PointerID.Mouse) {
             this.O.set(0.2, -0.6, 0)
@@ -100,7 +131,7 @@ export class PointerRemote
         this.origin.add(this.avatar.worldPos);
 
         this.P.copy(this.origin);
-        this.F.copy(this.direction);        
+        this.F.copy(this.direction);
 
         this.cursor.visible = this.env.avatar.worldPos.distanceTo(this.P) < 10;
         if (this.cursor.visible) {
@@ -119,7 +150,7 @@ export class PointerRemote
             this.F.normalize();
         }
         else {
-            this.laser.length = 57;
+            this.laser.length = 30;
         }
 
         // construct the LERPing targets for the pointer graphics

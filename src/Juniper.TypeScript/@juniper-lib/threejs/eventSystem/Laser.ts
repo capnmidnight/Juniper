@@ -14,11 +14,13 @@ export class Laser extends Object3D {
     line: Line2;
     private _length = 1;
 
-    constructor(color: number, linewidth = 1) {
+    constructor(color: number, opacity: number, linewidth: number) {
         super();
             
         this.line = new Line2(geom, line2({
             color,
+            transparent: opacity < 1,
+            opacity,
             linewidth
         }));
         this.line.computeLineDistances();
