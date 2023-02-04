@@ -25,8 +25,9 @@ export abstract class BaseScreenPointer extends BasePointer {
         this.canMoveView = true;
 
         const onPointerEvent = (evt: PointerEvent) => {
-            if (this.checkEvent(evt)) {
-                this.readEvent(evt);
+            this._isActive = this.onCheckEvent(evt);
+            if (this._isActive) {
+                this.onReadEvent(evt);
             }
         }
 
@@ -37,16 +38,8 @@ export abstract class BaseScreenPointer extends BasePointer {
         this.element.addEventListener("pointercancel", onPointerEvent);
     }
 
-    private checkEvent(evt: PointerEvent): boolean {
-        return this._isActive = this.onCheckEvent(evt);
-    }
-
     protected onCheckEvent(evt: PointerEvent): boolean {
         return evt.pointerType === this.type;
-    }
-
-    private readEvent(evt: PointerEvent): void {
-        this.onReadEvent(evt);
     }
 
     protected onReadEvent(_evt: PointerEvent): void {
