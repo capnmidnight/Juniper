@@ -1,4 +1,14 @@
-import { BoxGeometry, CylinderGeometry, DynamicDrawUsage, InstancedMesh, Matrix4, MeshStandardMaterial, SphereGeometry, Vector3 } from "three";
+import {
+    BoxGeometry,
+    BufferGeometry,
+    CylinderGeometry,
+    DynamicDrawUsage,
+    InstancedMesh,
+    Matrix4,
+    MeshStandardMaterial, SphereGeometry, Vector3,
+    XRHandSpace
+} from "three";
+import { XRHandModelPrimitiveProfileType } from "./XRHandModelFactory";
 
 const _matrix = new Matrix4();
 const _vector = new Vector3();
@@ -10,42 +20,36 @@ if (/OculusBrowser\/14\./.test(navigator.userAgent)) {
     _oculusBrowserV14CorrectionLeft.makeRotationY(-Math.PI / 2);
 }
 
-class XRHandPrimitiveModel {
+export class XRHandPrimitiveModel extends InstancedMesh<BufferGeometry, MeshStandardMaterial> {
+    private readonly oculusBrowserV14Correction: Matrix4;
+    private readonly joints: ReadonlyArray<XRHandJoint>;
 
-    constructor(handModel, controller, handedness, options) {
+    constructor(
+        public readonly controller: XRHandSpace,
+        handedness: XRHandedness,
+        primitive: XRHandModelPrimitiveProfileType) {
 
-        this.isXRHandPrimitiveModel = true;
-        this.controller = controller;
-        this.handModel = handModel;
-        this.envMap = null;
+        let geometry: BufferGeometry;
 
-        this.oculusBrowserV14Correction = handedness === 'left' ? _oculusBrowserV14CorrectionLeft : _oculusBrowserV14CorrectionRight;
-
-        let geometry;
-
-        if (!options || !options.primitive || options.primitive === 'sphere') {
-
-            geometry = new SphereGeometry(1, 10, 10);
-
-        } else if (options.primitive === 'box') {
-
+        if (primitive === 'boxes') {
             geometry = new BoxGeometry(1, 1, 1);
-
-        } else if (options.primitive === 'bone') {
-
+        } else if (primitive === 'bones') {
             geometry = new CylinderGeometry(0.5, 0.75, 2.25, 10, 1).rotateX(-Math.PI / 2);
-
+        } else {
+            geometry = new SphereGeometry(1, 10, 10);
         }
 
         const material = new MeshStandardMaterial();
 
-        this.handMesh = new InstancedMesh(geometry, material, 30);
-        this.handMesh.instanceMatrix.setUsage(DynamicDrawUsage); // will be updated every frame
-        this.handMesh.castShadow = true;
-        this.handMesh.receiveShadow = true;
-        this.handModel.add(this.handMesh);
+        super(geometry, material, 30);
 
-        this.object = this.handMesh;
+        this.instanceMatrix.setUsage(DynamicDrawUsage); // will be updated every frame
+        this.castShadow = true;
+        this.receiveShadow = true;
+
+        this.oculusBrowserV14Correction = handedness === 'left'
+            ? _oculusBrowserV14CorrectionLeft
+            : _oculusBrowserV14CorrectionRight;
 
         this.joints = [
             'wrist',
@@ -77,41 +81,31 @@ class XRHandPrimitiveModel {
 
     }
 
-    updateMesh() {
-
-        if( this.controller ) {
-
+    override updateMatrixWorld() {
+        if (this.controller) {
             const defaultRadius = 0.008;
             const joints = this.controller.joints;
 
             let count = 0;
 
-            for ( let i = 0 ; i < this.joints.length ; i++ ) {
-
+            for (let i = 0; i < this.joints.length; i++) {
                 const joint = joints[this.joints[i]];
-
-                if ( joint.visible ) {
-
-                    _vector.setScalar( joint.jointRadius || defaultRadius );
-                    _matrix.compose( joint.position, joint.quaternion, _vector );
-                    _matrix.multiply( this.oculusBrowserV14Correction );
-                    this.handMesh.setMatrixAt( i, _matrix );
-
+                if (joint.visible) {
+                    _vector.setScalar(joint.jointRadius || defaultRadius);
+                    _matrix.compose(joint.position, joint.quaternion, _vector);
+                    _matrix.multiply(this.oculusBrowserV14Correction);
+                    this.setMatrixAt(i, _matrix);
                     count++;
-
                 }
-
             }
 
-            this.handMesh.count = count;
-            this.handMesh.instanceMatrix.needsUpdate = true;
-
+            this.count = count;
         }
 
+        super.updateMatrixWorld();
     }
 
-
-
+    voodoo() {
+        this.instanceMatrix.needsUpdate = true;
+    }
 }
-
-export { XRHandPrimitiveModel };

@@ -124,7 +124,6 @@ export abstract class BaseCursor3D
         this.f
             .copy(v)
             .sub(p)
-            .multiplyScalar(this.side)
             .normalize();
 
         this.up
@@ -134,13 +133,25 @@ export abstract class BaseCursor3D
         this.right.crossVectors(this.up, this.f);
         this.up.crossVectors(this.f, this.right);
 
-        setMatrixFromUpFwdPos(this.up, this.f, p, this.object.matrixWorld);
+        setMatrixFromUpFwdPos(
+            this.up,
+            this.f,
+            p,
+            this.object.matrixWorld);
+
         this.object.matrix
             .copy(this.object.parent.matrixWorld)
             .invert()
             .multiply(this.object.matrixWorld);
 
-        this.object.matrix
-            .decompose(this.object.position, this.object.quaternion, this.object.scale);
+        this.object.matrix.decompose(
+            this.object.position,
+            this.object.quaternion,
+            this.object.scale);
+        this.object.scale.x *= this.side;
+        this.object.matrix.compose(
+            this.object.position,
+            this.object.quaternion,
+            this.object.scale);
     }
 }

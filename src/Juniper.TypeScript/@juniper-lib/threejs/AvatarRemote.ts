@@ -8,16 +8,16 @@ import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { FWD, HalfPi, UP } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { dispose, IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { UserPointerEvent, UserPosedEvent, UserStateEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeadingRadians } from "./animation/lookAngles";
+import { cleanup } from "./cleanup";
 import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
-import { XRHandPrimitiveModel } from "./examples/webxr/XRHandPrimitiveModel";
 import { obj, objectRemove, objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
 import { Image2D } from "./widgets/Image2D";
@@ -127,12 +127,21 @@ export class AvatarRemote extends Object3D implements IDisposable {
             return buffer[i++];
         };
 
-        const getVector = (v: Vector3) => {
+        const getHandedness = (): XRHandedness => {
+            const h = getNumber();
+            switch (h) {
+                case 2: return "left";
+                case 1: return "right";
+                default: return "none";
+            }
+        };
+
+        const getVector3 = (v: Vector3) => {
             v.fromArray(buffer, i);
             i += 3;
         };
 
-        const getMatrix = (m: Matrix4) => {
+        const getMatrix16 = (m: Matrix4) => {
             m.fromArray(buffer, i);
             i += 16;
         };
@@ -145,34 +154,30 @@ export class AvatarRemote extends Object3D implements IDisposable {
             const numPointers = getNumber();
             this.height = getNumber();
             this.hands.position.y = -this.height;
-            getMatrix(this.M);
+            getMatrix16(this.M);
 
             this.readPose(this.M);
 
             for (let n = 0; n < numPointers; ++n) {
                 const pointerID = getNumber() as PointerID;
-                getVector(this.P);
-                getVector(this.F);
-                getVector(this.U);
+                getVector3(this.P);
+                getVector3(this.F);
+                getVector3(this.U);
 
                 const pointer = this.assurePointer(pointerID);
                 pointer.setState(this.P, this.F, this.U);
 
                 if (PointerID.MotionController <= pointerID && pointerID <= PointerID.MotionControllerRight) {
-                    const handedness = getNumber();
-                    if (handedness === 0 && pointer.hand) {
+                    const handedness = getHandedness();
+                    if (handedness === "none" && pointer.hand) {
                         pointer.hand = null;
                     }
-                    else if (handedness > 0 && !pointer.hand) {
-                        pointer.hand = new XRHandPrimitiveModel(
-                            this.hands,
+                    else if (handedness !== "none" && !pointer.hand) {
+                        objGraph(this.hands, pointer.hand = this.env.handModelFactory.createModel(
                             null,
-                            handedness === 1
-                                ? "right"
-                                : handedness === 2
-                                    ? "left"
-                                    : null,
-                            { primitive: 'bone' });
+                            handedness,
+                            'bones')
+                        );
                     }
 
                     if (killers.has(pointer)) {
@@ -185,14 +190,14 @@ export class AvatarRemote extends Object3D implements IDisposable {
                         pointer.hand = null;
                     }, 1000) as any);
 
-                    if (handedness > 0) {
+                    if (handedness !== "none") {
                         const numFingerJoints = getNumber();
                         for (let n = 0; n < numFingerJoints; ++n) {
-                            getMatrix(this.M);
-                            pointer.hand.handMesh.setMatrixAt(n, this.M);
+                            getMatrix16(this.M);
+                            pointer.hand.setMatrixAt(n, this.M);
                         }
-                        pointer.hand.handMesh.count = numFingerJoints;
-                        pointer.hand.handMesh.instanceMatrix.needsUpdate = true;
+                        pointer.hand.count = numFingerJoints;
+                        pointer.hand.voodoo();
                     }
                 }
             }
@@ -237,7 +242,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
         if (v !== this.videoStream) {
             if (this.videoMesh) {
                 this.videoMesh.removeFromParent();
-                dispose(this.videoMesh);
+                cleanup(this.videoMesh);
                 this.videoMesh = null;
             }
 

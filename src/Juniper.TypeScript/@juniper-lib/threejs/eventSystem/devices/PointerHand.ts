@@ -6,8 +6,7 @@ import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/Evented
 import { Event, Matrix4, Object3D, Quaternion, Vector3, XRGripSpace, XRHandSpace, XRTargetRaySpace } from "three";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { XRControllerModelFactory } from "../../examples/webxr/XRControllerModelFactory";
-import { XRHandModel, XRHandModelFactory } from "../../examples/webxr/XRHandModelFactory";
-import { XRHandPrimitiveModel } from "../../examples/webxr/XRHandPrimitiveModel";
+import { XRHandModel } from "../../examples/webxr/XRHandModelFactory";
 import { white } from "../../materials";
 import { ErsatzObject, obj, objGraph } from "../../objects";
 import { CursorColor } from "../cursors/CursorColor";
@@ -16,8 +15,6 @@ import { BasePointer } from "./BasePointer";
 import { VirtualButton } from "./VirtualButton";
 
 const mcModelFactory = new XRControllerModelFactory();
-const handModelFactory = new XRHandModelFactory();
-handModelFactory.setPath("/models/hand/");
 const riftSCorrection = new Matrix4().makeRotationX(-7 * Pi / 9);
 
 const pointerIDs = new Map<XRHandedness, PointerID>([
@@ -68,7 +65,7 @@ export class PointerHand
     private readonly quaternion = new Quaternion();
     private readonly newQuat = new Quaternion();
 
-    readonly model: XRHandModel<XRHandPrimitiveModel>;
+    readonly model: XRHandModel;
 
     constructor(env: BaseEnvironment, index: number) {
         super("hand", PointerID.MotionController, env, new CursorColor(env));
@@ -101,7 +98,7 @@ export class PointerHand
 
         objGraph(this.controller, this.laser);
         objGraph(this.grip, mcModelFactory.createControllerModel(this.controller));
-        objGraph(this.hand, this.model = handModelFactory.createHandModel(this.hand, "bones"));
+        objGraph(this.hand, this.model = this.env.handModelFactory.createHandModel(this.hand, "mesh"));
 
         this.gamepad.addEventListener("gamepadaxismaxed", (evt) => {
             if (evt.axis === 2) {

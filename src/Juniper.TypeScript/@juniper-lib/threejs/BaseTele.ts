@@ -115,6 +115,14 @@ export abstract class BaseTele extends Application {
             buffer[i++] = n;
         };
 
+        const setHandedness = (h: XRHandedness) => {
+            switch (h) {
+                case "left": setNumber(2); break;
+                case "right": setNumber(1); break;
+                default: setNumber(0); break;
+            }
+        };
+
         const setVector3 = (vector: Vector3) => {
             vector.toArray(buffer, i);
             i += 3;
@@ -153,8 +161,7 @@ export abstract class BaseTele extends Application {
                             && pointer.id <= PointerID.MotionControllerRight) {
                             const p = pointer as any as PointerHand;
                             const mesh = p.model
-                                && p.model.motionController
-                                && p.model.motionController.handMesh;
+                                && p.model.motionController;
                             if (mesh) {
                                 numFingerJoints.push(mesh.count);
                             }
@@ -202,15 +209,8 @@ export abstract class BaseTele extends Application {
                             const p = pointer as any as PointerHand;
                             const mesh = p.isHand
                                 && p.model
-                                && p.model.motionController
-                                && p.model.motionController.handMesh;
-                            setNumber(!mesh
-                                ? 0
-                                : p.handedness === "right"
-                                    ? 1
-                                    : p.handedness === "left"
-                                        ? 2
-                                        : 3);
+                                && p.model.motionController;
+                            setHandedness(p && p.handedness || "none");
                             if (mesh) {
                                 setNumber(mesh.count);
                                 for (let n = 0; n < mesh.count; ++n) {

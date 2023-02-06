@@ -19,6 +19,7 @@ import { cleanup } from "../../cleanup";
 import { Cursor3D } from "../../eventSystem/cursors/Cursor3D";
 import { EventSystem } from "../../eventSystem/EventSystem";
 import { GLTF, GLTFLoader } from "../../examples/loaders/GLTFLoader";
+import { XRHandModelFactory } from "../../examples/webxr/XRHandModelFactory";
 import { Fader } from "../../Fader";
 import { FOREGROUND, PURGATORY } from "../../layers";
 import { LoadingBar } from "../../LoadingBar";
@@ -64,6 +65,7 @@ export class BaseEnvironment<Events = unknown>
     readonly ground = new GridHelper(gridSize, gridWidth, 0xc0c0c0, 0x808080);
     readonly foreground = obj("Foreground");
     readonly loadingBar = new LoadingBar();
+    readonly handModelFactory = new XRHandModelFactory();
 
     readonly camera: PerspectiveCamera;
     readonly renderer: WebGLRenderer;
@@ -131,7 +133,6 @@ export class BaseEnvironment<Events = unknown>
             this.fader,
             this.defaultAvatarHeight,
             audio);
-
 
         this.eventSys = new EventSystem(this);
 

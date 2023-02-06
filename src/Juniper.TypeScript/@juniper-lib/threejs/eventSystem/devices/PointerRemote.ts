@@ -1,10 +1,10 @@
 import { PointerID } from "@juniper-lib/tslib/events/Pointers";
-import { dispose } from "@juniper-lib/tslib/using";
 import { Matrix4, Object3D, Vector3 } from "three";
 import { AvatarRemote } from "../../AvatarRemote";
+import { cleanup } from "../../cleanup";
 import { Cube } from "../../Cube";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
-import { XRHandPrimitiveModel } from "../../examples/webxr/XRHandPrimitiveModel";
+import { IXRHandModel } from "../../examples/webxr/XRHandModelFactory";
 import { green, litGrey, yellow } from "../../materials";
 import { ErsatzObject, obj, objGraph } from "../../objects";
 import { setMatrixFromUpFwdPos } from "../../setMatrixFromUpFwdPos";
@@ -28,7 +28,7 @@ export class PointerRemote
     private readonly pTarget = new Vector3();
     private readonly handCube: Object3D;
     private readonly elbowCube: Object3D;
-    private _hand: XRHandPrimitiveModel = null;
+    private _hand: IXRHandModel = null;
 
 
     get hand() {
@@ -38,8 +38,8 @@ export class PointerRemote
     set hand(v) {
         if (v !== this.hand) {
             if (this.hand) {
-                this.hand.handMesh.removeFromParent();
-                dispose(this.hand.handMesh);
+                this.hand.removeFromParent();
+                cleanup(this.hand);
             }
 
             this._hand = v;

@@ -1,6 +1,6 @@
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { Color, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, MeshPhongMaterial, MeshPhongMaterialParameters, MeshStandardMaterial, Object3D, ShaderMaterial, ShaderMaterialParameters, SpriteMaterial, SpriteMaterialParameters } from "three";
+import { Color, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, MeshPhongMaterial, MeshPhongMaterialParameters, MeshPhysicalMaterial, MeshStandardMaterial, Object3D, ShaderMaterial, ShaderMaterialParameters, SpriteMaterial, SpriteMaterialParameters } from "three";
 import { LineMaterial, LineMaterialParameters } from "./examples/lines/LineMaterial";
 import { isMaterial, isMesh } from "./typeChecks";
 
@@ -309,6 +309,90 @@ export function materialPhongToBasic(oldMat: MeshPhongMaterial): MeshBasicMateri
         }
     }
     return new MeshBasicMaterial(params);
+}
+
+export function materialPhysicalToPhong(oldMat: MeshPhysicalMaterial): MeshPhongMaterial {
+
+    if (oldMat.type !== "MeshPhysicalMaterial") {
+        throw new Error("Input material is not MeshPhysicalMaterial");
+    }
+
+    const params: MeshPhongMaterialParameters = {
+        alphaMap: oldMat.alphaMap,
+        alphaTest: oldMat.alphaTest,
+        alphaToCoverage: oldMat.alphaToCoverage,
+        aoMap: oldMat.aoMap,
+        aoMapIntensity: oldMat.aoMapIntensity,
+        blendDst: oldMat.blendDst,
+        blendDstAlpha: oldMat.blendDstAlpha,
+        blendEquation: oldMat.blendEquation,
+        blendEquationAlpha: oldMat.blendEquationAlpha,
+        blending: oldMat.blending,
+        blendSrc: oldMat.blendSrc,
+        blendSrcAlpha: oldMat.blendSrcAlpha,
+        bumpMap: oldMat.bumpMap,
+        bumpScale: oldMat.bumpScale,
+        clipIntersection: oldMat.clipIntersection,
+        clippingPlanes: oldMat.clippingPlanes,
+        clipShadows: oldMat.clipShadows,
+        color: oldMat.color,
+        colorWrite: oldMat.colorWrite,
+        depthFunc: oldMat.depthFunc,
+        depthTest: oldMat.depthTest,
+        depthWrite: oldMat.depthWrite,
+        displacementBias: oldMat.displacementBias,
+        displacementMap: oldMat.displacementMap,
+        displacementScale: oldMat.displacementScale,
+        dithering: oldMat.dithering,
+        emissive: oldMat.emissive,
+        emissiveIntensity: oldMat.emissiveIntensity,
+        emissiveMap: oldMat.emissiveMap,
+        envMap: oldMat.envMap,
+        flatShading: oldMat.flatShading,
+        fog: oldMat.fog,
+        lightMap: oldMat.lightMap,
+        lightMapIntensity: oldMat.lightMapIntensity,
+        map: oldMat.map,
+        name: oldMat.name + "-Standard-To-Phong",
+        normalMap: oldMat.normalMap,
+        normalMapType: oldMat.normalMapType,
+        normalScale: oldMat.normalScale,
+        opacity: oldMat.opacity,
+        polygonOffset: oldMat.polygonOffset,
+        polygonOffsetFactor: oldMat.polygonOffsetFactor,
+        polygonOffsetUnits: oldMat.polygonOffsetUnits,
+        precision: oldMat.precision,
+        premultipliedAlpha: oldMat.premultipliedAlpha,
+        reflectivity: oldMat.reflectivity,
+        shadowSide: oldMat.shadowSide,
+        shininess: oldMat.sheen,
+        side: oldMat.side,
+        specular: oldMat.specularColor,
+        specularMap: oldMat.specularColorMap,
+        stencilFail: oldMat.stencilFail,
+        stencilFunc: oldMat.stencilFunc,
+        stencilFuncMask: oldMat.stencilFuncMask,
+        stencilRef: oldMat.stencilRef,
+        stencilWrite: oldMat.stencilWrite,
+        stencilWriteMask: oldMat.stencilWriteMask,
+        stencilZFail: oldMat.stencilZFail,
+        stencilZPass: oldMat.stencilZPass,
+        toneMapped: oldMat.toneMapped,
+        transparent: oldMat.transparent,
+        userData: oldMat.userData,
+        vertexColors: oldMat.vertexColors,
+        visible: oldMat.visible,
+        wireframe: oldMat.wireframe,
+        wireframeLinecap: oldMat.wireframeLinecap,
+        wireframeLinejoin: oldMat.wireframeLinejoin,
+        wireframeLinewidth: oldMat.wireframeLinewidth
+    };
+    for (const [key, value] of Object.entries(params)) {
+        if (isNullOrUndefined(value)) {
+            delete (params as any)[key];
+        }
+    }
+    return new MeshPhongMaterial(params);
 }
 
 export type ColorOpts = (Color | number | string);
