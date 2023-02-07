@@ -31,7 +31,6 @@
 
 .dialog-content {
     grid-area: 2 / 2 / -4 / -2;
-    overflow: auto;
 }
 
 .dialog-controls {

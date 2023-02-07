@@ -12,7 +12,7 @@ import {
     title,
     value
 } from "@juniper-lib/dom/attrs";
-import { display, em, margin, minWidth, paddingRight, width } from "@juniper-lib/dom/css";
+import { display, em, margin, paddingRight } from "@juniper-lib/dom/css";
 import { onClick, onInput } from "@juniper-lib/dom/evts";
 import {
     ButtonSecondary, Div,
@@ -89,9 +89,8 @@ export class DeviceDialog extends DialogBox {
             .then(() => this.audio.createBasicClip("test-audio", clipAsset, 0.5));
 
         elementApply(this.contentArea,
-            paddingRight("1em"),
+            paddingRight("2em"),
             this.properties = new PropertyList(
-                width(em(25)),
                 group(CAM_GROUP,
                     ["Webcams",
                         this.webcamSelector = Select(
