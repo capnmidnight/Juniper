@@ -7,6 +7,7 @@ import {
     DT,
     elementApply,
     ElementChild,
+    elementIsDisplayed,
     elementSetClass,
     elementSetDisplay,
     ErsatzElement,
@@ -182,5 +183,18 @@ export class PropertyList
                 }
             }
         }
+    }
+
+    getGroupVisible(id: string): boolean {
+        const rows = this.rowGroups.get(id);
+        if (rows) {
+            for (const row of rows) {
+                for (const elem of row) {
+                    return elementIsDisplayed(elem);
+                }
+            }
+        }
+
+        return false;
     }
 }
