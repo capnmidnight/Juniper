@@ -38,10 +38,21 @@ export abstract class BaseScreenPointerSinglePoint extends BaseScreenPointer {
             && evt.pointerId === this.pointerID;
     }
 
+    private lastX: number = null;
+    private lastY: number = null;
     protected override onReadEvent(evt: PointerEvent) {
         this.position.set(evt.offsetX, evt.offsetY);
-        this.motion.x += evt.movementX;
-        this.motion.y += evt.movementY;
+
+        if (evt.type === "pointerdown") {
+            this.motion.setScalar(0);
+        }
+        else {
+            this.motion.x += evt.offsetX - this.lastX;
+            this.motion.y += evt.offsetY - this.lastY;
+        }
+
+        this.lastX = evt.offsetX;
+        this.lastY = evt.offsetY;
 
         super.onReadEvent(evt);
 

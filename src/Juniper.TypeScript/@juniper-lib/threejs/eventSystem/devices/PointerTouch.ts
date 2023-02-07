@@ -31,10 +31,13 @@ export class PointerTouch
         arrayClear(this.points);
     }
 
+    private readonly lastXs = new Map<number, number>();
+    private readonly lastYs = new Map<number, number>();
+
     protected override onReadEvent(evt: PointerEvent): void {
         arrayRemoveByKey(this.points, evt.pointerId, getPointerID);
-
-        if (evt.type === "pointerdown" || evt.type === "pointermove") {
+        const isMove = evt.type === "pointerdown" || evt.type === "pointermove";
+        if (isMove) {
             this.points.push(evt);
         }
 
@@ -53,15 +56,30 @@ export class PointerTouch
 
         const K = 1 / this.points.length;
 
-        if (evt.type === "pointerdown" || evt.type === "pointermove") {
+        if (isMove) {
             this.position.setScalar(0);
 
             for (const point of this.points) {
                 this.position.x += K * point.offsetX;
                 this.position.y += K * point.offsetY;
-                this.motion.x += K * point.movementX;
-                this.motion.y += K * point.movementY;
+                if (this.lastXs.has(point.pointerId)) {
+                    const lastX = this.lastXs.get(point.pointerId);
+                    const lastY = this.lastYs.get(point.pointerId);
+                    const dx = point.offsetX - lastX;
+                    const dy = point.offsetY - lastY;
+                    this.motion.x += K * dx;
+                    this.motion.y += K * dy;
+                }
             }
+        }
+
+        if (isMove) {
+            this.lastXs.set(evt.pointerId, evt.offsetX);
+            this.lastYs.set(evt.pointerId, evt.offsetY);
+        }
+        else {
+            this.lastXs.delete(evt.pointerId);
+            this.lastYs.delete(evt.pointerId);
         }
 
         super.onReadEvent(evt);
