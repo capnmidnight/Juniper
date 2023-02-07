@@ -212,7 +212,7 @@ export class Environment
         this.devices = new DeviceManager(this.microphones, this.webcams);
 
         this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
-        this.devicesDialog = new DeviceDialog(this);
+        this.devicesDialog = new DeviceDialog(this.fetcher, this.devices, this.audio, this.microphones, this.webcams, this.DEBUG);
 
         this.uiButtons = new ButtonFactory(uiImagePaths, 20, buttonFillColor, labelFillColor, this.DEBUG);
 

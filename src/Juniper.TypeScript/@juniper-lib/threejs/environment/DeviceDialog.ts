@@ -1,3 +1,6 @@
+import { AudioManager } from "@juniper-lib/audio/AudioManager";
+import { DeviceManager } from "@juniper-lib/audio/DeviceManager";
+import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { canChangeAudioOutput } from "@juniper-lib/audio/SpeakerManager";
 import {
     checked,
@@ -9,7 +12,7 @@ import {
     title,
     value
 } from "@juniper-lib/dom/attrs";
-import { em, marginLeft, minWidth } from "@juniper-lib/dom/css";
+import { display, em, margin, minWidth, paddingRight, width } from "@juniper-lib/dom/css";
 import { onClick, onInput } from "@juniper-lib/dom/evts";
 import {
     ButtonSecondary, Div,
@@ -22,18 +25,19 @@ import {
     Select
 } from "@juniper-lib/dom/tags";
 import { AssetFile } from "@juniper-lib/fetcher/Asset";
+import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { makeLookup } from "@juniper-lib/tslib/collections/makeLookup";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import { SetTimeoutTimer } from "@juniper-lib/tslib/timers/SetTimeoutTimer";
+import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { InputRangeWithNumber } from "@juniper-lib/widgets/InputRangeWithNumber";
 import { group, PropertyList } from "@juniper-lib/widgets/PropertyList";
-import type { BaseTele } from "../BaseTele";
-import type { Environment } from "./Environment";
 
 const MIC_GROUP = "micFields" + stringRandom(8);
+const CAM_GROUP = "camFields" + stringRandom(8);
 
 function makeDeviceSelector(selector: HTMLSelectElement, devices: MediaDeviceInfo[], curDevice: MediaDeviceInfo) {
     elementClearChildren(selector);
@@ -55,13 +59,12 @@ export class DeviceDialog extends DialogBox {
     private camLookup: Map<string, MediaDeviceInfo> = null;
     private spkrLookup: Map<string, MediaDeviceInfo> = null;
 
-    private readonly microphones: HTMLSelectElement;
-    private readonly webcams: HTMLSelectElement;
-    private readonly micScenario: HTMLMeterElement;
+    private readonly microphoneSelector: HTMLSelectElement;
+    private readonly webcamSelector: HTMLSelectElement;
+    private readonly micLevels: HTMLMeterElement;
     private readonly activity: ActivityDetector;
     private readonly micVolumeControl: InputRangeWithNumber;
     private readonly spkrVolumeControl: InputRangeWithNumber = null;
-    private ready: Promise<void> = null;
     private readonly speakers: HTMLSelectElement = null;
     private readonly properties: PropertyList;
     private readonly testSpkrButton: HTMLButtonElement;
@@ -70,60 +73,63 @@ export class DeviceDialog extends DialogBox {
 
     private readonly timer = new SetTimeoutTimer(30);
 
-    private tele: BaseTele = null;
-
-    constructor(private readonly env: Environment) {
+    constructor(fetcher: IFetcher,
+        private readonly devices: DeviceManager,
+        private readonly audio: AudioManager,
+        private readonly microphones: LocalUserMicrophone,
+        private readonly webcams: LocalUserWebcam,
+        DEBUG = false) {
         super("Configure devices");
 
         this.cancelButton.style.display = "none";
 
-        const clipAsset = new AssetFile("/audio/test-clip.mp3", Audio_Mpeg, !this.env.DEBUG);
+        const clipAsset = new AssetFile("/audio/test-clip.mp3", Audio_Mpeg, !DEBUG);
 
-        const clipLoaded = this.env.fetcher.assets(clipAsset)
-            .then(() => this.env.audio.createBasicClip("test-audio", clipAsset, 0.5));
-
-        elementApply(this.container,
-            minWidth("max-content")
-        );
+        const clipLoaded = fetcher.assets(clipAsset)
+            .then(() => this.audio.createBasicClip("test-audio", clipAsset, 0.5));
 
         elementApply(this.contentArea,
+            paddingRight("1em"),
             this.properties = new PropertyList(
+                width(em(25)),
+                group(CAM_GROUP,
+                    ["Webcams",
+                        this.webcamSelector = Select(
+                            onInput(async () => {
+                                const deviceId = this.webcamSelector.value;
+                                const device = this.camLookup.get(deviceId);
+                                await this.webcams.setDevice(device);
+                            })
+                        )]
+                ),
                 group(
                     MIC_GROUP,
-                    "Input",
-
-                    ["Webcams",
-                        this.webcams = Select(
-                            onInput(async () => {
-                                const deviceId = this.webcams.value;
-                                const device = this.camLookup.get(deviceId);
-                                await this.env.webcams.setDevice(device);
-                            })
-                        )],
 
                     ["Microphones",
-                        this.microphones = Select(
+                        this.microphoneSelector = Select(
+                            display("inline-block"),
                             onInput(async () => {
-                                const deviceId = this.microphones.value;
+                                const deviceId = this.microphoneSelector.value;
                                 const device = this.micLookup.get(deviceId);
-                                await this.env.microphones.setDevice(device);
+                                await this.microphones.setDevice(device);
                             })
                         )],
 
-                    ["Input level",
-                        this.micScenario = Meter()],
+                    ["Volume",
+                        this.micVolumeControl = new InputRangeWithNumber(
+                            min(0),
+                            max(100),
+                            step(1),
+                            value(0),
+                            onInput(() => {
+                                this.microphones.gain.setValueAtTime(this.micVolumeControl.valueAsNumber / 100, 0);
+                            })
+                        )],
 
-                    ["Volume", this.micVolumeControl = new InputRangeWithNumber(
-                        min(0),
-                        max(100),
-                        step(1),
-                        value(0),
-                        onInput(() => {
-                            env.microphones.gain.setValueAtTime(this.micVolumeControl.valueAsNumber / 100, 0);
-                        })
-                    )],
-
-                    "Output"
+                    ["Levels",
+                        this.micLevels = Meter(
+                            display("inline-block")
+                        )]
                 )
             )
         );
@@ -135,42 +141,17 @@ export class DeviceDialog extends DialogBox {
                         onInput(async () => {
                             const deviceId = this.speakers.value;
                             const device = this.spkrLookup.get(deviceId);
-                            await this.env.audio.speakers.setAudioOutputDevice(device);
+                            await this.audio.speakers.setAudioOutputDevice(device);
                         })
                     )]
             );
 
-            this.env.audio.speakers.addEventListener("audiooutputchanged", (evt) => {
+            this.audio.speakers.addEventListener("audiooutputchanged", (evt) => {
                 this.speakers.value = evt.device && evt.device.deviceId || "";
             });
         }
 
         this.properties.append(
-            ["Using headphones",
-                this.useHeadphones = InputCheckbox(
-                    checked(this.env.audio.useHeadphones),
-                    onInput(() => {
-                        this.env.audio.useHeadphones = this.useHeadphones.checked;
-                        elementSetDisplay(this.headphoneWarning, !this.env.audio.useHeadphones, "inline-block");
-                    })
-                ),
-
-                this.testSpkrButton = ButtonSecondary(
-                    "Test",
-                    title("Test audio"),
-                    marginLeft(em(0.5)),
-                    onClick(async () => {
-                        this.testSpkrButton.disabled = true;
-                        await clipLoaded;
-                        await this.env.audio.playClipThrough("test-audio");
-                        this.testSpkrButton.disabled = false;
-                    }))],
-
-            this.headphoneWarning = Div(
-                className("alert alert-warning"),
-                "🎧🎙️ This site has a voice chat feature. Voice chat is best experienced using headphones."
-            ),
-
             ["Volume",
                 this.spkrVolumeControl = new InputRangeWithNumber(
                     min(0),
@@ -178,65 +159,93 @@ export class DeviceDialog extends DialogBox {
                     step(1),
                     value(0),
                     onInput(() =>
-                        env.audio.destination.volume
+                        this.audio.destination.volume
                         = this.spkrVolumeControl.valueAsNumber / 100)
-                )]
+                )],
+
+            ["",
+                this.testSpkrButton = ButtonSecondary(
+                    "Test",
+                    title("Test audio"),
+                    margin(em(0.5)),
+                    onClick(async () => {
+                        this.testSpkrButton.disabled = true;
+                        await clipLoaded;
+                        await this.audio.playClipThrough("test-audio");
+                        this.testSpkrButton.disabled = false;
+                    }))],
+
+            ["Using headphones",
+                this.useHeadphones = InputCheckbox(
+                    checked(this.audio.useHeadphones),
+                    onInput(() => {
+                        this.audio.useHeadphones = this.useHeadphones.checked;
+                        elementSetDisplay(this.headphoneWarning, !this.audio.useHeadphones, "inline-block");
+                    })
+                )],
+
+            this.headphoneWarning = Div(
+                className("alert alert-warning"),
+                "🎧🎙️ This site has a voice chat feature. Voice chat is best experienced using headphones."
+            )
         );
 
-        this.activity = new ActivityDetector(this.env.audio.context);
+        this.activity = new ActivityDetector(this.audio.context);
         this.activity.name = "device-settings-dialog-activity";
-        this.env.microphones.connect(this.activity);
+        this.microphones.connect(this.activity);
 
         this.timer.addTickHandler(() => {
-            this.micScenario.value = this.activity.level;
+            this.micLevels.value = this.activity.level;
         });
 
         this.properties.setGroupVisible(MIC_GROUP, false);
 
-        this.waitForTele();
-
         Object.seal(this);
     }
 
-    private async waitForTele() {
-        this.tele = await this.env.apps.waitFor<BaseTele>("tele");
-
-        this.properties.setGroupVisible(MIC_GROUP, true);
+    get showWebcams(): boolean {
+        return this.properties.getGroupVisible(CAM_GROUP);
     }
 
-    private async load() {
-        await this.env.audio.ready;
+    set showWebcams(v: boolean) {
+        this.properties.setGroupVisible(CAM_GROUP, v);
+    }
+
+    get showMicrophones(): boolean {
+        return this.properties.getGroupVisible(MIC_GROUP);
+    }
+
+    set showMicrophones(v: boolean) {
+        this.properties.setGroupVisible(MIC_GROUP, v);
     }
 
     protected override async onShowing(): Promise<void> {
-        if (this.ready === null) {
-            this.ready = this.load();
-        }
+        if (this.showWebcams || this.showMicrophones) {
+            await this.devices.init();
 
-        await this.ready;
+            const devices = await this.devices.getDevices();
 
-        if (this.tele) {
-            this.env.microphones.usingHeadphones = this.useHeadphones.checked;
-            this.env.microphones.enabled = true;
-            await this.env.devices.init();
+            if (this.showWebcams) {
+                const cams = devices.filter(d => d.kind === "videoinput");
+                this.camLookup = makeLookup(cams, (m) => m.deviceId);
+                makeDeviceSelector(this.webcamSelector, cams, this.webcams.device);
+            }
 
-            const devices = await this.env.devices.getDevices();
+            if (this.showMicrophones) {
+                const mics = devices.filter(d => d.kind === "audioinput");
+                this.micLookup = makeLookup(mics, (m) => m.deviceId);
+                makeDeviceSelector(this.microphoneSelector, mics, this.microphones.device);
 
-            const mics = devices.filter(d => d.kind === "audioinput");
-            this.micLookup = makeLookup(mics, (m) => m.deviceId);
+                this.microphones.usingHeadphones = this.useHeadphones.checked;
+                this.microphones.enabled = true;
 
-            const cams = devices.filter(d => d.kind === "videoinput");
-            this.camLookup = makeLookup(cams, (m) => m.deviceId);
-
-            makeDeviceSelector(this.microphones, mics, this.env.microphones.device);
-            makeDeviceSelector(this.webcams, cams, this.env.webcams.device);
-
-            this.micVolumeControl.valueAsNumber = this.env.microphones.gain.value * 100;
+                this.micVolumeControl.valueAsNumber = this.microphones.gain.value * 100;
+            }
         }
 
         if (canChangeAudioOutput) {
-            await this.env.audio.speakers.ready;
-            const spkrs = await this.env.audio.speakers.getAudioOutputDevices();
+            await this.audio.speakers.ready;
+            const spkrs = await this.audio.speakers.getAudioOutputDevices();
             this.spkrLookup = makeLookup(spkrs, (device) => device.deviceId);
 
             elementClearChildren(this.speakers);
@@ -249,18 +258,18 @@ export class DeviceDialog extends DialogBox {
                 )
             );
 
-            let curSpker = await this.env.audio.speakers.getAudioOutputDevice();
+            let curSpker = await this.audio.speakers.getAudioOutputDevice();
             if (!curSpker) {
-                curSpker = await this.env.audio.speakers.getPreferredAudioOutput();
-                await this.env.audio.speakers.setAudioOutputDevice(curSpker);
+                curSpker = await this.audio.speakers.getPreferredAudioOutput();
+                await this.audio.speakers.setAudioOutputDevice(curSpker);
             }
             this.speakers.value = curSpker && curSpker.deviceId || "";
         }
 
-        this.spkrVolumeControl.valueAsNumber = this.env.audio.destination.volume * 100;
+        this.spkrVolumeControl.valueAsNumber = this.audio.destination.volume * 100;
 
-        this.useHeadphones.checked = this.env.audio.useHeadphones;
-        elementSetDisplay(this.headphoneWarning, !this.env.audio.useHeadphones, "inline-block");
+        this.useHeadphones.checked = this.audio.useHeadphones;
+        elementSetDisplay(this.headphoneWarning, !this.audio.useHeadphones, "inline-block");
 
         this.timer.start();
 
