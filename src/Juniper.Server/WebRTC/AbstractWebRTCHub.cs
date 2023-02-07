@@ -40,6 +40,14 @@ namespace Juniper.WebRTC
         protected abstract string CoTURNSecret { get; }
         protected abstract IEnumerable<Uri> TurnServers { get; }
 
+        protected ILogger logger;
+
+        protected AbstractWebRTCHub(ILogger logger)
+            : base()
+        {
+            this.logger = logger;
+        }
+
         public async Task SendIce(string fromUserID, string toUserID, string iceJSON)
         {
             var match = ICE_TYPE_PATTERN.Match(iceJSON);
@@ -82,66 +90,46 @@ namespace Juniper.WebRTC
             return iceServers;
         }
 
-        public object GetRTCConfiguration(string userID)
-        {
-            return new
+        public object GetRTCConfiguration(string userID) =>
+            new
             {
                 iceTransportPolicy = "all",
                 iceCandidatePoolSize = 10,
                 iceServers = GetIceServers(userID)
             };
-        }
 
-        protected ClientT User(string userID)
-        {
-            return Clients.OthersInGroup("user_" + userID);
-        }
+        protected ClientT User(string userID) =>
+            Clients.OthersInGroup("user_" + userID);
 
-        protected ClientT Room(string name)
-        {
-            return Clients.OthersInGroup("room_" + name);
-        }
+        protected ClientT Room(string name) =>
+            Clients.OthersInGroup("room_" + name);
 
-        public string GetNewUserID()
-        {
-            return Guid.NewGuid().ToString("D");
-        }
+        public string GetNewUserID() =>
+            Guid.NewGuid().ToString("D");
 
-        public async Task Identify(string userID)
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, "user_" + userID);
-        }
+        public Task Identify(string userID) =>
+            Groups.AddToGroupAsync(Context.ConnectionId, "user_" + userID);
 
-        public async Task Join(string roomName)
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, "room_" + roomName);
-        }
+        public Task Join(string roomName) =>
+            Groups.AddToGroupAsync(Context.ConnectionId, "room_" + roomName);
 
-        public async Task GreetEveryone(string fromUserID, string roomName, string userName)
-        {
-            await Room(roomName).UserJoined(fromUserID, userName);
-        }
+        public Task GreetEveryone(string fromUserID, string roomName, string userName) =>
+            Room(roomName).UserJoined(fromUserID, userName);
 
-        public async Task Greet(string fromUserID, string toUserID, string userName)
-        {
-            await User(toUserID).UserJoined(fromUserID, userName);
-        }
+        public Task Greet(string fromUserID, string toUserID, string userName) =>
+            User(toUserID).UserJoined(fromUserID, userName);
 
-        public async Task Leave(string fromUserID, string roomName)
-        {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "room_" + roomName);
-            await Room(roomName).UserLeft(fromUserID);
-        }
+        public Task Leave(string fromUserID, string roomName) =>
+            Task.WhenAll(
+                Room(roomName).UserLeft(fromUserID),
+                Groups.RemoveFromGroupAsync(Context.ConnectionId, "room_" + roomName)
+            );
 
-        public async Task SendOffer(string fromUserID, string toUserID, string offerJSON)
-        {
-            await User(toUserID).OfferReceived(fromUserID, offerJSON);
-        }
+        public Task SendOffer(string fromUserID, string toUserID, string offerJSON) =>
+            User(toUserID).OfferReceived(fromUserID, offerJSON);
 
-        public async Task SendAnswer(string fromUserID, string toUserID, string answerJSON)
-        {
-            await User(toUserID).AnswerReceived(fromUserID, answerJSON);
-        }
+        public Task SendAnswer(string fromUserID, string toUserID, string answerJSON) =>
+            User(toUserID).AnswerReceived(fromUserID, answerJSON);
 
     }
 }

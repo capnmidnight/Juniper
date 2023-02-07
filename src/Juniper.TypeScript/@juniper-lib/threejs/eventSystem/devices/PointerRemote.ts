@@ -30,38 +30,11 @@ export class PointerRemote
     private readonly elbowCube: Object3D;
     private _hand: IXRHandModel = null;
 
-
-    get hand() {
-        return this._hand;
-    }
-
-    set hand(v) {
-        if (v !== this.hand) {
-            if (this.hand) {
-                this.hand.removeFromParent();
-                cleanup(this.hand);
-            }
-
-            this._hand = v;
-
-            if (!this.hand) {
-                objGraph(this,
-                    this.handCube,
-                    objGraph(this.elbowCube,
-                        this.laser));
-            }
-            else if (this.handCube.parent) {
-                this.handCube.removeFromParent();
-                this.elbowCube.removeFromParent();
-                objGraph(this, this.laser);
-            }
-        }
-    }
-
     constructor(
         private readonly avatar: AvatarRemote,
         env: BaseEnvironment,
-        private readonly remoteID: PointerID) {
+        private readonly remoteID: PointerID,
+        private readonly handsParent: Object3D) {
 
         const cursor = env.cursor3D && env.cursor3D.clone() || new CursorColor(env);
 
@@ -94,6 +67,37 @@ export class PointerRemote
         this.laser.length = 30;
 
         Object.seal(this);
+    }
+
+
+    get hand() {
+        return this._hand;
+    }
+
+    set hand(v) {
+        if (v !== this.hand) {
+            if (this.hand) {
+                this.hand.removeFromParent();
+                cleanup(this.hand);
+            }
+
+            this._hand = v;
+
+            if (this.hand) {
+                this.handCube.removeFromParent();
+                this.elbowCube.removeFromParent();
+                objGraph(this,
+                    this.laser);
+                objGraph(this.handsParent,
+                    this.hand);
+            }
+            else {
+                objGraph(this,
+                    this.handCube,
+                    objGraph(this.elbowCube,
+                        this.laser));
+            }
+        }
     }
 
     setState(

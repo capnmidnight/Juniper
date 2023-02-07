@@ -19,19 +19,15 @@ namespace Juniper.WebRTC
     public abstract class AbstractGameHub<ClientT> : AbstractWebRTCHub<ClientT>, IGameHubServer
         where ClientT : class, IGameHubClient
     {
-        public async Task UserPosed(string fromUserID, string roomName, float px, float py, float pz, float fx, float fy, float fz, float ux, float uy, float uz, float height)
-        {
-            await Room(roomName).UserPosed(fromUserID, px, py, pz, fx, fy, fz, ux, uy, uz, height);
-        }
+        protected AbstractGameHub(ILogger logger) : base(logger) { }
 
-        public async Task UserPointer(string fromUserID, string roomName, int name, float px, float py, float pz, float fx, float fy, float fz, float ux, float uy, float uz)
-        {
-            await Room(roomName).UserPointer(fromUserID, name, px, py, pz, fx, fy, fz, ux, uy, uz);
-        }
+        public Task UserPosed(string fromUserID, string roomName, float px, float py, float pz, float fx, float fy, float fz, float ux, float uy, float uz, float height) =>
+            Room(roomName).UserPosed(fromUserID, px, py, pz, fx, fy, fz, ux, uy, uz, height);
 
-        public async Task Chat(string fromUserID, string roomName, string msg)
-        {
-            await Room(roomName).Chat(fromUserID, msg);
-        }
+        public Task UserPointer(string fromUserID, string roomName, int name, float px, float py, float pz, float fx, float fy, float fz, float ux, float uy, float uz) =>
+            Room(roomName).UserPointer(fromUserID, name, px, py, pz, fx, fy, fz, ux, uy, uz);
+
+        public Task Chat(string fromUserID, string roomName, string msg) =>
+            Room(roomName).Chat(fromUserID, msg);
     }
 }

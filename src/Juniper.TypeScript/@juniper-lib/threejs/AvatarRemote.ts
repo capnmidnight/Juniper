@@ -173,11 +173,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
                         pointer.hand = null;
                     }
                     else if (handedness !== "none" && !pointer.hand) {
-                        objGraph(this.hands, pointer.hand = this.env.handModelFactory.createModel(
-                            null,
-                            handedness,
-                            'bones')
-                        );
+                        pointer.hand = this.env.handModelFactory.createHandModel(handedness);
                     }
 
                     if (killers.has(pointer)) {
@@ -197,7 +193,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
                             pointer.hand.setMatrixAt(n, this.M);
                         }
                         pointer.hand.count = numFingerJoints;
-                        pointer.hand.voodoo();
+                        pointer.hand.updateMesh();
                     }
                 }
             }
@@ -433,7 +429,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
         let pointer = this.pointers.get(id);
 
         if (!pointer) {
-            pointer = new PointerRemote(this, this.env, id);
+            pointer = new PointerRemote(this, this.env, id, this.hands);
 
             this.pointers.set(id, pointer);
 

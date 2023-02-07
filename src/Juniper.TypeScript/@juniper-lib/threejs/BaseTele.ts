@@ -160,10 +160,8 @@ export abstract class BaseTele extends Application {
                         if (PointerID.MotionController <= pointer.id
                             && pointer.id <= PointerID.MotionControllerRight) {
                             const p = pointer as any as PointerHand;
-                            const mesh = p.model
-                                && p.model.motionController;
-                            if (mesh) {
-                                numFingerJoints.push(mesh.count);
+                            if (p.handModel && p.handModel.isTracking) {
+                                numFingerJoints.push(p.handModel.count);
                             }
                         }
                     }
@@ -207,14 +205,11 @@ export abstract class BaseTele extends Application {
 
                         if (PointerID.MotionController <= pointer.id && pointer.id <= PointerID.MotionControllerRight) {
                             const p = pointer as any as PointerHand;
-                            const mesh = p.isHand
-                                && p.model
-                                && p.model.motionController;
                             setHandedness(p && p.handedness || "none");
-                            if (mesh) {
-                                setNumber(mesh.count);
-                                for (let n = 0; n < mesh.count; ++n) {
-                                    mesh.getMatrixAt(n, M);
+                            if (p.handModel.isTracking) {
+                                setNumber(p.handModel.count);
+                                for (let n = 0; n < p.handModel.count; ++n) {
+                                    p.handModel.getMatrixAt(n, M);
                                     setJoint16(M);
                                 }
                             }

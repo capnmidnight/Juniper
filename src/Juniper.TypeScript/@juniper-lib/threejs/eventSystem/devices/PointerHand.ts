@@ -5,7 +5,7 @@ import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/EventedGamepad";
 import { Event, Matrix4, Object3D, Quaternion, Vector3, XRGripSpace, XRHandSpace, XRTargetRaySpace } from "three";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
-import { XRControllerModelFactory } from "../../examples/webxr/XRControllerModelFactory";
+import { XRControllerModel, XRControllerModelFactory } from "../../examples/webxr/XRControllerModelFactory";
 import { XRHandModel } from "../../examples/webxr/XRHandModelFactory";
 import { white } from "../../materials";
 import { ErsatzObject, obj, objGraph } from "../../objects";
@@ -65,7 +65,8 @@ export class PointerHand
     private readonly quaternion = new Quaternion();
     private readonly newQuat = new Quaternion();
 
-    readonly model: XRHandModel;
+    readonly handModel: XRHandModel;
+    readonly gripModel: XRControllerModel;
 
     constructor(env: BaseEnvironment, index: number) {
         super("hand", PointerID.MotionController, env, new CursorColor(env));
@@ -76,9 +77,12 @@ export class PointerHand
         this.quaternion.identity();
 
         objGraph(this,
-            this.controller = this.env.renderer.xr.getController(index),
-            this.grip = this.env.renderer.xr.getControllerGrip(index),
-            this.hand = this.env.renderer.xr.getHand(index)
+            objGraph(this.controller = this.env.renderer.xr.getController(index),
+                this.laser),
+            objGraph(this.grip = this.env.renderer.xr.getControllerGrip(index),
+                this.gripModel = mcModelFactory.createControllerModel(this.controller)),
+            objGraph(this.hand = this.env.renderer.xr.getHand(index),
+                this.handModel = this.env.handModelFactory.createHandModel(this.hand))
         );
 
         // isDesktop and isOculus can both be true if the user
@@ -95,10 +99,6 @@ export class PointerHand
                 this.laser.matrix.copy(riftSCorrection);
             }
         }
-
-        objGraph(this.controller, this.laser);
-        objGraph(this.grip, mcModelFactory.createControllerModel(this.controller));
-        objGraph(this.hand, this.model = this.env.handModelFactory.createHandModel(this.hand, "mesh"));
 
         this.gamepad.addEventListener("gamepadaxismaxed", (evt) => {
             if (evt.axis === 2) {

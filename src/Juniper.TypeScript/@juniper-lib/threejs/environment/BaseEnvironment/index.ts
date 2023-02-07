@@ -10,7 +10,7 @@ import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
-import { AmbientLight, DirectionalLight, GridHelper, Group, PerspectiveCamera, Scene, Vector4, WebGLRenderer, WebGLRenderTarget, WebXRArrayCamera } from "three";
+import { AmbientLight, Color, DirectionalLight, GridHelper, Group, PerspectiveCamera, Scene, Vector4, WebGLRenderer, WebGLRenderTarget, WebXRArrayCamera } from "three";
 import { BodyFollower } from "../../animation/BodyFollower";
 import { updateScalings } from "../../animation/scaleOnHover";
 import { AssetGltfModel } from "../../AssetGltfModel";
@@ -65,7 +65,7 @@ export class BaseEnvironment<Events = unknown>
     readonly ground = new GridHelper(gridSize, gridWidth, 0xc0c0c0, 0x808080);
     readonly foreground = obj("Foreground");
     readonly loadingBar = new LoadingBar();
-    readonly handModelFactory = new XRHandModelFactory();
+    readonly handModelFactory = new XRHandModelFactory(new Color(0xb7c8e9), "mesh");
 
     readonly camera: PerspectiveCamera;
     readonly renderer: WebGLRenderer;

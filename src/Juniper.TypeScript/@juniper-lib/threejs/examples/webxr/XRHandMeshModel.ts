@@ -1,9 +1,8 @@
 import { Color, Matrix4, Object3D, Quaternion, SkinnedMesh, Vector3, XRHandSpace } from 'three';
-import { cleanup } from '../../cleanup';
 import { materialPhysicalToPhong, materialStandardToPhong } from '../../materials';
 import { isMeshPhongMaterial, isMeshPhysicalMaterial, isMeshStandardMaterial } from '../../typeChecks';
 import { GLTFLoader } from '../loaders/GLTFLoader';
-import { IXRHandModel } from './XRHandModelFactory';
+import { IXRHandModel, jointNames } from './XRHandModelFactory';
 
 const _oculusBrowserV14CorrectionRight = new Quaternion().identity();
 const _oculusBrowserV14CorrectionLeft = new Quaternion().identity();
@@ -16,51 +15,22 @@ if (/OculusBrowser\/14\./.test(navigator.userAgent)) {
 
 const DEFAULT_HAND_PROFILE_PATH = 'https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles/generic-hand/';
 
-const joints: ReadonlyArray<XRHandJoint> = [
-    'wrist',
-    'thumb-metacarpal',
-    'thumb-phalanx-proximal',
-    'thumb-phalanx-distal',
-    'thumb-tip',
-    'index-finger-metacarpal',
-    'index-finger-phalanx-proximal',
-    'index-finger-phalanx-intermediate',
-    'index-finger-phalanx-distal',
-    'index-finger-tip',
-    'middle-finger-metacarpal',
-    'middle-finger-phalanx-proximal',
-    'middle-finger-phalanx-intermediate',
-    'middle-finger-phalanx-distal',
-    'middle-finger-tip',
-    'ring-finger-metacarpal',
-    'ring-finger-phalanx-proximal',
-    'ring-finger-phalanx-intermediate',
-    'ring-finger-phalanx-distal',
-    'ring-finger-tip',
-    'pinky-finger-metacarpal',
-    'pinky-finger-phalanx-proximal',
-    'pinky-finger-phalanx-intermediate',
-    'pinky-finger-phalanx-distal',
-    'pinky-finger-tip',
-];
-
 export class XRHandMeshModel extends Object3D implements IXRHandModel {
     private readonly oculusBrowserV14Correction: Quaternion;
-    private readonly bones: Object3D[];
+    private readonly bones = new Map<XRHandJoint, Object3D>();
     private root: Object3D = null;
 
     readonly instanceMatrix = { needsUpdate: false };
 
     constructor(
         public readonly controller: XRHandSpace,
-        public readonly handedness: XRHandedness) {
+        public readonly handedness: XRHandedness,
+        color: Color) {
         super();
 
         this.oculusBrowserV14Correction = this.handedness === 'left'
             ? _oculusBrowserV14CorrectionLeft
             : _oculusBrowserV14CorrectionRight;
-
-        this.bones = [];
 
         const loader = new GLTFLoader();
         loader.setPath(DEFAULT_HAND_PROFILE_PATH);
@@ -70,9 +40,11 @@ export class XRHandMeshModel extends Object3D implements IXRHandModel {
             this.add(this.root);
 
             const mesh = this.root.getObjectByProperty('type', 'SkinnedMesh') as SkinnedMesh;
+
             mesh.frustumCulled = false;
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+
             if (isMeshPhysicalMaterial(mesh.material)) {
                 mesh.material = materialPhysicalToPhong(mesh.material);
             }
@@ -80,87 +52,68 @@ export class XRHandMeshModel extends Object3D implements IXRHandModel {
                 mesh.material = materialStandardToPhong(mesh.material);
             }
             if (isMeshPhongMaterial(mesh.material)) {
-                mesh.material.color = new Color(0x48505D);
+                mesh.material.color = color;
                 mesh.material.shininess = 0.1;
             }
-            joints.forEach(jointName =>
+
+            jointNames.forEach(jointName =>
                 this.addBone(jointName));
 
         });
     }
 
-    private addBone(jointName: string) {
-        const bone = this.root.getObjectByName(jointName);
-
-        if (bone !== undefined) {
-
-            bone.userData.jointName = jointName;
-
-        } else {
-
-            console.warn(`Couldn't find ${jointName} in ${this.handedness} hand mesh`);
-
+    private addBone(jointName: XRHandJoint) {
+        if (this.root) {
+            const bone = this.root.getObjectByName(jointName);
+            if (bone) {
+                this.bones.set(jointName, bone);
+            }
         }
-
-        this.bones.push(bone);
     }
 
     get count() {
-        return this.bones.length;
+        return this.bones.size;
     }
 
-    set count(v: number) {
-        while (v < this.count && this.count > 0) {
-            cleanup(this.bones.pop());
-        }
-        while (v > this.count && this.count < joints.length) {
-            const jointName = joints[this.count];
-            this.addBone(jointName);
-        }
+    set count(_v: number) {
+        // no op
     }
 
     getMatrixAt(n: number, M: Matrix4) {
-        if (0 <= n && n < this.bones.length) {
-            M.copy(this.bones[n].matrixWorld);
+        if (0 <= n && n < jointNames.length) {
+            const jointName = jointNames[n];
+            if (this.bones.has(jointName)) {
+                M.copy(this.bones
+                    .get(jointName)
+                    .matrix);
+            }
         }
     }
 
     setMatrixAt(n: number, M: Matrix4) {
-        if (0 <= n && n < this.bones.length) {
-            this.bones[n].matrixWorld.copy(M);
-        }
-    }
-
-    override updateMatrixWorld(force?: boolean) {
-
-        // XR Joints
-        const XRJoints = this.controller.joints;
-
-        for (let i = 0; i < this.bones.length; i++) {
-
-            const bone = this.bones[i];
-
-            if (bone) {
-
-                const XRJoint = XRJoints[bone.userData.jointName as XRHandJoint];
-
-                if (XRJoint.visible) {
-
-                    bone.position.copy(XRJoint.position);
-                    bone.quaternion.copy(XRJoint.quaternion)
-                        .multiply(this.oculusBrowserV14Correction);
-                    // bone.scale.setScalar( XRJoint.jointRadius || defaultRadius );
-
-                }
-
+        if (0 <= n && n < jointNames.length) {
+            const jointName = jointNames[n];
+            if (this.bones.has(jointName)) {
+                const bone = this.bones.get(jointName);
+                bone.matrix.copy(M);
+                bone.matrix.decompose(
+                    bone.position,
+                    bone.quaternion,
+                    bone.scale);
             }
-
         }
-
-        super.updateMatrixWorld(force);
     }
 
-    voodoo() {
-        //no voodoo
+    updateMesh() {
+        if (this.controller) {
+            for (const [jointName, bone] of this.bones) {
+                const joint = this.controller.joints[jointName];
+                if (joint && joint.visible) {
+                    bone.position.copy(joint.position);
+                    bone.quaternion.copy(joint.quaternion)
+                        .multiply(this.oculusBrowserV14Correction);
+                }
+            }
+        }
     }
 }
