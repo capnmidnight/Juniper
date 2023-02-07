@@ -432,7 +432,7 @@ export class RequestBuilder implements
             type(Text_Css),
             rel("stylesheet")
         );
-        document.body.append(tag);
+        document.head.append(tag);
         const response = await this.htmlElement(
             tag,
             "load",
@@ -442,7 +442,7 @@ export class RequestBuilder implements
 
     private async getScript(): Promise<IResponse> {
         const tag = Script(type(Application_Javascript));
-        document.body.append(tag);
+        document.head.append(tag);
         const response = await this.htmlElement(
             tag,
             "load",
