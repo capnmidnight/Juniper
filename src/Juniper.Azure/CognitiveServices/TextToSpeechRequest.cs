@@ -13,8 +13,6 @@ namespace Juniper.Speech.Azure.CognitiveServices
 {
     public class TextToSpeechRequest : AbstractAzureSpeechRequest<MediaType.Audio>
     {
-        private const string STYLE_SUPPORTED_VOICE = "en-US-Jessa24kRUS";
-
         private static void AddPercentField(StringBuilder sb, string fieldName, float fieldValue, bool addQuotes)
         {
             sb.Append(' ')
@@ -51,45 +49,48 @@ namespace Juniper.Speech.Azure.CognitiveServices
             OutputFormat = outputFormat;
         }
 
+        private readonly SsmlDocument doc = new();
+
         public AudioFormat OutputFormat { get; }
 
-        public string Text { get; set; }
-        public string VoiceName { get; set; }
-        public SpeechStyle Style { get; set; }
-
-        private string StyleString =>
-            Style.ToString().ToLowerInvariant();
-
-        public float PitchChange { get; set; }
-        public float RateChange { get; set; }
-        public float VolumeChange { get; set; }
-
-        private bool UseStyle
+        public string Text
         {
-            get
+            get => doc.Text;
+            set => doc.Text = value;
+        }
+
+        public string VoiceName
+        {
+            get => doc.VoiceName;
+            set => doc.VoiceName = value;
+        }
+
+        private SpeechStyle _style;
+        public SpeechStyle Style
+        {
+            get => _style;
+            set
             {
-                return VoiceName == STYLE_SUPPORTED_VOICE
-                  && Style != SpeechStyle.None;
+                _style = value;
+                doc.Style = Style.ToString();
             }
         }
 
-        private bool HasPitchChange =>
-            Abs(PitchChange) > 0;
-
-        private bool HasRateChange =>
-            Abs(RateChange) > 0;
-
-        private bool HasVolumeChange =>
-            Abs(VolumeChange) > 0;
-
-        private bool UseProsody
+        public float PitchChange
         {
-            get
-            {
-                return HasPitchChange
-                    || HasRateChange
-                    || HasVolumeChange;
-            }
+            get => doc.PitchChange;
+            set => doc.PitchChange = value;
+        }
+
+        public float RateChange
+        {
+            get => doc.RateChange;
+            set => doc.RateChange = value;
+        }
+        public float VolumeChange
+        {
+            get => doc.VolumeChange;
+            set => doc.VolumeChange = value;
         }
 
         protected override string InternalCacheID
@@ -102,23 +103,23 @@ namespace Juniper.Speech.Azure.CognitiveServices
                   .Append(Text.GetHashCode())
                   .Append(OutputFormat.Name);
 
-                if (UseStyle)
+                if (doc.HasStyle)
                 {
                     sb.Append("style=")
-                      .Append(StyleString);
+                      .Append(doc.Style);
                 }
 
-                if (HasPitchChange)
+                if (doc.HasPitchChange)
                 {
                     AddPercentField(sb, "pitch", PitchChange, false);
                 }
 
-                if (HasRateChange)
+                if (doc.HasRateChange)
                 {
                     AddPercentField(sb, "rate", RateChange, false);
                 }
 
-                if (HasVolumeChange)
+                if (doc.HasVolumeChange)
                 {
                     AddPercentField(sb, "volume", VolumeChange, false);
                 }
@@ -133,57 +134,8 @@ namespace Juniper.Speech.Azure.CognitiveServices
             request.KeepAlive()
                 .UserAgent(resourceName);
 
-            var sb = new StringBuilder(300)
-                .Append("<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'>")
-                .Append("<voice name='")
-                .Append(VoiceName)
-                .Append("'>");
-
-            if (UseProsody)
-            {
-                sb.Append("<prosody");
-                if (HasPitchChange)
-                {
-                    AddPercentField(sb, "pitch", PitchChange, true);
-                }
-
-                if (HasRateChange)
-                {
-                    AddPercentField(sb, "rate", RateChange, true);
-                }
-
-                if (HasVolumeChange)
-                {
-                    AddPercentField(sb, "volume", VolumeChange, true);
-                }
-
-                sb.Append('>');
-            }
-
-            if (UseStyle)
-            {
-                sb.Append("<mstts:express-as type='")
-                  .Append(StyleString)
-                  .Append("'>");
-            }
-
-            sb.Append(Text);
-
-            if (UseStyle)
-            {
-                sb.Append("</mstts:express-as>");
-            }
-
-            if (UseProsody)
-            {
-                sb.Append("</prosody>");
-            }
-
-            sb.Append("</voice>")
-              .Append("</speak>");
-
             request.Header("X-MICROSOFT-OutputFormat", OutputFormat.Name)
-                .Body(new StringContent(sb.ToString(), Encoding.UTF8, (string)MediaType.Application_SsmlXml));
+                .Body(new StringContent(doc.ToString(), Encoding.UTF8, (string)MediaType.Application_SsmlXml));
         }
     }
 }

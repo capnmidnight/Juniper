@@ -6,10 +6,13 @@ namespace Juniper.IO
 
         public string FilePath { get; }
 
+        public MediaType MediaType { get; }
+
         public TempFile(MediaType mediaType = null)
         {
             FilePath = Path.GetTempFileName();
-            if(mediaType is not null)
+            MediaType = mediaType;
+            if (mediaType is not null)
             {
                 FilePath = mediaType.AddExtension(FilePath);
             }
