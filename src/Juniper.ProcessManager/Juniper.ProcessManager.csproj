@@ -3,7 +3,6 @@
 	<PropertyGroup>
 		<AssemblyName>Juniper.ProcessManager</AssemblyName>
 		<OutputType>Exe</OutputType>
-		<LangVersion>10.0</LangVersion>
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
