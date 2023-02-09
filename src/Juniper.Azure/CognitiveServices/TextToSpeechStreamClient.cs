@@ -73,9 +73,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
                 var ttsRequest = new TextToSpeechRequest(Http, AzureRegion, azureResourceName, outputFormat)
                 {
                     Text = text,
-                    VoiceName = voiceName,
-                    RateChange = rateChange,
-                    PitchChange = pitchChange
+                    VoiceName = voiceName
                 };
 
                 if (!Cache.IsCached(ttsRequest))
