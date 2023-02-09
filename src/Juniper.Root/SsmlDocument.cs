@@ -1,39 +1,9 @@
-using System.Globalization;
-using System.Text;
-
-using static System.Math;
+using System.Xml.Linq;
 
 namespace Juniper
 {
     public class SsmlDocument
     {
-        private static void AddPercentField(StringBuilder sb, string fieldName, float fieldValue, bool addQuotes)
-        {
-            sb.Append(' ')
-              .Append(fieldName)
-              .Append('=');
-
-            if (addQuotes)
-            {
-                sb.Append('\'');
-            }
-
-            if (fieldValue > 0)
-            {
-                sb.Append('+');
-            }
-
-            var precent = Units.Proportion.Percent(fieldValue);
-            var rounded = Round(precent, 2);
-            var value = rounded.ToString("0.00", CultureInfo.InvariantCulture);
-            sb.Append(value)
-                .Append('%');
-            if (addQuotes)
-            {
-                sb.Append('\'');
-            }
-        }
-
         public string Text { get; set; }
         public string VoiceName { get; set; }
 
@@ -46,80 +16,42 @@ namespace Juniper
                 ?.ToLowerInvariant();
         }
 
-        public float PitchChange { get; set; }
-        public float RateChange { get; set; }
-        public float VolumeChange { get; set; }
-
         public bool HasStyle =>
             !string.IsNullOrEmpty(Style)
             && Style != "none";
 
-        public bool HasPitchChange =>
-            Abs(PitchChange) > 0;
-
-        public bool HasRateChange =>
-            Abs(RateChange) > 0;
-
-        public bool HasVolumeChange =>
-            Abs(VolumeChange) > 0;
-
-        public bool UseProsody =>
-            HasPitchChange
-            || HasRateChange
-            || HasVolumeChange;
-
         public override string ToString()
         {
-            var sb = new StringBuilder(300)
-                .Append("<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'>")
-                .Append("<voice name='")
-                .Append(VoiceName)
-                .Append("'>");
+            var xml = XNamespace.Xml;
+            var xmlns = XNamespace.Xmlns;
+            XNamespace ssml = "http://www.w3.org/2001/10/synthesis";
+            XNamespace mstts = "https://www.w3.org/2001/mstts";
 
-            if (UseProsody)
-            {
-                sb.Append("<prosody");
-                if (HasPitchChange)
-                {
-                    AddPercentField(sb, "pitch", PitchChange, true);
-                }
+            var speak = new XElement(
+                ssml + "speak",
+                new XAttribute("version", "1.0"),
+                new XAttribute(xmlns + "mstts", mstts),
+                new XAttribute(xml + "lang", "en-US"));
 
-                if (HasRateChange)
-                {
-                    AddPercentField(sb, "rate", RateChange, true);
-                }
+            var voice = new XElement(ssml + "voice",
+                new XAttribute("name", VoiceName));
 
-                if (HasVolumeChange)
-                {
-                    AddPercentField(sb, "volume", VolumeChange, true);
-                }
-
-                sb.Append('>');
-            }
+            speak.Add(voice);
 
             if (HasStyle)
             {
-                sb.Append("<mstts:express-as type='")
-                  .Append(Style)
-                  .Append("'>");
+                var style = new XElement(
+                    mstts + "express-as",
+                    new XAttribute("style", Style),
+                    new XText(Text));
+                voice.Add(style);
             }
-
-            sb.Append(Text);
-
-            if (HasStyle)
+            else
             {
-                sb.Append("</mstts:express-as>");
+                voice.Add(new XText(Text));
             }
-
-            if (UseProsody)
-            {
-                sb.Append("</prosody>");
-            }
-
-            sb.Append("</voice>")
-              .Append("</speak>");
-
-            return sb.ToString();
+            
+            return speak.ToString();
         }
     }
 }

@@ -76,23 +76,6 @@ namespace Juniper.Speech.Azure.CognitiveServices
             }
         }
 
-        public float PitchChange
-        {
-            get => doc.PitchChange;
-            set => doc.PitchChange = value;
-        }
-
-        public float RateChange
-        {
-            get => doc.RateChange;
-            set => doc.RateChange = value;
-        }
-        public float VolumeChange
-        {
-            get => doc.VolumeChange;
-            set => doc.VolumeChange = value;
-        }
-
         protected override string InternalCacheID
         {
             get
@@ -107,21 +90,6 @@ namespace Juniper.Speech.Azure.CognitiveServices
                 {
                     sb.Append("style=")
                       .Append(doc.Style);
-                }
-
-                if (doc.HasPitchChange)
-                {
-                    AddPercentField(sb, "pitch", PitchChange, false);
-                }
-
-                if (doc.HasRateChange)
-                {
-                    AddPercentField(sb, "rate", RateChange, false);
-                }
-
-                if (doc.HasVolumeChange)
-                {
-                    AddPercentField(sb, "volume", VolumeChange, false);
                 }
 
                 return PathExt.FixPath(sb.ToString());
