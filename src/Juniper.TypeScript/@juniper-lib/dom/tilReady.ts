@@ -1,9 +1,9 @@
 import { IReadyable } from "@juniper-lib/tslib/events/IReadyable";
 import { onClick } from "./evts";
-import { ButtonPrimary, elementApply } from "./tags";
+import { ButtonPrimary, elementApply, Elements } from "./tags";
 
 
-export async function tilReady(root: HTMLElement, obj: IReadyable) {
+export async function tilReady(root: Elements | string, obj: IReadyable) {
     if (!obj.isReady) {
         const button = ButtonPrimary(
             "Start",
