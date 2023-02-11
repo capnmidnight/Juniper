@@ -1,7 +1,10 @@
 import { BaseNodeCluster } from "@juniper-lib/audio/BaseNodeCluster";
 import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
 import { JuniperMediaStreamAudioDestinationNode } from "@juniper-lib/audio/context/JuniperMediaStreamAudioDestinationNode";
+import { MediaType } from "@juniper-lib/mediatypes";
+import * as allAudioTypes from "@juniper-lib/mediatypes/audio";
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
+import { debounce } from "@juniper-lib/tslib/events/debounce";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
@@ -33,6 +36,12 @@ export class AudioRecordingNode
     extends BaseNodeCluster<AudioRecordingNodeEventMap>
     implements MediaRecorderOptions {
 
+    static getSupportedMediaTypes(): MediaType[] {
+        return Object
+            .values(allAudioTypes)
+            .filter(v => MediaRecorder.isTypeSupported(v.value));
+    }
+
     private fwd: (event: Event) => any;
 
     private readonly input: JuniperMediaStreamAudioDestinationNode;
@@ -48,6 +57,8 @@ export class AudioRecordingNode
 
     public readonly activity: ActivityDetector = null;
 
+    private readonly createRecorder: () => void;
+
     constructor(context: JuniperAudioContext, options?: AudioRecordingNodeOptions) {
         const input = new JuniperMediaStreamAudioDestinationNode(context, options);
 
@@ -56,6 +67,8 @@ export class AudioRecordingNode
         this.fwd = (evt) => this.dispatchEvent(evt);
 
         this.input = input;
+
+        this.createRecorder = debounce(this._createRecorder.bind(this));
 
         if (options) {
             this.mimeType = options.mimeType;
@@ -84,7 +97,6 @@ export class AudioRecordingNode
         this.addEventListener("start", onStartRecording);
         this.addEventListener("dataavailable", onRecordingDataAvailable);
         this.addEventListener("stop", onStopRecording);
-
 
         if (options && options.enableListening) {
             this.activity = new ActivityDetector(context);
@@ -174,8 +186,9 @@ export class AudioRecordingNode
         }
     }
 
-    private createRecorder() {
+    private _createRecorder() {
         if (this.mimeType) {
+
             if (this.recorder) {
                 this.recorder.removeEventListener("dataavailable", this.fwd);
                 this.recorder.removeEventListener("error", this.fwd);
