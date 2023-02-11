@@ -91,9 +91,7 @@ namespace Juniper.Azure
             {
                 Text = "Hello, world",
                 VoiceName = voice.ShortName,
-                Style = SpeechStyle.Cheerful,
-                RateChange = 0.75f,
-                PitchChange = -0.1f
+                Style = SpeechStyle.Cheerful
             };
             if (!cache.IsCached(audioRequest))
             {

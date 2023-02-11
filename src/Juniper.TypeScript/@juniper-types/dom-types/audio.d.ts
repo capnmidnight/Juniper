@@ -51,9 +51,8 @@ interface AudioData {
     close(): void;
 }
 
-class AudioData {
-    prototype: AudioData;
-    new(init: AudioDataInit): AudioData;
+class AudioData implements AudioData {
+    constructor(init: AudioDataInit);
 }
 
 type EncodedAudioChunkType = "key" | "delta";
@@ -74,9 +73,8 @@ interface EncodedAudioChunk {
     copyTo(destination: Data): void;
 }
 
-class EncodedAudioChunk {
-    prototype: EncodedAudioChunk;
-    new(optionss: EncodedAudioChunkOptions);
+class EncodedAudioChunk implements EncodedAudioChunk {
+    constructor(optionss: EncodedAudioChunkOptions);
 }
 
 interface AudioEncoderOutputMetadata {
@@ -114,7 +112,7 @@ interface AudioEncoderConfigurationSupportInfo {
     config: AudioEncoderConfig;
 }
 
-interface AudioEncoder extends EventTarget {
+interface AudioEncoder implements EventTarget {
     static isConfigSupported(config: AudioEncoderConfig): Promise<AudioEncoderConfigurationSupportInfo>;
 
     readonly encodeQueueSize: number;
@@ -133,6 +131,6 @@ interface AudioEncoder extends EventTarget {
     removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 }
 
-class AudioEncoder extends AudioEncoder {
+class AudioEncoder implements AudioEncoder {
     constructor(init: AudioEncoderOptions);
 }

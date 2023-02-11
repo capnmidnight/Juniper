@@ -133,7 +133,7 @@ export class RequestBuilder implements
                     continue;
                 }
 
-                if (value instanceof Blob && fileNames.has(value)) {
+                if (value instanceof Blob) {
                     form.append(key, value, fileNames.get(value));
                 }
                 else if (isString(value)) {
