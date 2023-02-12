@@ -7,15 +7,17 @@ using Microsoft.CognitiveServices.Speech.Audio;
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Juniper.Azure
 {
+    public record RecognitionResult(string Language, string Text);
+
     public interface ISpeechService
     {
-        public Task<string> RecognizeAsync(IFormFile fileIn);
-        public Task<string> RecognizeAsync(IFormFile fileIn, string language);
-        public Task<TempFile> SynthesizeAsync(string voice, string style, string text);
+        public Task<RecognitionResult> RecognizeAsync(IFormFile fileIn, string language);
+        public Task<TempFile> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebM);
         public Task<SynthesisVoicesResult> GetVoicesAsync();
     }
 
@@ -35,10 +37,7 @@ namespace Juniper.Azure
             return await speechSynthesizer.GetVoicesAsync();
         }
 
-        public Task<string> RecognizeAsync(IFormFile fileIn) =>
-            RecognizeAsync(fileIn, null);
-
-        public async Task<string> RecognizeAsync(IFormFile fileIn, string language)
+        public async Task<RecognitionResult> RecognizeAsync(IFormFile fileIn, string language)
         {
             if (fileIn is null)
             {
@@ -49,16 +48,20 @@ namespace Juniper.Azure
             using var streamIn = fileIn.OpenReadStream();
             using var fileOut = await EZFFMPEG.ConvertAsync(streamIn, mediaTypeIn, EZFFMPEGFormat.Wav);
 
-            speechConfig.SpeechRecognitionLanguage = language;
+            var languages = new string[] { "en-US", language }
+                .Where(s => !string.IsNullOrEmpty(s))
+                .Distinct()
+                .ToArray();
+            var detectLangConfig = AutoDetectSourceLanguageConfig.FromLanguages(languages);
             using var audioConfig = AudioConfig.FromWavFileInput(fileOut.FilePath);
-            using var recog = new SpeechRecognizer(speechConfig, audioConfig);
+            using var recog = new SpeechRecognizer(speechConfig, detectLangConfig, audioConfig);
 
             var recogResult = await recog.RecognizeOnceAsync();
-            var text = recogResult.Text;
-            return text;
+            var detectLangResult = AutoDetectSourceLanguageResult.FromResult(recogResult);
+            return new RecognitionResult(detectLangResult.Language, recogResult.Text);
         }
 
-        public async Task<TempFile> SynthesizeAsync(string voice, string style, string text)
+        public async Task<TempFile> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebM)
         {
             if (string.IsNullOrEmpty(voice))
             {
@@ -71,7 +74,14 @@ namespace Juniper.Azure
             }
 
             speechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Audio24Khz160KBitRateMonoMp3);
-            var file = new TempFile(MediaType.Audio_Mpeg);
+
+            var file = new TempFile(MediaType.Audio_WebMOpus);
+            if (format != EZFFMPEGFormat.WebM)
+            {
+                var newFile = await EZFFMPEG.ConvertAsync(file.FileInfo, format);
+                file.Dispose();
+                file = newFile;
+            }
 
             using (var audioConfig = AudioConfig.FromWavFileOutput(file.FilePath))
             {
