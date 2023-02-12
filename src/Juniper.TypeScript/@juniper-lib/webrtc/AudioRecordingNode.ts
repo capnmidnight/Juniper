@@ -117,7 +117,7 @@ export class AudioRecordingNode
                         stopRecordingTimer = setTimeout(() => {
                             stopRecordingTimer = null;
                             this.stop();
-                        }, PAUSE_LENGTH * 1000);
+                        }, PAUSE_LENGTH * 1000) as any;
                     }
                 }
             };

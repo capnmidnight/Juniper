@@ -1,3 +1,5 @@
+using Juniper.IO;
+
 namespace System.IO
 {
     public static class StreamExt
@@ -19,6 +21,40 @@ namespace System.IO
         }
 
         public static async Task CopyToAsync(this Stream inStream, FileInfo outFile)
+        {
+            if (inStream is null)
+            {
+                throw new ArgumentNullException(nameof(inStream));
+            }
+
+            if (outFile is null)
+            {
+                throw new ArgumentNullException(nameof(outFile));
+            }
+
+            using var outStream = outFile.Create();
+            await inStream
+                .CopyToAsync(outStream)
+                .ConfigureAwait(false);
+        }
+
+        public static void CopyTo(this Stream inStream, TempFile outFile)
+        {
+            if (inStream is null)
+            {
+                throw new ArgumentNullException(nameof(inStream));
+            }
+
+            if (outFile is null)
+            {
+                throw new ArgumentNullException(nameof(outFile));
+            }
+
+            using var outStream = outFile.Create();
+            inStream.CopyTo(outStream);
+        }
+
+        public static async Task CopyToAsync(this Stream inStream, TempFile outFile)
         {
             if (inStream is null)
             {

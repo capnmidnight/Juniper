@@ -1,10 +1,13 @@
 namespace Juniper.IO
 {
+
     public class TempFile : IDisposable
     {
         private bool disposedValue;
 
         public string FilePath { get; }
+
+        public FileInfo FileInfo { get; }
 
         public MediaType MediaType { get; }
 
@@ -16,18 +19,18 @@ namespace Juniper.IO
             {
                 FilePath = mediaType.AddExtension(FilePath);
             }
+
+            FileInfo = new FileInfo(FilePath);
         }
 
-        public async Task WriteAsync(Stream stream)
-        {
-            using var fileStream = new FileStream(FilePath, FileMode.Create, FileAccess.Write);
-            await stream.CopyToAsync(fileStream);
-            await fileStream.FlushAsync();
-        }
-
-        public Stream Open()
+        public Stream OpenRead()
         {
             return File.OpenRead(FilePath);
+        }
+
+        public Stream Create()
+        {
+            return File.Create(FilePath);
         }
 
         protected virtual void Dispose(bool disposing)
