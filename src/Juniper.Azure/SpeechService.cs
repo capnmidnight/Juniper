@@ -6,6 +6,7 @@ using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ using System.Threading.Tasks;
 namespace Juniper.Azure
 {
     public record RecognitionResult(string Language, string Text);
+    public record Viseme(uint ID, float Offset);
+    public record SynthesisResult(TempFile File, Viseme[] Visemes);
 
     public interface ISpeechService
     {
         public Task<RecognitionResult> RecognizeAsync(IFormFile fileIn, string language);
-        public Task<TempFile> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebM);
+        public Task<SynthesisResult> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebM);
         public Task<SynthesisVoicesResult> GetVoicesAsync();
     }
 
@@ -61,7 +64,7 @@ namespace Juniper.Azure
             return new RecognitionResult(detectLangResult.Language, recogResult.Text);
         }
 
-        public async Task<TempFile> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebM)
+        public async Task<SynthesisResult> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebM)
         {
             if (string.IsNullOrEmpty(voice))
             {
@@ -83,9 +86,16 @@ namespace Juniper.Azure
                 file = newFile;
             }
 
+            var visemes = new List<Viseme>();
             using (var audioConfig = AudioConfig.FromWavFileOutput(file.FilePath))
             {
                 using var synth = new SpeechSynthesizer(speechConfig, audioConfig);
+
+                synth.VisemeReceived += (object sender, SpeechSynthesisVisemeEventArgs e) =>
+                {
+                    visemes.Add(new Viseme(e.VisemeId, e.AudioOffset / 10000000f));
+                };
+
                 using var synthResult = await synth.SpeakSsmlAsync(new SsmlDocument
                 {
                     VoiceName = voice,
@@ -98,7 +108,7 @@ namespace Juniper.Azure
                 }
             }
 
-            return file;
+            return new SynthesisResult(file, visemes.ToArray());
         }
     }
 }
