@@ -13,6 +13,7 @@ namespace Juniper.WebRTC
         Task IceReceived(string fromUserID, string iceJSON);
         Task OfferReceived(string fromUserID, string offerJSON);
         Task AnswerReceived(string fromUserID, string answerJSON);
+        Task Chat(string fromUserID, string text);
     }
 
     public interface IWebRTCHubServer
@@ -28,6 +29,7 @@ namespace Juniper.WebRTC
         Task SendIce(string fromUserID, string toUserID, string iceJSON);
         Task SendOffer(string fromUserID, string toUserID, string offerJSON);
         Task SendAnswer(string fromUserID, string toUserID, string answerJSON);
+        Task Chat(string fromUserID, string roomName, string text);
     }
 
     public abstract class AbstractWebRTCHub<ClientT> : Hub<ClientT>, IWebRTCHubServer
@@ -130,6 +132,9 @@ namespace Juniper.WebRTC
 
         public Task SendAnswer(string fromUserID, string toUserID, string answerJSON) =>
             User(toUserID).AnswerReceived(fromUserID, answerJSON);
+
+        public Task Chat(string fromUserID, string roomName, string msg) =>
+            Room(roomName).Chat(fromUserID, msg);
 
     }
 }

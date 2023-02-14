@@ -1,5 +1,4 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { ConnectionState } from "./ConnectionState";
 
 export class HubCloseEvent extends TypedEvent<"close">{
@@ -50,91 +49,6 @@ export class HubUserLeftEvent extends TypedEvent<"userLeft">{
     }
 }
 
-export class HubUserPosedEvent extends TypedEvent<"userPosed">{
-    public fromUserID: string = null;
-    public px: number = null;
-    public py: number = null;
-    public pz: number = null;
-    public fx: number = null;
-    public fy: number = null;
-    public fz: number = null;
-    public ux: number = null;
-    public uy: number = null;
-    public uz: number = null;
-    public height: number = null;
-
-    constructor() {
-        super("userPosed");
-    }
-
-    set(fromUserID: string,
-        px: number, py: number, pz: number,
-        fx: number, fy: number, fz: number,
-        ux: number, uy: number, uz: number,
-        height: number) {
-        this.fromUserID = fromUserID;
-        this.px = px;
-        this.py = py;
-        this.pz = pz;
-        this.fx = fx;
-        this.fy = fy;
-        this.fz = fz;
-        this.ux = ux;
-        this.uy = uy;
-        this.uz = uz;
-        this.height = height;
-    }
-}
-
-export class HubUserPointerEvent extends TypedEvent<"userPointer">{
-    public fromUserID: string = null;
-    public pointerID: PointerID = null;
-    public px: number = null;
-    public py: number = null;
-    public pz: number = null;
-    public fx: number = null;
-    public fy: number = null;
-    public fz: number = null;
-    public ux: number = null;
-    public uy: number = null;
-    public uz: number = null;
-
-    constructor() {
-        super("userPointer");
-    }
-
-    set(fromUserID: string,
-        pointerID: PointerID,
-        px: number, py: number, pz: number,
-        fx: number, fy: number, fz: number,
-        ux: number, uy: number, uz: number) {
-        this.fromUserID = fromUserID;
-        this.pointerID = pointerID;
-        this.px = px;
-        this.py = py;
-        this.pz = pz;
-        this.fx = fx;
-        this.fy = fy;
-        this.fz = fz;
-        this.ux = ux;
-        this.uy = uy;
-        this.uz = uz;
-    }
-}
-
-export class HubUserStateEvent extends TypedEvent<"userState">{
-    public fromUserID: string = null;
-    public buffer: Float32Array = null;
-    constructor() {
-        super("userState");
-    }
-
-    set(fromUserID: string, buffer: Float32Array) {
-        this.fromUserID = fromUserID;
-        this.buffer = buffer;
-    }
-}
-
 export class HubUserChatEvent extends TypedEvent<"chat">{
     public fromUserID: string = null;
     public text: string = null;
@@ -157,9 +71,6 @@ export interface IHubEvents {
     offerReceived: HubOfferReceivedEvent;
     answerReceived: HubAnswerReceivedEvent;
     userLeft: HubUserLeftEvent;
-    userPosed: HubUserPosedEvent;
-    userPointer: HubUserPointerEvent;
-    userState: HubUserStateEvent;
     chat: HubUserChatEvent;
 }
 

@@ -3,7 +3,6 @@ import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { StreamChangedEvent } from "@juniper-lib/audio/StreamChangedEvent";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { WindowQuitEventer } from "@juniper-lib/tslib/events/WindowQuitEventer";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -11,10 +10,11 @@ import { IDisposable } from "@juniper-lib/tslib/using";
 import "webrtc-adapter";
 import {
     ConferenceErrorEvent,
-    ConferenceEvents, ConferenceServerConnectedEvent,
+    ConferenceEvents,
+    ConferenceServerConnectedEvent,
     ConferenceServerDisconnectedEvent,
     RoomJoinedEvent,
-    RoomLeftEvent, UserChatEvent,
+    RoomLeftEvent,
     UserJoinedEvent,
     UserLeftEvent
 } from "./ConferenceEvents";
@@ -29,9 +29,6 @@ import {
     HubUserChatEvent,
     HubUserJoinedEvent,
     HubUserLeftEvent,
-    HubUserPointerEvent,
-    HubUserPosedEvent,
-    HubUserStateEvent,
     IHub
 } from "./IHub";
 import {
@@ -114,6 +111,7 @@ export class TeleconferenceManager
     private users = new Map<string, RemoteUser>();
 
     private readonly remoteGainDecay: GainDecayer;
+    private readonly recorder: AudioRecordingNode;
 
     private readonly windowQuitter = new WindowQuitEventer();
 
@@ -146,9 +144,6 @@ export class TeleconferenceManager
         this.hub.addEventListener("offerReceived", this.onOfferReceived.bind(this));
         this.hub.addEventListener("answerReceived", this.onAnswerReceived.bind(this));
         this.hub.addEventListener("userLeft", this.onUserLeft.bind(this));
-        this.hub.addEventListener("userPosed", this.onUserPosed.bind(this));
-        this.hub.addEventListener("userPointer", this.onUserPointer.bind(this));
-        this.hub.addEventListener("userState", this.onUserState.bind(this));
         this.hub.addEventListener("chat", this.onChat.bind(this));
 
         this.remoteGainDecay = new GainDecayer(
@@ -452,39 +447,10 @@ export class TeleconferenceManager
         }
     }
 
-    private onUserPosed(evt: HubUserPosedEvent) {
-        const user = this.users.get(evt.fromUserID);
-        if (user) {
-            user.recvPose(
-                evt.px, evt.py, evt.pz,
-                evt.fx, evt.fy, evt.fz,
-                evt.ux, evt.uy, evt.uz,
-                evt.height);
-        }
-    }
-
-    private onUserPointer(evt: HubUserPointerEvent) {
-        const user = this.users.get(evt.fromUserID);
-        if (user) {
-            user.recvPointer(
-                evt.pointerID,
-                evt.px, evt.py, evt.pz,
-                evt.fx, evt.fy, evt.fz,
-                evt.ux, evt.uy, evt.uz);
-        }
-    }
-
-    private onUserState(evt: HubUserStateEvent) {
-        const user = this.users.get(evt.fromUserID);
-        if (user) {
-            user.recvUserState(evt.buffer);
-        }
-    }
-
     private onChat(evt: HubUserChatEvent) {
         const user = this.users.get(evt.fromUserID);
         if (user) {
-            this.dispatchEvent(new UserChatEvent(user, evt.text));
+            user.recvChat(evt.text);
         }
     }
 
@@ -507,14 +473,6 @@ export class TeleconferenceManager
                     .map(callback)
             );
         }
-    }
-
-    async setLocalPose(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number): Promise<void> {
-        await this.forEachUser((user) => user.sendPose(px, py, pz, fx, fy, fz, ux, uy, uz, height));
-    }
-
-    async setLocalPointer(pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): Promise<void> {
-        await this.forEachUser((user) => user.sendPointer(pointerID, px, py, pz, fx, fy, fz, ux, uy, uz));
     }
 
     async sendUserState(buffer: Float32Array): Promise<void> {

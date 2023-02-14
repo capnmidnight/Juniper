@@ -1,6 +1,5 @@
 import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { RemoteUser, RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "./RemoteUser";
 
 export type ConferenceEventTypes = "error"
@@ -19,8 +18,6 @@ export type ConferenceEventTypes = "error"
     | "audioRemoved"
     | "videoAdded"
     | "videoRemoved"
-    | "userPosed"
-    | "userPointer"
     | "userState"
     | "chat";
 
@@ -136,42 +133,16 @@ export enum StreamOpType {
     Changed = "changed"
 }
 
-export class UserPoseEvent<T extends ConferenceEventTypes> extends RemoteUserEvent<T> {
-
-    public readonly pose = new Pose();
-
-    constructor(type: T, user: RemoteUser) {
-        super(type, user);
-    }
-}
-
-export class UserPosedEvent extends UserPoseEvent<"userPosed"> {
-
-    public height = 0;
-
-    constructor(user: RemoteUser) {
-        super("userPosed", user);
-    }
-}
-
-export class UserPointerEvent extends UserPoseEvent<"userPointer"> {
-
-    public pointerID = PointerID.RemoteUser;
-
-    constructor(user: RemoteUser) {
-        super("userPointer", user);
-    }
-}
-
 export class UserStateEvent extends RemoteUserEvent<"userState"> {
-    public buffer: Float32Array;
+    public buffer: Float32Array = null;
     constructor(user: RemoteUser) {
         super("userState", user);
     }
 }
 
 export class UserChatEvent extends RemoteUserEvent<"chat"> {
-    constructor(user: RemoteUser, public text: string) {
+    public text: string = null;
+    constructor(user: RemoteUser) {
         super("chat", user);
     }
 }
@@ -191,5 +162,4 @@ export interface ConferenceEvents {
     userNameChanged: UserNameChangedEvent;
     trackAdded: RemoteUserTrackAddedEvent;
     trackRemoved: RemoteUserTrackRemovedEvent;
-    chat: UserChatEvent;
 }

@@ -1,10 +1,9 @@
 import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { assertNever, isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { UserLeftEvent, UserPointerEvent, UserPosedEvent, UserStateEvent } from "./ConferenceEvents";
+import { UserChatEvent, UserLeftEvent, UserStateEvent } from "./ConferenceEvents";
 
 class Locker<T> {
     private locks = new Set<T>();
@@ -115,29 +114,23 @@ interface RemoteUserEvents {
     trackAdded: RemoteUserTrackAddedEvent;
     trackMuted: RemoteUserTrackMutedEvent;
     trackRemoved: RemoteUserTrackRemovedEvent;
-    userPosed: UserPosedEvent;
-    userPointer: UserPointerEvent;
     userState: UserStateEvent;
     userLeft: UserLeftEvent;
+    chat: UserChatEvent;
 }
 
 const seenUsers = new Set<string>();
 
 export enum Message {
-    Pointer = 1,
-    Pose,
     InvocationComplete,
     UserState
 }
 
 export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDisposable {
 
-    private readonly userPosedEvt = new UserPosedEvent(this);
-    private readonly userPointerEvt = new UserPointerEvent(this);
     private readonly userStateEvt = new UserStateEvent(this);
+    private readonly userChatEvt = new UserChatEvent(this);
 
-    private readonly sendPoseBuffer = new Float32Array(12);
-    private readonly sendPointerBuffer = new Float32Array(12);
     private readonly sendInvocationCompleteBuffer = new Float32Array(2);
 
     private readonly transceivers = new Array<RTCRtpTransceiver>();
@@ -157,8 +150,6 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
     constructor(public readonly userID: string, public userName: string, rtcConfig: RTCConfiguration, private readonly confirmReceipt: boolean) {
         super();
 
-        this.sendPoseBuffer[0] = Message.Pose;
-        this.sendPointerBuffer[0] = Message.Pointer;
         this.sendInvocationCompleteBuffer[0] = Message.InvocationComplete;
 
         this.connection = new RTCPeerConnection(rtcConfig);
@@ -270,7 +261,9 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
         this.channel = channel;
         this.channel.binaryType = "arraybuffer";
         this.channel.addEventListener("message", (evt: MessageEvent<any>) => {
-            if (isArrayBuffer(evt.data)) {
+            if (this.channel
+                && this.channel.readyState === "open"
+                && isArrayBuffer(evt.data)) {
                 const data = new Float32Array(evt.data);
                 const msg = data[0] as Message;
                 const invocationID = data[1];
@@ -280,32 +273,16 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
                         resolve();
                     }
                 }
-                else if (this.channel && this.channel.readyState === "open") {
-                    if (msg === Message.Pose) {
-                        this.recvPose(
-                            data[2], data[3], data[4],
-                            data[5], data[6], data[7],
-                            data[8], data[9], data[10],
-                            data[11]);
-                    }
-                    else if (msg === Message.Pointer) {
-                        this.recvPointer(
-                            data[11],
-                            data[2], data[3], data[4],
-                            data[5], data[6], data[7],
-                            data[8], data[9], data[10]);
-                    }
-                    else if (msg === Message.UserState) {
-                        this.recvUserState(data.subarray(2));
-                    }
-                    else {
-                        assertNever(msg);
-                    }
+                else if (msg === Message.UserState) {
+                    this.recvUserState(data.subarray(2));
+                }
+                else {
+                    assertNever(msg);
+                }
 
-                    if (invocationID >= 0) {
-                        this.sendInvocationCompleteBuffer[1] = invocationID;
-                        this.channel.send(this.sendInvocationCompleteBuffer);
-                    }
+                if (invocationID >= 0) {
+                    this.sendInvocationCompleteBuffer[1] = invocationID;
+                    this.channel.send(this.sendInvocationCompleteBuffer);
                 }
             }
         });
@@ -316,24 +293,9 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
         this.dispatchEvent(this.userStateEvt);
     }
 
-    recvPose(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number) {
-        this.userPosedEvt.pose.set(px, py, pz, fx, fy, fz, ux, uy, uz);
-        this.userPosedEvt.height = height;
-        this.dispatchEvent(this.userPosedEvt);
-    }
-
-    sendPose(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number) {
-        return this.sendMessage(Message.Pose, px, py, pz, fx, fy, fz, ux, uy, uz, height);
-    }
-
-    recvPointer(pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) {
-        this.userPointerEvt.pointerID = pointerID;
-        this.userPointerEvt.pose.set(px, py, pz, fx, fy, fz, ux, uy, uz);
-        this.dispatchEvent(this.userPointerEvt);
-    }
-
-    async sendPointer(pointerID: PointerID, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number) {
-        await this.sendMessage(Message.Pointer, px, py, pz, fx, fy, fz, ux, uy, uz, pointerID);
+    recvChat(text: string) {
+        this.userChatEvt.text = text;
+        this.dispatchEvent(this.userChatEvt);
     }
 
     async sendUserState(buffer: Float32Array): Promise<void> {
@@ -345,63 +307,6 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
             await this.locks.withSkipLock(lockName, async () => {
                 const invocationID = ++this.invocationCount;
                 buffer[1] = invocationID;
-
-                if (!this.confirmReceipt) {
-                    this.channel.send(buffer);
-                }
-                else {
-                    const task = this.tasks.get(lockName);
-                    task.reset();
-
-                    const timeout = setTimeout(task.reject, 100, "timeout");
-                    const onComplete = () => {
-                        clearTimeout(timeout);
-                        task.resolve();
-                    };
-                    this.invocations.set(invocationID, onComplete);
-
-                    this.channel.send(buffer);
-                    try {
-                        await task;
-                    }
-                    catch (exp) {
-                        if (exp !== "timeout") {
-                            console.error(exp);
-                        }
-                    }
-                    finally {
-                        this.invocations.delete(invocationID);
-                    }
-                }
-            });
-        }
-    }
-
-    private async sendMessage(msgName: Message.Pose, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number): Promise<void>;
-    private async sendMessage(msgName: Message.Pointer, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerID: PointerID): Promise<void>;
-    private async sendMessage(msgName: Message, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerIDOrHeight: number | PointerID): Promise<void> {
-        if (this.channel && this.channel.readyState === "open") {
-            let lockName = msgName === Message.Pose
-                ? msgName.toString()
-                : `${msgName}${pointerIDOrHeight}`;
-            if (!this.tasks.has(lockName)) {
-                this.tasks.set(lockName, new Task());
-            }
-            await this.locks.withSkipLock(lockName, async () => {
-                const buffer = msgName === Message.Pose ? this.sendPoseBuffer : this.sendPointerBuffer;
-                const invocationID = ++this.invocationCount;
-
-                buffer[1] = invocationID;
-                buffer[2] = px;
-                buffer[3] = py;
-                buffer[4] = pz;
-                buffer[5] = fx;
-                buffer[6] = fy;
-                buffer[7] = fz;
-                buffer[8] = ux;
-                buffer[9] = uy;
-                buffer[10] = uz;
-                buffer[11] = pointerIDOrHeight;
 
                 if (!this.confirmReceipt) {
                     this.channel.send(buffer);

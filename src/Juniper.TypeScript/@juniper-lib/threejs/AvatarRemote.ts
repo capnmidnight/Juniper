@@ -1,4 +1,3 @@
-import { Pose } from "@juniper-lib/audio/Pose";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
 import { autoPlay, srcObject } from "@juniper-lib/dom/attrs";
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
@@ -9,7 +8,7 @@ import { FWD, HalfPi, UP } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
-import { UserPointerEvent, UserPosedEvent, UserStateEvent } from "@juniper-lib/webrtc/ConferenceEvents";
+import { UserChatEvent, UserStateEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BodyFollower } from "./animation/BodyFollower";
@@ -19,7 +18,6 @@ import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
 import { getPointerType, PointerID } from "./eventSystem/Pointers";
 import { obj, objectRemove, objGraph } from "./objects";
-import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
 import { Image2D } from "./widgets/Image2D";
 import { TextMesh } from "./widgets/TextMesh";
 
@@ -115,11 +113,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
         this.nameTag.position.y = -0.25;
         this.userName = user.userName;
 
-        user.addEventListener("userPosed", (evt: UserPosedEvent) =>
-            this.setPose(evt.height, evt.pose));
 
-        user.addEventListener("userPointer", (evt: UserPointerEvent) =>
-            this.setPointer(evt.pointerID, evt.pose));
 
         let buffer: Float32Array = null;
         let i = 0;
@@ -156,7 +150,8 @@ export class AvatarRemote extends Object3D implements IDisposable {
             this.hands.position.y = -this.height;
             getMatrix16(this.M);
 
-            this.readPose(this.M);
+            this.M.decompose(this.pTarget, this.qTarget, this.scale);
+            this.pTarget.add(this.comfortOffset);
 
             for (let n = 0; n < numPointers; ++n) {
                 const pointerID = getNumber() as PointerID;
@@ -405,29 +400,6 @@ export class AvatarRemote extends Object3D implements IDisposable {
                 this.videoMesh.updateTexture();
             }
         }
-    }
-
-    private setPose(height: number, pose: Pose): void {
-        this.height = height;
-        this.P.fromArray(pose.p);
-        this.F.fromArray(pose.f);
-        this.U.fromArray(pose.u);
-        setMatrixFromUpFwdPos(this.U, this.F, this.P, this.M);
-        this.M.decompose(this.pTarget, this.qTarget, this.scale);
-        this.pTarget.add(this.comfortOffset);
-    }
-
-    private readPose(M: Matrix4) {
-        M.decompose(this.pTarget, this.qTarget, this.scale);
-        this.pTarget.add(this.comfortOffset);
-    }
-
-    private setPointer(id: PointerID, pose: Pose): void {
-        const pointer = this.assurePointer(id);
-        this.P.fromArray(pose.p);
-        this.F.fromArray(pose.f);
-        this.U.fromArray(pose.u);
-        pointer.setState(this.P, this.F, this.U);
     }
 
     private assurePointer(id: PointerID): PointerRemote {
