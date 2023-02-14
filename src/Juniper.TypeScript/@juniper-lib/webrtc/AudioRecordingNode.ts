@@ -3,18 +3,27 @@ import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioCont
 import { JuniperMediaStreamAudioDestinationNode } from "@juniper-lib/audio/context/JuniperMediaStreamAudioDestinationNode";
 import { MediaType } from "@juniper-lib/mediatypes";
 import * as allAudioTypes from "@juniper-lib/mediatypes/audio";
-import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
+import { arrayClear, arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { debounce } from "@juniper-lib/tslib/events/debounce";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { Exception } from "@juniper-lib/tslib/Exception";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 
+const RECORDING_DELAY = .25;
 const ACTIVITY_SENSITIVITY = 0.6;
 const PAUSE_LENGTH = 1;
 
 export class AudioRecordingNodeBlobAvailableEvent extends TypedEvent<"blobavailable"> {
     constructor(public readonly blob: Blob) {
         super("blobavailable");
+    }
+}
+
+export class ActivityEvent extends TypedEvent<"activity"> {
+    public level = 0;
+    constructor() {
+        super("activity");
     }
 }
 
@@ -26,6 +35,7 @@ interface AudioRecordingNodeEventMap {
     resume: Event;
     start: Event;
     stop: Event;
+    activity: ActivityEvent;
 }
 
 interface AudioRecordingNodeOptions extends MediaRecorderOptions, AudioNodeOptions {
@@ -44,7 +54,7 @@ export class AudioRecordingNode
 
     private fwd: (event: Event) => any;
 
-    private readonly input: JuniperMediaStreamAudioDestinationNode;
+    private readonly streamNode: JuniperMediaStreamAudioDestinationNode;
 
     listening = false;
     private recording = false;
@@ -55,27 +65,42 @@ export class AudioRecordingNode
     private _audioBitrateMode: BitrateMode = undefined;
     private recorder: MediaRecorder = null;
 
-    public readonly activity: ActivityDetector = null;
-
     private readonly createRecorder: () => void;
 
     constructor(context: JuniperAudioContext, options?: AudioRecordingNodeOptions) {
-        const input = new JuniperMediaStreamAudioDestinationNode(context, options);
 
-        super("audio-recording-node", context, [input]);
+        const input = context.createGain();
+
+        const delay = context.createDelay(1);
+        delay.delayTime.value = RECORDING_DELAY;
+
+        const streamNode = new JuniperMediaStreamAudioDestinationNode(context, options);
+
+        input.connect(delay).connect(streamNode);
+
+        super("audio-recording-node", context, [input], null, [delay, streamNode]);
 
         this.fwd = (evt) => this.dispatchEvent(evt);
 
-        this.input = input;
+        this.streamNode = streamNode;
 
         this.createRecorder = debounce(this._createRecorder.bind(this));
 
-        if (options) {
-            this.mimeType = options.mimeType;
-            this.audioBitsPerSecond = options.audioBitsPerSecond;
-            this.bitsPerSecond = options.bitsPerSecond;
-            this.audioBitrateMode = options.audioBitrateMode;
+        options = options || {};
+
+        if (isNullOrUndefined(options.mimeType)) {
+            const supportedTypes = AudioRecordingNode.getSupportedMediaTypes();
+            const recordingMimeType = arrayScan(supportedTypes,
+                t => t === allAudioTypes.Audio_WebMOpus,
+                t => t === allAudioTypes.Audio_Mpeg,
+                isDefined);
+            options.mimeType = recordingMimeType.value;
         }
+
+        this.mimeType = options.mimeType;
+        this.audioBitsPerSecond = options.audioBitsPerSecond;
+        this.bitsPerSecond = options.bitsPerSecond;
+        this.audioBitrateMode = options.audioBitrateMode;
 
         this.createRecorder();
 
@@ -99,12 +124,15 @@ export class AudioRecordingNode
         this.addEventListener("stop", onStopRecording);
 
         if (options && options.enableListening) {
-            this.activity = new ActivityDetector(context);
+            const activityEvt = new ActivityEvent();
+            const activity = new ActivityDetector(context);
+
             let stopRecordingTimer: number = null;
             const checkActivity = () => {
-                const level = this.activity.level;
+                activityEvt.level = activity.level;
+                this.dispatchEvent(activityEvt);
 
-                if (this.listening && level > ACTIVITY_SENSITIVITY) {
+                if (this.listening && activityEvt.level > ACTIVITY_SENSITIVITY) {
                     if (this.state !== "recording") {
                         this.start();
                     }
@@ -123,6 +151,7 @@ export class AudioRecordingNode
             };
 
             setInterval(checkActivity, 10);
+            input.connect(activity);
         }
     }
 
@@ -199,7 +228,7 @@ export class AudioRecordingNode
                 this.recorder = null;
             }
 
-            this.recorder = new MediaRecorder(this.input.stream, this);
+            this.recorder = new MediaRecorder(this.streamNode.stream, this);
             this.recorder.addEventListener("dataavailable", this.fwd);
             this.recorder.addEventListener("error", this.fwd);
             this.recorder.addEventListener("pause", this.fwd);
