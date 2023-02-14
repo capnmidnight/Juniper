@@ -3,19 +3,17 @@ import { arrayCompare, arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { inches2Meters, meters2Inches } from "@juniper-lib/tslib/units/length";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { BufferGeometry, Matrix4, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Quaternion, Texture, Vector3, Vector4, VideoTexture } from "three";
+import { BufferGeometry, Matrix4, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Texture, Vector3, VideoTexture } from "three";
 import { cleanup } from "../cleanup";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
+import { getRelativeXRRigidTransform } from "../getRelativeXRRigidTransform";
 import { solidTransparent } from "../materials";
-import { objectGetRelativePose } from "../objectGetRelativePose";
 import { mesh, objectIsFullyVisible, objGraph } from "../objects";
 import { plane } from "../Plane";
 import { isMesh, isMeshBasicMaterial } from "../typeChecks";
 import { StereoLayoutName } from "../VideoPlayer3D";
 
 
-const P = new Vector4();
-const Q = new Quaternion();
 const S = new Vector3();
 
 let copyCounter = 0;
@@ -277,9 +275,8 @@ export class Image2D
                 if (useLayer) {
                     const space = this.env.referenceSpace;
 
-                    objectGetRelativePose(this.env.stage, this.mesh, P, Q, S);
+                    const transform = getRelativeXRRigidTransform(this.env.stage, this.mesh, S);
                     this.lastMatrixWorld.copy(this.matrixWorld);
-                    const transform = new XRRigidTransform(P, Q);
                     const width = S.x / 2;
                     const height = S.y / 2;
                     const layout = this.stereoLayoutName === "mono"
@@ -341,9 +338,8 @@ export class Image2D
                 }
 
                 if (arrayCompare(this.matrixWorld.elements, this.lastMatrixWorld.elements) >= 0) {
-                    objectGetRelativePose(this.env.stage, this.mesh, P, Q, S);
+                    this.layer.transform = getRelativeXRRigidTransform(this.env.stage, this.mesh, S);
                     this.lastMatrixWorld.copy(this.matrixWorld);
-                    this.layer.transform = new XRRigidTransform(P, Q);
                     this.layer.width = S.x / 2;
                     this.layer.height = S.y / 2;
                 }
