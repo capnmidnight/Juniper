@@ -442,7 +442,6 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
     private removeArm(id: PointerID): void {
         const pointer = this.pointers.get(id);
-        console.log("removeArm", getPointerType(id), !!pointer);
         if (pointer) {
             objectRemove(this.body, pointer);
             this.pointers.delete(id);
