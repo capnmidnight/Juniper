@@ -103,7 +103,7 @@ export class RequestBuilder implements
         let isForm = false;
         while (!isForm && queue.length > 0) {
             const here = queue.shift();
-            if (!seen.has(here)) {
+            if (here && !seen.has(here)) {
                 seen.add(here);
                 if (here instanceof Blob) {
                     isForm = true;
