@@ -1,7 +1,7 @@
 import type { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import type { PointerID, PointerType } from "@juniper-lib/tslib/events/Pointers";
 import type { Vector3 } from "three";
 import type { BaseCursor3D } from "../cursors/BaseCursor3D";
+import { PointerID, PointerType } from "../Pointers";
 import type { RayTarget } from "../RayTarget";
 import type { Pointer3DEvents } from "./Pointer3DEvent";
 import type { VirtualButton } from "./VirtualButton";
@@ -18,6 +18,7 @@ export interface IPointer extends TypedEventBase<Pointer3DEvents> {
     canTeleport: boolean;
     enabled: boolean;
     isActive: boolean;
+    canSend: boolean;
 
     rayTarget: RayTarget;
 

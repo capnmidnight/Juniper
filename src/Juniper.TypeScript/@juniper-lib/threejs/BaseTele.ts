@@ -3,7 +3,6 @@ import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayClear, arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
 import { all } from "@juniper-lib/tslib/events/all";
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -25,6 +24,7 @@ import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
 import { IPointer } from "./eventSystem/devices/IPointer";
 import { PointerHand } from "./eventSystem/devices/PointerHand";
+import { PointerID } from "./eventSystem/Pointers";
 import { convertMaterials, materialStandardToPhong } from "./materials";
 import { obj, objGraph } from "./objects";
 
@@ -153,10 +153,10 @@ export abstract class BaseTele extends Application {
                 let numPointers = 0;
                 arrayClear(numFingerJoints);
                 for (const pointer of this.env.eventSys.pointers) {
-                    if (pointer.enabled
-                        && pointer.isActive
-                        && pointer.id !== PointerID.Nose) {
+                    if (pointer.canSend) {
+
                         ++numPointers;
+
                         if (PointerID.MotionController <= pointer.id
                             && pointer.id <= PointerID.MotionControllerRight) {
                             const p = pointer as any as PointerHand;
@@ -197,9 +197,7 @@ export abstract class BaseTele extends Application {
                 setMatrix16(this.env.avatar.head.matrixWorld);
 
                 for (const pointer of this.env.eventSys.pointers) {
-                    if (pointer.enabled
-                        && pointer.isActive
-                        && pointer.id !== PointerID.Nose) {
+                    if (pointer.canSend) {
 
                         setPointer10(pointer);
 

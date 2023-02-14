@@ -5,7 +5,6 @@ import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { Video } from "@juniper-lib/dom/tags";
 import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { FWD, HalfPi, UP } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
@@ -18,6 +17,7 @@ import { getLookHeadingRadians } from "./animation/lookAngles";
 import { cleanup } from "./cleanup";
 import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
+import { getPointerType, PointerID } from "./eventSystem/Pointers";
 import { obj, objectRemove, objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
 import { Image2D } from "./widgets/Image2D";
@@ -63,6 +63,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
     private readonly F = new Vector3();
     private readonly U = new Vector3();
     private readonly M = new Matrix4();
+    private readonly killers = new Map<PointerRemote, number>();
 
     private headFollower: BodyFollower = null;
     private _headSize = 1;
@@ -146,7 +147,6 @@ export class AvatarRemote extends Object3D implements IDisposable {
             i += 16;
         };
 
-        const killers = new Map<PointerRemote, number>();
         user.addEventListener("userState", (evt: UserStateEvent) => {
             buffer = evt.buffer;
             i = 0;
@@ -169,24 +169,17 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
                 if (PointerID.MotionController <= pointerID && pointerID <= PointerID.MotionControllerRight) {
                     const handedness = getHandedness();
-                    if (handedness === "none" && pointer.hand) {
-                        pointer.hand = null;
+                    if (handedness === "none") {
+                        this.deferExecution(1, pointer, () => pointer.hand = null);
+                        if (pointer.hand) {
+                            pointer.hand = null;
+                        }
                     }
-                    else if (handedness !== "none" && !pointer.hand) {
-                        pointer.hand = this.env.handModelFactory.createHandModel(handedness);
-                    }
+                    else {
+                        if (!pointer.hand) {
+                            pointer.hand = this.env.handModelFactory.createHandModel(handedness);
+                        }
 
-                    if (killers.has(pointer)) {
-                        clearTimeout(killers.get(pointer));
-                        killers.delete(pointer);
-                    }
-
-                    killers.set(pointer, setTimeout(() => {
-                        killers.delete(pointer);
-                        pointer.hand = null;
-                    }, 1000) as any);
-
-                    if (handedness !== "none") {
                         const numFingerJoints = getNumber();
                         for (let n = 0; n < numFingerJoints; ++n) {
                             getMatrix16(this.M);
@@ -216,6 +209,18 @@ export class AvatarRemote extends Object3D implements IDisposable {
                     objGraph(this.body,
                         objGraph(this.billboard,
                             this.nameTag)))));
+    }
+
+    private deferExecution(killTime: number, pointer: PointerRemote, killAction: () => void) {
+        if (this.killers.has(pointer)) {
+            clearTimeout(this.killers.get(pointer));
+            this.killers.delete(pointer);
+        }
+
+        this.killers.set(pointer, setTimeout(() => {
+            this.killers.delete(pointer);
+            killAction();
+        }, killTime * 1000) as any);
     }
 
     get audioStream(): MediaStream {
@@ -447,22 +452,25 @@ export class AvatarRemote extends Object3D implements IDisposable {
             }
         }
 
+        this.deferExecution(3, pointer, () => this.removeArm(id));
+
         return pointer;
     }
 
-    private removeArmsExcept(...names: PointerID[]): void {
-        for (const name of this.pointers.keys()) {
-            if (names.indexOf(name) === -1) {
-                this.removeArm(name);
+    private removeArmsExcept(...ids: PointerID[]): void {
+        for (const id of this.pointers.keys()) {
+            if (ids.indexOf(id) === -1) {
+                this.removeArm(id);
             }
         }
     }
 
-    private removeArm(name: PointerID): void {
-        const pointer = this.pointers.get(name);
+    private removeArm(id: PointerID): void {
+        const pointer = this.pointers.get(id);
+        console.log("removeArm", getPointerType(id), !!pointer);
         if (pointer) {
             objectRemove(this.body, pointer);
-            this.pointers.delete(name);
+            this.pointers.delete(id);
             if (pointer.cursor) {
                 objectRemove(this.env.stage, pointer.cursor);
             }

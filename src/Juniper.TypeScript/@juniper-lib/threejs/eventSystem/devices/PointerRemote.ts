@@ -1,4 +1,3 @@
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { Matrix4, Object3D, Vector3 } from "three";
 import { AvatarRemote } from "../../AvatarRemote";
 import { cleanup } from "../../cleanup";
@@ -10,6 +9,7 @@ import { ErsatzObject, obj, objGraph } from "../../objects";
 import { setMatrixFromUpFwdPos } from "../../setMatrixFromUpFwdPos";
 import { CursorColor } from "../cursors/CursorColor";
 import { Laser } from "../Laser";
+import { getPointerType, PointerID, PointerType } from "../Pointers";
 import { BasePointer } from "./BasePointer";
 
 export class PointerRemote
@@ -28,6 +28,7 @@ export class PointerRemote
     private readonly pTarget = new Vector3();
     private readonly handCube: Object3D;
     private readonly elbowCube: Object3D;
+    public readonly remoteType: PointerType;
     private _hand: IXRHandModel = null;
 
     constructor(
@@ -40,13 +41,15 @@ export class PointerRemote
 
         super("remote", PointerID.RemoteUser, env, cursor);
 
+        this.remoteType = getPointerType(this.remoteID);
+
         this.object = obj(`remote:${this.avatar.userName}:${this.name}`,
             this.handCube = new Cube(0.05, 0.05, 0.05, litGrey),
             objGraph(
-                this.elbowCube = new Cube(0.05, 0.05, 0.05, litGrey),
-                this.laser = new Laser(
-                    this.avatar.isInstructor ? green : yellow,
-                    this.avatar.isInstructor ? 1 : 0.5,
+            this.elbowCube = new Cube(0.05, 0.05, 0.05, litGrey),
+            this.laser = new Laser(
+                this.avatar.isInstructor ? green : yellow,
+                this.avatar.isInstructor ? 1 : 0.5,
                     0.002)));
 
         this.cursor.object.name = `${this.object.name}:cursor`;
@@ -61,7 +64,7 @@ export class PointerRemote
             this.elbowCube.position.set(0, 0, 0.2);
         }
         else {
-            this.handCube.position.set(0, 0, -0.2);
+        this.handCube.position.set(0, 0, -0.2);
         }
 
         this.laser.length = 30;

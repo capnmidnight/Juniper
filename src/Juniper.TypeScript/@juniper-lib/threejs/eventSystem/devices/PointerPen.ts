@@ -1,5 +1,5 @@
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { PointerID } from "../Pointers";
 import { BaseScreenPointerSinglePoint } from "./BaseScreenPointerSinglePoint";
 
 export class PointerPen extends BaseScreenPointerSinglePoint {

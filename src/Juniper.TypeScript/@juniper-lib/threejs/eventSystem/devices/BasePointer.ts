@@ -1,10 +1,10 @@
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { PointerID, PointerType } from "@juniper-lib/tslib/events/Pointers";
 import { Intersection, Vector3 } from "three";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { objGraph } from "../../objects";
 import type { BaseCursor3D } from "../cursors/BaseCursor3D";
 import { CursorXRMouse } from "../cursors/CursorXRMouse";
+import { PointerID, PointerType } from "../Pointers";
 import { getRayTarget, RayTarget } from "../RayTarget";
 import type { IPointer } from "./IPointer";
 import { Pointer3DEvent, Pointer3DEvents } from "./Pointer3DEvent";
@@ -59,6 +59,11 @@ export abstract class BasePointer
 
     get isActive() {
         return this._isActive;
+    }
+
+    get canSend() {
+        return this.enabled
+            && this.isActive;
     }
 
     private get curHit() {

@@ -1,8 +1,8 @@
-import { PointerID, PointerType } from "@juniper-lib/tslib/events/Pointers";
 import { Vector2 } from "three";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { resolveCamera } from "../../resolveCamera";
 import type { BaseCursor3D } from "../cursors/BaseCursor3D";
+import { PointerID, PointerType } from "../Pointers";
 import { BasePointer } from "./BasePointer";
 
 export abstract class BaseScreenPointer extends BasePointer {

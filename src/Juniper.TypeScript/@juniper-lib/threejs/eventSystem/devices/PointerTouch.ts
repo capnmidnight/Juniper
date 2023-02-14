@@ -1,7 +1,7 @@
 import { arrayClear, arrayRemoveByKey } from "@juniper-lib/tslib/collections/arrays";
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { isFunction } from "@juniper-lib/tslib/typeChecks";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { PointerID } from "../Pointers";
 import { BaseScreenPointer } from "./BaseScreenPointer";
 
 
@@ -105,6 +105,10 @@ export class PointerTouch
                 if (isPressed !== wasPressed) {
                     this.setButton(button, isPressed);
                 }
+            }
+
+            if (evt.type === "pointerup") {
+                setTimeout(() => this._isActive = false, 10);
             }
         }
     }

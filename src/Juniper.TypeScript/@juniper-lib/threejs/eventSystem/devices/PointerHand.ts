@@ -1,4 +1,3 @@
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { isChrome, isDesktop, isOculusBrowser } from "@juniper-lib/tslib/flags";
 import { Pi } from "@juniper-lib/tslib/math";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
@@ -11,6 +10,7 @@ import { white } from "../../materials";
 import { ErsatzObject, obj, objGraph } from "../../objects";
 import { CursorColor } from "../cursors/CursorColor";
 import { Laser } from "../Laser";
+import { PointerID } from "../Pointers";
 import { BasePointer } from "./BasePointer";
 import { VirtualButton } from "./VirtualButton";
 

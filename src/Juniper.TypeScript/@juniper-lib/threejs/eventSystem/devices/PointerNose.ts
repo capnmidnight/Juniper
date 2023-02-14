@@ -1,6 +1,6 @@
-import { PointerID } from "@juniper-lib/tslib/events/Pointers";
 import { Vector3 } from "three";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
+import { PointerID } from "../Pointers";
 import { BasePointer } from "./BasePointer";
 
 export class PointerNose extends BasePointer {
@@ -22,6 +22,10 @@ export class PointerNose extends BasePointer {
 
     vibrate() {
         // do nothing
+    }
+
+    override get canSend() {
+        return false;
     }
 
     protected updatePointerOrientation() {
