@@ -44,9 +44,13 @@ export class AvatarRemote extends Object3D implements IDisposable {
     private readonly pointers = new Map<PointerID, PointerRemote>();
 
     private height: number;
-    private readonly userID: string = null;
-    private readonly head: Object3D = null;
-    readonly body: Object3D = null;
+    private readonly userID: string;
+    private readonly head: Object3D;
+    private readonly body: Object3D;
+    private readonly headFollower: BodyFollower;
+
+    get bodyQuaternion() { return this.headFollower.quaternion; }
+
     private readonly hands = new Object3D();
     private readonly billboard: Object3D;
     private readonly nameTag: TextMesh;
@@ -63,7 +67,6 @@ export class AvatarRemote extends Object3D implements IDisposable {
     private readonly M = new Matrix4();
     private readonly killers = new Map<PointerRemote, number>();
 
-    private headFollower: BodyFollower = null;
     private _headSize = 1;
     private _headPulse = 1;
 

@@ -115,13 +115,10 @@ export class PointerRemote
 
         this.pTarget.sub(this.avatar.worldPos);
 
-        if (this.remoteID === PointerID.Mouse) {
-            this.O.set(0.2, -0.6, 0)
-                .applyQuaternion(this.avatar.body.quaternion);
-        }
-        else if (this.remoteID === PointerID.Touch) {
-            this.O.set(0, -0.5, 0)
-                .applyQuaternion(this.avatar.body.quaternion);
+        if (this.remoteID === PointerID.Mouse
+            || this.remoteID === PointerID.Touch) {
+            this.O.set(0.25, -0.55, 0.05)
+                .applyQuaternion(this.avatar.bodyQuaternion);
         }
         else {
             this.O.setScalar(0);
