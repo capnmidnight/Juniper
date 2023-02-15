@@ -1,16 +1,3 @@
-interface HTMLMediaElement {
-    sinkId: string;
-    setSinkId(id: string): Promise<void>;
-    mozHasAudio?: boolean;
-    webkitAudioDecodedByteCount?: number;
-    audioTracks?: unknown[];
-    preservesPitch?: boolean;
-    mozPreservesPitch?: boolean;
-    webkitPreservesPitch?: boolean;
-    captureStream?: () => MediaStream;
-    mozCaptureStream?: () => MediaStream;
-}
-
 type Data = ArrayBuffer | TypedArray | DataView;
 
 type AudioDataFormat =
@@ -112,7 +99,7 @@ interface AudioEncoderConfigurationSupportInfo {
     config: AudioEncoderConfig;
 }
 
-interface AudioEncoder implements EventTarget {
+interface AudioEncoder extends EventTarget {
     static isConfigSupported(config: AudioEncoderConfig): Promise<AudioEncoderConfigurationSupportInfo>;
 
     readonly encodeQueueSize: number;
