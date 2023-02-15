@@ -1,3 +1,4 @@
+import { ActivityDetector } from "@juniper-lib/audio/ActivityDetector";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
 import { autoPlay, srcObject } from "@juniper-lib/dom/attrs";
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
@@ -7,7 +8,6 @@ import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { FWD, HalfPi, UP } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { UserChatEvent, UserStateEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";

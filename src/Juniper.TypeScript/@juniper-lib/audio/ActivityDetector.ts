@@ -1,5 +1,5 @@
-import { JuniperAnalyserNode } from "@juniper-lib/audio/context/JuniperAnalyserNode";
-import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
+import { JuniperAnalyserNode } from "./context/JuniperAnalyserNode";
+import { JuniperAudioContext } from "./context/JuniperAudioContext";
 
 export class ActivityDetector extends JuniperAnalyserNode {
 

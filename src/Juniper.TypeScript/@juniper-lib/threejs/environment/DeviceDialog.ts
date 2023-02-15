@@ -1,3 +1,4 @@
+import { ActivityDetector } from "@juniper-lib/audio/ActivityDetector";
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { DeviceManager } from "@juniper-lib/audio/DeviceManager";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
@@ -31,7 +32,6 @@ import { makeLookup } from "@juniper-lib/tslib/collections/makeLookup";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import { SetTimeoutTimer } from "@juniper-lib/tslib/timers/SetTimeoutTimer";
 import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
-import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { InputRangeWithNumber } from "@juniper-lib/widgets/InputRangeWithNumber";
 import { group, PropertyList } from "@juniper-lib/widgets/PropertyList";

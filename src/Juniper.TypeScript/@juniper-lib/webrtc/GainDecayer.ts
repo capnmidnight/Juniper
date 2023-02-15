@@ -1,10 +1,10 @@
+import { ActivityDetector } from "@juniper-lib/audio/ActivityDetector";
 import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
 import { JuniperGainNode } from "@juniper-lib/audio/context/JuniperGainNode";
 import { unproject } from "@juniper-lib/tslib/math";
 import type { ITimer } from "@juniper-lib/tslib/timers/ITimer";
 import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { SetIntervalTimer } from "@juniper-lib/tslib/timers/SetIntervalTimer";
-import { ActivityDetector } from "./ActivityDetector";
 
 export class GainDecayer extends ActivityDetector {
     private curLength = 0;

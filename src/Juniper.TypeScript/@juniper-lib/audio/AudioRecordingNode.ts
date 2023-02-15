@@ -1,6 +1,3 @@
-import { BaseNodeCluster } from "@juniper-lib/audio/BaseNodeCluster";
-import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
-import { JuniperMediaStreamAudioDestinationNode } from "@juniper-lib/audio/context/JuniperMediaStreamAudioDestinationNode";
 import { MediaType } from "@juniper-lib/mediatypes";
 import * as allAudioTypes from "@juniper-lib/mediatypes/audio";
 import { arrayClear, arrayScan } from "@juniper-lib/tslib/collections/arrays";
@@ -8,7 +5,10 @@ import { debounce } from "@juniper-lib/tslib/events/debounce";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
+import { ActivityDetector } from "./ActivityDetector";
+import { BaseNodeCluster } from "./BaseNodeCluster";
+import { JuniperAudioContext } from "./context/JuniperAudioContext";
+import { JuniperMediaStreamAudioDestinationNode } from "./context/JuniperMediaStreamAudioDestinationNode";
 
 const RECORDING_DELAY = .25;
 const ACTIVITY_SENSITIVITY = 0.6;
@@ -239,19 +239,27 @@ export class AudioRecordingNode
     }
 
     start(timeslice?: number) {
-        this.recorder.start(timeslice);
+        if (this.recorder.state === "inactive") {
+            this.recorder.start(timeslice);
+        }
     }
 
     stop() {
-        this.recorder.stop();
+        if (this.recorder.state !== "inactive") {
+            this.recorder.stop();
+        }
     }
 
     resume() {
-        this.recorder.resume();
+        if (this.recorder.state === "paused") {
+            this.recorder.resume();
+        }
     }
 
     pause() {
-        this.recorder.pause();
+        if (this.recorder.state !== "paused") {
+            this.recorder.pause();
+        }
     }
 
     requestData() {
