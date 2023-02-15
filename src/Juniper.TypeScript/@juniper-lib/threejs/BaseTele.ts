@@ -40,7 +40,6 @@ export abstract class BaseTele extends Application {
 
     conference: TeleconferenceManager = null;
 
-    private defaultAvatarHeight = 1.75;
     private avatarModel: Object3D = null;
     private avatarNameTagFont: Partial<TextImageOptions> = null;
     private userType: string = null;
@@ -76,11 +75,6 @@ export abstract class BaseTele extends Application {
     }
 
     override async init(params: Map<string, unknown>): Promise<void> {
-        this.defaultAvatarHeight = params.get("defaultAvatarHeight") as number;
-        if (!this.defaultAvatarHeight) {
-            throw new Error("Missing defaultAvatarHeight parameter");
-        }
-
         this.avatarNameTagFont = params.get("nameTagFont") as Partial<TextImageOptions>;
         if (!this.avatarNameTagFont) {
             throw new Error("Missing nameTagFont parameter");
@@ -140,7 +134,7 @@ export abstract class BaseTele extends Application {
                 evt.user,
                 evt.source,
                 model,
-                this.defaultAvatarHeight,
+                this.env.defaultAvatarHeight,
                 this.avatarNameTagFont);
 
             avatar.userName = evt.user.userName;

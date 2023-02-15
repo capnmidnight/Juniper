@@ -18,10 +18,11 @@ import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { Exception } from "@juniper-lib/tslib/Exception";
 import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
 import { rad2deg } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
-import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
 import { InteractionAudio } from "../../eventSystem/InteractionAudio";
@@ -44,7 +45,6 @@ import { BaseEnvironment } from "./../BaseEnvironment";
 import { DeviceDialog } from "./../DeviceDialog";
 import { XRTimerTickEvent } from "./../XRTimer";
 
-
 import "./style.css";
 
 export class EnvironmentRoomJoinedEvent extends TypedEvent<"roomjoined"> {
@@ -66,23 +66,23 @@ export interface EnvironmentEvents {
 }
 
 export interface EnvironmentOptions {
-    DEBUG: boolean;
-    watchModelPath: string;
-    styleSheetPath: string;
+    canvas: CanvasTypes;
+    fetcher: IFetcher;
+    dialogFontFamily: string;
+    getAppUrl: (name: string) => string;
+    uiImagePaths: PriorityMap<string, string, string>;
+    buttonFillColor: CSSColorValue;
+    labelFillColor: CSSColorValue;
+    defaultAvatarHeight?: number;
+    defaultFOV?: number;
+    enableFullResolution?: boolean;
+    DEBUG?: boolean;
+    watchModelPath?: string;
+    styleSheetPath?: string;
 }
 
 export interface EnvironmentConstructor {
-    new(canvas: CanvasTypes,
-        fetcher: IFetcher,
-        dialogFontFamily: string,
-        getAppUrl: (name: string) => string,
-        uiImagePaths: PriorityMap<string, string, string>,
-        buttonFillColor: CSSColorValue,
-        labelFillColor: CSSColorValue,
-        defaultAvatarHeight: number,
-        defaultFOV: number,
-        enableFullResolution: boolean,
-        options?: Partial<EnvironmentOptions>): Environment;
+    new(options: EnvironmentOptions): Environment;
 }
 
 export interface EnvironmentModule {
@@ -131,34 +131,56 @@ export class Environment
         return this._currentRoom;
     }
 
-    constructor(canvas: CanvasTypes,
-        fetcher: IFetcher,
-        dialogFontFamily: string,
-        getAppUrl: (name: string) => string,
-        uiImagePaths: PriorityMap<string, string, string>,
-        buttonFillColor: CSSColorValue,
-        labelFillColor: CSSColorValue,
-        defaultAvatarHeight: number,
-        defaultFOV: number,
-        enableFullResolution: boolean,
-        options?: Partial<EnvironmentOptions>) {
+    constructor(options: EnvironmentOptions) {
 
-        options = options || {};
+        if (isNullOrUndefined(options)) {
+            throw new Exception("Options are now required");
+        }
 
-        const audio = new AudioManager(fetcher, DEFAULT_LOCAL_USER_ID);;
+
+        if (isNullOrUndefined(options.canvas)) {
+            throw new Exception("options.canvas is required");
+        }
+
+        if (isNullOrUndefined(options.fetcher)) {
+            throw new Exception("options.fetcher is required");
+        }
+
+        if (isNullOrUndefined(options.dialogFontFamily)) {
+            throw new Exception("options.dialogFontFamily is required");
+        }
+
+        if (isNullOrUndefined(options.getAppUrl)) {
+            throw new Exception("options.getAppUrl is required");
+        }
+
+        if (isNullOrUndefined(options.uiImagePaths)) {
+            throw new Exception("options.uiImagePaths is required");
+        }
+
+        if (isNullOrUndefined(options.buttonFillColor)) {
+            throw new Exception("options.buttonFillColor is required");
+        }
+
+        if (isNullOrUndefined(options.labelFillColor)) {
+            throw new Exception("options.labelFillColor is required");
+        }
+
+
+        const audio = new AudioManager(options.fetcher, DEFAULT_LOCAL_USER_ID);;
 
         super(
-            canvas,
+            options.canvas,
             options.styleSheetPath,
-            fetcher,
-            defaultAvatarHeight,
-            defaultFOV,
-            enableFullResolution,
+            options.fetcher,
+            options.enableFullResolution,
             options.DEBUG,
+            options.defaultAvatarHeight || 1.75,
+            options.defaultFOV || 60,
             audio);
 
 
-        this.screenUISpace = new ScreenUI(buttonFillColor);
+        this.screenUISpace = new ScreenUI(options.buttonFillColor);
         this.compassImage = new ArtificialHorizon();
 
         this.clockImage = new CanvasImageMesh(this, "Clock", "none", new ClockImage());
@@ -174,11 +196,11 @@ export class Environment
             maxHeight: 0.1,
             padding: 0.02,
             scale: 1000,
-            bgFillColor: labelFillColor,
+            bgFillColor: options.labelFillColor,
             textFillColor: "white"
         });
 
-        this.apps = new ApplicationLoader(this, getAppUrl);
+        this.apps = new ApplicationLoader(this, options.getAppUrl);
 
         this.apps.addEventListener("apploaded", (evt) => {
             evt.app.addEventListener("joinroom", (evt) => {
@@ -192,8 +214,8 @@ export class Environment
         this.audio = audio;
 
         this.graph = new AudioGraphDialog(this.audio.context);
-        if (isHTMLCanvas(canvas)) {
-            canvas.addEventListener("keypress", (evt) => {
+        if (isHTMLCanvas(options.canvas)) {
+            options.canvas.addEventListener("keypress", (evt) => {
                 if (isModifierless(evt) && evt.key === "`") {
                     this.graph.showDialog();
                 }
@@ -211,10 +233,10 @@ export class Environment
         this.webcams = new LocalUserWebcam();
         this.devices = new DeviceManager(this.microphones, this.webcams);
 
-        this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
+        this.confirmationDialog = new ConfirmationDialog(this, options.dialogFontFamily);
         this.devicesDialog = new DeviceDialog(this.fetcher, this.devices, this.audio, this.microphones, this.webcams, this.DEBUG);
 
-        this.uiButtons = new ButtonFactory(uiImagePaths, 20, buttonFillColor, labelFillColor, this.DEBUG);
+        this.uiButtons = new ButtonFactory(options.uiImagePaths, 20, options.buttonFillColor, options.labelFillColor, this.DEBUG);
 
         this.menuButton = new ButtonImageWidget(this.uiButtons, "ui", "menu");
         this.settingsButton = new ButtonImageWidget(this.uiButtons, "ui", "settings");

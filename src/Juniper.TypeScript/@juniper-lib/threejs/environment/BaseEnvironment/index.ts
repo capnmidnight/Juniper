@@ -58,6 +58,7 @@ export class BaseEnvironment<Events = unknown>
 
     private fadeDepth = 0;
 
+    readonly defaultAvatarHeight: number;
     readonly scene = new Scene();
     readonly stage = obj("Stage");
     readonly ambient = new AmbientLight(0xffffff, 0.5);
@@ -67,6 +68,7 @@ export class BaseEnvironment<Events = unknown>
     readonly loadingBar = new LoadingBar();
     readonly handModelFactory = new XRHandModelFactory(new Color(0xb7c8e9), "mesh");
 
+    DEBUG: boolean;
     readonly camera: PerspectiveCamera;
     readonly renderer: WebGLRenderer;
     readonly timer: XRTimer;
@@ -82,12 +84,16 @@ export class BaseEnvironment<Events = unknown>
     constructor(canvas: CanvasTypes,
         private readonly styleSheetPath: string,
         public readonly fetcher: IFetcher,
-        public readonly defaultAvatarHeight: number,
-        defaultFOV: number,
         enableFullResolution: boolean,
-        public DEBUG: boolean,
+        DEBUG: boolean = null,
+        defaultAvatarHeight: number = null,
+        defaultFOV: number = null,
         audio: AudioManager = null) {
         super();
+
+        this.DEBUG = DEBUG || false;
+        this.defaultAvatarHeight = defaultAvatarHeight || 1.75;
+        defaultFOV = defaultFOV || 60;
 
         this.camera = new PerspectiveCamera(defaultFOV, 1, 0.01, 1000);
         this.cursor3D = new Cursor3D(this);
