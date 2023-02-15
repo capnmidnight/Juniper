@@ -3,5 +3,6 @@ export * from "./battery";
 export * from "./css";
 export * from "./gamepad";
 export * from "./html-media-element";
+export * from "./language-culture";
 export * from "./webxr";
 export * from "./webxr-polyfill";
