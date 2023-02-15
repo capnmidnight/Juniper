@@ -2,18 +2,11 @@ import { ActivityDetector } from "@juniper-lib/audio/ActivityDetector";
 import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
 import { JuniperGainNode } from "@juniper-lib/audio/context/JuniperGainNode";
 import { unproject } from "@juniper-lib/tslib/math";
-import type { ITimer } from "@juniper-lib/tslib/timers/ITimer";
-import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
-import { SetIntervalTimer } from "@juniper-lib/tslib/timers/SetIntervalTimer";
 
 export class GainDecayer extends ActivityDetector {
     private curLength = 0;
-
-    private timer: ITimer = null;
-
     private _enabled = true;
     private shouldRun = false;
-    private readonly onTick: (evt: TimerTickEvent) => void;
 
     constructor(
         context: JuniperAudioContext,
@@ -30,35 +23,32 @@ export class GainDecayer extends ActivityDetector {
         super(context);
 
         this.name = "remote-audio-activity";
+        let lastT: number = null;
+        this.addEventListener("activity", (evt) => {
+            const now = performance.now();
+            if (lastT != null) {
+                const dt = now - lastT;
+                if (this.enabled) {
+                    const level = evt.level;
 
-        this.timer = new SetIntervalTimer(30);
-        this.timer.addTickHandler(this.onTick = (evt) => this.update(evt));
-    }
+                    if (level >= this.threshold && this.time >= this.length) {
+                        this.time = 0;
+                    }
 
-    override onDisposing() {
-        super.onDisposing();
-        this.timer.removeTickHandler(this.onTick);
-    }
+                    this.time += dt;
+                    if (this.time > this.length) {
+                        this.time = this.length;
+                    }
 
-    update(evt: TimerTickEvent) {
-        if (this.enabled) {
-            const level = this.level;
+                    if (level >= this.threshold && this.holding) {
+                        this.time = this.holdStart;
+                    }
 
-            if (level >= this.threshold && this.time >= this.length) {
-                this.time = 0;
+                    this.control.gain.value = this.gain;
+                }
             }
-
-            this.time += evt.dt;
-            if (this.time > this.length) {
-                this.time = this.length;
-            }
-
-            if (level >= this.threshold && this.holding) {
-                this.time = this.holdStart;
-            }
-
-            this.control.gain.value = this.gain;
-        }
+            lastT = now;
+        });
     }
 
     get enabled(): boolean {
@@ -70,27 +60,25 @@ export class GainDecayer extends ActivityDetector {
         this.refresh();
     }
 
-    start() {
+    override start() {
         this.shouldRun = true;
         this.refresh();
     }
 
-    stop() {
+    override stop() {
         this.shouldRun = false;
         this.refresh();
     }
 
     private refresh() {
-        if (this.timer != null) {
-            const canRun = this.shouldRun && this.enabled;
-            if (canRun !== this.timer.isRunning) {
-                if (canRun) {
-                    this.timer.start();
-                }
-                else {
-                    this.timer.stop();
-                    this.control.gain.value = 1;
-                }
+        const canRun = this.shouldRun && this.enabled;
+        if (canRun !== this.timer.isRunning) {
+            if (canRun) {
+                this.timer.start();
+            }
+            else {
+                this.timer.stop();
+                this.control.gain.value = 1;
             }
         }
     }

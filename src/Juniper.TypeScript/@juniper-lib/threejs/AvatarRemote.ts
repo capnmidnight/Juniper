@@ -140,6 +140,11 @@ export class AvatarRemote extends Object3D implements IDisposable {
                     objGraph(this.body,
                         objGraph(this.billboard,
                             this.nameTag)))));
+
+        this.activity.addEventListener("activity", (evt) => {
+            this.headPulse = 0.2 * evt.level + 1;
+        });
+        this.activity.start();
     }
 
     get audioStream(): MediaStream {
@@ -198,6 +203,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
             this.removePointer(pointerName);
         }
 
+        this.activity.stop();
         this.activity.dispose();
     }
 
@@ -266,7 +272,6 @@ export class AvatarRemote extends Object3D implements IDisposable {
     }
 
     update(dt: number) {
-        this.headPulse = 0.2 * this.activity.level + 1;
         this.pEnd.lerp(this.pTarget, dt * 0.01);
         this.qEnd.slerp(this.qTarget, dt * 0.01);
         this.head.position.copy(this.pEnd);

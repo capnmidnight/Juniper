@@ -4,5 +4,6 @@ export * from "./css";
 export * from "./gamepad";
 export * from "./html-media-element";
 export * from "./language-culture";
+export * from "./speech-recognizer";
 export * from "./webxr";
 export * from "./webxr-polyfill";

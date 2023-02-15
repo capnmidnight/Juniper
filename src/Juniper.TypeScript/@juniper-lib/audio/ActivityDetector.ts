@@ -1,11 +1,24 @@
+import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { JuniperAnalyserNode } from "./context/JuniperAnalyserNode";
+import { SetIntervalTimer } from "@juniper-lib/tslib/timers/SetIntervalTimer";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
 
-export class ActivityDetector extends JuniperAnalyserNode {
+
+export class ActivityEvent extends TypedEvent<"activity"> {
+    public level = 0;
+    constructor() {
+        super("activity");
+    }
+}
+
+export class ActivityDetector extends JuniperAnalyserNode<{
+    activity: ActivityEvent;
+}> {
 
     private _level = 0;
     private maxLevel = 0;
-    private buffer: Uint8Array;
+    private readonly activityEvt = new ActivityEvent();
+    protected readonly timer = new SetIntervalTimer(30);
 
     constructor(context: JuniperAudioContext) {
         super(context, {
@@ -13,19 +26,31 @@ export class ActivityDetector extends JuniperAnalyserNode {
             minDecibels: -70
         });
 
-        this.buffer = new Uint8Array(this.frequencyBinCount);
+        const buffer = new Uint8Array(this.frequencyBinCount);
+        this.timer.addTickHandler(() => {
+            this.getByteFrequencyData(buffer);
+            this._level = Math.max(...buffer);
+            if (isFinite(this._level)) {
+                this.maxLevel = Math.max(this.maxLevel, this._level);
+                if (this.maxLevel > 0) {
+                    this._level /= this.maxLevel;
+                }
+            }
+
+            this.activityEvt.level = this.level;
+            this.dispatchEvent(this.activityEvt);
+        });
     }
 
     get level() {
-        this.getByteFrequencyData(this.buffer);
-        this._level = Math.max(...this.buffer);
-        if (isFinite(this._level)) {
-            this.maxLevel = Math.max(this.maxLevel, this._level);
-            if (this.maxLevel > 0) {
-                this._level /= this.maxLevel;
-            }
-        }
-
         return this._level;
+    }
+
+    start() {
+        this.timer.start();
+    }
+
+    stop() {
+        this.timer.stop();
     }
 }

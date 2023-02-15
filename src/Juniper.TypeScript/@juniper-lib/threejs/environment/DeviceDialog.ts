@@ -30,7 +30,6 @@ import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { makeLookup } from "@juniper-lib/tslib/collections/makeLookup";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
-import { SetTimeoutTimer } from "@juniper-lib/tslib/timers/SetTimeoutTimer";
 import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { InputRangeWithNumber } from "@juniper-lib/widgets/InputRangeWithNumber";
@@ -70,8 +69,6 @@ export class DeviceDialog extends DialogBox {
     private readonly testSpkrButton: HTMLButtonElement;
     private readonly useHeadphones: HTMLInputElement;
     private readonly headphoneWarning: HTMLDivElement;
-
-    private readonly timer = new SetTimeoutTimer(30);
 
     constructor(fetcher: IFetcher,
         private readonly devices: DeviceManager,
@@ -191,11 +188,8 @@ export class DeviceDialog extends DialogBox {
 
         this.activity = new ActivityDetector(this.audio.context);
         this.activity.name = "device-settings-dialog-activity";
+        this.activity.addEventListener("activity", (evt) =>  this.micLevels.value = evt.level);
         this.microphones.connect(this.activity);
-
-        this.timer.addTickHandler(() => {
-            this.micLevels.value = this.activity.level;
-        });
 
         this.properties.setGroupVisible(MIC_GROUP, false);
 
@@ -270,13 +264,13 @@ export class DeviceDialog extends DialogBox {
         this.useHeadphones.checked = this.audio.useHeadphones;
         elementSetDisplay(this.headphoneWarning, !this.audio.useHeadphones, "inline-block");
 
-        this.timer.start();
+        this.activity.start();
 
         await super.onShowing();
     }
 
     protected override onClosed() {
-        this.timer.stop();
+        this.activity.stop();
         super.onClosed();
     }
 }

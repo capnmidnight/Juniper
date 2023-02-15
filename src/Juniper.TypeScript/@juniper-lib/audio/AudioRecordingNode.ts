@@ -14,8 +14,8 @@ const RECORDING_DELAY = .25;
 const ACTIVITY_SENSITIVITY = 0.6;
 const PAUSE_LENGTH = 1;
 
-export class AudioRecordingNodeBlobAvailableEvent extends TypedEvent<"blobavailable"> {
-    constructor(public readonly blob: Blob) {
+export class BlobAvailableEvent extends TypedEvent<"blobavailable"> {
+    constructor(public readonly id: number, public readonly blob: Blob) {
         super("blobavailable");
     }
 }
@@ -27,8 +27,8 @@ export class ActivityEvent extends TypedEvent<"activity"> {
     }
 }
 
-interface AudioRecordingNodeEventMap {
-    blobavailable: AudioRecordingNodeBlobAvailableEvent;
+export interface AudioRecordingNodeEvents {
+    blobavailable: BlobAvailableEvent;
     dataavailable: BlobEvent;
     error: MediaRecorderErrorEvent;
     pause: Event;
@@ -39,11 +39,10 @@ interface AudioRecordingNodeEventMap {
 }
 
 interface AudioRecordingNodeOptions extends MediaRecorderOptions, AudioNodeOptions {
-    enableListening?: boolean;
 }
 
 export class AudioRecordingNode
-    extends BaseNodeCluster<AudioRecordingNodeEventMap>
+    extends BaseNodeCluster<AudioRecordingNodeEvents>
     implements MediaRecorderOptions {
 
     static getSupportedMediaTypes(): MediaType[] {
@@ -56,7 +55,7 @@ export class AudioRecordingNode
 
     private readonly streamNode: JuniperMediaStreamAudioDestinationNode;
 
-    listening = false;
+    private listening = false;
     private recording = false;
 
     private _mimeType: string = undefined;
@@ -67,7 +66,7 @@ export class AudioRecordingNode
 
     private readonly createRecorder: () => void;
 
-    constructor(context: JuniperAudioContext, options?: AudioRecordingNodeOptions) {
+    constructor(context: JuniperAudioContext, activity: ActivityDetector, options?: AudioRecordingNodeOptions) {
 
         const input = context.createGain();
 
@@ -113,8 +112,9 @@ export class AudioRecordingNode
             chunks.push(evt.data);
         };
 
+        let counter = 0;
         const onStopRecording = () => {
-            this.dispatchEvent(new AudioRecordingNodeBlobAvailableEvent(new Blob(chunks, {
+            this.dispatchEvent(new BlobAvailableEvent(++counter, new Blob(chunks, {
                 type: this.mimeType
             })));
         };
@@ -123,36 +123,40 @@ export class AudioRecordingNode
         this.addEventListener("dataavailable", onRecordingDataAvailable);
         this.addEventListener("stop", onStopRecording);
 
-        if (options && options.enableListening) {
-            const activityEvt = new ActivityEvent();
-            const activity = new ActivityDetector(context);
+        let stopRecordingTimer: number = null;
 
-            let stopRecordingTimer: number = null;
-            const checkActivity = () => {
-                activityEvt.level = activity.level;
-                this.dispatchEvent(activityEvt);
+        const start = () => {
+            this.recording = true;
+            this.recorder.start();
+        };
 
-                if (this.listening && activityEvt.level > ACTIVITY_SENSITIVITY) {
-                    if (this.state !== "recording") {
-                        this.start();
+        const stop = () => {
+            stopRecordingTimer = null;
+            this.recording = false;
+            this.recorder.stop();
+        };
+
+        activity.addEventListener("activity", (evt) => {
+            if (this.listening && evt.level > ACTIVITY_SENSITIVITY) {
+                if (this.recording) {
+                    if (stopRecordingTimer) {
+                        clearTimeout(stopRecordingTimer);
+                        stopRecordingTimer = null;
                     }
-                    else {
-                        if (stopRecordingTimer) {
-                            clearTimeout(stopRecordingTimer);
-                            stopRecordingTimer = null;
-                        }
 
-                        stopRecordingTimer = setTimeout(() => {
-                            stopRecordingTimer = null;
-                            this.stop();
-                        }, PAUSE_LENGTH * 1000) as any;
-                    }
+                    stopRecordingTimer = setTimeout(stop, PAUSE_LENGTH * 1000) as any;
                 }
-            };
+                else {
+                    start();
+                }
+            }
+            else if (!this.listening && stopRecordingTimer) {
+                clearTimeout(stopRecordingTimer);
+                stop();
+            }
+        });
 
-            setInterval(checkActivity, 10);
-            input.connect(activity);
-        }
+        input.connect(activity);
     }
 
     get stream() {
@@ -165,17 +169,21 @@ export class AudioRecordingNode
 
     get state() {
         if (this.recorder === null) {
-            return null;
+            return "inactive";
         }
 
         return this.recorder.state;
     }
 
+    private checkState() {
+        if (this.state !== "inactive") {
+            throw new Exception("Cannot change settings while recording. State: " + this.state);
+        }
+    }
+
     get mimeType() { return this._mimeType; }
     set mimeType(v) {
-        if (this.recording) {
-            throw new Exception("Cannot change settings while recording");
-        }
+        this.checkState();
         if (v !== this.mimeType) {
             this._mimeType = v;
             this.createRecorder();
@@ -184,9 +192,7 @@ export class AudioRecordingNode
 
     get audioBitsPerSecond() { return this._audioBitsPerSecond; }
     set audioBitsPerSecond(v) {
-        if (this.recording) {
-            throw new Exception("Cannot change settings while recording");
-        }
+        this.checkState();
         if (v !== this.audioBitsPerSecond) {
             this._audioBitsPerSecond = v;
             this.createRecorder();
@@ -195,9 +201,7 @@ export class AudioRecordingNode
 
     get bitsPerSecond() { return this._bitsPerSecond; }
     set bitsPerSecond(v) {
-        if (this.recording) {
-            throw new Exception("Cannot change settings while recording");
-        }
+        this.checkState();
         if (v !== this.bitsPerSecond) {
             this._bitsPerSecond = v;
             this.createRecorder();
@@ -206,9 +210,7 @@ export class AudioRecordingNode
 
     get audioBitrateMode() { return this._audioBitrateMode; }
     set audioBitrateMode(v) {
-        if (this.recording) {
-            throw new Exception("Cannot change settings while recording");
-        }
+        this.checkState();
         if (v !== this.audioBitrateMode) {
             this._audioBitrateMode = v;
             this.createRecorder();
@@ -238,31 +240,29 @@ export class AudioRecordingNode
         }
     }
 
-    start(timeslice?: number) {
-        if (this.recorder.state === "inactive") {
-            this.recorder.start(timeslice);
-        }
+    start() {
+        this.listening = true;
     }
 
     stop() {
-        if (this.recorder.state !== "inactive") {
-            this.recorder.stop();
-        }
+        this.listening = false;
     }
 
     resume() {
-        if (this.recorder.state === "paused") {
+        if (this.recorder != null && this.recorder.state === "paused") {
             this.recorder.resume();
         }
     }
 
     pause() {
-        if (this.recorder.state !== "paused") {
+        if (this.recorder != null && this.recorder.state !== "paused") {
             this.recorder.pause();
         }
     }
 
     requestData() {
-        this.recorder.requestData();
+        if (this.recorder != null) {
+            this.recorder.requestData();
+        }
     }
 }
