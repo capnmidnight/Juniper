@@ -453,6 +453,12 @@ export class TeleconferenceManager
         }
     }
 
+    sendChat(text: string): void {
+        if (this.conferenceState === ConnectionState.Connected) {
+            this.toRoom("chat", text);
+        }
+    }
+
     private async sendIce(toUserID: string, candidate: RTCIceCandidate): Promise<void> {
         await this.toUser("sendIce", toUserID, JSON.stringify(candidate));
     }

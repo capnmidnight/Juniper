@@ -55,6 +55,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
     private readonly hands = new Object3D();
     private readonly billboard: Object3D;
     private readonly nameTag: TextMesh;
+    private readonly chatBox: TextMesh;
     private readonly activity: ActivityDetector;
     private readonly pTarget = new Vector3();
     private readonly pEnd = new Vector3();
@@ -114,7 +115,11 @@ export class AvatarRemote extends Object3D implements IDisposable {
         this.nameTag.position.y = -0.25;
         this.userName = user.userName;
 
+        this.chatBox = new TextMesh(this.env, `chat-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
+        this.chatBox.position.y = -0.5;
 
+        user.addEventListener("chat", (evt: UserChatEvent) =>
+            this.chatText = evt.text);
 
         const buffer = new BufferReaderWriter();
 
@@ -139,7 +144,8 @@ export class AvatarRemote extends Object3D implements IDisposable {
                 objGraph(this.headFollower,
                     objGraph(this.body,
                         objGraph(this.billboard,
-                            this.nameTag)))));
+                            this.nameTag,
+                            this.chatBox)))));
 
         this.activity.addEventListener("activity", (evt) => {
             this.headPulse = 0.2 * evt.level + 1;
@@ -261,6 +267,24 @@ export class AvatarRemote extends Object3D implements IDisposable {
                 }
             }
         }
+    }
+
+    get chatText(): string {
+        return this.chatBox.image.value;
+    }
+
+    private clearChatTimer: number = null;
+    set chatText(v: string) {
+        this.chatBox.image.value = v;
+
+        if (this.clearChatTimer !== null) {
+            clearTimeout(this.clearChatTimer);
+            this.clearChatTimer = null;
+        }
+
+        this.clearChatTimer = setTimeout(() => {
+            this.chatText = null;
+        }, 3000) as any;
     }
 
     refreshCursors() {
