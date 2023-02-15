@@ -1,5 +1,4 @@
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
-import type { Pose } from "../Pose";
 import { hasNewAudioListener } from "../util";
 import { BaseWebAudioListener } from "./BaseWebAudioListener";
 
@@ -21,20 +20,22 @@ export class WebAudioListenerNew extends BaseWebAudioListener {
         Object.seal(this);
     }
 
-    /**
-     * Performs the spatialization operation for the audio source's latest location.
-     */
-    readPose(loc: Pose): void {
-        const { p, f, u } = loc;
+    protected setPosition(x: number, y: number, z: number): void {
         const t = this.context.currentTime;
-        this.listener.positionX.setValueAtTime(p[0], t);
-        this.listener.positionY.setValueAtTime(p[1], t);
-        this.listener.positionZ.setValueAtTime(p[2], t);
-        this.listener.forwardX.setValueAtTime(f[0], t);
-        this.listener.forwardY.setValueAtTime(f[1], t);
-        this.listener.forwardZ.setValueAtTime(f[2], t);
-        this.listener.upX.setValueAtTime(u[0], t);
-        this.listener.upY.setValueAtTime(u[1], t);
-        this.listener.upZ.setValueAtTime(u[2], t);
+        this.listener.positionX.setValueAtTime(x, t);
+        this.listener.positionY.setValueAtTime(y, t);
+        this.listener.positionZ.setValueAtTime(z, t);
+    }
+
+    protected setOrientation(
+        fx: number, fy: number, fz: number,
+        ux: number, uy: number, uz: number): void {
+        const t = this.context.currentTime;
+        this.listener.forwardX.setValueAtTime(fx, t);
+        this.listener.forwardY.setValueAtTime(fy, t);
+        this.listener.forwardZ.setValueAtTime(fz, t);
+        this.listener.upX.setValueAtTime(ux, t);
+        this.listener.upY.setValueAtTime(uy, t);
+        this.listener.upZ.setValueAtTime(uz, t);
     }
 }

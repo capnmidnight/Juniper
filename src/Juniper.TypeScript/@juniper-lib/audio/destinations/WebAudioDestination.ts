@@ -103,17 +103,13 @@ export class WebAudioDestination
         this.listener.readPose(this.pose);
     }
 
-    setOrientation(fx: number, fy: number, fz: number): void;
-    setOrientation(fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void;
-    setOrientation(fx: number, fy: number, fz: number, ux?: number, uy?: number, uz?: number): void {
-        this.pose.setOrientation(fx, fy, fz, ux, uy, uz);
+    setOrientation(qx: number, qy: number, qz: number, qw: number): void {
+        this.pose.setOrientation(qx, qy, qz, qw);
         this.listener.readPose(this.pose);
     }
 
-    set(px: number, py: number, pz: number, fx: number, fy: number, fz: number): void;
-    set(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void;
-    set(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux?: number, uy?: number, uz?: number): void {
-        this.pose.set(px, py, pz, fx, fy, fz, ux, uy, uz);
+    set(px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number): void {
+        this.pose.set(px, py, pz, qx, qy, qz, qw);
         this.listener.readPose(this.pose);
     }
 

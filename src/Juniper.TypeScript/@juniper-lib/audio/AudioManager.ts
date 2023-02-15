@@ -418,16 +418,14 @@ export class AudioManager
      * @param px - the horizontal component of the position.
      * @param py - the vertical component of the position.
      * @param pz - the lateral component of the position.
-     * @param fx - the horizontal component of the forward vector.
-     * @param fy - the vertical component of the forward vector.
-     * @param fz - the lateral component of the forward vector.
-     * @param ux - the horizontal component of the up vector.
-     * @param uy - the vertical component of the up vector.
-     * @param uz - the lateral component of the up vector.
+     * @param qx - the rotation quaternion x component.
+     * @param qy - the rotation quaternion y component.
+     * @param qz - the rotation quaternion z component.
+     * @param qw - the rotation quaternion w component.
      **/
-    setUserPose(id: string, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void {
+    setUserPose(id: string, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number): void {
         this.withUser(id, (poser) => {
-            poser.set(px, py, pz, fx, fy, fz, ux, uy, uz);
+            poser.set(px, py, pz, qx, qy, qz, qw);
         });
     }
 
@@ -447,18 +445,14 @@ export class AudioManager
     /**
      * Set the position and orientation of a user.
      * @param id - the id of the user for which to set the position.
-     * @param fx - the horizontal component of the forward vector.
-     * @param fy - the vertical component of the forward vector.
-     * @param fz - the lateral component of the forward vector.
-     * @param ux - the horizontal component of the up vector.
-     * @param uy - the vertical component of the up vector.
-     * @param uz - the lateral component of the up vector.
+     * @param qx - the rotation quaternion x component.
+     * @param qy - the rotation quaternion y component.
+     * @param qz - the rotation quaternion z component.
+     * @param qw - the rotation quaternion w component.
      **/
-    setUserOrientation(id: string, fx: number, fy: number, fz: number): void;
-    setUserOrientation(id: string, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void;
-    setUserOrientation(id: string, fx: number, fy: number, fz: number, ux?: number, uy?: number, uz?: number): void {
+    setUserOrientation(id: string, qx: number, qy: number, qz: number, qw: number): void {
         this.withUser(id, (poser) => {
-            poser.setOrientation(fx, fy, fz, ux, uy, uz);
+            poser.setOrientation(qx, qy, qz, qw);
         });
     }
 
@@ -468,16 +462,14 @@ export class AudioManager
      * @param px - the horizontal component of the position.
      * @param py - the vertical component of the position.
      * @param pz - the lateral component of the position.
-     * @param fx - the horizontal component of the forward vector.
-     * @param fy - the vertical component of the forward vector.
-     * @param fz - the lateral component of the forward vector.
-     * @param ux - the horizontal component of the up vector.
-     * @param uy - the vertical component of the up vector.
-     * @param uz - the lateral component of the up vector.
+     * @param qx - the rotation quaternion x component.
+     * @param qy - the rotation quaternion y component.
+     * @param qz - the rotation quaternion z component.
+     * @param qw - the rotation quaternion w component.
      **/
-    setClipPose(id: string, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void {
+    setClipPose(id: string, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number): void {
         this.withClip(id, (poser) => {
-            poser.set(px, py, pz, fx, fy, fz, ux, uy, uz);
+            poser.set(px, py, pz, qx, qy, qz, qw);
         });
     }
 
@@ -497,18 +489,14 @@ export class AudioManager
     /**
      * Set the position and orientation of a clip.
      * @param id - the id of the user for which to set the position.
-     * @param fx - the horizontal component of the forward vector.
-     * @param fy - the vertical component of the forward vector.
-     * @param fz - the lateral component of the forward vector.
-     * @param ux - the horizontal component of the up vector.
-     * @param uy - the vertical component of the up vector.
-     * @param uz - the lateral component of the up vector.
+     * @param qx - the rotation quaternion x component.
+     * @param qy - the rotation quaternion y component.
+     * @param qz - the rotation quaternion z component.
+     * @param qw - the rotation quaternion w component.
      **/
-    setClipOrientation(id: string, fx: number, fy: number, fz: number): void;
-    setClipOrientation(id: string, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void;
-    setClipOrientation(id: string, fx: number, fy: number, fz: number, ux?: number, uy?: number, uz?: number): void {
+    setClipOrientation(id: string, qx: number, qy: number, qz: number, qw: number): void {
         this.withClip(id, (poser) => {
-            poser.setOrientation(fx, fy, fz, ux, uy, uz);
+            poser.setOrientation(qx, qy, qz, qw);
         });
     }
 }

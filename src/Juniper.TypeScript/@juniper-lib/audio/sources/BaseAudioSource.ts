@@ -136,21 +136,17 @@ export abstract class BaseAudioSource<EventTypeT = void>
         }
     }
 
-    setOrientation(fx: number, fy: number, fz: number): void;
-    setOrientation(fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void;
-    setOrientation(fx: number, fy: number, fz: number, ux?: number, uy?: number, uz?: number): void {
+    setOrientation(qx: number, qy: number, qz: number, qw: number): void {
         if (isDefined(this.spatializer)) {
-            this.pose.setOrientation(fx, fy, fz, ux, uy, uz);
+            this.pose.setOrientation(qx, qy, qz, qw);
             this.spatializer.readPose(this.pose);
         }
     }
 
 
-    set(px: number, py: number, pz: number, fx: number, fy: number, fz: number): void;
-    set(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number): void;
-    set(px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux?: number, uy?: number, uz?: number): void {
+    set(px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number): void {
         if (isDefined(this.spatializer)) {
-            this.pose.set(px, py, pz, fx, fy, fz, ux, uy, uz);
+            this.pose.set(px, py, pz, qx, qy, qz, qw);
             this.spatializer.readPose(this.pose);
         }
     }

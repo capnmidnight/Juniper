@@ -1,4 +1,3 @@
-import type { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
@@ -87,8 +86,7 @@ export class BaseEnvironment<Events = unknown>
         enableFullResolution: boolean,
         DEBUG: boolean = null,
         defaultAvatarHeight: number = null,
-        defaultFOV: number = null,
-        audio: AudioManager = null) {
+        defaultFOV: number = null) {
         super();
 
         this.DEBUG = DEBUG || false;
@@ -134,11 +132,7 @@ export class BaseEnvironment<Events = unknown>
 
         this.worldUISpace = new BodyFollower("WorldUISpace", 0.2, 20, 0.125);
 
-        this.avatar = new AvatarLocal(
-            this,
-            this.fader,
-            this.defaultAvatarHeight,
-            audio);
+        this.avatar = new AvatarLocal(this, this.fader);
 
         this.eventSys = new EventSystem(this);
 

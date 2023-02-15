@@ -55,17 +55,18 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
     private lpx = 0;
     private lpy = 0;
     private lpz = 0;
-    private lox = 0;
-    private loy = 0;
-    private loz = 0;
+    private lqx = 0;
+    private lqy = 0;
+    private lqz = 0;
+    private lqw = 0;
 
     /**
      * Performs the spatialization operation for the audio source's latest location.
      */
     readPose(loc: Pose): void {
-        const { p, f } = loc;
+        const { p, q } = loc;
         const [px, py, pz] = p;
-        const [ox, oy, oz] = f;
+        const [qx, qy, qz, qw] = q;
         if (px !== this.lpx
             || py !== this.lpy
             || pz !== this.lpz) {
@@ -75,13 +76,15 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
             this.setPosition(px, py, pz, this.context.currentTime);
         }
 
-        if (ox !== this.lox
-            || oy !== this.loy
-            || oz !== this.loz) {
-            this.lox = ox;
-            this.loy = oy;
-            this.loz = oz;
-            this.setOrientation(ox, oy, oz, this.context.currentTime);
+        if (qx !== this.lqx
+            || qy !== this.lqy
+            || qz !== this.lqz
+            || qw !== this.lqw) {
+            this.lqx = qx;
+            this.lqy = qy;
+            this.lqz = qz;
+            this.lqw = qw;
+            this.setOrientation(qx, qy, qz, qw, this.context.currentTime);
         }
     }
 
@@ -94,7 +97,7 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
      **/
     getGainAtDistance(distance: number): number {
         const { rolloffFactor, refDistance, maxDistance, distanceModel } = this.panner;
-        
+
         if (distance <= refDistance) {
             return 1;
         }
@@ -117,5 +120,5 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
     }
 
     protected abstract setPosition(x: number, y: number, z: number, t?: number): void;
-    protected abstract setOrientation(x: number, y: number, z: number, t?: number): void;
+    protected abstract setOrientation(x: number, y: number, z: number, w: number, t?: number): void;
 }

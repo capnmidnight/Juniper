@@ -1,5 +1,4 @@
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
-import type { Pose } from "../Pose";
 import { hasOldAudioListener } from "../util";
 import { BaseWebAudioListener } from "./BaseWebAudioListener";
 
@@ -20,12 +19,15 @@ export class WebAudioListenerOld extends BaseWebAudioListener {
         Object.seal(this);
     }
 
-    /**
-     * Performs the spatialization operation for the audio source's latest location.
-     */
-    readPose(loc: Pose): void {
-        const { p, f, u } = loc;
-        this.listener.setPosition(p[0], p[1], p[2]);
-        this.listener.setOrientation(f[0], f[1], f[2], u[0], u[1], u[2]);
+    protected setPosition(x: number, y: number, z: number): void {
+        this.listener.setPosition(x, y, z);
+    }
+
+    protected setOrientation(
+        fx: number, fy: number, fz: number,
+        ux: number, uy: number, uz: number): void {
+        this.listener.setOrientation(
+            fx, fy, fz,
+            ux, uy, uz);
     }
 }

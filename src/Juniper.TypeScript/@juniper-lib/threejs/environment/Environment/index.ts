@@ -166,18 +166,14 @@ export class Environment
             throw new Exception("options.labelFillColor is required");
         }
 
-
-        const audio = new AudioManager(options.fetcher, DEFAULT_LOCAL_USER_ID);;
-
         super(
             options.canvas,
             options.styleSheetPath,
             options.fetcher,
             options.enableFullResolution,
             options.DEBUG,
-            options.defaultAvatarHeight || 1.75,
-            options.defaultFOV || 60,
-            audio);
+            options.defaultAvatarHeight,
+            options.defaultFOV);
 
 
         this.screenUISpace = new ScreenUI(options.buttonFillColor);
@@ -211,7 +207,7 @@ export class Environment
             });
         });
 
-        this.audio = audio;
+        this.audio = new AudioManager(options.fetcher, DEFAULT_LOCAL_USER_ID);
 
         this.graph = new AudioGraphDialog(this.audio.context);
         if (isHTMLCanvas(options.canvas)) {
@@ -427,6 +423,13 @@ export class Environment
 
     override preRender(evt: XRTimerTickEvent) {
         super.preRender(evt);
+
+        const { worldPos, worldQuat } = this.avatar;
+        this.audio.setUserPose(
+            this.audio.localUserID,
+            worldPos.x, worldPos.y, worldPos.z,
+            worldQuat.x, worldQuat.y, worldQuat.z, worldQuat.w
+        );
 
         this.xrUI.visible = this.renderer.xr.isPresenting
             || this.testSpaceLayout;

@@ -1,4 +1,3 @@
-import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
@@ -189,17 +188,14 @@ export class AvatarLocal
         return this.head.parent;
     }
 
-    constructor(private readonly env: BaseEnvironment,
-        fader: Fader,
-        defaultAvatarHeight: number,
-        private readonly audio: AudioManager = null) {
+    constructor(private readonly env: BaseEnvironment, fader: Fader) {
         super();
         this.disableHorizontal = false;
         this.disableVertical = false;
         this.invertHorizontal = false;
         this.invertVertical = true;
 
-        this._height = defaultAvatarHeight;
+        this._height = this.env.defaultAvatarHeight;
         this.head = obj("Head", fader);
 
         let homeHit = false;
@@ -481,14 +477,6 @@ export class AvatarLocal
             }
 
             this.updateOrientation();
-
-            if (this.audio) {
-                this.audio.setUserPose(
-                    this.audio.localUserID,
-                    this.P.x, this.P.y, this.P.z,
-                    this.F.x, this.F.y, this.F.z,
-                    this.U.x, this.U.y, this.U.z);
-            }
 
             const decay = Math.pow(0.95, 100 * dt);
             this.duv.multiplyScalar(decay);

@@ -5,7 +5,7 @@ import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { Video } from "@juniper-lib/dom/tags";
 import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
-import { FWD, HalfPi, UP } from "@juniper-lib/tslib/math";
+import { FWD, HalfPi } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { UserChatEvent, UserStateEvent } from "@juniper-lib/webrtc/ConferenceEvents";
@@ -63,7 +63,6 @@ export class AvatarRemote extends Object3D implements IDisposable {
     readonly worldPos = new Vector3();
     readonly worldQuat = new Quaternion();
     private readonly F = new Vector3();
-    private readonly U = new Vector3();
     private readonly M = new Matrix4();
 
     private _headSize = 1;
@@ -277,16 +276,13 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
         this.F.fromArray(FWD)
             .applyQuaternion(this.worldQuat);
-        this.U.fromArray(UP)
-            .applyQuaternion(this.worldQuat);
 
         const headingRadians = getLookHeadingRadians(this.F);
 
         this.env.audio.setUserPose(
             this.userID,
             this.worldPos.x, this.worldPos.y, this.worldPos.z,
-            this.F.x, this.F.y, this.F.z,
-            this.U.x, this.U.y, this.U.z);
+            this.worldQuat.x, this.worldQuat.y, this.worldQuat.z, this.worldQuat.w);
 
         this.headFollower.update(this.worldPos.y - this.parent.position.y, this.worldPos, headingRadians, dt);
         const scale = this.height / this.defaultAvatarHeight;
