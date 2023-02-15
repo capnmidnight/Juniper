@@ -13,10 +13,11 @@ import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeadingRadians } from "./animation/lookAngles";
+import { BufferReaderWriter } from "./BufferReaderWriter";
 import { cleanup } from "./cleanup";
 import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
-import { getPointerType, PointerID } from "./eventSystem/Pointers";
+import { PointerID } from "./eventSystem/Pointers";
 import { obj, objectRemove, objGraph } from "./objects";
 import { Image2D } from "./widgets/Image2D";
 import { TextMesh } from "./widgets/TextMesh";
@@ -61,11 +62,9 @@ export class AvatarRemote extends Object3D implements IDisposable {
     private readonly qEnd = new Quaternion().identity();
     readonly worldPos = new Vector3();
     readonly worldQuat = new Quaternion();
-    private readonly P = new Vector3();
     private readonly F = new Vector3();
     private readonly U = new Vector3();
     private readonly M = new Matrix4();
-    private readonly killers = new Map<PointerRemote, number>();
 
     private _headSize = 1;
     private _headPulse = 1;
@@ -118,76 +117,11 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
 
 
-        let buffer: Float32Array = null;
-        let i = 0;
-
-        const getNumber = () => {
-            return buffer[i++];
-        };
-
-        const getHandedness = (): XRHandedness => {
-            const h = getNumber();
-            switch (h) {
-                case 2: return "left";
-                case 1: return "right";
-                default: return "none";
-            }
-        };
-
-        const getVector3 = (v: Vector3) => {
-            v.fromArray(buffer, i);
-            i += 3;
-        };
-
-        const getMatrix16 = (m: Matrix4) => {
-            m.fromArray(buffer, i);
-            i += 16;
-        };
+        const buffer = new BufferReaderWriter();
 
         user.addEventListener("userState", (evt: UserStateEvent) => {
-            buffer = evt.buffer;
-            i = 0;
-
-            const numPointers = getNumber();
-            this.height = getNumber();
-            this.hands.position.y = -this.height;
-            getMatrix16(this.M);
-
-            this.M.decompose(this.pTarget, this.qTarget, this.scale);
-            this.pTarget.add(this.comfortOffset);
-
-            for (let n = 0; n < numPointers; ++n) {
-                const pointerID = getNumber() as PointerID;
-                getVector3(this.P);
-                getVector3(this.F);
-                getVector3(this.U);
-
-                const pointer = this.assurePointer(pointerID);
-                pointer.setState(this.P, this.F, this.U);
-
-                if (PointerID.MotionController <= pointerID && pointerID <= PointerID.MotionControllerRight) {
-                    const handedness = getHandedness();
-                    if (handedness === "none") {
-                        this.deferExecution(1, pointer, () => pointer.hand = null);
-                        if (pointer.hand) {
-                            pointer.hand = null;
-                        }
-                    }
-                    else {
-                        if (!pointer.hand) {
-                            pointer.hand = this.env.handModelFactory.createHandModel(handedness);
-                        }
-
-                        const numFingerJoints = getNumber();
-                        for (let n = 0; n < numFingerJoints; ++n) {
-                            getMatrix16(this.M);
-                            pointer.hand.setMatrixAt(n, this.M);
-                        }
-                        pointer.hand.count = numFingerJoints;
-                        pointer.hand.updateMesh();
-                    }
-                }
-            }
+            buffer.buffer = evt.buffer;
+            this.readState(buffer);
         });
 
         this.activity = new ActivityDetector(this.env.audio.context);
@@ -207,18 +141,6 @@ export class AvatarRemote extends Object3D implements IDisposable {
                     objGraph(this.body,
                         objGraph(this.billboard,
                             this.nameTag)))));
-    }
-
-    private deferExecution(killTime: number, pointer: PointerRemote, killAction: () => void) {
-        if (this.killers.has(pointer)) {
-            clearTimeout(this.killers.get(pointer));
-            this.killers.delete(pointer);
-        }
-
-        this.killers.set(pointer, setTimeout(() => {
-            this.killers.delete(pointer);
-            killAction();
-        }, killTime * 1000) as any);
     }
 
     get audioStream(): MediaStream {
@@ -274,7 +196,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
     dispose() {
         for (const pointerName of this.pointers.keys()) {
-            this.removeArm(pointerName);
+            this.removePointer(pointerName);
         }
 
         this.activity.dispose();
@@ -420,27 +342,27 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
             if (id === PointerID.MotionControllerLeft
                 || id === PointerID.MotionControllerRight) {
-                this.removeArmsExcept(PointerID.MotionControllerLeft, PointerID.MotionControllerRight);
+                this.removePointersExcept(PointerID.MotionControllerLeft, PointerID.MotionControllerRight);
             }
             else {
-                this.removeArmsExcept(id);
+                this.removePointersExcept(id);
             }
         }
 
-        this.deferExecution(3, pointer, () => this.removeArm(id));
+        pointer.deferExecution(3, () => this.removePointer(id));
 
         return pointer;
     }
 
-    private removeArmsExcept(...ids: PointerID[]): void {
+    private removePointersExcept(...ids: PointerID[]): void {
         for (const id of this.pointers.keys()) {
             if (ids.indexOf(id) === -1) {
-                this.removeArm(id);
+                this.removePointer(id);
             }
         }
     }
 
-    private removeArm(id: PointerID): void {
+    private removePointer(id: PointerID): void {
         const pointer = this.pointers.get(id);
         if (pointer) {
             objectRemove(this.body, pointer);
@@ -449,5 +371,23 @@ export class AvatarRemote extends Object3D implements IDisposable {
                 objectRemove(this.env.stage, pointer.cursor);
             }
         }
+    }
+
+    private readState(buffer: BufferReaderWriter) {
+        buffer.position = 0;
+
+        this.height = buffer.readFloat32();
+        buffer.readMatrix512(this.M);
+        const numPointers = buffer.readUint8();
+
+        for (let n = 0; n < numPointers; ++n) {
+            const pointerID = buffer.readUint8() as PointerID;
+            const pointer = this.assurePointer(pointerID);
+            pointer.readState(buffer);
+        }
+
+        this.hands.position.y = -this.height;
+        this.M.decompose(this.pTarget, this.qTarget, this.scale);
+        this.pTarget.add(this.comfortOffset);
     }
 }

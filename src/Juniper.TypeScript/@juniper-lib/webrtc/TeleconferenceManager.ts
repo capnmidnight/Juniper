@@ -1,5 +1,4 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
-import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { StreamChangedEvent } from "@juniper-lib/audio/StreamChangedEvent";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
@@ -7,6 +6,7 @@ import { WindowQuitEventer } from "@juniper-lib/tslib/events/WindowQuitEventer";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
+import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import "webrtc-adapter";
 import {
     ConferenceErrorEvent,
@@ -111,7 +111,6 @@ export class TeleconferenceManager
     private users = new Map<string, RemoteUser>();
 
     private readonly remoteGainDecay: GainDecayer;
-    private readonly recorder: AudioRecordingNode;
 
     private readonly windowQuitter = new WindowQuitEventer();
 
@@ -334,7 +333,7 @@ export class TeleconferenceManager
             }
 
             const rtcConfig = await this.getRTCConfiguration();
-            const user = new RemoteUser(evt.fromUserID, evt.fromUserName, rtcConfig, true);
+            const user = new RemoteUser(evt.fromUserID, evt.fromUserName, rtcConfig);
             this.users.set(user.userID, user);
 
             user.addEventListener("iceError", this.onIceError.bind(this));
@@ -475,14 +474,8 @@ export class TeleconferenceManager
         }
     }
 
-    async sendUserState(buffer: Float32Array): Promise<void> {
+    async sendUserState(buffer: ArrayBuffer): Promise<void> {
         await this.forEachUser((user) => user.sendUserState(buffer));
-    }
-
-    chat(text: string): void {
-        if (this.conferenceState === ConnectionState.Connected) {
-            this.toRoom("chat", text);
-        }
     }
 
     userExists(id: string): boolean {

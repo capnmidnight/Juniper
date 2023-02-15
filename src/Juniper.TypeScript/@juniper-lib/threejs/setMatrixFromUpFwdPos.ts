@@ -1,4 +1,5 @@
-import { Matrix4, Vector3 } from "three";
+import type { Matrix4 } from "three";
+import { Vector3 } from "three";
 
 const R = new Vector3();
 

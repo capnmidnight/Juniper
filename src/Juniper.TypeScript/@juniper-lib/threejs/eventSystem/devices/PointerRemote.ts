@@ -1,5 +1,7 @@
 import { Matrix4, Object3D, Vector3 } from "three";
 import { AvatarRemote } from "../../AvatarRemote";
+import { HANDEDNESSES } from "../../BaseTele";
+import { BufferReaderWriter } from "../../BufferReaderWriter";
 import { cleanup } from "../../cleanup";
 import { Cube } from "../../Cube";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
@@ -26,6 +28,8 @@ export class PointerRemote
     private readonly M = new Matrix4();
     private readonly MW = new Matrix4();
     private readonly pTarget = new Vector3();
+    private readonly dTarget = new Vector3();
+    private readonly uTarget = new Vector3();
     private readonly handCube: Object3D;
     private readonly elbowCube: Object3D;
     public readonly remoteType: PointerType;
@@ -44,13 +48,12 @@ export class PointerRemote
         this.remoteType = getPointerType(this.remoteID);
 
         this.object = obj(`remote:${this.avatar.userName}:${this.name}`,
-            this.handCube = new Cube(0.05, 0.05, 0.05, litGrey),
-            objGraph(
             this.elbowCube = new Cube(0.05, 0.05, 0.05, litGrey),
             this.laser = new Laser(
                 this.avatar.isInstructor ? green : yellow,
                 this.avatar.isInstructor ? 1 : 0.5,
-                    0.002)));
+                0.002),
+            this.handCube = new Cube(0.05, 0.05, 0.05, litGrey));
 
         this.cursor.object.name = `${this.object.name}:cursor`;
         this.cursor.visible = true;
@@ -58,14 +61,7 @@ export class PointerRemote
         // Fakey "inverse kinematics" arm model. Doesn't actually
         // do any IK, just make an elbow that sits behind the hand
         // which is good enough for most work.
-        if (this.remoteID === PointerID.MotionController
-            || this.remoteID === PointerID.MotionControllerLeft
-            || this.remoteID === PointerID.MotionControllerRight) {
-            this.elbowCube.position.set(0, 0, 0.2);
-        }
-        else {
         this.handCube.position.set(0, 0, -0.2);
-        }
 
         this.laser.length = 30;
 
@@ -96,22 +92,18 @@ export class PointerRemote
             }
             else {
                 objGraph(this,
-                    this.handCube,
-                    objGraph(this.elbowCube,
-                        this.laser));
+                    this.elbowCube,
+                    this.laser,
+                    this.handCube);
             }
         }
     }
 
-    setState(
-        pointerPosition: Vector3,
-        pointerForward: Vector3,
-        pointerUp: Vector3) {
-
-        // Target the pointer based on the remote user's perspective
-        this.pTarget.copy(pointerPosition);
-        this.direction.copy(pointerForward);
-        this.up.copy(pointerUp);
+    readState(buffer: BufferReaderWriter) {
+        // base pointer
+        buffer.readVector48(this.pTarget);
+        buffer.readVector48(this.dTarget);
+        buffer.readVector48(this.uTarget);
 
         this.pTarget.sub(this.avatar.worldPos);
 
@@ -125,6 +117,49 @@ export class PointerRemote
         }
 
         this.O.add(this.avatar.comfortOffset);
+
+        // PointerHand
+        if (PointerID.MotionController <= this.remoteID && this.remoteID <= PointerID.MotionControllerRight) {
+            const handedness = buffer.readEnum8(HANDEDNESSES);
+            const numFingerJoints = buffer.readUint8();
+
+            if (numFingerJoints === 0) {
+                if (this.hand) {
+                    this.hand = null;
+                }
+            }
+            else {
+                if (!this.hand) {
+                    this.hand = this.env.handModelFactory.createHandModel(handedness);
+                }
+
+                this.hand.count = numFingerJoints;
+                for (let n = 0; n < numFingerJoints; ++n) {
+                    buffer.readMatrix512(this.M);
+                    this.hand.setMatrixAt(n, this.M);
+                }
+                this.hand.updateMesh();
+
+                this.deferExecution(1, () => this.hand = null);
+            }
+        }
+    }
+
+    private killTimeout: number = null;
+    public deferExecution(killTime: number, killAction: () => void) {
+        if (this.killTimeout !== null) {
+            clearTimeout(this.killTimeout);
+            this.killTimeout = null;
+        }
+
+        this.killTimeout = setTimeout(() => {
+            this.killTimeout = null
+            killAction();
+        }, killTime * 1000) as any;
+    }
+
+    override writeState(_buffer: BufferReaderWriter) {
+        // do nothing
     }
 
     protected override onUpdate(): void {
@@ -133,11 +168,13 @@ export class PointerRemote
 
     animate(dt: number) {
         this.origin.lerp(this.pTarget, dt * 0.01);
+        this.direction.lerp(this.dTarget, dt * 0.01).normalize();
+        this.up.lerp(this.uTarget, dt * 0.01).normalize();
 
+        // subtract this back out at the end of the animation phase so it can be used for pointer updates correctly
         this.origin.add(this.avatar.worldPos);
 
         this.P.copy(this.origin);
-        this.F.copy(this.direction);
 
         this.cursor.visible = this.env.avatar.worldPos.distanceTo(this.P) < 10;
         if (this.cursor.visible) {
@@ -151,9 +188,8 @@ export class PointerRemote
             this.cursor.object.getWorldPosition(this.F)
                 .sub(this.P)
                 .sub(this.O);
-            // ... but first, use the pointer length to set the laser length
+            // set the laser length
             this.laser.length = 19 * this.F.length();
-            this.F.normalize();
         }
         else {
             this.laser.length = 30;
@@ -162,7 +198,7 @@ export class PointerRemote
         // construct the LERPing targets for the pointer graphics
         setMatrixFromUpFwdPos(
             this.up,
-            this.F,
+            this.direction,
             this.P.add(this.O),
             this.MW);
         this.M

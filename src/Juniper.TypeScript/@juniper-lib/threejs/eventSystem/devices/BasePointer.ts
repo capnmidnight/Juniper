@@ -1,5 +1,6 @@
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Intersection, Vector3 } from "three";
+import { BufferReaderWriter } from "../../BufferReaderWriter";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { objGraph } from "../../objects";
 import type { BaseCursor3D } from "../cursors/BaseCursor3D";
@@ -332,6 +333,23 @@ export abstract class BasePointer
                 this.direction,
                 this.isPressed(VirtualButton.Primary));
         }
+    }
+
+    get bufferSize() {
+        //   pointerID = 1 byte
+        // + pointer pose =
+        //   origin, direction, up = 3 vectors
+        // * x, y, z = 3 components per vector
+        // * float32 = 4 bytes per component
+        //         = 36 bytes
+        return 37;
+    }
+
+    writeState(buffer: BufferReaderWriter) {
+        buffer.writeUint8(this.id);
+        buffer.writeVector48(this.origin);
+        buffer.writeVector48(this.direction);
+        buffer.writeVector48(this.up);
     }
 }
 

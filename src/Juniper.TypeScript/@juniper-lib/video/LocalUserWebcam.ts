@@ -89,7 +89,10 @@ export class LocalUserWebcam
         if (this.device && this.enabled) {
             this.inStream = await navigator.mediaDevices.getUserMedia({
                 video: {
-                    deviceId: this.device.deviceId
+                    deviceId: this.device.deviceId,
+                    autoGainControl: true,
+                    height: 640,
+                    noiseSuppression: true
                 }
             });
         }

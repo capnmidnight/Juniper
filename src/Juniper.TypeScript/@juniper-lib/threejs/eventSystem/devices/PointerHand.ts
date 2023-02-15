@@ -3,6 +3,8 @@ import { Pi } from "@juniper-lib/tslib/math";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/EventedGamepad";
 import { Event, Matrix4, Object3D, Quaternion, Vector3, XRGripSpace, XRHandSpace, XRTargetRaySpace } from "three";
+import { HANDEDNESSES } from "../../BaseTele";
+import { BufferReaderWriter } from "../../BufferReaderWriter";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { XRControllerModel, XRControllerModelFactory } from "../../examples/webxr/XRControllerModelFactory";
 import { XRHandModel } from "../../examples/webxr/XRHandModelFactory";
@@ -16,6 +18,7 @@ import { VirtualButton } from "./VirtualButton";
 
 const mcModelFactory = new XRControllerModelFactory();
 const riftSCorrection = new Matrix4().makeRotationX(-7 * Pi / 9);
+const M = new Matrix4();
 
 const pointerIDs = new Map<XRHandedness, PointerID>([
     ["none", PointerID.MotionController],
@@ -232,5 +235,27 @@ export class PointerHand
         this.gamepad.pad = this.inputSource && this.inputSource.gamepad || null;
 
         super.onUpdate();
+    }
+
+    override get bufferSize() {
+        //   handedness = 1 byte
+        // + joint matrix count = 1 byte
+        // + joint matrices =
+        //   joint matrix count
+        // * 16 elements per matrix
+        // * 4 bytes per element
+        return super.bufferSize + 2 + this.handModel.count * 64;
+    }
+
+    override writeState(buffer: BufferReaderWriter) {
+        super.writeState(buffer);
+        buffer.writeEnum8(this.handedness, HANDEDNESSES);
+        buffer.writeUint8(this.handModel.count);
+        if (this.handModel.isTracking) {
+            for (let n = 0; n < this.handModel.count; ++n) {
+                this.handModel.getMatrixAt(n, M);
+                buffer.writeMatrix512(M);
+            }
+        }
     }
 }

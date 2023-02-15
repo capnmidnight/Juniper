@@ -1,7 +1,7 @@
 import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Task } from "@juniper-lib/tslib/events/Task";
-import { assertNever, isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
+import { isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { UserChatEvent, UserLeftEvent, UserStateEvent } from "./ConferenceEvents";
 
@@ -121,22 +121,13 @@ interface RemoteUserEvents {
 
 const seenUsers = new Set<string>();
 
-export enum Message {
-    InvocationComplete,
-    UserState
-}
-
 export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDisposable {
 
     private readonly userStateEvt = new UserStateEvent(this);
     private readonly userChatEvt = new UserChatEvent(this);
 
-    private readonly sendInvocationCompleteBuffer = new Float32Array(2);
-
     private readonly transceivers = new Array<RTCRtpTransceiver>();
 
-    private invocationCount = 0;
-    private readonly invocations = new Map<number, () => void>();
     private readonly tasks = new Map<string, Task>();
     private readonly locks = new Locker<string>();
 
@@ -147,10 +138,8 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
     private disposed = false;
     private trackSent = false;
 
-    constructor(public readonly userID: string, public userName: string, rtcConfig: RTCConfiguration, private readonly confirmReceipt: boolean) {
+    constructor(public readonly userID: string, public userName: string, rtcConfig: RTCConfiguration) {
         super();
-
-        this.sendInvocationCompleteBuffer[0] = Message.InvocationComplete;
 
         this.connection = new RTCPeerConnection(rtcConfig);
         this.connection.addEventListener("icecandidateerror", (evt: Event) => {
@@ -261,36 +250,10 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
         this.channel = channel;
         this.channel.binaryType = "arraybuffer";
         this.channel.addEventListener("message", (evt: MessageEvent<any>) => {
-            if (this.channel
-                && this.channel.readyState === "open"
-                && isArrayBuffer(evt.data)) {
-                const data = new Float32Array(evt.data);
-                const msg = data[0] as Message;
-                const invocationID = data[1];
-                if (msg === Message.InvocationComplete) {
-                    const resolve = this.invocations.get(invocationID);
-                    if (resolve) {
-                        resolve();
-                    }
-                }
-                else if (msg === Message.UserState) {
-                    this.recvUserState(data.subarray(2));
-                }
-                else {
-                    assertNever(msg);
-                }
-
-                if (invocationID >= 0) {
-                    this.sendInvocationCompleteBuffer[1] = invocationID;
-                    this.channel.send(this.sendInvocationCompleteBuffer);
-                }
+            if (isArrayBuffer(evt.data)) {
+                this.recvUserState(evt);
             }
         });
-    }
-
-    recvUserState(buffer: Float32Array) {
-        this.userStateEvt.buffer = buffer;
-        this.dispatchEvent(this.userStateEvt);
     }
 
     recvChat(text: string) {
@@ -298,45 +261,21 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
         this.dispatchEvent(this.userChatEvt);
     }
 
-    async sendUserState(buffer: Float32Array): Promise<void> {
+    async sendUserState(buffer: ArrayBuffer): Promise<void> {
         if (this.channel && this.channel.readyState === "open") {
             const lockName = "sendUserState";
             if (!this.tasks.has(lockName)) {
                 this.tasks.set(lockName, new Task());
             }
             await this.locks.withSkipLock(lockName, async () => {
-                const invocationID = ++this.invocationCount;
-                buffer[1] = invocationID;
-
-                if (!this.confirmReceipt) {
-                    this.channel.send(buffer);
-                }
-                else {
-                    const task = this.tasks.get(lockName);
-                    task.reset();
-
-                    const timeout = setTimeout(task.reject, 100, "timeout");
-                    const onComplete = () => {
-                        clearTimeout(timeout);
-                        task.resolve();
-                    };
-                    this.invocations.set(invocationID, onComplete);
-
-                    this.channel.send(buffer);
-                    try {
-                        await task;
-                    }
-                    catch (exp) {
-                        if (exp !== "timeout") {
-                            console.error(exp);
-                        }
-                    }
-                    finally {
-                        this.invocations.delete(invocationID);
-                    }
-                }
+                this.channel.send(buffer);
             });
         }
+    }
+
+    private recvUserState(evt: MessageEvent<any>) {
+        this.userStateEvt.buffer = evt.data;
+        this.dispatchEvent(this.userStateEvt);
     }
 
     async addIceCandidate(ice: RTCIceCandidate): Promise<void> {

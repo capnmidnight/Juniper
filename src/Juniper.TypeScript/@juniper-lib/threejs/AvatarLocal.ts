@@ -1,6 +1,7 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
+import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isMobile, isMobileVR, isSafari } from "@juniper-lib/tslib/flags";
 import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/math";
@@ -9,13 +10,14 @@ import { IDisposable } from "@juniper-lib/tslib/using";
 import { Euler, Matrix4, Object3D, Quaternion, Vector2, Vector3 } from "three";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeadingRadians, getLookPitchRadians } from "./animation/lookAngles";
+import { BufferReaderWriter } from "./BufferReaderWriter";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { IPointer } from "./eventSystem/devices/IPointer";
 import { VirtualButton } from "./eventSystem/devices/VirtualButton";
 import type { Fader } from "./Fader";
 import { ErsatzObject, obj } from "./objects";
 import { resolveCamera } from "./resolveCamera";
-import { setRightUpFwdPosFromMatrix } from "./setRightUpFwdPosFromMatrix";
+import { setUpFwdPosFromMatrix } from "./setUpFwdPosFromMatrix";
 
 interface DeviceOrientationEventWithPermissionRequest extends Function {
     requestPermission(): Promise<PermissionState>;
@@ -71,7 +73,6 @@ export class AvatarLocal
     ]);
 
     private readonly B = new Vector3(0, 0, 1);
-    private readonly R = new Vector3();
     private readonly F = new Vector3();
     private readonly U = new Vector3();
     private readonly P = new Vector3();
@@ -560,7 +561,7 @@ export class AvatarLocal
 
         this._worldHeadingRadians = getLookHeadingRadians(this.F);
         this._worldPitchRadians = getLookPitchRadians(this.F);
-        setRightUpFwdPosFromMatrix(this.head.matrixWorld, this.R, this.U, this.F, this.P);
+        setUpFwdPosFromMatrix(this.head.matrixWorld, this.U, this.F, this.P);
     }
 
     reset() {
@@ -628,5 +629,43 @@ export class AvatarLocal
 
     dispose() {
         this.stopMotionControl();
+    }
+
+    get bufferSize() {
+        //   height = 4 bytes
+        // + pose =
+        //   16 elements
+        // * 4 bytes per element
+        // + pointer count = 1 byte
+        // = 4 + 16 * 4 + 1
+        // = 4 + 64 + 1
+        // = 69
+        return 69; // pointer count
+    }
+
+    private readonly pointersToSend = new Array<IPointer>();
+
+    writeState(buffer: BufferReaderWriter) {
+        // count buffer size
+        arrayClear(this.pointersToSend);
+        let size = this.env.avatar.bufferSize;
+        for (const pointer of this.env.eventSys.pointers) {
+            if (pointer.canSend) {
+                size += pointer.bufferSize;
+                this.pointersToSend.push(pointer);
+            }
+        }
+        buffer.length = size;
+
+        // write data to buffer
+        buffer.position = 0;
+
+        buffer.writeFloat32(this.height);
+        buffer.writeMatrix512(this.head.matrixWorld);
+        buffer.writeUint8(this.pointersToSend.length);
+
+        for (const pointer of this.pointersToSend) {
+            pointer.writeState(buffer);
+        }
     }
 }

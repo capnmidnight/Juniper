@@ -1,7 +1,7 @@
 import { AssetFile, BaseFetchedAsset } from "@juniper-lib/fetcher/Asset";
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { arrayClear, arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
+import { arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
 import { all } from "@juniper-lib/tslib/events/all";
 import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
@@ -13,22 +13,24 @@ import {
     UserLeftEvent,
     UserNameChangedEvent
 } from "@juniper-lib/webrtc/ConferenceEvents";
-import { Message, RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "@juniper-lib/webrtc/RemoteUser";
+import { RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "@juniper-lib/webrtc/RemoteUser";
 import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
-import { Matrix4, Object3D, Vector3 } from "three";
+import { Object3D, Vector3 } from "three";
 import { AssetGltfModel } from "./AssetGltfModel";
 import { AvatarRemote } from "./AvatarRemote";
+import { BufferReaderWriter } from "./BufferReaderWriter";
 import { cleanup } from "./cleanup";
 import { DebugObject } from "./DebugObject";
 import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
-import { IPointer } from "./eventSystem/devices/IPointer";
-import { PointerHand } from "./eventSystem/devices/PointerHand";
-import { PointerID } from "./eventSystem/Pointers";
 import { convertMaterials, materialStandardToPhong } from "./materials";
 import { obj, objGraph } from "./objects";
 
-const M = new Matrix4();
+export const HANDEDNESSES: XRHandedness[] = [
+    "none",
+    "right",
+    "left"
+];
 
 export abstract class BaseTele extends Application {
 
@@ -106,116 +108,16 @@ export abstract class BaseTele extends Application {
 
         this.conference = this.createConference();
 
-
-        let t = 0;
-        let buffer = new Float32Array();
-        let i = 0;
-
-        const setNumber = (n: number) => {
-            buffer[i++] = n;
-        };
-
-        const setHandedness = (h: XRHandedness) => {
-            switch (h) {
-                case "left": setNumber(2); break;
-                case "right": setNumber(1); break;
-                default: setNumber(0); break;
-            }
-        };
-
-        const setVector3 = (vector: Vector3) => {
-            vector.toArray(buffer, i);
-            i += 3;
-        };
-
-        const setMatrix16 = (matrix: Matrix4) => {
-            matrix.toArray(buffer, i);
-            i += 16;
-        };
-
-        const setPointer10 = (pointer: IPointer) => {
-            setNumber(pointer.id);
-            setVector3(pointer.origin);
-            setVector3(pointer.direction);
-            setVector3(pointer.up);
-        };
-
-        const setJoint16 = (matrix: Matrix4) => {
-            setMatrix16(matrix);
-        };
-
-        const numFingerJoints = new Array<number>(2);
         const DT = 33;
+        let t = 0;
+
+        const buffer = new BufferReaderWriter();
         this.env.addScopedEventListener(this, "update", (evt) => {
             t += evt.dt;
             if (t >= DT) {
                 t -= DT;
-                let numPointers = 0;
-                arrayClear(numFingerJoints);
-                for (const pointer of this.env.eventSys.pointers) {
-                    if (pointer.canSend) {
-
-                        ++numPointers;
-
-                        if (PointerID.MotionController <= pointer.id
-                            && pointer.id <= PointerID.MotionControllerRight) {
-                            const p = pointer as any as PointerHand;
-                            if (p.handModel && p.handModel.isTracking) {
-                                numFingerJoints.push(p.handModel.count);
-                            }
-                        }
-                    }
-                }
-
-                i = 2;
-
-                let handCounts = 0;
-                for (const numFingerJoint of numFingerJoints) {
-                    handCounts +=
-                        1 // handedness number for each hand
-                        + numFingerJoint * 16 // matrix for each joint;
-                }
-
-                const size =
-                    1 // command ID
-                    + 1 //invocation ID
-                    + 1 // pointer count
-                    + 1 // joint count for hands
-                    + 1 // height
-                    + 16 // head
-                    + numPointers * 10 // id, origin, direction, and up of each pointer
-                    + handCounts; 
-
-                if (buffer.length !== size) {
-                    buffer = new Float32Array(size);
-                    buffer[0] = Message.UserState;
-                    //buffer[1] is the invocation ID
-                }
-
-                setNumber(numPointers);
-                setNumber(this.env.avatar.height);
-                setMatrix16(this.env.avatar.head.matrixWorld);
-
-                for (const pointer of this.env.eventSys.pointers) {
-                    if (pointer.canSend) {
-
-                        setPointer10(pointer);
-
-                        if (PointerID.MotionController <= pointer.id && pointer.id <= PointerID.MotionControllerRight) {
-                            const p = pointer as any as PointerHand;
-                            setHandedness(p && p.handedness || "none");
-                            if (p.handModel.isTracking) {
-                                setNumber(p.handModel.count);
-                                for (let n = 0; n < p.handModel.count; ++n) {
-                                    p.handModel.getMatrixAt(n, M);
-                                    setJoint16(M);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                this.conference.sendUserState(buffer);
+                this.env.avatar.writeState(buffer);
+                this.conference.sendUserState(buffer.buffer);
             }
         });
 

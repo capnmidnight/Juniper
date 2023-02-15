@@ -134,7 +134,7 @@ export enum StreamOpType {
 }
 
 export class UserStateEvent extends RemoteUserEvent<"userState"> {
-    public buffer: Float32Array = null;
+    public buffer: ArrayBuffer = null;
     constructor(user: RemoteUser) {
         super("userState", user);
     }
