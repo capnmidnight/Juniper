@@ -3,6 +3,9 @@ import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperPannerNode } from "../context/JuniperPannerNode";
 import { Pose } from "../Pose";
 import { assertNever } from "@juniper-lib/tslib/typeChecks";
+import { vec3 } from "gl-matrix";
+
+const fwd = vec3.create();
 
 /**
  * Base class for spatializers that uses WebAudio's PannerNode
@@ -84,7 +87,8 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
             this.lqy = qy;
             this.lqz = qz;
             this.lqw = qw;
-            this.setOrientation(qx, qy, qz, qw, this.context.currentTime);
+            vec3.transformQuat(fwd, vec3.set(fwd, 0, 0, -1), q);
+            this.setOrientation(fwd[0], fwd[1], fwd[2], this.context.currentTime);
         }
     }
 
@@ -120,5 +124,5 @@ export abstract class BaseWebAudioPanner extends BaseSpatializer {
     }
 
     protected abstract setPosition(x: number, y: number, z: number, t?: number): void;
-    protected abstract setOrientation(x: number, y: number, z: number, w: number, t?: number): void;
+    protected abstract setOrientation(x: number, y: number, z: number, t?: number): void;
 }
