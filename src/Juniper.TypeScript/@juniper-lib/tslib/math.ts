@@ -12,6 +12,75 @@ export const LOG1000 = /*@__PURE__*/ 6.90775527898214;
 export const LOG2_DIV2 = /*@__PURE__*/ 0.346573590279973;
 export const EPSILON_FLOAT = /*@__PURE__*/ 1e-8;
 
+/**
+ * Find the median of an array of numbers.
+ * Returns null on an empty array.
+ * Assumes the array is sorted.
+ * Returns the value of the middle element in an odd-length array.
+ * Returns the midpoint between the middle-most two values of an even-length array.
+ **/
+export function calculateMedian(arr: readonly number[]): number {
+    if (arr.length === 0) {
+        return null;
+    }
+
+    if (arr.length % 2 === 0) {
+        const mid = Math.floor(arr.length / 2) - 1;
+        return arr[mid] / 2 + arr[mid + 1] / 2;
+    }
+
+    const mid = (arr.length - 1) / 2;
+    return arr[mid];
+}
+
+/**
+ * Calculates the arithmetic mean of an array of numbers.
+ * Returns null on an empty array.
+ **/
+export function calculateMean(arr: readonly number[]): number {
+    if (arr.length === 0) {
+        return null;
+    }
+
+    let accum = 0;
+    for (const value of arr) {
+        accum += value / arr.length;
+    }
+
+    return accum;
+}
+
+/**
+ * Calculates the statistical variance of an array of numbers.
+ * Returns null for arrays smaller than 2 elements.
+ **/
+export function calculateVariance(arr: readonly number[]): number {
+    if (arr.length < 2) {
+        return null;
+    }
+
+    const mean = calculateMean(arr);
+
+    const squaredDiffs = arr
+        .map((x) => (x - mean) ** 2)
+        .reduce((acc, x) => acc + x, 0);
+
+    return squaredDiffs / (arr.length - 1);
+}
+
+/**
+ * Calculates the standard deviation of an array of numbers.
+ * Returns null for arrays smaller than 2 elements.
+ **/
+export function calculateStandardDeviation(arr: readonly number[]): number {
+    if (arr.length < 2) {
+        return null;
+    }
+
+    const variance = calculateVariance(arr);
+    return Math.sqrt(variance);
+}
+
 export function xy2i(x: number, y: number, width: number, components: number = 1): number {
     return components * (x + width * y);
 }
