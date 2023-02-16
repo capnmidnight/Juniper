@@ -1,11 +1,11 @@
 import { AudioRecordingNode } from "@juniper-lib/audio/AudioRecordingNode";
 import { IResponse } from "@juniper-lib/fetcher/IResponse";
-import { CultureDescriptions } from "@juniper-lib/tslib/Languages";
+import { once } from "@juniper-lib/tslib/events/once";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 import { SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent } from "./ISpeechRecognizer";
 
 export interface RecognitionResult {
-    language: Culture;
+    culture: Culture;
     text: string;
 }
 
@@ -19,7 +19,7 @@ enum RecognitionState {
 
 export abstract class BaseCustomSpeechRecognizer extends BaseSpeechRecognizer {
 
-    lang: string;
+    targetCulture: Culture;
     continuous: boolean;
 
     private state: RecognitionState = RecognitionState.Stopped;
@@ -53,23 +53,18 @@ export abstract class BaseCustomSpeechRecognizer extends BaseSpeechRecognizer {
 
         this.recorder.addEventListener("stop", () => {
             if (this.state === RecognitionState.SpeechStarted) {
-                this.dispatchEvent(this.speechEndEvt);
                 this.state = RecognitionState.SoundStarted;
+                this.dispatchEvent(this.speechEndEvt);
             }
 
             if (this.state === RecognitionState.SoundStarted) {
-                this.dispatchEvent(this.soundEndEvt);
                 this.state = RecognitionState.AudioStarted;
+                this.dispatchEvent(this.soundEndEvt);
             }
 
             if (this.state === RecognitionState.AudioStarted) {
-                this.dispatchEvent(this.audioEndEvt);
                 this.state = RecognitionState.Started;
-            }
-
-            if (this.state === RecognitionState.Started) {
-                this.dispatchEvent(this.endEvt);
-                this.state = RecognitionState.Stopped;
+                this.dispatchEvent(this.audioEndEvt);
             }
         });
 
@@ -91,9 +86,7 @@ export abstract class BaseCustomSpeechRecognizer extends BaseSpeechRecognizer {
                     }
                 }
                 else {
-                    const culture = CultureDescriptions.get(result.content.language);
-                    const language = culture && culture.language || null;
-                    this.dispatchEvent(new SpeechRecognizerResultEvent(evt.id, language, result.content.text));
+                    this.dispatchEvent(new SpeechRecognizerResultEvent(evt.id, result.content.culture, result.content.text));
                     if (!this.continuous) {
                         this.stop();
                     }
@@ -112,7 +105,14 @@ export abstract class BaseCustomSpeechRecognizer extends BaseSpeechRecognizer {
     }
 
     stop() {
+        const task = once(this.recorder, "stop");
         this.recorder.stop();
+        task.then(() => {
+            if (this.state === RecognitionState.Started) {
+                this.state = RecognitionState.Stopped;
+                this.dispatchEvent(this.endEvt);
+            }
+        });
     }
 
     protected abstract getResult(blob: Blob): Promise<IResponse<RecognitionResult>>;

@@ -11,7 +11,7 @@ export class SpeechRecognizerErrorEvent
 
 export class SpeechRecognizerResultEvent
     extends TypedEvent<"result"> {
-    constructor(public readonly id: number, readonly language: Language, readonly results: string) {
+    constructor(public readonly id: number, readonly culture: Culture, readonly results: string) {
         super("result");
     }
 }
@@ -40,7 +40,8 @@ export interface SpeechRecognizerEvents {
 
 
 export interface ISpeechRecognizer extends TypedEventBase<SpeechRecognizerEvents> {
-    lang: string;
+    speakerCulture: Culture;
+    targetCulture: Culture;
     continuous: boolean;
 
     abort(): void;

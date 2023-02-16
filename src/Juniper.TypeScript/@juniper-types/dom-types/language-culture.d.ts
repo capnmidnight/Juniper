@@ -6,7 +6,7 @@ interface LanguageDescription {
 }
 
 interface CultureDescription {
-    language: Language;
+    language: LanguageDescription;
     tag: Culture;
     name: string;
     description: string;

@@ -14,7 +14,9 @@ export abstract class BaseSpeechRecognizer
     protected readonly speechStartEvt = new TypedEvent("speechstart");
     protected readonly startEvt = new TypedEvent("start");
 
-    abstract lang: string;
+    speakerCulture: Culture;
+
+    abstract targetCulture: Culture;
     abstract continuous: boolean;
     abstract abort(): void;
     abstract start(): void;

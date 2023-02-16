@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace Juniper.Azure
 {
-    public record RecognitionResult(string Language, string Text);
+    public record RecognitionResult(string Culture, string Text);
     public record Viseme(uint ID, float Offset);
     public record SynthesisResult(TempFile File, Viseme[] Visemes);
 
     public interface ISpeechService
     {
-        public Task<RecognitionResult> RecognizeAsync(IFormFile fileIn, string language);
+        public Task<RecognitionResult> RecognizeAsync(IFormFile fileIn, string speakerCulture, string targetCulture);
         public Task<SynthesisResult> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebMOpus);
         public Task<SynthesisVoicesResult> GetVoicesAsync();
     }
@@ -40,7 +40,7 @@ namespace Juniper.Azure
             return await speechSynthesizer.GetVoicesAsync();
         }
 
-        public async Task<RecognitionResult> RecognizeAsync(IFormFile fileIn, string language)
+        public async Task<RecognitionResult> RecognizeAsync(IFormFile fileIn, string speakerCulture, string targetCulture)
         {
             if (fileIn is null)
             {
@@ -51,7 +51,7 @@ namespace Juniper.Azure
             using var streamIn = fileIn.OpenReadStream();
             using var fileOut = await EZFFMPEG.ConvertAsync(streamIn, mediaTypeIn, EZFFMPEGFormat.Wav);
 
-            var languages = new string[] { "en-US", language }
+            var languages = new string[] { "en-US", speakerCulture, targetCulture }
                 .Where(s => !string.IsNullOrEmpty(s))
                 .Distinct()
                 .ToArray();

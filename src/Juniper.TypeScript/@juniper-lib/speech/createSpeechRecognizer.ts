@@ -6,8 +6,8 @@ import { ISpeechRecognizer } from "@juniper-lib/speech/ISpeechRecognizer";
 import { JuniperSpeechRecognizer } from "@juniper-lib/speech/JuniperSpeechRecognizer";
 import { WebSpeechRecognizer } from "@juniper-lib/speech/WebSpeechRecognizer";
 
-export function createSpeechRecognizer(fetcher: IFetcher, activity: ActivityDetector, microphones: LocalUserMicrophone, postPath: string): ISpeechRecognizer {
-    if (WebSpeechRecognizer.isAvailable) {
+export function createSpeechRecognizer(fetcher: IFetcher, activity: ActivityDetector, microphones: LocalUserMicrophone, postPath: string, forceFallback = false): ISpeechRecognizer {
+    if (WebSpeechRecognizer.isAvailable && !forceFallback) {
         return new WebSpeechRecognizer();
     }
 

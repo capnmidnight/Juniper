@@ -13,7 +13,8 @@ export class JuniperSpeechRecognizer extends BaseCustomSpeechRecognizer {
         return await this.fetcher.post(this.postPath)
             .body({
                 formFile: blob,
-                language: this.lang
+                speakerCulture: this.speakerCulture,
+                targetCulture: this.targetCulture
             })
             .object<RecognitionResult>();
     }

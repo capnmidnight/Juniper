@@ -15,7 +15,14 @@ export class WebSpeechRecognizer extends BaseSpeechRecognizer {
     constructor() {
         super();
         this.recognizer = new WebSpeechRecognizer.Recognition();
-        this.recognizer.addEventListener("end", () => this.dispatchEvent(this.endEvt));
+        this.recognizer.addEventListener("end", () => {
+            if (this.continuous) {
+                this.start();
+            }
+            else {
+                this.dispatchEvent(this.endEvt);
+            }
+        });
         this.recognizer.addEventListener("start", () => this.dispatchEvent(this.startEvt));
         this.recognizer.addEventListener("audioend", () => this.dispatchEvent(this.audioEndEvt));
         this.recognizer.addEventListener("audiostart", () => this.dispatchEvent(this.audioStartEvt));
@@ -35,15 +42,15 @@ export class WebSpeechRecognizer extends BaseSpeechRecognizer {
         this.recognizer.addEventListener("result", (evt) => {
             const result = evt.results[evt.resultIndex];
             const alternative = result[0];
-            this.dispatchEvent(new SpeechRecognizerResultEvent(++curId, this.lang as Language, alternative.transcript));
+            this.dispatchEvent(new SpeechRecognizerResultEvent(++curId, this.targetCulture, alternative.transcript));
         });
     }
 
-    get lang(): string {
-        return this.recognizer.lang;
+    get targetCulture(): Culture {
+        return this.recognizer.lang as Culture;
     }
 
-    set lang(v: string) {
+    set targetCulture(v: Culture) {
         this.recognizer.lang = v;
     }
 

@@ -9,7 +9,7 @@ function L(tag: Language, englishName: string, localName: string): LanguageDescr
 
 function C(language: Language, tag: Culture, languageName: string, name: string): CultureDescription {
     return {
-        language,
+        language: LanguageDescriptions.get(language),
         tag,
         name,
         description: `${languageName} (${name}) [${tag}]`
