@@ -13,6 +13,7 @@
     "@juniper-lib/emoji": "*",
     "@juniper-lib/fetcher": "*",
     "@juniper-lib/mediatypes": "*",
+    "@juniper-lib/speech": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-lib/video": "*",
     "@juniper-lib/webrtc": "*",

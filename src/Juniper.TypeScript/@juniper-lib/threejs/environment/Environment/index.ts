@@ -15,6 +15,8 @@ import { BatteryImage } from "@juniper-lib/graphics2d/BatteryImage";
 import { ClockImage } from "@juniper-lib/graphics2d/ClockImage";
 import { StatsImage } from "@juniper-lib/graphics2d/StatsImage";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
+import { SpeechRecognizerFactory } from "@juniper-lib/speech/createSpeechRecognizer";
+import { ISpeechRecognizer } from "@juniper-lib/speech/ISpeechRecognizer";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { all } from "@juniper-lib/tslib/events/all";
 import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
@@ -22,7 +24,7 @@ import { Exception } from "@juniper-lib/tslib/Exception";
 import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
 import { rad2deg } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
 import { InteractionAudio } from "../../eventSystem/InteractionAudio";
@@ -79,6 +81,7 @@ export interface EnvironmentOptions {
     DEBUG?: boolean;
     watchModelPath?: string;
     styleSheetPath?: string;
+    createSpeechRecognizer?: SpeechRecognizerFactory;
 }
 
 export interface EnvironmentConstructor {
@@ -97,6 +100,7 @@ export class Environment
     readonly microphones: LocalUserMicrophone;
     readonly webcams: LocalUserWebcam;
     readonly devices: DeviceManager;
+    readonly speech: ISpeechRecognizer;
 
     readonly xrUI: SpaceUI;
     readonly screenUISpace: ScreenUI;
@@ -104,7 +108,7 @@ export class Environment
     readonly compassImage: ArtificialHorizon;
     readonly clockImage: CanvasImageMesh<ClockImage>;
     readonly statsImage: CanvasImageMesh<StatsImage>;
-    readonly watch: Watch = null;
+    readonly watch: Watch;
     readonly batteryImage: CanvasImageMesh<BatteryImage>;
     readonly infoLabel: TextMesh;
     readonly menuButton: ButtonImageWidget;
@@ -174,7 +178,6 @@ export class Environment
             options.DEBUG,
             options.defaultAvatarHeight,
             options.defaultFOV);
-
 
         this.screenUISpace = new ScreenUI(options.buttonFillColor);
         this.compassImage = new ArtificialHorizon();
@@ -296,6 +299,11 @@ export class Environment
 
         this.muteMicButton.active = this.microphones.enabled && !this.microphones.muted;
         this.muteCamButton.active = this.webcams.enabled;
+
+        if (isFunction(options.createSpeechRecognizer)) {
+            this.speech = options.createSpeechRecognizer(this.fetcher, this.devicesDialog.activity, this.microphones);
+            this.speech.continuous = true;
+        }
     }
 
     private _testSpaceLayout = false;

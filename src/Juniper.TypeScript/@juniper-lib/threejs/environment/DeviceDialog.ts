@@ -61,7 +61,6 @@ export class DeviceDialog extends DialogBox {
     private readonly microphoneSelector: HTMLSelectElement;
     private readonly webcamSelector: HTMLSelectElement;
     private readonly micLevels: HTMLMeterElement;
-    private readonly activity: ActivityDetector;
     private readonly micVolumeControl: InputRangeWithNumber;
     private readonly spkrVolumeControl: InputRangeWithNumber = null;
     private readonly speakers: HTMLSelectElement = null;
@@ -69,6 +68,8 @@ export class DeviceDialog extends DialogBox {
     private readonly testSpkrButton: HTMLButtonElement;
     private readonly useHeadphones: HTMLInputElement;
     private readonly headphoneWarning: HTMLDivElement;
+
+    readonly activity: ActivityDetector;
 
     constructor(fetcher: IFetcher,
         private readonly devices: DeviceManager,
@@ -188,8 +189,13 @@ export class DeviceDialog extends DialogBox {
 
         this.activity = new ActivityDetector(this.audio.context);
         this.activity.name = "device-settings-dialog-activity";
-        this.activity.addEventListener("activity", (evt) =>  this.micLevels.value = evt.level);
+        this.activity.addEventListener("activity", (evt) => {
+            if (this.isOpen) {
+                this.micLevels.value = evt.level;
+            }
+        });
         this.microphones.connect(this.activity);
+        this.activity.start();
 
         this.properties.setGroupVisible(MIC_GROUP, false);
 
@@ -264,13 +270,6 @@ export class DeviceDialog extends DialogBox {
         this.useHeadphones.checked = this.audio.useHeadphones;
         elementSetDisplay(this.headphoneWarning, !this.audio.useHeadphones, "inline-block");
 
-        this.activity.start();
-
         await super.onShowing();
-    }
-
-    protected override onClosed() {
-        this.activity.stop();
-        super.onClosed();
     }
 }
