@@ -10,8 +10,8 @@ namespace Juniper.Processes
         private readonly DirectoryInfo nodeModulesDir;
 
 
-        public NPMInstallCommand(DirectoryInfo? workingDir, bool force)
-            : base(workingDir, "npm", "install")
+        public NPMInstallCommand(DirectoryInfo? workingDir, bool force, bool noPackageLock = true)
+            : base(workingDir, "npm", $"install --no-fund{(noPackageLock ? "--no-package-lock" : "")}")
         {
             packageJson = this.workingDir.Touch("package.json");
             if (!packageJson.Exists)

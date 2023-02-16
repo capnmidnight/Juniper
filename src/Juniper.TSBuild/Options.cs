@@ -56,15 +56,14 @@ namespace Juniper.TSBuild
         {
             var commands = new[]
             {
-                new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
-                new Command(null, "Type Check", FlagSetter(nameof(TypeCheck))),
-                new Command(null, "Build", FlagSetter(nameof(Build))),
+                new Command("--upgrade", "Open package.json files", FlagSetter(nameof(OpenPackageJsons))),
                 new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
-                new Command(null, "Delete package-lock.json", FlagSetter(nameof(DeletePackageLockJsons))),
-                new Command(null, "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
+                new Command("--ts-clean", "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
+                new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
+                new Command("--check", "Type Check", FlagSetter(nameof(TypeCheck))),
+                new Command("--build", "Build", FlagSetter(nameof(Build))),
                 new Command("--audit", "Audit NPM packages", FlagSetter(nameof(NPMAudits))),
-                new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(NPMAuditFixes))),
-                new Command(null, "Open package.json files", FlagSetter(nameof(OpenPackageJsons)))
+                new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(NPMAuditFixes)))
             };
 
             interactiveCommands = commands
