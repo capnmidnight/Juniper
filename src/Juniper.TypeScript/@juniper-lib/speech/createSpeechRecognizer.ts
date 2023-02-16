@@ -18,3 +18,4 @@ export function createSpeechRecognizer(fetcher: IFetcher, activity: ActivityDete
     return new JuniperSpeechRecognizer(fetcher, postPath, recorder)
 }
 
+export type SpeechRecognizerFactory = (fetcher: IFetcher, activity: ActivityDetector, microphones: LocalUserMicrophone) => ISpeechRecognizer;
