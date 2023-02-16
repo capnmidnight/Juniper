@@ -1,5 +1,5 @@
 import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
-import { build as esbuild } from "esbuild";
+import { build, context } from "esbuild";
 import * as fs from "fs";
 import * as path from "path";
 import { isNullOrUndefined } from "util";
@@ -94,7 +94,7 @@ export class Build {
             console.log(`done in ${delta}s`);
         });
     }
-    makeBundle(entryPoints, name, isRelease) {
+    async makeBundle(entryPoints, name, isRelease) {
         const JS_EXT = isRelease ? ".min" : "";
         const entryNames = this.entryNames + JS_EXT;
         const define = {
@@ -109,7 +109,17 @@ export class Build {
         if (Object.keys(this.globalExternals).length > 0) {
             plugins.unshift(globalExternals(this.globalExternals));
         }
-        return esbuild({
+        plugins.push({
+            name: 'my-plugin',
+            setup(build) {
+                let count = 0;
+                build.onEnd(() => {
+                    const type = count++ > 0 ? "rebuilt" : "built";
+                    console.log(name, type);
+                });
+            },
+        });
+        const opts = {
             platform: "browser",
             format: "esm",
             target: "es2021",
@@ -125,20 +135,20 @@ export class Build {
             minify: isRelease,
             external: this.externals,
             plugins,
-            incremental: this.isWatch,
             legalComments: "none",
             treeShaking: true,
-            watch: this.isWatch && {
-                onRebuild(error, result) {
-                    if (error) {
-                        console.error(name, "failed.", error, result);
-                    }
-                    else {
-                        console.log(name, "rebuilt");
-                    }
-                }
-            }
-        });
+        };
+        if (!this.isWatch) {
+            await build(opts);
+        }
+        else {
+            const ctx = await context(opts);
+            await ctx.watch();
+            const stall = new Promise((_, __) => {
+            });
+            await stall;
+            await ctx.dispose();
+        }
     }
 }
 function LS(path) {
