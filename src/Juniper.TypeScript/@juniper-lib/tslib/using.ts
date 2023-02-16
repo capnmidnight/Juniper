@@ -109,3 +109,22 @@ export async function usingArrayAsync<T extends Cleanupable, U>(vals: T[], thunk
         }
     }
 }
+
+class TrashHeap implements IDisposable {
+    constructor(private readonly objs: IDisposable[]) {
+    }
+
+    dispose() {
+        for (const obj of this.objs) {
+            obj.dispose();
+        }
+    }
+
+    add(obj: IDisposable) {
+        this.objs.push(obj);
+    }
+}
+
+export function trashHeap(...objs: IDisposable[]): TrashHeap {
+    return new TrashHeap(objs);
+}

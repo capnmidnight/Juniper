@@ -12,6 +12,9 @@ export class WebSpeechRecognizer extends BaseSpeechRecognizer {
 
     private readonly recognizer: SpeechRecognition;
 
+    private _running = false;
+    get running() { return this._running; }
+
     constructor() {
         super();
         this.recognizer = new WebSpeechRecognizer.Recognition();
@@ -20,6 +23,7 @@ export class WebSpeechRecognizer extends BaseSpeechRecognizer {
                 this.start();
             }
             else {
+                this._running = false;
                 this.dispatchEvent(this.endEvt);
             }
         });
@@ -42,6 +46,7 @@ export class WebSpeechRecognizer extends BaseSpeechRecognizer {
         this.recognizer.addEventListener("result", (evt) => {
             const result = evt.results[evt.resultIndex];
             const alternative = result[0];
+            console.log("Utterance:", alternative);
             this.dispatchEvent(new SpeechRecognizerResultEvent(++curId, this.targetCulture, alternative.transcript));
         });
     }
@@ -67,6 +72,7 @@ export class WebSpeechRecognizer extends BaseSpeechRecognizer {
     }
 
     start(): void {
+        this._running = true;
         this.recognizer.start();
     }
 

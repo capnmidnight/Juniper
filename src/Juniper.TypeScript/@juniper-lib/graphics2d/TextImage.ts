@@ -383,6 +383,8 @@ export class TextImage extends CanvasImage {
         this._dimensionsFrozen = false;
     }
 
+    private lastValue: string = null;
+
     protected onRedraw() {
         this.onClear();
 
@@ -390,7 +392,8 @@ export class TextImage extends CanvasImage {
             && this.fontFamily
             && this.fontSize
             && (this.textFillColor || (this.textStrokeColor && this.textStrokeSize))
-            && this.value) {
+            && this.value
+            && this.value !== this.lastValue) {
 
             const lines = this.split(this.value);
             const isVertical = this.textDirection && this.textDirection.indexOf("vertical") === 0;
@@ -594,10 +597,14 @@ export class TextImage extends CanvasImage {
                 this.g.drawImage(canv, 0, 0);
             }
 
+            this.lastValue = this.value;
             return true;
         }
         else {
-            return false;
+            const changed = this.value !== this.lastValue;
+            this.lastValue = this.value;
+            return changed;
         }
+
     }
 }

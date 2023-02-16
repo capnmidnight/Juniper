@@ -191,6 +191,14 @@ export abstract class BaseTele extends Application {
             }
         });
 
+        if (this.env.speech) {
+            this.env.speech.addScopedEventListener(this, "result", (evt) => {
+                if (this.visible) {
+                    this.conference.sendChat(evt.results);
+                }
+            });
+        }
+
         return await super.init(params);
     }
 
@@ -215,6 +223,9 @@ export abstract class BaseTele extends Application {
 
     dispose(): void {
         this.hiding();
+        if (this.env.speech) {
+            this.env.speech.removeScope(this);
+        }
         this.env.avatar.removeScope(this);
         this.env.eventSys.removeScope(this);
         this.env.removeScope(this);

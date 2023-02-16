@@ -8,7 +8,7 @@ import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { FWD, HalfPi } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { UserChatEvent, UserStateEvent } from "@juniper-lib/webrtc/ConferenceEvents";
+import { UserChatEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BodyFollower } from "./animation/BodyFollower";
@@ -116,16 +116,20 @@ export class AvatarRemote extends Object3D implements IDisposable {
         this.userName = user.userName;
 
         this.chatBox = new TextMesh(this.env, `chat-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
-        this.chatBox.position.y = -0.5;
+        this.chatBox.position.y = -0.4;
 
         user.addEventListener("chat", (evt: UserChatEvent) =>
             this.chatText = evt.text);
 
         const buffer = new BufferReaderWriter();
 
-        user.addEventListener("userState", (evt: UserStateEvent) => {
+        user.addEventListener("userState", (evt) => {
             buffer.buffer = evt.buffer;
             this.readState(buffer);
+        });
+
+        user.addEventListener("chat", (evt) => {
+            this.chatText = evt.text;
         });
 
         this.activity = new ActivityDetector(this.env.audio.context);
@@ -275,16 +279,18 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
     private clearChatTimer: number = null;
     set chatText(v: string) {
-        this.chatBox.image.value = v;
+        this.chatBox.image.value = v || "";
 
         if (this.clearChatTimer !== null) {
             clearTimeout(this.clearChatTimer);
             this.clearChatTimer = null;
         }
 
-        this.clearChatTimer = setTimeout(() => {
-            this.chatText = null;
-        }, 3000) as any;
+        if (v && v.length > 0) {
+            this.clearChatTimer = setTimeout(() => {
+                this.chatText = null;
+            }, 3000) as any;
+        }
     }
 
     refreshCursors() {
