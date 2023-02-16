@@ -17,16 +17,18 @@ namespace Juniper.Sound
     {
         Wav,
         MP3,
-        WebM
+        WebMOpus,
+        OggOpus
     }
 
     public static class EZFFMPEG
     {
-        private static readonly Dictionary<EZFFMPEGFormat, (Format, MediaType, AudioCodec)> parameters = new()
+        private static readonly Dictionary<EZFFMPEGFormat, (MediaType, Format, AudioCodec)> parameters = new()
         {
-            { EZFFMPEGFormat.WebM, (Format.matroska, MediaType.Audio_WebMOpus, AudioCodec.opus) },
-            { EZFFMPEGFormat.MP3, (Format.mp3, MediaType.Audio_Mpeg, AudioCodec.mp3) },
-            { EZFFMPEGFormat.Wav, (Format.wav, MediaType.Audio_Wav, AudioCodec.pcm_u8) }
+            { EZFFMPEGFormat.WebMOpus, (MediaType.Audio_WebMOpus, Format.matroska, AudioCodec.libopus) },
+            { EZFFMPEGFormat.OggOpus, (MediaType.Audio_OggOpus , Format.ogg, AudioCodec.libopus) },
+            { EZFFMPEGFormat.MP3, (MediaType.Audio_Mpeg , Format.mp3, AudioCodec.mp3) },
+            { EZFFMPEGFormat.Wav, (MediaType.Audio_Wav , Format.wav, AudioCodec.pcm_u8) }
         };
 
         private static async Task InitFFMpeg()
@@ -146,7 +148,7 @@ namespace Juniper.Sound
                 throw new InvalidOperationException("Couldn't find audio in file");
             }
 
-            var (ffmpegFormat, mediaTypeOut, codec) = parameters[format];
+            var (mediaTypeOut, ffmpegFormat, codec) = parameters[format];
             audioIn.SetCodec(codec);
 
             var fileOut = new TempFile(mediaTypeOut);

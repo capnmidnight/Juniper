@@ -20,7 +20,7 @@ namespace Juniper.Azure
     public interface ISpeechService
     {
         public Task<RecognitionResult> RecognizeAsync(IFormFile fileIn, string language);
-        public Task<SynthesisResult> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebM);
+        public Task<SynthesisResult> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebMOpus);
         public Task<SynthesisVoicesResult> GetVoicesAsync();
     }
 
@@ -46,7 +46,7 @@ namespace Juniper.Azure
             {
                 throw new FileNotFoundException();
             }
-
+            
             var mediaTypeIn = MediaType.Parse(fileIn.ContentType);
             using var streamIn = fileIn.OpenReadStream();
             using var fileOut = await EZFFMPEG.ConvertAsync(streamIn, mediaTypeIn, EZFFMPEGFormat.Wav);
@@ -64,7 +64,7 @@ namespace Juniper.Azure
             return new RecognitionResult(detectLangResult.Language, recogResult.Text);
         }
 
-        public async Task<SynthesisResult> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebM)
+        public async Task<SynthesisResult> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebMOpus)
         {
             if (string.IsNullOrEmpty(voice))
             {
@@ -79,7 +79,7 @@ namespace Juniper.Azure
             speechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Audio24Khz160KBitRateMonoMp3);
 
             var file = new TempFile(MediaType.Audio_WebMOpus);
-            if (format != EZFFMPEGFormat.WebM)
+            if (format != EZFFMPEGFormat.WebMOpus)
             {
                 var newFile = await EZFFMPEG.ConvertAsync(file.FileInfo, format);
                 file.Dispose();
