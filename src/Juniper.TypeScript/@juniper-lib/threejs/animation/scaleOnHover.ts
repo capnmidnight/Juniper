@@ -104,7 +104,7 @@ export function removeScaledObj(obj: Object3D) {
     }
 }
 
-export function scaleOnHover(target: RayTarget, enabled: boolean) {
+export function scaleOnHover(target: RayTarget<any>, enabled: boolean) {
     const has = scaledItems.has(target);
     if (enabled != has) {
         if (enabled) {
