@@ -22,7 +22,7 @@ namespace Juniper
         public int? filesize { get; set; }
         public int? source_preference { get; set; }
         public float? fps { get; set; }
-        public int? quality { get; set; }
+        public float? quality { get; set; }
         public float? tbr { get; set; }
         public string language { get; set; }
         public int? language_preference { get; set; }
