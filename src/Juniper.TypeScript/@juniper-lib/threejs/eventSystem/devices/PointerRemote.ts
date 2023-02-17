@@ -14,6 +14,11 @@ import { Laser } from "../Laser";
 import { getPointerType, PointerID, PointerType } from "../Pointers";
 import { BasePointer } from "./BasePointer";
 
+
+const ARM_LENGTH = 0.2;
+const ARM_DIST = 0.5 * ARM_LENGTH - 0.025;
+const ARM_WIDTH = 0.05;
+
 export class PointerRemote
     extends BasePointer
     implements ErsatzObject {
@@ -31,7 +36,6 @@ export class PointerRemote
     private readonly dTarget = new Vector3();
     private readonly uTarget = new Vector3();
     private readonly handCube: Object3D;
-    private readonly elbowCube: Object3D;
     public readonly remoteType: PointerType;
     private _hand: IXRHandModel = null;
 
@@ -48,12 +52,11 @@ export class PointerRemote
         this.remoteType = getPointerType(this.remoteID);
 
         this.object = obj(`remote:${this.avatar.userName}:${this.name}`,
-            this.elbowCube = new Cube(0.05, 0.05, 0.05, litGrey),
             this.laser = new Laser(
                 this.avatar.isInstructor ? green : yellow,
                 this.avatar.isInstructor ? 1 : 0.5,
                 0.002),
-            this.handCube = new Cube(0.05, 0.05, 0.05, litGrey));
+            this.handCube = new Cube(ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, litGrey));
 
         this.cursor.object.name = `${this.object.name}:cursor`;
         this.cursor.visible = true;
@@ -61,7 +64,7 @@ export class PointerRemote
         // Fakey "inverse kinematics" arm model. Doesn't actually
         // do any IK, just make an elbow that sits behind the hand
         // which is good enough for most work.
-        this.handCube.position.set(0, 0, -0.2);
+        this.handCube.position.set(0, 0, -ARM_DIST);
 
         this.laser.length = 30;
 
@@ -84,7 +87,6 @@ export class PointerRemote
 
             if (this.hand) {
                 this.handCube.removeFromParent();
-                this.elbowCube.removeFromParent();
                 objGraph(this,
                     this.laser);
                 objGraph(this.handsParent,
@@ -92,7 +94,6 @@ export class PointerRemote
             }
             else {
                 objGraph(this,
-                    this.elbowCube,
                     this.laser,
                     this.handCube);
             }
