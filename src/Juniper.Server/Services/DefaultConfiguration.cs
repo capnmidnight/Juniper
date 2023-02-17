@@ -166,7 +166,7 @@ namespace Juniper.Services
             return services;
         }
 
-        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, PortOptions? ports, bool withAuth, bool withWebSockets, Action<IEndpointRouteBuilder>? configEndPoint)
+        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, PortOptions? ports, bool withAuth, bool withWebSockets, Action<IEndpointRouteBuilder>? configEndPoint)
         {
             if (env.IsDevelopment())
             {
@@ -223,7 +223,14 @@ namespace Juniper.Services
                     if (context.Request.Path.Value?.StartsWith("/status/") != true
                         && context.Response.StatusCode >= 400)
                     {
-                        context.Response.Redirect($"/status/{context.Response.StatusCode}?path={context.Request.Path}");
+                        try
+                        {
+                            context.Response.Redirect($"/status/{context.Response.StatusCode}?path={context.Request.Path}");
+                        }
+                        catch(Exception exp)
+                        {
+                            logger.LogError(exp, "Could not redirect to status page");
+                        }
                     }
                 })
                 .UseRouting();
@@ -251,16 +258,16 @@ namespace Juniper.Services
         }
 
 
-        public static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, PortOptions? ports)
+        public static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, PortOptions? ports)
         {
-            return app.ConfigureRequestPipeline(env, config, ports, false, false, null);
+            return app.ConfigureRequestPipeline(env, config, logger, ports, false, false, null);
         }
 
 
-        public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, PortOptions? ports, string hubPath)
+        public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, PortOptions? ports, string hubPath)
             where HubT : Hub
         {
-            return app.ConfigureRequestPipeline(env, config, ports, true, false, endpoints =>
+            return app.ConfigureRequestPipeline(env, config, logger, ports, true, false, endpoints =>
                 endpoints.MapHub<HubT>(hubPath));
         }
 
