@@ -36,18 +36,26 @@ export class WebSpeechRecognizer extends BaseSpeechRecognizer {
         this.recognizer.addEventListener("speechstart", () => this.dispatchEvent(this.speechStartEvt));
 
         let curId = 0;
+        const noMatch = () =>
+            this.dispatchEvent(new SpeechRecognizerNoMatchEvent(++curId));
 
-        this.recognizer.addEventListener("nomatch", () =>
-            this.dispatchEvent(new SpeechRecognizerNoMatchEvent(++curId)));
+        this.recognizer.addEventListener("nomatch", noMatch);
 
         this.recognizer.addEventListener("error", (evt) =>
             this.dispatchEvent(new SpeechRecognizerErrorEvent(++curId, evt.error, evt.message)));
 
         this.recognizer.addEventListener("result", (evt) => {
-            const result = evt.results[evt.resultIndex];
-            const alternative = result[0];
-            console.log("Utterance:", alternative);
-            this.dispatchEvent(new SpeechRecognizerResultEvent(++curId, this.targetCulture, alternative.transcript));
+            if (evt.results.length === 0
+                || evt.results[0].length === 0
+                || evt.results[0][0].transcript.length === 0) {
+                noMatch();
+            }
+            else {
+                const result = evt.results[evt.resultIndex];
+                const alternative = result[0];
+                console.log("Utterance:", alternative);
+                this.dispatchEvent(new SpeechRecognizerResultEvent(++curId, this.targetCulture, alternative.transcript));
+            }
         });
     }
 

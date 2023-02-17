@@ -77,7 +77,9 @@ export abstract class BaseCustomSpeechRecognizer extends BaseSpeechRecognizer {
             }
             else {
                 const result = await this.getResult(evt.blob);
-                if (!result.content) {
+                if (!result.content
+                    || !result.content.text
+                    || result.content.text.length === 0) {
                     if (result.status < 400) {
                         this.dispatchEvent(new SpeechRecognizerNoMatchEvent(evt.id));
                     }
