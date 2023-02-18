@@ -5,7 +5,7 @@ import { SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecogni
 
 export class WebSpeechRecognizer extends BaseSpeechRecognizer {
 
-    private static Recognition = ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition) as Constructor<SpeechRecognition, typeof SpeechRecognition>;
+    private static readonly Recognition = ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition) as Constructor<SpeechRecognition, typeof SpeechRecognition>;
     public static get isAvailable() {
         return isDefined(WebSpeechRecognizer.Recognition);
     }
@@ -34,7 +34,7 @@ export class WebSpeechRecognizer extends BaseSpeechRecognizer {
         this.recognizer.addEventListener("soundstart", () => this.dispatchEvent(this.soundStartEvt));
         this.recognizer.addEventListener("speechend", () => this.dispatchEvent(this.speechEndEvt));
         this.recognizer.addEventListener("speechstart", () => this.dispatchEvent(this.speechStartEvt));
-
+        
         let curId = 0;
         const noMatch = () =>
             this.dispatchEvent(new SpeechRecognizerNoMatchEvent(++curId));
@@ -54,17 +54,13 @@ export class WebSpeechRecognizer extends BaseSpeechRecognizer {
                 const result = evt.results[evt.resultIndex];
                 const alternative = result[0];
                 console.log("Utterance:", alternative);
-                this.dispatchEvent(new SpeechRecognizerResultEvent(++curId, this.targetCulture, alternative.transcript));
+                this.dispatchEvent(new SpeechRecognizerResultEvent(++curId, this.targetCulture, alternative.transcript, true));
             }
         });
     }
 
-    get targetCulture(): Culture {
-        return this.recognizer.lang as Culture;
-    }
-
-    set targetCulture(v: Culture) {
-        this.recognizer.lang = v;
+    protected override onRefresh() {
+        this.recognizer.lang = this.targetCulture || this.speakerCulture;
     }
 
     get continuous(): boolean {

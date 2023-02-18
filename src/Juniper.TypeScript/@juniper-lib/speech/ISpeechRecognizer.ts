@@ -11,7 +11,11 @@ export class SpeechRecognizerErrorEvent
 
 export class SpeechRecognizerResultEvent
     extends TypedEvent<"result"> {
-    constructor(public readonly id: number, readonly culture: Culture, readonly results: string) {
+    constructor(
+        public readonly id: number,
+        public readonly culture: Culture,
+        public readonly results: string,
+        public readonly isFinal: boolean) {
         super("result");
     }
 }

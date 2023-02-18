@@ -13,7 +13,8 @@
     "@juniper-lib/tslib": "*",
     "@juniper-types/dom-types": "*",
     "@types/dom-mediacapture-record": "1.0.14",
-    "gl-matrix": "3.4.3"
+    "gl-matrix": "3.4.3",
+    "microsoft-cognitiveservices-speech-sdk": "1.25.1"
   },
   "devDependencies": {
     "typescript": "4.8.4"

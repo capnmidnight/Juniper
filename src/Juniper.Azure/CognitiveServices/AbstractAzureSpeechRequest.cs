@@ -1,4 +1,3 @@
-
 using Juniper.Progress;
 
 using System;

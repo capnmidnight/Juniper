@@ -29,7 +29,7 @@ namespace Juniper.Processes
             };
         }
 
-        public bool Start(Stream inputStream)
+        public async Task<bool> StartAsync(Stream inputStream)
         {
             var started = proc.Start();
             if (started)
@@ -45,7 +45,7 @@ namespace Juniper.Processes
 
                 proc.BeginErrorReadLine();
 
-                inputStream.CopyTo(proc.StandardInput.BaseStream);
+                await inputStream.CopyToAsync(proc.StandardInput.BaseStream);
                 proc.StandardInput.Flush();
                 proc.StandardInput.Close();
             }

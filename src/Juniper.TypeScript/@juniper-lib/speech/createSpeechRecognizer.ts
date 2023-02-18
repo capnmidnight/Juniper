@@ -2,9 +2,9 @@ import { ActivityDetector } from "@juniper-lib/audio/ActivityDetector";
 import { AudioRecordingNode } from "@juniper-lib/audio/AudioRecordingNode";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
-import { ISpeechRecognizer } from "@juniper-lib/speech/ISpeechRecognizer";
-import { JuniperSpeechRecognizer } from "@juniper-lib/speech/JuniperSpeechRecognizer";
-import { WebSpeechRecognizer } from "@juniper-lib/speech/WebSpeechRecognizer";
+import { ISpeechRecognizer } from "./ISpeechRecognizer";
+import { JuniperSpeechRecognizer } from "./JuniperSpeechRecognizer";
+import { WebSpeechRecognizer } from "./WebSpeechRecognizer";
 
 export function createSpeechRecognizer(fetcher: IFetcher, activity: ActivityDetector, microphones: LocalUserMicrophone, postPath: string, forceFallback = false): ISpeechRecognizer {
     if (WebSpeechRecognizer.isAvailable && !forceFallback) {

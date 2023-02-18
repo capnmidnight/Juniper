@@ -51,9 +51,10 @@ export class AudioRecordingNode
             .filter(v => MediaRecorder.isTypeSupported(v.value));
     }
 
-    private fwd: (event: Event) => any;
-
+    private readonly fwd: (event: Event) => any;
     private readonly streamNode: JuniperMediaStreamAudioDestinationNode;
+    private readonly createRecorder: () => void;
+    private readonly useActiveListening: boolean = false;
 
     private listening = false;
     private recording = false;
@@ -64,9 +65,14 @@ export class AudioRecordingNode
     private _audioBitrateMode: BitrateMode = undefined;
     private recorder: MediaRecorder = null;
 
-    private readonly createRecorder: () => void;
+    constructor(context: JuniperAudioContext, options?: AudioRecordingNodeOptions);
+    constructor(context: JuniperAudioContext, activity: ActivityDetector, options?: AudioRecordingNodeOptions);
+    constructor(context: JuniperAudioContext, activityOrOptions?: ActivityDetector | AudioRecordingNodeOptions, options?: AudioRecordingNodeOptions) {
 
-    constructor(context: JuniperAudioContext, activity: ActivityDetector, options?: AudioRecordingNodeOptions) {
+        let activity: ActivityDetector = null;
+        if (activityOrOptions instanceof ActivityDetector) {
+            activity = activityOrOptions;
+        }
 
         const input = context.createGain();
 
@@ -136,27 +142,30 @@ export class AudioRecordingNode
             this.recorder.stop();
         };
 
-        activity.addEventListener("activity", (evt) => {
-            if (this.listening && evt.level > ACTIVITY_SENSITIVITY) {
-                if (this.recording) {
-                    if (stopRecordingTimer) {
-                        clearTimeout(stopRecordingTimer);
-                        stopRecordingTimer = null;
+        if (activity) {
+            this.useActiveListening = true;
+            activity.addEventListener("activity", (evt) => {
+                if (this.listening && evt.level > ACTIVITY_SENSITIVITY) {
+                    if (this.recording) {
+                        if (stopRecordingTimer) {
+                            clearTimeout(stopRecordingTimer);
+                            stopRecordingTimer = null;
+                        }
+
+                        stopRecordingTimer = setTimeout(stop, PAUSE_LENGTH * 1000) as any;
                     }
-
-                    stopRecordingTimer = setTimeout(stop, PAUSE_LENGTH * 1000) as any;
+                    else {
+                        start();
+                    }
                 }
-                else {
-                    start();
+                else if (!this.listening && stopRecordingTimer) {
+                    clearTimeout(stopRecordingTimer);
+                    stop();
                 }
-            }
-            else if (!this.listening && stopRecordingTimer) {
-                clearTimeout(stopRecordingTimer);
-                stop();
-            }
-        });
+            });
 
-        input.connect(activity);
+            input.connect(activity);
+        }
     }
 
     get stream() {
@@ -241,11 +250,20 @@ export class AudioRecordingNode
     }
 
     start() {
-        this.listening = true;
+        if (this.useActiveListening) {
+            this.listening = true;
+        } else if (this.recorder != null && this.recorder.state === "inactive") {
+            this.recorder.start();
+        }
     }
 
     stop() {
-        this.listening = false;
+        if (this.useActiveListening) {
+            this.listening = false;
+        }
+        else if (this.recorder != null && this.recorder.state !== "inactive") {
+            this.recorder.stop();
+        }
     }
 
     resume() {

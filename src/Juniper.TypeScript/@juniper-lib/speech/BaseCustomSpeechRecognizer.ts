@@ -19,7 +19,6 @@ enum RecognitionState {
 
 export abstract class BaseCustomSpeechRecognizer extends BaseSpeechRecognizer {
 
-    targetCulture: Culture;
     continuous: boolean;
 
     private state: RecognitionState = RecognitionState.Stopped;
@@ -88,7 +87,7 @@ export abstract class BaseCustomSpeechRecognizer extends BaseSpeechRecognizer {
                     }
                 }
                 else {
-                    this.dispatchEvent(new SpeechRecognizerResultEvent(evt.id, result.content.culture, result.content.text));
+                    this.dispatchEvent(new SpeechRecognizerResultEvent(evt.id, result.content.culture, result.content.text, true));
                     if (!this.continuous) {
                         this.stop();
                     }
@@ -119,4 +118,3 @@ export abstract class BaseCustomSpeechRecognizer extends BaseSpeechRecognizer {
 
     protected abstract getResult(blob: Blob): Promise<IResponse<RecognitionResult>>;
 }
-

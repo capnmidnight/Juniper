@@ -22,6 +22,8 @@ namespace Juniper.Azure
         public Task<RecognitionResult> RecognizeAsync(IFormFile fileIn, string speakerCulture, string targetCulture);
         public Task<SynthesisResult> SynthesizeAsync(string voice, string style, string text, EZFFMPEGFormat format = EZFFMPEGFormat.WebMOpus);
         public Task<SynthesisVoicesResult> GetVoicesAsync();
+        public string SubscriptionKey { get; }
+        public string Region { get; }
     }
 
     public class SpeechService : ISpeechService
@@ -33,6 +35,9 @@ namespace Juniper.Azure
             speechConfig = SpeechConfig.FromSubscription(subscriptionKey, region);
             speechConfig.SetProfanity(ProfanityOption.Raw);
         }
+
+        public string SubscriptionKey => speechConfig.SubscriptionKey;
+        public string Region => speechConfig.Region;
 
         public async Task<SynthesisVoicesResult> GetVoicesAsync()
         {

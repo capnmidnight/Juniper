@@ -18,7 +18,8 @@ namespace Juniper.Sound
         Wav,
         MP3,
         WebMOpus,
-        OggOpus
+        OggOpus,
+        Raw
     }
 
     public static class EZFFMPEG
@@ -28,7 +29,16 @@ namespace Juniper.Sound
             { EZFFMPEGFormat.WebMOpus, (MediaType.Audio_WebMOpus, Format.matroska, AudioCodec.libopus) },
             { EZFFMPEGFormat.OggOpus, (MediaType.Audio_OggOpus , Format.ogg, AudioCodec.libopus) },
             { EZFFMPEGFormat.MP3, (MediaType.Audio_Mpeg , Format.mp3, AudioCodec.mp3) },
-            { EZFFMPEGFormat.Wav, (MediaType.Audio_Wav , Format.wav, AudioCodec.pcm_u8) }
+            { EZFFMPEGFormat.Wav, (MediaType.Audio_Wav , Format.wav, AudioCodec.pcm_s16le) }
+        };
+
+        private static readonly Dictionary<EZFFMPEGFormat, (MediaType, string, string)> streamParameters = new()
+        {
+            { EZFFMPEGFormat.WebMOpus, (MediaType.Audio_WebMOpus, "matroska", "libopus") },
+            { EZFFMPEGFormat.OggOpus, (MediaType.Audio_OggOpus , "ogg", "libopus") },
+            { EZFFMPEGFormat.MP3, (MediaType.Audio_Mpeg , "mp3", "mp3") },
+            { EZFFMPEGFormat.Wav, (MediaType.Audio_Wav , "wav", "pcm_s16le") },
+            { EZFFMPEGFormat.Raw, (MediaType.Audio_Raw , "concat", "pcm_s16le") }
         };
 
         private static async Task InitFFMpeg()
@@ -59,23 +69,33 @@ namespace Juniper.Sound
             }
         }
 
+        public static void ValidateInputMediaTypes(params MediaType[] mediaTypeIns)
+        {
+            if (mediaTypeIns is null)
+            {
+                throw new ArgumentNullException(nameof(mediaTypeIns));
+            }
+
+            var acceptableTypes = mediaTypeIns
+                .Where(mediaTypeIn => mediaTypeIn is not null
+                    && (mediaTypeIn.Type == "audio"
+                        || mediaTypeIn.Type == "video"));
+
+            if (acceptableTypes.Empty())
+            {
+                throw new InvalidOperationException("No valid media types found");
+            }
+        }
+
+        public static FFMpegProcessStream CreateFFMpegStream(EZFFMPEGFormat ezformat)
+        {
+            var (mediaTypeOut, format, codec) = streamParameters[ezformat];            
+            return new FFMpegProcessStream(mediaTypeOut, format, codec);
+        }
+
         public static async Task<TempFile> ConvertAsync(Stream streamIn, MediaType mediaTypeIn, EZFFMPEGFormat format)
         {
-            if (streamIn is null)
-            {
-                throw new ArgumentNullException(nameof(streamIn));
-            }
-
-            if (mediaTypeIn is null)
-            {
-                throw new ArgumentNullException(nameof(mediaTypeIn));
-            }
-
-            if (mediaTypeIn.Type != "audio"
-                    && mediaTypeIn.Type != "video")
-            {
-                throw new InvalidOperationException("Bad media type: " + mediaTypeIn.Value);
-            }
+            ValidateInputMediaTypes(mediaTypeIn);
 
             using var fileIn = new TempFile(mediaTypeIn);
             await streamIn.CopyToAsync(fileIn);
@@ -102,20 +122,8 @@ namespace Juniper.Sound
 
         private static async Task<TempFile> ConvertAsync(EZFFMPEGFormat format, FileInfo file, params MediaType[] types)
         {
-            var anyMatch = types.Any(t => t.Type == "audio" || t.Type == "video");
-            if (!anyMatch)
-            {
-                if (types.Empty())
-                {
-                    throw new InvalidOperationException("Could not determine file media type.");
-                }
-                else
-                {
-                    var typeValues = string.Join(", ", types.Select(t => t.Value));
-                    throw new InvalidOperationException("None of the follow types are recognized for media conversion: " + typeValues);
-                }
-            }
 
+            ValidateInputMediaTypes(types);
             return await ConvertAsync(file.FullName, format);
         }
 
