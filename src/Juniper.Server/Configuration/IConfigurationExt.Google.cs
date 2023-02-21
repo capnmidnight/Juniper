@@ -3,10 +3,9 @@ namespace Juniper.Configuration
     public static partial class IConfigurationExt
     {
         public static string? GetGoogleAPIKey(this IConfiguration config) =>
-            config.GetSection("Google").GetValue<string>("APIKey");
+            config.GetValue<string>("Google:APIKey");
 
         public static string? GetGoogleSigningKey(this IConfiguration config) =>
-            config.GetSection("Google")
-                .GetValue<string>("SigningKey");
+            config.GetValue<string>("Google:SigningKey");
     }
 }

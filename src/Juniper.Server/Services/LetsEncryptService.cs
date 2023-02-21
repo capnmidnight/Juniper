@@ -20,9 +20,8 @@ namespace Juniper.Services
         {
             options.AddServerHeader = false;
 
-            var letsEncrypt = config.GetSection("LetsEncrypt");
-            var fullChainFileName = letsEncrypt.GetValue<string>("FullChainPath");
-            var privKeyFileName = letsEncrypt.GetValue<string>("PrivateKeyPath");
+            var fullChainFileName = config.GetValue<string>("LetsEncrypt:FullChainPath");
+            var privKeyFileName = config.GetValue<string>("LetsEncrypt:PrivateKeyPath");
             if (!File.Exists(fullChainFileName))
             {
                 logger.LogError("Certificate file {fullChainFileName} does not exist.", fullChainFileName);

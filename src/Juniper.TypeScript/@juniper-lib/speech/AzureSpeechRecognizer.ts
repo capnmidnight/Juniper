@@ -3,7 +3,7 @@ import { AudioRecordingNode, BlobAvailableEvent } from "@juniper-lib/audio/Audio
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { identity } from "@juniper-lib/tslib/identity";
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { AudioConfig, AutoDetectSourceLanguageConfig, ProfanityOption, RecognitionEventArgs, Recognizer, ResultReason, SessionEventArgs, SpeechConfig, SpeechRecognitionCanceledEventArgs, SpeechRecognitionEventArgs, SpeechRecognitionResult, SpeechRecognizer } from "microsoft-cognitiveservices-speech-sdk/distrib/es2015/microsoft.cognitiveservices.speech.sdk";
+import { AudioConfig, AutoDetectSourceLanguageConfig, ProfanityOption, RecognitionEventArgs, Recognizer, ResultReason, SessionEventArgs, SpeechConfig, SpeechRecognitionCanceledEventArgs, SpeechRecognitionEventArgs, SpeechRecognitionResult, SpeechRecognizer } from "microsoft-cognitiveservices-speech-sdk";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 import { SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent } from "./ISpeechRecognizer";
 
