@@ -80,7 +80,7 @@ namespace Juniper.Services
             {
                 services.AddSignalR(options =>
                 {
-                    options.ClientTimeoutInterval = TimeSpan.FromSeconds(30);
+                    options.ClientTimeoutInterval = TimeSpan.FromSeconds(5);
                     options.HandshakeTimeout = TimeSpan.FromSeconds(5);
                 });
             }
