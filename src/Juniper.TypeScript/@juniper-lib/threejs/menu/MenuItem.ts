@@ -15,7 +15,7 @@ export class MenuItem extends RayTarget {
         if (this.back) {
             this.back = back;
             this.back.renderOrder = 0;
-            this.back.position.z = -0.125;
+            this.back.position.z = -0.05;
             this.addMesh(this.back.mesh);
         }
 
