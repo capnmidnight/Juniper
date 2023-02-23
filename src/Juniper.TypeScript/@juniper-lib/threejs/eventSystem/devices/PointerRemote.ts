@@ -26,15 +26,15 @@ export class PointerRemote
     readonly object: Object3D;
 
     private readonly laser: Laser = null;
+    private readonly D = new Vector3();
     private readonly P = new Vector3();
-    private readonly F = new Vector3();
-    private readonly O = new Vector3();
-    private readonly S = new Vector3();
+    private readonly visualOffset = new Vector3();
     private readonly M = new Matrix4();
     private readonly MW = new Matrix4();
-    private readonly pTarget = new Vector3();
-    private readonly dTarget = new Vector3();
-    private readonly uTarget = new Vector3();
+    private readonly originTarget = new Vector3();
+    private readonly directionTarget = new Vector3();
+    private readonly upTarget = new Vector3();
+    private readonly visualOffsetTarget = new Vector3();
     private readonly handCube: Object3D;
     public readonly remoteType: PointerType;
     private _hand: IXRHandModel = null;
@@ -42,8 +42,7 @@ export class PointerRemote
     constructor(
         private readonly avatar: AvatarRemote,
         env: BaseEnvironment,
-        private readonly remoteID: PointerID,
-        private readonly handsParent: Object3D) {
+        private readonly remoteID: PointerID) {
 
         const cursor = env.cursor3D && env.cursor3D.clone() || new CursorColor(env);
 
@@ -87,37 +86,30 @@ export class PointerRemote
 
             if (this.hand) {
                 this.handCube.removeFromParent();
-                objGraph(this,
-                    this.laser);
-                objGraph(this.handsParent,
-                    this.hand);
+                objGraph(this.avatar.stage, this.hand);
             }
             else {
-                objGraph(this,
-                    this.laser,
-                    this.handCube);
+                objGraph(this.avatar.stage, this.handCube);
             }
         }
     }
 
     readState(buffer: BufferReaderWriter) {
         // base pointer
-        buffer.readVector48(this.pTarget);
-        buffer.readVector48(this.dTarget);
-        buffer.readVector48(this.uTarget);
-
-        this.pTarget.sub(this.avatar.worldPos);
+        buffer.readVector48(this.originTarget);
+        buffer.readVector48(this.directionTarget);
+        buffer.readVector48(this.upTarget);
 
         if (this.remoteID === PointerID.Mouse
             || this.remoteID === PointerID.Touch) {
-            this.O.set(0.25, -0.55, 0.05)
+            this.visualOffsetTarget.set(0.25, -0.55, 0.05)
                 .applyQuaternion(this.avatar.bodyQuaternion);
         }
         else {
-            this.O.setScalar(0);
+            this.visualOffsetTarget.setScalar(0);
         }
 
-        this.O.add(this.avatar.comfortOffset);
+        this.visualOffsetTarget.add(this.avatar.comfortOffset);
 
         // PointerHand
         if (PointerID.MotionController <= this.remoteID && this.remoteID <= PointerID.MotionControllerRight) {
@@ -168,39 +160,41 @@ export class PointerRemote
     }
 
     animate(dt: number) {
-        this.origin.lerp(this.pTarget, dt * 0.01);
-        this.direction.lerp(this.dTarget, dt * 0.01).normalize();
-        this.up.lerp(this.uTarget, dt * 0.01).normalize();
+        // LERP the targets for the pointer graphics
+        const lt = dt * 0.01;
+        this.origin.lerp(this.originTarget, lt);
+        this.direction.lerp(this.directionTarget, lt).normalize();
+        this.up.lerp(this.upTarget, lt).normalize();
+        this.visualOffset.lerp(this.visualOffsetTarget, lt);
 
-        // subtract this back out at the end of the animation phase so it can be used for pointer updates correctly
-        this.origin.add(this.avatar.worldPos);
-
-        this.P.copy(this.origin);
-
-        this.cursor.visible = this.env.avatar.worldPos.distanceTo(this.P) < 10;
+        this.cursor.visible = this.env.avatar.worldPos.distanceTo(this.origin) < 10;
         if (this.cursor.visible) {
             // See if anything was hit...
             this.fireRay(this.origin, this.direction);
-
             // Move the cursor to wherever the pointer is pointing.
             this.updateCursor(this.avatar.worldPos, this.avatar.comfortOffset, false, 4);
+        }
 
+        this.P.copy(this.origin).add(this.visualOffset);
+
+        if (this.cursor.visible) {
             // point the pointer at the cursor
-            this.cursor.object.getWorldPosition(this.F)
-                .sub(this.P)
-                .sub(this.O);
-            // set the laser length
-            this.laser.length = 19 * this.F.length();
+            this.cursor.object
+                .getWorldPosition(this.D)
+                .sub(this.P);
+            this.laser.length = this.D.length() - 0.1;
+            this.D.normalize();
         }
         else {
-            this.laser.length = 30;
+            this.D.copy(this.direction);
+            this.laser.length = 10;
         }
 
-        // construct the LERPing targets for the pointer graphics
+        // Orient the graphics
         setMatrixFromUpFwdPos(
             this.up,
-            this.direction,
-            this.P.add(this.O),
+            this.D,
+            this.P,
             this.MW);
         this.M
             .copy(this.object.parent.matrixWorld)
@@ -209,9 +203,7 @@ export class PointerRemote
             .decompose(
                 this.object.position,
                 this.object.quaternion,
-                this.S);
-
-        this.origin.sub(this.avatar.worldPos);
+                this.object.scale);
     }
 
     updatePointerOrientation() {

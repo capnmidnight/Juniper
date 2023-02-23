@@ -51,15 +51,15 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
 
     get bodyQuaternion() { return this.headFollower.quaternion; }
 
-    private readonly hands = new Object3D();
+    readonly stage = new Object3D();
     private readonly billboard: Object3D;
     private readonly nameTag: TextMesh;
     private readonly chatBox: TextMesh;
     private readonly activity: ActivityDetector;
-    private readonly pTarget = new Vector3();
-    private readonly pEnd = new Vector3();
-    private readonly qTarget = new Quaternion().identity();
-    private readonly qEnd = new Quaternion().identity();
+    private readonly stagePositionTarget = new Vector3();
+    private readonly stageOrientationTarget = new Quaternion().identity();
+    private readonly headPositionTarget = new Vector3();
+    private readonly headOrientationTarget = new Quaternion().identity();
     readonly worldPos = new Vector3();
     readonly worldQuat = new Quaternion();
     private readonly F = new Vector3();
@@ -141,7 +141,7 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
         this.headFollower = new BodyFollower("AvatarBody", 0.05, HalfPi, 0, 5);
 
         objGraph(this.avatar,
-            this.hands,
+            this.stage,
             objGraph(this.headFollower,
                 objGraph(this.body,
                     objGraph(this.billboard,
@@ -299,10 +299,14 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
     }
 
     update(dt: number) {
-        this.pEnd.lerp(this.pTarget, dt * 0.01);
-        this.qEnd.slerp(this.qTarget, dt * 0.01);
-        this.head.position.copy(this.pEnd);
-        this.head.quaternion.copy(this.qEnd);
+        const lt = dt * 0.01;
+
+        this.stage.position.lerp(this.stagePositionTarget, lt);
+        this.stage.quaternion.slerp(this.stageOrientationTarget, lt);
+
+        this.head.position.lerp(this.headPositionTarget, lt);
+        this.head.quaternion.slerp(this.headOrientationTarget, lt);
+
         this.head.getWorldPosition(this.worldPos);
         this.head.getWorldQuaternion(this.worldQuat);
 
@@ -320,7 +324,6 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
         const scale = this.height / this.defaultAvatarHeight;
         this.headSize = scale;
         this.body.scale.setScalar(scale);
-        this.hands.position.copy(this.comfortOffset);
 
         this.F.copy(this.env.avatar.worldPos);
         this.body.worldToLocal(this.F);
@@ -359,7 +362,7 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
         let pointer = this.pointers.get(id);
 
         if (!pointer) {
-            pointer = new PointerRemote(this, this.env, id, this.hands);
+            pointer = new PointerRemote(this, this.env, id);
 
             this.pointers.set(id, pointer);
 
@@ -405,7 +408,15 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
         buffer.position = 0;
 
         this.height = buffer.readFloat32();
+
         buffer.readMatrix512(this.M);
+        this.M.decompose(this.stagePositionTarget, this.stageOrientationTarget, this.stage.scale);
+        this.stagePositionTarget.add(this.comfortOffset);
+
+        buffer.readMatrix512(this.M);
+        this.M.decompose(this.headPositionTarget, this.headOrientationTarget, this.avatar.scale);
+        this.headPositionTarget.add(this.comfortOffset);
+
         const numPointers = buffer.readUint8();
 
         for (let n = 0; n < numPointers; ++n) {
@@ -413,8 +424,5 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
             const pointer = this.assurePointer(pointerID);
             pointer.readState(buffer);
         }
-
-        this.M.decompose(this.pTarget, this.qTarget, this.avatar.scale);
-        this.pTarget.add(this.comfortOffset);
     }
 }

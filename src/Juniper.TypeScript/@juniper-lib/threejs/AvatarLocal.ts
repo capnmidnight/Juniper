@@ -628,7 +628,7 @@ export class AvatarLocal
         // = 4 + 16 * 4 + 1
         // = 4 + 64 + 1
         // = 69
-        return 69; // pointer count
+        return 133; // pointer count
     }
 
     private readonly pointersToSend = new Array<IPointer>();
@@ -649,6 +649,7 @@ export class AvatarLocal
         buffer.position = 0;
 
         buffer.writeFloat32(this.height);
+        buffer.writeMatrix512(this.stage.matrix);
         buffer.writeMatrix512(this.head.matrixWorld);
         buffer.writeUint8(this.pointersToSend.length);
 
