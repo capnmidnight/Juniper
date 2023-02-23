@@ -114,6 +114,8 @@ export class TeleconferenceManager
 
     private readonly windowQuitter = new WindowQuitEventer();
 
+    private heartbeatTimer: number = null;
+
     constructor(
         private readonly audio: AudioManager,
         private readonly microphones: LocalUserMicrophone,
@@ -229,6 +231,13 @@ export class TeleconferenceManager
     async connect(): Promise<void> {
         await whenDisconnected("Connecting", () => this.connectionState, async () => {
             await this.hub.start();
+
+            this.heartbeatTimer = setInterval(() => {
+                if (this.hub.connectionState === ConnectionState.Connected) {
+                    this.hub.invoke<string>("heartbeat", this.localUserID);
+                }
+            }, 2500) as any;
+
             this.dispatchEvent(new ConferenceServerConnectedEvent());
         });
     }
@@ -290,6 +299,11 @@ export class TeleconferenceManager
     }
 
     async disconnect(): Promise<void> {
+        if (isDefined(this.heartbeatTimer)) {
+            clearInterval(this.heartbeatTimer);
+            this.heartbeatTimer = null;
+        }
+
         if (this.conferenceState !== ConnectionState.Disconnected) {
             await this.leave();
         }

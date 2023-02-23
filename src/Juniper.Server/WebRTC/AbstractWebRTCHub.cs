@@ -30,6 +30,7 @@ namespace Juniper.WebRTC
         Task SendOffer(string fromUserID, string toUserID, string offerJSON);
         Task SendAnswer(string fromUserID, string toUserID, string answerJSON);
         Task Chat(string fromUserID, string roomName, string text);
+        string Heartbeat(string fromUserID);
     }
 
     public abstract class AbstractWebRTCHub<ClientT> : Hub<ClientT>, IWebRTCHubServer
@@ -136,5 +137,7 @@ namespace Juniper.WebRTC
         public Task Chat(string fromUserID, string roomName, string msg) =>
             Room(roomName).Chat(fromUserID, msg);
 
+        public string Heartbeat(string fromUserID) =>
+            fromUserID;
     }
 }
