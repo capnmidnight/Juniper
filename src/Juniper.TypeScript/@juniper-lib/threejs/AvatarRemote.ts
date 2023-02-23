@@ -18,7 +18,7 @@ import { cleanup } from "./cleanup";
 import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
 import { PointerID } from "./eventSystem/Pointers";
-import { ErsatzObject, obj, objectRemove, objGraph } from "./objects";
+import { ErsatzObject, obj, objGraph } from "./objects";
 import { Image2D } from "./widgets/Image2D";
 import { TextMesh } from "./widgets/TextMesh";
 
@@ -393,10 +393,10 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
     private removePointer(id: PointerID): void {
         const pointer = this.pointers.get(id);
         if (pointer) {
-            objectRemove(this.body, pointer);
+            pointer.object.removeFromParent();
             this.pointers.delete(id);
             if (pointer.cursor) {
-                objectRemove(this.env.stage, pointer.cursor);
+                pointer.cursor.object.removeFromParent();
             }
         }
     }

@@ -77,16 +77,6 @@ export function objRemoveFromParent(obj: Objects) {
     }
 }
 
-export function objectRemove(obj: Objects, ...children: Objects[]): void {
-    const toRemove = children
-        .filter(isDefined)
-        .map(objectResolve);
-    if (toRemove.length > 0) {
-        objectResolve(obj)
-            .remove(...toRemove);
-    }
-}
-
 export function obj(name: string, ...rest: Objects[]): Object3D {
     const obj = new Object3D();
     obj.name = name;

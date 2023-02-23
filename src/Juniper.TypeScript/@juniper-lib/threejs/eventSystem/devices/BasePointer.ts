@@ -105,7 +105,7 @@ export abstract class BasePointer
             const oldName = this.cursor && this.cursor.object && this.cursor.object.name || "cursor";
             const oldParent = oldCursor && oldCursor.object && oldCursor.object.parent;
             if (oldParent) {
-                oldParent.remove(oldCursor.object);
+                oldCursor.object.removeFromParent();
             }
 
             if (newCursor) {
