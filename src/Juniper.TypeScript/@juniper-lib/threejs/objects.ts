@@ -39,6 +39,10 @@ export function objectIsVisible(obj: Objects): boolean {
 }
 
 export function objectIsFullyVisible(obj: Objects) {
+    if (!obj) {
+        return false;
+    }
+
     obj = objectResolve(obj);
     while (obj) {
         if (!obj.visible) {

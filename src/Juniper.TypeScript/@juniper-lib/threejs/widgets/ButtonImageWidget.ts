@@ -1,5 +1,5 @@
-import { title } from "@juniper-lib/dom/attrs";
-import { ButtonPrimary } from "@juniper-lib/dom/tags";
+import { src, title } from "@juniper-lib/dom/attrs";
+import { ButtonPrimary, Img } from "@juniper-lib/dom/tags";
 import { obj, objectSetVisible, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
@@ -10,10 +10,11 @@ export class ButtonImageWidget extends Widget<HTMLButtonElement> {
     private mesh: MeshButton = null;
 
     constructor(buttons: ButtonFactory, setName: string, iconName: string) {
+        const t = title(`${setName} ${iconName}`);
         super(
             ButtonPrimary(
-                title(iconName),
-                buttons.getImageElement(setName, iconName)
+                t,
+                Img(t, src(buttons.getImageSrc(setName, iconName)))
             ),
             obj(`${name}-button`),
             "inline-block");
@@ -21,8 +22,7 @@ export class ButtonImageWidget extends Widget<HTMLButtonElement> {
     }
 
     private async load(buttons: ButtonFactory, setName: string, iconName: string) {
-        const { geometry, enabledMaterial, disabledMaterial } = await buttons.getGeometryAndMaterials(setName, iconName);
-        this.mesh = new MeshButton(iconName, geometry, enabledMaterial, disabledMaterial, 0.2);
+        this.mesh = await buttons.getMeshButton(setName, iconName, 0.2);
         this.mesh.disabled = this.disabled;
         objGraph(this, this.mesh);
         this.mesh.object.visible = this.visible;

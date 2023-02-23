@@ -31,14 +31,14 @@ export class ToggleButton extends Widget<HTMLButtonElement> {
     }
 
     private async load() {
-        const [activate, deactivate] = await all(
-            this.buttons.getGeometryAndMaterials(this.setName, this.activeName),
-            this.buttons.getGeometryAndMaterials(this.setName, this.inactiveName)
+        const [enter, exit] = await all(
+            this.buttons.getMeshButton(this.setName, this.activeName, 0.2),
+            this.buttons.getMeshButton(this.setName, this.inactiveName, 0.2)
         );
 
         objGraph(this.object,
-            this.enterButton = new MeshButton(`${this.setName}-activate-button`, activate.geometry, activate.enabledMaterial, activate.disabledMaterial, 0.2),
-            this.exitButton = new MeshButton(`${this.setName}-deactivate-button`, deactivate.geometry, deactivate.enabledMaterial, deactivate.disabledMaterial, 0.2));
+            this.enterButton = enter,
+            this.exitButton = exit);
 
         this.enterButton.addEventListener("click", () => this.element.click());
 

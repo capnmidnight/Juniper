@@ -103,50 +103,23 @@ export class PlaybackButton<T extends FullAudioRecord>
 
     private async load(buttonFactory: ButtonFactory, player: IPlayer) {
         const [
-            enabledMaterial,
-            disabledMaterial,
-            playGeometry,
-            pauseGeometry,
-            stopGeometry,
-            replayGeometry
+            play,
+            pause,
+            stop,
+            replay
         ] = await all(
-            buttonFactory.getMaterial(true),
-            buttonFactory.getMaterial(false),
-            buttonFactory.getGeometry("media", "play"),
-            buttonFactory.getGeometry("media", "pause"),
-            buttonFactory.getGeometry("media", "stop"),
-            buttonFactory.getGeometry("media", "replay")
+            buttonFactory.getMeshButton("media", "play", size),
+            buttonFactory.getMeshButton("media", "pause", size),
+            buttonFactory.getMeshButton("media", "stop", size),
+            buttonFactory.getMeshButton("media", "replay", size)
         );
 
         objGraph(
             this,
-            this.playButton = new MeshButton(
-                "PlayButton",
-                playGeometry,
-                enabledMaterial,
-                disabledMaterial,
-                size),
-            this.pauseButton = new MeshButton(
-                "PauseButton",
-                pauseGeometry,
-                enabledMaterial,
-                disabledMaterial,
-                size
-            ),
-            this.stopButton = new MeshButton(
-                "StopButton",
-                stopGeometry,
-                enabledMaterial,
-                disabledMaterial,
-                size
-            ),
-            this.replayButton = new MeshButton(
-                "ReplayButton",
-                replayGeometry,
-                enabledMaterial,
-                disabledMaterial,
-                size
-            ),
+            this.playButton = play,
+            this.pauseButton = pause,
+            this.stopButton = stop,
+            this.replayButton = replay,
             this.progressBar,
             this.textLabel
         );
