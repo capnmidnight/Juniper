@@ -156,7 +156,7 @@ export class Build {
             platform: "browser",
             format: "esm",
             target: "es2021",
-            logLevel: "warning",
+            logLevel: "error",
             color: true,
             bundle: true,
             sourcemap: !isRelease,
