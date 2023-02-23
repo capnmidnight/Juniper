@@ -18,7 +18,7 @@ import { cleanup } from "./cleanup";
 import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/devices/PointerRemote";
 import { PointerID } from "./eventSystem/Pointers";
-import { obj, objectRemove, objGraph } from "./objects";
+import { ErsatzObject, obj, objectRemove, objGraph } from "./objects";
 import { Image2D } from "./widgets/Image2D";
 import { TextMesh } from "./widgets/TextMesh";
 
@@ -38,9 +38,8 @@ const nameTagFont: Partial<TextImageOptions> = {
     maxHeight: 0.20
 };
 
-export class AvatarRemote extends Object3D implements IDisposable {
-    avatar: Object3D = null;
-
+export class AvatarRemote implements ErsatzObject, IDisposable {
+    get object() { return this.avatar; }
     private _isInstructor = false;
     private readonly pointers = new Map<PointerID, PointerRemote>();
 
@@ -75,10 +74,9 @@ export class AvatarRemote extends Object3D implements IDisposable {
         private readonly env: Environment,
         user: RemoteUser,
         source: AudioStreamSource,
-        avatar: Object3D,
+        readonly avatar: Object3D,
         private defaultAvatarHeight: number,
         font: Partial<TextImageOptions>) {
-        super();
 
         this.height = this.defaultAvatarHeight;
         if (isNullOrUndefined(avatar)) {
@@ -108,7 +106,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
         }
 
         this.userID = user.userID;
-        this.name = user.userName;
+        this.avatar.name = user.userName;
         this.billboard = obj("billboard");
 
         this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
@@ -142,14 +140,13 @@ export class AvatarRemote extends Object3D implements IDisposable {
 
         this.headFollower = new BodyFollower("AvatarBody", 0.05, HalfPi, 0, 5);
 
-        objGraph(this,
-            objGraph(this.avatar,
-                this.hands,
-                objGraph(this.headFollower,
-                    objGraph(this.body,
-                        objGraph(this.billboard,
-                            this.nameTag,
-                            this.chatBox)))));
+        objGraph(this.avatar,
+            this.hands,
+            objGraph(this.headFollower,
+                objGraph(this.body,
+                    objGraph(this.billboard,
+                        this.nameTag,
+                        this.chatBox))));
 
         this.activity.addEventListener("activity", (evt) => {
             this.headPulse = 0.2 * evt.level + 1;
@@ -319,7 +316,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
             this.worldPos.x, this.worldPos.y, this.worldPos.z,
             this.worldQuat.x, this.worldQuat.y, this.worldQuat.z, this.worldQuat.w);
 
-        this.headFollower.update(this.worldPos.y - this.parent.position.y, this.worldPos, headingRadians, dt);
+        this.headFollower.update(this.worldPos.y - this.avatar.parent.position.y, this.worldPos, headingRadians, dt);
         const scale = this.height / this.defaultAvatarHeight;
         this.headSize = scale;
         this.body.scale.setScalar(scale);
@@ -417,8 +414,7 @@ export class AvatarRemote extends Object3D implements IDisposable {
             pointer.readState(buffer);
         }
 
-        this.hands.position.y = -this.height;
-        this.M.decompose(this.pTarget, this.qTarget, this.scale);
+        this.M.decompose(this.pTarget, this.qTarget, this.avatar.scale);
         this.pTarget.add(this.comfortOffset);
     }
 }

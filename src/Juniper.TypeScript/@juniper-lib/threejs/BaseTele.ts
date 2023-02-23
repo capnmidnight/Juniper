@@ -24,7 +24,7 @@ import { DebugObject } from "./DebugObject";
 import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
 import { convertMaterials, materialStandardToPhong } from "./materials";
-import { obj, objGraph } from "./objects";
+import { obj, objectRemove, objGraph } from "./objects";
 
 export const HANDEDNESSES: XRHandedness[] = [
     "none",
@@ -182,7 +182,7 @@ export abstract class BaseTele extends Application {
         this.conference.addScopedEventListener(this, "userLeft", (evt: UserLeftEvent) => {
             const user = this.avatars.get(evt.user.userID);
             if (user) {
-                this.remoteUsers.remove(user);
+                objectRemove(this.remoteUsers, user);
                 this.avatars.delete(evt.user.userID);
                 arrayRemove(this.sortedUserIDs, evt.user.userID);
                 cleanup(user);
