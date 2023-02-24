@@ -1,6 +1,6 @@
 import { classList } from "@juniper-lib/dom/attrs";
 import { onClick, onDragEnd, onDragLeave, onDragOver, onDrop } from "@juniper-lib/dom/evts";
-import { Button, elementApply, elementReplace, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
+import { Button, elementApply, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
 import { MediaType } from "@juniper-lib/mediatypes";
 import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
@@ -107,7 +107,8 @@ export class FileUploadInput
             }
         };
 
-        elementReplace(this.file,
+        this.file.style.display = "none";
+        this.file.insertAdjacentElement("afterend",
             this.element = Button(
                 classList("btn", `btn-${buttonStyle}`),
                 onClick(() => this.show()),
