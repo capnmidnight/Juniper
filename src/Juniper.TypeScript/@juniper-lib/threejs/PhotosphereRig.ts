@@ -1,4 +1,4 @@
-import { canvasToBlob, CanvasTypes, createUtilityCanvas } from "@juniper-lib/dom/canvas";
+import { canvasToBlob, CanvasTypes, Context2D, createUtilityCanvas } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
 import { Image_Jpeg } from "@juniper-lib/mediatypes";
@@ -122,7 +122,7 @@ export abstract class PhotosphereRig
         this.clear();
 
         const canv = createUtilityCanvas(FACE_SIZE * 4, FACE_SIZE * 3);
-        const g = canv.getContext("2d", { alpha: false });
+        const g = canv.getContext("2d", { alpha: false }) as Context2D;
 
         await this.loadFrames(level, progress, getImagePath);
 

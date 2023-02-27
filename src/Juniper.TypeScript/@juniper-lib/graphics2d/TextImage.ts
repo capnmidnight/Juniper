@@ -1,4 +1,4 @@
-import { createUtilityCanvas, setContextSize } from "@juniper-lib/dom/canvas";
+import { Context2D, createUtilityCanvas, setContextSize } from "@juniper-lib/dom/canvas";
 import { makeFont } from "@juniper-lib/dom/fonts";
 import { clamp, HalfPi, PaddingRect } from "@juniper-lib/tslib/math";
 import { isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
@@ -577,7 +577,7 @@ export class TextImage extends CanvasImage {
 
             if (isVertical) {
                 const canv = createUtilityCanvas(this.canvas.height, this.canvas.width);
-                const g = canv.getContext("2d");
+                const g = canv.getContext("2d") as Context2D;
                 if (g) {
                     g.translate(canv.width / 2, canv.height / 2);
                     if (this.textDirection === "vertical"

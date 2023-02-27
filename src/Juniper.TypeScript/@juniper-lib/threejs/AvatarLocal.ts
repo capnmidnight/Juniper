@@ -243,8 +243,9 @@ export class AvatarLocal
                 if ("screen" in globalThis && "orientation" in screen) {
                     this.screenOrientation = screen.orientation.angle;
                 }
-                else if ("orientaiton" in globalThis) {
-                    this.screenOrientation = globalThis.orientation || 0;
+                else if ("window" in globalThis && "orientation" in globalThis.window) {
+                    // @ts-ignore deprecated "orientation" access
+                    this.screenOrientation = globalThis.window.orientation || 0;
                 }
             };
 
@@ -595,7 +596,7 @@ export class AvatarLocal
                     screen.orientation.addEventListener("change", this.onScreenOrientationChangeEvent);
                 }
                 else {
-                    window.addEventListener("orientationchange", this.onScreenOrientationChangeEvent);
+                    (window as Window).addEventListener("orientationchange", this.onScreenOrientationChangeEvent);
                 }
                 window.addEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
             }
@@ -608,7 +609,7 @@ export class AvatarLocal
                 screen.orientation.removeEventListener("change", this.onScreenOrientationChangeEvent);
             }
             else {
-                window.removeEventListener("orientationchange", this.onScreenOrientationChangeEvent);
+                (window as Window).removeEventListener("orientationchange", this.onScreenOrientationChangeEvent);
             }
             window.removeEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
             this.motionEnabled = false;

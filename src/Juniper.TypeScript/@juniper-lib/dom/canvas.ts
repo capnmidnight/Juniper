@@ -52,7 +52,7 @@ export function isCanvasArray(arr: any): arr is CanvasTypes[] {
 }
 
 export function drawImageBitmapToCanvas(canv: CanvasTypes, img: ImageBitmap): void {
-    const g = canv.getContext("2d");
+    const g = canv.getContext("2d") as Context2D;
     if (isNullOrUndefined(g)) {
         throw new Error("Could not create 2d context for canvas");
     }
@@ -60,7 +60,7 @@ export function drawImageBitmapToCanvas(canv: CanvasTypes, img: ImageBitmap): vo
 }
 
 export function drawImageDataToCanvas(canv: CanvasTypes, img: ImageData): void {
-    const g = canv.getContext("2d");
+    const g = canv.getContext("2d") as Context2D;
     if (isNullOrUndefined(g)) {
         throw new Error("Could not create 2d context for canvas");
     }
@@ -164,7 +164,7 @@ export function createCanvasFromOffscreenCanvas(canv: OffscreenCanvas): HTMLCanv
 }
 
 export function drawImageToCanvas(canv: CanvasTypes, img: CanvasImageTypes): void {
-    const g = canv.getContext("2d");
+    const g = canv.getContext("2d") as Context2D;
     if (isNullOrUndefined(g)) {
         throw new Error("Could not create 2d context for canvas");
     }

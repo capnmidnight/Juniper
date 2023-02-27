@@ -1,4 +1,4 @@
-import { CanvasTypes, createUICanvas } from "@juniper-lib/dom/canvas";
+import { CanvasTypes, Context2D, createUICanvas } from "@juniper-lib/dom/canvas";
 import { AssetImage } from "@juniper-lib/fetcher/Asset";
 import { Image_Png } from "@juniper-lib/mediatypes";
 import { arrayCompare, arrayRemove, arrayReplace } from "@juniper-lib/tslib/collections/arrays";
@@ -8,8 +8,8 @@ import { nextPowerOf2 } from "@juniper-lib/tslib/math";
 import { CanvasTexture, Color, DoubleSide, DynamicDrawUsage, InstancedMesh, MeshBasicMaterial, Object3D, PlaneGeometry, ShaderMaterial, Uniform } from "three";
 import { ErsatzObject, obj, objectIsFullyVisible, objGraph } from "../../objects";
 import { plane } from "../../Plane";
-import { InstancedMeshButton } from "./InstancedMeshButton";
 import fragShader from "./fragment.glsl";
+import { InstancedMeshButton } from "./InstancedMeshButton";
 import vertShader from "./vertex.glsl";
 
 const vertexShader = vertShader.replace("#define THREEZ", "");
@@ -75,7 +75,7 @@ export class InstancedButtonFactory implements ErsatzObject {
 
                 this.canvas = createUICanvas(canvWidth, canvHeight);
 
-                const g = this.canvas.getContext("2d", { alpha: false });
+                const g = this.canvas.getContext("2d", { alpha: false }) as Context2D;
                 g.fillStyle = this.buttonFillColor;
                 g.fillRect(0, 0, canvWidth, canvHeight);
 

@@ -37,7 +37,7 @@ export abstract class CanvasImage
         }
 
         this._canvas = createUICanvas(width, height);
-        this._g = this.canvas.getContext("2d");
+        this._g = this.canvas.getContext("2d") as Context2D;
 
         if (isHTMLCanvas(this._canvas)) {
             this.element = this._canvas;

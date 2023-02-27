@@ -1,4 +1,4 @@
-import { CanvasTypes, createUICanvas } from "@juniper-lib/dom/canvas";
+import { CanvasTypes, Context2D, createUICanvas } from "@juniper-lib/dom/canvas";
 import { AssetImage } from "@juniper-lib/fetcher/Asset";
 import { Image_Png } from "@juniper-lib/mediatypes";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
@@ -68,7 +68,7 @@ export class ButtonFactory {
 
                 this.canvas = createUICanvas(canvWidth, canvHeight);
 
-                const g = this.canvas.getContext("2d", { alpha: false });
+                const g = this.canvas.getContext("2d", { alpha: false }) as Context2D;
                 g.fillStyle = this.buttonFillColor;
                 g.fillRect(0, 0, canvWidth, canvHeight);
 
