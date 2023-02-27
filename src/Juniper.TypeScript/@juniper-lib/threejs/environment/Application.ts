@@ -1,9 +1,9 @@
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { IDataLogger } from "@juniper-lib/tslib/IDataLogger";
 import type { IProgress } from "@juniper-lib/tslib/progress/IProgress";
-import { isDefined, isFunction } from "@juniper-lib/tslib/typeChecks";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import type { IDisposable } from "@juniper-lib/tslib/using";
 import type { Environment } from "./Environment";
-
 
 class ApplicationEvent<T extends string> extends TypedEvent<T> {
     constructor(type: T, public readonly app: Application) {
@@ -45,9 +45,9 @@ export interface ApplicationEvents {
 
 export abstract class Application<EventsT extends ApplicationEvents = ApplicationEvents>
     extends TypedEventBase<EventsT>
-    implements IDisposable {
+    implements IDisposable, IDataLogger {
 
-    private dataLogger: (key: string, value?: object) => void = null;
+    private dataLogger: IDataLogger = null;
 
     constructor(public readonly env: Environment) {
         super();
@@ -73,18 +73,24 @@ export abstract class Application<EventsT extends ApplicationEvents = Applicatio
     }
 
     init(params: Map<string, unknown>): Promise<void> {
-        const dataLogger = params.get("dataLogger");
-        if (isFunction(dataLogger)) {
-            this.dataLogger = dataLogger as (key: string, value?: object) => void;
-        }
-
+        this.dataLogger = params.get("dataLogger") as IDataLogger;
         return Promise.resolve();
     }
 
-    protected log(key: string, value?: object): void {
+    log(key: string, value?: object): void {
         if (isDefined(this.dataLogger)) {
-            this.dataLogger(key, value);
+            this.dataLogger.log(key, value);
         }
+    }
+
+    error(page: string, operation: string, exception: any): void {
+        if (isDefined(this.dataLogger)) {
+            this.dataLogger.error(page, operation, exception);
+        }
+    }
+
+    onError(page: string, operation: string): (exception: any) => void {
+        return this.error.bind(this, page, operation);
     }
 
     protected abstract showing(prog?: IProgress): Promise<void>;
