@@ -1,6 +1,6 @@
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
-export interface ILogger {
+export interface IDebugLogger {
     log(id: string, ...values: any[]): void;
     delete(id: string): void;
     clear(): void;

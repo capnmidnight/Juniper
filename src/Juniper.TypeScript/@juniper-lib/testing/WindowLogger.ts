@@ -26,7 +26,7 @@ import {
     elementToggleDisplay,
     ErsatzElement
 } from "@juniper-lib/dom/tags";
-import { ILogger, isWorkerLoggerMessageData, MessageType } from "./models";
+import { IDebugLogger, isWorkerLoggerMessageData, MessageType } from "./models";
 
 function track(a: number, b: number) {
     return [
@@ -35,7 +35,7 @@ function track(a: number, b: number) {
     ];
 }
 
-export class WindowLogger implements ILogger, ErsatzElement {
+export class WindowLogger implements IDebugLogger, ErsatzElement {
     private readonly workerFunctions = new Map<MessageType, (slug: string, evt: MessageEvent<any>) => void>();
     private readonly logs = new Map<string, Array<any>>();
     private readonly rows = new Map<string, HTMLElement[]>();

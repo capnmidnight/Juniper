@@ -1,6 +1,6 @@
-import { ILogger, IWorkerLoggerMessageData, KEY, MessageType } from "./models";
+import { IDebugLogger, IWorkerLoggerMessageData, KEY, MessageType } from "./models";
 
-export class WorkerLogger implements ILogger {
+export class WorkerLogger implements IDebugLogger {
 
     private msg: IWorkerLoggerMessageData = {
         key: KEY,
