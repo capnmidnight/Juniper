@@ -2,7 +2,7 @@ namespace Juniper
 {
     public static class Retry
     {
-        public static async Task<T> Times<T>(int attempts, Func<int, Task<T>> action, Func<T, bool> validate)
+        public static async Task<T> Times<T>(int attempts, Func<int, Task<T>> action, Func<T, bool> validate, Func<T, string> generateErrorMessage) where T : class
         {
             var result = default(T);
             var errors = new List<Exception>();
@@ -20,13 +20,20 @@ namespace Juniper
 
             if (!validate(result))
             {
-                throw new AggregateException("Failed to retrieve a valide result", errors);
+                if (result != default(T))
+                {
+                    throw new Exception(generateErrorMessage(result));
+                }
+                else
+                {
+                    throw new AggregateException("Failed to retrieve a valide result", errors);
+                }
             }
 
             return result;
         }
 
-        public static T Times<T>(int attempts, Func<int, T> action, Func<T, bool> validate)
+        public static T Times<T>(int attempts, Func<int, T> action, Func<T, bool> validate, Func<T, string> generateErrorMessage) where T : class
         {
             var result = default(T);
             var errors = new List<Exception>();
@@ -50,10 +57,10 @@ namespace Juniper
             return result;
         }
 
-        public static Task<T> Times<T>(int attempts, Func<Task<T>> action, Func<T, bool> validate) =>
-            Times(attempts, (_) => action(), validate);
+        public static Task<T> Times<T>(int attempts, Func<Task<T>> action, Func<T, bool> validate, Func<T, string> generateErrorMessage) where T : class =>
+            Times(attempts, (_) => action(), validate, generateErrorMessage);
 
-        public static T Times<T>(int attempts, Func<T> action, Func<T, bool> validate) =>
-            Times(attempts, (_) => action(), validate);
+        public static T Times<T>(int attempts, Func<T> action, Func<T, bool> validate, Func<T, string> generateErrorMessage) where T : class =>
+            Times(attempts, (_) => action(), validate, generateErrorMessage);
     }
 }
