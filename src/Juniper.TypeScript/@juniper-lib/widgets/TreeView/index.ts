@@ -29,7 +29,7 @@ import { alwaysFalse, identity } from "@juniper-lib/tslib/identity";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { TreeViewNode, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
 
-import { PropertyList } from "../PropertyList";
+import { PropertyDef, PropertyList } from "../PropertyList";
 import { SelectList } from "../SelectList";
 import "./styles.css";
 
@@ -51,6 +51,7 @@ export interface TreeViewOptions<ValueT, FilterTypeT> {
     canHaveChildren: (node: TreeNode<ValueT>) => boolean;
     canParent?: (parent: TreeNode<ValueT>, child: TreeNode<ValueT>) => boolean;
     replaceElement?: HTMLElement;
+    additionalProperties?: PropertyDef[]
 }
 
 class TreeViewNodeEvent<EventT extends string, DataT> extends TypedEvent<EventT> {
@@ -122,7 +123,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             defaultLabel: null,
             getOrder: null,
             replaceElement: null,
-            canReorder: alwaysFalse
+            canReorder: alwaysFalse,
+            additionalProperties: []
         }, options);
 
         if (isNullOrUndefined(this.options.canParent)) {
@@ -135,7 +137,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             className("tree-view"),
             ...styleProps,
             this.filters = new PropertyList(
-                className("tree-view-controls")
+                className("tree-view-controls"),
+                ...this.options.additionalProperties
             ),
             Div(
                 className("tree-view-controls"),

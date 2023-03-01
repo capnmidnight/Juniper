@@ -176,6 +176,10 @@ export function getInput(selector: string) {
     return getElement<HTMLInputElement>(selector);
 }
 
+export function getDataList(selector: string) {
+    return getElement<HTMLDataListElement>(selector);
+}
+
 export function getInputs(selector: string) {
     return getElements<HTMLInputElement>(selector);
 }
