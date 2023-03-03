@@ -11,6 +11,8 @@ export const TWENTY_FOUR_LOG10 = /*@__PURE__*/ 55.2620422318571;
 export const LOG1000 = /*@__PURE__*/ 6.90775527898214;
 export const LOG2_DIV2 = /*@__PURE__*/ 0.346573590279973;
 export const EPSILON_FLOAT = /*@__PURE__*/ 1e-8;
+export const TIME_MAX = 8640000000000000;
+export const TIME_MIN = -TIME_MAX;
 
 /**
  * Find the median of an array of numbers.
