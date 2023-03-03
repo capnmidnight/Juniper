@@ -6,17 +6,19 @@ export function getColumnIndex(element: HTMLElement) {
         column = column.parentElement;
     }
 
-    if (!column) {
-        return -1;
-    }
+    if (column) {
+        const columnRow = column.parentElement;
+        let columnIndex = 0;
+        for (const child of columnRow.children) {
+            if (child === column) {
+                return columnIndex;
+            }
 
-    const columnRow = column.parentElement;
-    let columnIndex = -1;
-    for (let c = 0; c < columnRow.children.length; ++c) {
-        if (columnRow.children[c] === column) {
-            columnIndex = c;
+            if (child instanceof HTMLTableCellElement) {
+                columnIndex += child.colSpan;
+            }
         }
     }
 
-    return columnIndex;
+    return -1;
 }
