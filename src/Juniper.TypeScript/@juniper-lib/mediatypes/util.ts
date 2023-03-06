@@ -3,6 +3,15 @@ import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeC
 export const typePattern = /([^\/]+)\/(.+)/;
 const subTypePattern = /(?:([^\.]+)\.)?([^\+;]+)(?:\+([^;]+))?((?:; *([^=]+)=([^;]+))*)/;
 
+export function mediaTypesToAcceptValue(types: MediaType[]): string {
+    return types
+        .flatMap(type =>
+            type.extensions.map(ext =>
+                "." + ext))
+        .sort()
+        .join(", ");
+}
+
 export class MediaType {
     private readonly _tree: string;
     private readonly _subType: string;

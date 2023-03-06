@@ -2,6 +2,7 @@ import { classList } from "@juniper-lib/dom/attrs";
 import { onClick, onDragEnd, onDragLeave, onDragOver, onDrop } from "@juniper-lib/dom/evts";
 import { Button, elementApply, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
 import { MediaType } from "@juniper-lib/mediatypes";
+import { mediaTypesToAcceptValue } from "@juniper-lib/mediatypes/util";
 import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
@@ -135,12 +136,7 @@ export class FileUploadInput
 
     setTypeFilters(...types: MediaType[]): void {
         arrayReplace(this.typeFilters, ...types);
-        this.file.accept = types
-            .flatMap(type =>
-                type.extensions.map(ext =>
-                    "." + ext))
-            .sort()
-            .join(", ");
+        this.file.accept = mediaTypesToAcceptValue(types);
     }
 
     isExpectedType(contentType: string): boolean {
