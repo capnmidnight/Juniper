@@ -34,7 +34,7 @@ import { SelectList } from "../SelectList";
 import "./styles.css";
 
 
-export interface TreeViewOptions<ValueT, FilterTypeT> {
+export interface TreeViewOptions<ValueT, FilterTypeT extends string = never> {
     defaultLabel?: string;
     getLabel: (value: ValueT) => string;
     getParent: (value: ValueT) => ValueT;
