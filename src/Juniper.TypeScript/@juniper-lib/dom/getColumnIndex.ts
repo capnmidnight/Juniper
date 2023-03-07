@@ -1,4 +1,4 @@
-export function getColumnIndex(element: HTMLElement) {
+export function getColumnIndex(element: Element) {
     let column = element;
     while (column
         && column.tagName !== "TD"
