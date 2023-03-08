@@ -97,62 +97,64 @@ export class RequestBuilder implements
     }
 
     body(body: any, contentType?: string | MediaType) {
-        const seen = new Set<unknown>();
-        const queue = new Array<unknown>();
-        queue.push(body);
-        let isForm = false;
-        while (!isForm && queue.length > 0) {
-            const here = queue.shift();
-            if (here && !seen.has(here)) {
-                seen.add(here);
-                if (here instanceof Blob) {
-                    isForm = true;
-                    break;
-                }
-                else if(!isString(here)) {
-                    queue.push(...Object.values(here));
-                }
-            }
-        }
-        if (isForm) {
-            const form = new FormData();
-            const fileNames = new Map<Blob, string>();
-            const toSkip = new Set<string>();
-            for (const [key, value] of Object.entries(body)) {
-                if (value instanceof Blob) {
-                    const fileNameKey = key + ".name";
-                    const fileName = body[fileNameKey];
-                    if (isString(fileName)) {
-                        fileNames.set(value, fileName);
-                        toSkip.add(fileNameKey);
+        if (isDefined(body)) {
+            const seen = new Set<unknown>();
+            const queue = new Array<unknown>();
+            queue.push(body);
+            let isForm = false;
+            while (!isForm && queue.length > 0) {
+                const here = queue.shift();
+                if (here && !seen.has(here)) {
+                    seen.add(here);
+                    if (here instanceof Blob) {
+                        isForm = true;
+                        break;
+                    }
+                    else if (!isString(here)) {
+                        queue.push(...Object.values(here));
                     }
                 }
             }
-            for (let [key, value] of Object.entries(body)) {
-                if (toSkip.has(key)) {
-                    continue;
+            if (isForm) {
+                const form = new FormData();
+                const fileNames = new Map<Blob, string>();
+                const toSkip = new Set<string>();
+                for (const [key, value] of Object.entries(body)) {
+                    if (value instanceof Blob) {
+                        const fileNameKey = key + ".name";
+                        const fileName = body[fileNameKey];
+                        if (isString(fileName)) {
+                            fileNames.set(value, fileName);
+                            toSkip.add(fileNameKey);
+                        }
+                    }
+                }
+                for (let [key, value] of Object.entries(body)) {
+                    if (toSkip.has(key)) {
+                        continue;
+                    }
+
+                    if (value instanceof Blob) {
+                        form.append(key, value, fileNames.get(value));
+                    }
+                    else if (isString(value)) {
+                        form.append(key, value);
+                    }
+                    else if (isDefined(value) && isFunction(value.toString)) {
+                        form.append(key, value.toString());
+                    }
+                    else {
+                        console.warn("Can't serialize value to formdata", key, value);
+                    }
                 }
 
-                if (value instanceof Blob) {
-                    form.append(key, value, fileNames.get(value));
-                }
-                else if (isString(value)) {
-                    form.append(key, value);
-                }
-                else if (isDefined(value) && isFunction(value.toString)) {
-                    form.append(key, value.toString());
-                }
-                else {
-                    console.warn("Can't serialize value to formdata", key, value);
-                }
+                body = form;
+                contentType = undefined;
             }
 
-            body = form;
-            contentType = undefined;
+            this.request.body = body;
+            this.content(contentType);
         }
-
-        this.request.body = body;
-        this.content(contentType);
         return this;
     }
 
