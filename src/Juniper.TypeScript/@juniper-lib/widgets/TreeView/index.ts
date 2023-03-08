@@ -98,7 +98,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
     private readonly children: HTMLElement;
     private readonly options: TreeViewOptions<ValueT, FilterTypeT>;
-    private readonly canChangeOrder: boolean;
+    private readonly _canChangeOrder: boolean;
 
     private readonly elements = new Array<TreeViewNode<ValueT>>();
     private readonly nodes2Elements = new Map<TreeNode<ValueT>, TreeViewNode<ValueT>>();
@@ -111,6 +111,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
     private typeFilter: FilterTypeT = null;
     private nameFilter: string = null;
+
+    readonly: boolean = false;
 
     constructor(
         options?: TreeViewOptions<ValueT, FilterTypeT>,
@@ -127,11 +129,30 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             additionalProperties: []
         }, options);
 
+        const canReorder = this.options.canReorder;
+        if (isDefined(canReorder)) {
+            this.options.canReorder = (value) =>
+                !this.readonly && canReorder(value);
+        }
+
+        const canHaveChildren = this.options.canHaveChildren;
+        if (isDefined(canHaveChildren)) {
+            this.options.canHaveChildren = (node) =>
+                !this.readonly && canHaveChildren(node);
+        }
+
         if (isNullOrUndefined(this.options.canParent)) {
             this.options.canParent = this.options.canHaveChildren;
         }
+        else {
+            const canParent = this.options.canParent;
+            if (isDefined(canParent)) {
+                this.options.canParent = (parent, value) =>
+                    !this.readonly && canParent(parent, value);
+            }
+        }
 
-        this.canChangeOrder = isFunction(this.options.getOrder);
+        this._canChangeOrder = isFunction(this.options.getOrder);
 
         this.element = Div(
             className("tree-view"),
@@ -418,7 +439,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             const show = isMatch || included.has(node);
             const elem = this.nodes2Elements.get(node);
             elementSetDisplay(elem, show, "block");
-            elem._filtered = included.has(node)  && !isMatch;
+            elem._filtered = included.has(node) && !isMatch;
             elem.isOpen = true;
 
             if (show && isDefined(node.parent)) {
@@ -432,7 +453,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
     }
 
     private canReparent(parent: TreeViewNode<ValueT>, child: TreeViewNode<ValueT>, target: HTMLElement) {
-        return isDefined(parent)
+        return !this.readonly
+            && isDefined(parent)
             && isDefined(child)
             && (parent.canHaveChildren
                 && this.options.canParent(parent.node, child.node)
@@ -440,6 +462,11 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 || target === parent.lower)
             && !child.node.contains(parent.node)
             && child.node.parent !== parent.node;
+    }
+
+    get canChangeOrder() {
+        return !this.readonly
+            && this._canChangeOrder;
     }
 
     get enabled(): boolean {
