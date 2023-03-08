@@ -28,7 +28,7 @@
 	<ItemGroup>
 		<PackageReference Include="Accord.Math" Version="3.8.0" />
 		<PackageReference Include="Accord.Statistics" Version="3.8.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
 		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
 	</ItemGroup>
