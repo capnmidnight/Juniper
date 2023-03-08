@@ -29,6 +29,7 @@
     .dock.cell > .header {
         margin: auto 7px;
         grid-area: 1/1;
+        width: 100%;
     }
 
     .dock.cell > .closer {
