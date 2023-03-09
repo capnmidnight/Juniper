@@ -135,21 +135,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 !this.readonly && canReorder(value);
         }
 
-        const canHaveChildren = this.options.canHaveChildren;
-        if (isDefined(canHaveChildren)) {
-            this.options.canHaveChildren = (node) =>
-                !this.readonly && canHaveChildren(node);
-        }
-
         if (isNullOrUndefined(this.options.canParent)) {
             this.options.canParent = this.options.canHaveChildren;
-        }
-        else {
-            const canParent = this.options.canParent;
-            if (isDefined(canParent)) {
-                this.options.canParent = (parent, value) =>
-                    !this.readonly && canParent(parent, value);
-            }
         }
 
         this._canChangeOrder = isFunction(this.options.getOrder);
