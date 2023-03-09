@@ -4,7 +4,7 @@ import { Image_Png } from "@juniper-lib/mediatypes";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { nextPowerOf2 } from "@juniper-lib/tslib/math";
-import { CanvasTexture, MeshBasicMaterial, PlaneGeometry, Texture } from "three";
+import { BufferAttribute, CanvasTexture, MeshBasicMaterial, PlaneGeometry, Texture } from "three";
 import { MeshButton } from "./MeshButton";
 
 interface UVRect {
@@ -133,7 +133,7 @@ export class ButtonFactory {
 
             this.geoms.add(setName, iconName, geom);
 
-            const uvBuffer = geom.getAttribute("uv");
+            const uvBuffer = geom.getAttribute("uv") as BufferAttribute;
             for (let i = 0; i < uvBuffer.count; ++i) {
                 const u = uvBuffer.getX(i) * uv.du + uv.u;
                 const v = uvBuffer.getY(i) * uv.dv + uv.v;

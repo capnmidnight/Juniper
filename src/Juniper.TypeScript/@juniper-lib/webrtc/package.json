@@ -12,7 +12,7 @@
     "@juniper-lib/tslib": "*",
     "@juniper-lib/video": "*",
     "@juniper-types/dom-types": "*",
-    "webrtc-adapter": "8.2.0"
+    "webrtc-adapter": "8.2.1"
   },
   "devDependencies": {
     "typescript": "4.9.5"

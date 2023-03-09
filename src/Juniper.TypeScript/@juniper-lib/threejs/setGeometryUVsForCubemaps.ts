@@ -1,4 +1,4 @@
-import { ShapeGeometry } from "three";
+import { BufferAttribute, ShapeGeometry } from "three";
 
 /**
  * Recalculates the UV coordinates for a BufferGeometry
@@ -6,9 +6,9 @@ import { ShapeGeometry } from "three";
  * a cross-configuration in a single image.
  */
 export function setGeometryUVsForCubemaps(geom: ShapeGeometry) {
-    const positions = geom.attributes.position;
-    const normals = geom.attributes.normal;
-    const uvs = geom.attributes.uv;
+    const positions = geom.attributes.position as BufferAttribute;
+    const normals = geom.attributes.normal as BufferAttribute;
+    const uvs = geom.attributes.uv as BufferAttribute;
 
     for (let n = 0; n < normals.count; ++n) {
         const _x = n * normals.itemSize,

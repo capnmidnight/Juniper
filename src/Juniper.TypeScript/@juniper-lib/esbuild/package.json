@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "2.1.2",
-    "esbuild": "0.17.8"
+    "esbuild": "0.17.11"
   },
   "devDependencies": {
     "typescript": "4.9.5",
-    "@types/node": "16.18.12"
+    "@types/node": "16.18.14"
   },
   "repository": {
     "type": "git",
