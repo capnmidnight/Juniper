@@ -1,4 +1,4 @@
-import { Attr, autoComplete, className, placeHolder, tabIndex } from "@juniper-lib/dom/attrs";
+import { Attr, autoComplete, classList, className, placeHolder, tabIndex } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     isModifierless,
@@ -275,6 +275,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             if (this.options.showNameFilter) {
                 this.filters.append(
                     ["Name", this.filterNameInput = InputText(
+                        classList("form-control"),
                         placeHolder("Filter by name"),
                         autoComplete(false),
                         onInput(() => {

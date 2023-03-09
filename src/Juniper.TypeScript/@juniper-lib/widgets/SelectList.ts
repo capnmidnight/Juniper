@@ -1,4 +1,4 @@
-import { value } from "@juniper-lib/dom/attrs";
+import { classList, value } from "@juniper-lib/dom/attrs";
 import { ErsatzElement, Select } from "@juniper-lib/dom/tags";
 import { elementClearChildren, Option } from "@juniper-lib/dom/tags";
 import { arraySortByKey } from "@juniper-lib/tslib/collections/arrays";
@@ -24,7 +24,7 @@ export class SelectList<T>
     extends TypedEventBase<SelectListEvents<T>>
     implements ErsatzElement {
 
-    public readonly element = Select();
+    public readonly element = Select(classList("custom-select"));
 
     private makeID: makeItemCallback<T>;
     private makeLabel: makeItemCallback<T>;
