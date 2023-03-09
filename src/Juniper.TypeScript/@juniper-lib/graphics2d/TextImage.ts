@@ -375,7 +375,7 @@ export class TextImage extends CanvasImage {
 
     private split(value: string) {
         return value
-            .replace(/\r\n/, '\n')
+            .replace(/\r\n/g, '\n')
             .split('\n');
     }
 
