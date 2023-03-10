@@ -6,7 +6,8 @@ export async function translateResponse<T, U>(response: IResponse<T>, translate:
 export async function translateResponse<T, U>(response: IResponse<T>, translate?: (v: T) => U | Promise<U>): Promise<IResponse<U>> {
     const {
         status,
-        path,
+        requestPath,
+        responsePath,
         content,
         contentType,
         contentLength,
@@ -17,7 +18,8 @@ export async function translateResponse<T, U>(response: IResponse<T>, translate?
 
     return {
         status,
-        path,
+        requestPath,
+        responsePath,
         content: isDefined(translate)
             ? await translate(content)
             : undefined,

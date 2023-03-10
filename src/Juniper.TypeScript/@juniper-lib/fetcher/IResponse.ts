@@ -1,6 +1,7 @@
 export interface IResponse<T = void> {
     status: number;
-    path: string;
+    requestPath: string;
+    responsePath: string;
     headers: ReadonlyMap<string, string>;
     date: Date;
     fileName: string;

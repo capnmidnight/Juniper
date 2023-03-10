@@ -105,7 +105,7 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
         }
     }
 
-    private async readResponseHeaders(path: string, res: Response): Promise<IResponse> {
+    private async readResponseHeaders(requestPath: string, res: Response): Promise<IResponse> {
         const headerParts = Array.from(res
             .headers
             .entries());
@@ -136,7 +136,8 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
 
         const response: IResponse = {
             status: res.status,
-            path,
+            requestPath,
+            responsePath: res.url,
             content: undefined,
             contentType,
             contentLength,
@@ -148,18 +149,20 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
         return response;
     }
 
-    private async readResponse(path: string, res: Response): Promise<IResponse<Blob>> {
+    private async readResponse(requestPath: string, res: Response): Promise<IResponse<Blob>> {
         const {
             status,
+            responsePath,
             contentType,
             contentLength,
             fileName,
             date,
             headers
-        } = await this.readResponseHeaders(path, res);
+        } = await this.readResponseHeaders(requestPath, res);
 
         const response: IResponse<Blob> = {
-            path,
+            requestPath,
+            responsePath,
             status,
             contentType,
             contentLength,
