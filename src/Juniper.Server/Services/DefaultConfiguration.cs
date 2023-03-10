@@ -128,13 +128,14 @@ namespace Juniper.Services
             {
                 services.AddDefaultIdentity<IdentityUser>(options =>
                 {
+                    var isDev = env.IsDevelopment();
                     options.User.RequireUniqueEmail = true;
 
-                    options.Password.RequireDigit = true;
-                    options.Password.RequireLowercase = true;
-                    options.Password.RequireUppercase = true;
-                    options.Password.RequireNonAlphanumeric = true;
-                    options.Password.RequiredLength = 8;
+                    options.Password.RequireDigit = !isDev;
+                    options.Password.RequireLowercase = !isDev;
+                    options.Password.RequireUppercase = !isDev;
+                    options.Password.RequireNonAlphanumeric = !isDev;
+                    options.Password.RequiredLength = isDev ? 0 : 8;
                     options.Password.RequiredUniqueChars = 1;
 
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -227,7 +228,7 @@ namespace Juniper.Services
                         {
                             context.Response.Redirect($"/status/{context.Response.StatusCode}?path={context.Request.Path}");
                         }
-                        catch(Exception exp)
+                        catch (Exception exp)
                         {
                             logger.LogError(exp, "Could not redirect to status page");
                         }
@@ -296,7 +297,8 @@ namespace Juniper.Services
 #if DEBUG
                     if (env != Environments.Development)
                     {
-                        webBuilder.ConfigureAppConfiguration(app => {
+                        webBuilder.ConfigureAppConfiguration(app =>
+                        {
                             var assembly = Assembly.GetEntryAssembly();
                             if (assembly is not null)
                             {
