@@ -28,6 +28,17 @@ export enum TransformMode {
     Resize = "Resize"
 }
 
+const orderedTransformModes = [
+    TransformMode.RotateViewSpace,
+    TransformMode.MoveViewSpace,
+    TransformMode.Resize,
+    TransformMode.Orbit,
+    TransformMode.RotateObjectSpace,
+    TransformMode.MoveObjectSpace,
+    TransformMode.RotateGlobalSpace,
+    TransformMode.MoveGlobalSpace
+];
+
 type Axis = "x" | "y" | "z";
 const Axes: readonly Axis[] = ["x", "y", "z"];
 const size = 0.1;
@@ -86,7 +97,7 @@ export class TransformEditor
 
         env.timer.addTickHandler(() => this.refresh());
 
-        this.modeButtons = Object.values(TransformMode)
+        this.modeButtons = orderedTransformModes
             .map(mode => {
                 const btn = ButtonSecondary(
                     mode,
