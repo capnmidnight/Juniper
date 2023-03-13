@@ -190,7 +190,7 @@ export class Environment
         this.statsImage.sizeMode = "fixed-height";
         this.statsImage.mesh.renderOrder = 5;
 
-        this.infoLabel = new TextMesh(this, "InfoLabel", {
+        this.infoLabel = new TextMesh(this, "InfoLabel", "none", {
             minHeight: 0.1,
             maxHeight: 0.1,
             padding: 0.02,

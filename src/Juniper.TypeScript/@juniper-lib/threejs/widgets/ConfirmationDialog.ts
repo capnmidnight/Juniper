@@ -89,7 +89,7 @@ export class ConfirmationDialog extends DialogBox implements IWidget {
         this.confirmButton.innerText = "Yes";
         this.cancelButton.innerText = "No";
 
-        this.mesh = new TextMesh(this.env, "confirmationDialogLabel", newStyle(textLabelStyle, fontFamily));
+        this.mesh = new TextMesh(this.env, "confirmationDialogLabel", "none", newStyle(textLabelStyle, fontFamily));
 
         this.confirmButton3D = new TextMeshButton(this.env, "confirmationDialogConfirmButton", "Yes", newStyle(confirmButton3DStyle, fontFamily));
         this.confirmButton3D.addEventListener("click", () =>

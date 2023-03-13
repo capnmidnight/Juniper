@@ -109,11 +109,11 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
         this.avatar.name = user.userName;
         this.billboard = obj("billboard");
 
-        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
+        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`, "none", Object.assign({}, nameTagFont, font));
         this.nameTag.position.y = -0.25;
         this.userName = user.userName;
 
-        this.chatBox = new TextMesh(this.env, `chat-${user.userName}-${user.userID}`, Object.assign({}, nameTagFont, font));
+        this.chatBox = new TextMesh(this.env, `chat-${user.userName}-${user.userID}`, "none", Object.assign({}, nameTagFont, font));
         this.chatBox.position.y = -0.4;
 
         user.addEventListener("chat", (evt: UserChatEvent) =>

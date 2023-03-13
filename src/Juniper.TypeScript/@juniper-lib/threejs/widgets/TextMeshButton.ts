@@ -54,6 +54,7 @@ export class TextMeshButton extends RayTarget {
         const image = new TextMesh(
             this.env,
             `text-${id}`,
+            "none",
             this.image,
             {
                 side: FrontSide,

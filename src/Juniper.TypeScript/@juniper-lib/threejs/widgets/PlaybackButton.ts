@@ -59,7 +59,7 @@ export class PlaybackButton<T extends FullAudioRecord>
 
         this.object = obj(`playback-${name}`);
 
-        this.textLabel = new TextMesh(env, `playback-${name}-label`, {
+        this.textLabel = new TextMesh(env, `playback-${name}-label`, "none", {
             minHeight: size,
             minWidth: 4 * size,
             maxWidth: 4 * size,

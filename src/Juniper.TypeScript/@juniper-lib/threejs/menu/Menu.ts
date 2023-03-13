@@ -378,7 +378,7 @@ export class Menu extends Object3D {
                     maxWidth: item.width,
                     maxHeight: item.height
                 };
-                const img = new TextMesh(this.env, item.text, options);
+                const img = new TextMesh(this.env, item.text, "none", options);
 
                 img.mesh.renderOrder = 1;
 
