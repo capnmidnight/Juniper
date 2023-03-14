@@ -9,7 +9,24 @@ namespace Juniper.EntityFramework
             using var scope = host.Services.CreateScope();
             using var appContext = scope.ServiceProvider.GetRequiredService<T>();
 
-            appContext.Database.Migrate();
+            var pending = appContext.Database.GetPendingMigrations();
+            if (pending.Any())
+            {
+                Console.WriteLine("Pending migrations: {0}", string.Join(", ", pending));
+            }
+            else
+            {
+                Console.WriteLine("No pending migrations");
+            }
+
+            try
+            {
+                appContext.Database.Migrate();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("Error during migration:\n{0}", ex.Unroll());
+            }
 
             return host;
         }
