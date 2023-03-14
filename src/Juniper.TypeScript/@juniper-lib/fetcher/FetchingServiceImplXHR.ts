@@ -148,7 +148,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         this.cache = await IDexDB.open(DB_NAME, {
             name: "files",
             options: {
-                keyPath: "path"
+                keyPath: "requestPath"
             }
         });
 

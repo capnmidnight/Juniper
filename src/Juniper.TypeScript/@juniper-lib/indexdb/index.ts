@@ -41,7 +41,6 @@ export class IDexDB implements IDisposable {
     }
 
     static async open(name: string, ...storeDefs: StoreDef[]): Promise<IDexDB> {
-
         const storesByName = makeLookup(storeDefs, (v) => v.name);
         const indexesByName = new PriorityMap<string, string, IndexDef>(
             storeDefs
@@ -75,7 +74,7 @@ export class IDexDB implements IDisposable {
 
                 const storesToScrutinize = new Array<string>();
 
-                for (const storeName of Array.from(db.objectStoreNames)) {
+                for (const storeName of db.objectStoreNames) {
                     if (!storesByName.has(storeName)) {
                         storesToRemove.push(storeName);
                     }
@@ -96,7 +95,13 @@ export class IDexDB implements IDisposable {
 
                     for (const storeName of storesToScrutinize) {
                         const store = transaction.objectStore(storeName);
-                        for (const indexName of Array.from(store.indexNames)) {
+                        const storeDef = storesByName.get(storeName);
+                        if (isDefined(storeDef.options) && store.keyPath !== storeDef.options.keyPath) {
+                            storesToRemove.push(storeName);
+                            storesToAdd.push(storeName);
+                        }
+
+                        for (const indexName of store.indexNames) {
                             if (!indexesByName.has(storeName, indexName)) {
                                 if (storesToChange.indexOf(storeName) === -1) {
                                     storesToChange.push(storeName);
@@ -125,7 +130,6 @@ export class IDexDB implements IDisposable {
                                         indexesToRemove.add(storeName, indexName);
                                         indexesToAdd.add(storeName, indexName);
                                     }
-
                                 }
                             }
                         }
