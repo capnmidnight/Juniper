@@ -1,4 +1,4 @@
-import { IDexDB, IDexStore } from "@juniper-lib/indexdb";
+import { IDexDB, IDexDBOptionsDef, IDexStore } from "@juniper-lib/indexdb";
 import { mapJoin } from "@juniper-lib/tslib/collections/mapJoin";
 import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
 import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
@@ -83,11 +83,12 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
     }
 
     private async openCache(): Promise<void> {
+        const options: IDexDBOptionsDef<IResponse> = {
+            keyPath: "requestPath"
+        };
         this.cache = await IDexDB.open(DB_NAME, {
             name: "files",
-            options: {
-                keyPath: "requestPath"
-            }
+            options
         });
 
         this.store = await this.cache.getStore("files");

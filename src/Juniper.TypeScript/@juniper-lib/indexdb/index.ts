@@ -7,16 +7,21 @@ import { Task } from "@juniper-lib/tslib/events/Task";
 import { isArray, isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 
-interface IndexDef {
+export interface IDexDBIndexDef<T = any> {
     name: string;
-    keyPath: string | string[];
+    keyPath: (keyof T) | (keyof T)[];
     options?: IDBIndexParameters;
+}
+
+export interface IDexDBOptionsDef<T = any> {
+    autoIncrement?: boolean;
+    keyPath?: (keyof T) | (keyof T)[];
 }
 
 interface StoreDef {
     name: string;
-    options?: IDBObjectStoreParameters;
-    indexes?: IndexDef[];
+    options?: IDexDBOptionsDef;
+    indexes?: IDexDBIndexDef[];
 }
 
 export class IDexDB implements IDisposable {
@@ -42,11 +47,11 @@ export class IDexDB implements IDisposable {
 
     static async open(name: string, ...storeDefs: StoreDef[]): Promise<IDexDB> {
         const storesByName = makeLookup(storeDefs, (v) => v.name);
-        const indexesByName = new PriorityMap<string, string, IndexDef>(
+        const indexesByName = new PriorityMap<string, string, IDexDBIndexDef>(
             storeDefs
                 .filter((storeDef) => isDefined(storeDef.indexes))
-                .flatMap<[string, string, IndexDef]>((storeDef) =>
-                    storeDef.indexes.map<[string, string, IndexDef]>((indexDef) =>
+                .flatMap<[string, string, IDexDBIndexDef]>((storeDef) =>
+                    storeDef.indexes.map<[string, string, IDexDBIndexDef]>((indexDef) =>
                         [storeDef.name, indexDef.name, indexDef])));
 
         const storesToAdd = new Array<string>();
