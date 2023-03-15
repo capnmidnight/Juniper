@@ -178,9 +178,9 @@ namespace Juniper.Services
                 app.UseExceptionHandler("/Error");
 
                 if (ports?.HttpsPort > 0)
-                {
-                    app.UseHsts();
-                }
+            {
+                app.UseHsts();
+            }
             }
 
             app.Use(async (context, next) =>
@@ -221,7 +221,9 @@ namespace Juniper.Services
                 .Use(async (context, next) =>
                 {
                     await next();
+
                     if (context.Request.Path.Value?.StartsWith("/status/") != true
+                        && !context.Request.Accepts(MediaType.Application_Json)
                         && context.Response.StatusCode >= 400)
                     {
                         try
