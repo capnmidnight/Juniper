@@ -9,13 +9,13 @@ import { IDisposable } from "@juniper-lib/tslib/using";
 
 export interface IDexDBIndexDef<T = any> {
     name: string;
-    keyPath: (keyof T) | (keyof T)[];
+    keyPath: (keyof T & string) | (keyof T & string)[];
     options?: IDBIndexParameters;
 }
 
 export interface IDexDBOptionsDef<T = any> {
     autoIncrement?: boolean;
-    keyPath?: (keyof T) | (keyof T)[];
+    keyPath?: (keyof T & string) | (keyof T & string)[];
 }
 
 interface StoreDef {
