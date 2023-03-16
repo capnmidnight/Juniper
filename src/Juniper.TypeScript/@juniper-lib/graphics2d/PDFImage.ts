@@ -10,12 +10,25 @@ import pdfJS from "pdfjs-dist";
 import { version as pdfjsVersion } from "pdfjs-dist/package.json";
 import { GetViewportParameters } from "pdfjs-dist/types/src/display/api";
 import { CanvasImage } from "./CanvasImage";
+import { CancelToken } from "@juniper-lib/tslib/CancelToken";
 
 const pdfReady = singleton("Juniper:PdfReady", () => new Task(false));
 
 export class PDFImage extends CanvasImage {
 
-    static async prepare(workerPath: string, fetcher: IFetcher, debug: boolean, prog?: IProgress) {
+    static async prepare(workerPath: string, fetcher: IFetcher, debug: boolean, tokenOrProg: CancelToken, prog?: IProgress): Promise<void>
+    static async prepare(workerPath: string, fetcher: IFetcher, debug: boolean, prog?: IProgress): Promise<void>
+    static async prepare(workerPath: string, fetcher: IFetcher, debug: boolean, tokenOrProg?: CancelToken | IProgress, prog?: IProgress): Promise<void> {
+        let token: CancelToken = null;
+        if (tokenOrProg instanceof CancelToken) {
+            token = tokenOrProg;
+        }
+        else {
+            prog = tokenOrProg;
+        }
+
+        token = token || new CancelToken();
+
         if (!pdfReady.started) {
             pdfReady.start();
             console.info(`PDF.js v${pdfjsVersion}`);
@@ -30,10 +43,12 @@ export class PDFImage extends CanvasImage {
                 .progress(prog)
                 .file()
                 .then(unwrapResponse);
+            token.check();
             pdfReady.resolve();
         }
 
         await pdfReady;
+        token.check();
     }
 
     public readonly ready: Promise<void>;
