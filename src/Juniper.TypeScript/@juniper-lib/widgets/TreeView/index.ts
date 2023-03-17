@@ -562,8 +562,14 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 }
             }
 
-            this.nodes2Elements.get(this.rootNode).refresh();
+            if (this.rootNode) {
+                this.nodes2Elements.get(this.rootNode).refresh();
+            }
         }
+    }
+
+    clear() {
+        this.rootNode = null;
     }
 
     get selectedValue(): ValueT {
