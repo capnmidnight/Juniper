@@ -1,5 +1,6 @@
-import { srcObject } from "@juniper-lib/dom/attrs";
-import { BackgroundAudio } from "@juniper-lib/dom/tags";
+import { autoPlay, controls, loop, muted, srcObject } from "@juniper-lib/dom/attrs";
+import { display } from "@juniper-lib/dom/css";
+import { Audio } from "@juniper-lib/dom/tags";
 import { hasStreamSources } from "../util";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioNode } from "./JuniperAudioNode";
@@ -12,10 +13,12 @@ export class JuniperMediaStreamAudioSourceNode
     private readonly _element: HTMLAudioElement;
 
     constructor(context: JuniperAudioContext, options: MediaStreamAudioSourceOptions) {
-        const element = BackgroundAudio(
-            true,
-            hasStreamSources,
-            false,
+        const element = Audio(
+            controls(false),
+            muted(hasStreamSources),
+            autoPlay(true),
+            loop(false),
+            display("none"),
             srcObject(options.mediaStream)
         );
 

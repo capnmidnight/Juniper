@@ -7,6 +7,7 @@ import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
 import { IDisposable } from "@juniper-lib/tslib/using";
+import { RELEASE_EVT } from "../AudioManager";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
 import { AudioRecord, FullAudioRecord } from "../data";
@@ -141,6 +142,7 @@ export class AudioPlayer
         this.element.removeEventListener("waiting", this.onWaiting);
         this.element.removeEventListener("canplay", this.onCanPlay);
         this.element.removeEventListener("timeupdate", this.onTimeUpdate);
+        this.element.dispatchEvent(RELEASE_EVT);
     }
 
     clear(): void {

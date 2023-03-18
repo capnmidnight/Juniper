@@ -1,3 +1,4 @@
+import { RELEASE_EVT } from "@juniper-lib/audio/AudioManager";
 import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "@juniper-lib/audio/context/JuniperMediaElementAudioSourceNode";
 import { AudioRecord } from "@juniper-lib/audio/data";
@@ -206,6 +207,8 @@ export abstract class BaseVideoPlayer
         this.video.removeEventListener("canplay", this.onCanPlay);
         this.video.removeEventListener("timeupdate", this.onTimeUpdate);
         super.onDisposing();
+        this.audio.dispatchEvent(RELEASE_EVT);
+        this.video.dispatchEvent(RELEASE_EVT);
     }
 
     clear(): void {

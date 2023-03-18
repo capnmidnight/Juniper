@@ -1,4 +1,4 @@
-const gestures = [
+const USER_GESTURE_EVENTS = [
     "change",
     "click",
     "contextmenu",
@@ -14,18 +14,20 @@ const gestures = [
  * This is not an event handler that you can add to an element. It's a global event that
  * waits for the user to perform some sort of interaction with the website.
   */
-export function onUserGesture(callback: () => any): void {
+export function onUserGesture(callback: () => any, perpetual: boolean = false): void {
     const check = async (evt: Event) => {
         if (evt.isTrusted) {
-            for (const gesture of gestures) {
-                window.removeEventListener(gesture, check);
+            if (!perpetual) {
+                for (const gesture of USER_GESTURE_EVENTS) {
+                    window.removeEventListener(gesture, check);
+                }
             }
 
             callback();
         }
     };
 
-    for (const gesture of gestures) {
+    for (const gesture of USER_GESTURE_EVENTS) {
         window.addEventListener(gesture, check);
     }
 }

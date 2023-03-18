@@ -1,8 +1,8 @@
 import { once } from "@juniper-lib/tslib/events/once";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/typeChecks";
-import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, type } from "./attrs";
-import { display, margin, PropSet } from "./css";
+import { Attr, classList, className, htmlFor, type } from "./attrs";
+import { margin, PropSet } from "./css";
 
 export interface ErsatzElement<T extends Element = Element> {
     element: T;
@@ -585,24 +585,4 @@ export function Style(...props: PropSet[]) {
     for (let prop of props) {
         prop.applyToSheet(elem.sheet);
     }
-}
-
-export function BackgroundAudio(autoplay: boolean, mute: boolean, looping: boolean, ...rest: ElementChild[]) {
-    return Audio(
-        controls(false),
-        muted(mute),
-        autoPlay(autoplay),
-        loop(looping),
-        display("none"),
-        ...rest);
-}
-
-export function BackgroundVideo(autoplay: boolean, mute: boolean, looping: boolean, ...rest: ElementChild[]) {
-    return Video(
-        controls(false),
-        muted(mute),
-        autoPlay(autoplay),
-        loop(looping),
-        display("none"),
-        ...rest);
 }

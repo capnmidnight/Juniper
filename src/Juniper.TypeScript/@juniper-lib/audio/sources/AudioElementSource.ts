@@ -1,5 +1,6 @@
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { mediaElementCanPlay } from "@juniper-lib/dom/tags";
+import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { once } from "@juniper-lib/tslib/events/once";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
@@ -8,8 +9,12 @@ import { BaseAudioSource } from "./BaseAudioSource";
 import { IPlayable, MediaElementSourceErroredEvent, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
 import { PlaybackState } from "./PlaybackState";
 
+const DISPOSING_EVT = new TypedEvent("disposing");
+
 export class AudioElementSource
-    extends BaseAudioSource<MediaElementSourceEvents>
+    extends BaseAudioSource<MediaElementSourceEvents & {
+        disposing: TypedEvent<"disposing">
+    }>
     implements IPlayable {
 
     private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayable>;
@@ -89,6 +94,11 @@ export class AudioElementSource
             .then((success) => this.dispatchEvent(success
                 ? this.loadEvt
                 : new MediaElementSourceErroredEvent(this, this.audio.error)));
+    }
+
+    override onDisposing() {
+        this.dispatchEvent(DISPOSING_EVT);
+        super.onDisposing();
     }
 
     get playbackState(): PlaybackState {
