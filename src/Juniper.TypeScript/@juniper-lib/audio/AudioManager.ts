@@ -1,4 +1,4 @@
-import { autoPlay, controls, loop, muted, src } from "@juniper-lib/dom/attrs";
+import { controls, loop, src } from "@juniper-lib/dom/attrs";
 import { onEvent } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, elementApply, ElementChild } from "@juniper-lib/dom/tags";
@@ -11,7 +11,7 @@ import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
 import { IReadyable } from "@juniper-lib/tslib/events/IReadyable";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { Exception } from "@juniper-lib/tslib/Exception";
-import { isMobileVR } from "@juniper-lib/tslib/flags";
+import { isIOS, isMobileVR } from "@juniper-lib/tslib/flags";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined, isString } from "@juniper-lib/tslib/typeChecks";
@@ -37,7 +37,7 @@ interface AudioManagerEvents {
     useheadphonestoggled: TypedEvent<"useheadphonestoggled">;
 }
 
-const POOL_SIZE = 20;
+const POOL_SIZE = 10;
 export const RELEASE_EVT = new TypedEvent("released");
 
 // (This is a tiny MP3 file that is silent and extremely short - retrieved from https://bigsoundbank.com and then modified)
@@ -131,7 +131,6 @@ export class AudioManager
             arrayClear(this.pendingAudio);
             for (const p of depooling) {
                 p();
-                console.log("Depooled");
             }
 
         }, true);
@@ -140,29 +139,31 @@ export class AudioManager
     }
 
     private enpool() {
-        console.log("Enpooling");
         for (let i = 0; i < POOL_SIZE; ++i) {
             const task = new Task<HTMLAudioElement>();
             const audio = Audio(
                 src(HAX_SRC),
                 controls(false),
-                autoPlay(true),
-                muted(true),
                 onEvent("released", () => {
-                    console.log("RELEASED!", audio);
+                    audio.pause();
+                    audio.src = HAX_SRC;
                     arrayRemove(this.audioInUse, task);
-                    this.audioPool.unshift(task);
                 })
             );
 
             this.pendingAudio.push(() => {
-                audio.pause();
+                audio.play();
                 task.resolve(audio);
             });
             this.audioPool.push(task);
         }
     }
 
+    preparePool(size: number) {
+        while (this.audioPool.length < size) {
+            this.enpool();
+        }
+    }
 
     private async getPooledAudio(...rest: ElementChild[]): Promise<HTMLAudioElement> {
         if (this.audioPool.length === 0) {
@@ -176,19 +177,25 @@ export class AudioManager
         this.audioInUse.push(audioTask);
 
         const audio = await audioTask;
+        audio.pause();
 
         elementApply(audio, ...rest);
 
         return audio;
     }
 
-    private async getPooledSource(key: string, path: string, autoPlaying: boolean, looping: boolean): Promise<JuniperMediaElementAudioSourceNode> {
+    private async getPooledSource(key: string, path: string, looping: boolean): Promise<JuniperMediaElementAudioSourceNode> {
         if (!this.elements.has(key)) {
             const mediaElement = await this.getPooledAudio(
-                muted(false),
                 src(path),
-                loop(looping),
-                autoPlay(autoPlaying));
+                loop(looping && !isIOS())
+            );
+
+            if (isIOS() && looping) {
+                mediaElement.addEventListener("ended", () =>
+                    mediaElement.play())
+            }
+
             const node = new JuniperMediaElementAudioSourceNode(
                 this.context,
                 { mediaElement });
@@ -287,7 +294,7 @@ export class AudioManager
     }
 
     createBasicClip(id: string, asset: AssetFile, vol: number) {
-        return this.createClip(id, asset, false, false, false, false, true, vol, []);
+        return this.createClip(id, asset, false, false, false, true, vol, []);
     }
 
     private elements = new Map<string, JuniperMediaElementAudioSourceNode>();
@@ -303,7 +310,6 @@ export class AudioManager
      * @param id - the name of the sound effect, to reference when executing playback.
      * @param asset - the element to register as a clip
      * @param looping - whether the sound effect should be played on loop.
-     * @param autoPlaying - whether the sound effect should be played immediately.
      * @param spatialize - whether the sound effect should be spatialized.
      * @param randomizeStart - whether the looping sound effect should be started somewhere in the middle.
      * @param randomizePitch - whether the sound effect should be pitch-bent whenever it is played.
@@ -316,7 +322,6 @@ export class AudioManager
         id: string,
         asset: AssetFile | string,
         looping: boolean,
-        autoPlaying: boolean,
         spatialize: boolean,
         randomizeStart: boolean,
         randomizePitch: boolean,
@@ -341,7 +346,7 @@ export class AudioManager
             path = asset.result;
         }
 
-        const source = await this.getPooledSource(key, path, autoPlaying, looping);
+        const source = await this.getPooledSource(key, path, looping);
 
         const clip = new AudioElementSource(
             this.context,
@@ -355,10 +360,6 @@ export class AudioManager
             this.releasePooledSource(key, source));
 
         clip.name = stringToName("audio-clip-element", id);
-
-        if (autoPlaying) {
-            clip.play();
-        }
 
         clip.volume = vol;
         this.clips.set(id, clip);
