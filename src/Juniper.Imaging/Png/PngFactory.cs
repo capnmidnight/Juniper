@@ -74,9 +74,6 @@ namespace Juniper.Imaging
             var length = stream.Length;
             png.End();
 
-            stream.Flush();
-            stream.Close();
-
             return length;
         }
     }
