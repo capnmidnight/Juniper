@@ -109,6 +109,8 @@ export class ScreenControl
         fullscreenButton.available = !isMobileVR() && hasFullscreenAPI();
         vrButton.available = hasVR();
         arButton.available = hasWebXR();
+
+        this.refresh();
     }
 
     get visible() {
@@ -172,11 +174,12 @@ export class ScreenControl
     }
 
     async refresh(): Promise<void> {
+        const toCheck = Array.from(this.buttons.values())
+            .filter((btn) =>
+                btn.available
+                && btn.mode !== ScreenMode.Fullscreen);
         await Promise.all(
-            Array.from(this.buttons.values())
-                .filter((btn) =>
-                    btn.available
-                    && btn.mode !== ScreenMode.Fullscreen)
+            toCheck
                 .map(async (btn) => {
                     const xrMode = xrModes.get(btn.mode);
                     btn.available = isDefined(xrMode);
