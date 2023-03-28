@@ -26,19 +26,6 @@ interface StoreDef {
 
 export class IDexDB implements IDisposable {
 
-    static async getCurrentVersion(dbName: string) {
-        if (isDefined(indexedDB.databases)) {
-            const databases = await indexedDB.databases();
-            for (const { name, version } of databases) {
-                if (name === dbName) {
-                    return version;
-                }
-            }
-        }
-
-        return null;
-    }
-
     static delete(dbName: string) {
         const deleteRequest = indexedDB.deleteDatabase(dbName);
         const task = once<IDBOpenDBRequestEventMap>(deleteRequest, "success", "error", "blocked");
@@ -60,9 +47,83 @@ export class IDexDB implements IDisposable {
         const indexesToAdd = new PriorityList<string, string>();
         const indexesToRemove = new PriorityList<string, string>();
 
-        let version = await this.getCurrentVersion(name);
+        let version: number = null;
 
-        if (isNullOrUndefined(version)) {
+        const D = indexedDB.open(name);
+        if (await success(once<IDBOpenDBRequestEventMap>(D, "success", "error", "blocked"))) {
+            const db = D.result;
+            version = db.version
+            const storesToScrutinize = new Array<string>();
+
+            for (const storeName of db.objectStoreNames) {
+                if (!storesByName.has(storeName)) {
+                    storesToRemove.push(storeName);
+                }
+            }
+
+            for (const storeName of storesByName.keys()) {
+                if (!db.objectStoreNames.contains(storeName)) {
+                    storesToAdd.push(storeName);
+                }
+                else {
+                    storesToScrutinize.push(storeName);
+                }
+            }
+            if (storesToScrutinize.length > 0) {
+                const transaction = db.transaction(storesToScrutinize);
+                const transacting = once<IDBTransactionEventMap>(transaction, "complete", "error", "abort");
+                const transacted = success(transacting);
+
+                for (const storeName of storesToScrutinize) {
+                    const store = transaction.objectStore(storeName);
+                    const storeDef = storesByName.get(storeName);
+                    if (isDefined(storeDef.options) && store.keyPath !== storeDef.options.keyPath) {
+                        storesToRemove.push(storeName);
+                        storesToAdd.push(storeName);
+                    }
+
+                    for (const indexName of store.indexNames) {
+                        if (!indexesByName.has(storeName, indexName)) {
+                            if (storesToChange.indexOf(storeName) === -1) {
+                                storesToChange.push(storeName);
+                            }
+                            indexesToRemove.add(storeName, indexName);
+                        }
+                    }
+
+                    if (indexesByName.has(storeName)) {
+                        for (const indexName of indexesByName.get(storeName).keys()) {
+                            if (!store.indexNames.contains(indexName)) {
+                                if (storesToChange.indexOf(storeName) === -1) {
+                                    storesToChange.push(storeName);
+                                }
+                                indexesToAdd.add(storeName, indexName);
+                            }
+                            else {
+                                const indexDef = indexesByName.get(storeName, indexName);
+                                const index = store.index(indexName);
+                                if (isString(indexDef.keyPath) !== isString(index.keyPath)
+                                    || isString(indexDef.keyPath) && isString(index.keyPath) && indexDef.keyPath !== index.keyPath
+                                    || isArray(indexDef.keyPath) && isArray(index.keyPath) && arrayCompare(indexDef.keyPath, index.keyPath)) {
+                                    if (storesToChange.indexOf(storeName) === -1) {
+                                        storesToChange.push(storeName);
+                                    }
+                                    indexesToRemove.add(storeName, indexName);
+                                    indexesToAdd.add(storeName, indexName);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                transaction.commit();
+                await transacted;
+            }
+
+            db.close();
+        }
+        else {
+            version = 0;
             storesToAdd.push(...storesByName.keys());
             for (const storeDef of storeDefs) {
                 if (isDefined(storeDef.indexes)) {
@@ -72,87 +133,12 @@ export class IDexDB implements IDisposable {
                 }
             }
         }
-        else {
-            const D = indexedDB.open(name);
-            if (await success(once<IDBOpenDBRequestEventMap>(D, "success", "error", "blocked"))) {
-                const db = D.result;
 
-                const storesToScrutinize = new Array<string>();
-
-                for (const storeName of db.objectStoreNames) {
-                    if (!storesByName.has(storeName)) {
-                        storesToRemove.push(storeName);
-                    }
-                }
-
-                for (const storeName of storesByName.keys()) {
-                    if (!db.objectStoreNames.contains(storeName)) {
-                        storesToAdd.push(storeName);
-                    }
-                    else {
-                        storesToScrutinize.push(storeName);
-                    }
-                }
-                if (storesToScrutinize.length > 0) {
-                    const transaction = db.transaction(storesToScrutinize);
-                    const transacting = once<IDBTransactionEventMap>(transaction, "complete", "error", "abort");
-                    const transacted = success(transacting);
-
-                    for (const storeName of storesToScrutinize) {
-                        const store = transaction.objectStore(storeName);
-                        const storeDef = storesByName.get(storeName);
-                        if (isDefined(storeDef.options) && store.keyPath !== storeDef.options.keyPath) {
-                            storesToRemove.push(storeName);
-                            storesToAdd.push(storeName);
-                        }
-
-                        for (const indexName of store.indexNames) {
-                            if (!indexesByName.has(storeName, indexName)) {
-                                if (storesToChange.indexOf(storeName) === -1) {
-                                    storesToChange.push(storeName);
-                                }
-                                indexesToRemove.add(storeName, indexName);
-                            }
-                        }
-
-                        if (indexesByName.has(storeName)) {
-                            for (const indexName of indexesByName.get(storeName).keys()) {
-                                if (!store.indexNames.contains(indexName)) {
-                                    if (storesToChange.indexOf(storeName) === -1) {
-                                        storesToChange.push(storeName);
-                                    }
-                                    indexesToAdd.add(storeName, indexName);
-                                }
-                                else {
-                                    const indexDef = indexesByName.get(storeName, indexName);
-                                    const index = store.index(indexName);
-                                    if (isString(indexDef.keyPath) !== isString(index.keyPath)
-                                        || isString(indexDef.keyPath) && isString(index.keyPath) && indexDef.keyPath !== index.keyPath
-                                        || isArray(indexDef.keyPath) && isArray(index.keyPath) && arrayCompare(indexDef.keyPath, index.keyPath)) {
-                                        if (storesToChange.indexOf(storeName) === -1) {
-                                            storesToChange.push(storeName);
-                                        }
-                                        indexesToRemove.add(storeName, indexName);
-                                        indexesToAdd.add(storeName, indexName);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    transaction.commit();
-                    await transacted;
-                }
-
-                db.close();
-            }
-
-            if (storesToAdd.length > 0
-                || storesToRemove.length > 0
-                || indexesToAdd.size > 0
-                || indexesToRemove.size > 0) {
-                ++version;
-            }
+        if (storesToAdd.length > 0
+            || storesToRemove.length > 0
+            || indexesToAdd.size > 0
+            || indexesToRemove.size > 0) {
+            ++version;
         }
 
         const upgrading = new Task<boolean>();
