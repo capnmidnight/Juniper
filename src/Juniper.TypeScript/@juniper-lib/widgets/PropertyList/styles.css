@@ -14,6 +14,10 @@ dl.properties {
         text-align: right;
     }
 
+    dl.properties > dt.single-item {
+        display: none;
+    }
+
         dl.properties > dt > label {
             margin: 0;
             padding: 0;
@@ -29,6 +33,12 @@ dl.properties {
         margin-bottom: 0;
     }
 
+    dl.properties > dd.single-item {
+        grid-column: 1/-1;
+        margin-left: 0;
+        text-align: center;
+    }
+
         dl.properties > dd input[type=number] {
             text-align: right;
         }
@@ -40,8 +50,3 @@ dl.properties {
         dl.properties > dd > select {
             height: 30px;
         }
-
-    dl.properties > .single-item {
-        grid-column: 1/-1;
-        text-align: center;
-    }

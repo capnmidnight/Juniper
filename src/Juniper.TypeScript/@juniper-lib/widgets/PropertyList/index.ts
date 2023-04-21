@@ -1,22 +1,24 @@
-import { Attr, classList, coallesceClassLists, isAttr } from "@juniper-lib/dom/attrs";
+import { Attr, classList, className, coallesceClassLists, customData, isAttr } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp, isCssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     DD,
-    Div,
     DL,
     DT,
-    elementApply,
     ElementChild,
-    elementIsDisplayed,
-    elementSetClass,
-    elementSetDisplay,
+    Elements,
     ErsatzElement,
     H2,
     IDisableable,
     IElementAppliable,
+    Label,
+    elementApply,
+    elementIsDisplayed,
+    elementSetClass,
+    elementSetDisplay,
     isDisableable,
-    Label
+    resolveElement
 } from "@juniper-lib/dom/tags";
+import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
 import { identity } from "@juniper-lib/tslib/identity";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import {
@@ -27,7 +29,6 @@ import {
     isNumber,
     isString
 } from "@juniper-lib/tslib/typeChecks";
-import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
 
 import "./styles.css";
 
@@ -49,10 +50,71 @@ export function group(name: string, ...properties: PropertyElement[]) {
 
 export type Property = PropertyElement | PropertyGroup;
 export type PropertyDef = Property | Attr | CssElementStyleProp;
-type RowElement = Exclude<PropertyChild, string | number | boolean | Date>;
-type Row = Array<RowElement>;
+type Row = Elements<HTMLElement>[];
 
 const DEFAULT_PROPERTY_GROUP = "DefaultPropertyGroup" + stringRandom(16);
+const singleItem = className("single-item");
+
+function createElements(rest: Property[]) {
+    return rest.flatMap((entry) =>
+        createRows(entry)
+            .flatMap(identity));
+}
+
+function createRows(entry: Property): Row[] {
+    let groupName: string = DEFAULT_PROPERTY_GROUP;
+    const rows = new Array<Row>();
+
+    if (entry instanceof PropertyGroup) {
+        groupName = entry.name;
+        rows.push(...entry.properties.map((e) => createRow(groupName, e)));
+    }
+    else {
+        rows.push(createRow(groupName, entry));
+    }
+
+    return rows;
+}
+
+function createRow(groupName: string, entry: PropertyElement): Elements<HTMLElement>[] {
+    const group = groupName === DEFAULT_PROPERTY_GROUP
+        ? null
+        : customData("groupname", groupName);
+
+    if (isArray(entry)) {
+        const [labelText, ...fields] = entry;
+        const label = Label(labelText);
+        for (const field of fields) {
+            if (field instanceof HTMLInputElement
+                || field instanceof HTMLTextAreaElement
+                || field instanceof HTMLSelectElement) {
+                if (field.id.length === 0) {
+                    field.id = stringRandom(10);
+                }
+                label.htmlFor = field.id;
+                break;
+            }
+        }
+
+        return [
+            DT(group, label),
+            DD(group, ...fields)
+        ];
+    }
+    else {
+
+        if (isString(entry)
+            || isNumber(entry)
+            || isBoolean(entry)
+            || isDate(entry)) {
+            entry = H2(entry);
+        }
+
+        return [
+            DD(group, entry)
+        ];
+    }
+}
 
 
 function isPropertyDef(obj: PropertyDef): obj is Property {
@@ -64,32 +126,83 @@ function isPropertyDef(obj: PropertyDef): obj is Property {
 export class PropertyList
     implements ErsatzElement {
 
-    public readonly element: HTMLElement;
-    private readonly rowGroups = new PriorityList<string, Row>();
+    private readonly groups = new PriorityList<string, Elements<HTMLElement>>();
     private readonly controls = new Array<IDisableable>();
     private _disabled = false;
 
-    constructor(...rest: PropertyDef[]) {
+    public static create(...rest: PropertyDef[]) {
         const props = rest.filter(isPropertyDef);
         const styles = rest.filter(isCssElementStyleProp);
         const attrs = rest.filter(isAttr);
         const classes = coallesceClassLists(attrs, "properties");
+        const rows = createElements(props);
 
-        this.element = DL(
+        return new PropertyList(DL(
             classList(...classes),
             ...styles,
             ...attrs,
-            ...this.createElements(props));
+            ...rows));
     }
 
-    append(...rest: Property[]): void {
-        elementApply(this.element, ...this.createElements(rest));
+    constructor(public readonly element: HTMLElement) {
+        const queue = [...element.children];
+        while (queue.length > 0) {
+            const child = queue.shift();
+
+            if (isDisableable(child)) {
+                this.controls.push(child);
+            }
+
+            if (child instanceof HTMLElement) {
+                this.checkGroup(child);
+                queue.push(...child.children);
+            }
+        }
     }
 
-    get disabled() {
-        return this._disabled;
+    append(...props: Property[]): void {
+        const rows = createElements(props);
+        elementApply(this.element, ...rows);
+
+        for (const propDef of props) {
+            const props = propDef instanceof PropertyGroup
+                ? propDef.properties
+                : [propDef];
+            for (const prop of props) {
+                if (!isString(prop)) {
+                    const [_, ...elems] = isArray(prop)
+                        ? prop
+                        : [null, prop];
+                    for (const elem of elems) {
+                        if (isDisableable(elem)) {
+                            this.controls.push(elem);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (const row of rows) {
+            this.checkGroup(row);
+        }
     }
 
+    private checkGroup(row: Elements<HTMLElement>) {
+        const elem = resolveElement(row);
+        const groupName = elem.dataset["groupname"];
+        if (groupName !== DEFAULT_PROPERTY_GROUP) {
+            this.groups.add(groupName, row);
+        }
+
+        if (elem.parentElement === this.element
+            && elem.tagName === "DD"
+            && (!elem.previousElementSibling
+                || elem.previousElementSibling.tagName !== "DT")) {
+            singleItem.applyToElement(elem);
+        }
+    }
+
+    get disabled() { return this._disabled; }
     set disabled(v) {
         if (v !== this.disabled) {
             this._disabled = v;
@@ -100,98 +213,23 @@ export class PropertyList
         }
     }
 
-    get enabled() {
-        return !this.disabled;
-    }
-
-    set enabled(v) {
-        this.disabled = !v;
-    }
-
-    private createElements(rest: Property[]) {
-        return rest.flatMap((entry) =>
-            this.createGroups(entry)
-                .flatMap(identity));
-    }
-
-    private createGroups(entry: Property): Row[] {
-        let name: string = DEFAULT_PROPERTY_GROUP;
-        const group = new Array<Row>();
-
-        if (entry instanceof PropertyGroup) {
-            name = entry.name;
-            group.push(...entry.properties.map((e) => this.createRow(e)));
-        }
-        else {
-            group.push(this.createRow(entry));
-        }
-
-        this.rowGroups.add(name, ...group);
-        return group;
-    }
-
-    private createRow(entry: PropertyElement): Row {
-
-        if (isArray(entry)) {
-            const [labelText, ...fields] = entry;
-            const label = Label(labelText);
-            for (const field of fields) {
-                if (isDisableable(field)) {
-                    this.controls.push(field);
-                }
-
-                if (field instanceof HTMLInputElement
-                    || field instanceof HTMLTextAreaElement
-                    || field instanceof HTMLSelectElement) {
-                    if (field.id.length === 0) {
-                        field.id = stringRandom(10);
-                    }
-                    label.htmlFor = field.id;
-                    break;
-                }
-            }
-
-            return [
-                DT(label),
-                DD(...fields)
-            ];
-        }
-        else {
-            if (isString(entry)
-                || isNumber(entry)
-                || isBoolean(entry)
-                || isDate(entry)) {
-                entry = Div(H2(entry));
-            }
-
-            elementSetClass(entry, true, "single-item");
-            if (isDisableable(entry)) {
-                this.controls.push(entry);
-            }
-            return [
-                entry
-            ];
-        }
-    }
+    get enabled() { return !this.disabled; }
+    set enabled(v) { this.disabled = !v; }
 
     setGroupVisible(id: string, v: boolean): void {
-        const rows = this.rowGroups.get(id);
-        if (rows) {
-            for (const row of rows) {
-                for (const elem of row) {
-                    elementSetDisplay(elem, v);
-                }
+        const elems = this.groups.get(id);
+        if (elems) {
+            for (const elem of elems) {
+                elementSetDisplay(elem, v);
             }
         }
     }
 
     getGroupVisible(id: string): boolean {
-        const rows = this.rowGroups.get(id);
-        if (rows) {
-            for (const row of rows) {
-                for (const elem of row) {
-                    return elementIsDisplayed(elem);
-                }
+        const elems = this.groups.get(id);
+        if (elems) {
+            for (const elem of elems) {
+                return elementIsDisplayed(elem);
             }
         }
 
