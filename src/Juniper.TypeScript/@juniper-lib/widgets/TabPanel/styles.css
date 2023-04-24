@@ -1,31 +1,43 @@
 .tab-panel {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: auto 1fr;
 }
 
-.tab-panel > .tabs {
-    display: flex;
-    flex-shrink: 0;
-    flex-direction: row;
-    border-bottom: solid 1px var(--main-fg-color);
-    overflow: hidden;
-    padding-left: 2px;
-}
-
-    .tab-panel > .tabs > button {
-        border: none;
-        border-top-left-radius: 10%;
-        border-top-right-radius: 10%;
-        pointer-events: initial;
-        background-color: var(--main-bg-color);
-        color: var(--main-fg-color);
-        z-index: 0;
+    .tab-panel > .panels {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: auto;
+        overflow-y: auto;
     }
 
-        .tab-panel > .tabs > button.btn[disabled] {
-            box-shadow: var(--box-shadow-color) 0 -5px 10px;
-            background-color: var(--main-fg-color);
-            color: var(--main-bg-color);
-            opacity: 1;
-            z-index: 1;
+        .tab-panel > .panels > * {
+            grid-area: 1/1/-1/-1;
+            height: 0;
         }
+
+    .tab-panel > .tabs {
+        display: flex;
+        flex-shrink: 0;
+        flex-direction: row;
+        border-bottom: solid 1px var(--main-fg-color);
+        overflow: hidden;
+        padding-left: 2px;
+    }
+
+        .tab-panel > .tabs > button {
+            border: none;
+            border-top-left-radius: 10%;
+            border-top-right-radius: 10%;
+            pointer-events: initial;
+            background-color: var(--main-bg-color);
+            color: var(--main-fg-color);
+            z-index: 0;
+        }
+
+            .tab-panel > .tabs > button.btn[disabled] {
+                box-shadow: var(--box-shadow-color) 0 -5px 10px;
+                background-color: var(--main-fg-color);
+                color: var(--main-bg-color);
+                opacity: 1;
+                z-index: 1;
+            }
