@@ -88,7 +88,7 @@ export class DeviceDialog extends DialogBox {
 
         elementApply(this.contentArea,
             paddingRight("2em"),
-            this.properties = new PropertyList(
+            this.properties = PropertyList.create(
                 group(CAM_GROUP,
                     ["Webcams",
                         this.webcamSelector = Select(

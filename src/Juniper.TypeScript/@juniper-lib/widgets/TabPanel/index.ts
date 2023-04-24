@@ -1,7 +1,6 @@
-import { Attr, className } from "@juniper-lib/dom/attrs";
+import { Attr, className, customData, id } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
-import { onClick } from "@juniper-lib/dom/evts";
-import { ButtonSmall, Div, Elements, elementSetClass, elementSetDisplay, ErsatzElement, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
+import { ButtonSmall, Div, Elements, ErsatzElement, elementApply, elementSetClass, elementSetDisplay, getElements, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
@@ -35,7 +34,7 @@ function isViewDef<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp 
     return !isRule(obj);
 }
 
-export class TabPanel<TabNames>
+export class TabPanel<TabNames extends string>
     extends TypedEventBase<TabPanelEvents<TabNames>>
     implements ErsatzElement<HTMLElement> {
     private readonly views = new Map<TabNames, TabPanelView>();
@@ -43,38 +42,44 @@ export class TabPanel<TabNames>
     private curTab: TabNames = null;
     private _disabled = false;
 
-    readonly element: HTMLElement;
+    public static find() {
+        return Array.from(TabPanel._find());
+    }
 
-    constructor(...entries: (TabPanelEntry<TabNames> | CssElementStyleProp | Attr)[]) {
-        super();
+    private static *_find() {
+        for (const elem of getElements(".tab-panel")) {
+            yield new TabPanel(elem);
+        }
+    }
 
+    public static create<TabNames extends string>(...entries: (TabPanelEntry<TabNames> | CssElementStyleProp | Attr)[]): TabPanel<TabNames> {
         const rules = entries.filter(isRule);
         const viewDefs = entries.filter(isViewDef);
+        const viewsByName = new Map<TabNames, TabPanelView>();
 
         let firstName: TabNames = null;
         for (const viewDef of viewDefs) {
             const [name, label, panel] = viewDef;
+            const panelName = customData("panelname", name);
             if (isNullOrUndefined(firstName)) {
                 firstName = name;
             }
             const elem = resolveElement<HTMLElement>(panel);
             const displayType = elem.style.display as CSSDisplayValue;
-            this.views.set(name, {
+            elementApply(panel, id(name));
+            viewsByName.set(name, {
                 panel,
                 displayType,
                 button: ButtonSmall(
                     label,
-                    onClick(() => {
-                        this.select(name);
-                        this.dispatchEvent(new TabPanelTabSelectedEvent(name));
-                    })
+                    panelName
                 )
             });
         }
 
-        const views = Array.from(this.views.values());
+        const views = Array.from(viewsByName.values());
 
-        this.element = Div(
+        return new TabPanel<TabNames>(Div(
             className("tab-panel"),
             ...rules,
             Div(
@@ -85,10 +90,42 @@ export class TabPanel<TabNames>
                 className("panels"),
                 ...views.map(p => p.panel)
             )
+        ));
+    }
+
+    constructor(public readonly element: HTMLElement) {
+        super();
+
+        let counter = 0;
+        const btns: [string, HTMLButtonElement][] = [...element.querySelectorAll<HTMLButtonElement>(".tabs > button")]
+            .map(btn => [btn.dataset.panelname || `tab${++counter}`, btn]);
+        const buttons = new Map<string, HTMLButtonElement>(btns);
+
+        counter = 0;
+        const panels = new Map<string, HTMLElement>(
+            [...element.querySelectorAll<HTMLElement>(".panels > *")]
+                .map(panel => [panel.id || `tab${++counter}`, panel])
         );
 
-        if (firstName) {
-            this.select(firstName);
+        for (const [name, button] of buttons) {
+            const panel = panels.get(name);
+            button.addEventListener("click", () => {
+                this.select(name as TabNames);
+                this.dispatchEvent(new TabPanelTabSelectedEvent(name));
+            });
+            let displayType = panel.style.display as CSSDisplayValue;
+            if (displayType = "none") {
+                displayType = null;
+            }
+            this.views.set(name as TabNames, {
+                button,
+                displayType,
+                panel
+            });
+        }
+
+        if (btns.length > 0) {
+            this.select(btns[0][0] as TabNames);
         }
     }
 

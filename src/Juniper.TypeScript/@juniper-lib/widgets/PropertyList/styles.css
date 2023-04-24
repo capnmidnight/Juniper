@@ -1,9 +1,10 @@
 dl.properties {
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-column-gap: 0.25em;
+    grid-column-gap: 0.75em;
     margin-bottom: 0;
 }
+
 
     dl.properties.disabled {
         color: silver;
@@ -14,30 +15,30 @@ dl.properties {
         text-align: right;
     }
 
-    dl.properties > dt.single-item {
-        display: none;
-    }
+        dl.properties > dt.single-item {
+            display: none;
+        }
 
         dl.properties > dt > label {
             margin: 0;
             padding: 0;
-            height: 100%;
-            vertical-align: sub;
+            vertical-align: text-bottom;
             white-space: nowrap;
         }
 
     dl.properties > dd {
-        grid-column: 2/-1;
+        grid-column: -2/-1;
         display: grid;
         grid-template-columns: auto;
         margin-bottom: 0;
+        margin-inline-start: 0;
     }
 
-    dl.properties > dd.single-item {
-        grid-column: 1/-1;
-        margin-left: 0;
-        text-align: center;
-    }
+        dl.properties > dd.single-item {
+            grid-column: 1/-1;
+            margin-left: 0;
+            text-align: center;
+        }
 
         dl.properties > dd input[type=number] {
             text-align: right;
@@ -49,4 +50,16 @@ dl.properties {
 
         dl.properties > dd > select {
             height: 30px;
+            width: 100%;
         }
+
+
+@media screen and (max-width: 560px) {
+    dl.properties {
+        grid-template-columns: 1fr;
+    }
+
+        dl.properties > dt {
+            text-align: left;
+        }
+}

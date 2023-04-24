@@ -144,7 +144,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         this.element = Div(
             className("tree-view"),
             ...styleProps,
-            this.filters = new PropertyList(
+            this.filters = PropertyList.create(
                 className("tree-view-controls"),
                 ...this.options.additionalProperties
             ),

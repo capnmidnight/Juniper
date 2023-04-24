@@ -15,6 +15,7 @@ import {
     elementIsDisplayed,
     elementSetClass,
     elementSetDisplay,
+    getElements,
     isDisableable,
     resolveElement
 } from "@juniper-lib/dom/tags";
@@ -129,6 +130,16 @@ export class PropertyList
     private readonly groups = new PriorityList<string, Elements<HTMLElement>>();
     private readonly controls = new Array<IDisableable>();
     private _disabled = false;
+
+    public static find() {
+        return Array.from(PropertyList._find());
+    }
+
+    private static *_find() {
+        for (const elem of getElements(".properties")) {
+            yield new PropertyList(elem);
+        }
+    }
 
     public static create(...rest: PropertyDef[]) {
         const props = rest.filter(isPropertyDef);
