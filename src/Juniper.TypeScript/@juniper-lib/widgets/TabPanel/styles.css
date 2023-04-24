@@ -14,9 +14,8 @@
 
     .tab-panel > .tabs > button {
         border: none;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        margin-bottom: -3px;
+        border-top-left-radius: 10%;
+        border-top-right-radius: 10%;
         pointer-events: initial;
         background-color: var(--main-bg-color);
         color: var(--main-fg-color);
@@ -25,21 +24,8 @@
 
         .tab-panel > .tabs > button.btn[disabled] {
             box-shadow: var(--box-shadow-color) 0 -5px 10px;
-            margin-top: -3px;
             background-color: var(--main-fg-color);
             color: var(--main-bg-color);
             opacity: 1;
             z-index: 1;
         }
-
-.tab-panel > .panels {
-    flex-grow: 1;
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
-    border-top: none;
-}
-
-    .tab-panel > .panels > * {
-        grid-area: 1/1/-1/-1;
-    }
