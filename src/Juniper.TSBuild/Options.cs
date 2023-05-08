@@ -2,6 +2,13 @@ namespace Juniper.TSBuild
 {
     record Command(string? Flag, string? Description, Action<bool> Action);
 
+    public enum PublishLevel
+    {
+        Patch,
+        Minor,
+        Major
+    }
+
     class Options
     {
         private string? curAnyArg;
@@ -42,6 +49,15 @@ namespace Juniper.TSBuild
         public bool DeleteTSBuildInfos => flags.Contains(nameof(DeleteTSBuildInfos));
         public bool OpenPackageJsons => flags.Contains(nameof(OpenPackageJsons));
         public bool TypeCheck => flags.Contains(nameof(TypeCheck));
+        public bool Deploy => flags.Contains(nameof(Deploy));
+        public bool PublishPatch => flags.Contains(nameof(PublishPatch));
+        public bool PublishMinor => flags.Contains(nameof(PublishMinor));
+        public bool PublishMajor => flags.Contains(nameof(PublishMajor));
+        public bool Publish => 
+            PublishPatch 
+            || PublishMinor 
+            || PublishMajor;
+
         public bool Build
         {
             get => flags.Contains(nameof(Build));
@@ -62,6 +78,10 @@ namespace Juniper.TSBuild
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
                 new Command("--check", "Type Check", FlagSetter(nameof(TypeCheck))),
                 new Command("--build", "Build", FlagSetter(nameof(Build))),
+                new Command("--publish-patch", "Publish Patch", FlagSetter(nameof(PublishPatch))),
+                new Command("--publish-minor", "Publish Minor", FlagSetter(nameof(PublishMinor))),
+                new Command("--publish-major", "Publish Major", FlagSetter(nameof(PublishMajor))),
+                new Command("--deploy", "Deploy", FlagSetter(nameof(Deploy))),
                 new Command("--audit", "Audit NPM packages", FlagSetter(nameof(NPMAudits))),
                 new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(NPMAuditFixes)))
             };

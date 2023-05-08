@@ -577,6 +577,7 @@ export enum ShaderPrecision {
 }
 
 export enum FrameAndRenderBuffers {
+    BACK = 0x0405,
     RGBA4 = 0x8056,
     RGB5_A1 = 0x8057,
     RGB565 = 0x8D62,

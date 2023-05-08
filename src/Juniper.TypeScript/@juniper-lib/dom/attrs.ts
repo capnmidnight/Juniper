@@ -1,7 +1,7 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
 import { arrayRemove, arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { identity } from "@juniper-lib/tslib/identity";
-import { isDefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { isBoolean, isDefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 /**
  * A setter functor for HTML attributes.
@@ -575,9 +575,15 @@ export function formNoValidate(value: boolean) { return new Attr("formnovalidate
 export function formTarget(value: string) { return new Attr("formtarget", value, false, "button", "input"); }
 
 /**
- * Width of the border to put around an IFrame.
+ * Width of the border to put around an `iframe` tag.
  */
-export function frameBorder(value: string | number) { return new Attr("frameborder", value, false, "iframe"); }
+export function frameBorder(value: string | number | boolean) {
+    if (isBoolean(value)) {
+        value = value ? "yes" : "no";
+    }
+
+    return new Attr("frameborder", value, false, "iframe");
+}
 
 /**
  * IDs of the <th> elements which applies to this element.
@@ -835,17 +841,22 @@ export function sandbox(value: string) { return new Attr("sandbox", value, false
 export function scope(value: string) { return new Attr("scope", value, false, "th"); }
 
 /**
- * The scoped attribute
+ * The scoped attribute for `style` tags.
   **/
 export function scoped(value: boolean) { return new Attr("scoped", value, false, "style"); }
 
 /**
- * Defines a value which will be selected on page load.
+ * The scrolling attribute for `iframe` tags.
+  **/
+export function scrolling(value: boolean) { return new Attr("scrolling", value ? "yes" : "no", false, "iframe") }
+
+/**
+ * Defines an `option` tag which will be selected on page load.
   **/
 export function selected(value: boolean) { return new Attr("selected", value, false, "option"); }
 
 /**
- * The shape attribute
+ * The shape attribute for `a` and `area` tags.
   **/
 export function shape(value: string) { return new Attr("shape", value, false, "a", "area"); }
 

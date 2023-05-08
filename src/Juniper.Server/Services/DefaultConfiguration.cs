@@ -39,10 +39,8 @@ namespace Juniper.Services
                 services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
             }
 
-            services.Configure<KestrelServerOptions>(options =>
-            {
-                options.AllowSynchronousIO = false;
-            });
+            services.Configure<KestrelServerOptions>(options => 
+                options.AllowSynchronousIO = false);
 
             services.AddControllersWithViews();
 

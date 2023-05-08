@@ -13,7 +13,7 @@
     "@juniper-types/extra-types": "*"
   },
   "devDependencies": {
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   },
   "repository": {
     "type": "git",

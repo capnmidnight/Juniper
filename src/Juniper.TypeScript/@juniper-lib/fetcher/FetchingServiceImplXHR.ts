@@ -134,7 +134,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         const response = await this.sendNothingGetSomething("blob", request, progress);
         const blob = response.content;
         return using(await createImageBitmap(blob, {
-            imageOrientation: "none"
+            imageOrientation: "from-image"
         }), (img) => {
             canvas.width = img.width;
             canvas.height = img.height;

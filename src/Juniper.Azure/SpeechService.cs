@@ -96,10 +96,8 @@ namespace Juniper.Azure
             {
                 using var synth = new SpeechSynthesizer(speechConfig, audioConfig);
 
-                synth.VisemeReceived += (object sender, SpeechSynthesisVisemeEventArgs e) =>
-                {
+                synth.VisemeReceived += (object sender, SpeechSynthesisVisemeEventArgs e) => 
                     visemes.Add(new Viseme(e.VisemeId, e.AudioOffset / 10000000f));
-                };
 
                 using var synthResult = await synth.SpeakSsmlAsync(new SsmlDocument
                 {

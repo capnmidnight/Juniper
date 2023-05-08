@@ -2,8 +2,10 @@ import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
 import { build, context } from "esbuild";
 import * as fs from "fs";
 import * as path from "path";
-import { isNullOrUndefined } from "util";
 export class Build {
+    get buildType() {
+        return this.isWatch ? "watch" : "build";
+    }
     constructor(args, buildWorkers) {
         this.buildWorkers = buildWorkers;
         this.browserEntries = new Array();
@@ -16,9 +18,6 @@ export class Build {
         this.outbase = "src";
         this.outDirName = "wwwroot/js/";
         this.isWatch = args.indexOf("--watch") !== -1;
-    }
-    get buildType() {
-        return this.isWatch ? "watch" : "build";
     }
     entryName(name) {
         this.entryNames = name;
@@ -48,18 +47,20 @@ export class Build {
         this.globalExternals[packageName] = info;
         return this;
     }
-    addThreeJS() {
-        const threeJS = fs.readFileSync("node_modules/three/build/three.module.js", { encoding: "utf8" });
-        const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
-        const namedExports = match[1]
-            .replace(/\b\w+\s+as\s+/g, "")
-            .split(',')
-            .map(v => v.trim());
-        this.globalExternal("three", {
-            varName: "THREE",
-            namedExports,
-            defaultExport: false
-        });
+    addThreeJS(enabled) {
+        if (enabled) {
+            const threeJS = fs.readFileSync("node_modules/three/build/three.module.js", { encoding: "utf8" });
+            const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
+            const namedExports = match[1]
+                .replace(/\b\w+\s+as\s+/g, "")
+                .split(',')
+                .map(v => v.trim());
+            this.globalExternal("three", {
+                varName: "THREE",
+                namedExports,
+                defaultExport: false
+            });
+        }
         return this;
     }
     bundle(name) {
@@ -180,7 +181,7 @@ function hasIndexFile(parent, dir) {
     }
     const fileName = path.join(parent, dir.name);
     const results = LS(fileName);
-    if (isNullOrUndefined(results)) {
+    if (!results) {
         return false;
     }
     const [_, files] = results;

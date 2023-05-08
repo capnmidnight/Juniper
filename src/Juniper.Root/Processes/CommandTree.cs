@@ -13,9 +13,20 @@ namespace Juniper.Processes
 
         public IEnumerable<IEnumerable<ICommand>> Tree => commandTree;
 
+        public ICommandTree AddMessage(string format, params object[] args)
+        {
+            return AddCommands(new MessageCommand(format, args));
+        }
+
         public ICommandTree AddCommands(params ICommand[] commands)
         {
             commandTree.Add(commands);
+            return this;
+        }
+
+        public ICommandTree AddCommands(Action<ICommandTree> addCommands)
+        {
+            addCommands(this);
             return this;
         }
 

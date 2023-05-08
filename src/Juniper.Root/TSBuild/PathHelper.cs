@@ -1,22 +1,5 @@
-namespace Juniper.TSBuild
+﻿namespace Juniper.TSBuild
 {
-    public struct BuildSystemDependency
-    {
-        public string Name { get; set; }
-        public string[] From { get; set; }
-        public string[] To { get; set; }
-    }
-
-    public class BuildSystemOptions
-    {
-        public DirectoryInfo[] CleanDirs;
-        public string InProjectName;
-        public string OutProjectName;
-        public Dictionary<string, (FileInfo From, FileInfo To)> Dependencies;
-        public Dictionary<string, (FileInfo From, FileInfo To)> OptionalDependencies;
-        public (string Name, string Version, string Reason)[] BannedDependencies;
-    }
-
     public class PathHelper
     {
         public PathHelper(DirectoryInfo juniperDir, DirectoryInfo nodeModules)
@@ -29,10 +12,6 @@ namespace Juniper.TSBuild
             Audios = Assets.CD("Audio");
             Models = Assets.CD("Models");
             StarTrekAudios = Audios.CD("Star Trek");
-
-            var threeJsIn = nodeModules.CD("three", "build");
-            ThreeJsBundle = threeJsIn.Touch("three.js");
-            ThreeJsMinBundle = threeJsIn.Touch("three.min.js");
 
             var pdfJsIn = nodeModules.CD("pdfjs-dist", "build");
             PDFJSWorkerBundle = pdfJsIn.Touch("pdf.worker.js");
@@ -80,8 +59,6 @@ namespace Juniper.TSBuild
         public DirectoryInfo NodeModules { get; }
         public DirectoryInfo StarTrekAudios { get; }
 
-        public FileInfo ThreeJsBundle { get; }
-        public FileInfo ThreeJsMinBundle { get; }
         public FileInfo PDFJSWorkerBundle { get; }
         public FileInfo PDFJSWorkerMap { get; }
         public FileInfo PDFJSWorkerMinBundle { get; }

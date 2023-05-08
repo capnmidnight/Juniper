@@ -4,9 +4,6 @@ interface HTMLMediaElement {
     mozHasAudio?: boolean;
     webkitAudioDecodedByteCount?: number;
     audioTracks?: unknown[];
-    preservesPitch?: boolean;
-    mozPreservesPitch?: boolean;
-    webkitPreservesPitch?: boolean;
     captureStream?: () => MediaStream;
     mozCaptureStream?: () => MediaStream;
 }

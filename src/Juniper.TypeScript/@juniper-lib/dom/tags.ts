@@ -226,7 +226,8 @@ export interface IDisableable {
 }
 
 export function isDisableable(obj: any): obj is IDisableable {
-    return "disabled" in obj
+    return isObject(obj)
+        && "disabled" in obj
         && isBoolean(obj.disabled);
 }
 

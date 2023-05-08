@@ -2,7 +2,6 @@ import { globalExternals, ModuleInfo } from "@fal-works/esbuild-plugin-global-ex
 import { build, Plugin, context, BuildOptions } from "esbuild";
 import * as fs from "fs";
 import * as path from "path";
-import { isNullOrUndefined } from "util";
 
 
 type Define = [string, string];
@@ -68,19 +67,21 @@ export class Build {
         return this;
     }
 
-    addThreeJS() {
-        const threeJS = fs.readFileSync("node_modules/three/build/three.module.js", { encoding: "utf8" });
-        const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
-        const namedExports = match[1]
-            .replace(/\b\w+\s+as\s+/g, "")
-            .split(',')
-            .map(v => v.trim());
+    addThreeJS(enabled: boolean) {
+        if (enabled) {
+            const threeJS = fs.readFileSync("node_modules/three/build/three.module.js", { encoding: "utf8" });
+            const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
+            const namedExports = match[1]
+                .replace(/\b\w+\s+as\s+/g, "")
+                .split(',')
+                .map(v => v.trim());
 
-        this.globalExternal("three", {
-            varName: "THREE",
-            namedExports,
-            defaultExport: false
-        });
+            this.globalExternal("three", {
+                varName: "THREE",
+                namedExports,
+                defaultExport: false
+            });
+        }
         return this;
     }
 
@@ -224,7 +225,7 @@ function hasIndexFile(parent: string, dir: fs.Dirent) {
 
     const fileName = path.join(parent, dir.name);
     const results = LS(fileName);
-    if (isNullOrUndefined(results)) {
+    if (!results) {
         return false;
     }
 

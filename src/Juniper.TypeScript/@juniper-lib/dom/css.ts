@@ -332,11 +332,11 @@ export function rule(selector: string, ...props: CssElementStyleProp[]) {
     return new CssElementStylePropSet(selector, props);
 }
 
-export function alignItems(v: CSSGlobalValue | CSSAlignItemsValue) { return new CssElementStyleProp("alignItems", v); }
+export function alignItems(v: CSSGlobalValue | CSSJustifyAlignValue) { return new CssElementStyleProp("alignItems", v); }
 
-export function alignContent(v: CSSGlobalValue | CSSAlignContentValue) { return new CssElementStyleProp("alignContent", v); }
+export function alignContent(v: CSSGlobalValue | CSSJustifyAlignContentValue) { return new CssElementStyleProp("alignContent", v); }
 
-export function alignSelf(v: CSSGlobalValue | CSSAlignSelfValue) { return new CssElementStyleProp("alignSelf", v); }
+export function alignSelf(v: CSSGlobalValue | CSSJustifyAlignSelfValue) { return new CssElementStyleProp("alignSelf", v); }
 
 export function all(v: CSSGlobalValue) { return new CssElementStyleProp("all", v); }
 
@@ -824,11 +824,11 @@ export function inlineSize(v: string) { return new CssElementStyleProp("inlineSi
 
 export function isolation(v: string) { return new CssElementStyleProp("isolation", v); }
 
-export function justifyContent(v: string) { return new CssElementStyleProp("justifyContent", v); }
+export function justifyContent(v: CSSGlobalValue | CSSJustifyAlignContentValue ) { return new CssElementStyleProp("justifyContent", v); }
 
-export function justifyItems(v: string) { return new CssElementStyleProp("justifyItems", v); }
+export function justifyItems(v: CSSGlobalValue | CSSJustifyItemsValue) { return new CssElementStyleProp("justifyItems", v); }
 
-export function justifySelf(v: string) { return new CssElementStyleProp("justifySelf", v); }
+export function justifySelf(v: CSSGlobalValue | CSSJustifyAlignSelfValue) { return new CssElementStyleProp("justifySelf", v); }
 
 export function left(v: CSSElementPositionValue) { return new CssElementStyleProp("left", v); }
 

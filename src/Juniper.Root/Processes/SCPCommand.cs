@@ -45,6 +45,11 @@ should not be used and is only offered to support legacy devices.")]
         {
         }
 
+        public SCPFileSpec(DirectoryInfo directory)
+            : this(directory.FullName)
+        {
+        }
+
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -111,7 +116,7 @@ should not be used and is only offered to support legacy devices.")]
 
         public FileInfo? IdentityFile { get; set; }
 
-        public string? SSHOption { get; set; }
+        public (string, string)[]? SSHOptions { get; set; }
 
         public int? LimitKilobitsPerSecond { get; set; }
 
@@ -128,6 +133,10 @@ should not be used and is only offered to support legacy devices.")]
         {
             Source = source;
         }
+
+        public SCPOptions(DirectoryInfo source)
+            : this(new SCPFileSpec(source))
+        { }
     }
 
     public class SCPCommand : ShellCommand
@@ -147,6 +156,12 @@ should not be used and is only offered to support legacy devices.")]
             {
                 if (args is null || value is null)
                 {
+                    return true;
+                }
+                else if (flag == "o" && value is (string, string)[] tuples)
+                {
+                    args.AddRange(tuples
+                        .Select(t => $"-o{t.Item1}={t.Item2}"));
                     return true;
                 }
                 else if (value is not bool)
@@ -190,7 +205,7 @@ should not be used and is only offered to support legacy devices.")]
             optAdd("P", options.Port);
             optAdd("c", options.Cipher);
             optAdd("F", options.SSHConfig?.FullName?.QuotePath());
-            optAdd("o", options.SSHOption);
+            optAdd("o", options.SSHOptions);
             optAdd("l", options.LimitKilobitsPerSecond);
             optAdd("i", options.IdentityFile?.FullName?.QuotePath());
 
@@ -204,14 +219,16 @@ should not be used and is only offered to support legacy devices.")]
             return args.ToArray();
         }
 
-        public SCPCommand(SCPOptions options)
+        public SCPCommand(string name, SCPOptions options)
             : base("scp", CreateArgs(options))
         {
+            CommandName = name;
         }
 
-        public SCPCommand(DirectoryInfo? workingDir, SCPOptions options)
+        public SCPCommand(string name, DirectoryInfo? workingDir, SCPOptions options)
             : base(workingDir, "scp", CreateArgs(options))
         {
+            CommandName = name;
         }
     }
 }

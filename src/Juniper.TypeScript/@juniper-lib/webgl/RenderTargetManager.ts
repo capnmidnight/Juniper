@@ -139,7 +139,9 @@ export class RenderTargetManager implements IDisposable {
                 this.gl,
                 from,
                 to,
-                to instanceof FrameBufferCanvas ? this.gl.BACK : this.gl.COLOR_ATTACHMENT0
+                to instanceof FrameBufferCanvas
+                    ? this.gl.BACK
+                    : this.gl.COLOR_ATTACHMENT0
             ));
         }
     }

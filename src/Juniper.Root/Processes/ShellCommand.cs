@@ -98,6 +98,8 @@ namespace Juniper.Processes
         private readonly bool calledFromCurrentDirectory;
         protected readonly DirectoryInfo workingDir;
 
+        public string Arguments => args.ToArray().Join(' ');
+
         private bool running;
 
         public bool LoadWindowsUserProfile { get; set; }
@@ -134,6 +136,15 @@ namespace Juniper.Processes
             this.args = args;
         }
 
+        public ICommand InSubShell() =>
+            new ShellCommand(workingDir,
+                "pwsh",
+                "-Command",
+                $"\"{command} {Arguments.Replace("\"", "`\"").ReplaceLineEndings("`n")}\"")
+                {
+                    CommandName = CommandName
+                };
+
         public override async Task RunAsync()
         {
             if (running)
@@ -151,7 +162,7 @@ namespace Juniper.Processes
             var startInfo = new ProcessStartInfo(command)
             {
                 WorkingDirectory = calledFromCurrentDirectory ? null : workingDir.FullName,
-                Arguments = args.ToArray().Join(' '),
+                Arguments = Arguments,
                 StandardErrorEncoding = Encoding,
                 StandardInputEncoding = Encoding,
                 StandardOutputEncoding = Encoding,

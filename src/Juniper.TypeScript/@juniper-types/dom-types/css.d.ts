@@ -349,32 +349,6 @@ type CSSSizePropertyValue =
     | "fit-content"
     | CSSCalcStatement;
 
-type CSSAlignItemsValue =
-    | "center"
-    | "start"
-    | "end"
-    | "flex-start"
-    | "flex-end"
-    | "normal"
-    | "baseline"
-    | "first baseline"
-    | "last baseline"
-    | "stretch"
-    | "safe center"
-    | "unsafe center";
-
-type CSSAlignContentValue =
-    | CSSAlignItemsValue
-    | "space-between"
-    | "space-around"
-    | "space-evenly";
-
-type CSSAlignSelfValue =
-    | CSSAlignItemsValue
-    | "auto"
-    | "self-start"
-    | "self-end";
-
 type CSSAlignmentBaselineValue =
     | "auto"
     | "baseline"
@@ -681,6 +655,43 @@ type CSSGridTemplateTrackValue =
     | CSSFunction<"fit-content", CSSLengthPercentage>
     | CSSFunction<"repeat", `${number | "auto-fill" | "auto-fit"}, ${string}`>
     | "subgrid";
+
+type CSSJustifyAlignValue =
+    | "center"
+    | "start"
+    | "end"
+    | "flex-start"
+    | "flex-end"
+    | "left"
+    | "right"
+    | "normal"
+    | "stretch"
+    | "safe center"
+    | "unsafe center";
+
+type CSSJustifyAlignContentValue =
+    | CSSJustifyAlignValue
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+
+type CSSJustifyAlignItemsContentValue =
+    | CSSJustifyAlignValue
+    | "self-start"
+    | "self-end"
+    | "baseline"
+    | "first baseline"
+    | "last baseline";
+
+type CSSJustifyItemsValue =
+    | CSSJustifyAlignItemsContentValue
+    | "legacy right"
+    | "legacy left"
+    | "legacy center";
+
+type CSSJustifyAlignSelfValue =
+    | CSSJustifyAlignItemsContentValue
+    | "auto";
 
 type CSSMediaQueryTypeValue =
     | "all"

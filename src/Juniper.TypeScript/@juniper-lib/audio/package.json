@@ -11,10 +11,10 @@
     "@juniper-lib/fetcher": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-types/dom-types": "*",
-    "@types/dom-mediacapture-record": "1.0.14",
+    "@types/dom-mediacapture-record": "1.0.16",
     "gl-matrix": "3.4.3"
   },
   "devDependencies": {
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   }
 }

@@ -89,6 +89,19 @@ namespace Juniper.TSBuild
                     {
                         await build.TypeCheckAsync();
                     }
+                    else if (opts.Publish)
+                    {
+                        await build.PublishAsync(
+                            opts.PublishPatch
+                                ? PublishLevel.Patch
+                                : opts.PublishMinor
+                                    ? PublishLevel.Minor
+                                    : PublishLevel.Major);
+                    }
+                    else if (opts.Deploy)
+                    {
+                        await build.DeployAsync();
+                    }
                     else if (!opts.Finished || opts.Build)
                     {
                         await build.BuildAsync();
@@ -114,6 +127,7 @@ namespace Juniper.TSBuild
         private readonly DirectoryInfo juniperTsDir;
         private readonly FileInfo projectPackage;
         private readonly FileInfo projectAppSettings;
+        private readonly DeploymentOptions? deployment;
 
         private readonly Dictionary<FileInfo, (string, FileInfo, bool)> dependencies = new();
         private readonly Dictionary<string, (string, string)> mapFileReplacements = new();
@@ -164,6 +178,16 @@ namespace Juniper.TSBuild
 
             projectPackage = inProjectDir.Touch("package.json");
             projectAppSettings = outProjectDir.Touch("appsettings.json");
+
+            if (options.Deployment is not null)
+            {
+                deployment = new DeploymentOptions(
+                    options.Deployment.HostName,
+                    options.Deployment.UserName,
+                    options.Deployment.KeyFile,
+                    options.Deployment.RemoteDirName,
+                    options.Deployment.RemoteServiceName ?? options.Deployment.RemoteDirName);
+            }
 
             hasNPM = ShellCommand.IsAvailable("npm");
 
@@ -509,6 +533,138 @@ namespace Juniper.TSBuild
                 )));
         }
 
+        private DirectoryInfo[] GetProjectESBuildDirectories() =>
+            ESBuildProjects.Where(dir => dir == inProjectDir).ToArray();
+
+        private async Task PublishAsync(PublishLevel publishLevel)
+        {
+            var deployDir = outProjectDir.CD("..", "deploy", "linux");
+            if (!deployDir.Exists)
+            {
+                deployDir.Create();
+            }
+
+            var projES = GetProjectESBuildDirectories();
+            var hasProjES = projES.Any();
+            Version? version = null;
+            if (hasProjES)
+            {
+                var packageJSON = inProjectDir.Touch("package.json");
+                var versionStr = await CopyJsonValueCommand.ReadJsonValueAsync(packageJSON, "version");
+                if (Version.TryParse(versionStr, out version))
+                {
+                    version = new Version(
+                        version.Major + (publishLevel == PublishLevel.Major ? 1 : 0),
+                        version.Minor + (publishLevel == PublishLevel.Minor ? 1 : 0),
+                        version.Build + (publishLevel == PublishLevel.Patch ? 1 : 0)
+                    );
+                }
+            }
+
+            await WithCommandTree(commands =>
+            {
+                commands.AddMessage($"Starting publish: {publishLevel}");
+
+                if (hasProjES)
+                {
+                    commands.AddCommands(new ShellCommand(inProjectDir,
+                        "npm",
+                        "version",
+                        publishLevel.ToString().ToLowerInvariant()));
+                }
+
+                commands
+                    .AddCommands(GetBuildCommands)
+                    .AddCommands(new ShellCommand(outProjectDir,
+                        "dotnet",
+                        "publish",
+                        "--configuration Release",
+                        "--no-self-contained",
+                        "--runtime linux-x64",
+                        "--output", deployDir.FullName))
+                    .AddCommands(GetDeployCommands);
+
+                if (hasProjES)
+                {
+                    var message = version?.ToString() ?? "Deploy";
+                    commands
+                        .AddCommands(new ShellCommand(outProjectDir,
+                            "git",
+                            "add",
+                            "-A"))
+                        .AddCommands(new ShellCommand(outProjectDir,
+                            "git",
+                            "commit",
+                            "-m", message))
+                        .AddCommands(new ShellCommand(outProjectDir,
+                            "git",
+                            "push",
+                            "--recurse-submodules=on-demand",
+                            "--progress"));
+                }
+            });
+        }
+
+        private Task DeployAsync() =>
+            WithCommandTree(GetDeployCommands);
+
+        private void GetDeployCommands(ICommandTree commands)
+        {
+            if (deployment is null)
+            {
+                commands.AddMessage($"No deployment defined!");
+            }
+            else
+            {
+                var deployDir = outProjectDir.CD("..", "deploy", "linux");
+                if (!deployDir.Exists)
+                {
+                    deployDir.Create();
+                }
+
+                commands.AddMessage($"Starting deploying");
+
+                var ssh = SSHCommand.WithAuth(
+                    deployment.KeyFile,
+                    deployment.UserName,
+                    deployment.HostName);
+
+                commands
+                    .AddCommands(ssh(
+                        "Clean remote", 
+                        $@"rm -rf ~/bin/{deployment.RemoteDirName}.old/
+rm -rf ~/bin/{deployment.RemoteDirName}.new/
+mkdir ~/bin/{deployment.RemoteDirName}.new/ ~/bin/{deployment.RemoteDirName}.new/certs/").InSubShell())
+                    .AddMessage("# SCP")
+                    .AddCommands(new SCPCommand("SCP", new SCPOptions(deployDir)
+                        {
+                            EnableCompression = true,
+                            RecursivelyCopyDirectories = true,
+                            BatchMode = true,
+                            IdentityFile = deployment.KeyFile,
+                            Target = new SCPFileSpec(
+                                deployment.UserName,
+                                deployment.HostName,
+                                $"~/bin/{deployment.RemoteDirName}.new")
+                        }).InSubShell())
+                    .AddCommands(ssh(
+                        "Enable execution", 
+                        $@"chmod 700 ~/bin/{deployment.RemoteDirName}.new/{deployment.RemoteServiceName}
+
+# Copy the Let's Encrypt certificates
+for certfile in cert.pem chain.pem fullchain.pem privkey.pem ; do
+	sudo cp -L /etc/letsencrypt/live/{deployment.HostName}/""${{certfile}}"" ~/bin/{deployment.RemoteDirName}.new/certs/""${{certfile}}""
+	sudo chown {deployment.UserName}:{deployment.UserName} ~/bin/{deployment.RemoteDirName}.new/certs/""${{certfile}}""
+done
+
+# Backup the old and put in the new
+sudo systemctl stop {deployment.RemoteServiceName}
+mv ~/bin/{deployment.RemoteDirName}/ ~/bin/{deployment.RemoteDirName}.old/
+mv ~/bin/{deployment.RemoteDirName}.new/ ~/bin/{deployment.RemoteDirName}/
+sudo systemctl start {deployment.RemoteServiceName}").InSubShell());
+            }
+        }
+
         private CopyCommand[] GetDependecies() =>
             dependencies
                 .Select(kv =>
@@ -518,33 +674,32 @@ namespace Juniper.TSBuild
                 )
                 .ToArray();
 
-        private async Task BuildAsync()
+        private Task BuildAsync() =>
+            WithCommandTree(GetBuildCommands);
+
+        private void GetBuildCommands(ICommandTree commands)
         {
             var copyCommands = GetDependecies();
+            var projES = GetProjectESBuildDirectories();
 
-            await WithCommandTree(commands =>
+            commands
+                .AddMessage("Starting build")
+                .AddCommands(GetCleanCommands())
+                .AddCommands(GetInstallCommands())
+                .AddCommands(copyCommands);
+
+            if (projES.Length > 0)
             {
-                var projES = ESBuildProjects.Where(dir => dir == inProjectDir).ToArray();
+                commands.AddCommands(TryMake(
+                    projES,
+                    dir => new ShellCommand(dir, "npm", "run", "build")
+                ));
+            }
 
-                commands
-                    .AddCommands(new MessageCommand("Starting build"))
-                    .AddCommands(GetCleanCommands())
-                    .AddCommands(GetInstallCommands())
-                    .AddCommands(copyCommands);
-
-                if (projES.Length > 0)
-                {
-                    commands.AddCommands(TryMake(
-                        projES,
-                        dir => new ShellCommand(dir, "npm", "run", "build")
-                    ));
-                }
-
-                commands.AddCommands(
-                    new CopyJsonValueCommand(
-                        projectPackage, "version",
-                        projectAppSettings, "Version"));
-            });
+            commands.AddCommands(
+                new CopyJsonValueCommand(
+                    projectPackage, "version",
+                    projectAppSettings, "Version"));
         }
 
         public void Watch()
@@ -569,7 +724,7 @@ namespace Juniper.TSBuild
             await WithCommandTree(commands =>
             {
                 commands
-                    .AddCommands(new MessageCommand("Starting watch"))
+                    .AddMessage("Starting watch")
                     .AddCommands(GetCleanCommands())
                     .AddCommands(GetInstallCommands())
                     .AddCommands(copyCommands);

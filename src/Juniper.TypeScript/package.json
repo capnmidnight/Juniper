@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   },
   "workspaces": [
     "@juniper-lib/*",

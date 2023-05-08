@@ -3,7 +3,7 @@ namespace Juniper.Processes
 {
     public abstract class AbstractCommand : ICommand
     {
-        public string CommandName { get; private set; }
+        public string CommandName { get; protected set; }
 
         public event EventHandler<StringEventArgs>? Info;
         public event EventHandler<StringEventArgs>? Warning;
