@@ -2400,8 +2400,8 @@ namespace Juniper.Units
         /// <returns></returns>
         public static string Abbreviate(this UnitOfMeasure unit)
         {
-            return Abbreviations.ContainsKey(unit)
-                ? Abbreviations[unit]
+            return Abbreviations.TryGetValue(unit, out string value) 
+                ? value 
                 : string.Empty;
         }
 
