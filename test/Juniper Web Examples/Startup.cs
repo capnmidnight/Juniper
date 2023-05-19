@@ -19,7 +19,7 @@ namespace Juniper.Examples
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        BuildSystem build;
+        BuildSystem? build;
         public void ConfigureServices(IServiceCollection services)
         {
             var config = new DefaultConfiguration.Options();
@@ -30,14 +30,9 @@ namespace Juniper.Examples
             {
                 try
                 {
-                    build = new BuildSystem("Juniper Web Examples", new BuildSystemOptions
-                    {
-                        IncludeThreeJS = true,
-                        IncludeFetcher = true,
-                        IncludEnvironment = true
-                    });
+                    build = new BuildSystem(BuildConfig.GetBuildConfig());
 
-                    build.Watch().Wait();
+                    build.WatchAsync().Wait();
                 }
                 catch (BuildSystemProjectRootNotFoundException exp)
                 {
@@ -61,7 +56,7 @@ namespace Juniper.Examples
                 app.UseIPBanList("::ffff:10.20.22.108");
             }
 
-            app.ConfigureRequestPipeline(env, config, Program.ports)
+            app.ConfigureRequestPipeline(env, config, logger, Program.ports)
                 .UseHttpLogging();
         }
     }

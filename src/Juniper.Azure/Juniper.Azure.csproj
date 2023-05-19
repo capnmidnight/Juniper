@@ -12,6 +12,5 @@
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.28.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 </Project>
