@@ -13,6 +13,7 @@ export class Build {
         this.plugins = new Array();
         this.defines = new Array();
         this.externals = new Array();
+        this.manualOptionsChanges = new Array();
         this.globalExternals = {};
         this.entryNames = "[dir]/[name]";
         this.outbase = "src";
@@ -83,6 +84,10 @@ export class Build {
         const entryPoints = findEntries(...dirs);
         return this.bundles(...entryPoints);
     }
+    manually(thunk) {
+        this.manualOptionsChanges.push(thunk);
+        return this;
+    }
     async run() {
         const start = Date.now();
         const tasks = [
@@ -139,6 +144,9 @@ export class Build {
             legalComments: "none",
             treeShaking: true,
         };
+        for (const alterer of this.manualOptionsChanges) {
+            alterer(opts);
+        }
         if (!this.isWatch) {
             await build(opts);
         }

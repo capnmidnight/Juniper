@@ -7,7 +7,7 @@ import * as path from "path";
 type Define = [string, string];
 type DefineFactory = (minify: boolean) => Define;
 type DefMap = { [key: string]: string };
-
+type OptionAlterer = (opts: BuildOptions) => void;
 type PluginFactory = (minify: boolean) => Plugin;
 
 export class Build {
@@ -16,6 +16,7 @@ export class Build {
     private readonly plugins = new Array<PluginFactory>();
     private readonly defines = new Array<DefineFactory>();
     private readonly externals = new Array<string>();
+    private readonly manualOptionsChanges = new Array<OptionAlterer>();
     private readonly globalExternals: Record<string, ModuleInfo> = {};
 
     private readonly isWatch: boolean;
@@ -108,6 +109,11 @@ export class Build {
         return this.bundles(...entryPoints);
     }
 
+    manually(thunk: OptionAlterer): this {
+        this.manualOptionsChanges.push(thunk);
+        return this;
+    }
+
     async run() {
         const start = Date.now();
 
@@ -172,6 +178,10 @@ export class Build {
             legalComments: "none",
             treeShaking: true,
         };
+
+        for (const alterer of this.manualOptionsChanges) {
+            alterer(opts);
+        }
 
         if (!this.isWatch) {
             await build(opts);
