@@ -1,4 +1,4 @@
-import type { IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import type { GeometryDescription, VertexComponent, VertexComponentDesc } from "./geometry/GeometryDescription";
 import { Attrib } from "./managed/object/Attrib";
 import { BufferArray, BufferElementArray } from "./managed/resource/Buffer";
@@ -38,8 +38,8 @@ export class Geometry implements IDisposable {
     private disposed = false;
     dispose(): void {
         if (!this.disposed) {
-            this.idxBuffer.dispose();
-            this.vertBuffer.dispose();
+            dispose(this.idxBuffer);
+            dispose(this.vertBuffer);
             this.disposed = true;
         }
     }

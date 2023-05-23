@@ -8,6 +8,7 @@ import { JuniperMediaStreamAudioDestinationNode } from "./context/JuniperMediaSt
 import { JuniperMediaStreamAudioSourceNode } from "./context/JuniperMediaStreamAudioSourceNode";
 import { DeviceSettingsChangedEvent, IDeviceSource } from "./DeviceManager";
 import { StreamChangedEvent } from "./StreamChangedEvent";
+import { dispose } from "@juniper-lib/tslib/using";
 
 
 const PREFERRED_AUDIO_INPUT_ID_KEY = "calla:preferredAudioInputID";
@@ -128,7 +129,7 @@ export class LocalUserMicrophone extends BaseNodeCluster<{
         if (mediaStream !== this.inStream) {
             if (this.localStreamNode) {
                 this.remove(this.localStreamNode);
-                this.localStreamNode.dispose();
+                dispose(this.localStreamNode);
                 this.localStreamNode = null;
             }
 

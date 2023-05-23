@@ -8,6 +8,7 @@ import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
 import type { Application, ApplicationConstructor, ApplicationModule } from "./Application";
 import type { Environment } from "./Environment";
+import { dispose } from "@juniper-lib/tslib/using";
 
 class ApplicationLoaderEvent<T extends string> extends TypedEvent<T> {
     constructor(type: T, public readonly appName: string) {
@@ -191,7 +192,7 @@ export class ApplicationLoader
         const app = this.currentApps.get(name);
         setTimeout(() =>
             app.clearEventListeners(), 100);
-        app.dispose();
+        dispose(app);
         this.currentApps.delete(name);
         this.loadingApps.delete(name);
     }

@@ -1,7 +1,8 @@
 ﻿import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { dispose } from "@juniper-lib/tslib/using";
+import { IAudioNode } from "../IAudioNode";
 import { JuniperAudioBufferSourceNode } from "../context/JuniperAudioBufferSourceNode";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
-import { IAudioNode } from "../IAudioNode";
 import { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { AudioSourceAddedEvent, AudioSourceEvents } from "./AudioStreamSource";
 import { BaseAudioSource } from "./BaseAudioSource";
@@ -24,7 +25,7 @@ export class AudioBufferSource extends BaseAudioSource<AudioSourceEvents> {
         if (buffer !== this.buffer) {
             if (isDefined(this.buffer)) {
                 this.remove(this._node);
-                this._node.dispose();
+                dispose(this._node);
                 this._node = null;
             }
 

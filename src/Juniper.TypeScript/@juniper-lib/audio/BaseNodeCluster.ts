@@ -2,6 +2,7 @@ import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
 import { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
 import { BaseNode } from "./BaseNode";
 import { IAudioNode, IAudioParam, isIAudioNode } from "./IAudioNode";
+import { dispose } from "@juniper-lib/tslib/using";
 
 export abstract class BaseNodeCluster<EventsT = void>
     extends BaseNode<EventsT>
@@ -50,7 +51,7 @@ export abstract class BaseNodeCluster<EventsT = void>
     }
 
     protected override onDisposing() {
-        this.allNodes.forEach(node => node.dispose());
+        this.allNodes.forEach(dispose);
         super.onDisposing();
     }
 

@@ -6,6 +6,7 @@ import { JuniperMediaStreamAudioSourceNode } from "../context/JuniperMediaStream
 import { IAudioNode } from "../IAudioNode";
 import type { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { BaseAudioSource } from "./BaseAudioSource";
+import { dispose } from "@juniper-lib/tslib/using";
 
 export class AudioSourceAddedEvent extends TypedEvent<"sourceadded"> {
     constructor(public readonly source: IAudioNode) {
@@ -34,7 +35,7 @@ export class AudioStreamSource extends BaseAudioSource<AudioSourceEvents> {
         if (mediaStream !== this.stream) {
             if (isDefined(this.stream)) {
                 this.remove(this._node);
-                this._node.dispose();
+                dispose(this._node);
                 this._node = null;
             }
 

@@ -1,7 +1,7 @@
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { WorkerClient } from "./WorkerClient";
 import type { FullWorkerClientOptions } from "./WorkerClientOptions";
 
@@ -64,9 +64,7 @@ export class WorkerPool<EventsT, WorkerClientT extends WorkerClient<EventsT>>
     }
 
     dispose() {
-        for (const worker of this.workers) {
-            worker.dispose();
-        }
+        this.workers.forEach(dispose);
         arrayClear(this.workers);
     }
 

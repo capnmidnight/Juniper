@@ -1,4 +1,4 @@
-import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper-lib/dom/canvas";
+import { CanvasImageTypes, CanvasTypes, Context2D, dispose } from "@juniper-lib/dom/canvas";
 import { createUtilityCanvas } from "@juniper-lib/dom/canvas";
 import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/CubeMapFaceIndex";
 import { Pi } from "@juniper-lib/tslib/math";
@@ -268,7 +268,7 @@ export class Skybox {
                 else if (this.layer) {
                     this.env.removeWebXRLayer(this.layer);
                     this.layer.removeEventListener("redraw", this.onNeedsRedraw);
-                    this.layer.destroy();
+                    dispose(this.layer);
                     this.layer = null;
                 }
 

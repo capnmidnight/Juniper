@@ -116,7 +116,7 @@ class TrashHeap implements IDisposable {
 
     dispose() {
         for (const obj of this.objs) {
-            obj.dispose();
+            dispose(obj);
         }
     }
 

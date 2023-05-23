@@ -1,6 +1,6 @@
 import { bump } from "@juniper-lib/graphics2d/animation/tween";
 import { singleton } from "@juniper-lib/tslib/singleton";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { Object3D, Vector3 } from "three";
 import { RayTarget } from "../eventSystem/RayTarget";
 import { objectResolve, Objects } from "../objects";
@@ -100,7 +100,7 @@ export function removeScaledObj(obj: Object3D) {
     const state = scaledItems.get(obj);
     if (state) {
         scaledItems.delete(obj);
-        state.dispose();
+        dispose(state);
     }
 }
 
@@ -112,7 +112,7 @@ export function scaleOnHover(target: RayTarget<any>, enabled: boolean) {
         }
         else {
             const scaler = scaledItems.get(target);
-            scaler.dispose();
+            dispose(scaler);
             scaledItems.delete(target);
         }
     }

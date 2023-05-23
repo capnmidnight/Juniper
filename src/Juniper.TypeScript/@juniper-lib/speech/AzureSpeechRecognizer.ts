@@ -2,7 +2,7 @@ import { ActivityDetector } from "@juniper-lib/audio/ActivityDetector";
 import { AudioRecordingNode, BlobAvailableEvent } from "@juniper-lib/audio/AudioRecordingNode";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { identity } from "@juniper-lib/tslib/identity";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { AudioConfig, AutoDetectSourceLanguageConfig, ProfanityOption, RecognitionEventArgs, Recognizer, ResultReason, SessionEventArgs, SpeechConfig, SpeechRecognitionCanceledEventArgs, SpeechRecognitionEventArgs, SpeechRecognitionResult, SpeechRecognizer } from "microsoft-cognitiveservices-speech-sdk";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 import { SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent } from "./ISpeechRecognizer";
@@ -111,7 +111,7 @@ export class AzureSpeechRecognizer
         const wasStarted = this.started;
 
         if (this.recognizer) {
-            this.recognizer.close();
+            dispose(this.recognizer);
             this.recognizer = null;
         }
 
@@ -166,11 +166,11 @@ export class AzureSpeechRecognizer
             this.disposed = true;
 
             if (this.recognizer) {
-                this.recognizer.close();
+                dispose(this.recognizer);
             }
 
-            this.audioConfig.close();
-            this.speechConfig.close();
+            dispose(this.audioConfig);
+            dispose(this.speechConfig);
         }
     }
 

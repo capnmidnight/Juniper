@@ -5,6 +5,7 @@ import { IDisposable } from "@juniper-lib/tslib/using";
 import { Blitter } from "./Blitter";
 import { ClearBits, FrameAndRenderBuffers, FramebufferType } from "./GLEnum";
 import { BaseFrameBuffer, BaseRenderTarget, FrameBufferCanvas, FrameBufferWebXR, FrameBufferWebXRMultisampled, FrameBufferWebXRMultiview, FrameBufferWebXRMultiviewMultisampled } from "./managed/resource/FrameBuffer";
+import { dispose } from "@juniper-lib/dom/canvas";
 
 
 export class RenderTargetManager implements IDisposable {
@@ -45,11 +46,7 @@ export class RenderTargetManager implements IDisposable {
 
     private destroyTargets() {
         arrayClear(this.blitChain);
-
-        for (const target of this.targets) {
-            target.dispose();
-        }
-
+        this.targets.forEach(dispose);
         arrayClear(this.targets);
     }
 

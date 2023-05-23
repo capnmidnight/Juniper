@@ -1,3 +1,4 @@
+import { dispose } from "@juniper-lib/dom/canvas";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { Color, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, MeshPhongMaterial, MeshPhongMaterialParameters, MeshPhysicalMaterial, MeshStandardMaterial, Object3D, ShaderMaterial, ShaderMaterialParameters, SpriteMaterial, SpriteMaterialParameters } from "three";
@@ -87,7 +88,7 @@ export function convertMaterials<OldMatT extends Material, NewMatT extends Mater
     });
 
     for (const oldMat of oldMats) {
-        oldMat.dispose();
+        dispose(oldMat);
     }
 }
 

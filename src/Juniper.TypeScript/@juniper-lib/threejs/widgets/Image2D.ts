@@ -1,4 +1,4 @@
-import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
+import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, dispose, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { arrayCompare, arrayScan } from "@juniper-lib/tslib/collections/arrays";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { inches2Meters, meters2Inches } from "@juniper-lib/tslib/units/length";
@@ -180,7 +180,7 @@ export class Image2D
             const layer = this.layer;
             this.layer = null;
 
-            setTimeout(() => layer.destroy(), 100);
+            setTimeout(() => dispose(layer), 100);
         }
 
     }

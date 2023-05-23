@@ -8,6 +8,7 @@ import { effectStore } from "../effects";
 import { Pose } from "../Pose";
 import { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { IAudioSource } from "./IAudioSource";
+import { dispose } from "@juniper-lib/tslib/using";
 
 export abstract class BaseAudioSource<EventTypeT = void>
     extends BaseNodeCluster<EventTypeT>
@@ -47,7 +48,7 @@ export abstract class BaseAudioSource<EventTypeT = void>
 
         for (const effect of this.effects) {
             this.remove(effect);
-            effect.dispose();
+            dispose(effect);
         }
 
         arrayClear(this.effects);

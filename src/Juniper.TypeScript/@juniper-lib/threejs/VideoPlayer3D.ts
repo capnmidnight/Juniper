@@ -142,7 +142,7 @@ export class VideoPlayer3D
             vidMesh.webXRLayerType = "dynamic";
             vidMesh.visible = true;
             if (vidMesh.mesh.geometry !== geom) {
-                vidMesh.mesh.geometry.dispose();
+                cleanup(vidMesh.mesh.geometry);
                 vidMesh.mesh.geometry = geom;
             }
         }

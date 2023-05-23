@@ -4,6 +4,7 @@ import { Task } from "@juniper-lib/tslib/events/Task";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { htmlHeight, htmlWidth, src } from "./attrs";
 import { Canvas, Img } from "./tags";
+import { dispose as disposeOld } from "@juniper-lib/tslib/using";
 
 export type CanvasTypes = HTMLCanvasElement | OffscreenCanvas;
 export type CanvasImageTypes = HTMLImageElement | HTMLCanvasElement | OffscreenCanvas | ImageBitmap;
@@ -326,4 +327,13 @@ export async function snapshot(canvas: CanvasTypes): Promise<CanvasTypes> {
     const copy = createUtilityCanvas(canvas.width, canvas.height);
     drawImageToCanvas(copy, canvas);
     return copy;
+}
+
+export function dispose(val: any) {
+    if (isCanvas(val)) {
+        val.width = val.height = 0;
+    }
+    else {
+        disposeOld(val);
+    }
 }

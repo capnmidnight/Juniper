@@ -5,7 +5,7 @@ import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { WindowQuitEventer } from "@juniper-lib/tslib/events/WindowQuitEventer";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import "webrtc-adapter";
 import {
@@ -61,9 +61,7 @@ Object.assign(window, {
             return sockets;
         },
         kill: () => {
-            for (const socket of sockets) {
-                socket.close();
-            }
+            sockets.forEach(dispose);
         }
     }
 });
@@ -203,7 +201,7 @@ export class TeleconferenceManager
             this.leave();
             this.disconnect();
             this.windowQuitter.removeScope(this);
-            this.remoteGainDecay.dispose();
+            dispose(this.remoteGainDecay);
             this.disposed = true;
         }
     }
@@ -449,7 +447,7 @@ export class TeleconferenceManager
 
     private removeUser(user: RemoteUser): void {
         if (isDefined(user)) {
-            user.dispose();
+            dispose(user);
             this.users.delete(user.userID);
             if (this.users.size === 0) {
                 this.remoteGainDecay.stop();

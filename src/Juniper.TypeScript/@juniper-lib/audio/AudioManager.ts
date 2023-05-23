@@ -15,7 +15,7 @@ import { isIOS, isMobileVR } from "@juniper-lib/tslib/flags";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined, isString } from "@juniper-lib/tslib/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "./context/JuniperMediaElementAudioSourceNode";
@@ -420,7 +420,7 @@ export class AudioManager
         const source = sources.get(id);
         if (isDefined(source)) {
             sources.delete(id);
-            source.dispose();
+            dispose(source);
         }
         return source;
     }
@@ -440,7 +440,7 @@ export class AudioManager
      **/
     removeClip(id: string): AudioElementSource {
         const clip = this.removeSource(this.clips, id);
-        clip.dispose();
+        dispose(clip);
         return clip;
     }
 

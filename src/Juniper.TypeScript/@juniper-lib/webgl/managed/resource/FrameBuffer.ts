@@ -1,4 +1,4 @@
-import { CanvasTypes } from "@juniper-lib/dom/canvas";
+import { CanvasTypes, dispose } from "@juniper-lib/dom/canvas";
 import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
@@ -115,7 +115,7 @@ export abstract class BaseFrameBuffer extends BaseRenderTarget {
 
     override onDisposing() {
         for (const obj of this.attachmentsByLocation.values()) {
-            obj.dispose();
+            dispose(obj);
         }
         this.attachmentsByLocation.clear();
         arrayClear(this.attachments);

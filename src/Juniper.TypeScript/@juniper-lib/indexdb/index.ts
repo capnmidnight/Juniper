@@ -5,7 +5,7 @@ import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
 import { once, success } from "@juniper-lib/tslib/events/once";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { isArray, isDefined, isString } from "@juniper-lib/tslib/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { dispose, IDisposable } from "@juniper-lib/tslib/using";
 
 export interface IDexDBIndexDef<T = any> {
     name: string;
@@ -120,7 +120,7 @@ export class IDexDB implements IDisposable {
                 await transacted;
             }
 
-            db.close();
+            dispose(db);
         }
         else {
             version = 0;
@@ -205,7 +205,7 @@ export class IDexDB implements IDisposable {
     }
 
     dispose() {
-        this.db.close();
+        dispose(this.db);
     }
 
     get name() {

@@ -1,5 +1,6 @@
 import { isPowerOf2 } from "@juniper-lib/tslib/math";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
+import { dispose } from "@juniper-lib/dom/canvas";
 
 export class BaseTexture extends ManagedWebGLResource<WebGLTexture> {
     constructor(gl: WebGL2RenderingContext,
@@ -44,9 +45,7 @@ export class TextureImage extends BaseTexture {
 
     protected override onDisposing(): void {
         super.onDisposing();
-        if (this.image instanceof ImageBitmap) {
-            this.image.close();
-        }
+        dispose(this.image);
     }
 }
 

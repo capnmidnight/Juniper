@@ -25,6 +25,7 @@ import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
 import { convertMaterials, materialStandardToPhong } from "./materials";
 import { obj, objGraph } from "./objects";
+import { dispose } from "@juniper-lib/tslib/using";
 
 export const HANDEDNESSES: XRHandedness[] = [
     "none",
@@ -230,7 +231,7 @@ export abstract class BaseTele extends Application {
         this.env.eventSys.removeScope(this);
         this.env.removeScope(this);
         this.conference.removeScope(this);
-        this.conference.dispose();
+        dispose(this.conference);
     }
 
     protected hiding() {

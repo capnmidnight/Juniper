@@ -7,7 +7,7 @@ import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { FWD, HalfPi } from "@juniper-lib/tslib/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { UserChatEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
@@ -211,7 +211,7 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
         }
 
         this.activity.stop();
-        this.activity.dispose();
+        dispose(this.activity);
     }
 
     get isInstructor() {

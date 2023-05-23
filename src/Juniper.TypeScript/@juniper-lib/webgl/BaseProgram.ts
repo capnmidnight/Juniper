@@ -1,5 +1,5 @@
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import type { IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { ShaderFragment, ShaderVertex } from "./managed/resource/Shader";
 import { ShaderProgram } from "./managed/resource/ShaderProgram";
 
@@ -16,7 +16,7 @@ export abstract class BaseProgram implements IDisposable {
             this.program = new ShaderProgram(gl, this.vertShader, this.fragShader);
         }
         catch (exp) {
-            this.dispose();
+            dispose(this);
             throw exp;
         }
     }
@@ -33,17 +33,17 @@ export abstract class BaseProgram implements IDisposable {
     dispose(): void {
         if (!this.disposed) {
             if (isDefined(this.program)) {
-                this.program.dispose();
+                dispose(this.program);
                 this.program = null;
             }
 
             if (isDefined(this.vertShader)) {
-                this.vertShader.dispose();
+                dispose(this.vertShader);
                 this.vertShader = null;
             }
 
             if (isDefined(this.fragShader)) {
-                this.fragShader.dispose();
+                dispose(this.fragShader);
                 this.fragShader = null;
             }
 

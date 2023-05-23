@@ -5,7 +5,7 @@ import { Image_Jpeg } from "@juniper-lib/mediatypes";
 import { deg2rad, HalfPi, Pi } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { progressOfArray } from "@juniper-lib/tslib/progress/progressOfArray";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { dispose, IDisposable } from "@juniper-lib/tslib/using";
 import { AmbientLight, DoubleSide, Euler, Group, MeshBasicMaterial, PerspectiveCamera, PlaneGeometry, Scene, Texture, WebGLRenderer } from "three";
 import { cleanup } from "./cleanup";
 import { mesh, objGraph } from "./objects";
@@ -96,7 +96,7 @@ export abstract class PhotosphereRig
         for (const child of this.scene.children) {
             cleanup(child);
         }
-        this.renderer.dispose();
+        dispose(this.renderer);
     }
 
     protected async renderFaces(getImagePath: getImagePathCallback, level: PhotosphereCaptureResolution, progress: IProgress): Promise<string[]> {

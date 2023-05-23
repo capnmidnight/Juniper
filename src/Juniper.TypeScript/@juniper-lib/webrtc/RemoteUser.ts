@@ -2,7 +2,7 @@ import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/tslib/collectio
 import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
 import { Task } from "@juniper-lib/tslib/events/Task";
 import { isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/using";
+import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { UserChatEvent, UserLeftEvent, UserStateEvent } from "./ConferenceEvents";
 
 class Locker<T> {
@@ -230,7 +230,7 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
     dispose() {
         if (!this.disposed) {
             if (this.channel) {
-                this.channel.close();
+                dispose(this.channel);
                 this.channel = null;
             }
 
@@ -240,7 +240,7 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
 
             arrayClear(this.transceivers);
 
-            this.connection.close();
+            dispose(this.connection);
 
             this.disposed = true;
         }

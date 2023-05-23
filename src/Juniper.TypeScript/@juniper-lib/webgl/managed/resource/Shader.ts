@@ -1,3 +1,4 @@
+import { dispose } from "@juniper-lib/tslib/using";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
 import type { ShaderProgram } from "./ShaderProgram";
 
@@ -28,7 +29,7 @@ export class Shader extends ManagedWebGLResource<WebGLShader> {
         if (!this.getParameter(gl.COMPILE_STATUS)) {
             const errorMessage = `${this.getInfoLog() || "Unknown error"}
 ${this.getSource()}`;
-            this.dispose();
+            dispose(this);
             throw new Error(errorMessage);
         }
     }

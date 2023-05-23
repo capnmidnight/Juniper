@@ -1,5 +1,5 @@
+import { dispose } from "@juniper-lib/dom/canvas";
 import { isArray } from "@juniper-lib/tslib/typeChecks";
-import { dispose } from "@juniper-lib/tslib/using";
 import { removeScaledObj } from "./animation/scaleOnHover";
 
 export function cleanup(obj: any) {
