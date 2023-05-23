@@ -9,7 +9,7 @@ import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
-import { AmbientLight, Color, DirectionalLight, GridHelper, Group, PerspectiveCamera, Scene, Vector4, WebGLRenderTarget, WebGLRenderer, WebXRArrayCamera } from "three";
+import { AmbientLight, Color, ColorManagement, DirectionalLight, GridHelper, Group, LinearSRGBColorSpace, PerspectiveCamera, SRGBColorSpace, Scene, Vector4, WebGLRenderTarget, WebGLRenderer, WebXRArrayCamera } from "three";
 import { AssetGltfModel } from "../../AssetGltfModel";
 import { AvatarLocal } from "../../AvatarLocal";
 import { Fader } from "../../Fader";
@@ -119,6 +119,8 @@ export class BaseEnvironment<Events = unknown>
         this.renderer.domElement.setAttribute("touch-action", "none");
         this.renderer.domElement.tabIndex = 1;
 
+        this.useNewColorModel = false;
+
         if (isHTMLCanvas(canvas)) {
             this.screenControl = new ScreenControl(
                 this.renderer,
@@ -184,6 +186,17 @@ export class BaseEnvironment<Events = unknown>
         this._start();
 
         (globalThis as any).env = this;
+    }
+
+    get useNewColorModel(): boolean {
+        return ColorManagement.enabled;
+    }
+
+    set useNewColorModel(enabled: boolean) {
+        this.renderer.outputColorSpace = enabled
+            ? SRGBColorSpace
+            : LinearSRGBColorSpace;
+        ColorManagement.enabled = enabled;
     }
 
     private async _start() {
