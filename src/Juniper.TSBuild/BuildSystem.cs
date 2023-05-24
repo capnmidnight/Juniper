@@ -27,20 +27,14 @@ namespace Juniper.TSBuild
             return string.Format("\u001b[{0}m{1}:\u001b[0m {2}", color, tag, format);
         }
 
-        static void WriteError(string format, params object[] values)
-        {
+        static void WriteError(string format, params object[] values) =>
             Console.Error.WriteLine(Colorize("error", 31, format, values));
-        }
 
-        static void WriteInfo(string format, params object[] values)
-        {
+        static void WriteInfo(string format, params object[] values) =>
             Console.WriteLine(Colorize("info", 32, format, values));
-        }
 
-        static void WriteWarning(string format, params object[] values)
-        {
+        static void WriteWarning(string format, params object[] values) =>
             Console.WriteLine(Colorize("warn", 33, format, values));
-        }
 
         public static async Task Run(BuildSystemOptions options, string[] args)
         {
@@ -389,25 +383,20 @@ namespace Juniper.TSBuild
             }
         }
 
-        private void DeleteNodeModuleDirs()
-        {
+        private void DeleteNodeModuleDirs() =>
             DeleteDirectories(FindAllNodeModulesDirs());
-        }
 
-        private IEnumerable<DirectoryInfo> FindAllNodeModulesDirs()
-        {
-            return FindDirectories("node_modules", inProjectDir, outProjectDir, juniperTsDir);
-        }
+        private IEnumerable<DirectoryInfo> FindAllNodeModulesDirs() =>
+            FindDirectories("node_modules", inProjectDir, outProjectDir, juniperTsDir);
 
-        private void DeletePackageLockJsons()
-        {
-            DeleteFiles(FindFiles("package-lock.json", inProjectDir, outProjectDir, juniperTsDir));
-        }
+        private void DeletePackageLockJsons() =>
+            DeleteFiles(FindFiles("package-lock.json"));
 
-        private void DeleteTSBuildInfos()
-        {
-            DeleteFiles(FindFiles("tsconfig.tsbuildinfo", inProjectDir, outProjectDir, juniperTsDir));
-        }
+        private void DeleteTSBuildInfos() =>
+            DeleteFiles(FindFiles("tsconfig.tsbuildinfo"));
+
+        private IEnumerable<FileInfo> FindFiles(string name) =>
+            FindFiles(name, inProjectDir, outProjectDir, juniperTsDir);
 
         private static IEnumerable<FileInfo> FindFiles(string name, params DirectoryInfo[] dirs)
         {
@@ -460,35 +449,27 @@ namespace Juniper.TSBuild
             }
         }
 
-        private IEnumerable<T> TryMake<V, T>(IEnumerable<V> collection, Func<V, T> make) where T : class
-        {
-            return collection
+        private IEnumerable<T> TryMake<V, T>(IEnumerable<V> collection, Func<V, T> make) where T : class =>
+            collection
                 .Select(dir => TryMake(() => make(dir)))
                 .Where(t => t is not null)
                 .Cast<T>();
-        }
 
-        private IEnumerable<DeleteDirectoryCommand> GetCleanCommands()
-        {
-            return TryMake(
+        private IEnumerable<DeleteDirectoryCommand> GetCleanCommands() =>
+            TryMake(
                 cleanDirs,
                 dir => new DeleteDirectoryCommand(dir)
             );
-        }
 
-        private IEnumerable<NPMInstallCommand> GetInstallCommands()
-        {
-            return TryMake(
+        private IEnumerable<NPMInstallCommand> GetInstallCommands() =>
+            TryMake(
                 NPMProjects,
                 dir => new NPMInstallCommand(dir, true)
             );
-        }
 
-        private async Task NPMInstallsAsync()
-        {
-            await WithCommandTree(commands =>
+        private Task NPMInstallsAsync() =>
+            WithCommandTree(commands =>
                 commands.AddCommands(GetInstallCommands()));
-        }
 
         private async Task NPMAuditsAsync()
         {
@@ -500,14 +481,12 @@ namespace Juniper.TSBuild
             await ValidateDependencies();
         }
 
-        private async Task NPMAuditFixesAsync()
-        {
-            await WithCommandTree(commands =>
+        private Task NPMAuditFixesAsync() =>
+            WithCommandTree(commands =>
                 commands.AddCommands(TryMake(
                     NPMProjects,
                     dir => new ShellCommand(dir, "npm", "audit fix")
                 )));
-        }
 
         private async Task OpenPackageJsonsAsync()
         {
@@ -521,9 +500,8 @@ namespace Juniper.TSBuild
                 )));
         }
 
-        private async Task TypeCheckAsync()
-        {
-            await WithCommandTree(commands =>
+        private Task TypeCheckAsync() =>
+            WithCommandTree(commands =>
                 commands.AddCommands(TryMake(
                     NPMProjects,
                     dir =>
@@ -531,7 +509,6 @@ namespace Juniper.TSBuild
                             ? new ShellCommand(dir, "npm", "run", "check")
                             : new ShellCommand(dir, "npm", "run", "check", "--workspaces", "--if-present")
                 )));
-        }
 
         private DirectoryInfo[] GetProjectESBuildDirectories() =>
             ESBuildProjects.Where(dir => dir == inProjectDir).ToArray();
@@ -702,10 +679,8 @@ sudo systemctl start {deployment.RemoteServiceName}").InSubShell());
                     projectAppSettings, "Version"));
         }
 
-        public void Watch()
-        {
+        public void Watch() =>
             WatchAsync().Wait();
-        }
 
         public async Task WatchAsync()
         {
