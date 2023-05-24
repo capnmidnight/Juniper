@@ -270,12 +270,6 @@ namespace Juniper.TSBuild
             return this;
         }
 
-        private IEnumerable<DirectoryInfo> JuniperSubNPMProjects => juniperTsDir
-            .EnumerateDirectories()
-            .Where(dir => dir.Name.StartsWith("@juniper"))
-            .SelectMany(dir => dir.EnumerateDirectories())
-            .Where(dir => dir.Touch("package.json").Exists);
-
         private (string Name, string Version, string Reason)[]? BannedDependencies { get; }
 
         private async Task WithCommandTree(Action<CommandTree> buildTree)
@@ -488,17 +482,12 @@ namespace Juniper.TSBuild
                     dir => new ShellCommand(dir, "npm", "audit fix")
                 )));
 
-        private async Task OpenPackageJsonsAsync()
-        {
-            await WithCommandTree(commands =>
+        private Task OpenPackageJsonsAsync() =>
+            WithCommandTree(commands =>
                 commands.AddCommands(TryMake(
-                    NPMProjects
-                        .Union(JuniperSubNPMProjects)
-                        .Select(dir => dir.Touch("package.json"))
-                        .Where(f => f.Exists),
+                    FindFiles("package.json"),
                     f => new ShellCommand(f.Directory, "explorer", f.Name)
                 )));
-        }
 
         private Task TypeCheckAsync() =>
             WithCommandTree(commands =>
