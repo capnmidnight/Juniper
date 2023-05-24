@@ -9,7 +9,7 @@ import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
 import { TimerTickEvent } from "@juniper-lib/tslib/timers/ITimer";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
-import { AmbientLight, Color, ColorManagement, DirectionalLight, GridHelper, Group, LinearSRGBColorSpace, PerspectiveCamera, SRGBColorSpace, Scene, Vector4, WebGLRenderTarget, WebGLRenderer, WebXRArrayCamera } from "three";
+import { AmbientLight, Color, ColorManagement, DirectionalLight, GridHelper, Group, LinearEncoding, PerspectiveCamera, Scene, Vector4, WebGLRenderTarget, WebGLRenderer, WebXRArrayCamera, sRGBEncoding } from "three";
 import { AssetGltfModel } from "../../AssetGltfModel";
 import { AvatarLocal } from "../../AvatarLocal";
 import { Fader } from "../../Fader";
@@ -185,6 +185,7 @@ export class BaseEnvironment<Events = unknown>
 
         this._start();
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (globalThis as any).env = this;
     }
 
@@ -193,10 +194,17 @@ export class BaseEnvironment<Events = unknown>
     }
 
     set useNewColorModel(enabled: boolean) {
-        this.renderer.outputColorSpace = enabled
-            ? SRGBColorSpace
-            : LinearSRGBColorSpace;
         ColorManagement.enabled = enabled;
+
+        // THREE v0.150
+        this.renderer.outputEncoding = enabled
+            ? sRGBEncoding
+            : LinearEncoding;
+
+        // THREE v0.151+
+        //this.renderer.outputColorSpace = enabled
+        //    ? SRGBColorSpace
+        //    : LinearSRGBColorSpace;
     }
 
     private async _start() {
@@ -302,6 +310,7 @@ export class BaseEnvironment<Events = unknown>
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
     protected preRender(_evt: TimerTickEvent) {
     }
 
@@ -436,7 +445,7 @@ export class BaseEnvironment<Events = unknown>
             assets.push(progOrAsset);
         }
         else {
-            prog = progOrAsset
+            prog = progOrAsset;
         }
 
         const cursor3d = new AssetGltfModel(this, "/models/Cursors.glb", Model_Gltf_Binary, !this.DEBUG);

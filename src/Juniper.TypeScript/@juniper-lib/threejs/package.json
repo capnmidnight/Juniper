@@ -19,12 +19,12 @@
     "@juniper-lib/webrtc": "*",
     "@juniper-lib/widgets": "*",
     "@juniper-types/dom-types": "*",
-    "three": "0.152.2",
+    "three": "0.150.1",
     "webxr-polyfill": "2.0.3"
   },
   "devDependencies": {
     "@types/offscreencanvas": "2019.7.0",
-    "@types/three": "0.152.0",
+    "@types/three": "0.150.2",
     "@types/webxr": "0.5.2"
   }
 }

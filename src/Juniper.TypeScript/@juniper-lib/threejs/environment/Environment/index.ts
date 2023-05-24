@@ -244,7 +244,7 @@ export class Environment
         this.muteCamButton = new ToggleButton(this.uiButtons, "media", "play", "pause");
         this.muteEnvAudioButton = new ToggleButton(this.uiButtons, "environment-audio", "mute", "unmute");
         this.muteEnvAudioButton.active = true;
-        this.audio.ready.then(() => this.muteEnvAudioButton.active = false)
+        this.audio.ready.then(() => this.muteEnvAudioButton.active = false);
 
         this.vrButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.VR);
         this.fullscreenButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.Fullscreen);
@@ -328,7 +328,7 @@ export class Environment
         this.xrUI.addItem(this.statsImage, { x: -1, y: 0.95, height: 0.1 });
         this.xrUI.addItem(this.confirmationDialog, { x: 0, y: 0, scale: 0.25 });
         this.xrUI.addItem(this.menuButton, { x: -1, y: -1, scale: 0.5 });
-        this.xrUI.addItem(this.infoLabel, { x: 0, y: -1.125, scale: 0.5 })
+        this.xrUI.addItem(this.infoLabel, { x: 0, y: -1.125, scale: 0.5 });
         this.xrUI.addItem(this.vrButton, { x: 1, y: -1, scale: 0.5 });
         this.xrUI.addItem(this.arButton, { x: 1, y: -1, scale: 0.5 });
 
@@ -499,7 +499,7 @@ export class Environment
             prog = this.loadingBar;
         }
         else {
-            prog = progOrAsset
+            prog = progOrAsset;
         }
 
         if (isHTMLCanvas(this.renderer.domElement)) {
