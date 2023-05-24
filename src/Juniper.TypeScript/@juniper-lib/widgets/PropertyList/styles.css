@@ -52,14 +52,3 @@ dl.properties {
             height: 30px;
             width: 100%;
         }
-
-
-@media screen and (max-width: 560px) {
-    dl.properties {
-        grid-template-columns: 1fr;
-    }
-
-        dl.properties > dt {
-            text-align: left;
-        }
-}
