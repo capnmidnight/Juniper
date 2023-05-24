@@ -15,8 +15,5 @@
     "@types/offscreencanvas": "2019.7.0",
     "gl-matrix": "3.4.3",
     "pdfjs-dist": "2.16.105"
-  },
-  "devDependencies": {
-    "typescript": "5.0.4"
   }
 }

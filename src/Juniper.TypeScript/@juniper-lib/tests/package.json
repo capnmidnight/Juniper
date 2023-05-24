@@ -17,8 +17,5 @@
     "@juniper-types/indexdb": "*",
     "@types/offscreencanvas": "2019.7.0",
     "gl-matrix": "3.4.3"
-  },
-  "devDependencies": {
-    "typescript": "5.0.4"
   }
 }

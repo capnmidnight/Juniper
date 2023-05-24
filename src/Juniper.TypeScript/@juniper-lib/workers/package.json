@@ -8,8 +8,5 @@
   },
   "dependencies": {
     "@juniper-lib/tslib": "*"
-  },
-  "devDependencies": {
-    "typescript": "5.0.4"
   }
 }

@@ -7,9 +7,6 @@
   "scripts": {
     "check": "tsc --noEmit"
   },
-  "devDependencies": {
-    "typescript": "5.0.4"
-  },
   "repository": {
     "type": "git",
     "url": "github.com/capnmidnight/Juniper"

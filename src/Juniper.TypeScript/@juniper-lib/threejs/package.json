@@ -23,7 +23,6 @@
     "webxr-polyfill": "2.0.3"
   },
   "devDependencies": {
-    "typescript": "5.0.4",
     "@types/offscreencanvas": "2019.7.0",
     "@types/three": "0.152.0",
     "@types/webxr": "0.5.1"

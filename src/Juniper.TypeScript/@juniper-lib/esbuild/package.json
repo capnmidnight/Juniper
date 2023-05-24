@@ -14,7 +14,6 @@
     "esbuild": "0.17.18"
   },
   "devDependencies": {
-    "typescript": "5.0.4",
     "@types/node": "16.18.26"
   },
   "repository": {

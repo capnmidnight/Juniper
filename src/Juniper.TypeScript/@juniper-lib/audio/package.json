@@ -13,8 +13,5 @@
     "@juniper-types/dom-types": "*",
     "@types/dom-mediacapture-record": "1.0.16",
     "gl-matrix": "3.4.3"
-  },
-  "devDependencies": {
-    "typescript": "5.0.4"
   }
 }

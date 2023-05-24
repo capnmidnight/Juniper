@@ -13,8 +13,5 @@
     "@juniper-lib/video": "*",
     "@juniper-types/dom-types": "*",
     "webrtc-adapter": "8.2.2"
-  },
-  "devDependencies": {
-    "typescript": "5.0.4"
   }
 }

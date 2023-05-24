@@ -11,9 +11,6 @@
   "dependencies": {
     "@juniper-lib/tslib": "*"
   },
-  "devDependencies": {
-    "typescript": "5.0.4"
-  },
   "repository": {
     "type": "git",
     "url": "github.com/capnmidnight/Juniper"
