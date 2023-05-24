@@ -6,8 +6,7 @@ import { Task } from "@juniper-lib/tslib/events/Task";
 import "./styles.css";
 
 
-export abstract class DialogBox
-    implements ErsatzElement {
+export abstract class DialogBox implements ErsatzElement {
 
     public readonly element: HTMLDivElement;
 
@@ -35,7 +34,7 @@ export abstract class DialogBox
                     this.confirmButton = ButtonPrimary("Confirm", classList("confirm-button")),
                     this.cancelButton = ButtonSecondary("Cancel", classList("cancel-button")))));
 
-        
+
         this.confirmButton.addEventListener("click", this.task.resolver(true));
         this.cancelButton.addEventListener("click", this.task.resolver(false));
 

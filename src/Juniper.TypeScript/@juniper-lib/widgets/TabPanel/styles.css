@@ -12,7 +12,6 @@
 
         .tab-panel > .panels > * {
             grid-area: 1/1/-1/-1;
-            height: 0;
         }
 
     .tab-panel > .tabs {
