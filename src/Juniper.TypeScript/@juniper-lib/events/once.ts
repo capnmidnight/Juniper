@@ -1,4 +1,3 @@
-import { Exception } from "@juniper-lib/tslib/Exception";
 import { alwaysFalse, alwaysTrue } from "@juniper-lib/tslib/identity";
 import { isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { EventBase, TypedEventBase } from "./EventBase";
@@ -33,12 +32,12 @@ export function once(target: EventTarget, resolveEvt: string, rejectEvtOrTimeout
 
     if (!(target instanceof EventBase)) {
         if (!targetValidateEvent(target, resolveEvt)) {
-            throw new Exception(`Target does not have a ${resolveEvt} rejection event`);
+            throw new Error(`Target does not have a ${resolveEvt} rejection event`);
         }
 
         for (const evt of rejectEvts) {
             if (!targetValidateEvent(target, evt)) {
-                throw new Exception(`Target does not have a ${evt} rejection event`);
+                throw new Error(`Target does not have a ${evt} rejection event`);
             }
         }
     }
@@ -53,7 +52,7 @@ export function once(target: EventTarget, resolveEvt: string, rejectEvtOrTimeout
     const register = (evt: string, callback: (evt: Event) => void) => {
         target.addEventListener(evt, callback);
         task.finally(() => target.removeEventListener(evt, callback));
-    }
+    };
 
     register(resolveEvt, (evt) => task.resolve(evt));
 
@@ -68,4 +67,4 @@ export function once(target: EventTarget, resolveEvt: string, rejectEvtOrTimeout
 export function success<T>(task: Task<T>): Promise<boolean> {
     return task.then(alwaysTrue)
         .catch(alwaysFalse);
-};
+}

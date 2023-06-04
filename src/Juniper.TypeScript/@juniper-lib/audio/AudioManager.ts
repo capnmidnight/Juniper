@@ -1,32 +1,31 @@
+import { arrayClear } from "@juniper-lib/collections/arrays";
 import { controls, loop, src } from "@juniper-lib/dom/attrs";
 import { onEvent } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
-import { Audio, elementApply, ElementChild } from "@juniper-lib/dom/tags";
-import { AssetFile } from "@juniper-lib/fetcher/Asset";
-import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
-import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
-import { arrayClear } from "@juniper-lib/collections/arrays";
-import { all } from "@juniper-lib/events/all";
+import { Audio, ElementChild, elementApply } from "@juniper-lib/dom/tags";
 import { TypedEvent } from "@juniper-lib/events/EventBase";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
-import { Exception } from "@juniper-lib/tslib/Exception";
-import { isIOS, isMobileVR } from "@juniper-lib/tslib/flags";
+import { all } from "@juniper-lib/events/all";
+import { AssetFile } from "@juniper-lib/fetcher/Asset";
+import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
+import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
 import { IProgress } from "@juniper-lib/progress/IProgress";
+import { isIOS, isMobileVR } from "@juniper-lib/tslib/flags";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { BaseNodeCluster } from "./BaseNodeCluster";
+import { IPoseable } from "./IPoseable";
+import { SpeakerManager } from "./SpeakerManager";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "./context/JuniperMediaElementAudioSourceNode";
 import { WebAudioDestination } from "./destinations/WebAudioDestination";
-import { IPoseable } from "./IPoseable";
 import { AudioElementSource } from "./sources/AudioElementSource";
 import { AudioStreamSource } from "./sources/AudioStreamSource";
 import type { IAudioSource } from "./sources/IAudioSource";
 import { BaseSpatializer } from "./spatializers/BaseSpatializer";
 import { NoSpatializer } from "./spatializers/NoSpatializer";
-import { SpeakerManager } from "./SpeakerManager";
 
 type withPoserCallback<T> = (source: IPoseable) => T;
 
@@ -171,7 +170,7 @@ export class AudioManager
 
     private async getPooledAudio(...rest: ElementChild[]): Promise<HTMLAudioElement> {
         if (this.audioPool.length === 0) {
-            throw new Exception("Audio pool exhausted!");
+            throw new Error("Audio pool exhausted!");
         }
 
         const audioTask = this.audioPool.shift();
@@ -196,7 +195,7 @@ export class AudioManager
 
             if (isIOS() && looping) {
                 mediaElement.addEventListener("ended", () =>
-                    mediaElement.play())
+                    mediaElement.play());
             }
 
             const node = new JuniperMediaElementAudioSourceNode(

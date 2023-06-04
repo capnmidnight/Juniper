@@ -1,9 +1,6 @@
-﻿import { Exception } from "../Exception";
-
-
-export function stringRepeat(str: string, count: number, sep = ""): string {
+﻿export function stringRepeat(str: string, count: number, sep = ""): string {
     if (count < 0) {
-        throw new Exception("Can't repeat negative times: " + count);
+        throw new Error("Can't repeat negative times: " + count);
     }
 
     let sb = "";

@@ -1,12 +1,10 @@
-import { Exception } from "../Exception";
-
 export function distance_WagnerFischer_Damerau_Levenshtein(a: string, b: string): number {
     if (!a) {
-        throw new Exception(`Argument ${a} is null`);
+        throw new Error(`Argument ${a} is null`);
     }
 
     if (!b) {
-        throw new Exception(`Argument ${b} is null`);
+        throw new Error(`Argument ${b} is null`);
     }
 
     const m = a.length + 1;
@@ -48,11 +46,11 @@ export function distance_WagnerFischer_Damerau_Levenshtein(a: string, b: string)
 
 export function similarity_WagnerFischerDamerauLevenshtein(a: string, b: string): number {
     if (!a) {
-        throw new Exception(`Argument ${a} is null`);
+        throw new Error(`Argument ${a} is null`);
     }
 
     if (!b) {
-        throw new Exception(`Argument ${b} is null`);
+        throw new Error(`Argument ${b} is null`);
     }
 
     if (a.length < b.length) {
@@ -97,11 +95,11 @@ const WinklerPrefixSize = 4;
 /// <returns></returns>
 export function similarity_JaroWinkler(a: string, b: string): number {
     if (!a) {
-        throw new Exception(`Argument ${a} is null`);
+        throw new Error(`Argument ${a} is null`);
     }
 
     if (!b) {
-        throw new Exception(`Argument ${b} is null`);
+        throw new Error(`Argument ${b} is null`);
     }
 
     if (a.length == 0) {

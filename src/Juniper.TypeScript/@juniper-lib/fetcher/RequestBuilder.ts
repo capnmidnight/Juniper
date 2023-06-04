@@ -1,10 +1,9 @@
 import { rel, type } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { Img, Link, Script } from "@juniper-lib/dom/tags";
-import { Application_Javascript, Application_Json, Application_Wasm, MediaType, Text_Css, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
 import { once } from "@juniper-lib/events/once";
 import { waitFor } from "@juniper-lib/events/waitFor";
-import { Exception } from "@juniper-lib/tslib/Exception";
+import { Application_Javascript, Application_Json, Application_Wasm, MediaType, Text_Css, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { assertNever, isDefined, isFunction, isString } from "@juniper-lib/tslib/typeChecks";
 import { dispose } from "@juniper-lib/tslib/using";
@@ -340,7 +339,7 @@ export class RequestBuilder implements
             return this.fetcher.sendObjectGetNothing(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            throw new Exception("GET requests should expect a response type");
+            throw new Error("GET requests should expect a response type");
         }
         else if (this.method === "HEAD"
             || this.method === "OPTIONS") {

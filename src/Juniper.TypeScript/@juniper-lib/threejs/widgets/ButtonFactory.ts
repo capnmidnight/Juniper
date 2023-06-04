@@ -1,7 +1,7 @@
+import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
 import { CanvasTypes, Context2D, createUICanvas } from "@juniper-lib/dom/canvas";
 import { AssetImage } from "@juniper-lib/fetcher/Asset";
 import { Image_Png } from "@juniper-lib/mediatypes";
-import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { nextPowerOf2 } from "@juniper-lib/tslib/math";
 import { BufferAttribute, CanvasTexture, MeshBasicMaterial, PlaneGeometry, Texture } from "three";
@@ -128,7 +128,7 @@ export class ButtonFactory {
 
         let geom = this.geoms.get(setName, iconName);
         if (!geom) {
-            geom = new PlaneGeometry(1, 1, 1, 1)
+            geom = new PlaneGeometry(1, 1, 1, 1);
             geom.name = `Geometry:${setName}/${iconName}`;
 
             this.geoms.add(setName, iconName, geom);

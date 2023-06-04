@@ -1,10 +1,9 @@
+import { arrayClear, arrayReplace, arraySortedInsert } from "@juniper-lib/collections/arrays";
 import { classList, colSpan, customData } from "@juniper-lib/dom/attrs";
 import { padding, px } from "@juniper-lib/dom/css";
 import { getColumnIndex } from "@juniper-lib/dom/getColumnIndex";
-import { ButtonReset, ButtonSecondaryOutlineSmall, buttonSetEnabled, elementApply, ElementChild, elementClearChildren, elementGetText, elementSetClass, elementSetText, ErsatzElement, Label, Span, Table, TBody, TD, TFoot, TH, THead, TR } from "@juniper-lib/dom/tags";
-import { arrayClear, arrayReplace, arraySortedInsert } from "@juniper-lib/collections/arrays";
+import { ButtonReset, ButtonSecondaryOutlineSmall, ElementChild, ErsatzElement, Label, Span, TBody, TD, TFoot, TH, THead, TR, Table, buttonSetEnabled, elementApply, elementClearChildren, elementGetText, elementSetClass, elementSetText } from "@juniper-lib/dom/tags";
 import { debounce } from "@juniper-lib/events/debounce";
-import { Exception } from "@juniper-lib/tslib/Exception";
 import { identity } from "@juniper-lib/tslib/identity";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import { isDate, isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
@@ -15,10 +14,10 @@ export type HTMLValuedElement = HTMLInputElement | HTMLSelectElement;
 
 function makeDate(value: string): Date {
     if (/^\d{4}-\d\d?-\d\d?$/.test(value)) {
-        var parts = value.split('-');
-        var year = parts.shift();
+        const parts = value.split("-");
+        const year = parts.shift();
         parts.push(year);
-        value = parts.join('/');
+        value = parts.join("/");
     }
     return new Date(value);
 }
@@ -267,7 +266,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
         if (isDefined(this.element.dataset.pagesizes)
             && this.element.dataset.pagesizes.length > 0) {
             const sizes = this.element.dataset.pagesizes
-                .split(',')
+                .split(",")
                 .map(v => parseFloat(v.trim()))
                 .filter(identity);
             this.setPageSizes(sizes);
@@ -279,7 +278,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
 
     setPageSizes(pageSizes: number[]): void {
         if (isNullOrUndefined(pageSizes) || pageSizes.length === 0) {
-            throw new Exception("Need at least one page size");
+            throw new Error("Need at least one page size");
         }
         arrayReplace(this.pageSizes, 0, ...pageSizes);
         this.pageSize = this.pageSizes[1];
@@ -441,7 +440,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
                     if (isDefined(minFilterValue)
                         && isDefined(maxFilterValue)) {
                         matches = cellValues.map(cellValue =>
-                            minFilterValue <= cellValue && cellValue <= maxFilterValue)
+                            minFilterValue <= cellValue && cellValue <= maxFilterValue);
 
                     }
                     else if (isDefined(minFilterValue)) {
@@ -450,7 +449,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
                     }
                     else if (isDefined(maxFilterValue)) {
                         matches = cellValues.map(cellValue =>
-                            cellValue <= maxFilterValue)
+                            cellValue <= maxFilterValue);
                     }
 
                     if (matches) {
@@ -560,7 +559,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
                     this.update();
                 });
             }
-        }
+        };
 
         makePageIndexLink("<", prevPageIndex);
 
@@ -584,7 +583,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
             makeChunk("Items per page:", false);
             for (let i = 1; i < this.pageSizes.length; ++i) {
                 if (this.rows.length > this.pageSizes[i - 1]) {
-                    makePageSizeLink(this.pageSizes[i])
+                    makePageSizeLink(this.pageSizes[i]);
                 }
             }
         }

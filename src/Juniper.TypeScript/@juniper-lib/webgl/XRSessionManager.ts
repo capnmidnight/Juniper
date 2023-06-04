@@ -1,7 +1,6 @@
 import { arrayRemove } from "@juniper-lib/collections/arrays";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { Task } from "@juniper-lib/events/Task";
-import { Exception } from "@juniper-lib/tslib/Exception";
 import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { Camera } from "./Camera";
@@ -52,7 +51,7 @@ export class XRSessionManager extends TypedEventBase<{
                 || (isDefined(frame)
                     && isDefined(baseLayer)
                     && (this._sessionType === "inline"
-                        || isDefined(framebuffer)))
+                        || isDefined(framebuffer)));
 
             if (ready) {
                 if (this.xrSession) {
@@ -163,7 +162,7 @@ export class XRSessionManager extends TypedEventBase<{
 
     private async requestSession(type: XRSessionMode): Promise<XRSession> {
         if (!navigator.xr) {
-            throw new Exception("No webXR");
+            throw new Error("No webXR");
         }
 
         const init: XRSessionInit = {
@@ -203,7 +202,7 @@ export class XRSessionManager extends TypedEventBase<{
                 baseLayer,
                 depthNear: this.cam.near,
                 depthFar: this.cam.far
-            }
+            };
 
             if (type === "inline") {
                 renderState.inlineVerticalFieldOfView = deg2rad(this.cam.fov);

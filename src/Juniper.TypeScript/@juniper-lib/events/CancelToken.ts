@@ -1,5 +1,4 @@
 import { Exception } from "@juniper-lib/tslib/Exception";
-import { IDisposable } from "@juniper-lib/tslib/using";
 
 export class CancelSignalException extends Exception {
     constructor() {
@@ -7,7 +6,7 @@ export class CancelSignalException extends Exception {
     }
 }
 
-export class CancelToken implements IDisposable {
+export class CancelToken {
     private _cancelled = false;
 
     public get cancelled() {
@@ -22,9 +21,5 @@ export class CancelToken implements IDisposable {
 
     cancel() {
         this._cancelled = true;
-    }
-
-    dispose(): void {
-        throw new Error("Method not implemented.");
     }
 }

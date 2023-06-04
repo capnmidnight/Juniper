@@ -2,11 +2,14 @@ import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { DeviceManager } from "@juniper-lib/audio/DeviceManager";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
+import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
 import { id } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { display, em, flexDirection, gap, perc, pointerEvents, transform, width } from "@juniper-lib/dom/css";
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { Div, elementApply } from "@juniper-lib/dom/tags";
+import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { all } from "@juniper-lib/events/all";
 import { AssetFile, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { ArtificialHorizon } from "@juniper-lib/graphics2d/ArtificialHorizon";
@@ -15,25 +18,21 @@ import { BatteryImage } from "@juniper-lib/graphics2d/BatteryImage";
 import { ClockImage } from "@juniper-lib/graphics2d/ClockImage";
 import { StatsImage } from "@juniper-lib/graphics2d/StatsImage";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
-import { SpeechRecognizerFactory } from "@juniper-lib/speech/createSpeechRecognizer";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 import { ISpeechRecognizer } from "@juniper-lib/speech/ISpeechRecognizer";
-import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
-import { all } from "@juniper-lib/events/all";
-import { TypedEvent } from "@juniper-lib/events/EventBase";
-import { Exception } from "@juniper-lib/tslib/Exception";
+import { SpeechRecognizerFactory } from "@juniper-lib/speech/createSpeechRecognizer";
 import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/flags";
 import { rad2deg } from "@juniper-lib/tslib/math";
-import { IProgress } from "@juniper-lib/progress/IProgress";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/constants";
-import { InteractionAudio } from "../../eventSystem/InteractionAudio";
-import { obj, objGraph } from "../../objects";
 import { ScreenMode } from "../../ScreenMode";
 import { ScreenUI } from "../../ScreenUI";
 import { SpaceUI } from "../../SpaceUI";
 import { VideoPlayer3D } from "../../VideoPlayer3D";
 import { Watch } from "../../Watch";
+import { InteractionAudio } from "../../eventSystem/InteractionAudio";
+import { obj, objGraph } from "../../objects";
 import { ButtonFactory } from "../../widgets/ButtonFactory";
 import { ButtonImageWidget } from "../../widgets/ButtonImageWidget";
 import { CanvasImageMesh } from "../../widgets/CanvasImageMesh";
@@ -138,36 +137,36 @@ export class Environment
     constructor(options: EnvironmentOptions) {
 
         if (isNullOrUndefined(options)) {
-            throw new Exception("Options are now required");
+            throw new Error("Options are now required");
         }
 
 
         if (isNullOrUndefined(options.canvas)) {
-            throw new Exception("options.canvas is required");
+            throw new Error("options.canvas is required");
         }
 
         if (isNullOrUndefined(options.fetcher)) {
-            throw new Exception("options.fetcher is required");
+            throw new Error("options.fetcher is required");
         }
 
         if (isNullOrUndefined(options.dialogFontFamily)) {
-            throw new Exception("options.dialogFontFamily is required");
+            throw new Error("options.dialogFontFamily is required");
         }
 
         if (isNullOrUndefined(options.getAppUrl)) {
-            throw new Exception("options.getAppUrl is required");
+            throw new Error("options.getAppUrl is required");
         }
 
         if (isNullOrUndefined(options.uiImagePaths)) {
-            throw new Exception("options.uiImagePaths is required");
+            throw new Error("options.uiImagePaths is required");
         }
 
         if (isNullOrUndefined(options.buttonFillColor)) {
-            throw new Exception("options.buttonFillColor is required");
+            throw new Error("options.buttonFillColor is required");
         }
 
         if (isNullOrUndefined(options.labelFillColor)) {
-            throw new Exception("options.labelFillColor is required");
+            throw new Error("options.labelFillColor is required");
         }
 
         super(

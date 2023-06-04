@@ -1,15 +1,15 @@
+import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
+import { arrayCompare, arrayRemove, arrayReplace } from "@juniper-lib/collections/arrays";
 import { CanvasTypes, Context2D, createUICanvas } from "@juniper-lib/dom/canvas";
 import { AssetImage } from "@juniper-lib/fetcher/Asset";
 import { Image_Png } from "@juniper-lib/mediatypes";
-import { arrayCompare, arrayRemove, arrayReplace } from "@juniper-lib/collections/arrays";
-import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { nextPowerOf2 } from "@juniper-lib/tslib/math";
 import { CanvasTexture, Color, DoubleSide, DynamicDrawUsage, InstancedMesh, MeshBasicMaterial, Object3D, PlaneGeometry, ShaderMaterial, Uniform } from "three";
-import { ErsatzObject, obj, objectIsFullyVisible, objGraph } from "../../objects";
 import { plane } from "../../Plane";
-import fragShader from "./fragment.glsl";
+import { ErsatzObject, obj, objGraph, objectIsFullyVisible } from "../../objects";
 import { InstancedMeshButton } from "./InstancedMeshButton";
+import fragShader from "./fragment.glsl";
 import vertShader from "./vertex.glsl";
 
 const vertexShader = vertShader.replace("#define THREEZ", "");

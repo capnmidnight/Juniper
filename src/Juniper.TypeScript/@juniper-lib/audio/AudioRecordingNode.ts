@@ -1,9 +1,8 @@
+import { arrayClear, arrayScan } from "@juniper-lib/collections/arrays";
+import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { debounce } from "@juniper-lib/events/debounce";
 import { MediaType } from "@juniper-lib/mediatypes";
 import * as allAudioTypes from "@juniper-lib/mediatypes/audio";
-import { arrayClear, arrayScan } from "@juniper-lib/collections/arrays";
-import { debounce } from "@juniper-lib/events/debounce";
-import { TypedEvent } from "@juniper-lib/events/EventBase";
-import { Exception } from "@juniper-lib/tslib/Exception";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { ActivityDetector } from "./ActivityDetector";
 import { BaseNodeCluster } from "./BaseNodeCluster";
@@ -186,7 +185,7 @@ export class AudioRecordingNode
 
     private checkState() {
         if (this.state !== "inactive") {
-            throw new Exception("Cannot change settings while recording. State: " + this.state);
+            throw new Error("Cannot change settings while recording. State: " + this.state);
         }
     }
 
