@@ -1,5 +1,5 @@
-import { Exception } from "./Exception";
-import { IDisposable } from "./using";
+import { Exception } from "@juniper-lib/tslib/Exception";
+import { IDisposable } from "@juniper-lib/tslib/using";
 
 export class CancelSignalException extends Exception {
     constructor() {

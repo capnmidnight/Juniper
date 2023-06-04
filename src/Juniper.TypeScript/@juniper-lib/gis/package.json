@@ -1,0 +1,20 @@
+{
+  "name": "@juniper-lib/gis",
+  "private": false,
+  "version": "1.2.1",
+  "type": "module",
+  "description": "A kitchen sink of features useful in TypeScript projects",
+  "main": "index.ts",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@juniper-lib/tslib": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/capnmidnight/Juniper"
+  },
+  "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
+  "license": "MIT"
+}

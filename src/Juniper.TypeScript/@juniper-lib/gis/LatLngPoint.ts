@@ -1,7 +1,7 @@
+import { rad2deg } from "@juniper-lib/tslib/math";
+import { isNullOrUndefined, isObject } from "@juniper-lib/tslib/typeChecks";
+import { ICloneable } from "@juniper-lib/tslib/using";
 import { vec2, vec3 } from "gl-matrix";
-import { rad2deg } from "../math";
-import { isNullOrUndefined, isObject } from "../typeChecks";
-import { ICloneable } from "../using";
 import { DatumWGS_84 } from "./Datum";
 import { IUTMPoint, UTMPoint } from "./UTMPoint";
 

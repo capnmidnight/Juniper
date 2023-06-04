@@ -10,6 +10,7 @@
     "@juniper-lib/dom": "*",
     "@juniper-lib/events": "*",
     "@juniper-lib/fetcher": "*",
+    "@juniper-lib/gis": "*",
     "@juniper-lib/hax": "*",
     "@juniper-lib/mediatypes": "*",
     "@juniper-lib/testing": "*",

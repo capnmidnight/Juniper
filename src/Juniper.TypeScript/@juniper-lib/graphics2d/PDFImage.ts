@@ -1,16 +1,16 @@
 import { setContextSize } from "@juniper-lib/dom/canvas";
+import { CancelToken } from "@juniper-lib/events/CancelToken";
+import { Task } from "@juniper-lib/events/Task";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
-import { Task } from "@juniper-lib/events/Task";
-import { clamp } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/progress/IProgress";
-import { singleton } from "@juniper-lib/tslib/singleton";
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
+import { clamp } from "@juniper-lib/tslib/math";
+import { singleton } from "@juniper-lib/tslib/singleton";
 import pdfJS from "pdfjs-dist";
 import { version as pdfjsVersion } from "pdfjs-dist/package.json";
 import { GetViewportParameters } from "pdfjs-dist/types/src/display/api";
 import { CanvasImage } from "./CanvasImage";
-import { CancelToken } from "@juniper-lib/tslib/CancelToken";
 
 const pdfReady = singleton("Juniper:PdfReady", () => new Task(false));
 

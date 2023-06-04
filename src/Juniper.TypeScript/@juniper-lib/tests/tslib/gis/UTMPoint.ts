@@ -1,6 +1,6 @@
+import { LatLngPoint } from "@juniper-lib/gis/LatLngPoint";
+import { GlobeHemisphere, UTMPoint } from "@juniper-lib/gis/UTMPoint";
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
-import { LatLngPoint } from "@juniper-lib/tslib/gis/LatLngPoint";
-import { GlobeHemisphere, UTMPoint } from "@juniper-lib/tslib/gis/UTMPoint";
 import { HalfPi } from "@juniper-lib/tslib/math";
 
 const K = 0.00000001;
