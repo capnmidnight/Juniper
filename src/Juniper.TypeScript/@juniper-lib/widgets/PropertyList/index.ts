@@ -19,7 +19,7 @@ import {
     isDisableable,
     resolveElement
 } from "@juniper-lib/dom/tags";
-import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
+import { PriorityList } from "@juniper-lib/collections/PriorityList";
 import { identity } from "@juniper-lib/tslib/identity";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import {

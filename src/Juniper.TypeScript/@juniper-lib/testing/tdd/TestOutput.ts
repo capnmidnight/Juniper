@@ -1,4 +1,4 @@
-import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEventBase } from "@juniper-lib/events/EventBase";
 import { TestCaseConstructor } from "./TestCase";
 import { TestOutputResultsEvent, TestStats } from "./TestOutputResultsEvent";
 import { TestRunner } from "./TestRunner";

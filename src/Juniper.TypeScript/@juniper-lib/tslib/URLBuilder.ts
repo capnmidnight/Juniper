@@ -12,7 +12,7 @@ function parsePort(portString: string): number {
 export class URLBuilder {
     private _url: URL = null;
     private _base: string | URL = undefined;
-    private _protocol: string = null
+    private _protocol: string = null;
     private _host: string = null;
     private _hostName: string = null;
     private _userName: string = null;
@@ -106,7 +106,7 @@ export class URLBuilder {
 
     base(base: string | URL) {
         if (this._url !== null) {
-            throw new Error("Cannot redefine base after defining the protocol and domain")
+            throw new Error("Cannot redefine base after defining the protocol and domain");
         }
 
         this._base = base;
@@ -175,14 +175,14 @@ export class URLBuilder {
     }
 
     pathPop(pattern?: RegExp) {
-        pattern = pattern || /\/[^\/]+\/?$/;
+        pattern = pattern || /\/[^/]+\/?$/;
         return this.path(this._pathName.replace(pattern, ""));
     }
 
     pathPush(part: string) {
         let path = this._pathName;
-        if (!path.endsWith('/')) {
-            path += '/';
+        if (!path.endsWith("/")) {
+            path += "/";
         }
 
         path += part;

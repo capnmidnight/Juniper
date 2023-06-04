@@ -1,4 +1,4 @@
-import { isDefined, isFunction } from "../typeChecks";
+import { isDefined, isFunction } from "@juniper-lib/tslib/typeChecks";
 
 export interface IProgress {
     report(soFar: number, total: number, message?: string, est?: number): void;

@@ -2,7 +2,7 @@ import { DeviceSettingsChangedEvent, IDeviceSource } from "@juniper-lib/audio/De
 import { StreamChangedEvent } from "@juniper-lib/audio/StreamChangedEvent";
 import { muted } from "@juniper-lib/dom/attrs";
 import { ErsatzElement, Video } from "@juniper-lib/dom/tags";
-import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEventBase } from "@juniper-lib/events/EventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
 const PREFERRED_VIDEO_INPUT_ID_KEY = "calla:preferredVideoInputID";

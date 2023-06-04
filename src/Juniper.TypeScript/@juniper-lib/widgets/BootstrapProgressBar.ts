@@ -1,16 +1,15 @@
 import { ariaValueMax, ariaValueMin, ariaValueNow, className, role } from "@juniper-lib/dom/attrs";
 import { width } from "@juniper-lib/dom/css";
-import { Div, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
-import { BaseProgress } from "@juniper-lib/tslib/progress/BaseProgress";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { Div, ErsatzElement, elementSetText } from "@juniper-lib/dom/tags";
+import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 
-export class BootstrapProgressBarElement
-    implements ErsatzElement, IProgress {
+export class BootstrapProgressBarElement implements ErsatzElement, IProgress {
 
     public readonly element: HTMLElement;
     private readonly progress: IProgress;
 
-    constructor(outerClassName: string = "controls progress") {
+    constructor(outerClassName = "controls progress") {
         const inner = Div(
             className("progress-bar"),
             role("progressbar"),
@@ -74,6 +73,6 @@ export class BootstrapProgressBarCallback extends BaseProgress {
     }
 }
 
-export function BootstrapProgressBar(outerClassName: string = "controls progress") {
+export function BootstrapProgressBar(outerClassName = "controls progress") {
     return new BootstrapProgressBarElement(outerClassName);
 }

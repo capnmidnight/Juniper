@@ -1,4 +1,4 @@
-import { identity } from "../identity";
+import { identity } from "@juniper-lib/tslib/identity";
 import { mapMap } from "./mapMap";
 
 export function makeLookup<T, U>(items: T[], makeID: (item: T) => U): Map<U, T> {

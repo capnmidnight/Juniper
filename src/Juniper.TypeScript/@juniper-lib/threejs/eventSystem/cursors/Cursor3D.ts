@@ -1,4 +1,4 @@
-import { arrayScan } from "@juniper-lib/tslib/collections/arrays";
+import { arrayScan } from "@juniper-lib/collections/arrays";
 import { Object3D } from "three";
 import { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { deepEnableLayer, PURGATORY } from "../../layers";

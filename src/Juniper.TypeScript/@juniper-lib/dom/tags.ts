@@ -1,5 +1,5 @@
-import { once } from "@juniper-lib/tslib/events/once";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { once } from "@juniper-lib/events/once";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/typeChecks";
 import { Attr, classList, className, htmlFor, type } from "./attrs";
 import { margin, PropSet } from "./css";

@@ -1,7 +1,7 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
-import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { arrayClear } from "@juniper-lib/collections/arrays";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { isMobile, isMobileVR, isSafari } from "@juniper-lib/tslib/flags";
 import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/math";
 import { assertNever, isFunction, isGoodNumber } from "@juniper-lib/tslib/typeChecks";

@@ -1,4 +1,4 @@
-import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
+import { arrayClear } from "@juniper-lib/collections/arrays";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IAudioNode } from "../IAudioNode";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";

@@ -1,4 +1,4 @@
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { Task } from "@juniper-lib/events/Task";
 import { clamp } from "@juniper-lib/tslib/math";
 import { BackSide, Mesh, MeshBasicMaterial } from "three";
 import { cube } from "./Cube";

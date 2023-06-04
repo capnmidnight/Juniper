@@ -1,4 +1,4 @@
-import { IReadyable } from "@juniper-lib/tslib/events/IReadyable";
+import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { onClick } from "./evts";
 import { ButtonPrimary, elementApply, Elements } from "./tags";
 

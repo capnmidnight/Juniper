@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/events/EventBase";
 import { stringToName } from "@juniper-lib/tslib/strings/stringToName";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import type { JuniperAudioContext } from "../context/JuniperAudioContext";

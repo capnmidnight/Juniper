@@ -1,5 +1,5 @@
-import { arrayClear, arrayRemoveAt } from "../collections/arrays";
-import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "../typeChecks";
+import { arrayClear, arrayRemoveAt } from "@juniper-lib/collections/arrays";
+import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 type EventCallback = (evt: Event) => any;
 

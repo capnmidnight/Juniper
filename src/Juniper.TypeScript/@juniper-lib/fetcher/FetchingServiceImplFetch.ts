@@ -1,10 +1,10 @@
 import { IDexDB, IDexDBOptionsDef, IDexStore } from "@juniper-lib/indexdb";
-import { mapJoin } from "@juniper-lib/tslib/collections/mapJoin";
-import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
-import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
-import { withRetry } from "@juniper-lib/tslib/events/withRetry";
+import { mapJoin } from "@juniper-lib/collections/mapJoin";
+import { PriorityList } from "@juniper-lib/collections/PriorityList";
+import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
+import { withRetry } from "@juniper-lib/events/withRetry";
 import { identity } from "@juniper-lib/tslib/identity";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 import { assertNever, isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { using } from "@juniper-lib/tslib/using";
 import { isXHRBodyInit } from "./FetchingServiceImplXHR";

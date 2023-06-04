@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "1.15.2",
+    "@juniper-lib/events": "*",
     "@juniper-lib/tslib": "*",
     "@types/google.maps": "3.53.1"
   },

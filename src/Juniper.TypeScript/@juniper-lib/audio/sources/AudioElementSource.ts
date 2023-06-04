@@ -1,7 +1,7 @@
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { mediaElementCanPlay } from "@juniper-lib/dom/tags";
-import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
-import { once } from "@juniper-lib/tslib/events/once";
+import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { once } from "@juniper-lib/events/once";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
 import type { BaseSpatializer } from "../spatializers/BaseSpatializer";

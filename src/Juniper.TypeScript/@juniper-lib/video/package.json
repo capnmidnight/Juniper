@@ -8,9 +8,12 @@
   },
   "dependencies": {
     "@juniper-lib/audio": "*",
+    "@juniper-lib/collections": "*",
     "@juniper-lib/dom": "*",
+    "@juniper-lib/events": "*",
     "@juniper-lib/fetcher": "*",
     "@juniper-lib/mediatypes": "*",
+    "@juniper-lib/progress": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-types/dom-types": "*",
     "gl-matrix": "3.4.3"

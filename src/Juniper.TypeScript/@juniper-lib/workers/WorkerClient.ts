@@ -1,8 +1,8 @@
-import { arrayScan } from "@juniper-lib/tslib/collections/arrays";
-import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { arrayScan } from "@juniper-lib/collections/arrays";
+import { TypedEventBase } from "@juniper-lib/events/EventBase";
+import { Task } from "@juniper-lib/events/Task";
+import { IProgress, isProgressCallback } from "@juniper-lib/progress/IProgress";
 import { isWorkerSupported } from "@juniper-lib/tslib/flags";
-import { IProgress, isProgressCallback } from "@juniper-lib/tslib/progress/IProgress";
 import { assertNever, isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
 import type { IDisposable } from "@juniper-lib/tslib/using";
 import type {

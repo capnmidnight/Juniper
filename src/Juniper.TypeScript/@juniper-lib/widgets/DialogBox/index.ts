@@ -1,7 +1,7 @@
 import { classList, className, customData } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
 import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1 } from "@juniper-lib/dom/tags";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { Task } from "@juniper-lib/events/Task";
 
 import "./styles.css";
 

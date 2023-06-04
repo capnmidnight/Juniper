@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "../typeChecks";
+import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export function mapGroupBy<T, U>(items: T[], makeID: (item: T) => U) {
     const map = new Map<U, T[]>();

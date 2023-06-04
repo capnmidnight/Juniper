@@ -1,4 +1,4 @@
-import { IDisposable } from "../using";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { TypedEvent, TypedEventBase } from "./EventBase";
 
 class EventScope implements IDisposable {

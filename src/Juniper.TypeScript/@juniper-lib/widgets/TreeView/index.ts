@@ -22,9 +22,9 @@ import {
     ErsatzElement,
     InputText
 } from "@juniper-lib/dom/tags";
-import { arrayClear, arrayRemove } from "@juniper-lib/tslib/collections/arrays";
-import { buildTree, TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { arrayClear, arrayRemove } from "@juniper-lib/collections/arrays";
+import { buildTree, TreeNode } from "@juniper-lib/collections/TreeNode";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { alwaysFalse, identity } from "@juniper-lib/tslib/identity";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { TreeViewNode, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";

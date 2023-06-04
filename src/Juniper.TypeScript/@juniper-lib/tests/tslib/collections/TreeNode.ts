@@ -1,5 +1,5 @@
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
-import { TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
+import { TreeNode } from "@juniper-lib/collections/TreeNode";
 
 export class TreeNodeTests extends TestCase {
 

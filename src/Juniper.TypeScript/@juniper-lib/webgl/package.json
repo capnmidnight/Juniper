@@ -7,9 +7,12 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
-    "@juniper-lib/tslib": "*",
-    "@juniper-lib/graphics2d": "*",
+    "@juniper-lib/collections": "*",
     "@juniper-lib/dom": "*",
+    "@juniper-lib/events": "*",
+    "@juniper-lib/graphics2d": "*",
+    "@juniper-lib/progress": "*",
+    "@juniper-lib/tslib": "*",
     "@types/offscreencanvas": "2019.7.0",
     "@types/webxr": "0.5.2",
     "gl-matrix": "3.4.3"

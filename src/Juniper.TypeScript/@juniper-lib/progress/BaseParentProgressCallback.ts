@@ -42,5 +42,5 @@ export class BaseParentProgressCallback {
             const est = this.start - end + delta * this.weightTotal / soFar;
             this.prog.report(soFar, this.weightTotal, msg, est);
         }
-    };
+    }
 }

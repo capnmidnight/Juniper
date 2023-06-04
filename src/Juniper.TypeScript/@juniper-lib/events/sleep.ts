@@ -1,4 +1,4 @@
-import { isDefined } from "../typeChecks";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { Task } from "./Task";
 
 export class SleepTask extends Task {

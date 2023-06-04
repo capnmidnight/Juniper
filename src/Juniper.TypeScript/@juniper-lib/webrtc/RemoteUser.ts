@@ -1,6 +1,6 @@
-import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/tslib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/collections/arrays";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { Task } from "@juniper-lib/events/Task";
 import { isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { UserChatEvent, UserLeftEvent, UserStateEvent } from "./ConferenceEvents";

@@ -1,8 +1,8 @@
 import { MediaType } from "@juniper-lib/mediatypes";
 import * as allAudioTypes from "@juniper-lib/mediatypes/audio";
-import { arrayClear, arrayScan } from "@juniper-lib/tslib/collections/arrays";
-import { debounce } from "@juniper-lib/tslib/events/debounce";
-import { TypedEvent } from "@juniper-lib/tslib/events/EventBase";
+import { arrayClear, arrayScan } from "@juniper-lib/collections/arrays";
+import { debounce } from "@juniper-lib/events/debounce";
+import { TypedEvent } from "@juniper-lib/events/EventBase";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { ActivityDetector } from "./ActivityDetector";

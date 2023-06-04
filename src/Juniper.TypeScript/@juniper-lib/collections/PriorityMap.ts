@@ -1,4 +1,4 @@
-import { isDefined, isNullOrUndefined } from "../typeChecks";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 
 

@@ -1,7 +1,7 @@
 import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonSecondary, elementSetClass, elementSetDisplay } from "@juniper-lib/dom/tags";
-import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { arrayReplace } from "@juniper-lib/collections/arrays";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { deg2rad, HalfPi } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { ColorRepresentation, Euler, ExtrudeGeometry, Material, Mesh, Object3D, Quaternion, Shape, Vector2, Vector3 } from "three";

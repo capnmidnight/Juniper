@@ -25,11 +25,11 @@ import {
     InputCheckbox,
     InputNumber, PreLabeled
 } from "@juniper-lib/dom/tags";
-import { GraphNode } from "@juniper-lib/tslib/collections/GraphNode";
-import { mapBuild } from "@juniper-lib/tslib/collections/mapBuild";
+import { GraphNode } from "@juniper-lib/collections/GraphNode";
+import { mapBuild } from "@juniper-lib/collections/mapBuild";
 import { Tau } from "@juniper-lib/tslib/math";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
-import { RequestAnimationFrameTimer } from "@juniper-lib/tslib/timers/RequestAnimationFrameTimer";
+import { RequestAnimationFrameTimer } from "@juniper-lib/timers/RequestAnimationFrameTimer";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { vec2 } from "gl-matrix";
 
@@ -174,7 +174,7 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
             this.setMouse(evt);
 
             this.grabbed = null;
-            let dist = 0.70710678118654752440084436210485 * size;
+            let dist = 0.7071067811865475 * size;
             for (const node of this.graph) {
                 const point = this.positions.get(node);
                 vec2.sub(delta, point, this.mousePoint);

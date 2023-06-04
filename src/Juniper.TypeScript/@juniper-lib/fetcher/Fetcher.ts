@@ -1,6 +1,6 @@
 import { getInput } from "@juniper-lib/dom/tags";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
-import { progressTasksWeighted } from "@juniper-lib/tslib/progress/progressTasks";
+import { IProgress } from "@juniper-lib/progress/IProgress";
+import { progressTasksWeighted } from "@juniper-lib/progress/progressTasks";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseAsset, isAsset } from "./Asset";
 import { HTTPMethods } from "./HTTPMethods";

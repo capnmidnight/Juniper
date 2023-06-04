@@ -1,9 +1,9 @@
 import { setContextSize } from "@juniper-lib/dom/canvas";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { Task } from "@juniper-lib/events/Task";
 import { clamp } from "@juniper-lib/tslib/math";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
 import pdfJS from "pdfjs-dist";

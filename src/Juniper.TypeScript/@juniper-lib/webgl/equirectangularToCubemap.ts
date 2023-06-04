@@ -1,6 +1,6 @@
 import { canvasToBlob, CanvasTypes, createUtilityCanvas, snapshot } from "@juniper-lib/dom/canvas";
 import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/CubeMapFaceIndex";
-import type { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import type { IProgress } from "@juniper-lib/progress/IProgress";
 import { usingAsync } from "@juniper-lib/tslib/using";
 import { Camera } from "./Camera";
 import { Context3D } from "./Context3D";

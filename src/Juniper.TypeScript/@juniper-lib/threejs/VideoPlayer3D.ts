@@ -1,7 +1,7 @@
 import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
 import { BaseSpatializer } from "@juniper-lib/audio/spatializers/BaseSpatializer";
-import { arrayClear } from "@juniper-lib/tslib/collections/arrays";
-import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
+import { arrayClear } from "@juniper-lib/collections/arrays";
+import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
 import { and } from "@juniper-lib/tslib/identity";
 import { BaseVideoPlayer } from "@juniper-lib/video/BaseVideoPlayer";
 import { BufferGeometry, MeshBasicMaterial, Object3D } from "three";

@@ -1,5 +1,5 @@
 import { BaseGraphDialog } from "@juniper-lib/graphics2d/BaseGraphDialog";
-import { GraphNode } from "@juniper-lib/tslib/collections/GraphNode";
+import { GraphNode } from "@juniper-lib/collections/GraphNode";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { Object3D } from "three";
 import type { BaseEnvironment } from "./BaseEnvironment";

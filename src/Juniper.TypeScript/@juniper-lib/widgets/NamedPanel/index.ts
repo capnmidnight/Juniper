@@ -1,6 +1,6 @@
 import { className } from "@juniper-lib/dom/attrs";
 import { Div, ElementChild, elementSetDisplay, elementSetText, ErsatzElement, H2, Span } from "@juniper-lib/dom/tags";
-import { debounce } from "@juniper-lib/tslib/events/debounce";
+import { debounce } from "@juniper-lib/events/debounce";
 
 import "./style.css";
 

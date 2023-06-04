@@ -1,4 +1,4 @@
-import { arrayClear, arrayRemoveByKey } from "@juniper-lib/tslib/collections/arrays";
+import { arrayClear, arrayRemoveByKey } from "@juniper-lib/collections/arrays";
 import { isFunction } from "@juniper-lib/tslib/typeChecks";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { PointerID } from "../Pointers";

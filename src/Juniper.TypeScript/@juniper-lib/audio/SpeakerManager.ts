@@ -1,7 +1,7 @@
-import { arrayScan, arraySortByKey } from "@juniper-lib/tslib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { IReadyable } from "@juniper-lib/tslib/events/IReadyable";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { arrayScan, arraySortByKey } from "@juniper-lib/collections/arrays";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { IReadyable } from "@juniper-lib/events/IReadyable";
+import { Task } from "@juniper-lib/events/Task";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 

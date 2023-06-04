@@ -1,5 +1,5 @@
 import { elementSetDisplay } from "@juniper-lib/dom/tags";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { Task } from "@juniper-lib/events/Task";
 
 
 export class MessageBox {

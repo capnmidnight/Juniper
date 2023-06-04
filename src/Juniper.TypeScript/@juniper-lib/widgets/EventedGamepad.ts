@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 
 export class GamepadButtonEvent<T extends "gamepadbuttondown" | "gamepadbuttonup" = "gamepadbuttondown" | "gamepadbuttonup"> extends TypedEvent<T> {
     constructor(type: T, public button: number) {

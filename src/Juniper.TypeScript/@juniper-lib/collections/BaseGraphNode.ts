@@ -1,4 +1,4 @@
-import { isDefined } from "../typeChecks";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { arrayInsertAt, arrayRemove, arraySortedInsert } from "./arrays";
 
 function breadthFirstPeek<ValueT>(arr: ValueT[]) {

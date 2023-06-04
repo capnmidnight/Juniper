@@ -9,6 +9,7 @@
   "dependencies": {
     "@juniper-lib/audio": "*",
     "@juniper-lib/dom": "*",
+    "@juniper-lib/events": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-lib/video": "*",
     "@juniper-types/dom-types": "*",

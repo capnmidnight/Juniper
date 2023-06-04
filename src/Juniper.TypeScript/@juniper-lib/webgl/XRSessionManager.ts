@@ -1,6 +1,6 @@
-import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { arrayRemove } from "@juniper-lib/collections/arrays";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { Task } from "@juniper-lib/events/Task";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";

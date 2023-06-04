@@ -7,8 +7,11 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@juniper-lib/collections": "*",
     "@juniper-lib/dom": "*",
+    "@juniper-lib/events": "*",
     "@juniper-lib/mediatypes": "*",
+    "@juniper-lib/progress": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-lib/workers": "*",
     "@juniper-types/indexdb": "*",

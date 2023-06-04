@@ -1,7 +1,7 @@
 import { className } from "@juniper-lib/dom/attrs";
 import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
-import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey } from "@juniper-lib/tslib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey } from "@juniper-lib/collections/arrays";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { isDefined, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 import "./styles.css";

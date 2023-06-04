@@ -1,5 +1,5 @@
-import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { BaseProgress } from "@juniper-lib/tslib/progress/BaseProgress";
+import { TypedEventBase } from "@juniper-lib/events/EventBase";
+import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
 import { isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
 import { WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEventMessage, WorkerServerMessages, WorkerServerProgressMessage, WorkerServerReturnMessage } from "@juniper-lib/workers/WorkerMessages";
 

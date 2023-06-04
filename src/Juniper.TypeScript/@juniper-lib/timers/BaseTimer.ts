@@ -1,11 +1,10 @@
-import { arrayRemove } from "../collections/arrays";
+import { arrayRemove } from "@juniper-lib/collections/arrays";
 import { ITimer, TimerTickEvent } from "./ITimer";
 
-export abstract class BaseTimer<TimerT>
-    implements ITimer {
+export abstract class BaseTimer<TimerT> implements ITimer {
     protected timer: TimerT = null;
     protected onTick: (t: number) => void;
-    private lt: number = -1;
+    private lt = -1;
     private tickHandlers = new Array<(evt: TimerTickEvent) => void>();
 
     constructor(targetFrameRate?: number) {

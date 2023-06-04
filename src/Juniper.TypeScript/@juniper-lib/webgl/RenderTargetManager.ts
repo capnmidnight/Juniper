@@ -1,4 +1,4 @@
-import { arrayClear, arrayReplace, arrayScan } from "@juniper-lib/tslib/collections/arrays";
+import { arrayClear, arrayReplace, arrayScan } from "@juniper-lib/collections/arrays";
 import { isFirefox, isMobileVR } from "@juniper-lib/tslib/flags";
 import { isArray, isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";

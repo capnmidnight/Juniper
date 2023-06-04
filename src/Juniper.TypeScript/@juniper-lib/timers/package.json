@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper-lib/timers",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@juniper-lib/collections": "*",
+    "@juniper-lib/events": "*",
+    "@juniper-lib/tslib": "*"
+  }
+}

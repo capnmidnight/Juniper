@@ -7,17 +7,17 @@ import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElem
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper-lib/audio/sources/IPlayer";
 import { PlaybackState } from "@juniper-lib/audio/sources/PlaybackState";
 import { BaseSpatializer } from "@juniper-lib/audio/spatializers/BaseSpatializer";
+import { PriorityList } from "@juniper-lib/collections/PriorityList";
+import { arraySortByKeyInPlace } from "@juniper-lib/collections/arrays";
 import { autoPlay, controls, loop } from "@juniper-lib/dom/attrs";
-import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper-lib/dom/tags";
+import { Audio, ElementChild, Video, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
+import { once } from "@juniper-lib/events/once";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
-import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
-import { progressTasks } from "@juniper-lib/tslib/progress/progressTasks";
-import { arraySortByKeyInPlace } from "../tslib/collections/arrays";
-import { once } from "../tslib/events/once";
-import { AsyncCallback } from "../tslib/identity";
-import { IProgress } from "../tslib/progress/IProgress";
-import { isDefined, isNullOrUndefined, isString } from "../tslib/typeChecks";
-import { IDisposable } from "../tslib/using";
+import { IProgress } from "@juniper-lib/progress/IProgress";
+import { progressTasks } from "@juniper-lib/progress/progressTasks";
+import { AsyncCallback } from "@juniper-lib/tslib/identity";
+import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { IDisposable } from "@juniper-lib/tslib/using";
 import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer

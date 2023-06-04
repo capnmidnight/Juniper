@@ -1,4 +1,4 @@
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 import { assertNever } from "@juniper-lib/tslib/typeChecks";
 import { WorkerClient } from "@juniper-lib/workers/WorkerClient";
 import { WorkerServerEventMessage } from "@juniper-lib/workers/WorkerMessages";

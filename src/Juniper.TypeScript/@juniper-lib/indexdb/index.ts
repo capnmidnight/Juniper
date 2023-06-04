@@ -1,9 +1,9 @@
-import { arrayCompare } from "@juniper-lib/tslib/collections/arrays";
-import { makeLookup } from "@juniper-lib/tslib/collections/makeLookup";
-import { PriorityList } from "@juniper-lib/tslib/collections/PriorityList";
-import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
-import { once, success } from "@juniper-lib/tslib/events/once";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { arrayCompare } from "@juniper-lib/collections/arrays";
+import { makeLookup } from "@juniper-lib/collections/makeLookup";
+import { PriorityList } from "@juniper-lib/collections/PriorityList";
+import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
+import { once, success } from "@juniper-lib/events/once";
+import { Task } from "@juniper-lib/events/Task";
 import { isArray, isDefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { dispose, IDisposable } from "@juniper-lib/tslib/using";
 

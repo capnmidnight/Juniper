@@ -8,8 +8,11 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@juniper-lib/collections": "*",
     "@juniper-lib/dom": "*",
     "@juniper-lib/emoji": "*",
+    "@juniper-lib/events": "*",
+    "@juniper-lib/progress": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-types/dom-types": "*",
     "@types/offscreencanvas": "2019.7.0"

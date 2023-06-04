@@ -1,5 +1,5 @@
-import { arrayClear } from "../collections/arrays";
-import { TypedEventBase } from "../events/EventBase";
+import { arrayClear } from "@juniper-lib/collections/arrays";
+import { TypedEventBase } from "@juniper-lib/events/EventBase";
 import type { IProgress } from "./IProgress";
 
 export class BaseProgress<T = void>

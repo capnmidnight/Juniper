@@ -1,6 +1,6 @@
 import { MediaType } from "@juniper-lib/mediatypes";
-import { once } from "@juniper-lib/tslib/events/once";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { once } from "@juniper-lib/events/once";
+import { Task } from "@juniper-lib/events/Task";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { htmlHeight, htmlWidth, src } from "./attrs";
 import { Canvas, Img } from "./tags";

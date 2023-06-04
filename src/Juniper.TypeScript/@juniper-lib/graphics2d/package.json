@@ -7,10 +7,14 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
-    "@juniper-lib/tslib": "*",
     "@juniper-lib/audio": "*",
+    "@juniper-lib/collections": "*",
     "@juniper-lib/dom": "*",
+    "@juniper-lib/events": "*",
     "@juniper-lib/fetcher": "*",
+    "@juniper-lib/progress": "*",
+    "@juniper-lib/timers": "*",
+    "@juniper-lib/tslib": "*",
     "@juniper-types/dom-types": "*",
     "@types/offscreencanvas": "2019.7.0",
     "gl-matrix": "3.4.3",

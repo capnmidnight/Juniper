@@ -1,4 +1,4 @@
-import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEventBase } from "@juniper-lib/events/EventBase";
 import { IAudioNode, IAudioParam, isEndpoint, isIAudioNode } from "./IAudioNode";
 import type { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
 

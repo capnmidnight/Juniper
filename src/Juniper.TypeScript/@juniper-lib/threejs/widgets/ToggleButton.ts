@@ -1,5 +1,5 @@
 import { ButtonPrimary, elementApply, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
-import { all } from "@juniper-lib/tslib/events/all";
+import { all } from "@juniper-lib/events/all";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";

@@ -1,6 +1,6 @@
-import { Exception } from "../Exception";
-import { alwaysFalse, alwaysTrue } from "../identity";
-import { isNullOrUndefined, isNumber, isString } from "../typeChecks";
+import { Exception } from "@juniper-lib/tslib/Exception";
+import { alwaysFalse, alwaysTrue } from "@juniper-lib/tslib/identity";
+import { isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { EventBase, TypedEventBase } from "./EventBase";
 import { Task } from "./Task";
 

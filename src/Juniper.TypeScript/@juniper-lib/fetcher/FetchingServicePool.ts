@@ -1,4 +1,4 @@
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 import type { FullWorkerClientOptions } from "@juniper-lib/workers/WorkerClientOptions";
 import { WorkerPool } from "@juniper-lib/workers/WorkerPool";
 import { FetchingServiceClient } from "./FetchingServiceClient";

@@ -1,4 +1,4 @@
-import { TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEventBase } from "@juniper-lib/events/EventBase";
 import { isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";

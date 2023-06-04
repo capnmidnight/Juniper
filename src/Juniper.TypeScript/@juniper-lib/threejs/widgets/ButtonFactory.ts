@@ -1,7 +1,7 @@
 import { CanvasTypes, Context2D, createUICanvas } from "@juniper-lib/dom/canvas";
 import { AssetImage } from "@juniper-lib/fetcher/Asset";
 import { Image_Png } from "@juniper-lib/mediatypes";
-import { PriorityMap } from "@juniper-lib/tslib/collections/PriorityMap";
+import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
 import { Exception } from "@juniper-lib/tslib/Exception";
 import { nextPowerOf2 } from "@juniper-lib/tslib/math";
 import { BufferAttribute, CanvasTexture, MeshBasicMaterial, PlaneGeometry, Texture } from "three";

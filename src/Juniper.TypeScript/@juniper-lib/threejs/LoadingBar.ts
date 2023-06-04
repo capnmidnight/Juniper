@@ -1,5 +1,5 @@
-import { BaseProgress } from "@juniper-lib/tslib/progress/BaseProgress";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 import { Cube } from "./Cube";
 import { deepSetLayer, PURGATORY } from "./layers";
 import { litGrey, litWhite } from "./materials";

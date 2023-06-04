@@ -1,4 +1,4 @@
-import { isDefined } from "../typeChecks";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseGraphNode } from "./BaseGraphNode";
 
 export function buildTree<V>(

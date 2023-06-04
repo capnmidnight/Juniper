@@ -1,10 +1,10 @@
 import { AssetFile, BaseFetchedAsset } from "@juniper-lib/fetcher/Asset";
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { arrayRemove, arraySortedInsert } from "@juniper-lib/tslib/collections/arrays";
-import { all } from "@juniper-lib/tslib/events/all";
+import { arrayRemove, arraySortedInsert } from "@juniper-lib/collections/arrays";
+import { all } from "@juniper-lib/events/all";
 import { Tau } from "@juniper-lib/tslib/math";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import {
     RoomJoinedEvent,

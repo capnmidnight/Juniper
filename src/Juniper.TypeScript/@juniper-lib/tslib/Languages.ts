@@ -13,7 +13,7 @@ function C(language: Language, tag: Culture, languageName: string, name: string)
         tag,
         name,
         description: `${languageName} (${name}) [${tag}]`
-    }
+    };
 }
 
 export const LanguageDescriptions = new Map<Language, LanguageDescription>([

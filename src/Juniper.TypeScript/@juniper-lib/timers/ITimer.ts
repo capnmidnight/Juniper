@@ -1,11 +1,11 @@
-import { TypedEvent } from "../events/EventBase";
-import { lerp } from "../math";
+import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { lerp } from "@juniper-lib/tslib/math";
 
 export abstract class BaseTimerTickEvent extends TypedEvent<"update"> {
     t = 0;
     dt = 0;
     sdt = 0;
-    fps: number = 0;
+    fps = 0;
 
     constructor() {
         super("update");

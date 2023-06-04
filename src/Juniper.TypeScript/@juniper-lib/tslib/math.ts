@@ -83,15 +83,15 @@ export function calculateStandardDeviation(arr: readonly number[]): number {
     return Math.sqrt(variance);
 }
 
-export function xy2i(x: number, y: number, width: number, components: number = 1): number {
+export function xy2i(x: number, y: number, width: number, components = 1): number {
     return components * (x + width * y);
 }
 
-export function vec22i(vec: vec2, width: number, components: number = 1): number {
+export function vec22i(vec: vec2, width: number, components = 1): number {
     return xy2i(vec[0], vec[1], width, components);
 }
 
-export function i2vec2(vec: vec2, i: number, width: number, components: number = 1): void {
+export function i2vec2(vec: vec2, i: number, width: number, components = 1): void {
     const stride = width * components;
     const p = i % stride;
     const x = Math.floor(p / components);
@@ -318,7 +318,7 @@ export class Size implements ISize {
 export class Rectangle implements IRectangle {
     point: Point;
     size: Size;
-    constructor(x: number = 0, y: number = 0, width: number = 0, height: number = 0) {
+    constructor(x = 0, y = 0, width = 0, height = 0) {
         this.point = new Point(x, y);
         this.size = new Size(width, height);
         Object.freeze(this);
@@ -453,7 +453,7 @@ export function warnOnNaN(val: number | Vec, msg?: string): void {
     let isBad = false;
 
     if (isNumber(val)) {
-        type = "Value is"
+        type = "Value is";
         isBad = !isGoodNumber(val);
     }
     else if ("length" in val) {
@@ -482,7 +482,7 @@ export function warnOnNaN(val: number | Vec, msg?: string): void {
 
     if (isBad) {
         if (msg) {
-            msg = `[${msg}] `
+            msg = `[${msg}] `;
         }
         else {
             msg = "";

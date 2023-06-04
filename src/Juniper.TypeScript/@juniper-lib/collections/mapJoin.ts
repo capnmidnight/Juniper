@@ -1,4 +1,4 @@
-import { isDefined } from "../typeChecks";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
 export function mapJoin<KeyT, ValueT>(dest: Map<KeyT, ValueT>, ...sources: Map<KeyT, ValueT>[]): Map<KeyT, ValueT> {
     for (const source of sources) {

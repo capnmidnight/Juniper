@@ -1,4 +1,4 @@
-import type { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import type { IProgress } from "@juniper-lib/progress/IProgress";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isString } from "@juniper-lib/tslib/typeChecks";
 import { px } from "./css";

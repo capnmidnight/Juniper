@@ -9,6 +9,8 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@juniper-lib/collections": "*",
+    "@juniper-lib/events": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-types/indexdb": "*"
   },

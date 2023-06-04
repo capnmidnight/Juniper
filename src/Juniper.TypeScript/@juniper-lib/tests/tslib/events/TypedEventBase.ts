@@ -1,6 +1,6 @@
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { once } from "@juniper-lib/tslib/events/once";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { once } from "@juniper-lib/events/once";
 
 
 class Rig extends TypedEventBase<{

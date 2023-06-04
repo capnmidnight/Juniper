@@ -1,9 +1,9 @@
 import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { Task } from "@juniper-lib/tslib/events/Task";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
-import { progressPopper } from "@juniper-lib/tslib/progress/progressPopper";
-import { progressSplitWeighted } from "@juniper-lib/tslib/progress/progressSplit";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { Task } from "@juniper-lib/events/Task";
+import { IProgress } from "@juniper-lib/progress/IProgress";
+import { progressPopper } from "@juniper-lib/progress/progressPopper";
+import { progressSplitWeighted } from "@juniper-lib/progress/progressSplit";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
 import type { Application, ApplicationConstructor, ApplicationModule } from "./Application";

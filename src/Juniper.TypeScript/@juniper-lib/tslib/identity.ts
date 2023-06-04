@@ -2,6 +2,7 @@ export function identity<T>(item: T): T {
     return item;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export function nothing(): void {
 }
 

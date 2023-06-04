@@ -1,5 +1,5 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
-import { arrayRemove, arrayScan } from "@juniper-lib/tslib/collections/arrays";
+import { arrayRemove, arrayScan } from "@juniper-lib/collections/arrays";
 import { identity } from "@juniper-lib/tslib/identity";
 import { isBoolean, isDefined, isString } from "@juniper-lib/tslib/typeChecks";
 

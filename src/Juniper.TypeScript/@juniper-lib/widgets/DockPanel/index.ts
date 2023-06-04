@@ -3,7 +3,7 @@ import { fr, gridColumn, gridRow, gridTemplateColumns, gridTemplateRows } from "
 import { onClick, onDragEnd, onDragOver, onDragStart } from "@juniper-lib/dom/evts";
 import { ButtonSmall, Div, elementApply, ElementChild, elementGetCustomData, elementInsertBefore, elementIsDisplayed, elementSetText, elementSwap, elementToggleDisplay, H3, IElementAppliable } from "@juniper-lib/dom/tags";
 import { blackMediumDownPointingTriangleCentered as closeIcon, blackMediumRightPointingTriangleCentered as openIcon } from "@juniper-lib/emoji";
-import { arrayInsertAt, arrayScanReverse } from "@juniper-lib/tslib/collections/arrays";
+import { arrayInsertAt, arrayScanReverse } from "@juniper-lib/collections/arrays";
 import { isBoolean, isDate, isDefined, isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { vec2 } from "gl-matrix";
 

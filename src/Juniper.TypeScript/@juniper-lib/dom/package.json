@@ -9,7 +9,10 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@juniper-lib/collections": "*",
+    "@juniper-lib/events": "*",
     "@juniper-lib/mediatypes": "*",
+    "@juniper-lib/progress": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-types/dom-types": "*",
     "@types/offscreencanvas": "2019.7.0"

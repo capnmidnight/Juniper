@@ -1,5 +1,5 @@
-import { BaseProgress } from "@juniper-lib/tslib/progress/BaseProgress";
-import { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
+import { IProgress } from "@juniper-lib/progress/IProgress";
 import { isFunction } from "@juniper-lib/tslib/typeChecks";
 import { elementApply, IElementAppliable } from "./tags";
 

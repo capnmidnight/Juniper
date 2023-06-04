@@ -11,10 +11,10 @@ import {
     Span
 } from "@juniper-lib/dom/tags";
 import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
-import { TreeNode } from "@juniper-lib/tslib/collections/TreeNode";
-import { debounce } from "@juniper-lib/tslib/events/debounce";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
-import { Task } from "@juniper-lib/tslib/events/Task";
+import { TreeNode } from "@juniper-lib/collections/TreeNode";
+import { debounce } from "@juniper-lib/events/debounce";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { Task } from "@juniper-lib/events/Task";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {

@@ -3,8 +3,8 @@ import { onClick, onDragEnd, onDragLeave, onDragOver, onDrop } from "@juniper-li
 import { Button, elementApply, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
 import { MediaType } from "@juniper-lib/mediatypes";
 import { mediaTypesToAcceptValue } from "@juniper-lib/mediatypes/util";
-import { arrayReplace } from "@juniper-lib/tslib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { arrayReplace } from "@juniper-lib/collections/arrays";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export class FileUploadInputEvent extends TypedEvent<"input"> {

@@ -1,6 +1,6 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { IDataLogger } from "@juniper-lib/tslib/IDataLogger";
-import type { IProgress } from "@juniper-lib/tslib/progress/IProgress";
+import type { IProgress } from "@juniper-lib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import type { IDisposable } from "@juniper-lib/tslib/using";
 import type { Environment } from "./Environment";

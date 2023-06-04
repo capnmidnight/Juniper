@@ -1,5 +1,5 @@
-import { arrayClear } from "../collections/arrays";
-import { isDefined } from "../typeChecks";
+import { arrayClear } from "@juniper-lib/collections/arrays";
+import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { TypedEventBase } from "./EventBase";
 
 export type TaskExecutionState =

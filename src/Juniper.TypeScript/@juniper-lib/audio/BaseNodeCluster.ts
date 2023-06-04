@@ -1,4 +1,4 @@
-import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
+import { arrayRemove } from "@juniper-lib/collections/arrays";
 import { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
 import { BaseNode } from "./BaseNode";
 import { IAudioNode, IAudioParam, isIAudioNode } from "./IAudioNode";

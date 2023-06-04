@@ -1,5 +1,5 @@
-import { arrayRemove } from "@juniper-lib/tslib/collections/arrays";
-import { BaseTimerTickEvent, ITimer } from "@juniper-lib/tslib/timers/ITimer";
+import { arrayRemove } from "@juniper-lib/collections/arrays";
+import { BaseTimerTickEvent, ITimer } from "@juniper-lib/timers/ITimer";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { WebGLRenderer } from "three";
 

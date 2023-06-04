@@ -1,4 +1,4 @@
-import { mapInvert } from "../collections/mapInvert";
+import { mapInvert } from "@juniper-lib/collections/mapInvert";
 import { assertNever } from "../typeChecks";
 
 type Base = 2 | 10;
@@ -19,7 +19,7 @@ type Units = "B"
 
 function isBase2Units(label: Units): label is Base2Units {
     return label !== "B"
-        && label[1] === 'i';
+        && label[1] === "i";
 }
 
 function isBase10Units(label: Units): label is Base10Units {

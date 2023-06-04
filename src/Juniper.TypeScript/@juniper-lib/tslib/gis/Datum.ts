@@ -1,8 +1,8 @@
-const FalseNorthing: number = 10000000;
-const invF: number = 298.257223563;
-const equatorialRadius: number = 6378137;
-const pointScaleFactor: number = 0.9996;
-const E0: number = 500000;
+const FalseNorthing = 10000000;
+const invF = 298.257223563;
+const equatorialRadius = 6378137;
+const pointScaleFactor = 0.9996;
+const E0 = 500000;
 
 const flattening: number = 1 / invF;
 const flatteningComp: number = 1 - flattening;

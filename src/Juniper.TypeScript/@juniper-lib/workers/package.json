@@ -7,6 +7,8 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@juniper-lib/events": "*",
+    "@juniper-lib/progress": "*",
     "@juniper-lib/tslib": "*"
   }
 }

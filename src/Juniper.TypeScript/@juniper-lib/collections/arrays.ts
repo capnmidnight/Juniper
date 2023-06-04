@@ -1,4 +1,4 @@
-import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "../typeChecks";
+import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 function defaultKeySelector<T>(obj: T): any {
     return obj;
