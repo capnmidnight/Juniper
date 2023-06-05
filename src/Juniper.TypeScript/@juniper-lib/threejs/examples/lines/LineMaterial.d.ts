@@ -1,4 +1,4 @@
-import { Color, MaterialParameters, ShaderMaterial, Vector2 } from 'three';
+import { Color, MaterialParameters, ShaderMaterial, Vector2 } from "three";
 
 export interface LineMaterialParameters extends MaterialParameters {
     color?: number | undefined;

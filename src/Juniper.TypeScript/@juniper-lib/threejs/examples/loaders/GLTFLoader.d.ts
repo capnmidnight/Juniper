@@ -17,10 +17,10 @@ import {
     FileLoader,
     ImageBitmapLoader,
     Skeleton,
-} from 'three';
+} from "three";
 
-import { DRACOLoader } from './DRACOLoader';
-import { KTX2Loader } from './KTX2Loader';
+import { DRACOLoader } from "./DRACOLoader";
+import { KTX2Loader } from "./KTX2Loader";
 
 export interface GLTF {
     animations: AnimationClip[];
@@ -69,7 +69,7 @@ export class GLTFLoader extends Loader {
     parseAsync(data: ArrayBuffer | string, path: string): Promise<GLTF>;
 }
 
-export type GLTFReferenceType = 'materials' | 'nodes' | 'textures' | 'meshes';
+export type GLTFReferenceType = "materials" | "nodes" | "textures" | "meshes";
 
 export interface GLTFReference {
     materials?: number;

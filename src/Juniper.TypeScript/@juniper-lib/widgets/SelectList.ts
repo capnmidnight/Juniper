@@ -167,7 +167,7 @@ export class SelectList<T>
 
         if (this.count > 0) {
             const sortedItems = arraySortByKey(this.values, this.getSortKey);
-            for (let item of sortedItems) {
+            for (const item of sortedItems) {
                 const option = this.makeOption(item);
                 this.append(item, option);
             }

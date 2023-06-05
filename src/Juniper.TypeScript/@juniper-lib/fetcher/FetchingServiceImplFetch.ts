@@ -171,7 +171,7 @@ export class FetchingServiceImplFetch implements IFetchingServiceImpl {
             date,
             headers,
             content: await res.blob()
-        }
+        };
 
         if (isDefined(response.content)) {
             response.contentType = response.contentType || response.content.type;

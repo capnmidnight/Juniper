@@ -38,7 +38,7 @@ export abstract class BaseVideoPlayer
     private readonly onPause: (evt: Event) => void;
     private readonly onTimeUpdate: () => Promise<void> = null;
 
-    private wasUsingAudioElement: boolean = false;
+    private wasUsingAudioElement = false;
     private nextStartTime: number = null;
 
     private _data: FullVideoRecord | string = null;
@@ -78,14 +78,14 @@ export abstract class BaseVideoPlayer
 
         const videoNode = new JuniperMediaElementAudioSourceNode(
             context, {
-            mediaElement: video
-        });
+                mediaElement: video
+            });
         videoNode.name = `${type}-video`;
 
         const audioNode = new JuniperMediaElementAudioSourceNode(
             context, {
-            mediaElement: audio
-        });
+                mediaElement: audio
+            });
         audioNode.name = `${type}-audio`;
 
         super(type, context, spatializer, [], [videoNode, audioNode]);
@@ -115,7 +115,7 @@ export abstract class BaseVideoPlayer
                 await this.context.ready;
                 await this.audio.play();
             }
-            this.dispatchEvent(this.playEvt)
+            this.dispatchEvent(this.playEvt);
         };
 
         this.onPause = (evt: Event) => {
@@ -302,7 +302,7 @@ export abstract class BaseVideoPlayer
                 framerate: source.fps,
                 width: source.width,
                 height: source.height
-            }
+            };
         }
         else if (source.acodec !== "none") {
             config.audio = {
@@ -313,7 +313,7 @@ export abstract class BaseVideoPlayer
         }
 
         try {
-            return await navigator.mediaCapabilities.decodingInfo(config)
+            return await navigator.mediaCapabilities.decodingInfo(config);
         }
         catch {
             return {

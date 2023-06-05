@@ -448,7 +448,7 @@ export class SelectBox<T>
 
         if (this.count > 0) {
             const sortedItems = arraySortNumericByKey(this.values, this.getSortKey);
-            for (let item of sortedItems) {
+            for (const item of sortedItems) {
                 const option = this.makeOption(item);
                 this.appendOption(option);
             }

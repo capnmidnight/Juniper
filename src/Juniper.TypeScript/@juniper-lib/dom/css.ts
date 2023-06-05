@@ -372,7 +372,7 @@ export function animationPlayState(...v: string[]) { return new CssElementStyleP
 
 export function animationTimingFunction(v: CSSGlobalValue): CssElementStyleProp;
 export function animationTimingFunction(...v: CSSAnimationTimingFunctionValue[]): CssElementStyleProp;
-export function animationTimingFunction(...v: string[]) { return new CssElementStyleProp("animationTimingFunction", v.join(' ')); }
+export function animationTimingFunction(...v: string[]) { return new CssElementStyleProp("animationTimingFunction", v.join(" ")); }
 
 export function animation(v: CSSGlobalValue): CssElementStyleProp;
 export function animation(...v: (string | number)[]): CssElementStyleProp;
@@ -382,7 +382,7 @@ export function appearance(v: CSSGlobalValue | CSSAppearanceValue) { return new 
 
 export function backdropFilter(v: "none" | CSSGlobalValue): CssElementStyleProp;
 export function backdropFilter(...v: CSSFilterFunction[]): CssElementStyleProp;
-export function backdropFilter(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("backdropFilter" as any, v.join(' ')); }
+export function backdropFilter(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("backdropFilter" as any, v.join(" ")); }
 
 export function backfaceVisibility(v: CSSGlobalValue | CSSBackfaceVisibilityValue) { return new CssElementStyleProp("backfaceVisibility", v); }
 
@@ -693,7 +693,7 @@ export function flexWrap(v: CSSGlobalValue | CSSFlexWrapValue) { return new CssE
 export function flexFlow(v: CSSGlobalValue): CssElementStyleProp;
 export function flexFlow(v: CSSFlexFlowValue): CssElementStyleProp;
 export function flexFlow(x: CSSFlexFlowValue, y: CSSFlexFlowValue): CssElementStyleProp;
-export function flexFlow(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("flexFlow", v.join(' ')); }
+export function flexFlow(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("flexFlow", v.join(" ")); }
 
 export function flex(v: CSSGlobalValue): CssElementStyleProp;
 export function flex(grow: number): CssElementStyleProp;
@@ -701,7 +701,7 @@ export function flex(basis: CSSFlexBasisValue): CssElementStyleProp;
 export function flex(grow: number, shrink: number): CssElementStyleProp;
 export function flex(grow: number, basis: CSSFlexBasisValue): CssElementStyleProp;
 export function flex(grow: number, shrink: number, basis: CSSFlexBasisValue): CssElementStyleProp;
-export function flex(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("flex", v.join(' ')); }
+export function flex(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("flex", v.join(" ")); }
 
 export function flexGrow(v: CSSGlobalValue | number) { return new CssElementStyleProp("flexGrow", v); }
 
@@ -758,7 +758,7 @@ export function gridArea(vOrRowStart: string | number, colStart?: number, rowEnd
     if (!isString(vOrRowStart)) {
         vOrRowStart = [vOrRowStart, colStart, rowEnd, colEnd]
             .filter(isDefined)
-            .join('/');
+            .join("/");
     }
 
     return new CssElementStyleProp("gridArea", vOrRowStart);
@@ -776,7 +776,7 @@ export function gridColumn(vOrColStart: string | number, colEnd?: number): CssEl
     if (!isString(vOrColStart)) {
         vOrColStart = [vOrColStart, colEnd]
             .filter(isDefined)
-            .join('/');
+            .join("/");
     }
     return new CssElementStyleProp("gridColumn", vOrColStart);
 }
@@ -791,7 +791,7 @@ export function gridRow(vOrRowStart: string | number, rowEnd?: number): CssEleme
     if (!isString(vOrRowStart)) {
         vOrRowStart = [vOrRowStart, rowEnd]
             .filter(isDefined)
-            .join('/');
+            .join("/");
     }
     return new CssElementStyleProp("gridRow", vOrRowStart);
 }
@@ -802,7 +802,7 @@ export function gridRowStart(v: string | number) { return new CssElementStylePro
 
 export function gridTemplate(v: string) { return new CssElementStyleProp("gridTemplate", v); }
 
-export function gridTemplateAreas(...v: string[]) { return new CssElementStyleProp("gridTemplateAreas", v.map((r) => '"' + r + '"').join('\n')); }
+export function gridTemplateAreas(...v: string[]) { return new CssElementStyleProp("gridTemplateAreas", v.map((r) => "\"" + r + "\"").join("\n")); }
 
 export function gridTemplateColumns(v: CSSGlobalValue): CssElementStyleProp;
 export function gridTemplateColumns(...v: CSSGridTemplateTrackValue[]): CssElementStyleProp;
@@ -1262,7 +1262,7 @@ export function layer(...namesOrRules: (PropSet | string)[]) {
         throw new Error("Layer names and/or rules are not defined.");
     }
     if (names.length > 1 && rules.length > 0) {
-        throw new Error("Cannot define multiple layers and rules at the same time")
+        throw new Error("Cannot define multiple layers and rules at the same time");
     }
     else if (names.length === 0) {
         return new SelectorPropSet("@layer", rules);

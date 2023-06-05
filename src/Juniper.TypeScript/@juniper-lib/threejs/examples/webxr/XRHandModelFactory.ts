@@ -1,8 +1,8 @@
-import { isString } from '@juniper-lib/tslib/typeChecks';
-import { Color, Matrix4, Object3D, XRHandSpace } from 'three';
-import { cleanup } from '../../cleanup';
-import { XRHandMeshModel } from './XRHandMeshModel';
-import { XRHandPrimitiveModel } from './XRHandPrimitiveModel';
+import { isString } from "@juniper-lib/tslib/typeChecks";
+import { Color, Matrix4, Object3D, XRHandSpace } from "three";
+import { cleanup } from "../../cleanup";
+import { XRHandMeshModel } from "./XRHandMeshModel";
+import { XRHandPrimitiveModel } from "./XRHandPrimitiveModel";
 
 export type XRHandModelPrimitiveProfileType =
     | "spheres"
@@ -14,31 +14,31 @@ export type XRHandModelProfileType =
     | "mesh";
 
 export const jointNames: ReadonlyArray<XRHandJoint> = [
-    'wrist',
-    'thumb-metacarpal',
-    'thumb-phalanx-proximal',
-    'thumb-phalanx-distal',
-    'thumb-tip',
-    'index-finger-metacarpal',
-    'index-finger-phalanx-proximal',
-    'index-finger-phalanx-intermediate',
-    'index-finger-phalanx-distal',
-    'index-finger-tip',
-    'middle-finger-metacarpal',
-    'middle-finger-phalanx-proximal',
-    'middle-finger-phalanx-intermediate',
-    'middle-finger-phalanx-distal',
-    'middle-finger-tip',
-    'ring-finger-metacarpal',
-    'ring-finger-phalanx-proximal',
-    'ring-finger-phalanx-intermediate',
-    'ring-finger-phalanx-distal',
-    'ring-finger-tip',
-    'pinky-finger-metacarpal',
-    'pinky-finger-phalanx-proximal',
-    'pinky-finger-phalanx-intermediate',
-    'pinky-finger-phalanx-distal',
-    'pinky-finger-tip',
+    "wrist",
+    "thumb-metacarpal",
+    "thumb-phalanx-proximal",
+    "thumb-phalanx-distal",
+    "thumb-tip",
+    "index-finger-metacarpal",
+    "index-finger-phalanx-proximal",
+    "index-finger-phalanx-intermediate",
+    "index-finger-phalanx-distal",
+    "index-finger-tip",
+    "middle-finger-metacarpal",
+    "middle-finger-phalanx-proximal",
+    "middle-finger-phalanx-intermediate",
+    "middle-finger-phalanx-distal",
+    "middle-finger-tip",
+    "ring-finger-metacarpal",
+    "ring-finger-phalanx-proximal",
+    "ring-finger-phalanx-intermediate",
+    "ring-finger-phalanx-distal",
+    "ring-finger-tip",
+    "pinky-finger-metacarpal",
+    "pinky-finger-phalanx-proximal",
+    "pinky-finger-phalanx-intermediate",
+    "pinky-finger-phalanx-distal",
+    "pinky-finger-tip",
 ];
 
 export interface IXRHandModel extends Object3D {
@@ -75,7 +75,7 @@ export class XRHandModel
         const create = () => this.add(this.impl = this.createModel(controller, handedness));
 
         if (controller) {
-            controller.addEventListener('connected', (event) => {
+            controller.addEventListener("connected", (event) => {
                 const xrInputSource = event.data as XRInputSource;
                 if (xrInputSource.hand && !this.impl) {
                     handedness = xrInputSource.handedness;
@@ -83,7 +83,7 @@ export class XRHandModel
                 }
             });
 
-            controller.addEventListener('disconnected', () => {
+            controller.addEventListener("disconnected", () => {
                 const old = this.impl;
                 this.impl = null;
                 handedness = null;
@@ -97,7 +97,7 @@ export class XRHandModel
     }
 
     private createModel(controller: XRHandSpace, handedness: XRHandedness): IXRHandModel {
-        if (this.profile === 'mesh') {
+        if (this.profile === "mesh") {
             return new XRHandMeshModel(controller, handedness, this.color);
         } else {
             return new XRHandPrimitiveModel(controller, handedness, this.color, this.profile);

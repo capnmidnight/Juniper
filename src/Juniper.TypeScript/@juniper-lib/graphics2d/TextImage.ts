@@ -43,8 +43,8 @@ export class TextImage extends CanvasImage {
     private _maxWidth: number = null;
     private _minHeight: number = null;
     private _maxHeight: number = null;
-    private _freezeDimensions: boolean = false;
-    private _dimensionsFrozen: boolean = false;
+    private _freezeDimensions = false;
+    private _dimensionsFrozen = false;
 
     private _bgFillColor: string = null;
     private _bgStrokeColor: string = null;
@@ -375,8 +375,8 @@ export class TextImage extends CanvasImage {
 
     private split(value: string) {
         return value
-            .replace(/\r\n/g, '\n')
-            .split('\n');
+            .replace(/\r\n/g, "\n")
+            .split("\n");
     }
 
     protected unfreeze() {

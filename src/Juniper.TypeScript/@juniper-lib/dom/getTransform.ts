@@ -49,7 +49,7 @@ if (!Object.prototype.hasOwnProperty.call(CanvasRenderingContext2D.prototype, "g
                 return {
                     x: p.x * this.a + p.y * this.c + this.e,
                     y: p.x * this.b + p.y * this.d + this.f
-                } as DOMPoint
+                } as DOMPoint;
             }
             else {
                 return null;
@@ -60,12 +60,12 @@ if (!Object.prototype.hasOwnProperty.call(CanvasRenderingContext2D.prototype, "g
     _getTransform = (g: Context2D) => {
         const mozG = g as MozCanvasRenderingContext2D;
         return new MockDOMMatrix(mozG.mozCurrentTransform) as DOMMatrix;
-    }
+    };
 }
 else {
     _getTransform = (g: Context2D) => {
         return g.getTransform();
-    }
+    };
 }
 
 export function getTransform(g: Context2D) {

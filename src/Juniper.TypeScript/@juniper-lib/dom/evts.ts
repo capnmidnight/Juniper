@@ -40,7 +40,7 @@ export function makeProgress(element: HTMLProgressElement): IProgress {
  * A setter functor for HTML element events.
  **/
 export class HtmlEvt<T extends Event>
-    implements IElementAppliable {
+implements IElementAppliable {
     opts?: EventListenerOpts;
 
     /**

@@ -183,4 +183,4 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
     }
 }
 
-export interface TestCaseConstructor extends Constructor<TestCase, typeof TestCase> { }
+export type TestCaseConstructor = Constructor<TestCase, typeof TestCase>

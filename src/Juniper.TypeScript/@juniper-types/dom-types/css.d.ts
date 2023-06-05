@@ -337,7 +337,7 @@ type CSSCounterStyleRangeValue =
     | `${number} ${number}`
     | `${number} infinite`
     | `infinite ${number}`
-    | `infinite infinite`;
+    | "infinite infinite";
 
 type CSSSizePropertyValue =
     | 0

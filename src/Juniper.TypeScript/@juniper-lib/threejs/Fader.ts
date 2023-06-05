@@ -35,7 +35,7 @@ export class Fader implements ErsatzObject {
 
     async fadeOut() {
         if (this.direction != 1) {
-            await this.start(1)
+            await this.start(1);
         }
     }
 

@@ -218,7 +218,7 @@ export class TreeViewNode<T>
 
         elementSetText(this.labeler, this.label);
 
-        elementSetTitle(this.adder, this.adderTitle)
+        elementSetTitle(this.adder, this.adderTitle);
         elementSetDisplay(this.adder, this.canHaveChildren, "inline-block");
         elementSetDisplay(this.upper, this.node.isChild && this.canChangeOrder && isNullOrUndefined(this.element.previousSibling));
         elementSetDisplay(this.lower, this.node.isChild && this.canChangeOrder);

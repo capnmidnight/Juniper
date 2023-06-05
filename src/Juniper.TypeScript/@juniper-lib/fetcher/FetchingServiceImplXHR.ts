@@ -73,7 +73,7 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
         if (prevDone) {
             requestComplete.reject(`${msg} (${xhr.status})`);
         }
-    }
+    };
 
     target.addEventListener("error", onError("error"));
     target.addEventListener("abort", onError("abort"));
@@ -241,7 +241,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             date,
             headers,
             content: xhr.response as Blob
-        }
+        };
 
         if (isDefined(response.content)) {
             response.contentType = response.contentType || response.content.type;

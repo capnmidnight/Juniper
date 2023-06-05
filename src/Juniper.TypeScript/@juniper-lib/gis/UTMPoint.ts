@@ -158,7 +158,7 @@ export class UTMPoint implements IUTMPoint, ICloneable {
 
     private static A(cosPhi: number, lng: number, utmz: number) {
         const zcm = 3 + (6 * (utmz - 1)) - 180;
-        return deg2rad(lng - zcm) * cosPhi
+        return deg2rad(lng - zcm) * cosPhi;
     }
 
     private static getZoneWidthAtLatitude(lat: number) {

@@ -34,7 +34,7 @@ export class TestOutput extends TypedEventBase<TestOutputEvents> {
         testRunner.addEventListener("testrunnerresults", (evt) => {
             const results = evt.results;
             let totalFound = 0, totalRan = 0, totalCompleted = 0, totalIncomplete = 0, totalSucceeded = 0, totalFailed = 0;
-            for (let test of results.values()) {
+            for (const test of results.values()) {
                 ++totalFound;
                 if (test.state & TestStates.started) {
                     ++totalRan;

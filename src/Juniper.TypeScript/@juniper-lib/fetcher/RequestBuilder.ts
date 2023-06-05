@@ -128,7 +128,7 @@ export class RequestBuilder implements
                         }
                     }
                 }
-                for (let [key, value] of Object.entries(body)) {
+                for (const [key, value] of Object.entries(body)) {
                     if (toSkip.has(key)) {
                         continue;
                     }
@@ -379,9 +379,9 @@ export class RequestBuilder implements
     private async htmlElement<
         ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement | HTMLLinkElement,
         EventsT extends HTMLElementEventMap>(
-            element: ElementT,
-            resolveEvt: keyof EventsT & string,
-            acceptType: string | MediaType): Promise<IResponse<ElementT>> {
+        element: ElementT,
+        resolveEvt: keyof EventsT & string,
+        acceptType: string | MediaType): Promise<IResponse<ElementT>> {
 
         const response = await this.file(acceptType);
         const task = once<EventsT>(element, resolveEvt, "error");

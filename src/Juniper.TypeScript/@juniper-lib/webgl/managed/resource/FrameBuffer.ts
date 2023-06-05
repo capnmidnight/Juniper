@@ -237,7 +237,7 @@ export class FrameBufferWebXRMultiview extends BaseFrameBufferWebXRMultiview<OVR
     }
 
     protected override createAttachment(format: FrameAndRenderBuffers) {
-        return new FrameBufferTextureMultiview(this.gl, this.ext, format, this.width, this.height, this.views)
+        return new FrameBufferTextureMultiview(this.gl, this.ext, format, this.width, this.height, this.views);
     }
 }
 

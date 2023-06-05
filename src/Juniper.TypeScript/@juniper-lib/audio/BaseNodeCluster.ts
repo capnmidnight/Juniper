@@ -28,7 +28,7 @@ export abstract class BaseNodeCluster<EventsT = void>
         this.inputs = inputs;
         const entries = inputs
             .filter(isIAudioNode)
-            .map(o => o as IAudioNode)
+            .map(o => o as IAudioNode);
         this.outputs = exits
             .filter(isIAudioNode)
             .map(o => o as IAudioNode);
@@ -58,7 +58,7 @@ export abstract class BaseNodeCluster<EventsT = void>
     get channelCount(): number { return this.exemplar.channelCount; }
     set channelCount(v: number) { this.allNodes.forEach(n => n.channelCount = v); }
     get channelCountMode(): ChannelCountMode { return this.exemplar.channelCountMode; }
-    set channelCountMode(v: ChannelCountMode) { this.allNodes.forEach(n => n.channelCountMode = v);; }
+    set channelCountMode(v: ChannelCountMode) { this.allNodes.forEach(n => n.channelCountMode = v); }
     get channelInterpretation(): ChannelInterpretation { return this.exemplar.channelInterpretation; }
     set channelInterpretation(v: ChannelInterpretation) { this.allNodes.forEach(n => n.channelInterpretation = v); }
     get numberOfInputs(): number { return this.inputs.length; }

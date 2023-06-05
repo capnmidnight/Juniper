@@ -34,7 +34,7 @@ export class AzureSpeechRecognizer
     private started = false;
     private aborting = false;
 
-    continuous: boolean = false;
+    continuous = false;
 
     private log(...args: any[]): void {
         console.log(this.curId, this.recorder.state, ...args);
@@ -72,7 +72,7 @@ export class AzureSpeechRecognizer
 
         this.onRecognizing = (_, evt) => {
             this.log("recognizing", evt);
-                this.onResult(evt.result, false);
+            this.onResult(evt.result, false);
         };
 
         this.onRecognized = (_, evt) => {
@@ -198,7 +198,7 @@ export class AzureSpeechRecognizer
         this.started = false;
         this.recognizer.stopContinuousRecognitionAsync(() => {
             if (this.aborting) {
-                    this.onAbort();
+                this.onAbort();
             }
             else {
                 this.dispatchEvent(this.endEvt);

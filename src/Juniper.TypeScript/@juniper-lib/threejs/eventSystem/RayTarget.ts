@@ -12,10 +12,10 @@ export class RayTarget<EventsT = void>
 
     readonly meshes = new Array<Mesh>();
 
-    private _disabled: boolean = false;
-    private _clickable: boolean = false;
-    private _draggable: boolean = false;
-    private _navigable: boolean = false;
+    private _disabled = false;
+    private _clickable = false;
+    private _draggable = false;
+    private _navigable = false;
 
     constructor(public readonly object: Object3D) {
         super();

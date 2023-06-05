@@ -15,7 +15,7 @@ export class RenderTargetManager implements IDisposable {
     private webGLLayer: XRWebGLLayer = undefined;
     private projLayer: XRProjectionLayer = undefined;
     private readonly views = new Array<XRView>();
-    private disposed: boolean = false;
+    private disposed = false;
     private mvExtOculus: OCULUS_multiview = null;
     private mvExtOvr: OVR_multiview2 = null;
     binding: XRWebGLBinding = null;

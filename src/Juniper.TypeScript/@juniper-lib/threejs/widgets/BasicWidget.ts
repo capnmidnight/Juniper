@@ -39,6 +39,6 @@ export class BasicWidget<T extends HTMLElement = HTMLElement> implements IWidget
     }
 
     add(...widgets: IWidget[]) {
-        widgetApply(this, ...widgets)
+        widgetApply(this, ...widgets);
     }
 }

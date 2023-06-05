@@ -102,7 +102,7 @@ export abstract class Application<EventsT extends ApplicationEvents = Applicatio
     abstract dispose(): void;
 }
 
-export interface ApplicationConstructor extends Constructor<Application, typeof Application> { }
+export type ApplicationConstructor = Constructor<Application, typeof Application>
 
 export interface ApplicationModule {
     default: ApplicationConstructor;

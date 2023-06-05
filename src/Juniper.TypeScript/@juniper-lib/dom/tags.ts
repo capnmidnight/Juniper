@@ -583,7 +583,7 @@ export function Style(...props: PropSet[]) {
     const elem = document.createElement("style");
     document.head.append(elem);
 
-    for (let prop of props) {
+    for (const prop of props) {
         prop.applyToSheet(elem.sheet);
     }
 }

@@ -125,7 +125,7 @@ function isPropertyDef(obj: PropertyDef): obj is Property {
 }
 
 export class PropertyList
-    implements ErsatzElement {
+implements ErsatzElement {
 
     private readonly groups = new PriorityList<string, Elements<HTMLElement>>();
     private readonly controls = new Array<IDisableable>();

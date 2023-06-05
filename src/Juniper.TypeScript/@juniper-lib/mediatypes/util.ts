@@ -54,10 +54,10 @@ export class MediaType {
         }
 
         if (isDefined(paramStr)) {
-            const pairs = paramStr.split(';')
+            const pairs = paramStr.split(";")
                 .map((p) => p.trim())
                 .filter((p) => p.length > 0)
-                .map((p) => p.split('='));
+                .map((p) => p.split("="));
             for (const [key, ...values] of pairs) {
                 const value = values.join("=");
                 parameters.set(key, value);
@@ -202,7 +202,7 @@ export class MediaType {
         if (this.primaryExtension) {
             const idx = fileName.lastIndexOf(".");
             if (idx > -1) {
-                const currentExtension = fileName.substring(idx + 1);;
+                const currentExtension = fileName.substring(idx + 1);
                 if (this.extensions.indexOf(currentExtension) > -1) {
                     fileName = fileName.substring(0, idx);
                 }

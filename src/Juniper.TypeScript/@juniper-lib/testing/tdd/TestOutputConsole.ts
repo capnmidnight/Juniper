@@ -14,7 +14,7 @@ export class TestOutputConsole extends TestOutput {
 
         const onResults = (evt: TestOutputResultsEvent) => {
             console.clear();
-            for (let testCaseName of evt.results.keys()) {
+            for (const testCaseName of evt.results.keys()) {
                 console.group(testCaseName);
                 console.table(evt.results.get(testCaseName));
                 console.groupEnd();

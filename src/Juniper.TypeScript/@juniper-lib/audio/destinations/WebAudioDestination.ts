@@ -28,7 +28,7 @@ export class WebAudioDestination
     private readonly volumeControl: JuniperGainNode;
     private readonly destination: JuniperMediaStreamAudioDestinationNode;
     protected readonly listener: BaseListener;
-    readonly remoteUserInput: JuniperGainNode
+    readonly remoteUserInput: JuniperGainNode;
     readonly spatializedInput: JuniperGainNode;
     readonly nonSpatializedInput: JuniperGainNode;
     readonly element: HTMLAudioElement;

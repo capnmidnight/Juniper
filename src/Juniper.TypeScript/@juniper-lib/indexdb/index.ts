@@ -52,7 +52,7 @@ export class IDexDB implements IDisposable {
         const D = indexedDB.open(name);
         if (await success(once<IDBOpenDBRequestEventMap>(D, "success", "error", "blocked"))) {
             const db = D.result;
-            version = db.version
+            version = db.version;
             const storesToScrutinize = new Array<string>();
 
             for (const storeName of db.objectStoreNames) {
@@ -276,11 +276,11 @@ export class IDexStore<T> {
     }
 
     getAll(): Promise<T[]> {
-        return this.request((store) => store.getAll<T>(), "readonly")
+        return this.request((store) => store.getAll<T>(), "readonly");
     }
 
     getAllKeys(): Promise<IDBValidKey[]> {
-        return this.request((store) => store.getAllKeys(), "readonly")
+        return this.request((store) => store.getAllKeys(), "readonly");
     }
 
     getKey(query: IDBValidKey | IDBKeyRange): Promise<IDBValidKey | undefined> {

@@ -5,7 +5,7 @@ import { Div, ElementChild, ErsatzElement, isElements } from "@juniper-lib/dom/t
 import "./style.css";
 
 export class GroupPanel
-    implements ErsatzElement {
+implements ErsatzElement {
 
     readonly element: HTMLElement;
 

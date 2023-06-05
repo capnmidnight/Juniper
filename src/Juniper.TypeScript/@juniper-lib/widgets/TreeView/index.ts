@@ -112,7 +112,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
     private typeFilter: FilterTypeT = null;
     private nameFilter: string = null;
 
-    readonly: boolean = false;
+    readonly = false;
 
     constructor(
         options?: TreeViewOptions<ValueT, FilterTypeT>,
@@ -189,7 +189,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                         const sel = this.selectedElement;
                         if (sel) {
                             if (evt.key === "Delete") {
-                                this.dispatchEvent(new TreeViewNodeDeleteEvent<ValueT>(sel.node))
+                                this.dispatchEvent(new TreeViewNodeDeleteEvent<ValueT>(sel.node));
                             }
                             else if (evt.key === "ArrowUp") {
                                 const index = elementGetIndexInParent(sel);
@@ -311,7 +311,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                     "Clear filter",
                     onClick(() => this.clearFilter())
                 )
-            )
+            );
         }
 
         if (this.canChangeOrder) {
@@ -335,7 +335,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 }
 
                 delta = 0;
-            }
+            };
 
             elementApply(this.children,
 
@@ -627,7 +627,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             e.scrollIntoView();
         }
         else {
-            e = this.selectedElement
+            e = this.selectedElement;
             if (isDefined(e)) {
                 e._selected = false;
             }

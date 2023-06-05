@@ -24,7 +24,7 @@ export class WorkerPool<EventsT, WorkerClientT extends WorkerClient<EventsT>>
 
         this.scriptPath = options.scriptPath;
 
-        let workerPoolSize: number = -1;
+        let workerPoolSize = -1;
         const workersDef = options.workers;
         let workers: Array<Worker> = null;
         if (isNumber(workersDef)) {

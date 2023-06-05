@@ -15,7 +15,7 @@ function isElem(obj: ElementChild): obj is Exclude<ElementChild, CssElementStyle
 
 
 export class ScrollPanel
-    implements ErsatzElement {
+implements ErsatzElement {
     readonly element: HTMLElement;
 
     constructor(...rest: ElementChild[]) {
@@ -30,6 +30,6 @@ export class ScrollPanel
                 className("scroll-panel-inner"),
                 ...elems
             )
-        )
+        );
     }
 }

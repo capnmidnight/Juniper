@@ -131,7 +131,7 @@ export class AvatarLocal
     readonly head: Object3D;
 
     readonly worldPos = new Vector3();
-    readonly worldQuat = new Quaternion()
+    readonly worldQuat = new Quaternion();
 
     lockMovement = false;
     fovZoomEnabled = true;

@@ -96,7 +96,7 @@ export class FetchingService implements IFetchingService {
     async sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
         return translateResponse(
             await this.sendNothingGetBlob(request, progress),
-            createImageBitmap)
+            createImageBitmap);
     }
 
     async sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {

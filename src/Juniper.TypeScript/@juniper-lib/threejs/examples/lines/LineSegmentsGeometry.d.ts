@@ -5,7 +5,7 @@ import {
     Matrix4,
     Mesh,
     WireframeGeometry,
-} from 'three';
+} from "three";
 
 export class LineSegmentsGeometry extends InstancedBufferGeometry {
     constructor();

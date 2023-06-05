@@ -19,7 +19,7 @@ function Dock(type: DockType, ...rest: ElementChild[]) {
     return Div(
         classList("dock", type),
         ...rest
-    )
+    );
 }
 
 function isProportion(r: ElementChild): boolean {
@@ -488,7 +488,7 @@ export function DockCell(header: Exclude<ElementChild, IElementAppliable>, ...re
             classList("header")
         ),
         content
-    )
+    );
 
     return DockGroupRow(cell);
 }

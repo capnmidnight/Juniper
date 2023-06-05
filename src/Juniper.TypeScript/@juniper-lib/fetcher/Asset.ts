@@ -73,7 +73,7 @@ export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Prom
         catch (exp) {
             console.warn(exp);
             return [this, 1];
-        };
+        }
     }
 
     async fetch(fetcher: IFetcher, prog?: IProgress) {
@@ -221,7 +221,7 @@ export class AssetText<ErrorT = unknown> extends BaseFetchedAsset<string, ErrorT
 
 export class AssetStyleSheet<ErrorT = unknown> extends BaseFetchedAsset<void, ErrorT> {
     constructor(path: string, useCache?: boolean) {
-        super(path, Text_Css, useCache)
+        super(path, Text_Css, useCache);
     }
 
     protected getResponse(request: IFetcherBodiedResult): Promise<IResponse> {
@@ -247,7 +247,7 @@ export class AssetScript<ErrorT = unknown> extends BaseFetchedAsset<void, ErrorT
             test = testOrUseCache;
         }
 
-        super(path, Application_Javascript, useCache)
+        super(path, Application_Javascript, useCache);
 
         this.test = test;
     }

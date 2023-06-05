@@ -183,7 +183,7 @@ export class TransformEditor
         else {
             return 1;
         }
-    }
+    };
 
     private setTranslator(motionAxis: Axis, interactionAxis: Axis, color: ColorRepresentation): Translator {
         const translator = new Translator(motionAxis, interactionAxis, color);
@@ -199,7 +199,7 @@ export class TransformEditor
                 }
 
                 if (isDefined(evt.hit)) {
-                    translator.selected = evt.hit.object
+                    translator.selected = evt.hit.object;
                 }
                 else {
                     translator.selected = null;
@@ -494,7 +494,7 @@ export class Translator extends RayTarget<void> {
 
         for (let i = 0; i < this.arcPads.length; ++i) {
             const a = i * Math.PI / 2;
-            Q.setFromAxisAngle(Z, a)
+            Q.setFromAxisAngle(Z, a);
             this.arcPads[i].quaternion
                 .setFromAxisAngle(ringRotAxis, Math.PI / 2)
                 .multiply(Q);

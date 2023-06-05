@@ -1,8 +1,8 @@
-import { Color, Matrix4, Object3D, Quaternion, SkinnedMesh, Vector3, XRHandSpace } from 'three';
-import { materialPhysicalToPhong, materialStandardToPhong } from '../../materials';
-import { isMeshPhongMaterial, isMeshPhysicalMaterial, isMeshStandardMaterial } from '../../typeChecks';
-import { GLTFLoader } from '../loaders/GLTFLoader';
-import { IXRHandModel, jointNames } from './XRHandModelFactory';
+import { Color, Matrix4, Object3D, Quaternion, SkinnedMesh, Vector3, XRHandSpace } from "three";
+import { materialPhysicalToPhong, materialStandardToPhong } from "../../materials";
+import { isMeshPhongMaterial, isMeshPhysicalMaterial, isMeshStandardMaterial } from "../../typeChecks";
+import { GLTFLoader } from "../loaders/GLTFLoader";
+import { IXRHandModel, jointNames } from "./XRHandModelFactory";
 
 const _oculusBrowserV14CorrectionRight = new Quaternion().identity();
 const _oculusBrowserV14CorrectionLeft = new Quaternion().identity();
@@ -13,7 +13,7 @@ if (/OculusBrowser\/14\./.test(navigator.userAgent)) {
         .premultiply(_oculusBrowserV14CorrectionRight);
 }
 
-const DEFAULT_HAND_PROFILE_PATH = 'https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles/generic-hand/';
+const DEFAULT_HAND_PROFILE_PATH = "https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles/generic-hand/";
 
 export class XRHandMeshModel extends Object3D implements IXRHandModel {
     private readonly oculusBrowserV14Correction: Quaternion;
@@ -28,7 +28,7 @@ export class XRHandMeshModel extends Object3D implements IXRHandModel {
         color: Color) {
         super();
 
-        this.oculusBrowserV14Correction = this.handedness === 'left'
+        this.oculusBrowserV14Correction = this.handedness === "left"
             ? _oculusBrowserV14CorrectionLeft
             : _oculusBrowserV14CorrectionRight;
 
@@ -39,7 +39,7 @@ export class XRHandMeshModel extends Object3D implements IXRHandModel {
             this.root = gltf.scene.children[0];
             this.add(this.root);
 
-            const mesh = this.root.getObjectByProperty('type', 'SkinnedMesh') as SkinnedMesh;
+            const mesh = this.root.getObjectByProperty("type", "SkinnedMesh") as SkinnedMesh;
 
             mesh.frustumCulled = false;
             mesh.castShadow = true;

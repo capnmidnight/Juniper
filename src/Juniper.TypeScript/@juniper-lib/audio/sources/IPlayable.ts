@@ -10,8 +10,7 @@ export interface IBasePlayable<T extends MediaElementSourceEvents> extends Typed
     restart(): void;
 }
 
-export interface IPlayable extends IBasePlayable<MediaElementSourceEvents> {
-}
+export type IPlayable = IBasePlayable<MediaElementSourceEvents>
 
 export class MediaElementSourceEvent<T extends string, P> extends TypedEvent<T> {
     constructor(type: T, public readonly source: P) {
@@ -67,5 +66,4 @@ export interface BaseMediaElementSourceEvents<T extends IPlayable> {
     progress: MediaElementSourceProgressEvent<T>;
 }
 
-export interface MediaElementSourceEvents extends BaseMediaElementSourceEvents<IPlayable> {
-}
+export type MediaElementSourceEvents = BaseMediaElementSourceEvents<IPlayable>

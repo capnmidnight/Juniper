@@ -4,7 +4,7 @@ import { obj, objGraph } from "../objects";
 import { Image2D } from "../widgets/Image2D";
 
 export class MenuItem extends RayTarget {
-    startX: number = 0;
+    startX = 0;
 
     constructor(width: number, height: number,
         name: string,

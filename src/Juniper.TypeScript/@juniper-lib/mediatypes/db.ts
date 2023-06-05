@@ -33,7 +33,7 @@ export const MediaTypeDB = /*@__PURE__*/ singleton("Juniper:TSLib:MediaTypeDB", 
         if (!ext) {
             ext = "unknown";
         }
-        else if (ext[0] == '.') {
+        else if (ext[0] == ".") {
             ext = ext.substring(1);
         }
 

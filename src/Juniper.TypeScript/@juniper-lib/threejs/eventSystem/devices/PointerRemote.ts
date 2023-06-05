@@ -146,7 +146,7 @@ export class PointerRemote
         }
 
         this.killTimeout = setTimeout(() => {
-            this.killTimeout = null
+            this.killTimeout = null;
             killAction();
         }, killTime * 1000) as any;
     }

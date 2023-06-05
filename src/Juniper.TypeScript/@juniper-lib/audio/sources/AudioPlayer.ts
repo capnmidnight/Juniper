@@ -89,7 +89,7 @@ export class AudioPlayer
 
         this.onPlay = async () => {
             this.enable();
-            this.dispatchEvent(this.playEvt)
+            this.dispatchEvent(this.playEvt);
         };
 
         this.onPause = (evt: Event) => {
@@ -206,10 +206,10 @@ export class AudioPlayer
                 bitrate: source.abr * 1024,
                 samplerate: source.asr
             }
-        }
+        };
 
         try {
-            return await navigator.mediaCapabilities.decodingInfo(config)
+            return await navigator.mediaCapabilities.decodingInfo(config);
         }
         catch {
             return {

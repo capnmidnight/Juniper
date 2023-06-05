@@ -189,7 +189,7 @@ export class FetchingServiceClient
 
     sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
         return this.sendNothingGetBuffer(request, progress)
-            .then(bufferToBlob)
+            .then(bufferToBlob);
     }
 
     sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {

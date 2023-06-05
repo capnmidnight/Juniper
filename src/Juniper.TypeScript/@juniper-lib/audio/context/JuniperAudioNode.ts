@@ -45,6 +45,6 @@ export abstract class JuniperAudioNode<NodeT extends AudioNode = AudioNode, Even
         return {
             source: this._node,
             output
-        }
+        };
     }
 }

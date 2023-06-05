@@ -84,7 +84,7 @@ export class UTMPointTests extends TestCase {
             const a = i * HalfPi;
             const x = r * Math.cos(a);
             const y = r * Math.sin(a);
-            lls.push(new LatLngPoint(y + dy, x + 3))
+            lls.push(new LatLngPoint(y + dy, x + 3));
         }
 
         const centLL = LatLngPoint.centroid(lls);
@@ -96,7 +96,7 @@ export class UTMPointTests extends TestCase {
 
         if (!this.areApprox(centUTMll.lat, centLL.lat, "Latitude", 0.01)
             || !this.areApprox(centUTMll.lng, centLL.lng, "Longitude", 0.01)) {
-            console.log({ centUTMll, centUTM, centLL })
+            console.log({ centUTMll, centUTM, centLL });
         }
     }
 

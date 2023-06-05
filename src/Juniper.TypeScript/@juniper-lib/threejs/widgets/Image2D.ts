@@ -30,8 +30,8 @@ export class Image2D
 
     private readonly lastMatrixWorld = new Matrix4();
 
-    private _imageWidth: number = 0;
-    private _imageHeight: number = 0;
+    private _imageWidth = 0;
+    private _imageHeight = 0;
     private forceUpdate = false;
     private wasUsingLayer = false;
 
@@ -53,7 +53,7 @@ export class Image2D
         if (env) {
             this.setEnvAndName(env, name);
 
-            let material = isMeshBasicMaterial(materialOrOptions)
+            const material = isMeshBasicMaterial(materialOrOptions)
                 ? materialOrOptions
                 : solidTransparent(Object.assign(
                     {},

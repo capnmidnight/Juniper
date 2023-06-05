@@ -9,7 +9,7 @@ export class SceneGraphDialog extends BaseGraphDialog<Object3D> {
         super("Scene graph", (obj) => obj.name, () => "grey", () => 1);
 
         window.addEventListener("keypress", (evt) => {
-            if (evt.key === '~') {
+            if (evt.key === "~") {
                 this.showDialog();
             }
         });

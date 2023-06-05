@@ -174,7 +174,7 @@ export class Menu extends Object3D {
                 break;
             }
             else {
-                --pageSize
+                --pageSize;
             }
         } while (true);
 

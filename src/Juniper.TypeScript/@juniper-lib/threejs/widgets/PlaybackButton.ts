@@ -157,7 +157,7 @@ export class PlaybackButton<T extends FullAudioRecord>
                 || player.playbackState === "stopped") {
                 this.progressBar.visible = false;
             }
-        }
+        };
 
         refresh();
 
@@ -181,7 +181,7 @@ export class PlaybackButton<T extends FullAudioRecord>
 
         const onClick = (btn: MeshButton, callback: () => void) => {
             btn.addEventListener("click", callback);
-        }
+        };
 
         onClick(this.playButton, this.clickPlay);
         onClick(this.pauseButton, () => player.pause());

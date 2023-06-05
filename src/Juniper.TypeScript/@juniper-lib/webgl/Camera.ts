@@ -33,12 +33,12 @@ export class Camera {
     private _proj = mat4.create();
     private _view = mat4.create();
 
-    private _headingDegrees: number = 0;
-    private _pitchDegrees: number = 0;
+    private _headingDegrees = 0;
+    private _pitchDegrees = 0;
 
     private _aspect: number;
     private _fov: number;
-    private _sensorSize: number = 0.035;
+    private _sensorSize = 0.035;
     private _focalLength: number;
     private _near: number;
     private _far: number;
@@ -146,7 +146,7 @@ export class Camera {
         }
     }
 
-    setProjection(fov: number = 60, near: number = 0.1, far: number = 100): void {
+    setProjection(fov = 60, near = 0.1, far = 100): void {
         this._fov = fov;
         this._near = near;
         this._far = far;

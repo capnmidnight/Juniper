@@ -286,7 +286,7 @@ export class ScreenControl
                     this.renderer.xr.setSession(session as any);
                 }
                 catch (exp) {
-                    console.error(`Couldn't start session type '${xrMode.sessionMode}'. Reason: ${exp && exp.message || exp || 'UNKNOWN'}`);
+                    console.error(`Couldn't start session type '${xrMode.sessionMode}'. Reason: ${exp && exp.message || exp || "UNKNOWN"}`);
                 }
             }
         }

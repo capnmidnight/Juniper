@@ -21,7 +21,7 @@ export class ButtonTextWidget extends Widget<HTMLButtonElement> {
             "inline-block"
         );
 
-        this.mesh = new TextMeshButton(this.env, `${name}-button`, text, textButtonStyle)
+        this.mesh = new TextMeshButton(this.env, `${name}-button`, text, textButtonStyle);
         objGraph(this, this.mesh);
         this.mesh.addEventListener("click", () => {
             this.element.click();

@@ -90,7 +90,7 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
     }
 
     private static parseDMS(value: string): number {
-        const parts = value.split(' ');
+        const parts = value.split(" ");
         if (parts.length == 3) {
             const hemisphere = parts[0];
             const degrees = parseInt(parts[1], 10);
@@ -111,7 +111,7 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
     }
 
     private static parseDMSPair(value: string): LatLngPoint | null {
-        const parts = value.split(',');
+        const parts = value.split(",");
         if (parts.length == 2) {
             const lat = LatLngPoint.parseDMS(parts[0]);
             const lng = LatLngPoint.parseDMS(parts[1]);
@@ -125,7 +125,7 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
     }
 
     private static parseDecimal(value: string): LatLngPoint | null {
-        const parts = value.split(',');
+        const parts = value.split(",");
         if (parts.length == 2) {
             const lat = parseFloat(parts[0].trim());
             const lng = parseFloat(parts[1].trim());

@@ -5,35 +5,35 @@
 import { Object3D, Quaternion, XRTargetRaySpace } from "three";
 
 export type VisualResponsePropertyType =
-    | 'transform'
-    | 'visibility';
+    | "transform"
+    | "visibility";
 
 const Constants = Object.freeze({
     Handedness: {
-        NONE: 'none',
-        LEFT: 'left',
-        RIGHT: 'right'
+        NONE: "none",
+        LEFT: "left",
+        RIGHT: "right"
     },
 
     ComponentState: {
-        DEFAULT: 'default',
-        TOUCHED: 'touched',
-        PRESSED: 'pressed'
+        DEFAULT: "default",
+        TOUCHED: "touched",
+        PRESSED: "pressed"
     },
 
     ComponentProperty: {
-        BUTTON: 'button',
-        X_AXIS: 'xAxis',
-        Y_AXIS: 'yAxis',
-        STATE: 'state'
+        BUTTON: "button",
+        X_AXIS: "xAxis",
+        Y_AXIS: "yAxis",
+        STATE: "state"
     },
 
     ComponentType: {
-        TRIGGER: 'trigger',
-        SQUEEZE: 'squeeze',
-        TOUCHPAD: 'touchpad',
-        THUMBSTICK: 'thumbstick',
-        BUTTON: 'button'
+        TRIGGER: "trigger",
+        SQUEEZE: "squeeze",
+        TOUCHPAD: "touchpad",
+        THUMBSTICK: "thumbstick",
+        BUTTON: "button"
     },
 
     ButtonTouchThreshold: 0.05,
@@ -41,8 +41,8 @@ const Constants = Object.freeze({
     AxisTouchThreshold: 0.1,
 
     VisualResponseProperty: {
-        TRANSFORM: 'transform' as VisualResponsePropertyType,
-        VISIBILITY: 'visibility' as VisualResponsePropertyType
+        TRANSFORM: "transform" as VisualResponsePropertyType,
+        VISIBILITY: "visibility" as VisualResponsePropertyType
     }
 });
 

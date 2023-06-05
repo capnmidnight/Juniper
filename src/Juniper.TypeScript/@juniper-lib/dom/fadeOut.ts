@@ -1,4 +1,4 @@
-export function fadeOut(element: HTMLElement, opaqueSeconds: number = 1, fadeSeconds: number = 1, dt: number = 0.01) {
+export function fadeOut(element: HTMLElement, opaqueSeconds = 1, fadeSeconds = 1, dt = 0.01) {
     opaqueSeconds *= 1000;
     fadeSeconds *= 1000;
     dt *= 1000;

@@ -1,6 +1,6 @@
-import { BufferGeometry } from 'three';
+import { BufferGeometry } from "three";
 
-import { LineSegmentsGeometry } from './LineSegmentsGeometry';
+import { LineSegmentsGeometry } from "./LineSegmentsGeometry";
 
 export class WireframeGeometry2 extends LineSegmentsGeometry {
     constructor(geometry: BufferGeometry);

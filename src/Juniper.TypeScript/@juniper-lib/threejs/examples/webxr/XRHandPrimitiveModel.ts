@@ -33,9 +33,9 @@ export class XRHandPrimitiveModel extends InstancedMesh<BufferGeometry, MeshPhon
 
         let geometry: BufferGeometry;
 
-        if (primitive === 'boxes') {
+        if (primitive === "boxes") {
             geometry = new BoxGeometry(1, 1, 1);
-        } else if (primitive === 'bones') {
+        } else if (primitive === "bones") {
             geometry = new CylinderGeometry(0.5, 0.75, 2.25, 10, 1).rotateX(-Math.PI / 2);
         } else {
             geometry = new SphereGeometry(1, 10, 10);
@@ -52,7 +52,7 @@ export class XRHandPrimitiveModel extends InstancedMesh<BufferGeometry, MeshPhon
         this.castShadow = true;
         this.receiveShadow = true;
 
-        this.oculusBrowserV14Correction = handedness === 'left'
+        this.oculusBrowserV14Correction = handedness === "left"
             ? _oculusBrowserV14CorrectionLeft
             : _oculusBrowserV14CorrectionRight;
     }

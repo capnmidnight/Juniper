@@ -49,7 +49,7 @@ export class LoadingBar
         deepSetLayer(this, PURGATORY);
     }
 
-    private _enabled: boolean = true;
+    private _enabled = true;
     get enabled(): boolean {
         return this._enabled;
     }

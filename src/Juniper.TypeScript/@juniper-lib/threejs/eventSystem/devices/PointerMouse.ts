@@ -5,7 +5,7 @@ import { BaseScreenPointerSinglePoint } from "./BaseScreenPointerSinglePoint";
 import { VirtualButton } from "./VirtualButton";
 
 export class PointerMouse extends BaseScreenPointerSinglePoint {
-    allowPointerLock: boolean = false;
+    allowPointerLock = false;
 
     private dz = 0;
 

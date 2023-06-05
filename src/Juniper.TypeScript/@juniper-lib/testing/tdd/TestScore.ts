@@ -24,7 +24,7 @@ export class TestScore {
 
     finish(value: string) {
         this.state |= TestStates.completed;
-        if (!!value) {
+        if (value) {
             this.messages.push(value);
         }
     }

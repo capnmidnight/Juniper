@@ -108,7 +108,7 @@ export function scaleOnHover(target: RayTarget<any>, enabled: boolean) {
     const has = scaledItems.has(target);
     if (enabled != has) {
         if (enabled) {
-            scaledItems.set(target, new ScaleState(target));;
+            scaledItems.set(target, new ScaleState(target));
         }
         else {
             const scaler = scaledItems.get(target);

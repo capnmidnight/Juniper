@@ -22,7 +22,7 @@ export abstract class BaseSpatializer extends BaseNodeCluster implements IPoseRe
         output?: ReadonlyArray<IAudioNode>,
         nodes?: ReadonlyArray<IAudioNode>
     ) {
-        super(type, context, input, output, nodes)
+        super(type, context, input, output, nodes);
     }
 
     get minDistance() { return this._minDistance; }

@@ -104,7 +104,7 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
                     Div(gridColumn(3), "Status"));
 
             let lastTestCaseName: string = null;
-            for (let [testCaseName, testName, test] of evt.results.entries()) {
+            for (const [testCaseName, testName, test] of evt.results.entries()) {
                 if (testCaseName !== lastTestCaseName) {
                     lastTestCaseName = testCaseName;
                     table.append(

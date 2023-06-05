@@ -75,7 +75,7 @@ export class WindowLogger implements IDebugLogger, ErsatzElement {
         elementApply(document.body, this);
 
         window.addEventListener("keypress", (evt) => {
-            if (isModifierless(evt) && evt.key === '`') {
+            if (isModifierless(evt) && evt.key === "`") {
                 this.toggle();
             }
         });

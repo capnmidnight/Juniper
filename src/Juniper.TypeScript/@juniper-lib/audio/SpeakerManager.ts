@@ -73,7 +73,7 @@ export class SpeakerManager
         return localStorage.getItem(PREFERRED_AUDIO_OUTPUT_ID_KEY);
     }
 
-    async getAudioOutputDevices(filterDuplicates: boolean = false): Promise<MediaDeviceInfo[]> {
+    async getAudioOutputDevices(filterDuplicates = false): Promise<MediaDeviceInfo[]> {
         if (!canChangeAudioOutput) {
             return [];
         }
@@ -131,7 +131,7 @@ export class SpeakerManager
         }
     }
 
-    private async getAvailableDevices(filterDuplicates: boolean = false): Promise<MediaDeviceInfo[]> {
+    private async getAvailableDevices(filterDuplicates = false): Promise<MediaDeviceInfo[]> {
         let devices: MediaDeviceInfo[] = null;
         let testStream: MediaStream = null;
         for (let i = 0; i < 3; ++i) {

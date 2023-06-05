@@ -40,7 +40,7 @@ const captureParamsRadians = [
 ];
 
 export abstract class PhotosphereRig
-    implements IDisposable {
+implements IDisposable {
     private baseURL: string = null;
 
     private readonly canvas: CanvasTypes;
@@ -134,7 +134,7 @@ export abstract class PhotosphereRig
         }
 
         const blob = await canvasToBlob(canv, Image_Jpeg.value, 1);
-        const file = URL.createObjectURL(blob);;
+        const file = URL.createObjectURL(blob);
 
         this.clear();
 
@@ -202,7 +202,7 @@ export abstract class PhotosphereRig
         frame.position
             .set(0, 0, -dist)
             .applyQuaternion(frame.quaternion);
-        objGraph(this.photosphere, frame)
+        objGraph(this.photosphere, frame);
     }
 
     private clear() {

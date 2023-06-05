@@ -13,5 +13,5 @@ class EventScope implements IDisposable {
 
 export function eventScope<EventMapT, EventT extends string & keyof EventMapT = string & keyof EventMapT>(target: TypedEventBase<EventMapT> | EventTarget, eventName: EventT, eventHandler: (evt: TypedEvent<EventT> & EventMapT[EventT]) => any): EventScope;
 export function eventScope(target: EventTarget, eventName: string, eventHandler: any): EventScope {
-    return new EventScope(target, eventName, eventHandler)
+    return new EventScope(target, eventName, eventHandler);
 }

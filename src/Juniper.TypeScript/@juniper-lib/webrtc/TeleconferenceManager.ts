@@ -48,7 +48,7 @@ function fakeSocket(...args: any[]): WebSocket {
     const socket = new (WebSocket as any)(...args);
     sockets.push(socket);
     return socket;
-};
+}
 
 fakeSocket.CLOSED = WebSocket.CLOSED;
 fakeSocket.CLOSING = WebSocket.CLOSING;

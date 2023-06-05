@@ -53,7 +53,7 @@ export class DeviceManager {
         }
     }
 
-    async getDevices(filterDuplicates: boolean = false): Promise<MediaDeviceInfo[]> {
+    async getDevices(filterDuplicates = false): Promise<MediaDeviceInfo[]> {
         let devices: MediaDeviceInfo[] = null;
         let testStream: MediaStream = null;
         for (let i = 0; i < 3; ++i) {

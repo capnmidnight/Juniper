@@ -74,7 +74,7 @@ export class Build {
             const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
             const namedExports = match[1]
                 .replace(/\b\w+\s+as\s+/g, "")
-                .split(',')
+                .split(",")
                 .map(v => v.trim());
 
             this.globalExternal("three", {
@@ -149,7 +149,7 @@ export class Build {
         }
 
         plugins.push({
-            name: 'my-plugin',
+            name: "my-plugin",
             setup(build) {
                 let count = 0;
                 build.onEnd(() => {
@@ -239,7 +239,7 @@ function hasIndexFile(parent: string, dir: fs.Dirent) {
         return false;
     }
 
-    const [_, files] = results
+    const [_, files] = results;
     return files.filter(f => f.isFile()
         && f.name === "index.ts")
         .length === 1;

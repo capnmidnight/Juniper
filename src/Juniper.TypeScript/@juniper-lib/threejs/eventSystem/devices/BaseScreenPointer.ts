@@ -29,7 +29,7 @@ export abstract class BaseScreenPointer extends BasePointer {
             if (this._isActive) {
                 this.onReadEvent(evt);
             }
-        }
+        };
 
         this.element = this.env.renderer.domElement;
         this.element.addEventListener("pointerdown", onPointerEvent);
@@ -77,7 +77,7 @@ export abstract class BaseScreenPointer extends BasePointer {
 
         this.up
             .set(0, 1, 0)
-            .applyQuaternion(this.env.avatar.worldQuat)
+            .applyQuaternion(this.env.avatar.worldQuat);
     }
 
     protected override onUpdate(): void {

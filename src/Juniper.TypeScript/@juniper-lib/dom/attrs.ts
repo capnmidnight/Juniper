@@ -86,7 +86,7 @@ export function coallesceClassLists(attrs: Attr[], ...rest: string[]): string[] 
 
     const classNameAttr = arrayScan(attrs, attr => attr instanceof Attr && attr.key === "className");
     if (isDefined(classNameAttr)) {
-        arrayRemove(attrs, classNameAttr)
+        arrayRemove(attrs, classNameAttr);
         classes.push(...(classNameAttr.value as string).split(" "));
     }
 
@@ -848,7 +848,7 @@ export function scoped(value: boolean) { return new Attr("scoped", value, false,
 /**
  * The scrolling attribute for `iframe` tags.
   **/
-export function scrolling(value: boolean) { return new Attr("scrolling", value ? "yes" : "no", false, "iframe") }
+export function scrolling(value: boolean) { return new Attr("scrolling", value ? "yes" : "no", false, "iframe"); }
 
 /**
  * Defines an `option` tag which will be selected on page load.

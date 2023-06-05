@@ -15,7 +15,7 @@ export function createSpeechRecognizer(fetcher: IFetcher, activity: ActivityDete
     const recorder = new AudioRecordingNode(activity.context, activity);
     microphones.connect(recorder);
 
-    return new JuniperSpeechRecognizer(fetcher, postPath, recorder)
+    return new JuniperSpeechRecognizer(fetcher, postPath, recorder);
 }
 
 export type SpeechRecognizerFactory = (fetcher: IFetcher, activity: ActivityDetector, microphones: LocalUserMicrophone) => ISpeechRecognizer;

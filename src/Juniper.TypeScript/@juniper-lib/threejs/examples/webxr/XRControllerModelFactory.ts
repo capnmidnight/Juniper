@@ -1,7 +1,7 @@
-import { Group, Mesh, MeshBasicMaterial, Object3D, SphereGeometry, Texture, XRTargetRaySpace } from 'three';
-import { cleanup } from '../../cleanup';
-import { isMesh, isMeshPhongMaterial, isMeshPhysicalMaterial, isMeshStandardMaterial } from '../../typeChecks';
-import { GLTF, GLTFLoader } from '../loaders/GLTFLoader';
+import { Group, Mesh, MeshBasicMaterial, Object3D, SphereGeometry, Texture, XRTargetRaySpace } from "three";
+import { cleanup } from "../../cleanup";
+import { isMesh, isMeshPhongMaterial, isMeshPhysicalMaterial, isMeshStandardMaterial } from "../../typeChecks";
+import { GLTF, GLTFLoader } from "../loaders/GLTFLoader";
 
 import {
     Constants as MotionControllerConstants,
@@ -9,10 +9,10 @@ import {
     MotionController,
     VisualResponse,
     VisualResponsePropertyType
-} from './motion-controllers.module';
+} from "./motion-controllers.module";
 
-const DEFAULT_PROFILES_PATH = 'https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles';
-const DEFAULT_PROFILE = 'generic-trigger';
+const DEFAULT_PROFILES_PATH = "https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles";
+const DEFAULT_PROFILE = "generic-trigger";
 
 export class XRControllerModel extends Object3D {
 
@@ -231,11 +231,11 @@ export class XRControllerModelFactory {
         const controllerModel = new XRControllerModel();
         let scene: Group = null;
 
-        controller.addEventListener('connected', async (event) => {
+        controller.addEventListener("connected", async (event) => {
 
             const xrInputSource = event.data as XRInputSource;
 
-            if (xrInputSource.targetRayMode !== 'tracked-pointer' || !xrInputSource.gamepad) return;
+            if (xrInputSource.targetRayMode !== "tracked-pointer" || !xrInputSource.gamepad) return;
 
             try {
                 const { profile, assetPath } = await fetchProfile(xrInputSource, this.path, profileName || DEFAULT_PROFILE);
@@ -257,11 +257,11 @@ export class XRControllerModelFactory {
 
                     if (!this.gltfLoader) {
 
-                        throw new Error('GLTFLoader not set.');
+                        throw new Error("GLTFLoader not set.");
 
                     }
 
-                    this.gltfLoader.setPath('');
+                    this.gltfLoader.setPath("");
                     this.gltfLoader.load(controllerModel.motionController.assetUrl, (asset) => {
 
                         this._assetCache[controllerModel.motionController.assetUrl] = asset;
@@ -271,12 +271,12 @@ export class XRControllerModelFactory {
                         addAssetSceneToControllerModel(controllerModel, scene);
 
                     },
-                        null,
-                        () => {
+                    null,
+                    () => {
 
-                            throw new Error(`Asset ${controllerModel.motionController.assetUrl} missing or malformed.`);
+                        throw new Error(`Asset ${controllerModel.motionController.assetUrl} missing or malformed.`);
 
-                        });
+                    });
 
                 }
 
@@ -289,7 +289,7 @@ export class XRControllerModelFactory {
 
         });
 
-        controller.addEventListener('disconnected', () => {
+        controller.addEventListener("disconnected", () => {
             cleanup(controllerModel.motionController);
             controllerModel.motionController = null;
             cleanup(scene);

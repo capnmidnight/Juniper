@@ -97,7 +97,7 @@ export function createEACGeometry(subDivs: number, ...quads: QuadPosUV[]) {
     for (let i = 0; i < subDivs; ++i) {
         remappingQuads = subdivide(remappingQuads);
     }
-    quads = unmapEACSubdivision(remappingQuads)
+    quads = unmapEACSubdivision(remappingQuads);
     const faces = normalizeQuads(quads);
     return createGeometry(faces);
 }
@@ -128,7 +128,7 @@ function mapEACSubdivision(quads: QuadPosUV[]): QuadPosUVBounds[] {
                 mapEACSubdivVert(minUV, deltaUV, quad[2]),
                 mapEACSubdivVert(minUV, deltaUV, quad[3])
             ]
-        }
+        };
     });
 }
 
@@ -160,7 +160,7 @@ function unmapEACSubdivVert(quadx: QuadPosUVBounds, i: number): PosUV {
         vert.pos[2],
         vert.uv[0],
         vert.uv[1],
-    ]
+    ];
 }
 
 function subdivide(quadsx: QuadPosUVBounds[]): QuadPosUVBounds[] {
@@ -211,7 +211,7 @@ function midpoint(quadx: QuadPosUVBounds, from: PosUVBounds, to: PosUVBounds): P
         pos: [x, y, z],
         pUV: [pu, pv],
         uv: [u, v]
-    }
+    };
 }
 
 function mapEACUV(uv: number): number {

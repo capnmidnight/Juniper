@@ -5,7 +5,7 @@ import { debounce } from "@juniper-lib/events/debounce";
 import "./style.css";
 
 export class NamedPanel
-    implements ErsatzElement {
+implements ErsatzElement {
 
     readonly element: HTMLElement;
 

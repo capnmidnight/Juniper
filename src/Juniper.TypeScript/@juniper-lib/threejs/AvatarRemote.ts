@@ -135,7 +135,7 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
 
         source.addEventListener("sourceadded", (evt) => {
             evt.source.connect(this.activity);
-            evt.source.name = `remote-user-stream-${user.userName}-${user.userID}`
+            evt.source.name = `remote-user-stream-${user.userName}-${user.userID}`;
         });
 
         this.headFollower = new BodyFollower("AvatarBody", 0.05, HalfPi, 0, 5);

@@ -37,14 +37,14 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
 
     scaffold() {
         const results: TestResults = new PriorityMap();
-        for (let CaseClass of this.CaseClasses) {
-            for (let name of testNames(CaseClass.prototype)) {
+        for (const CaseClass of this.CaseClasses) {
+            for (const name of testNames(CaseClass.prototype)) {
                 if (isTest(CaseClass.prototype, name)) {
                     results.add(CaseClass.name, name, new TestScore(name));
                 }
             }
         }
-        this.dispatchEvent(new TestRunnerResultsEvent(results))
+        this.dispatchEvent(new TestRunnerResultsEvent(results));
     }
 
     async run(testCaseName: string, testName: string) {
@@ -100,7 +100,7 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
             onUpdate();
         };
 
-        for (let prop of this.props) {
+        for (const prop of this.props) {
             Object.assign(testCase, prop);
         }
 

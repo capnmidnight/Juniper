@@ -90,7 +90,7 @@ export class VideoPlayer3D
 
     isSupported(encoding: SphereEncodingName, layout: StereoLayoutName): boolean {
         return layout
-            .split('-')
+            .split("-")
             .map((name) =>
                 GeomPacks.has(encoding, name))
             .reduce(and, true);
@@ -134,7 +134,7 @@ export class VideoPlayer3D
             this.vidMeshes[i].scale.copy(this.vidMeshes[0].scale);
         }
 
-        const names = layout.split('-');
+        const names = layout.split("-");
         for (let i = 0; i < names.length; ++i) {
             const name = names[i];
             const geom = GeomPacks.get(encoding, name);
@@ -168,7 +168,7 @@ const PlanDef_Right: QuadPosUV = [
     [+1 / 2, +1 / 2, 0, 1.0, 1.0],
     [+1 / 2, -1 / 2, 0, 1.0, 0.0],
     [-1 / 2, -1 / 2, 0, 0.5, 0.0]
-]
+];
 
 const CubeStripDef_Mono: QuadPosUV[] = [[
     [-1 / 2, +1 / 2, -1 / 2, 1 / 3, 1.000],

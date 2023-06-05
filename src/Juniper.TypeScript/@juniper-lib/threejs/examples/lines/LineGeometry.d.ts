@@ -1,6 +1,6 @@
-import { Line } from 'three';
+import { Line } from "three";
 
-import { LineSegmentsGeometry } from './LineSegmentsGeometry';
+import { LineSegmentsGeometry } from "./LineSegmentsGeometry";
 
 export class LineGeometry extends LineSegmentsGeometry {
     constructor();

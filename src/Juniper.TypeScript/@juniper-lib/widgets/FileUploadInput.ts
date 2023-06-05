@@ -104,7 +104,7 @@ export class FileUploadInput
         const select = (fileList: FileList) => {
             const files = getMatchingFiles(fileList);
             if (files.length > 0) {
-                this.dispatchEvent(new FileUploadInputEvent(files))
+                this.dispatchEvent(new FileUploadInputEvent(files));
             }
         };
 
