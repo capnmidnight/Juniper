@@ -4,10 +4,11 @@ import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { hasVR, hasWebVR, hasWebXR, isMobileVR } from "@juniper-lib/tslib/flags";
 import { rad2deg } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { PerspectiveCamera, WebGLRenderer } from "three";
+import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import WebXRPolyfill from "webxr-polyfill/src/WebXRPolyfill";
 import { ScreenMode } from "./ScreenMode";
 import type { ScreenUI } from "./ScreenUI";
+import { AnaglyphEffect } from "./examples/effects/AnaglyphEffect";
 import type { ScreenModeToggleButton } from "./widgets/ScreenModeToggleButton";
 
 if (!navigator.xr) {
@@ -67,12 +68,13 @@ export class ScreenControl
     private screenUI: ScreenUI = null;
     private readonly wasVisible = new Map<ScreenModeToggleButton, boolean>();
     private lastFOV = 50;
-
+    private readonly anaglyph: AnaglyphEffect;
     constructor(
         private readonly renderer: WebGLRenderer,
         private readonly camera: PerspectiveCamera,
         readonly fullscreenElement: HTMLElement,
-        private readonly enableFullResolution: boolean) {
+        private readonly enableFullResolution: boolean,
+        private readonly enableAnaglyph: boolean) {
         super();
 
         this.addEventListener("sessionstarted", (evt) => {
@@ -91,21 +93,26 @@ export class ScreenControl
         this.renderer.xr.addEventListener("sessionstart", () => this.onSessionStarted());
         this.renderer.xr.addEventListener("sessionend", () => this.onSessionEnded());
 
+        this.anaglyph = new AnaglyphEffect(this.renderer);
+
         this.refresh();
     }
 
-    setUI(screenUI: ScreenUI, fullscreenButton: ScreenModeToggleButton, vrButton: ScreenModeToggleButton, arButton: ScreenModeToggleButton) {
+    setUI(screenUI: ScreenUI, anaglyphButton: ScreenModeToggleButton, fullscreenButton: ScreenModeToggleButton, vrButton: ScreenModeToggleButton, arButton: ScreenModeToggleButton) {
         this.screenUI = screenUI;
 
-        this.buttons.set(fullscreenButton.mode, fullscreenButton);
-        this.buttons.set(vrButton.mode, vrButton);
-        this.buttons.set(arButton.mode, arButton);
+        for (const btn of [anaglyphButton, fullscreenButton, vrButton, arButton]) {
+            if (btn) {
+                this.buttons.set(btn.mode, btn);
+            }
+        }
 
         for (const button of this.buttons.values()) {
             this.wasVisible.set(button, button.visible);
             button.addEventListener("click", this.toggleMode.bind(this, button.mode));
         }
 
+        anaglyphButton.available = this.enableAnaglyph;
         fullscreenButton.available = !isMobileVR() && hasFullscreenAPI();
         vrButton.available = hasVR();
         arButton.available = hasWebXR();
@@ -135,6 +142,9 @@ export class ScreenControl
 
     resize(): void {
         if (!this.renderer.xr.isPresenting) {
+            this.renderer.domElement.style.width = "";
+            this.renderer.domElement.style.height = "";
+
             const {
                 clientWidth,
                 clientHeight,
@@ -151,6 +161,7 @@ export class ScreenControl
                     || height !== nextHeight)) {
                 this.renderer.setPixelRatio(devicePixelRatio);
                 this.renderer.setSize(clientWidth, clientHeight, false);
+                this.anaglyph.setSize(clientWidth, clientHeight);
                 this.camera.aspect = clientWidth / clientHeight;
                 this.camera.updateProjectionMatrix();
             }
@@ -177,7 +188,8 @@ export class ScreenControl
         const toCheck = Array.from(this.buttons.values())
             .filter((btn) =>
                 btn.available
-                && btn.mode !== ScreenMode.Fullscreen);
+                && btn.mode !== ScreenMode.Fullscreen
+                && btn.mode !== ScreenMode.Anaglyph);
         await Promise.all(
             toCheck
                 .map(async (btn) => {
@@ -197,18 +209,44 @@ export class ScreenControl
     }
 
     private async toggleMode(mode: ScreenMode): Promise<void> {
-        if (mode === ScreenMode.Fullscreen) {
-            await this.toggleFullscreen();
+        if (mode === ScreenMode.None) {
+            throw new Error("Cannot toggle 'None' Screen Mode");
         }
-        else if (mode !== ScreenMode.None) {
+        else if (mode === ScreenMode.VR
+            || mode === ScreenMode.AR) {
             await this.toggleXR(mode);
+        }
+        else {
+            const isFullscreen = mode.indexOf("Fullscreen") >= 0;
+            const isAnaglyph = mode.indexOf("Anaglyph") >= 0;
+            const wasFullscreen = this.currentMode.indexOf("Fullscreen") >= 0;
+            const wasAnaglyph = this.currentMode.indexOf("Anaglyph") >= 0;
+
+            if (isFullscreen) {
+                await this.toggleFullscreen(wasAnaglyph);
+            }
+            else {
+                this.setActive(isAnaglyph !== wasAnaglyph
+                    ? wasFullscreen
+                        ? ScreenMode.FullscreenAnaglyph
+                        : ScreenMode.Anaglyph
+                    : wasFullscreen
+                        ? ScreenMode.Fullscreen
+                        : ScreenMode.None);
+            }
         }
     }
 
-    async start(mode: ScreenMode): Promise<void> {
+    async start(startMode: ScreenMode): Promise<void> {
+        let mode: ScreenMode = startMode;
+        if (startMode === ScreenMode.Anaglyph && this.currentMode === ScreenMode.Fullscreen
+            || startMode === ScreenMode.Fullscreen && this.currentMode === ScreenMode.Anaglyph) {
+            mode = ScreenMode.FullscreenAnaglyph;
+        }
+
         if (mode !== this.currentMode) {
             await this.toggleMode(this.currentMode);
-            await this.toggleMode(mode);
+            await this.toggleMode(startMode);
         }
     }
 
@@ -217,33 +255,46 @@ export class ScreenControl
     }
 
     get isFullscreen(): boolean {
-        return document.fullscreen;
+        return "fullscreenElement" in document && isDefined(document.fullscreenElement)
+            || "fullscreen" in document && document.fullscreen;
     }
 
-    private async startFullscreen() {
+    private async startFullscreen(wasAnaglyph: boolean) {
         if (!this.isFullscreen) {
             await this.fullscreenElement.requestFullscreen({
                 navigationUI: "show"
             });
-            this.setActive(ScreenMode.Fullscreen);
-            this.dispatchEvent(new XRSessionStartedEvent(ScreenMode.Fullscreen, null, null, null));
+            if (wasAnaglyph) {
+                this.setActive(ScreenMode.FullscreenAnaglyph);
+                this.dispatchEvent(new XRSessionStartedEvent(ScreenMode.FullscreenAnaglyph, null, null, null));
+            }
+            else {
+                this.setActive(ScreenMode.Fullscreen);
+                this.dispatchEvent(new XRSessionStartedEvent(ScreenMode.Fullscreen, null, null, null));
+            }
         }
     }
 
-    private async stopFullscreen() {
+    private async stopFullscreen(wasAnaglyph: boolean) {
         if (this.isFullscreen) {
             await document.exitFullscreen();
-            this.setActive(ScreenMode.None);
-            this.dispatchEvent(new XRSessionStoppedEvent(ScreenMode.Fullscreen, null, null, null));
+            if (wasAnaglyph) {
+                this.setActive(ScreenMode.Anaglyph);
+                this.dispatchEvent(new XRSessionStoppedEvent(ScreenMode.FullscreenAnaglyph, null, null, null));
+            }
+            else {
+                this.setActive(ScreenMode.None);
+                this.dispatchEvent(new XRSessionStoppedEvent(ScreenMode.Fullscreen, null, null, null));
+            }
         }
     }
 
-    private async toggleFullscreen(): Promise<void> {
+    private async toggleFullscreen(wasAnaglyph: boolean): Promise<void> {
         if (this.isFullscreen) {
-            await this.stopFullscreen();
+            await this.stopFullscreen(wasAnaglyph);
         }
         else {
-            await this.startFullscreen();
+            await this.startFullscreen(wasAnaglyph);
         }
     }
 
@@ -328,11 +379,22 @@ export class ScreenControl
         for (const button of this.buttons.values()) {
             button.active = button.mode === mode;
             button.visible = this.wasVisible.get(button)
-                && (mode === ScreenMode.None
-                    || mode === ScreenMode.Fullscreen
+                && ((mode !== ScreenMode.VR && mode !== ScreenMode.AR)
                     || button.mode === mode);
         }
 
         this._currentMode = mode;
+    }
+
+    render(scene: Scene, camera: PerspectiveCamera) {
+        this.renderer.clear();
+
+        if (this.currentMode === ScreenMode.Anaglyph
+            || this.currentMode === ScreenMode.FullscreenAnaglyph) {
+            this.anaglyph.render(scene, camera);
+        }
+        else {
+            this.renderer.render(scene, camera);
+        }
     }
 }

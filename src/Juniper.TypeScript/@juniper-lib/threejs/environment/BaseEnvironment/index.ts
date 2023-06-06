@@ -84,6 +84,7 @@ export class BaseEnvironment<Events = unknown>
         private readonly styleSheetPath: string,
         public readonly fetcher: IFetcher,
         enableFullResolution: boolean,
+        enableAnaglyph: boolean,
         DEBUG: boolean = null,
         defaultAvatarHeight: number = null,
         defaultFOV: number = null) {
@@ -126,7 +127,8 @@ export class BaseEnvironment<Events = unknown>
                 this.renderer,
                 this.camera,
                 this.renderer.domElement.parentElement,
-                enableFullResolution);
+                enableFullResolution,
+                enableAnaglyph);
         }
 
 
@@ -273,8 +275,8 @@ export class BaseEnvironment<Events = unknown>
                 }
             }
 
-            this.renderer.clear();
-            this.renderer.render(this.scene, this.camera);
+            this.screenControl.render(this.scene, this.camera);
+
             if (this.enableSpectator) {
                 if (!this.renderer.xr.isPresenting) {
                     this.lastViewport.copy(this.curViewport);
@@ -301,8 +303,9 @@ export class BaseEnvironment<Events = unknown>
             this.renderer.setRenderTarget(null);
             this.renderer.setViewport(this.lastViewport);
         }
-        this.renderer.clear();
-        this.renderer.render(this.scene, isPresenting ? this.spectator : this.camera);
+
+        this.screenControl.render(this.scene, isPresenting ? this.spectator : this.camera);
+
         if (isPresenting) {
             this.renderer.setViewport(this.curViewport);
             this.renderer.setRenderTarget(curRT);

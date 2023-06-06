@@ -77,6 +77,7 @@ export interface EnvironmentOptions {
     defaultAvatarHeight?: number;
     defaultFOV?: number;
     enableFullResolution?: boolean;
+    enableAnaglyph?: boolean;
     DEBUG?: boolean;
     watchModelPath?: string;
     styleSheetPath?: string;
@@ -120,6 +121,7 @@ export class Environment
     readonly arButton: ScreenModeToggleButton;
     readonly vrButton: ScreenModeToggleButton;
     readonly fullscreenButton: ScreenModeToggleButton;
+    readonly anaglyphButton: ScreenModeToggleButton;
     readonly devicesDialog: DeviceDialog;
     readonly apps: ApplicationLoader;
     readonly uiButtons: ButtonFactory;
@@ -174,6 +176,7 @@ export class Environment
             options.styleSheetPath,
             options.fetcher,
             options.enableFullResolution,
+            options.enableAnaglyph,
             options.DEBUG,
             options.defaultAvatarHeight,
             options.defaultFOV);
@@ -245,8 +248,9 @@ export class Environment
         this.muteEnvAudioButton.active = true;
         this.audio.ready.then(() => this.muteEnvAudioButton.active = false);
 
-        this.vrButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.VR);
         this.fullscreenButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.Fullscreen);
+        this.anaglyphButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.Anaglyph);
+        this.vrButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.VR);
         this.arButton = new ScreenModeToggleButton(this.uiButtons, ScreenMode.AR);
 
         if (BatteryImage.isAvailable && isMobile()) {
@@ -264,7 +268,7 @@ export class Environment
 
         this.createMenu();
 
-        this.screenControl.setUI(this.screenUISpace, this.fullscreenButton, this.vrButton, this.arButton);
+        this.screenControl.setUI(this.screenUISpace, this.anaglyphButton, this.fullscreenButton, this.vrButton, this.arButton);
 
         if (isDefined(this.screenControl)) {
             this.screenControl.addEventListener("sessionstarted", (evt) => {
@@ -347,7 +351,7 @@ export class Environment
             this.compassImage,
             this.statsImage);
         elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
-        elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton);
+        elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton, this.anaglyphButton);
         elementApply(this.screenUISpace.bottomLeft,
             Div(this.menuButton,
                 display("flex"),
