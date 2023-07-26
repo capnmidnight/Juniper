@@ -1,11 +1,11 @@
-import { autoPlay, controls, loop } from "@juniper-lib/dom/attrs";
-import { Audio, ErsatzElement, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayReplace, arraySortByKeyInPlace } from "@juniper-lib/collections/arrays";
+import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/attrs";
+import { Audio, ErsatzElement, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
 import { once } from "@juniper-lib/events/once";
-import { AsyncCallback } from "@juniper-lib/tslib/identity";
 import { IProgress } from "@juniper-lib/progress/IProgress";
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
+import { AsyncCallback } from "@juniper-lib/tslib/identity";
+import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { RELEASE_EVT } from "../AudioManager";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
@@ -63,9 +63,9 @@ export class AudioPlayer
 
     constructor(context: JuniperAudioContext, spatializer: BaseSpatializer) {
         const mediaElement = Audio(
-            autoPlay(false),
-            loop(false),
-            controls(true)
+            AutoPlay(false),
+            Loop(false),
+            Controls(true)
         );
 
         const elementNode = new JuniperMediaElementAudioSourceNode(context, {
@@ -73,7 +73,7 @@ export class AudioPlayer
         });
 
         elementNode.name = "JuniperAudioPlayer-Input";
-        
+
         super("audio-player", context, spatializer, [], [elementNode]);
 
         elementNode.connect(this.volumeControl);

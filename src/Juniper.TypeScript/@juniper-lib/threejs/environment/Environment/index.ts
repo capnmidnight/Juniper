@@ -3,7 +3,7 @@ import { DeviceManager } from "@juniper-lib/audio/DeviceManager";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { AudioPlayer } from "@juniper-lib/audio/sources/AudioPlayer";
 import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
-import { id } from "@juniper-lib/dom/attrs";
+import { ID } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { display, em, flexDirection, gap, perc, pointerEvents, transform, width } from "@juniper-lib/dom/css";
 import { isModifierless } from "@juniper-lib/dom/evts";
@@ -261,7 +261,7 @@ export class Environment
         this.xrUI = new SpaceUI();
 
         this.subMenu = new Widget(
-            Div(id("juniperSubMenu")),
+            Div(ID("juniperSubMenu")),
             obj("sub-menu"),
             "flex"
         );

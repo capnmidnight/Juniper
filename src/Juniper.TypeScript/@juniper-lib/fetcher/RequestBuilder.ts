@@ -1,4 +1,4 @@
-import { rel, type } from "@juniper-lib/dom/attrs";
+import { Rel, Type } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { Img, Link, Script } from "@juniper-lib/dom/tags";
 import { once } from "@juniper-lib/events/once";
@@ -376,13 +376,7 @@ export class RequestBuilder implements
     }
 
 
-    private async htmlElement<
-        ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement | HTMLLinkElement,
-        EventsT extends HTMLElementEventMap>(
-        element: ElementT,
-        resolveEvt: keyof EventsT & string,
-        acceptType: string | MediaType): Promise<IResponse<ElementT>> {
-
+    private async htmlElement<ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement | HTMLLinkElement, EventsT extends HTMLElementEventMap>(element: ElementT, resolveEvt: keyof EventsT & string, acceptType: string | MediaType): Promise<IResponse<ElementT>> {
         const response = await this.file(acceptType);
         const task = once<EventsT>(element, resolveEvt, "error");
         if (element instanceof HTMLLinkElement) {
@@ -484,8 +478,8 @@ export class RequestBuilder implements
 
     async style(): Promise<IResponse> {
         const tag = Link(
-            type(Text_Css),
-            rel("stylesheet")
+            Type(Text_Css),
+            Rel("stylesheet")
         );
         document.head.append(tag);
         const response = await this.htmlElement(
@@ -496,7 +490,7 @@ export class RequestBuilder implements
     }
 
     private async getScript(): Promise<IResponse> {
-        const tag = Script(type(Application_Javascript));
+        const tag = Script(Type(Application_Javascript));
         document.head.append(tag);
         const response = await this.htmlElement(
             tag,

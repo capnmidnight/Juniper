@@ -1,4 +1,4 @@
-import { className } from "@juniper-lib/dom/attrs";
+import { ClassList } from "@juniper-lib/dom/attrs";
 import { Div, ElementChild, elementSetDisplay, elementSetText, ErsatzElement, H2, Span } from "@juniper-lib/dom/tags";
 import { debounce } from "@juniper-lib/events/debounce";
 
@@ -19,12 +19,12 @@ implements ErsatzElement {
     constructor(private _title: string, ...rest: ElementChild[]) {
 
         this.element = Div(
-            className("named-panel"),
+            ClassList("named-panel"),
             this.header = H2(
                 this.titleText = Span(_title),
             ),
             this.body = Div(
-                className("body"),
+                ClassList("body"),
                 ...rest
             )
         );

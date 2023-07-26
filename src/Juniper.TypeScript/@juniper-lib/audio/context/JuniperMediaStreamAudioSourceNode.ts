@@ -1,4 +1,4 @@
-import { autoPlay, controls, loop, muted, srcObject } from "@juniper-lib/dom/attrs";
+import { AutoPlay, Controls, Loop, Muted, SrcObject } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
 import { Audio } from "@juniper-lib/dom/tags";
 import { hasStreamSources } from "../util";
@@ -14,12 +14,12 @@ export class JuniperMediaStreamAudioSourceNode
 
     constructor(context: JuniperAudioContext, options: MediaStreamAudioSourceOptions) {
         const element = Audio(
-            controls(false),
-            muted(hasStreamSources),
-            autoPlay(true),
-            loop(false),
+            Controls(false),
+            Muted(hasStreamSources),
+            AutoPlay(true),
+            Loop(false),
             display("none"),
-            srcObject(options.mediaStream)
+            SrcObject(options.mediaStream)
         );
 
         let node: MediaStreamAudioSourceNode | MediaElementAudioSourceNode;

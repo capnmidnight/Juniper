@@ -1,5 +1,5 @@
 import { arrayClear, arrayReplace, arraySortedInsert } from "@juniper-lib/collections/arrays";
-import { classList, colSpan, customData } from "@juniper-lib/dom/attrs";
+import { ClassList, ColSpan, CustomData } from "@juniper-lib/dom/attrs";
 import { padding, px } from "@juniper-lib/dom/css";
 import { getColumnIndex } from "@juniper-lib/dom/getColumnIndex";
 import { ButtonReset, ButtonSecondaryOutlineSmall, ElementChild, ErsatzElement, Label, Span, TBody, TD, TFoot, TH, THead, TR, Table, buttonSetEnabled, elementApply, elementClearChildren, elementGetText, elementSetClass, elementSetText } from "@juniper-lib/dom/tags";
@@ -125,7 +125,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
             filterRow.appendChild(TH());
         }
 
-        filterRow.appendChild(TH(ButtonReset(classList("btn", "btn-secondary"), "Reset")));
+        filterRow.appendChild(TH(ButtonReset(ClassList("btn", "btn-secondary"), "Reset")));
 
         lastColumn = getColumnIndex(filterRow.lastElementChild);
         while (lastColumn > getColumnIndex(headerRow.lastElementChild)) {
@@ -133,8 +133,8 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
         }
 
         const table = new FilterableTable<T>(Table(
-            classList("table", "table-responsive", "table-hover", "table-striped", "summary"),
-            customData("resourcename", options.resourceName),
+            ClassList("table", "table-responsive", "table-hover", "table-striped", "summary"),
+            CustomData("resourcename", options.resourceName),
             THead(
                 headerRow,
                 filterRow
@@ -211,8 +211,8 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
             ...Array.from(this.element.querySelectorAll("tr"))
                 .map(r => r.children.length));
 
-        this.noContentMessageElement = TR(TD(colSpan(this.colCount), "No content"));
-        this.paginator = TD(colSpan(this.colCount), classList("multi"));
+        this.noContentMessageElement = TR(TD(ColSpan(this.colCount), "No content"));
+        this.paginator = TD(ColSpan(this.colCount), ClassList("multi"));
         this.columnIndices = new Map<HTMLValuedElement, number>();
 
         if (this.resetButton) {

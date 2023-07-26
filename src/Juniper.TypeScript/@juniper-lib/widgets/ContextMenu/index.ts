@@ -1,7 +1,7 @@
-import { className } from "@juniper-lib/dom/attrs";
+import { ClassList } from "@juniper-lib/dom/attrs";
 import { left, perc, px, top } from "@juniper-lib/dom/css";
 import { onClick } from "@juniper-lib/dom/evts";
-import { Button, Div, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/tags";
+import { Button, Div, ErsatzElement, elementApply, elementClearChildren, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { Task } from "@juniper-lib/events/Task";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
@@ -18,7 +18,7 @@ export class ContextMenu implements ErsatzElement {
 
     constructor() {
         this.element = Div(
-            className("context-menu")
+            ClassList("context-menu")
         );
 
         elementSetDisplay(this.element, false);

@@ -1,4 +1,4 @@
-import { classList } from "@juniper-lib/dom/attrs";
+import { ClassList } from "@juniper-lib/dom/attrs";
 import { backgroundColor, rule } from "@juniper-lib/dom/css";
 import { Div, Style } from "@juniper-lib/dom/tags";
 import { singleton } from "@juniper-lib/tslib/singleton";
@@ -33,15 +33,15 @@ export class ScreenUI {
         );
 
         this.elements = [
-            this.topLeft = Div(classList("cell", "top", "left")),
-            this.topCenter = Div(classList("cell", "top", "center")),
-            this.topRight = Div(classList("cell", "top", "right")),
-            this.middleLeft = Div(classList("cell", "middle", "left")),
-            this.middleCenter = Div(classList("cell", "middle", "center")),
-            this.middleRight = Div(classList("cell", "middle", "right")),
-            this.bottomLeft = Div(classList("cell", "bottom", "left")),
-            this.bottomCenter = Div(classList("cell", "bottom", "center")),
-            this.bottomRight = Div(classList("cell", "bottom", "right"))
+            this.topLeft = Div(ClassList("cell", "top", "left")),
+            this.topCenter = Div(ClassList("cell", "top", "center")),
+            this.topRight = Div(ClassList("cell", "top", "right")),
+            this.middleLeft = Div(ClassList("cell", "middle", "left")),
+            this.middleCenter = Div(ClassList("cell", "middle", "center")),
+            this.middleRight = Div(ClassList("cell", "middle", "right")),
+            this.bottomLeft = Div(ClassList("cell", "bottom", "left")),
+            this.bottomCenter = Div(ClassList("cell", "bottom", "center")),
+            this.bottomRight = Div(ClassList("cell", "bottom", "right"))
         ];
 
         this.cells = [

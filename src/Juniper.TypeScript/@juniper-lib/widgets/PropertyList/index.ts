@@ -1,4 +1,5 @@
-import { Attr, classList, className, coallesceClassLists, customData, isAttr } from "@juniper-lib/dom/attrs";
+import { PriorityList } from "@juniper-lib/collections/PriorityList";
+import { Attr, ClassList, CustomData, isAttr } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp, isCssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     DD,
@@ -19,7 +20,6 @@ import {
     isDisableable,
     resolveElement
 } from "@juniper-lib/dom/tags";
-import { PriorityList } from "@juniper-lib/collections/PriorityList";
 import { identity } from "@juniper-lib/tslib/identity";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import {
@@ -54,7 +54,7 @@ export type PropertyDef = Property | Attr | CssElementStyleProp;
 type Row = Elements<HTMLElement>[];
 
 const DEFAULT_PROPERTY_GROUP = "DefaultPropertyGroup" + stringRandom(16);
-const singleItem = className("single-item");
+const singleItem = ClassList("single-item");
 
 function createElements(rest: Property[]) {
     return rest.flatMap((entry) =>
@@ -80,7 +80,7 @@ function createRows(entry: Property): Row[] {
 function createRow(groupName: string, entry: PropertyElement): Elements<HTMLElement>[] {
     const group = groupName === DEFAULT_PROPERTY_GROUP
         ? null
-        : customData("groupname", groupName);
+        : CustomData("groupname", groupName);
 
     if (isArray(entry)) {
         const [labelText, ...fields] = entry;
@@ -125,7 +125,7 @@ function isPropertyDef(obj: PropertyDef): obj is Property {
 }
 
 export class PropertyList
-implements ErsatzElement {
+    implements ErsatzElement {
 
     private readonly groups = new PriorityList<string, Elements<HTMLElement>>();
     private readonly controls = new Array<IDisableable>();
@@ -145,11 +145,10 @@ implements ErsatzElement {
         const props = rest.filter(isPropertyDef);
         const styles = rest.filter(isCssElementStyleProp);
         const attrs = rest.filter(isAttr);
-        const classes = coallesceClassLists(attrs, "properties");
         const rows = createElements(props);
 
         return new PropertyList(DL(
-            classList(...classes),
+            ClassList("properties"),
             ...styles,
             ...attrs,
             ...rows));

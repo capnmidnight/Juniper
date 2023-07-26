@@ -1,6 +1,6 @@
 import { DeviceSettingsChangedEvent, IDeviceSource } from "@juniper-lib/audio/DeviceManager";
 import { StreamChangedEvent } from "@juniper-lib/audio/StreamChangedEvent";
-import { muted } from "@juniper-lib/dom/attrs";
+import { Muted } from "@juniper-lib/dom/attrs";
 import { ErsatzElement, Video } from "@juniper-lib/dom/tags";
 import { TypedEventBase } from "@juniper-lib/events/EventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -14,7 +14,7 @@ export class LocalUserWebcam
     }>
     implements ErsatzElement<HTMLVideoElement>, IDeviceSource {
 
-    readonly element = Video(muted(true));
+    readonly element = Video(Muted(true));
 
     private _hasPermission = false;
     private _device: MediaDeviceInfo = null;

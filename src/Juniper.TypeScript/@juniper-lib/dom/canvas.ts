@@ -2,7 +2,7 @@ import { MediaType } from "@juniper-lib/mediatypes";
 import { once } from "@juniper-lib/events/once";
 import { Task } from "@juniper-lib/events/Task";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { htmlHeight, htmlWidth, src } from "./attrs";
+import { Height, Width, Src } from "./attrs";
 import { Canvas, Img } from "./tags";
 import { dispose as disposeOld } from "@juniper-lib/tslib/using";
 
@@ -111,7 +111,7 @@ export function createCanvas(w: number, h: number): HTMLCanvasElement {
         throw new Error("HTML Canvas is not supported in workers");
     }
 
-    return Canvas(htmlWidth(w), htmlHeight(h));
+    return Canvas(Width(w), Height(h));
 }
 
 export function createOffscreenCanvasFromImageBitmap(img: ImageBitmap): OffscreenCanvas {
@@ -197,7 +197,7 @@ export async function createImageFromFile(file: string): Promise<HTMLImageElemen
         throw new Error("HTML Image is not supported in workers");
     }
 
-    const img = Img(src(file));
+    const img = Img(Src(file));
     await once<HTMLElementEventMap>(img, "load", "error");
     return img;
 }

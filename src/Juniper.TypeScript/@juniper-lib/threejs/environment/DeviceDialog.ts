@@ -3,37 +3,37 @@ import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { DeviceManager } from "@juniper-lib/audio/DeviceManager";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { canChangeAudioOutput } from "@juniper-lib/audio/SpeakerManager";
+import { makeLookup } from "@juniper-lib/collections/makeLookup";
 import {
-    checked,
-    className,
-    max,
-    min,
-    selected,
-    step,
-    title,
-    value
+    Checked,
+    ClassList,
+    Max,
+    Min,
+    Selected,
+    Step,
+    Title_attr,
+    Value
 } from "@juniper-lib/dom/attrs";
 import { display, em, margin, paddingRight } from "@juniper-lib/dom/css";
 import { onClick, onInput } from "@juniper-lib/dom/evts";
 import {
     ButtonSecondary, Div,
-    elementApply,
-    elementClearChildren,
-    elementSetDisplay,
     InputCheckbox,
     Meter,
     Option,
-    Select
+    Select,
+    elementApply,
+    elementClearChildren,
+    elementSetDisplay
 } from "@juniper-lib/dom/tags";
 import { AssetFile } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
-import { makeLookup } from "@juniper-lib/collections/makeLookup";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import { LocalUserWebcam } from "@juniper-lib/video/LocalUserWebcam";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { InputRangeWithNumber } from "@juniper-lib/widgets/InputRangeWithNumber";
-import { group, PropertyList } from "@juniper-lib/widgets/PropertyList";
+import { PropertyList, group } from "@juniper-lib/widgets/PropertyList";
 
 const MIC_GROUP = "micFields" + stringRandom(8);
 const CAM_GROUP = "camFields" + stringRandom(8);
@@ -41,12 +41,12 @@ const CAM_GROUP = "camFields" + stringRandom(8);
 function makeDeviceSelector(selector: HTMLSelectElement, devices: MediaDeviceInfo[], curDevice: MediaDeviceInfo) {
     elementClearChildren(selector);
     elementApply(selector,
-        Option(value(""), "NONE"),
+        Option(Value(""), "NONE"),
         ...devices.map((device) =>
             Option(
-                selected(curDevice
+                Selected(curDevice
                     && device.deviceId === curDevice.deviceId),
-                value(device.deviceId),
+                Value(device.deviceId),
                 device.label
             )
         )
@@ -114,10 +114,10 @@ export class DeviceDialog extends DialogBox {
 
                     ["Volume",
                         this.micVolumeControl = new InputRangeWithNumber(
-                            min(0),
-                            max(100),
-                            step(1),
-                            value(0),
+                            Min(0),
+                            Max(100),
+                            Step(1),
+                            Value(0),
                             onInput(() => {
                                 this.microphones.gain.setValueAtTime(this.micVolumeControl.valueAsNumber / 100, 0);
                             })
@@ -151,10 +151,10 @@ export class DeviceDialog extends DialogBox {
         this.properties.append(
             ["Volume",
                 this.spkrVolumeControl = new InputRangeWithNumber(
-                    min(0),
-                    max(100),
-                    step(1),
-                    value(0),
+                    Min(0),
+                    Max(100),
+                    Step(1),
+                    Value(0),
                     onInput(() =>
                         this.audio.destination.volume
                         = this.spkrVolumeControl.valueAsNumber / 100)
@@ -163,7 +163,7 @@ export class DeviceDialog extends DialogBox {
             ["",
                 this.testSpkrButton = ButtonSecondary(
                     "Test",
-                    title("Test audio"),
+                    Title_attr("Test audio"),
                     margin(em(0.5)),
                     onClick(async () => {
                         this.testSpkrButton.disabled = true;
@@ -174,7 +174,7 @@ export class DeviceDialog extends DialogBox {
 
             ["Using headphones",
                 this.useHeadphones = InputCheckbox(
-                    checked(this.audio.useHeadphones),
+                    Checked(this.audio.useHeadphones),
                     onInput(() => {
                         this.audio.useHeadphones = this.useHeadphones.checked;
                         elementSetDisplay(this.headphoneWarning, !this.audio.useHeadphones, "inline-block");
@@ -182,7 +182,7 @@ export class DeviceDialog extends DialogBox {
                 )],
 
             this.headphoneWarning = Div(
-                className("alert alert-warning"),
+                ClassList("alert alert-warning"),
                 "🎧🎙️ This site has a voice chat feature. Voice chat is best experienced using headphones."
             )
         );
@@ -251,7 +251,7 @@ export class DeviceDialog extends DialogBox {
             elementApply(this.speakers,
                 ...spkrs.map((device) =>
                     Option(
-                        value(device.deviceId),
+                        Value(device.deviceId),
                         device.label
                     )
                 )

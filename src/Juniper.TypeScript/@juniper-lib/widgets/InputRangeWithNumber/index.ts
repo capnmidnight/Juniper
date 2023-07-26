@@ -1,4 +1,4 @@
-import { className } from "@juniper-lib/dom/attrs";
+import { ClassList } from "@juniper-lib/dom/attrs";
 import { onInput } from "@juniper-lib/dom/evts";
 import { Div, ElementChild, ErsatzElement, InputNumber, InputRange } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
@@ -18,7 +18,7 @@ export class InputRangeWithNumber
         super();
 
         this.element = Div(
-            className("input-range-with-number"),
+            ClassList("input-range-with-number"),
             this.rangeInput = InputRange(
                 onInput(() => {
                     this.numberInput.valueAsNumber = this.rangeInput.valueAsNumber;

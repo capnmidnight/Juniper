@@ -1,4 +1,4 @@
-import { className } from "@juniper-lib/dom/attrs";
+import { ClassList } from "@juniper-lib/dom/attrs";
 import { fr, gridTemplateColumns } from "@juniper-lib/dom/css";
 import { Div, ElementChild, ErsatzElement, isElements } from "@juniper-lib/dom/tags";
 
@@ -16,7 +16,7 @@ implements ErsatzElement {
         const colExpr = elems.map((_, i) => i === 0 ? fr(1) : "auto");
 
         this.element = Div(
-            className("group-panel"),
+            ClassList("group-panel"),
             gridTemplateColumns(...colExpr),
             ...rest
         );

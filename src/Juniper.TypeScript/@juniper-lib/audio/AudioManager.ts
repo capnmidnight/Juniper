@@ -1,5 +1,5 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
-import { controls, loop, src } from "@juniper-lib/dom/attrs";
+import { Controls, Loop, Src} from "@juniper-lib/dom/attrs";
 import { onEvent } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, ElementChild, elementApply } from "@juniper-lib/dom/tags";
@@ -140,8 +140,8 @@ export class AudioManager
         for (let i = 0; i < POOL_SIZE; ++i) {
             const task = new Task<HTMLAudioElement>();
             const audio = Audio(
-                src(HAX_SRC),
-                controls(false),
+                Src(HAX_SRC),
+                Controls(false),
                 onEvent("released", () => {
                     audio.pause();
                     audio.src = HAX_SRC;
@@ -189,8 +189,8 @@ export class AudioManager
     private async getPooledSource(key: string, path: string, looping: boolean): Promise<JuniperMediaElementAudioSourceNode> {
         if (!this.elements.has(key)) {
             const mediaElement = await this.getPooledAudio(
-                src(path),
-                loop(looping && !isIOS())
+                Src(path),
+                Loop(looping && !isIOS())
             );
 
             if (isIOS() && looping) {

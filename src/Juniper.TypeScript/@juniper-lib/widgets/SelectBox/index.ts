@@ -1,6 +1,6 @@
-import { className } from "@juniper-lib/dom/attrs";
-import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey } from "@juniper-lib/collections/arrays";
+import { ClassList } from "@juniper-lib/dom/attrs";
+import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { isDefined, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
@@ -59,7 +59,7 @@ class SelectBoxRow<T>
         this._sortKey = sortKey;
 
         this._element = Div(
-            className("SelectBoxRow"),
+            ClassList("SelectBoxRow"),
             contents);
 
         this.element.addEventListener("click", () => {
@@ -234,8 +234,8 @@ export class SelectBox<T>
             noSelectionText = maybeNoSelectionText;
         }
 
-        this._element = Div(className("SelectBox"),
-            this.elementRows = Div(className("SelectBoxContent")));
+        this._element = Div(ClassList("SelectBox"),
+            this.elementRows = Div(ClassList("SelectBoxContent")));
 
         if (isDefined(element.parentElement)) {
             element.parentElement.replaceChild(this._element, element);

@@ -1,4 +1,4 @@
-import { autoPlay, controls, id, srcObject } from "@juniper-lib/dom/attrs";
+import { AutoPlay, Controls, ID, SrcObject } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
 import { onPlay } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
@@ -6,14 +6,14 @@ import { Audio, ErsatzElement } from "@juniper-lib/dom/tags";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
 import { BaseNodeCluster } from "../BaseNodeCluster";
+import { IPoseable } from "../IPoseable";
+import { Pose } from "../Pose";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperGainNode } from "../context/JuniperGainNode";
 import { JuniperMediaStreamAudioDestinationNode } from "../context/JuniperMediaStreamAudioDestinationNode";
-import { IPoseable } from "../IPoseable";
 import type { BaseListener } from "../listeners/BaseListener";
 import { WebAudioListenerNew } from "../listeners/WebAudioListenerNew";
 import { WebAudioListenerOld } from "../listeners/WebAudioListenerOld";
-import { Pose } from "../Pose";
 import { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { WebAudioPannerNew } from "../spatializers/WebAudioPannerNew";
 import { WebAudioPannerOld } from "../spatializers/WebAudioPannerOld";
@@ -55,11 +55,11 @@ export class WebAudioDestination
 
         const ready = new Task();
         const element = Audio(
-            id("Audio-Device-Manager"),
+            ID("Audio-Device-Manager"),
             display("none"),
-            autoPlay(true),
-            controls(true),
-            srcObject(destination.stream),
+            AutoPlay(true),
+            Controls(true),
+            SrcObject(destination.stream),
             onPlay(() => ready.resolve())
         );
 

@@ -1,6 +1,6 @@
-import { classList, className, customData } from "@juniper-lib/dom/attrs";
+import { ClassList, CustomData } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
-import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1 } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, ButtonSecondary, Div, ErsatzElement, H1, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText } from "@juniper-lib/dom/tags";
 import { Task } from "@juniper-lib/events/Task";
 
 import "./styles.css";
@@ -24,15 +24,15 @@ export abstract class DialogBox implements ErsatzElement {
     constructor(title: string) {
 
         this.element = Div(
-            className("dialog"),
+            ClassList("dialog"),
             display("none"),
-            customData("dialogname", title),
-            this.container = Div(className("dialog-container"),
-                this.titleElement = H1(className("title-bar"), title),
-                this.contentArea = Div(className("dialog-content")),
-                Div(className("dialog-controls"),
-                    this.confirmButton = ButtonPrimary("Confirm", classList("confirm-button")),
-                    this.cancelButton = ButtonSecondary("Cancel", classList("cancel-button")))));
+            CustomData("dialogname", title),
+            this.container = Div(ClassList("dialog-container"),
+                this.titleElement = H1(ClassList("title-bar"), title),
+                this.contentArea = Div(ClassList("dialog-content")),
+                Div(ClassList("dialog-controls"),
+                    this.confirmButton = ButtonPrimary("Confirm", ClassList("confirm-button")),
+                    this.cancelButton = ButtonSecondary("Cancel", ClassList("cancel-button")))));
 
 
         this.confirmButton.addEventListener("click", this.task.resolver(true));

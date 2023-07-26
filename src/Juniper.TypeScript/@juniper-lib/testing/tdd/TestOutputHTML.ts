@@ -1,4 +1,4 @@
-import { id } from "@juniper-lib/dom/attrs";
+import { ID } from "@juniper-lib/dom/attrs";
 import {
     backgroundColor,
     color,
@@ -21,8 +21,10 @@ import { onClick } from "@juniper-lib/dom/evts";
 import {
     Button,
     Div,
-    ElementChild, elementReplace, ErsatzElement,
-    Span
+    ElementChild,
+    ErsatzElement,
+    Span,
+    elementReplace
 } from "@juniper-lib/dom/tags";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { TestCaseConstructor } from "./TestCase";
@@ -73,7 +75,7 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
 
     constructor(...CaseClasses: TestCaseConstructor[]) {
         super(...CaseClasses);
-        this.element = Div(id("testOutput"));
+        this.element = Div(ID("testOutput"));
         let lastTable: HTMLDivElement = null;
         this.addEventListener("testoutputresults", (evt: TestOutputResultsEvent) => {
             const s = Math.round(100 * evt.stats.totalSucceeded / evt.stats.totalFound),

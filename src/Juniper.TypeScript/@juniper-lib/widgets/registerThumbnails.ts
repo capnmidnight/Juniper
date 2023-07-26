@@ -1,6 +1,6 @@
-import { className, id, title } from "@juniper-lib/dom/attrs";
+import { ClassList, ID, Title_attr } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
-import { Div, elementApply, elementSetDisplay, IFrame, Img } from "@juniper-lib/dom/tags";
+import { Div, IFrame, Img, elementApply, elementSetDisplay } from "@juniper-lib/dom/tags";
 
 import "./registerThumbnails.css";
 
@@ -40,11 +40,11 @@ const thumbnailViewerID = "33D0371F-B096-473D-AEE3-B17F5392CCEC";
 let thumbnailView = document.getElementById(thumbnailViewerID) as HTMLDivElement;
 if (!thumbnailView) {
     thumbnailView = Div(
-        id(thumbnailViewerID),
-        className("thumbnail-view"),
+        ID(thumbnailViewerID),
+        ClassList("thumbnail-view"),
         display("none"),
-        Img(title("Thumbnail")),
-        IFrame(title("Preview")));
+        Img(Title_attr("Thumbnail")),
+        IFrame(Title_attr("Preview")));
 }
 
 const thumbnailImage = thumbnailView.querySelector<HTMLImageElement>("img");

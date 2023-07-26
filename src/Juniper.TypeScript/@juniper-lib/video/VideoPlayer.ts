@@ -1,15 +1,15 @@
-import { src } from "@juniper-lib/dom/attrs";
+import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
+import { BaseSpatializer } from "@juniper-lib/audio/spatializers/BaseSpatializer";
+import { Src } from "@juniper-lib/dom/attrs";
 import { cursor, display, opacity } from "@juniper-lib/dom/css";
+import { Div, ErsatzElement, Img, elementApply, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { all } from "@juniper-lib/events/all";
-import { Div, elementApply, elementSetDisplay, ErsatzElement, Img } from "@juniper-lib/dom/tags";
 import { once, success } from "@juniper-lib/events/once";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { progressSplitWeighted } from "@juniper-lib/progress/progressSplit";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseVideoPlayer } from "./BaseVideoPlayer";
 import { FullVideoRecord } from "./data";
-import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioContext";
-import { BaseSpatializer } from "@juniper-lib/audio/spatializers/BaseSpatializer";
 
 const loadingCursor: CSSCursorValue = "wait";
 const loadedCursor: CSSCursorValue = "pointer";
@@ -95,7 +95,7 @@ export class VideoPlayer
         prog.start();
         if (isDefined(data)) {
             elementApply(this.thumbnail,
-                src(data.thumbnail.url),
+                Src(data.thumbnail.url),
                 opacity(0.5)
             );
             const loading = once<GlobalEventHandlersEventMap>(this.thumbnail, "load", "error");

@@ -1,4 +1,4 @@
-import { classList } from "@juniper-lib/dom/attrs";
+import { ClassList } from "@juniper-lib/dom/attrs";
 import { onClick, onDragEnd, onDragLeave, onDragOver, onDrop } from "@juniper-lib/dom/evts";
 import { Button, elementApply, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
 import { MediaType } from "@juniper-lib/mediatypes";
@@ -111,7 +111,7 @@ export class FileUploadInput
         this.file.style.display = "none";
         this.file.insertAdjacentElement("afterend",
             this.element = Button(
-                classList("btn", `btn-${buttonStyle}`),
+                ClassList("btn", `btn-${buttonStyle}`),
                 onClick(() => this.show()),
                 buttonText
             )

@@ -1,4 +1,6 @@
-import { Attr, autoComplete, classList, className, placeHolder, tabIndex } from "@juniper-lib/dom/attrs";
+import { arrayClear, arrayRemove } from "@juniper-lib/collections/arrays";
+import { buildTree, TreeNode } from "@juniper-lib/collections/TreeNode";
+import { Attr, AutoComplete, ClassList, PlaceHolder, TabIndex } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     isModifierless,
@@ -22,8 +24,6 @@ import {
     ErsatzElement,
     InputText
 } from "@juniper-lib/dom/tags";
-import { arrayClear, arrayRemove } from "@juniper-lib/collections/arrays";
-import { buildTree, TreeNode } from "@juniper-lib/collections/TreeNode";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { alwaysFalse, identity } from "@juniper-lib/tslib/identity";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
@@ -142,14 +142,14 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         this._canChangeOrder = isFunction(this.options.getOrder);
 
         this.element = Div(
-            className("tree-view"),
+            ClassList("tree-view"),
             ...styleProps,
             this.filters = PropertyList.create(
-                className("tree-view-controls"),
+                ClassList("tree-view-controls"),
                 ...this.options.additionalProperties
             ),
             Div(
-                className("tree-view-controls"),
+                ClassList("tree-view-controls"),
 
                 this.collapseButton = ButtonPrimarySmall(
                     onClick(() => this.collapseAll()),
@@ -162,8 +162,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 )
             ),
             Div(
-                className("tree-view-inner"),
-                tabIndex(0),
+                ClassList("tree-view-inner"),
+                TabIndex(0),
 
                 onContextMenu(async (evt) => {
                     if (!this.disabled) {
@@ -266,7 +266,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 }),
 
                 this.children = Div(
-                    className("tree-view-children")
+                    ClassList("tree-view-children")
                 )
             )
         );
@@ -275,9 +275,9 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             if (this.options.showNameFilter) {
                 this.filters.append(
                     ["Name", this.filterNameInput = InputText(
-                        classList("form-control"),
-                        placeHolder("Filter by name"),
-                        autoComplete(false),
+                        ClassList("form-control"),
+                        PlaceHolder("Filter by name"),
+                        AutoComplete(false),
                         onInput(() => {
                             this.nameFilter = this.filterNameInput.value.toLocaleLowerCase();
                             if (this.nameFilter.length === 0) {

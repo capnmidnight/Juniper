@@ -1,4 +1,4 @@
-import { Attr, className, customData, id } from "@juniper-lib/dom/attrs";
+import { Attr, ClassList, CustomData, ID } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import { ButtonSmall, Div, Elements, ErsatzElement, elementApply, elementSetClass, elementSetDisplay, getElements, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
@@ -60,13 +60,13 @@ export class TabPanel<TabNames extends string>
         let firstName: TabNames = null;
         for (const viewDef of viewDefs) {
             const [name, label, panel] = viewDef;
-            const panelName = customData("panelname", name);
+            const panelName = CustomData("panelname", name);
             if (isNullOrUndefined(firstName)) {
                 firstName = name;
             }
             const elem = resolveElement<HTMLElement>(panel);
             const displayType = elem.style.display as CSSDisplayValue;
-            elementApply(panel, id(name));
+            elementApply(panel, ID(name));
             viewsByName.set(name, {
                 panel,
                 displayType,
@@ -80,14 +80,14 @@ export class TabPanel<TabNames extends string>
         const views = Array.from(viewsByName.values());
 
         return new TabPanel<TabNames>(Div(
-            className("tab-panel"),
+            ClassList("tab-panel"),
             ...rules,
             Div(
-                className("tabs"),
+                ClassList("tabs"),
                 ...views.map(p => p.button)
             ),
             Div(
-                className("panels"),
+                ClassList("panels"),
                 ...views.map(p => p.panel)
             )
         ));

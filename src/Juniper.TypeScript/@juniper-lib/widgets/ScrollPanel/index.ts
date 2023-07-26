@@ -1,4 +1,4 @@
-import { Attr, className } from "@juniper-lib/dom/attrs";
+import { Attr, ClassList } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import { Div, ElementChild, ErsatzElement } from "@juniper-lib/dom/tags";
 
@@ -24,10 +24,10 @@ implements ErsatzElement {
         const elems = rest.filter(isElem);
 
         this.element = Div(
-            className("scroll-panel"),
+            ClassList("scroll-panel"),
             ...rules,
             Div(
-                className("scroll-panel-inner"),
+                ClassList("scroll-panel-inner"),
                 ...elems
             )
         );

@@ -9,7 +9,7 @@ import { PlaybackState } from "@juniper-lib/audio/sources/PlaybackState";
 import { BaseSpatializer } from "@juniper-lib/audio/spatializers/BaseSpatializer";
 import { PriorityList } from "@juniper-lib/collections/PriorityList";
 import { arraySortByKeyInPlace } from "@juniper-lib/collections/arrays";
-import { autoPlay, controls, loop } from "@juniper-lib/dom/attrs";
+import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/attrs";
 import { Audio, ElementChild, Video, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
 import { once } from "@juniper-lib/events/once";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
@@ -73,8 +73,8 @@ export abstract class BaseVideoPlayer
         context: JuniperAudioContext,
         spatializer: BaseSpatializer) {
 
-        const video = BaseVideoPlayer.createMediaElement(Video, controls(true));
-        const audio = BaseVideoPlayer.createMediaElement(Audio, controls(false));
+        const video = BaseVideoPlayer.createMediaElement(Video, Controls(true));
+        const audio = BaseVideoPlayer.createMediaElement(Audio, Controls(false));
 
         const videoNode = new JuniperMediaElementAudioSourceNode(
             context, {
@@ -284,8 +284,8 @@ export abstract class BaseVideoPlayer
 
     private static createMediaElement<T extends HTMLMediaElement>(MediaElement: (...rest: ElementChild[]) => T, ...rest: ElementChild[]): T {
         return MediaElement(
-            autoPlay(false),
-            loop(false),
+            AutoPlay(false),
+            Loop(false),
             ...rest
         );
     }

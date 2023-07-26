@@ -1,6 +1,6 @@
-import { src, title } from "@juniper-lib/dom/attrs";
+import { Src, Title_attr } from "@juniper-lib/dom/attrs";
 import { ButtonPrimary, Img } from "@juniper-lib/dom/tags";
-import { obj, objectSetVisible, objGraph } from "../objects";
+import { obj, objGraph, objectSetVisible } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
 import { MeshButton } from "./MeshButton";
 import { Widget } from "./widgets";
@@ -10,11 +10,11 @@ export class ButtonImageWidget extends Widget<HTMLButtonElement> {
     private mesh: MeshButton = null;
 
     constructor(buttons: ButtonFactory, setName: string, iconName: string) {
-        const t = title(`${setName} ${iconName}`);
+        const t = Title_attr(`${setName} ${iconName}`);
         super(
             ButtonPrimary(
                 t,
-                Img(t, src(buttons.getImageSrc(setName, iconName)))
+                Img(t, Src(buttons.getImageSrc(setName, iconName)))
             ),
             obj(`${name}-button`),
             "inline-block");

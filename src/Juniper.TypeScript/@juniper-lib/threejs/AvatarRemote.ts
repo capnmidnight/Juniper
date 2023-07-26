@@ -1,6 +1,6 @@
 import { ActivityDetector } from "@juniper-lib/audio/ActivityDetector";
 import { AudioStreamSource } from "@juniper-lib/audio/sources/AudioStreamSource";
-import { autoPlay, srcObject } from "@juniper-lib/dom/attrs";
+import { AutoPlay, SrcObject } from "@juniper-lib/dom/attrs";
 import { getMonospaceFonts } from "@juniper-lib/dom/css";
 import { Video } from "@juniper-lib/dom/tags";
 import { star } from "@juniper-lib/emoji";
@@ -11,13 +11,13 @@ import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { UserChatEvent } from "@juniper-lib/webrtc/ConferenceEvents";
 import type { RemoteUser } from "@juniper-lib/webrtc/RemoteUser";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
+import { BufferReaderWriter } from "./BufferReaderWriter";
 import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeadingRadians } from "./animation/lookAngles";
-import { BufferReaderWriter } from "./BufferReaderWriter";
 import { cleanup } from "./cleanup";
 import type { Environment } from "./environment/Environment";
-import { PointerRemote } from "./eventSystem/devices/PointerRemote";
 import { PointerID } from "./eventSystem/Pointers";
+import { PointerRemote } from "./eventSystem/devices/PointerRemote";
 import { ErsatzObject, obj, objGraph } from "./objects";
 import { Image2D } from "./widgets/Image2D";
 import { TextMesh } from "./widgets/TextMesh";
@@ -188,8 +188,8 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
             if (this.videoStream) {
 
                 this.videoElement = Video(
-                    srcObject(this.videoStream),
-                    autoPlay(true)
+                    SrcObject(this.videoStream),
+                    AutoPlay(true)
                 );
 
                 this.videoElement.play();

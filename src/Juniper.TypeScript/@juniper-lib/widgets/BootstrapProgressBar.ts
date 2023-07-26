@@ -1,4 +1,4 @@
-import { ariaValueMax, ariaValueMin, ariaValueNow, className, role } from "@juniper-lib/dom/attrs";
+import { AriaValueMax, AriaValueMin, AriaValueNow, ClassList, Role } from "@juniper-lib/dom/attrs";
 import { width } from "@juniper-lib/dom/css";
 import { Div, ErsatzElement, elementSetText } from "@juniper-lib/dom/tags";
 import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
@@ -11,16 +11,16 @@ export class BootstrapProgressBarElement implements ErsatzElement, IProgress {
 
     constructor(outerClassName = "controls progress") {
         const inner = Div(
-            className("progress-bar"),
-            role("progressbar"),
-            ariaValueNow(0),
-            ariaValueMin(0),
-            ariaValueMax(1),
+            ClassList("progress-bar"),
+            Role("progressbar"),
+            AriaValueNow(0),
+            AriaValueMin(0),
+            AriaValueMax(1),
             width(0)
         );
 
         this.element = Div(
-            className(outerClassName),
+            ClassList(outerClassName),
             inner
         );
 

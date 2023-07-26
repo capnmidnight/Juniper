@@ -1,20 +1,11 @@
-import { className, draggable, title } from "@juniper-lib/dom/attrs";
-import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/evts";
-import {
-    ButtonSmall,
-    Div,
-    elementIsDisplayed,
-    elementSetDisplay,
-    elementSetText,
-    elementSetTitle,
-    ErsatzElement,
-    Span
-} from "@juniper-lib/dom/tags";
-import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
 import { TreeNode } from "@juniper-lib/collections/TreeNode";
-import { debounce } from "@juniper-lib/events/debounce";
+import { ClassList, Draggable, Title_attr } from "@juniper-lib/dom/attrs";
+import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/evts";
+import { ButtonSmall, Div, ErsatzElement, Span, elementIsDisplayed, elementSetDisplay, elementSetText, elementSetTitle } from "@juniper-lib/dom/tags";
+import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { Task } from "@juniper-lib/events/Task";
+import { debounce } from "@juniper-lib/events/debounce";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {
@@ -104,14 +95,14 @@ export class TreeViewNode<T>
         });
 
         this.element = Div(
-            className("tree-view-node"),
+            ClassList("tree-view-node"),
 
-            this.upper = Div(className("drag-buffer top")),
+            this.upper = Div(ClassList("drag-buffer top")),
 
             this.infoView = Div(
-                className("tree-view-node-label"),
+                ClassList("tree-view-node-label"),
 
-                draggable(this.canChangeOrder),
+                Draggable(this.canChangeOrder),
 
                 onEnabledClick(() => {
                     if (!this.selected) {
@@ -128,7 +119,7 @@ export class TreeViewNode<T>
                 }),
 
                 this.collapser = ButtonSmall(
-                    className("tree-view-node-collapser"),
+                    ClassList("tree-view-node-collapser"),
                     onClick((evt) => {
                         if (this.canHaveChildren) {
                             evt.preventDefault();
@@ -152,12 +143,12 @@ export class TreeViewNode<T>
             ),
 
             this.subView = Div(
-                className("tree-view-node-children"),
+                ClassList("tree-view-node-children"),
                 this.children = Div(),
 
                 this.adder = ButtonSmall(
-                    className("tree-view-node-adder"),
-                    title(this.adderTitle),
+                    ClassList("tree-view-node-adder"),
+                    Title_attr(this.adderTitle),
                     onEnabledClick(async (evt: Event) => {
                         if (this.canHaveChildren) {
                             await this._launchMenu(evt, new TreeViewNodeAddEvent(this));
@@ -167,7 +158,7 @@ export class TreeViewNode<T>
                 )
             ),
 
-            this.lower = Div(className("drag-buffer bottom"))
+            this.lower = Div(ClassList("drag-buffer bottom"))
         );
 
         this.refresh();

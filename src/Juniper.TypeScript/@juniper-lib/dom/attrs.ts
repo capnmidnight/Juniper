@@ -1,12 +1,12 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
-import { arrayRemove, arrayScan } from "@juniper-lib/collections/arrays";
 import { identity } from "@juniper-lib/tslib/identity";
-import { isBoolean, isDefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
+import { isBoolean, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 /**
  * A setter functor for HTML attributes.
  **/
-export class Attr<T extends string = string> {
+export class Attr<T extends string = string, V = number | object> {
 
     readonly tags: readonly string[];
 
@@ -14,11 +14,12 @@ export class Attr<T extends string = string> {
      * Creates a new setter functor for HTML Attributes
      * @param key - the attribute name.
      * @param value - the value to set for the attribute.
+     * @param bySetAttribute - whether the attribute should be set via the setAttribute method.
      * @param tags - the HTML tags that support this attribute.
      */
     constructor(
         public readonly key: T,
-        public readonly value: any,
+        public readonly value: V,
         private readonly bySetAttribute: boolean,
         ...tags: string[]) {
         this.tags = tags.map((t) => t.toLocaleUpperCase());
@@ -30,19 +31,12 @@ export class Attr<T extends string = string> {
      * @param elem - the element on which to set the attribute.
      */
     applyToElement(elem: HTMLElement) {
-        const isDataSet = this.key.startsWith("data-");
-        const isValid = this.tags.length === 0
-            || this.tags.indexOf(elem.tagName) > -1
-            || isDataSet;
-
-        if (!isValid) {
+        if (this.tags.length > 0
+            && this.tags.indexOf(elem.tagName) === -1) {
             console.warn(`Element ${elem.tagName} does not support Attribute ${this.key}`);
         }
-        else if (isDataSet) {
-            const subkey = this.key.substring(5);
-            elem.dataset[subkey] = this.value;
-        }
-        else if (this.key === "style") {
+
+        if (this.key === "style") {
             Object.assign(elem.style, this.value);
         }
         else if (this.key === "classList") {
@@ -54,10 +48,10 @@ export class Attr<T extends string = string> {
             }
         }
         else if (this.bySetAttribute) {
-            elem.setAttribute(this.key, this.value);
+            elem.setAttribute(this.key, this.value.toString());
         }
         else if (this.key in elem) {
-            (elem as any)[this.key] = this.value;
+            (elem as unknown)[this.key] = this.value;
         }
         else if (this.value === false) {
             elem.removeAttribute(this.key);
@@ -66,824 +60,824 @@ export class Attr<T extends string = string> {
             elem.setAttribute(this.key, "");
         }
         else {
-            elem.setAttribute(this.key, this.value);
+            elem.setAttribute(this.key, this.value.toString());
         }
     }
 }
 
-export function isAttr(obj: any): obj is Attr {
-    return obj instanceof Attr;
+function attr<T extends string = string, V = number | object>(key: T, value: V, bySetAttribute: boolean, ...tags: string[]) {
+    return new Attr(key, value, bySetAttribute, ...tags);
 }
 
-export function coallesceClassLists(attrs: Attr[], ...rest: string[]): string[] {
-    const classes = [...rest];
-
-    const classListAttr = arrayScan(attrs, attr => attr instanceof Attr && attr.key === "classList");
-    if (isDefined(classListAttr)) {
-        arrayRemove(attrs, classListAttr);
-        classes.push(...classListAttr.value as string[]);
-    }
-
-    const classNameAttr = arrayScan(attrs, attr => attr instanceof Attr && attr.key === "className");
-    if (isDefined(classNameAttr)) {
-        arrayRemove(attrs, classNameAttr);
-        classes.push(...(classNameAttr.value as string).split(" "));
-    }
-
-    return classes;
+export function isAttr(obj: unknown): obj is Attr {
+    return obj instanceof Attr;
 }
 
 /**
  * a list of types the server accepts, typically a file type.
  * @param value - the value to set on the attribute.
  **/
-export function accept(value: string) { return new Attr("accept", value, false, "form", "input"); }
+export function Accept(value: string) { return attr("accept", value, false, "form", "input"); }
 
 /**
  * The accessKey attribute
  **/
-export function accessKey(value: string) { return new Attr("accessKey", value, false, "input", "button"); }
+export function AccessKey(value: string) { return attr("accessKey", value, false, "input", "button"); }
 
 /**
  * specifying the horizontal alignment of the element.
  **/
-export function align(value: string) { return new Attr("align", value, false, "applet", "caption", "col", "colgroup", "hr", "iframe", "img", "table", "tbody", "td", "tfoot", "th", "thead", "tr"); }
+export function Align(value: string) { return attr("align", value, false, "applet", "caption", "col", "colgroup", "hr", "iframe", "img", "table", "tbody", "td", "tfoot", "th", "thead", "tr"); }
 
 /**
  * Specifies a feature-policy for the iframe.
  **/
-export function allow(value: string) { return new Attr("allow", value, false, "iframe"); }
+export function Allow(value: string) { return attr("allow", value, false, "iframe"); }
 
 /**
  * Whether or not to allow an IFrame to open full screen elements.
  */
-export function allowFullscreen(value: boolean) { return new Attr("allowfullscreen", value, false, "iframe"); }
+export function AllowFullscreen(value: boolean) { return attr("allowfullscreen", value, false, "iframe"); }
 
 /**
  * Alternative text in case an image can't be displayed.
  **/
-export function alt(value: string) { return new Attr("alt", value, false, "applet", "area", "img", "input"); }
+export function Alt(value: string) { return attr("alt", value, false, "applet", "area", "img", "input"); }
 
 /**
  * Identifies the currently active element when DOM focus is on a composite widget, textbox, group, or application.
  **/
-export function ariaActiveDescendant(value: string) { return new Attr("ariaActiveDescendant", value, false); }
+export function AriaActiveDescendant(value: string) { return attr("ariaActiveDescendant", value, false); }
 
 /**
  * Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute.
  **/
-export function ariaAtomic(value: boolean) { return new Attr("ariaAtomic", value, false); }
+export function AriaAtomic(value: boolean) { return attr("ariaAtomic", value, false); }
 
 /**
  * Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for an input and specifies how predictions would be presented if they are made.
  **/
-export function ariaAutoComplete(value: string) { return new Attr("ariaAutoComplete", value, false); }
+export function AriaAutoComplete(value: string) { return attr("ariaAutoComplete", value, false); }
 
 /**
  * Indicates an element is being modified and that assistive technologies MAY want to wait until the modifications are complete before exposing them to the user.
  **/
-export function ariaBusy(value: boolean) { return new Attr("ariaBusy", value, false); }
+export function AriaBusy(value: boolean) { return attr("ariaBusy", value, false); }
 
 /**
  * Indicates the current "checked" state of checkboxes, radio buttons, and other widgets. See related aria-pressed and aria-selected.
  **/
-export function ariaChecked(value: boolean) { return new Attr("ariaChecked", value, false); }
+export function AriaChecked(value: boolean) { return attr("ariaChecked", value, false); }
 
 /**
  * Defines the total number of columns in a table, grid, or treegrid. See related aria-colindex.
   **/
-export function ariaColCount(value: number) { return new Attr("ariaColCount", value, false); }
+export function AriaColCount(value: number) { return attr("ariaColCount", value, false); }
 
 /**
  * Defines an element's column index or position with respect to the total number of columns within a table, grid, or treegrid. See related aria-colcount and aria-colspan.
   **/
-export function ariaColIndex(value: number) { return new Attr("ariaColIndex", value, false); }
+export function AriaColIndex(value: number) { return attr("ariaColIndex", value, false); }
 
 /**
  * Defines the number of columns spanned by a cell or gridcell within a table, grid, or treegrid. See related aria-colindex and aria-rowspan.
   **/
-export function ariaColSpan(value: number) { return new Attr("ariaColSpan", value, false); }
+export function AriaColSpan(value: number) { return attr("ariaColSpan", value, false); }
 
 /**
  * Identifies the element (or elements) whose contents or presence are controlled by the current element. See related aria-owns.
   **/
-export function ariaControls(value: string) { return new Attr("ariaControls", value, false); }
+export function AriaControls(value: string) { return attr("ariaControls", value, false); }
 
 /**
  * Indicates the element that represents the current item within a container or set of related elements.
   **/
-export function ariaCurrent(value: string) { return new Attr("ariaCurrent", value, false); }
+export function AriaCurrent(value: string) { return attr("ariaCurrent", value, false); }
 
 /**
  * Identifies the element (or elements) that describes the object. See related aria-labelledby.
   **/
-export function ariaDescribedBy(value: string) { return new Attr("ariaDescribedBy", value, false); }
+export function AriaDescribedBy(value: string) { return attr("ariaDescribedBy", value, false); }
 
 /**
  * Identifies the element that provides a detailed, extended description for the object. See related aria-describedby.
   **/
-export function ariaDetails(value: string) { return new Attr("ariaDetails", value, false); }
+export function AriaDetails(value: string) { return attr("ariaDetails", value, false); }
 
 /**
  * Indicates that the element is perceivable but disabled, so it is not editable or otherwise operable. See related aria-hidden and aria-readonly.
   **/
-export function ariaDisabled(value: boolean) { return new Attr("ariaDisabled", value, false); }
+export function AriaDisabled(value: boolean) { return attr("ariaDisabled", value, false); }
 
 /**
  * Identifies the element that provides an error message for the object. See related aria-invalid and aria-describedby.
   **/
-export function ariaErrorMessage(value: string) { return new Attr("ariaErrorMessage", value, false); }
+export function AriaErrorMessage(value: string) { return attr("ariaErrorMessage", value, false); }
 
 /**
  * Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed.
  **/
-export function ariaExpanded(value: boolean) { return new Attr("ariaExpanded", value, false); }
+export function AriaExpanded(value: boolean) { return attr("ariaExpanded", value, false); }
 
 /**
  * Identifies the next element (or elements) in an alternate reading order of content which, at the user's discretion, allows assistive technology to override the general default of reading in document source order.
   **/
-export function ariaFlowTo(value: string) { return new Attr("ariaFlowTo", value, false); }
+export function AriaFlowTo(value: string) { return attr("ariaFlowTo", value, false); }
 
 /**
  * Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element.
   **/
-export function ariaHasPopup(value: string) { return new Attr("ariaHasPopup", value, false); }
+export function AriaHasPopup(value: string) { return attr("ariaHasPopup", value, false); }
 
 /**
  * Indicates whether the element is exposed to an accessibility API. See related aria-disabled.
  **/
-export function ariaHidden(value: boolean) { return new Attr("ariaHidden", value, false); }
+export function AriaHidden(value: boolean) { return attr("ariaHidden", value, false); }
 
 /**
  * Indicates the entered value does not conform to the format expected by the application. See related aria-errormessage.
   **/
-export function ariaInvalid(value: string) { return new Attr("ariaInvalid", value, false); }
+export function AriaInvalid(value: string) { return attr("ariaInvalid", value, false); }
 
 /**
  * Indicates keyboard shortcuts that an author has implemented to activate or give focus to an element.
   **/
-export function ariaKeyShortcuts(value: string) { return new Attr("ariaKeyShortcuts", value, false); }
+export function AriaKeyShortcuts(value: string) { return attr("ariaKeyShortcuts", value, false); }
 
 /**
  * Defines a string value that labels the current element. See related aria-labelledby.
   **/
-export function ariaLabel(value: string) { return new Attr("ariaLabel", value, false); }
+export function AriaLabel(value: string) { return attr("ariaLabel", value, false); }
 
 /**
  * Identifies the element (or elements) that labels the current element. See related aria-describedby.
   **/
-export function ariaLabelledBy(value: string) { return new Attr("ariaLabelledBy", value, false); }
+export function AriaLabelledBy(value: string) { return attr("ariaLabelledBy", value, false); }
 
 /**
  * Defines the hierarchical level of an element within a structure.
   **/
-export function ariaLevel(value: number) { return new Attr("ariaLevel", value, false); }
+export function AriaLevel(value: number) { return attr("ariaLevel", value, false); }
 
 /**
  * Indicates that an element will be updated, and describes the types of updates the user agents, assistive technologies, and user can expect from the live region.
   **/
-export function ariaLive(value: string) { return new Attr("ariaLive", value, false); }
+export function AriaLive(value: string) { return attr("ariaLive", value, false); }
 
 /**
  * Indicates whether an element is modal when displayed
   **/
-export function ariaModal(value: boolean) { return new Attr("ariaModal", value, false); }
+export function AriaModal(value: boolean) { return attr("ariaModal", value, false); }
 
 /**
  * Indicates whether a text box accepts multiple lines of input or only a single line.
   **/
-export function ariaMultiline(value: boolean) { return new Attr("ariaMultiline", value, false); }
+export function AriaMultiline(value: boolean) { return attr("ariaMultiline", value, false); }
 
 /**
  * Indicates that the user may select more than one item from the current selectable descendants.
   **/
-export function ariaMultiSelectable(value: boolean) { return new Attr("ariaMultiSelectable", value, false); }
+export function AriaMultiSelectable(value: boolean) { return attr("ariaMultiSelectable", value, false); }
 
 /**
  * Indicates that the user may select more than one item from the current selectable descendants.
   **/
-export function ariaOrientation(value: string) { return new Attr("ariaOrientation", value, false); }
+export function AriaOrientation(value: string) { return attr("ariaOrientation", value, false); }
 
 /**
  * Identifies an element (or elements) in order to define a visual, functional, or contextual parent/child relationship between DOM elements where the DOM hierarchy cannot be used to represent the relationship. See related aria-controls.
   **/
-export function ariaOwns(value: string) { return new Attr("ariaOwns", value, false); }
+export function AriaOwns(value: string) { return attr("ariaOwns", value, false); }
 
 /**
  * Defines a short hint (a word or short phrase) intended to aid the user with data entry when the control has no value. A hint could be a sample value or a brief description of the expected format.
   **/
-export function ariaPlaceholder(value: string) { return new Attr("ariaPlaceholder", value, false); }
+export function AriaPlaceholder(value: string) { return attr("ariaPlaceholder", value, false); }
 
 /**
  * Defines an element's number or position in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM. See related aria-setsize.
   **/
-export function ariaPosInSet(value: number) { return new Attr("ariaPosInSet", value, false); }
+export function AriaPosInSet(value: number) { return attr("ariaPosInSet", value, false); }
 
 /**
  * Indicates the current "pressed" state of toggle buttons. See related aria-checked and aria-selected.
  **/
-export function ariaPressed(value: boolean) { return new Attr("ariaPressed", value, false); }
+export function AriaPressed(value: boolean) { return attr("ariaPressed", value, false); }
 
 /**
  * Indicates that the element is not editable, but is otherwise operable. See related aria-disabled.
   **/
-export function ariaReadOnly(value: boolean) { return new Attr("ariaReadOnly", value, false); }
+export function AriaReadOnly(value: boolean) { return attr("ariaReadOnly", value, false); }
 
 /**
  * Indicates what notifications the user agent will trigger when the accessibility tree within a live region is modified. See related aria-atomic.
   **/
-export function ariaRelevant(value: string) { return new Attr("ariaRelevant", value, false); }
+export function AriaRelevant(value: string) { return attr("ariaRelevant", value, false); }
 
 /**
  * Indicates that user input is required on the element before a form may be submitted.
   **/
-export function ariaRequired(value: boolean) { return new Attr("ariaRequired", value, false); }
+export function AriaRequired(value: boolean) { return attr("ariaRequired", value, false); }
 
 /**
  * Defines a human-readable, author-localized description for the role of an element.
   **/
-export function ariaRoleDescription(value: string) { return new Attr("ariaRoleDescription", value, false); }
+export function AriaRoleDescription(value: string) { return attr("ariaRoleDescription", value, false); }
 
 /**
  * Defines the total number of rows in a table, grid, or treegrid. See related aria-rowindex.
   **/
-export function ariaRowCount(value: number) { return new Attr("ariaRowCount", value, false); }
+export function AriaRowCount(value: number) { return attr("ariaRowCount", value, false); }
 
 /**
  * Defines an element's row index or position with respect to the total number of rows within a table, grid, or treegrid. See related aria-rowcount and aria-rowspan.
   **/
-export function ariaRowIndex(value: number) { return new Attr("ariaRowIndex", value, false); }
+export function AriaRowIndex(value: number) { return attr("ariaRowIndex", value, false); }
 
 /**
  Defines the number of rows spanned by a cell or gridcell within a table, grid, or treegrid. See related aria-rowindex and aria-colspan.
   **/
-export function ariaRowSpan(value: number) { return new Attr("ariaRowSpan", value, false); }
+export function AriaRowSpan(value: number) { return attr("ariaRowSpan", value, false); }
 
 /**
  * Indicates the current "selected" state of various widgets. See related aria-checked and aria-pressed.
  **/
-export function ariaSelected(value: boolean) { return new Attr("ariaSelected", value, false); }
+export function AriaSelected(value: boolean) { return attr("ariaSelected", value, false); }
 
 /**
  * Defines the number of items in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM. See related aria-posinset.
   **/
-export function ariaSetSize(value: number) { return new Attr("ariaSetsize", value, false); }
+export function AriaSetSize(value: number) { return attr("ariaSetsize", value, false); }
 
 /**
  * Indicates if items in a table or grid are sorted in ascending or descending order.
   **/
-export function ariaSort(value: string) { return new Attr("ariaSort", value, false); }
+export function AriaSort(value: string) { return attr("ariaSort", value, false); }
 
 /**
  * Defines the maximum allowed value for a range widget.
   **/
-export function ariaValueMax(value: number) { return new Attr("ariaValueMax", value, false); }
+export function AriaValueMax(value: number) { return attr("ariaValueMax", value, false); }
 
 /**
  * Defines the minimum allowed value for a range widget.
   **/
-export function ariaValueMin(value: number) { return new Attr("ariaValueMin", value, false); }
+export function AriaValueMin(value: number) { return attr("ariaValueMin", value, false); }
 
 /**
  * Defines the current value for a range widget. See related aria-valuetext.
   **/
-export function ariaValueNow(value: number) { return new Attr("ariaValueNow", value, false); }
+export function AriaValueNow(value: number) { return attr("ariaValueNow", value, false); }
 
 /**
  * Defines the human readable text alternative of aria-valuenow for a range widget.
   **/
-export function ariaValueText(value: string) { return new Attr("ariaValueText", value, false); }
+export function AriaValueText(value: string) { return attr("ariaValueText", value, false); }
 
 /**
  * Executes the script asynchronously.
   **/
-export function async(value: string) { return new Attr("async", value, false, "script"); }
+export function Async(value: string) { return attr("async", value, false, "script"); }
 
 /**
  * Sets whether input is automatically capitalized when entered by user
   **/
-export function autoCapitalize(value: boolean) { return new Attr("autocapitalize", value, false); }
+export function AutoCapitalize(value: boolean) { return attr("autocapitalize", value, false); }
 
 /**
  * Indicates whether controls in this form can by default have their values automatically completed by the browser.
   **/
-export function autoComplete(value: boolean) { return new Attr("autocomplete", value ? "on" : "off", false, "form", "input", "select", "textarea"); }
+export function AutoComplete(value: boolean) { return attr("autocomplete", value ? "on" : "off", false, "form", "input", "select", "textarea"); }
 
 /**
  * The element should be automatically focused after the page loaded.
   **/
-export function autoFocus(value: boolean) { return new Attr("autofocus", value, false, "button", "input", "keygen", "select", "textarea"); }
+export function AutoFocus(value: boolean) { return attr("autofocus", value, false, "button", "input", "keygen", "select", "textarea"); }
 
 /**
  * The audio or video should play as soon as possible.
   **/
-export function autoPlay(value: boolean) { return new Attr("autoplay", value, false, "audio", "video"); }
+export function AutoPlay(value: boolean) { return attr("autoplay", value, false, "audio", "video"); }
 
 /**
  * Contains the time range of already buffered media.
   **/
-export function buffered(value: boolean) { return new Attr("buffered", value, false, "audio", "video"); }
+export function buffered(value: boolean) { return attr("buffered", value, false, "audio", "video"); }
 
 /**
  * From the HTML Media Capture
   **/
-export function capture(value: boolean) { return new Attr("capture", value, false, "input"); }
+export function Capture(value: boolean) { return attr("capture", value, false, "input"); }
 
 /**
  * Declares the character encoding of the page or script.
   **/
-export function charSet(value: string) { return new Attr("charset", value, false, "meta", "script"); }
+export function CharSet(value: string) { return attr("charset", value, false, "meta", "script"); }
 
 /**
  * Indicates whether the element should be checked on page load.
   **/
-export function checked(value: boolean) { return new Attr("checked", value, false, "command", "input"); }
+export function Checked(value: boolean) { return attr("checked", value, false, "command", "input"); }
 
 /**
  * Contains a URI which points to the source of the quote or change.
   **/
-export function cite(value: string) { return new Attr("cite", value, false, "blockquote", "del", "ins", "q"); }
+export function Cite_attr(value: string) { return attr("cite", value, false, "blockquote", "del", "ins", "q"); }
 
 /**
  * Often used with CSS to style elements with common properties.
   **/
-export function className(value: string) { return new Attr("className", value, false); }
+export function ClassName(value: string) { return attr("className", value, false); }
 
 /**
  * Often used with CSS to style elements with common properties.
   **/
-export function classList(...values: string[]) { return new Attr("classList", values, false); }
+export function ClassList(...values: string[]) { return attr("classList", values, false); }
 
 /**
  * Specifies the URL of the applet's class file to be loaded and executed.
   **/
-export function code(value: string) { return new Attr("code", value, false, "applet"); }
+export function Code_attr(value: string) { return attr("code", value, false, "applet"); }
 
 /**
  * This attribute gives the absolute or relative URL of the directory where applets' .class files referenced by the code attribute are stored.
   **/
-export function codeBase(value: string) { return new Attr("codebase", value, false, "applet"); }
+export function CodeBase(value: string) { return attr("codebase", value, false, "applet"); }
 
 /**
  * Defines the number of columns in a textarea.
   **/
-export function cols(value: number) { return new Attr("cols", value, false, "textarea"); }
+export function Cols(value: number) { return attr("cols", value, false, "textarea"); }
 
 /**
  * The colspan attribute defines the number of columns a cell should span.
   **/
-export function colSpan(value: number) { return new Attr("colspan", value, false, "td", "th"); }
+export function ColSpan(value: number) { return attr("colspan", value, false, "td", "th"); }
 
 /**
  * A value associated with http-equiv or name depending on the context.
   **/
-export function content(value: string) { return new Attr("content", value, false, "meta"); }
+export function Content(value: string) { return attr("content", value, false, "meta"); }
 
 /**
  * Indicates whether the element's content is editable.
   **/
-export function contentEditable(value: string) { return new Attr("contenteditable", value, false); }
+export function ContentEditable(value: string) { return attr("contenteditable", value, false); }
 
 /**
  * Defines the ID of a <menu> element which will serve as the element's context menu.
   **/
-export function contextMenu(value: string) { return new Attr("contextmenu", value, false); }
+export function ContextMenu(value: string) { return attr("contextmenu", value, false); }
 
 /**
  * Indicates whether the browser should show playback controls to the user.
   **/
-export function controls(value: boolean) { return new Attr("controls", value, false, "audio", "video"); }
+export function Controls(value: boolean) { return attr("controls", value, false, "audio", "video"); }
 
 /**
  * A set of values specifying the coordinates of the hot-spot region.
   **/
-export function coords(value: string) { return new Attr("coords", value, false, "area"); }
+export function Coords(value: string) { return attr("coords", value, false, "area"); }
 
 /**
  * How the element handles cross-origin requests
   **/
-export function crossOrigin(value: string) { return new Attr("crossorigin", value, false, "audio", "img", "link", "script", "video"); }
+export function CrossOrigin(value: string) { return attr("crossorigin", value, false, "audio", "img", "link", "script", "video"); }
 
 /**
  * Specifies the Content Security Policy that an embedded document must agree to enforce upon itself.
   **/
-export function csp(value: string) { return new Attr("csp", value, false, "iframe"); }
+export function CSP(value: string) { return attr("csp", value, false, "iframe"); }
 
 /**
  * Specifies the URL of the resource.
   **/
-export function data(value: string) { return new Attr("data", value, false, "object"); }
+export function Data_attr(value: string) { return attr("data", value, false, "object"); }
 
 /**
  * Lets you attach custom attributes to an HTML element.
  */
-export function customData(name: string, value: any) { return new Attr("data-" + name.toLowerCase(), value, false); }
+export function CustomData<V = number | object>(name: string, value: V) { return attr("data-" + name.toLowerCase(), value, true); }
 
 /**
  * Indicates the date and time associated with the element.
   **/
-export function dateTime(value: Date) { return new Attr("datetime", value, false, "del", "ins", "time"); }
+export function DateTime(value: Date) { return attr("datetime", value, false, "del", "ins", "time"); }
 
 /**
  * Indicates the preferred method to decode the image.
   **/
-export function decoding(value: string) { return new Attr("decoding", value, false, "img"); }
+export function Decoding(value: string) { return attr("decoding", value, false, "img"); }
 
 /**
  * Indicates that the track should be enabled unless the user's preferences indicate something different.
   **/
-export function htmlDefault(value: boolean | string) { return new Attr("default", value, false, "track"); }
+export function Default(value: boolean | string) { return attr("default", value, false, "track"); }
 
 /**
  * Indicates that the script should be executed after the page has been parsed.
   **/
-export function defer(value: boolean) { return new Attr("defer", value, false, "script"); }
+export function Defer(value: boolean) { return attr("defer", value, false, "script"); }
 
 /**
  * Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)
   **/
-export function dir(value: string) { return new Attr("dir", value, false); }
+export function Dir(value: string) { return attr("dir", value, false); }
 
 /**
  * Indicates whether the user can interact with the element.
   **/
-export function disabled(value: boolean) { return new Attr("disabled", value, false, "button", "command", "fieldset", "input", "keygen", "optgroup", "option", "select", "textarea"); }
+export function Disabled(value: boolean) { return attr("disabled", value, false, "button", "command", "fieldset", "input", "keygen", "optgroup", "option", "select", "textarea"); }
 
 /**
  * ??? 
   **/
-export function dirName(value: string) { return new Attr("dirname", value, false, "input", "textarea"); }
+export function DirName(value: string) { return attr("dirname", value, false, "input", "textarea"); }
 
 /**
  * Indicates that the hyperlink is to be used for downloading a resource by giving the file a name.
   **/
-export function download(value: string) { return new Attr("download", value, false, "a", "area"); }
+export function Download(value: string) { return attr("download", value, false, "a", "area"); }
 
 /**
  * Defines whether the element can be dragged.
   **/
-export function draggable(value: boolean) { return new Attr("draggable", value, false); }
+export function Draggable(value: boolean) { return attr("draggable", value, false); }
 
 /**
  * Indicates that the element accepts the dropping of content onto it.
   **/
-export function dropZone(value: string) { return new Attr("dropzone", value, false); }
+export function DropZone(value: string) { return attr("dropzone", value, false); }
 
 /**
  * Defines the content type of the form data when the method is POST.
   **/
-export function encType(value: string) { return new Attr("enctype", value, false, "form"); }
+export function EncType(value: string) { return attr("enctype", value, false, "form"); }
 
 /**
  * The enterkeyhint specifies what action label (or icon) to present for the enter key on virtual keyboards. The attribute can be used with form controls (such as the value of textarea elements), or in elements in an editing host (e.g., using contenteditable attribute).
   **/
-export function enterKeyHint(value: string) { return new Attr("enterkeyhint", value, false, "textarea"); }
+export function EnterKeyHint(value: string) { return attr("enterkeyhint", value, false, "textarea"); }
 
 /**
  * Describes elements which belongs to this one.
   **/
-export function htmlFor(value: string) { return new Attr("htmlFor", value, false, "label", "output"); }
+export function HtmlFor(value: string) { return attr("htmlFor", value, false, "label", "output"); }
 
 /**
  * Indicates the form that is the owner of the element.
   **/
-export function form(value: string) { return new Attr("form", value, false, "button", "fieldset", "input", "keygen", "label", "meter", "object", "output", "progress", "select", "textarea"); }
+export function Form_attr(value: string) { return attr("form", value, false, "button", "fieldset", "input", "keygen", "label", "meter", "object", "output", "progress", "select", "textarea"); }
 
 /**
  * Indicates the action of the element, overriding the action defined in the <form>.
   **/
-export function formAction(value: string) { return new Attr("formaction", value, false, "input", "button"); }
+export function FormAction(value: string) { return attr("formaction", value, false, "input", "button"); }
 
 /**
  * If the button/input is a submit button (type="submit"), this attribute sets the encoding type to use during form submission. If this attribute is specified, it overrides the enctype attribute of the button's form owner.
   **/
-export function formEncType(value: string) { return new Attr("formenctype", value, false, "button", "input"); }
+export function FormEncType(value: string) { return attr("formenctype", value, false, "button", "input"); }
 
 /**
  * If the button/input is a submit button (type="submit"), this attribute sets the submission method to use during form submission (GET, POST, etc.). If this attribute is specified, it overrides the method attribute of the button's form owner.
   **/
-export function formMethod(value: string) { return new Attr("formmethod", value, false, "button", "input"); }
+export function FormMethod(value: string) { return attr("formmethod", value, false, "button", "input"); }
 
 /**
  * If the button/input is a submit button (type="submit"), this boolean attribute specifies that the form is not to be validated when it is submitted. If this attribute is specified, it overrides the novalidate attribute of the button's form owner.
   **/
-export function formNoValidate(value: boolean) { return new Attr("formnovalidate", value, false, "button", "input"); }
+export function FormNoValidate(value: boolean) { return attr("formnovalidate", value, false, "button", "input"); }
 
 /**
  * If the button/input is a submit button (type="submit"), this attribute specifies the browsing context (for example, tab, window, or inline frame) in which to display the response that is received after submitting the form. If this attribute is specified, it overrides the target attribute of the button's form owner.
   **/
-export function formTarget(value: string) { return new Attr("formtarget", value, false, "button", "input"); }
+export function FormTarget(value: string) { return attr("formtarget", value, false, "button", "input"); }
 
 /**
  * Width of the border to put around an `iframe` tag.
  */
-export function frameBorder(value: string | number | boolean) {
+export function FrameBorder(value: string | number | boolean) {
     if (isBoolean(value)) {
         value = value ? "yes" : "no";
     }
 
-    return new Attr("frameborder", value, false, "iframe");
+    return attr("frameborder", value, false, "iframe");
 }
 
 /**
  * IDs of the <th> elements which applies to this element.
   **/
-export function headers(value: string) { return new Attr("headers", value, false, "td", "th"); }
+export function Headers(value: string) { return attr("headers", value, false, "td", "th"); }
 
 /**
  * Specifies the height of elements listed here. For all other elements, use the CSS height property.
   **/
-export function htmlHeight(value: number | string) { return new Attr("height", value, false, "canvas", "embed", "iframe", "img", "input", "object", "video"); }
+export function Height(value: number | string) { return attr("height", value, false, "canvas", "embed", "iframe", "img", "input", "object", "video"); }
 
 /**
  * Prevents rendering of given element, while keeping child elements, e.g. script elements, active.
   **/
-export function hidden(value: boolean) { return new Attr("hidden", value, false); }
+export function Hidden(value: boolean) { return attr("hidden", value, false); }
 
 /**
  * Indicates the lower bound of the upper range.
   **/
-export function high(value: number) { return new Attr("high", value, false, "meter"); }
+export function High(value: number) { return attr("high", value, false, "meter"); }
 
 /**
  * The URL of a linked resource.
   **/
-export function href(value: string | URL) { return new Attr("href", unpackURL(value), false, "a", "area", "base", "link"); }
+export function Href(value: string | URL) { return attr("href", unpackURL(value), false, "a", "area", "base", "link"); }
 
 /**
  * Specifies the language of the linked resource.
   **/
-export function hrefLang(value: string) { return new Attr("hreflang", value, false, "a", "area", "link"); }
+export function HrefLang(value: string) { return attr("hreflang", value, false, "a", "area", "link"); }
 
 /**
  * Defines a pragma directive.
   **/
-export function httpEquiv(value: string) { return new Attr("httpEquiv", value, false, "meta"); }
+export function HttpEquiv(value: string) { return attr("httpEquiv", value, false, "meta"); }
 
 /**
  * Specifies a picture which represents the command.
   **/
-export function icon(value: string) { return new Attr("icon", value, false, "command"); }
+export function Icon(value: string) { return attr("icon", value, false, "command"); }
 
 /**
  * Often used with CSS to style a specific element. The value of this attribute must be unique.
   **/
-export function id(value: string) { return new Attr("id", value, false); }
+export function ID(value: string) { return attr("id", value, false); }
 
 /**
  * Indicates the relative fetch priority for the resource.
   **/
-export function importance(value: string) { return new Attr("importance", value, false, "iframe", "img", "link", "script"); }
+export function Importance(value: string) { return attr("importance", value, false, "iframe", "img", "link", "script"); }
 
 /**
  * Provides a hint as to the type of data that might be entered by the user while editing the element or its contents. The attribute can be used with form controls (such as the value of textarea elements), or in elements in an editing host (e.g., using contenteditable attribute).
   **/
-export function inputMode(value: string) { return new Attr("inputmode", value, false, "textarea"); }
+export function InputMode(value: string) { return attr("inputmode", value, false, "textarea"); }
 
 /**
  * Specifies a Subresource Integrity value that allows browsers to verify what they fetch.
   **/
-export function integrity(value: string) { return new Attr("integrity", value, false, "link", "script"); }
+export function Integrity(value: string) { return attr("integrity", value, false, "link", "script"); }
 
 /**
  * This attribute tells the browser to ignore the actual intrinsic size of the image and pretend it’s the size specified in the attribute.
   **/
-export function intrinsicSize(value: string) { return new Attr("intrinsicsize", value, false, "img"); }
+export function IntrinsicSize(value: string) { return attr("intrinsicsize", value, false, "img"); }
 
 /**
  * Indicates that the image is part of a server-side image map.
   **/
-export function isMap(value: boolean) { return new Attr("ismap", value, false, "img"); }
-
-/**
- * Specifies the type of key generated.
-  **/
-export function keyType(value: string) { return new Attr("keytype", value, false, "keygen"); }
+export function IsMap(value: boolean) { return attr("ismap", value, false, "img"); }
 
 /**
  * The itemprop attribute
   **/
-export function itemProp(value: string) { return new Attr("itemprop", value, false); }
+export function ItemProp(value: string) { return attr("itemprop", value, false); }
+
+/**
+ * Specifies the type of key generated.
+  **/
+export function keyType(value: string) { return attr("keytype", value, false, "keygen"); }
 
 /**
  * Specifies the kind of text track.
   **/
-export function kind(value: string) { return new Attr("kind", value, false, "track"); }
+export function Kind(value: string) { return attr("kind", value, false, "track"); }
 
 /**
  * Specifies a user-readable title of the element.
   **/
-export function label(value: string) { return new Attr("label", value, false, "optgroup", "option", "track"); }
+export function Label_attr(value: string) { return attr("label", value, false, "optgroup", "option", "track"); }
 
 /**
  * Defines the language used in the element.
   **/
-export function lang(value: string) { return new Attr("lang", value, false); }
+export function Lang(value: string) { return attr("lang", value, false); }
 
 /**
  * Defines the script language used in the element.
   **/
-export function language(value: string) { return new Attr("language", value, false, "script"); }
+export function Language(value: string) { return attr("language", value, false, "script"); }
 
 /**
  * Identifies a list of pre-defined options to suggest to the user.
   **/
-export function list(value: string) { return new Attr("list", value, true, "input"); }
+export function List(value: string | HTMLDataListElement) {
+    if (value instanceof HTMLDataListElement) {
+        if (isNullOrUndefined(value.id)) {
+            value.id = stringRandom(12);
+        }
+
+        if (!value.isConnected) {
+            document.body.append(value);
+        }
+
+        value = value.id;
+    }
+
+    return attr("list", value, true, "input");
+}
 
 /**
  * Indicates whether the media should start playing from the start when it's finished.
   **/
-export function loop(value: boolean) { return new Attr("loop", value, false, "audio", "bgsound", "marquee", "video"); }
+export function Loop(value: boolean) { return attr("loop", value, false, "audio", "bgsound", "marquee", "video"); }
 
 /**
  * Indicates the upper bound of the lower range.
   **/
-export function low(value: number) { return new Attr("low", value, false, "meter"); }
+export function Low(value: number) { return attr("low", value, false, "meter"); }
 
 /**
  * Indicates the maximum value allowed.
   **/
-export function max(value: number) { return new Attr("max", value, false, "input", "meter", "progress"); }
+export function Max(value: number) { return attr("max", value, false, "input", "meter", "progress"); }
 
 /**
  * Defines the maximum number of characters allowed in the element.
   **/
-export function maxLength(value: number) { return new Attr("maxlength", value, false, "input", "textarea"); }
+export function MaxLength(value: number) { return attr("maxlength", value, false, "input", "textarea"); }
 
 /**
  * Defines the minimum number of characters allowed in the element.
   **/
-export function minLength(value: number) { return new Attr("minlength", value, false, "input", "textarea"); }
+export function MinLength(value: number) { return attr("minlength", value, false, "input", "textarea"); }
 
 /**
  * Specifies a hint of the media for which the linked resource was designed.
   **/
-export function media(value: string) { return new Attr("media", value, false, "a", "area", "link", "source", "style"); }
+export function Media(value: string) { return attr("media", value, false, "a", "area", "link", "source", "style"); }
 
 /**
  * Defines which HTTP method to use when submitting the form. Can be GET (default) or POST.
   **/
-export function method(value: string) { return new Attr("method", value, false, "form"); }
+export function Method(value: string) { return attr("method", value, false, "form"); }
 
 /**
  * Indicates the minimum value allowed.
   **/
-export function min(value: number) { return new Attr("min", value, false, "input", "meter"); }
+export function Min(value: number) { return attr("min", value, false, "input", "meter"); }
 
 /**
  * Indicates whether multiple values can be entered in an input of the type email or file.
   **/
-export function multiple(value: boolean) { return new Attr("multiple", value, false, "input", "select"); }
+export function Multiple(value: boolean) { return attr("multiple", value, false, "input", "select"); }
 
 /**
  * Indicates whether the audio will be initially silenced on page load.
   **/
-export function muted(value: boolean) { return new Attr("muted", value, false, "audio", "video"); }
+export function Muted(value: boolean) { return attr("muted", value, false, "audio", "video"); }
 
 /**
  * Name of the element. For example used by the server to identify the fields in form submits.
   **/
-export function name(value: string) { return new Attr("name", value, false, "button", "form", "fieldset", "iframe", "input", "keygen", "object", "output", "select", "textarea", "map", "meta", "param"); }
+export function Name(value: string) { return attr("name", value, false, "button", "form", "fieldset", "iframe", "input", "keygen", "object", "output", "select", "textarea", "map", "meta", "param"); }
 
 /**
  * This attribute indicates that the form shouldn't be validated when submitted.
   **/
-export function noValidate(value: boolean) { return new Attr("novalidate", value, false, "form"); }
+export function NoValidate(value: boolean) { return attr("novalidate", value, false, "form"); }
 
 /**
  * Indicates whether the details will be shown on page load.
   **/
-export function open(value: boolean) { return new Attr("open", value, false, "details"); }
+export function Open(value: boolean) { return attr("open", value, false, "details"); }
 
 /**
  * Indicates the optimal numeric value.
   **/
-export function optimum(value: number) { return new Attr("optimum", value, false, "meter"); }
+export function Optimum(value: number) { return attr("optimum", value, false, "meter"); }
 
 /**
  * Defines a regular expression which the element's value will be validated against.
   **/
-export function pattern(value: string) { return new Attr("pattern", value, false, "input"); }
+export function Pattern(value: string) { return attr("pattern", value, false, "input"); }
 
 /**
  * The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
   **/
-export function ping(value: string) { return new Attr("ping", value, false, "a", "area"); }
+export function Ping(value: string) { return attr("ping", value, false, "a", "area"); }
 
 /**
  * Provides a hint to the user of what can be entered in the field.
   **/
-export function placeHolder(value: string) { return new Attr("placeholder", value, false, "input", "textarea"); }
+export function PlaceHolder(value: string) { return attr("placeholder", value, false, "input", "textarea"); }
 
 /**
  * A URL indicating a poster frame to show until the user plays or seeks.
   **/
-export function poster(value: string) { return new Attr("poster", value, false, "video"); }
+export function Poster(value: string) { return attr("poster", value, false, "video"); }
 
 /**
  * Indicates whether the whole resource, parts of it or nothing should be preloaded.
   **/
-export function preload(value: boolean | string) { return new Attr("preload", value, false, "audio", "video"); }
+export function Preload(value: boolean | string) { return attr("preload", value, false, "audio", "video"); }
 
 /**
  * Indicates whether the element can be edited.
   **/
-export function readOnly(value: boolean) { return new Attr("readonly", value, false, "input", "textarea"); }
+export function ReadOnly(value: boolean) { return attr("readonly", value, false, "input", "textarea"); }
 
 /**
  * The radiogroup attribute
   **/
-export function radioGroup(value: string) { return new Attr("radiogroup", value, false, "command"); }
+export function RadioGroup(value: string) { return attr("radiogroup", value, false, "command"); }
 
 /**
  * Specifies which referrer is sent when fetching the resource.
   **/
-export function referrerPolicy(value: string) { return new Attr("referrerpolicy", value, false, "a", "area", "iframe", "img", "link", "script"); }
+export function ReferrerPolicy(value: string) { return attr("referrerpolicy", value, false, "a", "area", "iframe", "img", "link", "script"); }
 
 /**
  * Specifies the relationship of the target object to the link object.
   **/
-export function rel(value: string) { return new Attr("rel", value, false, "a", "area", "link"); }
+export function Rel(value: string) { return attr("rel", value, false, "a", "area", "link"); }
 
 /**
  * Indicates whether this element is required to fill out or not.
   **/
-export function required(value: boolean) { return new Attr("required", value, false, "input", "select", "textarea"); }
+export function Required(value: boolean) { return attr("required", value, false, "input", "select", "textarea"); }
 
 /**
  * Indicates whether the list should be displayed in a descending order instead of a ascending.
   **/
-export function reversed(value: boolean) { return new Attr("reversed", value, false, "ol"); }
+export function Reversed(value: boolean) { return attr("reversed", value, false, "ol"); }
 
 /**
  * Defines the number of rows in a text area.
   **/
-export function role(value: string) { return new Attr("role", value, false); }
+export function Role(value: string) { return attr("role", value, false); }
 
 /**
  * The rows attribute
   **/
-export function rows(value: number) { return new Attr("rows", value, false, "textarea"); }
+export function Rows(value: number) { return attr("rows", value, false, "textarea"); }
 
 /**
  * Defines the number of rows a table cell should span over.
   **/
-export function rowSpan(value: number) { return new Attr("rowspan", value, false, "td", "th"); }
+export function RowSpan(value: number) { return attr("rowspan", value, false, "td", "th"); }
 
 /**
  * Stops a document loaded in an iframe from using certain features (such as submitting forms or opening new windows).
   **/
-export function sandbox(value: string) { return new Attr("sandbox", value, false, "iframe"); }
+export function Sandbox(value: string) { return attr("sandbox", value, false, "iframe"); }
 
 /**
  * Defines the cells that the header test (defined in the th element) relates to.
   **/
-export function scope(value: string) { return new Attr("scope", value, false, "th"); }
+export function Scope(value: string) { return attr("scope", value, false, "th"); }
 
 /**
  * The scoped attribute for `style` tags.
   **/
-export function scoped(value: boolean) { return new Attr("scoped", value, false, "style"); }
+export function Scoped(value: boolean) { return attr("scoped", value, false, "style"); }
 
 /**
  * The scrolling attribute for `iframe` tags.
   **/
-export function scrolling(value: boolean) { return new Attr("scrolling", value ? "yes" : "no", false, "iframe"); }
+export function Scrolling(value: boolean) { return attr("scrolling", value ? "yes" : "no", false, "iframe"); }
 
 /**
  * Defines an `option` tag which will be selected on page load.
   **/
-export function selected(value: boolean) { return new Attr("selected", value, false, "option"); }
+export function Selected(value: boolean) { return attr("selected", value, false, "option"); }
 
 /**
  * The shape attribute for `a` and `area` tags.
   **/
-export function shape(value: string) { return new Attr("shape", value, false, "a", "area"); }
+export function Shape(value: string) { return attr("shape", value, false, "a", "area"); }
 
 /**
  * Defines the width of the element (in pixels). If the element's type attribute is text or password then it's the number of characters.
   **/
-export function size(value: number) { return new Attr("size", value, false, "input", "select"); }
+export function Size(value: number) { return attr("size", value, false, "input", "select"); }
 
 /**
  * Assigns a slot in a shadow DOM shadow tree to an element.
   **/
-export function slot(value: string) { return new Attr("slot", value, false); }
+export function Slot_attr(value: string) { return attr("slot", value, false); }
 
 /**
  * The sizes attribute
   **/
-export function sizes(value: string) { return new Attr("sizes", value, false, "link", "img", "source"); }
+export function Sizes(value: string) { return attr("sizes", value, false, "link", "img", "source"); }
 
 /**
  * The span attribute
   **/
-export function span(value: string) { return new Attr("span", value, false, "col", "colgroup"); }
+export function Span_attr(value: string) { return attr("span", value, false, "col", "colgroup"); }
 
 /**
  * Indicates whether spell checking is allowed for the element.
   **/
-export function spellCheck(value: boolean) { return new Attr("spellcheck", value, false); }
+export function SpellCheck(value: boolean) { return attr("spellcheck", value, false); }
 
 function unpackURL(value: string | URL) {
     if (value instanceof URL) {
@@ -896,104 +890,104 @@ function unpackURL(value: string | URL) {
 /**
  * The URL of the embeddable content.
   **/
-export function src(value: string | URL) {
-    return new Attr("src", unpackURL(value), false, "audio", "embed", "iframe", "img", "input", "script", "source", "track", "video");
+export function Src(value: string | URL) {
+    return attr("src", unpackURL(value), false, "audio", "embed", "iframe", "img", "input", "script", "source", "track", "video");
 }
 
 /**
  * The srcdoc attribute
   **/
-export function srcDoc(value: string) { return new Attr("srcdoc", value, false, "iframe"); }
+export function SrcDoc(value: string) { return attr("srcdoc", value, false, "iframe"); }
 
 /**
  * The srclang attribute
   **/
-export function srcLang(value: string) { return new Attr("srclang", value, false, "track"); }
+export function SrcLang(value: string) { return attr("srclang", value, false, "track"); }
 
 /**
  * A MediaStream object to use as a source for an HTML video or audio element
   **/
-export function srcObject(value: MediaProvider) { return new Attr("srcObject", value, false, "audio", "video"); }
+export function SrcObject(value: MediaProvider) { return attr("srcObject", value, false, "audio", "video"); }
 
 /**
  * One or more responsive image candidates.
   **/
-export function srcSet(value: string) { return new Attr("srcset", value, false, "img", "source"); }
+export function SrcSet(value: string) { return attr("srcset", value, false, "img", "source"); }
 
 /**
  * Defines the first number if other than 1.
   **/
-export function start(value: number) { return new Attr("start", value, false, "ol"); }
+export function Start(value: number) { return attr("start", value, false, "ol"); }
 
 /**
  * The step attribute
   **/
-export function step(value: number) { return new Attr("step", value, false, "input"); }
+export function Step(value: number) { return attr("step", value, false, "input"); }
 
 /**
  * The summary attribute
   **/
-export function summary(value: string) { return new Attr("summary", value, false, "table"); }
+export function Summary_attr(value: string) { return attr("summary", value, false, "table"); }
 
 /**
  * Overrides the browser's default tab order and follows the one specified instead.
   **/
-export function tabIndex(value: number) { return new Attr("tabindex", value, false); }
+export function TabIndex(value: number) { return attr("tabindex", value, false); }
 
 /**
  * Text to be displayed in a tooltip when hovering over the element.
   **/
-export function title(value: string) { return new Attr("title", value, false); }
+export function Title_attr(value: string) { return attr("title", value, false); }
 
 /**
  * The target attribute
   **/
-export function target(value: string) { return new Attr("target", value, false, "a", "area", "base", "form"); }
+export function Target(value: string) { return attr("target", value, false, "a", "area", "base", "form"); }
 
 /**
  * Specify whether an element’s attribute values and the values of its Text node children are to be translated when the page is localized, or whether to leave them unchanged.
   **/
-export function translate(value: boolean) { return new Attr("translate", value, false); }
+export function Translate(value: boolean) { return attr("translate", value, false); }
 
 /**
  * Defines the type of the element.
   **/
-export function type(value: string | MediaType) {
+export function Type(value: string | MediaType) {
     if (!isString(value)) {
         value = value.value;
     }
-    return new Attr("type", value, false, "button", "input", "command", "embed", "link", "object", "script", "source", "style", "menu");
+    return attr("type", value, false, "button", "input", "command", "embed", "link", "object", "script", "source", "style", "menu");
 }
 
 /**
  * Defines a default value which will be displayed in the element on page load.
   **/
-export function value(value: string | number) { return new Attr("value", value, false, "button", "data", "input", "li", "meter", "option", "progress", "param"); }
+export function Value(value: string | number) { return attr("value", value, false, "button", "data", "input", "li", "meter", "option", "progress", "param"); }
 
 /**
  * Defines a default value which will be displayed in the element on page load.
   **/
-export function valueAsNumber(value: number) { return new Attr("valueAsNumber", value, false, "input"); }
+export function ValueAsNumber(value: number) { return attr("valueAsNumber", value, false, "input"); }
 
 /**
  * Defines a default value which will be displayed in the element on page load.
   **/
-export function valueAsDate(value: Date) { return new Attr("valueAsDate", value, false, "input"); }
+export function ValueAsDate(value: Date) { return attr("valueAsDate", value, false, "input"); }
 
 /**
  * setting the volume at which a media element plays.
   **/
-export function volume(value: number) { return new Attr("volume", value, false, "audio", "video"); }
+export function Volume(value: number) { return attr("volume", value, false, "audio", "video"); }
 
 /**
  * The usemap attribute
   **/
-export function useMap(value: boolean) { return new Attr("usemap", value, false, "img", "input", "object"); }
+export function UseMap(value: boolean) { return attr("usemap", value, false, "img", "input", "object"); }
 
 /**
  * For the elements listed here, this establishes the element's width.
   **/
-export function htmlWidth(value: number | string) { return new Attr("width", value, false, "canvas", "embed", "iframe", "img", "input", "object", "video"); }
+export function Width(value: number | string) { return attr("width", value, false, "canvas", "embed", "iframe", "img", "input", "object", "video"); }
 
 /**
  * Indicates whether the text should be wrapped.
@@ -1002,4 +996,4 @@ export type HTMLTextAreaWrapValue =
     | "hard"
     | "soft"
     | "off";
-export function wrap(value: HTMLTextAreaWrapValue) { return new Attr("wrap", value, false, "textarea"); }
+export function Wrap(value: HTMLTextAreaWrapValue) { return attr("wrap", value, false, "textarea"); }

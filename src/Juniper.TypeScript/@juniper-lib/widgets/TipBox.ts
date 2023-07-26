@@ -1,4 +1,4 @@
-import { className, id, open } from "@juniper-lib/dom/attrs";
+import { ClassList, ID, Open } from "@juniper-lib/dom/attrs";
 import { onToggle } from "@juniper-lib/dom/evts";
 import { Details, ErsatzElement, LI, Summary, UL } from "@juniper-lib/dom/tags";
 
@@ -10,10 +10,10 @@ export class TipBox implements ErsatzElement {
         const storageKey = `Juniper:Widgets:TipBox:${tipBoxID}`;
 
         this.element = Details(
-            id(tipBoxID),
-            className("tip"),
+            ID(tipBoxID),
+            ClassList("tip"),
             Summary("Tips:"),
-            open(localStorage.getItem(storageKey) !== "closed"),
+            Open(localStorage.getItem(storageKey) !== "closed"),
             UL(
                 ...tips.map(tip => LI(tip)),
             ),

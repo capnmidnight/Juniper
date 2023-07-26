@@ -1,9 +1,11 @@
+import { GraphNode } from "@juniper-lib/collections/GraphNode";
+import { mapBuild } from "@juniper-lib/collections/mapBuild";
 import {
-    checked,
-    max,
-    min,
-    step,
-    value
+    Checked,
+    Max,
+    Min,
+    Step,
+    Value
 } from "@juniper-lib/dom/attrs";
 import { resizeCanvas } from "@juniper-lib/dom/canvas";
 import {
@@ -21,15 +23,13 @@ import {
 import {
     Canvas,
     Div,
-    elementApply,
     InputCheckbox,
-    InputNumber, PreLabeled
+    InputNumber, PreLabeled,
+    elementApply
 } from "@juniper-lib/dom/tags";
-import { GraphNode } from "@juniper-lib/collections/GraphNode";
-import { mapBuild } from "@juniper-lib/collections/mapBuild";
+import { RequestAnimationFrameTimer } from "@juniper-lib/timers/RequestAnimationFrameTimer";
 import { Tau } from "@juniper-lib/tslib/math";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
-import { RequestAnimationFrameTimer } from "@juniper-lib/timers/RequestAnimationFrameTimer";
 import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { vec2 } from "gl-matrix";
 
@@ -108,10 +108,10 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
                     "limit" + idPostfix,
                     "Limit",
                     this.t = InputNumber(
-                        min(0),
-                        max(1000),
-                        step(0.1),
-                        value(5)
+                        Min(0),
+                        Max(1000),
+                        Step(0.1),
+                        Value(5)
                     )
                 ),
 
@@ -125,10 +125,10 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
                     "attract" + idPostfix,
                     "Attract",
                     this.attract = InputNumber(
-                        min(-100),
-                        max(100),
-                        step(0.1),
-                        value(1)
+                        Min(-100),
+                        Max(100),
+                        Step(0.1),
+                        Value(1)
                     )
                 ),
 
@@ -136,10 +136,10 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
                     "repel" + idPostfix,
                     "Repel",
                     this.repel = InputNumber(
-                        min(-100),
-                        max(100),
-                        step(0.1),
-                        value(1)
+                        Min(-100),
+                        Max(100),
+                        Step(0.1),
+                        Value(1)
                     )
                 ),
 
@@ -147,7 +147,7 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
                     "hideBare" + idPostfix,
                     "Hide bare nodes",
                     this.hideBare = InputCheckbox(
-                        checked(true)
+                        Checked(true)
                     )
                 )
             ),

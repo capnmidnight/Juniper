@@ -1,4 +1,4 @@
-import { title } from "@juniper-lib/dom/attrs";
+import { Title_attr } from "@juniper-lib/dom/attrs";
 import { ButtonPrimary } from "@juniper-lib/dom/tags";
 import { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
@@ -14,7 +14,7 @@ export class ButtonTextWidget extends Widget<HTMLButtonElement> {
     constructor(protected readonly env: BaseEnvironment, name: string, text: string, textButtonStyle: Partial<TextImageOptions>) {
         super(
             ButtonPrimary(
-                title(name),
+                Title_attr(name),
                 text
             ),
             obj(`${name}-button`),

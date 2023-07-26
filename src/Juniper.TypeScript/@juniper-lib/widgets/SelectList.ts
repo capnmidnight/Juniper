@@ -1,7 +1,6 @@
-import { classList, value } from "@juniper-lib/dom/attrs";
-import { ErsatzElement, Select } from "@juniper-lib/dom/tags";
-import { elementClearChildren, Option } from "@juniper-lib/dom/tags";
 import { arraySortByKey } from "@juniper-lib/collections/arrays";
+import { ClassList, Value } from "@juniper-lib/dom/attrs";
+import { ErsatzElement, Option, Select, elementClearChildren } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { makeItemCallback } from "./SelectBox";
@@ -24,7 +23,7 @@ export class SelectList<T>
     extends TypedEventBase<SelectListEvents<T>>
     implements ErsatzElement {
 
-    public readonly element = Select(classList("custom-select"));
+    public readonly element = Select(ClassList("custom-select"));
 
     private makeID: makeItemCallback<T>;
     private makeLabel: makeItemCallback<T>;
@@ -176,7 +175,7 @@ export class SelectList<T>
 
     private makeOption(item: T): HTMLOptionElement {
         const option = Option(
-            value(this.makeID(item)),
+            Value(this.makeID(item)),
             this.makeLabel(item));
         this.itemToOption.set(this.makeID(item), option);
         this.optionToItem.set(option, item);
