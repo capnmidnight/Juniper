@@ -187,7 +187,6 @@ export class BaseEnvironment<Events = unknown>
 
         this._start();
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (globalThis as any).env = this;
     }
 
@@ -313,7 +312,6 @@ export class BaseEnvironment<Events = unknown>
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
     protected preRender(_evt: TimerTickEvent) {
     }
 

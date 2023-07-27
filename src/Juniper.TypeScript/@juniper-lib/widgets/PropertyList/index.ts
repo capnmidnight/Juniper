@@ -1,5 +1,5 @@
 import { PriorityList } from "@juniper-lib/collections/PriorityList";
-import { Attr, ClassList, CustomData, isAttr } from "@juniper-lib/dom/attrs";
+import { HtmlAttr, ClassList, CustomData, isAttr } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp, isCssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     DD,
@@ -50,7 +50,7 @@ export function group(name: string, ...properties: PropertyElement[]) {
 }
 
 export type Property = PropertyElement | PropertyGroup;
-export type PropertyDef = Property | Attr | CssElementStyleProp;
+export type PropertyDef = Property | HtmlAttr| CssElementStyleProp;
 type Row = Elements<HTMLElement>[];
 
 const DEFAULT_PROPERTY_GROUP = "DefaultPropertyGroup" + stringRandom(16);

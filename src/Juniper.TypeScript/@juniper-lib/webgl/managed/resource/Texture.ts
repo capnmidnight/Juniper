@@ -1,6 +1,7 @@
+import { dispose } from "@juniper-lib/dom/canvas";
+import { getHeight, getWidth } from "@juniper-lib/tslib/images";
 import { isPowerOf2 } from "@juniper-lib/tslib/math";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
-import { dispose } from "@juniper-lib/dom/canvas";
 
 export class BaseTexture extends ManagedWebGLResource<WebGLTexture> {
     constructor(gl: WebGL2RenderingContext,
@@ -36,9 +37,11 @@ export class TextureImage extends BaseTexture {
         componentType: GLenum = gl.UNSIGNED_BYTE) {
         super(gl, gl.TEXTURE_2D);
 
-        gl.texImage2D(this.type, 0, pixelType, image.width, image.height, 0, pixelType, componentType, image);
+        const width = getWidth(image);
+        const height = getHeight(image);
+        gl.texImage2D(this.type, 0, pixelType, width, height, 0, pixelType, componentType, image);
 
-        if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+        if (isPowerOf2(width) && isPowerOf2(height)) {
             gl.generateMipmap(this.type);
         }
     }
@@ -62,12 +65,15 @@ export class TextureImageArray extends BaseTexture {
         componentType: GLenum = gl.UNSIGNED_BYTE) {
         super(gl, gl.TEXTURE_2D_ARRAY);
 
-        this.height = image.height / length;
-        this.width = image.width;
+        const width = getWidth(image);
+        const height = getHeight(image);
+
+        this.height = height / length;
+        this.width = width;
         gl.texImage3D(this.type, 0, pixelType, this.width, this.height, length, 0, pixelType, componentType, image);
 
 
-        if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+        if (isPowerOf2(width) && isPowerOf2(height)) {
             gl.generateMipmap(this.type);
         }
     }

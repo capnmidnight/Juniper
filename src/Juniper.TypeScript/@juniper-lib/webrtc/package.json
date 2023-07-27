@@ -13,6 +13,6 @@
     "@juniper-lib/tslib": "*",
     "@juniper-lib/video": "*",
     "@juniper-types/dom-types": "*",
-    "webrtc-adapter": "8.2.2"
+    "webrtc-adapter": "8.2.3"
   }
 }

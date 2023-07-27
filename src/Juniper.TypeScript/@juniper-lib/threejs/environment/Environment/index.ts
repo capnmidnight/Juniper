@@ -72,8 +72,8 @@ export interface EnvironmentOptions {
     dialogFontFamily: string;
     getAppUrl: (name: string) => string;
     uiImagePaths: PriorityMap<string, string, string>;
-    buttonFillColor: CSSColorValue;
-    labelFillColor: CSSColorValue;
+    buttonFillColor: CssColorValue;
+    labelFillColor: CssColorValue;
     defaultAvatarHeight?: number;
     defaultFOV?: number;
     enableFullResolution?: boolean;

@@ -5,117 +5,117 @@ function asInt(v: number | string): string {
     return isNumber(v) ? v.toFixed(0) : v;
 }
 
-export function perc(value: number): CSSPercentage {
+export function perc(value: number): CssPercentage {
     return `${value}%`;
 }
 
-export function deg(value: number): CSSAngle {
+export function deg(value: number): CssAngle {
     return `${value}deg`;
 }
 
-export function rad(value: number): CSSAngle {
+export function rad(value: number): CssAngle {
     return `${value}rad`;
 }
 
-export function grad(value: number): CSSAngle {
+export function grad(value: number): CssAngle {
     return `${value}grad`;
 }
 
-export function turn(value: number): CSSAngle {
+export function turn(value: number): CssAngle {
     return `${value}turn`;
 }
 
-export function cap(value: number): CSSFontRelativeLength {
+export function cap(value: number): CssFontRelativeLength {
     return `${value}cap`;
 }
 
-export function ch(value: number): CSSFontRelativeLength {
+export function ch(value: number): CssFontRelativeLength {
     return `${value}ch`;
 }
 
-export function em(value: number): CSSFontRelativeLength {
+export function em(value: number): CssFontRelativeLength {
     return `${value}em`;
 }
 
-export function ex(value: number): CSSFontRelativeLength {
+export function ex(value: number): CssFontRelativeLength {
     return `${value}ex`;
 }
 
-export function ic(value: number): CSSFontRelativeLength {
+export function ic(value: number): CssFontRelativeLength {
     return `${value}ic`;
 }
 
-export function lh(value: number): CSSFontRelativeLength {
+export function lh(value: number): CssFontRelativeLength {
     return `${value}lh`;
 }
 
-export function rem(value: number): CSSFontRelativeLength {
+export function rem(value: number): CssFontRelativeLength {
     return `${value}rem`;
 }
 
-export function rlh(value: number): CSSFontRelativeLength {
+export function rlh(value: number): CssFontRelativeLength {
     return `${value}rlh`;
 }
 
-export function vh(value: number): CSSViewportPercentageLength {
+export function vh(value: number): CssViewportPercentageLength {
     return `${value}vh`;
 }
 
-export function vw(value: number): CSSViewportPercentageLength {
+export function vw(value: number): CssViewportPercentageLength {
     return `${value}vw`;
 }
 
-export function vi(value: number): CSSViewportPercentageLength {
+export function vi(value: number): CssViewportPercentageLength {
     return `${value}vi`;
 }
 
-export function vb(value: number): CSSViewportPercentageLength {
+export function vb(value: number): CssViewportPercentageLength {
     return `${value}vb`;
 }
 
-export function vmin(value: number): CSSViewportPercentageLength {
+export function vmin(value: number): CssViewportPercentageLength {
     return `${value}vmin`;
 }
 
-export function vmax(value: number): CSSViewportPercentageLength {
+export function vmax(value: number): CssViewportPercentageLength {
     return `${value}vmax`;
 }
 
-export function px(value: number): CSSAbsoluteLength {
+export function px(value: number): CssAbsoluteLength {
     return `${value}px`;
 }
 
-export function cm(value: number): CSSAbsoluteLength {
+export function cm(value: number): CssAbsoluteLength {
     return `${value}cm`;
 }
 
-export function mm(value: number): CSSAbsoluteLength {
+export function mm(value: number): CssAbsoluteLength {
     return `${value}mm`;
 }
 
-export function Q(value: number): CSSAbsoluteLength {
+export function Q(value: number): CssAbsoluteLength {
     return `${value}Q`;
 }
 
-export function inch(value: number): CSSAbsoluteLength {
+export function inch(value: number): CssAbsoluteLength {
     return `${value}in`;
 }
 
-export function pc(value: number): CSSAbsoluteLength {
+export function pc(value: number): CssAbsoluteLength {
     return `${value}pc`;
 }
 
-export function pt(value: number): CSSAbsoluteLength {
+export function pt(value: number): CssAbsoluteLength {
     return `${value}pt`;
 }
 
-export function fr(value: number): CSSGridFlexValue {
+export function fr(value: number): CssGridFlexValue {
     return `${value}fr`;
 }
 
-export function hash(r: HexDigit, g: HexDigit, b: HexDigit, a?: HexDigit): CSSColorHashValue;
-export function hash(r: HexNumber, g: HexNumber, b: HexNumber, a?: HexNumber): CSSColorHashValue;
-export function hash(r: string, g: string, b: string, a?: string): CSSColorHashValue {
+export function hash(r: HexDigit, g: HexDigit, b: HexDigit, a?: HexDigit): CssColorHashValue;
+export function hash(r: HexNumber, g: HexNumber, b: HexNumber, a?: HexNumber): CssColorHashValue;
+export function hash(r: string, g: string, b: string, a?: string): CssColorHashValue {
     if (isDefined(a)) {
         return `#${r}${g}${b}${a}`;
     }
@@ -124,27 +124,27 @@ export function hash(r: string, g: string, b: string, a?: string): CSSColorHashV
     }
 }
 
-export function rgb(red: number, green: number, blue: number, alpha?: number): CSSColorRGBValue;
-export function rgb(...v: number[]): CSSColorRGBValue {
+export function rgb(red: number, green: number, blue: number, alpha?: number): CssColorRGBValue;
+export function rgb(...v: number[]): CssColorRGBValue {
     return `rgb(${v.join(", ")})`;
 }
 
-export function rgba(red: number, green: number, blue: number, alpha: number): CSSColorRGBValue;
-export function rgba(...v: number[]): CSSColorRGBValue {
+export function rgba(red: number, green: number, blue: number, alpha: number): CssColorRGBValue;
+export function rgba(...v: number[]): CssColorRGBValue {
     return `rgba(${v.join(", ")})`;
 }
 
-export function hsl(hue: CSSAngle, saturation: CSSPercentage, lightness: CSSPercentage, alpha?: CSSAlpha): CSSColorHSLValue;
-export function hsl(...v: (string | number)[]): CSSColorHSLValue {
+export function hsl(hue: CssAngle, saturation: CssPercentage, lightness: CssPercentage, alpha?: CssAlpha): CssColorHSLValue;
+export function hsl(...v: (string | number)[]): CssColorHSLValue {
     return `hsl(${v.join(", ")})`;
 }
 
-export function hsla(hue: CSSAngle, saturation: CSSPercentage, lightness: CSSPercentage, alpha: CSSAlpha): CSSColorHSLValue;
-export function hsla(...v: (string | number)[]): CSSColorHSLValue {
+export function hsla(hue: CssAngle, saturation: CssPercentage, lightness: CssPercentage, alpha: CssAlpha): CssColorHSLValue;
+export function hsla(...v: (string | number)[]): CssColorHSLValue {
     return `hsla(${v.join(", ")})`;
 }
 
-export function hwb(hue: CSSAngle, whiteness: CSSPercentage, blackness: CSSPercentage, alpha?: CSSAlpha): CSSColorHWBValue {
+export function hwb(hue: CssAngle, whiteness: CssPercentage, blackness: CssPercentage, alpha?: CssAlpha): CssColorHWBValue {
     if (isDefined(alpha)) {
         return `hwb(${hue} ${whiteness} ${blackness} / ${alpha})`;
     }
@@ -153,7 +153,7 @@ export function hwb(hue: CSSAngle, whiteness: CSSPercentage, blackness: CSSPerce
     }
 }
 
-export function lch(lightness: CSSPercentage, chroma: number, hue: CSSAngle, alpha?: CSSAlpha): CSSColorLCHValue {
+export function lch(lightness: CssPercentage, chroma: number, hue: CssAngle, alpha?: CssAlpha): CssColorLCHValue {
     if (isDefined(alpha)) {
         return `lch(${lightness} ${chroma} ${hue} / ${alpha})`;
     }
@@ -162,7 +162,7 @@ export function lch(lightness: CSSPercentage, chroma: number, hue: CSSAngle, alp
     }
 }
 
-export function lab(lightness: CSSPercentage, a: number, b: number, alpha?: CSSAlpha): CSSColorLabValue {
+export function lab(lightness: CssPercentage, a: number, b: number, alpha?: CssAlpha): CssColorLabValue {
     if (isDefined(alpha)) {
         return `lab(${lightness} ${a} ${b} / ${alpha})`;
     }
@@ -210,7 +210,7 @@ export function getSerifFamily() {
     return fontFamily(getSerifFonts());
 }
 
-export type CSSPropName = Exclude<keyof CSSStyleDeclaration,
+export type CssPropName = Exclude<keyof CSSStyleDeclaration,
     "length"
     | "parentRule"
     | "getPropertyPriority"
@@ -289,7 +289,7 @@ class CssDeclareProp
     }
 }
 
-export class CssElementStyleProp<K extends CSSPropName = CSSPropName>
+export class CssElementStyleProp<K extends CssPropName = CssPropName>
     extends CssDeclareProp
     implements IElementAppliable {
     private priority = "";
@@ -332,221 +332,221 @@ export function rule(selector: string, ...props: CssElementStyleProp[]) {
     return new CssElementStylePropSet(selector, props);
 }
 
-export function alignItems(v: CSSGlobalValue | CSSJustifyAlignValue) { return new CssElementStyleProp("alignItems", v); }
+export function alignItems(v: CssGlobalValue | CssJustifyAlignValue) { return new CssElementStyleProp("alignItems", v); }
 
-export function alignContent(v: CSSGlobalValue | CSSJustifyAlignContentValue) { return new CssElementStyleProp("alignContent", v); }
+export function alignContent(v: CssGlobalValue | CssJustifyAlignContentValue) { return new CssElementStyleProp("alignContent", v); }
 
-export function alignSelf(v: CSSGlobalValue | CSSJustifyAlignSelfValue) { return new CssElementStyleProp("alignSelf", v); }
+export function alignSelf(v: CssGlobalValue | CssJustifyAlignSelfValue) { return new CssElementStyleProp("alignSelf", v); }
 
-export function all(v: CSSGlobalValue) { return new CssElementStyleProp("all", v); }
+export function all(v: CssGlobalValue) { return new CssElementStyleProp("all", v); }
 
-export function alignmentBaseline(v: CSSAlignmentBaselineValue) { return new CssElementStyleProp("alignmentBaseline", v); }
+export function alignmentBaseline(v: CssAlignmentBaselineValue) { return new CssElementStyleProp("alignmentBaseline", v); }
 
-export function animationDelay(v: CSSGlobalValue): CssElementStyleProp;
-export function animationDelay(...v: CSSTimeValue[]): CssElementStyleProp;
+export function animationDelay(v: CssGlobalValue): CssElementStyleProp;
+export function animationDelay(...v: CssTimeValue[]): CssElementStyleProp;
 export function animationDelay(...v: string[]) { return new CssElementStyleProp("animationDelay", v.join(", ")); }
 
-export function animationDuration(v: CSSGlobalValue): CssElementStyleProp;
-export function animationDuration(...v: CSSTimeValue[]): CssElementStyleProp;
+export function animationDuration(v: CssGlobalValue): CssElementStyleProp;
+export function animationDuration(...v: CssTimeValue[]): CssElementStyleProp;
 export function animationDuration(...v: string[]) { return new CssElementStyleProp("animationDuration", v.join(", ")); }
 
-export function animationDirection(v: CSSGlobalValue): CssElementStyleProp;
-export function animationDirection(...v: CSSAnimationDirectionValue[]): CssElementStyleProp;
+export function animationDirection(v: CssGlobalValue): CssElementStyleProp;
+export function animationDirection(...v: CssAnimationDirectionValue[]): CssElementStyleProp;
 export function animationDirection(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("animationDirection", v.join(", ")); }
 
-export function animationFillMode(v: CSSGlobalValue): CssElementStyleProp;
-export function animationFillMode(...v: CSSAnimationFillModeValue[]): CssElementStyleProp;
+export function animationFillMode(v: CssGlobalValue): CssElementStyleProp;
+export function animationFillMode(...v: CssAnimationFillModeValue[]): CssElementStyleProp;
 export function animationFillMode(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("animationFillMode", v.join(", ")); }
 
-export function animationIterationCount(v: CSSGlobalValue): CssElementStyleProp;
-export function animationIterationCount(...v: CSSAnimationIterationCountValue[]): CssElementStyleProp;
+export function animationIterationCount(v: CssGlobalValue): CssElementStyleProp;
+export function animationIterationCount(...v: CssAnimationIterationCountValue[]): CssElementStyleProp;
 export function animationIterationCount(...v: (number | string)[]): CssElementStyleProp { return new CssElementStyleProp("animationIterationCount", v.join(", ")); }
 
-export function animationName(v: CSSGlobalValue): CssElementStyleProp;
+export function animationName(v: CssGlobalValue): CssElementStyleProp;
 export function animationName(...v: string[]): CssElementStyleProp;
 export function animationName(...v: string[]) { return new CssElementStyleProp("animationName", v.join(", ")); }
 
-export function animationPlayState(v: CSSGlobalValue): CssElementStyleProp;
-export function animationPlayState(...v: CSSAnimationPlayStateValue[]): CssElementStyleProp;
+export function animationPlayState(v: CssGlobalValue): CssElementStyleProp;
+export function animationPlayState(...v: CssAnimationPlayStateValue[]): CssElementStyleProp;
 export function animationPlayState(...v: string[]) { return new CssElementStyleProp("animationPlayState", v.join(", ")); }
 
-export function animationTimingFunction(v: CSSGlobalValue): CssElementStyleProp;
-export function animationTimingFunction(...v: CSSAnimationTimingFunctionValue[]): CssElementStyleProp;
+export function animationTimingFunction(v: CssGlobalValue): CssElementStyleProp;
+export function animationTimingFunction(...v: CssAnimationTimingFunctionValue[]): CssElementStyleProp;
 export function animationTimingFunction(...v: string[]) { return new CssElementStyleProp("animationTimingFunction", v.join(" ")); }
 
-export function animation(v: CSSGlobalValue): CssElementStyleProp;
+export function animation(v: CssGlobalValue): CssElementStyleProp;
 export function animation(...v: (string | number)[]): CssElementStyleProp;
 export function animation(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("animation", v.join(" ")); }
 
-export function appearance(v: CSSGlobalValue | CSSAppearanceValue) { return new CssElementStyleProp("appearance", v); }
+export function appearance(v: CssGlobalValue | CssAppearanceValue) { return new CssElementStyleProp("appearance", v); }
 
-export function backdropFilter(v: "none" | CSSGlobalValue): CssElementStyleProp;
-export function backdropFilter(...v: CSSFilterFunction[]): CssElementStyleProp;
+export function backdropFilter(v: "none" | CssGlobalValue): CssElementStyleProp;
+export function backdropFilter(...v: CssFilterFunction[]): CssElementStyleProp;
 export function backdropFilter(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("backdropFilter" as any, v.join(" ")); }
 
-export function backfaceVisibility(v: CSSGlobalValue | CSSBackfaceVisibilityValue) { return new CssElementStyleProp("backfaceVisibility", v); }
+export function backfaceVisibility(v: CssGlobalValue | CssBackfaceVisibilityValue) { return new CssElementStyleProp("backfaceVisibility", v); }
 
-export function backgroundAttachment(v: CSSGlobalValue | CSSBackgroundAttachmentValue) { return new CssElementStyleProp("backgroundAttachment", v); }
+export function backgroundAttachment(v: CssGlobalValue | CssBackgroundAttachmentValue) { return new CssElementStyleProp("backgroundAttachment", v); }
 
-export function backgroundBlendMode(v: CSSGlobalValue): CssElementStyleProp;
-export function backgroundBlendMode(...v: CSSBlendModeValue[]): CssElementStyleProp;
+export function backgroundBlendMode(v: CssGlobalValue): CssElementStyleProp;
+export function backgroundBlendMode(...v: CssBlendModeValue[]): CssElementStyleProp;
 export function backgroundBlendMode(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("backgroundBlendMode", v.join(", ")); }
 
-export function backgroundClip(v: CSSGlobalValue | CSSClipValue): CssElementStyleProp { return new CssElementStyleProp("backgroundClip", v); }
+export function backgroundClip(v: CssGlobalValue | CssClipValue): CssElementStyleProp { return new CssElementStyleProp("backgroundClip", v); }
 
-export function backgroundColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("backgroundColor", v); }
+export function backgroundColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("backgroundColor", v); }
 
-export function backgroundImage(v: CSSGlobalValue): CssElementStyleProp;
-export function backgroundImage(...v: CSSImage[]): CssElementStyleProp;
+export function backgroundImage(v: CssGlobalValue): CssElementStyleProp;
+export function backgroundImage(...v: CssImage[]): CssElementStyleProp;
 export function backgroundImage(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("backgroundImage", v.join(", ")); }
 
-export function backgroundOrigin(v: CSSGlobalValue | CSSBoxType): CssElementStyleProp { return new CssElementStyleProp("backgroundOrigin", v); }
+export function backgroundOrigin(v: CssGlobalValue | CssBoxType): CssElementStyleProp { return new CssElementStyleProp("backgroundOrigin", v); }
 
-export function backgroundPosition(v: CSSGlobalValue): CssElementStyleProp;
-export function backgroundPosition(v: CSSBackgroundPositionValue): CssElementStyleProp;
-export function backgroundPosition(x: CSSLengthPercentage, y: CSSLengthPercentage): CssElementStyleProp;
-export function backgroundPosition(x: CSSBackgroundPositionHorizontalKeyword, y: CSSBackgroundPositionVerticalValue): CssElementStyleProp;
-export function backgroundPosition(y: CSSBackgroundPositionVerticalKeyword, x: CSSBackgroundPositionHorizontalValue): CssElementStyleProp;
-export function backgroundPosition(x: CSSBackgroundPositionHorizontalKeyword, y: CSSBackgroundPositionVerticalKeyword, yOffset: CSSLengthPercentage): CssElementStyleProp;
-export function backgroundPosition(x: CSSBackgroundPositionHorizontalKeyword, xOffset: CSSLengthPercentage, y: CSSBackgroundPositionVerticalKeyword): CssElementStyleProp;
-export function backgroundPosition(y: CSSBackgroundPositionVerticalKeyword, x: CSSBackgroundPositionHorizontalKeyword, xOffset: CSSLengthPercentage): CssElementStyleProp;
-export function backgroundPosition(y: CSSBackgroundPositionVerticalKeyword, yOffset: CSSLengthPercentage, x: CSSBackgroundPositionHorizontalKeyword): CssElementStyleProp;
-export function backgroundPosition(x: CSSBackgroundPositionHorizontalKeyword, xOffset: CSSLengthPercentage, y: CSSBackgroundPositionVerticalKeyword, yOffset: CSSLengthPercentage): CssElementStyleProp;
-export function backgroundPosition(y: CSSBackgroundPositionVerticalKeyword, yOffset: CSSLengthPercentage, x: CSSBackgroundPositionHorizontalKeyword, xOffset: CSSLengthPercentage): CssElementStyleProp;
+export function backgroundPosition(v: CssGlobalValue): CssElementStyleProp;
+export function backgroundPosition(v: CssBackgroundPositionValue): CssElementStyleProp;
+export function backgroundPosition(x: CssLengthPercentage, y: CssLengthPercentage): CssElementStyleProp;
+export function backgroundPosition(x: CssBackgroundPositionHorizontalKeyword, y: CssBackgroundPositionVerticalValue): CssElementStyleProp;
+export function backgroundPosition(y: CssBackgroundPositionVerticalKeyword, x: CssBackgroundPositionHorizontalValue): CssElementStyleProp;
+export function backgroundPosition(x: CssBackgroundPositionHorizontalKeyword, y: CssBackgroundPositionVerticalKeyword, yOffset: CssLengthPercentage): CssElementStyleProp;
+export function backgroundPosition(x: CssBackgroundPositionHorizontalKeyword, xOffset: CssLengthPercentage, y: CssBackgroundPositionVerticalKeyword): CssElementStyleProp;
+export function backgroundPosition(y: CssBackgroundPositionVerticalKeyword, x: CssBackgroundPositionHorizontalKeyword, xOffset: CssLengthPercentage): CssElementStyleProp;
+export function backgroundPosition(y: CssBackgroundPositionVerticalKeyword, yOffset: CssLengthPercentage, x: CssBackgroundPositionHorizontalKeyword): CssElementStyleProp;
+export function backgroundPosition(x: CssBackgroundPositionHorizontalKeyword, xOffset: CssLengthPercentage, y: CssBackgroundPositionVerticalKeyword, yOffset: CssLengthPercentage): CssElementStyleProp;
+export function backgroundPosition(y: CssBackgroundPositionVerticalKeyword, yOffset: CssLengthPercentage, x: CssBackgroundPositionHorizontalKeyword, xOffset: CssLengthPercentage): CssElementStyleProp;
 export function backgroundPosition(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("backgroundPosition", v.join(" ")); }
 
-export function backgroundPositionX(v: CSSGlobalValue): CssElementStyleProp;
-export function backgroundPositionX(x: CSSBackgroundPositionHorizontalValue): CssElementStyleProp;
-export function backgroundPositionX(x: CSSBackgroundPositionHorizontalKeyword, xOffset: CSSLengthPercentage): CssElementStyleProp;
+export function backgroundPositionX(v: CssGlobalValue): CssElementStyleProp;
+export function backgroundPositionX(x: CssBackgroundPositionHorizontalValue): CssElementStyleProp;
+export function backgroundPositionX(x: CssBackgroundPositionHorizontalKeyword, xOffset: CssLengthPercentage): CssElementStyleProp;
 export function backgroundPositionX(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("backgroundPositionX", v.join(" ")); }
 
-export function backgroundPositionY(v: CSSGlobalValue): CssElementStyleProp;
-export function backgroundPositionY(y: CSSBackgroundPositionVerticalValue): CssElementStyleProp;
-export function backgroundPositionY(y: CSSBackgroundPositionVerticalKeyword, yOffset: CSSLengthPercentage): CssElementStyleProp;
+export function backgroundPositionY(v: CssGlobalValue): CssElementStyleProp;
+export function backgroundPositionY(y: CssBackgroundPositionVerticalValue): CssElementStyleProp;
+export function backgroundPositionY(y: CssBackgroundPositionVerticalKeyword, yOffset: CssLengthPercentage): CssElementStyleProp;
 export function backgroundPositionY(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("backgroundPositionY", v.join(" ")); }
 
-export function backgroundRepeat(v: CSSGlobalValue): CssElementStyleProp;
-export function backgroundRepeat(v: CSSBackgroundRepeatValue): CssElementStyleProp;
-export function backgroundRepeat(x: CSSBackgroundRepeat, y: CSSBackgroundRepeat): CssElementStyleProp;
+export function backgroundRepeat(v: CssGlobalValue): CssElementStyleProp;
+export function backgroundRepeat(v: CssBackgroundRepeatValue): CssElementStyleProp;
+export function backgroundRepeat(x: CssBackgroundRepeat, y: CssBackgroundRepeat): CssElementStyleProp;
 export function backgroundRepeat(...v: string[]) { return new CssElementStyleProp("backgroundRepeat", v.join(" ")); }
 
-export function backgroundSize(v: CSSGlobalValue | CSSBackgroundSizeSingleValue): CssElementStyleProp;
-export function backgroundSize(x: CSSBackgroundSizeValue, y: CSSBackgroundSizeValue): CssElementStyleProp;
+export function backgroundSize(v: CssGlobalValue | CssBackgroundSizeSingleValue): CssElementStyleProp;
+export function backgroundSize(x: CssBackgroundSizeValue, y: CssBackgroundSizeValue): CssElementStyleProp;
 export function backgroundSize(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("backgroundSize", v.join(" ")); }
 
-export function background(v: CSSGlobalValue): CssElementStyleProp;
+export function background(v: CssGlobalValue): CssElementStyleProp;
 export function background(...v: string[]): CssElementStyleProp;
 export function background(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("background", v.join(", ")); }
 
 export function baselineShift(v: string) { return new CssElementStyleProp("baselineShift", v); }
 
-export function blockSize(v: CSSGlobalValue | CSSSizePropertyValue) { return new CssElementStyleProp("blockSize", v); }
+export function blockSize(v: CssGlobalValue | CssSizePropertyValue) { return new CssElementStyleProp("blockSize", v); }
 
 export function border(v: string | 0) { return new CssElementStyleProp("border", v); }
 
 export function borderBlockEnd(v: string) { return new CssElementStyleProp("borderBlockEnd", v); }
 
-export function borderBlockEndColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("borderBlockEndColor", v); }
+export function borderBlockEndColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("borderBlockEndColor", v); }
 
-export function borderBlockEndStyle(v: CSSGlobalValue | CSSBorderStyleValue) { return new CssElementStyleProp("borderBlockEndStyle", v); }
+export function borderBlockEndStyle(v: CssGlobalValue | CssBorderStyleValue) { return new CssElementStyleProp("borderBlockEndStyle", v); }
 
-export function borderBlockEndWidth(v: CSSGlobalValue | CSSLengthPercentage | CSSWidthKeyword | "auto") { return new CssElementStyleProp("borderBlockEndWidth", v); }
+export function borderBlockEndWidth(v: CssGlobalValue | CssLengthPercentage | CssWidthKeyword | "auto") { return new CssElementStyleProp("borderBlockEndWidth", v); }
 
 export function borderBlockStart(v: string) { return new CssElementStyleProp("borderBlockStart", v); }
 
-export function borderBlockStartColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("borderBlockStartColor", v); }
+export function borderBlockStartColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("borderBlockStartColor", v); }
 
-export function borderBlockStartStyle(v: CSSGlobalValue | CSSBorderStyleValue) { return new CssElementStyleProp("borderBlockStartStyle", v); }
+export function borderBlockStartStyle(v: CssGlobalValue | CssBorderStyleValue) { return new CssElementStyleProp("borderBlockStartStyle", v); }
 
-export function borderBlockStartWidth(v: CSSGlobalValue | CSSLengthPercentage | CSSWidthKeyword | "auto") { return new CssElementStyleProp("borderBlockStartWidth", v); }
+export function borderBlockStartWidth(v: CssGlobalValue | CssLengthPercentage | CssWidthKeyword | "auto") { return new CssElementStyleProp("borderBlockStartWidth", v); }
 
 export function borderBottom(v: string) { return new CssElementStyleProp("borderBottom", v); }
 
-export function borderBottomColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("borderBottomColor", v); }
+export function borderBottomColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("borderBottomColor", v); }
 
-export function borderBottomLeftRadius(v: CSSGlobalValue): CssElementStyleProp;
-export function borderBottomLeftRadius(v: CSSLengthPercentage): CssElementStyleProp;
-export function borderBottomLeftRadius(major: CSSLengthPercentage, minor: CSSLengthPercentage): CssElementStyleProp;
+export function borderBottomLeftRadius(v: CssGlobalValue): CssElementStyleProp;
+export function borderBottomLeftRadius(v: CssLengthPercentage): CssElementStyleProp;
+export function borderBottomLeftRadius(major: CssLengthPercentage, minor: CssLengthPercentage): CssElementStyleProp;
 export function borderBottomLeftRadius(...v: (string | number)[]) { return new CssElementStyleProp("borderBottomLeftRadius", v.join(" ")); }
 
-export function borderBottomRightRadius(v: CSSGlobalValue): CssElementStyleProp;
-export function borderBottomRightRadius(v: CSSLengthPercentage): CssElementStyleProp;
-export function borderBottomRightRadius(major: CSSLengthPercentage, minor: CSSLengthPercentage): CssElementStyleProp;
+export function borderBottomRightRadius(v: CssGlobalValue): CssElementStyleProp;
+export function borderBottomRightRadius(v: CssLengthPercentage): CssElementStyleProp;
+export function borderBottomRightRadius(major: CssLengthPercentage, minor: CssLengthPercentage): CssElementStyleProp;
 export function borderBottomRightRadius(...v: (string | number)[]) { return new CssElementStyleProp("borderBottomRightRadius", v.join(" ")); }
 
-export function borderBottomStyle(v: CSSGlobalValue | CSSBorderStyleValue) { return new CssElementStyleProp("borderBottomStyle", v); }
+export function borderBottomStyle(v: CssGlobalValue | CssBorderStyleValue) { return new CssElementStyleProp("borderBottomStyle", v); }
 
-export function borderBottomWidth(v: CSSGlobalValue | CSSLengthPercentage | CSSWidthKeyword | "auto") { return new CssElementStyleProp("borderBottomWidth", v); }
+export function borderBottomWidth(v: CssGlobalValue | CssLengthPercentage | CssWidthKeyword | "auto") { return new CssElementStyleProp("borderBottomWidth", v); }
 
-export function borderCollapse(v: CSSGlobalValue | CSSBorderCollapseValue) { return new CssElementStyleProp("borderCollapse", v); }
+export function borderCollapse(v: CssGlobalValue | CssBorderCollapseValue) { return new CssElementStyleProp("borderCollapse", v); }
 
-export function borderColor(v: CSSGlobalValue): CssElementStyleProp;
-export function borderColor(all: CSSColorValue): CssElementStyleProp;
-export function borderColor(vertical: CSSColorValue, horizontal: CSSColorValue): CssElementStyleProp;
-export function borderColor(top: CSSColorValue, horizontal: CSSColorValue, bottom: CSSColorValue): CssElementStyleProp;
-export function borderColor(top: CSSColorValue, right: CSSColorValue, bottom: CSSColorValue, left: CSSColorValue): CssElementStyleProp;
+export function borderColor(v: CssGlobalValue): CssElementStyleProp;
+export function borderColor(all: CssColorValue): CssElementStyleProp;
+export function borderColor(vertical: CssColorValue, horizontal: CssColorValue): CssElementStyleProp;
+export function borderColor(top: CssColorValue, horizontal: CssColorValue, bottom: CssColorValue): CssElementStyleProp;
+export function borderColor(top: CssColorValue, right: CssColorValue, bottom: CssColorValue, left: CssColorValue): CssElementStyleProp;
 export function borderColor(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("borderColor", v.join(" ")); }
 
 export function borderImage(v: string) { return new CssElementStyleProp("borderImage", v); }
 
-export function borderImageOutset(v: CSSGlobalValue): CssElementStyleProp;
-export function borderImageOutset(all: CSSLength | number): CssElementStyleProp;
-export function borderImageOutset(vertical: CSSLength | number, horizontal: CSSLength | number): CssElementStyleProp;
-export function borderImageOutset(top: CSSLength | number, horizontal: CSSLength | number, bottom: CSSLength | number): CssElementStyleProp;
-export function borderImageOutset(top: CSSLength | number, right: CSSLength | number, bottom: CSSLength | number, left: CSSLength | number): CssElementStyleProp;
+export function borderImageOutset(v: CssGlobalValue): CssElementStyleProp;
+export function borderImageOutset(all: CssLength | number): CssElementStyleProp;
+export function borderImageOutset(vertical: CssLength | number, horizontal: CssLength | number): CssElementStyleProp;
+export function borderImageOutset(top: CssLength | number, horizontal: CssLength | number, bottom: CssLength | number): CssElementStyleProp;
+export function borderImageOutset(top: CssLength | number, right: CssLength | number, bottom: CssLength | number, left: CssLength | number): CssElementStyleProp;
 export function borderImageOutset(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("borderImageOutset", v.join(" ")); }
 
-export function borderImageRepeat(v: CSSGlobalValue): CssElementStyleProp;
-export function borderImageRepeat(all: CSSBorderRepeatValue): CssElementStyleProp;
-export function borderImageRepeat(vertical: CSSBorderRepeatValue, horizontal: CSSBorderRepeatValue): CssElementStyleProp;
+export function borderImageRepeat(v: CssGlobalValue): CssElementStyleProp;
+export function borderImageRepeat(all: CssBorderRepeatValue): CssElementStyleProp;
+export function borderImageRepeat(vertical: CssBorderRepeatValue, horizontal: CssBorderRepeatValue): CssElementStyleProp;
 export function borderImageRepeat(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("borderImageRepeat", v.join(" ")); }
 
-export function borderImageSlice(v: CSSGlobalValue): CssElementStyleProp;
-export function borderImageSlice(all: CSSLengthPercentage | "fill"): CssElementStyleProp;
-export function borderImageSlice(vertical: CSSLengthPercentage | "fill", horizontal: CSSLengthPercentage | "fill"): CssElementStyleProp;
-export function borderImageSlice(top: CSSLengthPercentage | "fill", horizontal: CSSLengthPercentage | "fill", bottom: CSSLengthPercentage | "fill"): CssElementStyleProp;
-export function borderImageSlice(top: CSSLengthPercentage | "fill", right: CSSLengthPercentage | "fill", bottom: CSSLengthPercentage | "fill", left: CSSLengthPercentage | "fill"): CssElementStyleProp;
+export function borderImageSlice(v: CssGlobalValue): CssElementStyleProp;
+export function borderImageSlice(all: CssLengthPercentage | "fill"): CssElementStyleProp;
+export function borderImageSlice(vertical: CssLengthPercentage | "fill", horizontal: CssLengthPercentage | "fill"): CssElementStyleProp;
+export function borderImageSlice(top: CssLengthPercentage | "fill", horizontal: CssLengthPercentage | "fill", bottom: CssLengthPercentage | "fill"): CssElementStyleProp;
+export function borderImageSlice(top: CssLengthPercentage | "fill", right: CssLengthPercentage | "fill", bottom: CssLengthPercentage | "fill", left: CssLengthPercentage | "fill"): CssElementStyleProp;
 export function borderImageSlice(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("borderImageSlice", v.join(" ")); }
 
-export function borderImageSource(v: CSSGlobalValue | CSSImage | "none") { return new CssElementStyleProp("borderImageSource", v); }
+export function borderImageSource(v: CssGlobalValue | CssImage | "none") { return new CssElementStyleProp("borderImageSource", v); }
 
-export function borderImageWidth(v: CSSGlobalValue): CssElementStyleProp;
-export function borderImageWidth(v: CSSLengthPercentage | "auto"): CssElementStyleProp;
-export function borderImageWidth(vertical: CSSLengthPercentage | "auto", horizontal: CSSLengthPercentage | "auto"): CssElementStyleProp;
-export function borderImageWidth(top: CSSLengthPercentage | "auto", horizontal: CSSLengthPercentage | "auto", bottom: CSSLengthPercentage | "auto"): CssElementStyleProp;
-export function borderImageWidth(top: CSSLengthPercentage | "auto", right: CSSLengthPercentage | "auto", bottom: CSSLengthPercentage | "auto", left: CSSLengthPercentage | "auto"): CssElementStyleProp;
+export function borderImageWidth(v: CssGlobalValue): CssElementStyleProp;
+export function borderImageWidth(v: CssLengthPercentage | "auto"): CssElementStyleProp;
+export function borderImageWidth(vertical: CssLengthPercentage | "auto", horizontal: CssLengthPercentage | "auto"): CssElementStyleProp;
+export function borderImageWidth(top: CssLengthPercentage | "auto", horizontal: CssLengthPercentage | "auto", bottom: CssLengthPercentage | "auto"): CssElementStyleProp;
+export function borderImageWidth(top: CssLengthPercentage | "auto", right: CssLengthPercentage | "auto", bottom: CssLengthPercentage | "auto", left: CssLengthPercentage | "auto"): CssElementStyleProp;
 export function borderImageWidth(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("borderImageWidth", v.join(" ")); }
 
 export function borderInlineEnd(v: string) { return new CssElementStyleProp("borderInlineEnd", v); }
 
-export function borderInlineEndColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("borderInlineEndColor", v); }
+export function borderInlineEndColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("borderInlineEndColor", v); }
 
-export function borderInlineEndStyle(v: CSSGlobalValue | CSSBorderStyleValue) { return new CssElementStyleProp("borderInlineEndStyle", v); }
+export function borderInlineEndStyle(v: CssGlobalValue | CssBorderStyleValue) { return new CssElementStyleProp("borderInlineEndStyle", v); }
 
-export function borderInlineEndWidth(v: CSSGlobalValue | CSSLengthPercentage | CSSWidthKeyword | "auto") { return new CssElementStyleProp("borderInlineEndWidth", v); }
+export function borderInlineEndWidth(v: CssGlobalValue | CssLengthPercentage | CssWidthKeyword | "auto") { return new CssElementStyleProp("borderInlineEndWidth", v); }
 
 export function borderInlineStart(v: string) { return new CssElementStyleProp("borderInlineStart", v); }
 
-export function borderInlineStartColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("borderInlineStartColor", v); }
+export function borderInlineStartColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("borderInlineStartColor", v); }
 
-export function borderInlineStartStyle(v: CSSGlobalValue | CSSBorderStyleValue) { return new CssElementStyleProp("borderInlineStartStyle", v); }
+export function borderInlineStartStyle(v: CssGlobalValue | CssBorderStyleValue) { return new CssElementStyleProp("borderInlineStartStyle", v); }
 
-export function borderInlineStartWidth(v: CSSGlobalValue | CSSLengthPercentage | CSSWidthKeyword | "auto") { return new CssElementStyleProp("borderInlineStartWidth", v); }
+export function borderInlineStartWidth(v: CssGlobalValue | CssLengthPercentage | CssWidthKeyword | "auto") { return new CssElementStyleProp("borderInlineStartWidth", v); }
 
 export function borderLeft(v: string) { return new CssElementStyleProp("borderLeft", v); }
 
-export function borderLeftColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("borderLeftColor", v); }
+export function borderLeftColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("borderLeftColor", v); }
 
-export function borderLeftStyle(v: CSSGlobalValue | CSSBorderStyleValue) { return new CssElementStyleProp("borderLeftStyle", v); }
+export function borderLeftStyle(v: CssGlobalValue | CssBorderStyleValue) { return new CssElementStyleProp("borderLeftStyle", v); }
 
-export function borderLeftWidth(v: CSSGlobalValue | CSSLengthPercentage | CSSWidthKeyword | "auto") { return new CssElementStyleProp("borderLeftWidth", v); }
+export function borderLeftWidth(v: CssGlobalValue | CssLengthPercentage | CssWidthKeyword | "auto") { return new CssElementStyleProp("borderLeftWidth", v); }
 
-export function borderRadius(v: CSSGlobalValue): CssElementStyleProp;
-export function borderRadius(all: CSSLengthPercentage): CssElementStyleProp;
-export function borderRadius(all: [CSSLengthPercentage, CSSLengthPercentage]): CssElementStyleProp;
-export function borderRadius(topLeftBottomRight: CSSLengthPercentage, topRightBottomLeft: CSSLengthPercentage): CssElementStyleProp;
-export function borderRadius(topLeft: CSSLengthPercentage, topRightBottomLeft: CSSLengthPercentage, bottomRight: CSSLengthPercentage): CssElementStyleProp;
-export function borderRadius(topLeft: CSSLengthPercentage, topRight: CSSLengthPercentage, bottomRight: CSSLengthPercentage, bottomLeft: CSSLengthPercentage): CssElementStyleProp;
+export function borderRadius(v: CssGlobalValue): CssElementStyleProp;
+export function borderRadius(all: CssLengthPercentage): CssElementStyleProp;
+export function borderRadius(all: [CssLengthPercentage, CssLengthPercentage]): CssElementStyleProp;
+export function borderRadius(topLeftBottomRight: CssLengthPercentage, topRightBottomLeft: CssLengthPercentage): CssElementStyleProp;
+export function borderRadius(topLeft: CssLengthPercentage, topRightBottomLeft: CssLengthPercentage, bottomRight: CssLengthPercentage): CssElementStyleProp;
+export function borderRadius(topLeft: CssLengthPercentage, topRight: CssLengthPercentage, bottomRight: CssLengthPercentage, bottomLeft: CssLengthPercentage): CssElementStyleProp;
 export function borderRadius(...v: (string | number | (string | number)[])[]): CssElementStyleProp {
     let value: string = null;
     if (v.length === 0) {
@@ -565,47 +565,47 @@ export function borderRadius(...v: (string | number | (string | number)[])[]): C
 
 export function borderRight(v: string) { return new CssElementStyleProp("borderRight", v); }
 
-export function borderRightColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("borderRightColor", v); }
+export function borderRightColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("borderRightColor", v); }
 
-export function borderRightStyle(v: CSSGlobalValue | CSSBorderStyleValue) { return new CssElementStyleProp("borderRightStyle", v); }
+export function borderRightStyle(v: CssGlobalValue | CssBorderStyleValue) { return new CssElementStyleProp("borderRightStyle", v); }
 
-export function borderRightWidth(v: CSSGlobalValue | CSSLengthPercentage | CSSWidthKeyword | "auto") { return new CssElementStyleProp("borderRightWidth", v); }
+export function borderRightWidth(v: CssGlobalValue | CssLengthPercentage | CssWidthKeyword | "auto") { return new CssElementStyleProp("borderRightWidth", v); }
 
 export function borderSpacing(v: string) { return new CssElementStyleProp("borderSpacing", v); }
 
-export function borderStyle(v: CSSGlobalValue): CssElementStyleProp;
-export function borderStyle(all: CSSBorderStyleValue): CssElementStyleProp;
-export function borderStyle(vertical: CSSBorderStyleValue, horizontal: CSSBorderStyleValue): CssElementStyleProp;
-export function borderStyle(top: CSSBorderStyleValue, horizontal: CSSBorderStyleValue, bottom: CSSBorderStyleValue): CssElementStyleProp;
-export function borderStyle(top: CSSBorderStyleValue, right: CSSBorderStyleValue, bottom: CSSBorderStyleValue, left: CSSBorderStyleValue): CssElementStyleProp;
+export function borderStyle(v: CssGlobalValue): CssElementStyleProp;
+export function borderStyle(all: CssBorderStyleValue): CssElementStyleProp;
+export function borderStyle(vertical: CssBorderStyleValue, horizontal: CssBorderStyleValue): CssElementStyleProp;
+export function borderStyle(top: CssBorderStyleValue, horizontal: CssBorderStyleValue, bottom: CssBorderStyleValue): CssElementStyleProp;
+export function borderStyle(top: CssBorderStyleValue, right: CssBorderStyleValue, bottom: CssBorderStyleValue, left: CssBorderStyleValue): CssElementStyleProp;
 export function borderStyle(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("borderStyle", v.join(" ")); }
 
 export function borderTop(v: string) { return new CssElementStyleProp("borderTop", v); }
 
-export function borderTopColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("borderTopColor", v); }
+export function borderTopColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("borderTopColor", v); }
 
-export function borderTopLeftRadius(v: CSSGlobalValue): CssElementStyleProp;
-export function borderTopLeftRadius(v: CSSLengthPercentage): CssElementStyleProp;
-export function borderTopLeftRadius(major: CSSLengthPercentage, minor: CSSLengthPercentage): CssElementStyleProp;
+export function borderTopLeftRadius(v: CssGlobalValue): CssElementStyleProp;
+export function borderTopLeftRadius(v: CssLengthPercentage): CssElementStyleProp;
+export function borderTopLeftRadius(major: CssLengthPercentage, minor: CssLengthPercentage): CssElementStyleProp;
 export function borderTopLeftRadius(...v: (string | number)[]) { return new CssElementStyleProp("borderTopLeftRadius", v.join(" ")); }
 
-export function borderTopRightRadius(v: CSSGlobalValue): CssElementStyleProp;
-export function borderTopRightRadius(v: CSSLengthPercentage): CssElementStyleProp;
-export function borderTopRightRadius(major: CSSLengthPercentage, minor: CSSLengthPercentage): CssElementStyleProp;
+export function borderTopRightRadius(v: CssGlobalValue): CssElementStyleProp;
+export function borderTopRightRadius(v: CssLengthPercentage): CssElementStyleProp;
+export function borderTopRightRadius(major: CssLengthPercentage, minor: CssLengthPercentage): CssElementStyleProp;
 export function borderTopRightRadius(...v: (string | number)[]) { return new CssElementStyleProp("borderTopRightRadius", v.join(" ")); }
 
-export function borderTopStyle(v: CSSGlobalValue | CSSBorderStyleValue) { return new CssElementStyleProp("borderTopStyle", v); }
+export function borderTopStyle(v: CssGlobalValue | CssBorderStyleValue) { return new CssElementStyleProp("borderTopStyle", v); }
 
-export function borderTopWidth(v: CSSGlobalValue | CSSLengthPercentage | CSSWidthKeyword | "auto") { return new CssElementStyleProp("borderTopWidth", v); }
+export function borderTopWidth(v: CssGlobalValue | CssLengthPercentage | CssWidthKeyword | "auto") { return new CssElementStyleProp("borderTopWidth", v); }
 
-export function borderWidth(v: CSSGlobalValue): CssElementStyleProp;
-export function borderWidth(all: CSSLengthPercentage | CSSWidthKeyword | "auto"): CssElementStyleProp;
-export function borderWidth(vert: CSSLengthPercentage | CSSWidthKeyword | "auto", horiz: CSSLengthPercentage | CSSWidthKeyword | "auto"): CssElementStyleProp;
-export function borderWidth(top: CSSLengthPercentage | CSSWidthKeyword | "auto", horiz: CSSLengthPercentage | CSSWidthKeyword | "auto", bottom: CSSLengthPercentage | CSSWidthKeyword | "auto"): CssElementStyleProp;
-export function borderWidth(top: CSSLengthPercentage | CSSWidthKeyword | "auto", right: CSSLengthPercentage | CSSWidthKeyword | "auto", bottom: CSSLengthPercentage | CSSWidthKeyword | "auto", left: CSSLengthPercentage | CSSWidthKeyword | "auto"): CssElementStyleProp;
+export function borderWidth(v: CssGlobalValue): CssElementStyleProp;
+export function borderWidth(all: CssLengthPercentage | CssWidthKeyword | "auto"): CssElementStyleProp;
+export function borderWidth(vert: CssLengthPercentage | CssWidthKeyword | "auto", horiz: CssLengthPercentage | CssWidthKeyword | "auto"): CssElementStyleProp;
+export function borderWidth(top: CssLengthPercentage | CssWidthKeyword | "auto", horiz: CssLengthPercentage | CssWidthKeyword | "auto", bottom: CssLengthPercentage | CssWidthKeyword | "auto"): CssElementStyleProp;
+export function borderWidth(top: CssLengthPercentage | CssWidthKeyword | "auto", right: CssLengthPercentage | CssWidthKeyword | "auto", bottom: CssLengthPercentage | CssWidthKeyword | "auto", left: CssLengthPercentage | CssWidthKeyword | "auto"): CssElementStyleProp;
 export function borderWidth(...v: (string | number)[]) { return new CssElementStyleProp("borderWidth", v.join(" ")); }
 
-export function bottom(v: CSSGlobalValue | CSSElementPositionValue) { return new CssElementStyleProp("bottom", v); }
+export function bottom(v: CssGlobalValue | CssElementPositionValue) { return new CssElementStyleProp("bottom", v); }
 
 export function boxShadow(v: string) { return new CssElementStyleProp("boxShadow", v); }
 
@@ -629,8 +629,8 @@ export function clipPath(v: string) { return new CssElementStyleProp("clipPath",
 
 export function clipRule(v: string) { return new CssElementStyleProp("clipRule", v); }
 
-export function color(v: CSSGlobalValue): CssElementStyleProp;
-export function color(v: CSSColorValue): CssElementStyleProp;
+export function color(v: CssGlobalValue): CssElementStyleProp;
+export function color(v: CssColorValue): CssElementStyleProp;
 export function color(v: string): CssElementStyleProp { return new CssElementStyleProp("color", v); }
 
 export function colorInterpolation(v: string) { return new CssElementStyleProp("colorInterpolation", v); }
@@ -643,20 +643,20 @@ export function columnCount(v: string) { return new CssElementStyleProp("columnC
 
 export function columnFill(v: string) { return new CssElementStyleProp("columnFill", v); }
 
-export function columnGap(v: CSSGlobalValue | CSSLengthPercentage | CSSCalcStatement): CssElementStyleProp { return new CssElementStyleProp("columnGap", v); }
-export function gridColumnGap(v: CSSGlobalValue | CSSLengthPercentage | CSSCalcStatement) { return new CssElementStyleProp("gridColumnGap", v); }
+export function columnGap(v: CssGlobalValue | CssLengthPercentage | CssCalcStatement): CssElementStyleProp { return new CssElementStyleProp("columnGap", v); }
+export function gridColumnGap(v: CssGlobalValue | CssLengthPercentage | CssCalcStatement) { return new CssElementStyleProp("gridColumnGap", v); }
 
 export function columnRule(v: string) { return new CssElementStyleProp("columnRule", v); }
 
-export function columnRuleColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("columnRuleColor", v); }
+export function columnRuleColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("columnRuleColor", v); }
 
 export function columnRuleStyle(v: string) { return new CssElementStyleProp("columnRuleStyle", v); }
 
-export function columnRuleWidth(v: CSSGlobalValue | CSSLength | CSSWidthKeyword) { return new CssElementStyleProp("columnRuleWidth", v); }
+export function columnRuleWidth(v: CssGlobalValue | CssLength | CssWidthKeyword) { return new CssElementStyleProp("columnRuleWidth", v); }
 
 export function columnSpan(v: string) { return new CssElementStyleProp("columnSpan", v); }
 
-export function columnWidth(v: CSSGlobalValue | CSSLength | "auto") { return new CssElementStyleProp("columnWidth", v); }
+export function columnWidth(v: CssGlobalValue | CssLength | "auto") { return new CssElementStyleProp("columnWidth", v); }
 
 export function columns(v: string) { return new CssElementStyleProp("columns", v); }
 
@@ -666,11 +666,11 @@ export function counterIncrement(v: string) { return new CssElementStyleProp("co
 
 export function counterReset(v: string) { return new CssElementStyleProp("counterReset", v); }
 
-export function cursor(v: CSSGlobalValue | CSSCursorValue) { return new CssElementStyleProp("cursor", v); }
+export function cursor(v: CssGlobalValue | CssCursorValue) { return new CssElementStyleProp("cursor", v); }
 
-export function direction(v: CSSGlobalValue | CSSDirectionValue) { return new CssElementStyleProp("direction", v); }
+export function direction(v: CssGlobalValue | CssDirectionValue) { return new CssElementStyleProp("direction", v); }
 
-export function display(v: CSSGlobalValue | CSSDisplayValue) { return new CssElementStyleProp("display", v); }
+export function display(v: CssGlobalValue | CssDisplayValue) { return new CssElementStyleProp("display", v); }
 
 export function dominantBaseline(v: string) { return new CssElementStyleProp("dominantBaseline", v); }
 
@@ -684,32 +684,32 @@ export function fillRule(v: string) { return new CssElementStyleProp("fillRule",
 
 export function filter(v: string) { return new CssElementStyleProp("filter", v); }
 
-export function flexBasis(v: CSSGlobalValue | CSSFlexBasisValue) { return new CssElementStyleProp("flexBasis", v); }
+export function flexBasis(v: CssGlobalValue | CssFlexBasisValue) { return new CssElementStyleProp("flexBasis", v); }
 
-export function flexDirection(v: CSSGlobalValue | CSSFlexDirectionValue) { return new CssElementStyleProp("flexDirection", v); }
+export function flexDirection(v: CssGlobalValue | CssFlexDirectionValue) { return new CssElementStyleProp("flexDirection", v); }
 
-export function flexWrap(v: CSSGlobalValue | CSSFlexWrapValue) { return new CssElementStyleProp("flexWrap", v); }
+export function flexWrap(v: CssGlobalValue | CssFlexWrapValue) { return new CssElementStyleProp("flexWrap", v); }
 
-export function flexFlow(v: CSSGlobalValue): CssElementStyleProp;
-export function flexFlow(v: CSSFlexFlowValue): CssElementStyleProp;
-export function flexFlow(x: CSSFlexFlowValue, y: CSSFlexFlowValue): CssElementStyleProp;
+export function flexFlow(v: CssGlobalValue): CssElementStyleProp;
+export function flexFlow(v: CssFlexFlowValue): CssElementStyleProp;
+export function flexFlow(x: CssFlexFlowValue, y: CssFlexFlowValue): CssElementStyleProp;
 export function flexFlow(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("flexFlow", v.join(" ")); }
 
-export function flex(v: CSSGlobalValue): CssElementStyleProp;
+export function flex(v: CssGlobalValue): CssElementStyleProp;
 export function flex(grow: number): CssElementStyleProp;
-export function flex(basis: CSSFlexBasisValue): CssElementStyleProp;
+export function flex(basis: CssFlexBasisValue): CssElementStyleProp;
 export function flex(grow: number, shrink: number): CssElementStyleProp;
-export function flex(grow: number, basis: CSSFlexBasisValue): CssElementStyleProp;
-export function flex(grow: number, shrink: number, basis: CSSFlexBasisValue): CssElementStyleProp;
+export function flex(grow: number, basis: CssFlexBasisValue): CssElementStyleProp;
+export function flex(grow: number, shrink: number, basis: CssFlexBasisValue): CssElementStyleProp;
 export function flex(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("flex", v.join(" ")); }
 
-export function flexGrow(v: CSSGlobalValue | number) { return new CssElementStyleProp("flexGrow", v); }
+export function flexGrow(v: CssGlobalValue | number) { return new CssElementStyleProp("flexGrow", v); }
 
-export function flexShrink(v: CSSGlobalValue | number) { return new CssElementStyleProp("flexShrink", v); }
+export function flexShrink(v: CssGlobalValue | number) { return new CssElementStyleProp("flexShrink", v); }
 
-export function float(v: CSSGlobalValue | CSSFloatValue) { return new CssElementStyleProp("float", v); }
+export function float(v: CssGlobalValue | CssFloatValue) { return new CssElementStyleProp("float", v); }
 
-export function floodColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("floodColor", v); }
+export function floodColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("floodColor", v); }
 
 export function floodOpacity(v: string) { return new CssElementStyleProp("floodOpacity", v); }
 
@@ -743,11 +743,11 @@ export function fontVariationSettings(v: string) { return new CssElementStylePro
 
 export function fontWeight(v: string) { return new CssElementStyleProp("fontWeight", v); }
 
-export function gap(v: CSSGlobalValue | CSSLengthPercentage | CSSCalcStatement): CssElementStyleProp;
-export function gap(row: CSSLengthPercentage | CSSCalcStatement, column: CSSLengthPercentage | CSSCalcStatement): CssElementStyleProp
+export function gap(v: CssGlobalValue | CssLengthPercentage | CssCalcStatement): CssElementStyleProp;
+export function gap(row: CssLengthPercentage | CssCalcStatement, column: CssLengthPercentage | CssCalcStatement): CssElementStyleProp
 export function gap(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("gap", v.join(" ")); }
-export function gridGap(v: CSSGlobalValue | CSSLengthPercentage | CSSCalcStatement): CssElementStyleProp;
-export function gridGap(row: CSSLengthPercentage | CSSCalcStatement, column: CSSLengthPercentage | CSSCalcStatement): CssElementStyleProp
+export function gridGap(v: CssGlobalValue | CssLengthPercentage | CssCalcStatement): CssElementStyleProp;
+export function gridGap(row: CssLengthPercentage | CssCalcStatement, column: CssLengthPercentage | CssCalcStatement): CssElementStyleProp
 export function gridGap(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("gridGap", v.join(" ")); }
 
 export function grid(v: string) { return new CssElementStyleProp("grid", v); }
@@ -766,7 +766,7 @@ export function gridArea(vOrRowStart: string | number, colStart?: number, rowEnd
 
 export function gridAutoColumns(v: string) { return new CssElementStyleProp("gridAutoColumns", v); }
 
-export function gridAutoFlow(v: CSSGlobalValue | CSSGridAutoFlowValue) { return new CssElementStyleProp("gridAutoFlow", v); }
+export function gridAutoFlow(v: CssGlobalValue | CssGridAutoFlowValue) { return new CssElementStyleProp("gridAutoFlow", v); }
 
 export function gridAutoRows(v: string) { return new CssElementStyleProp("gridAutoRows", v); }
 
@@ -804,15 +804,15 @@ export function gridTemplate(v: string) { return new CssElementStyleProp("gridTe
 
 export function gridTemplateAreas(...v: string[]) { return new CssElementStyleProp("gridTemplateAreas", v.map((r) => "\"" + r + "\"").join("\n")); }
 
-export function gridTemplateColumns(v: CSSGlobalValue): CssElementStyleProp;
-export function gridTemplateColumns(...v: CSSGridTemplateTrackValue[]): CssElementStyleProp;
+export function gridTemplateColumns(v: CssGlobalValue): CssElementStyleProp;
+export function gridTemplateColumns(...v: CssGridTemplateTrackValue[]): CssElementStyleProp;
 export function gridTemplateColumns(...v: (string | number)[]) { return new CssElementStyleProp("gridTemplateColumns", v.join(" ")); }
 
-export function gridTemplateRows(v: CSSGlobalValue): CssElementStyleProp;
-export function gridTemplateRows(...v: CSSGridTemplateTrackValue[]): CssElementStyleProp;
+export function gridTemplateRows(v: CssGlobalValue): CssElementStyleProp;
+export function gridTemplateRows(...v: CssGridTemplateTrackValue[]): CssElementStyleProp;
 export function gridTemplateRows(...v: (string | number)[]) { return new CssElementStyleProp("gridTemplateRows", v.join(" ")); }
 
-export function height(v: CSSGlobalValue | CSSSizePropertyValue) { return new CssElementStyleProp("height", v); }
+export function height(v: CssGlobalValue | CssSizePropertyValue) { return new CssElementStyleProp("height", v); }
 
 export function hyphens(v: string) { return new CssElementStyleProp("hyphens", v); }
 
@@ -824,17 +824,17 @@ export function inlineSize(v: string) { return new CssElementStyleProp("inlineSi
 
 export function isolation(v: string) { return new CssElementStyleProp("isolation", v); }
 
-export function justifyContent(v: CSSGlobalValue | CSSJustifyAlignContentValue ) { return new CssElementStyleProp("justifyContent", v); }
+export function justifyContent(v: CssGlobalValue | CssJustifyAlignContentValue ) { return new CssElementStyleProp("justifyContent", v); }
 
-export function justifyItems(v: CSSGlobalValue | CSSJustifyItemsValue) { return new CssElementStyleProp("justifyItems", v); }
+export function justifyItems(v: CssGlobalValue | CssJustifyItemsValue) { return new CssElementStyleProp("justifyItems", v); }
 
-export function justifySelf(v: CSSGlobalValue | CSSJustifyAlignSelfValue) { return new CssElementStyleProp("justifySelf", v); }
+export function justifySelf(v: CssGlobalValue | CssJustifyAlignSelfValue) { return new CssElementStyleProp("justifySelf", v); }
 
-export function left(v: CSSElementPositionValue) { return new CssElementStyleProp("left", v); }
+export function left(v: CssElementPositionValue) { return new CssElementStyleProp("left", v); }
 
 export function letterSpacing(v: string) { return new CssElementStyleProp("letterSpacing", v); }
 
-export function lightingColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("lightingColor", v); }
+export function lightingColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("lightingColor", v); }
 
 export function lineBreak(v: string) { return new CssElementStyleProp("lineBreak", v); }
 
@@ -848,27 +848,27 @@ export function listStylePosition(v: string) { return new CssElementStyleProp("l
 
 export function listStyleType(v: string) { return new CssElementStyleProp("listStyleType", v); }
 
-export function margin(v: CSSGlobalValue | CSSLengthPercentage | "auto"): CssElementStyleProp;
-export function margin(vert: CSSLengthPercentage | "auto", horiz: CSSLengthPercentage | "auto"): CssElementStyleProp;
-export function margin(top: CSSLengthPercentage | "auto", horiz: CSSLengthPercentage | "auto", bot: CSSLengthPercentage | "auto"): CssElementStyleProp;
-export function margin(top: CSSLengthPercentage | "auto", right: CSSLengthPercentage | "auto", bot: CSSLengthPercentage | "auto", left: CSSLengthPercentage | "auto"): CssElementStyleProp;
+export function margin(v: CssGlobalValue | CssLengthPercentage | "auto"): CssElementStyleProp;
+export function margin(vert: CssLengthPercentage | "auto", horiz: CssLengthPercentage | "auto"): CssElementStyleProp;
+export function margin(top: CssLengthPercentage | "auto", horiz: CssLengthPercentage | "auto", bot: CssLengthPercentage | "auto"): CssElementStyleProp;
+export function margin(top: CssLengthPercentage | "auto", right: CssLengthPercentage | "auto", bot: CssLengthPercentage | "auto", left: CssLengthPercentage | "auto"): CssElementStyleProp;
 export function margin(...v: (number | string)[]) { return new CssElementStyleProp("margin", v.join(" ")); }
 
-export function marginBlockEnd(v: CSSLengthPercentage | "auto") { return new CssElementStyleProp("marginBlockEnd", v); }
+export function marginBlockEnd(v: CssLengthPercentage | "auto") { return new CssElementStyleProp("marginBlockEnd", v); }
 
-export function marginBlockStart(v: CSSLengthPercentage | "auto") { return new CssElementStyleProp("marginBlockStart", v); }
+export function marginBlockStart(v: CssLengthPercentage | "auto") { return new CssElementStyleProp("marginBlockStart", v); }
 
-export function marginBottom(v: CSSLengthPercentage | "auto") { return new CssElementStyleProp("marginBottom", v); }
+export function marginBottom(v: CssLengthPercentage | "auto") { return new CssElementStyleProp("marginBottom", v); }
 
-export function marginInlineEnd(v: CSSLengthPercentage | "auto") { return new CssElementStyleProp("marginInlineEnd", v); }
+export function marginInlineEnd(v: CssLengthPercentage | "auto") { return new CssElementStyleProp("marginInlineEnd", v); }
 
-export function marginInlineStart(v: CSSLengthPercentage | "auto") { return new CssElementStyleProp("marginInlineStart", v); }
+export function marginInlineStart(v: CssLengthPercentage | "auto") { return new CssElementStyleProp("marginInlineStart", v); }
 
-export function marginLeft(v: CSSLengthPercentage | "auto") { return new CssElementStyleProp("marginLeft", v); }
+export function marginLeft(v: CssLengthPercentage | "auto") { return new CssElementStyleProp("marginLeft", v); }
 
-export function marginRight(v: CSSLengthPercentage | "auto") { return new CssElementStyleProp("marginRight", v); }
+export function marginRight(v: CssLengthPercentage | "auto") { return new CssElementStyleProp("marginRight", v); }
 
-export function marginTop(v: CSSLengthPercentage | "auto") { return new CssElementStyleProp("marginTop", v); }
+export function marginTop(v: CssLengthPercentage | "auto") { return new CssElementStyleProp("marginTop", v); }
 
 export function marker(v: string) { return new CssElementStyleProp("marker", v); }
 
@@ -912,7 +912,7 @@ export function offsetPath(v: string) { return new CssElementStyleProp("offsetPa
 
 export function offsetRotate(v: string) { return new CssElementStyleProp("offsetRotate", v); }
 
-export function opacity(v: CSSGlobalValue | CSSAlpha) { return new CssElementStyleProp("opacity", v); }
+export function opacity(v: CssGlobalValue | CssAlpha) { return new CssElementStyleProp("opacity", v); }
 
 export function order(v: string) { return new CssElementStyleProp("order", v); }
 
@@ -920,7 +920,7 @@ export function orphans(v: string) { return new CssElementStyleProp("orphans", v
 
 export function outline(v: string) { return new CssElementStyleProp("outline", v); }
 
-export function outlineColor(v: CSSGlobalValue | CSSColorValue | "invert") { return new CssElementStyleProp("outlineColor", v); }
+export function outlineColor(v: CssGlobalValue | CssColorValue | "invert") { return new CssElementStyleProp("outlineColor", v); }
 
 export function outlineOffset(v: string) { return new CssElementStyleProp("outlineOffset", v); }
 
@@ -928,13 +928,13 @@ export function outlineStyle(v: string) { return new CssElementStyleProp("outlin
 
 export function outlineWidth(v: string | 0) { return new CssElementStyleProp("outlineWidth", v); }
 
-export function overflow(v: CSSGlobalValue | CSSOverflowValue): CssElementStyleProp;
-export function overflow(x: CSSOverflowValue, y: CSSOverflowValue): CssElementStyleProp;
+export function overflow(v: CssGlobalValue | CssOverflowValue): CssElementStyleProp;
+export function overflow(x: CssOverflowValue, y: CssOverflowValue): CssElementStyleProp;
 export function overflow(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("overflow", v.join(" ")); }
 
-export function overflowX(v: CSSGlobalValue | CSSOverflowValue) { return new CssElementStyleProp("overflowX", v); }
+export function overflowX(v: CssGlobalValue | CssOverflowValue) { return new CssElementStyleProp("overflowX", v); }
 
-export function overflowY(v: CSSGlobalValue | CSSOverflowValue) { return new CssElementStyleProp("overflowY", v); }
+export function overflowY(v: CssGlobalValue | CssOverflowValue) { return new CssElementStyleProp("overflowY", v); }
 
 export function overflowAnchor(v: string) { return new CssElementStyleProp("overflowAnchor", v); }
 
@@ -950,27 +950,27 @@ export function overscrollBehaviorX(v: string) { return new CssElementStyleProp(
 
 export function overscrollBehaviorY(v: string) { return new CssElementStyleProp("overscrollBehaviorY", v); }
 
-export function padding(v: CSSGlobalValue | CSSLengthPercentage): CssElementStyleProp;
-export function padding(vert: CSSLengthPercentage, horiz: CSSLengthPercentage): CssElementStyleProp;
-export function padding(top: CSSLengthPercentage, horiz: CSSLengthPercentage, bot: CSSLengthPercentage): CssElementStyleProp;
-export function padding(top: CSSLengthPercentage, right: CSSLengthPercentage, bot: CSSLengthPercentage, left: CSSLengthPercentage): CssElementStyleProp;
-export function padding(...v: (CSSGlobalValue | CSSLengthPercentage)[]) { return new CssElementStyleProp("padding", v.join(" ")); }
+export function padding(v: CssGlobalValue | CssLengthPercentage): CssElementStyleProp;
+export function padding(vert: CssLengthPercentage, horiz: CssLengthPercentage): CssElementStyleProp;
+export function padding(top: CssLengthPercentage, horiz: CssLengthPercentage, bot: CssLengthPercentage): CssElementStyleProp;
+export function padding(top: CssLengthPercentage, right: CssLengthPercentage, bot: CssLengthPercentage, left: CssLengthPercentage): CssElementStyleProp;
+export function padding(...v: (CssGlobalValue | CssLengthPercentage)[]) { return new CssElementStyleProp("padding", v.join(" ")); }
 
-export function paddingBlockEnd(v: CSSGlobalValue | CSSLengthPercentage) { return new CssElementStyleProp("paddingBlockEnd", v); }
+export function paddingBlockEnd(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("paddingBlockEnd", v); }
 
-export function paddingBlockStart(v: CSSGlobalValue | CSSLengthPercentage) { return new CssElementStyleProp("paddingBlockStart", v); }
+export function paddingBlockStart(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("paddingBlockStart", v); }
 
-export function paddingBottom(v: CSSGlobalValue | CSSLengthPercentage) { return new CssElementStyleProp("paddingBottom", v); }
+export function paddingBottom(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("paddingBottom", v); }
 
-export function paddingInlineEnd(v: CSSGlobalValue | CSSLengthPercentage) { return new CssElementStyleProp("paddingInlineEnd", v); }
+export function paddingInlineEnd(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("paddingInlineEnd", v); }
 
-export function paddingInlineStart(v: CSSGlobalValue | CSSLengthPercentage) { return new CssElementStyleProp("paddingInlineStart", v); }
+export function paddingInlineStart(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("paddingInlineStart", v); }
 
-export function paddingLeft(v: CSSGlobalValue | CSSLengthPercentage) { return new CssElementStyleProp("paddingLeft", v); }
+export function paddingLeft(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("paddingLeft", v); }
 
-export function paddingRight(v: CSSGlobalValue | CSSLengthPercentage) { return new CssElementStyleProp("paddingRight", v); }
+export function paddingRight(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("paddingRight", v); }
 
-export function paddingTop(v: CSSGlobalValue | CSSLengthPercentage) { return new CssElementStyleProp("paddingTop", v); }
+export function paddingTop(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("paddingTop", v); }
 
 export function pageBreakAfter(v: string) { return new CssElementStyleProp("pageBreakAfter", v); }
 
@@ -990,18 +990,18 @@ export function placeItems(v: string) { return new CssElementStyleProp("placeIte
 
 export function placeSelf(v: string) { return new CssElementStyleProp("placeSelf", v); }
 
-export function pointerEvents(v: CSSGlobalValue | CSSPointerEventsValue) { return new CssElementStyleProp("pointerEvents", v); }
+export function pointerEvents(v: CssGlobalValue | CssPointerEventsValue) { return new CssElementStyleProp("pointerEvents", v); }
 
-export function position(v: CSSGlobalValue | CSSPositionValue) { return new CssElementStyleProp("position", v); }
+export function position(v: CssGlobalValue | CssPositionValue) { return new CssElementStyleProp("position", v); }
 
 export function quotes(v: string) { return new CssElementStyleProp("quotes", v); }
 
 export function resize(v: string) { return new CssElementStyleProp("resize", v); }
 
-export function right(v: CSSElementPositionValue) { return new CssElementStyleProp("right", v); }
+export function right(v: CssElementPositionValue) { return new CssElementStyleProp("right", v); }
 
-export function rowGap(v: CSSGlobalValue | CSSLengthPercentage | CSSCalcStatement) { return new CssElementStyleProp("rowGap", v); }
-export function gridRowGap(v: CSSGlobalValue | CSSLengthPercentage | CSSCalcStatement) { return new CssElementStyleProp("gridRowGap", v); }
+export function rowGap(v: CssGlobalValue | CssLengthPercentage | CssCalcStatement) { return new CssElementStyleProp("rowGap", v); }
+export function gridRowGap(v: CssGlobalValue | CssLengthPercentage | CssCalcStatement) { return new CssElementStyleProp("gridRowGap", v); }
 
 export function rubyPosition(v: string) { return new CssElementStyleProp("rubyPosition", v); }
 
@@ -1065,7 +1065,7 @@ export function shapeOutside(v: string) { return new CssElementStyleProp("shapeO
 
 export function shapeRendering(v: string) { return new CssElementStyleProp("shapeRendering", v); }
 
-export function stopColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("stopColor", v); }
+export function stopColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("stopColor", v); }
 
 export function stopOpacity(v: string) { return new CssElementStyleProp("stopOpacity", v); }
 
@@ -1089,9 +1089,9 @@ export function tabSize(v: string) { return new CssElementStyleProp("tabSize", v
 
 export function tableLayout(v: string) { return new CssElementStyleProp("tableLayout", v); }
 
-export function textAlign(v: CSSGlobalValue | CSSTextAlignValue) { return new CssElementStyleProp("textAlign", v); }
+export function textAlign(v: CssGlobalValue | CssTextAlignValue) { return new CssElementStyleProp("textAlign", v); }
 
-export function textAlignLast(v: CSSGlobalValue | CSSTextAlignLastValue) { return new CssElementStyleProp("textAlignLast", v); }
+export function textAlignLast(v: CssGlobalValue | CssTextAlignLastValue) { return new CssElementStyleProp("textAlignLast", v); }
 
 export function textAnchor(v: string) { return new CssElementStyleProp("textAnchor", v); }
 
@@ -1099,7 +1099,7 @@ export function textCombineUpright(v: string) { return new CssElementStyleProp("
 
 export function textDecoration(v: string) { return new CssElementStyleProp("textDecoration", v); }
 
-export function textDecorationColor(v: CSSGlobalValue | CSSColorValue) { return new CssElementStyleProp("textDecorationColor", v); }
+export function textDecorationColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("textDecorationColor", v); }
 
 export function textDecorationLine(v: string) { return new CssElementStyleProp("textDecorationLine", v); }
 
@@ -1111,7 +1111,7 @@ export function textIndent(v: string) { return new CssElementStyleProp("textInde
 
 export function textOrientation(v: string) { return new CssElementStyleProp("textOrientation", v); }
 
-export function textOverflow(v: CSSGlobalValue | CSSTextOverflowValue) { return new CssElementStyleProp("textOverflow", v); }
+export function textOverflow(v: CssGlobalValue | CssTextOverflowValue) { return new CssElementStyleProp("textOverflow", v); }
 
 export function textRendering(v: string) { return new CssElementStyleProp("textRendering", v); }
 
@@ -1121,24 +1121,24 @@ export function textTransform(v: string) { return new CssElementStyleProp("textT
 
 export function textUnderlinePosition(v: string) { return new CssElementStyleProp("textUnderlinePosition", v); }
 
-export function top(v: CSSElementPositionValue) { return new CssElementStyleProp("top", v); }
+export function top(v: CssElementPositionValue) { return new CssElementStyleProp("top", v); }
 
-export function touchAction(v: CSSGlobalValue | CSSTouchActionValue) { return new CssElementStyleProp("touchAction", v); }
+export function touchAction(v: CssGlobalValue | CssTouchActionValue) { return new CssElementStyleProp("touchAction", v); }
 
-export function transform(v: CSSGlobalValue): CssElementStyleProp;
-export function transform(perspective: CSSTransformPerspectiveValue, ...rest: CSSTransformValue[]): CssElementStyleProp;
-export function transform(...v: CSSTransformValue[]): CssElementStyleProp;
+export function transform(v: CssGlobalValue): CssElementStyleProp;
+export function transform(perspective: CssTransformPerspectiveValue, ...rest: CssTransformValue[]): CssElementStyleProp;
+export function transform(...v: CssTransformValue[]): CssElementStyleProp;
 export function transform(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("transform", v.join(" ")); }
 
-export function transformBox(v: CSSGlobalValue | CSSTransformBoxValue) { return new CssElementStyleProp("transformBox", v); }
+export function transformBox(v: CssGlobalValue | CssTransformBoxValue) { return new CssElementStyleProp("transformBox", v); }
 
-export function transformOrigin(v: CSSGlobalValue): CssElementStyleProp;
-export function transformOrigin(v: CSSLengthPercentage | CSSBackgroundPositionKeyword): CssElementStyleProp;
-export function transformOrigin(x: CSSLengthPercentage | CSSBackgroundPositionHorizontalKeyword, y: CSSLengthPercentage | CSSBackgroundPositionVerticalKeyword): CssElementStyleProp;
-export function transformOrigin(x: CSSLengthPercentage | CSSBackgroundPositionHorizontalKeyword, y: CSSLengthPercentage | CSSBackgroundPositionVerticalKeyword, z: CSSLength): CssElementStyleProp;
+export function transformOrigin(v: CssGlobalValue): CssElementStyleProp;
+export function transformOrigin(v: CssLengthPercentage | CssBackgroundPositionKeyword): CssElementStyleProp;
+export function transformOrigin(x: CssLengthPercentage | CssBackgroundPositionHorizontalKeyword, y: CssLengthPercentage | CssBackgroundPositionVerticalKeyword): CssElementStyleProp;
+export function transformOrigin(x: CssLengthPercentage | CssBackgroundPositionHorizontalKeyword, y: CssLengthPercentage | CssBackgroundPositionVerticalKeyword, z: CssLength): CssElementStyleProp;
 export function transformOrigin(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("transformOrigin", v.join(" ")); }
 
-export function transformStyle(v: CSSGlobalValue | CSSTransformStyleValue) { return new CssElementStyleProp("transformStyle", v); }
+export function transformStyle(v: CssGlobalValue | CssTransformStyleValue) { return new CssElementStyleProp("transformStyle", v); }
 
 export function transition(v: string) { return new CssElementStyleProp("transition", v); }
 
@@ -1154,15 +1154,15 @@ export function unicodeBidi(v: string) { return new CssElementStyleProp("unicode
 
 export function userSelect(v: string) { return new CssElementStyleProp("userSelect", v); }
 
-export function verticalAlign(v: CSSGlobalValue | CSSVerticalAlignValue) { return new CssElementStyleProp("verticalAlign", v); }
+export function verticalAlign(v: CssGlobalValue | CssVerticalAlignValue) { return new CssElementStyleProp("verticalAlign", v); }
 
-export function visibility(v: CSSGlobalValue | CSSVisiblityValue) { return new CssElementStyleProp("visibility", v); }
+export function visibility(v: CssGlobalValue | CssVisiblityValue) { return new CssElementStyleProp("visibility", v); }
 
-export function whiteSpace(v: CSSGlobalValue | CSSWhiteSpaceValue) { return new CssElementStyleProp("whiteSpace", v); }
+export function whiteSpace(v: CssGlobalValue | CssWhiteSpaceValue) { return new CssElementStyleProp("whiteSpace", v); }
 
-export function widows(v: CSSGlobalValue | number) { return new CssElementStyleProp("widows", asInt(v)); }
+export function widows(v: CssGlobalValue | number) { return new CssElementStyleProp("widows", asInt(v)); }
 
-export function width(v: CSSGlobalValue | CSSSizePropertyValue) { return new CssElementStyleProp("width", v); }
+export function width(v: CssGlobalValue | CssSizePropertyValue) { return new CssElementStyleProp("width", v); }
 
 export function willChange(v: string) { return new CssElementStyleProp("willChange", v); }
 
@@ -1170,13 +1170,13 @@ export function wordBreak(v: string) { return new CssElementStyleProp("wordBreak
 
 export function wordSpacing(v: string) { return new CssElementStyleProp("wordSpacing", v); }
 
-export function wordWrap(v: CSSGlobalValue | CSSWordWrapValue) { return new CssElementStyleProp("wordWrap", v); }
+export function wordWrap(v: CssGlobalValue | CssWordWrapValue) { return new CssElementStyleProp("wordWrap", v); }
 
-export function writingMode(v: CSSGlobalValue | CSSWritingModeValue) { return new CssElementStyleProp("writingMode", v); }
+export function writingMode(v: CssGlobalValue | CssWritingModeValue) { return new CssElementStyleProp("writingMode", v); }
 
 export function zIndex(v: number) { return new CssElementStyleProp("zIndex", asInt(v)); }
 
-class CssRegularAtRuleSet<T extends CSSAtRuleRegular = CSSAtRuleRegular> extends PropSet<Prop> {
+class CssRegularAtRuleSet<T extends CssAtRuleRegular = CssAtRuleRegular> extends PropSet<Prop> {
     constructor(selector: T, value: string) {
         super("@" + selector + " ", [new Prop(value)], ";");
     }
@@ -1194,25 +1194,25 @@ export function cssNamespace(value: string) {
     return new CssRegularAtRuleSet("namespace", value);
 }
 
-class CssColorProfileProp<T extends CSSColorProfilePropName = CSSColorProfilePropName> extends CssDeclareProp {
+class CssColorProfileProp<T extends CssColorProfilePropName = CssColorProfilePropName> extends CssDeclareProp {
     constructor(name: T, value: string) {
         super(name, value);
     }
 }
 
-export function colorProfile(name: CSSDashedName, src: string, renderingIntent: CssColorProfileProp<"rendering-intent">): PropSet;
-export function colorProfile(name: CSSDashedName, src: string, components: CssColorProfileProp<"components">): PropSet;
-export function colorProfile(name: CSSDashedName, src: string, renderingIntent: CssColorProfileProp<"rendering-intent">, components: CssColorProfileProp<"components">): PropSet;
-export function colorProfile(name: CSSDashedName, src: string, ...props: CssColorProfileProp[]): PropSet {
+export function colorProfile(name: CssDashedName, src: string, renderingIntent: CssColorProfileProp<"rendering-intent">): PropSet;
+export function colorProfile(name: CssDashedName, src: string, components: CssColorProfileProp<"components">): PropSet;
+export function colorProfile(name: CssDashedName, src: string, renderingIntent: CssColorProfileProp<"rendering-intent">, components: CssColorProfileProp<"components">): PropSet;
+export function colorProfile(name: CssDashedName, src: string, ...props: CssColorProfileProp[]): PropSet {
     props.unshift(new CssColorProfileProp("src", src));
     return new SelectorPropSet("@color-profile " + name, props);
 }
 
-export function renderingIntent(value: CSSRenderingIntentValue): CssColorProfileProp { return new CssColorProfileProp("rendering-intent", value); }
+export function renderingIntent(value: CssRenderingIntentValue): CssColorProfileProp { return new CssColorProfileProp("rendering-intent", value); }
 
 export function components(...names: string[]) { return new CssColorProfileProp("components", names.join(", ")); }
 
-class CssCounterStyleProp<T extends CSSCounterStylePropName = CSSCounterStylePropName> extends CssDeclareProp {
+class CssCounterStyleProp<T extends CssCounterStylePropName = CssCounterStylePropName> extends CssDeclareProp {
     constructor(name: T, value: string) {
         super(name, value);
     }
@@ -1222,7 +1222,7 @@ export function counterStyle(name: string, ...props: CssCounterStyleProp[]): Pro
     return new SelectorPropSet(`@counter-style ${name}`, props);
 }
 
-export function system(value: CSSCounterStyleSystemValue) { return new CssCounterStyleProp("system", value); }
+export function system(value: CssCounterStyleSystemValue) { return new CssCounterStyleProp("system", value); }
 
 export function negative(value: string) { return new CssCounterStyleProp("negative", value); }
 
@@ -1230,8 +1230,8 @@ export function prefix(value: string) { return new CssCounterStyleProp("prefix",
 
 export function suffix(value: string) { return new CssCounterStyleProp("suffix", value); }
 
-export function range(value: CSSCounterStyleRangeValue | "auto"): CssCounterStyleProp<"range">;
-export function range(...v: CSSCounterStyleRangeValue[]): CssCounterStyleProp<"range">;
+export function range(value: CssCounterStyleRangeValue | "auto"): CssCounterStyleProp<"range">;
+export function range(...v: CssCounterStyleRangeValue[]): CssCounterStyleProp<"range">;
 export function range(...v: string[]): CssCounterStyleProp<"range"> { return new CssCounterStyleProp("range", v.join(", ")); }
 
 export function pad(count: number, symbol: string) { return new CssCounterStyleProp("pad", `${asInt(count)} ${JSON.stringify(symbol)}`); }

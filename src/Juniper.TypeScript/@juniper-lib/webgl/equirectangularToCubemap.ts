@@ -25,7 +25,7 @@ const captureParams = new Map<CubeMapFaceIndex, CaptureOrientation>([
     [CubeMapFaceIndex.Front, { headingDegrees: 0, pitchDegrees: 0 }]
 ]);
 
-async function equirectangularToCubemap<T>(image: TexImageSource | OffscreenCanvas, isStereo: boolean, size: number, saveImage: (canvas: CanvasTypes) => Promise<T>, prog?: IProgress): Promise<T[]> {
+async function equirectangularToCubemap<T>(image: TexImageSource, isStereo: boolean, size: number, saveImage: (canvas: CanvasTypes) => Promise<T>, prog?: IProgress): Promise<T[]> {
     const ctx3d = new Context3D(createUtilityCanvas(size, size), {
         alpha: true,
         antialias: false,
@@ -69,10 +69,10 @@ async function equirectangularToCubemap<T>(image: TexImageSource | OffscreenCanv
             })));
 }
 
-export function equirectangularToCubemapBlobs(image: TexImageSource | OffscreenCanvas, isStereo: boolean, size: number, prog?: IProgress): Promise<Blob[]> {
+export function equirectangularToCubemapBlobs(image: TexImageSource, isStereo: boolean, size: number, prog?: IProgress): Promise<Blob[]> {
     return equirectangularToCubemap(image, isStereo, size, canvasToBlob, prog);
 }
 
-export async function equirectangularToCubemapCanvases(image: TexImageSource | OffscreenCanvas, isStereo: boolean, size: number, prog?: IProgress): Promise<CanvasTypes[]> {
+export async function equirectangularToCubemapCanvases(image: TexImageSource, isStereo: boolean, size: number, prog?: IProgress): Promise<CanvasTypes[]> {
     return equirectangularToCubemap(image, isStereo, size, snapshot, prog);
 }

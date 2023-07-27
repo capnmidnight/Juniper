@@ -1,6 +1,6 @@
 import { arrayClear, arrayRemove } from "@juniper-lib/collections/arrays";
 import { buildTree, TreeNode } from "@juniper-lib/collections/TreeNode";
-import { Attr, AutoComplete, ClassList, PlaceHolder, TabIndex } from "@juniper-lib/dom/attrs";
+import { HtmlAttr, AutoComplete, ClassList, PlaceHolder, TabIndex } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     isModifierless,
@@ -116,7 +116,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
     constructor(
         options?: TreeViewOptions<ValueT, FilterTypeT>,
-        ...styleProps: (CssElementStyleProp | Attr<"id">)[]) {
+        ...styleProps: (CssElementStyleProp | HtmlAttr<"id">)[]) {
         super();
 
         this.createElement = this.createElement.bind(this);

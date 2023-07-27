@@ -1,12 +1,12 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
 import { identity } from "@juniper-lib/tslib/identity";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
-import { isBoolean, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
+import { isBoolean, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 /**
  * A setter functor for HTML attributes.
  **/
-export class Attr<T extends string = string, V = number | object> {
+export class HtmlAttr<T extends string = string, V = number | object | ((elem: HTMLElement) => unknown)> {
 
     readonly tags: readonly string[];
 
@@ -36,16 +36,8 @@ export class Attr<T extends string = string, V = number | object> {
             console.warn(`Element ${elem.tagName} does not support Attribute ${this.key}`);
         }
 
-        if (this.key === "style") {
-            Object.assign(elem.style, this.value);
-        }
-        else if (this.key === "classList") {
-            const arr = (this.value as string[])
-                .filter(identity);
-
-            if (arr.length > 0) {
-                arr.forEach((v) => elem.classList.add(v));
-            }
+        if (isFunction(this.value)) {
+            this.value(elem);
         }
         else if (this.bySetAttribute) {
             elem.setAttribute(this.key, this.value.toString());
@@ -66,11 +58,11 @@ export class Attr<T extends string = string, V = number | object> {
 }
 
 function attr<T extends string = string, V = number | object>(key: T, value: V, bySetAttribute: boolean, ...tags: string[]) {
-    return new Attr(key, value, bySetAttribute, ...tags);
+    return new HtmlAttr(key, value, bySetAttribute, ...tags);
 }
 
-export function isAttr(obj: unknown): obj is Attr {
-    return obj instanceof Attr;
+export function isAttr(obj: unknown): obj is HtmlAttr {
+    return obj instanceof HtmlAttr;
 }
 
 /**
@@ -392,7 +384,10 @@ export function ClassName(value: string) { return attr("className", value, false
 /**
  * Often used with CSS to style elements with common properties.
   **/
-export function ClassList(...values: string[]) { return attr("classList", values, false); }
+export function ClassList(...values: string[]) {
+    values = values.filter(identity);
+    return attr("classList", (element: HTMLElement) => element.classList.add(...values), false);
+}
 
 /**
  * Specifies the URL of the applet's class file to be loaded and executed.
@@ -778,6 +773,61 @@ export function Poster(value: string) { return attr("poster", value, false, "vid
  * Indicates whether the whole resource, parts of it or nothing should be preloaded.
   **/
 export function Preload(value: boolean | string) { return attr("preload", value, false, "audio", "video"); }
+
+/**
+ * Attempts to find an element under a given element.
+ * @param root
+ * @param selector
+ */
+export function Query(root: ParentNode, selector: string): HtmlAttr<"query", HTMLElement>;
+/**
+ * Attempts to find an element in the document.
+ * @param selector
+ */
+export function Query(selector: string): HtmlAttr<"query", HTMLElement>;
+/**
+ * Attempts to find an element in the document.
+ * @param rootOrSelector
+ * @param selector
+ */
+export function Query(rootOrSelector: ParentNode | string, selector?: string) {
+    let root: ParentNode = null;
+    if (isString(rootOrSelector)) {
+        root = document;
+        selector = rootOrSelector;
+    }
+    else {
+        root = rootOrSelector;
+    }
+
+    const elem = root.querySelector(selector);
+    return attr("query", elem, false);
+}
+
+export function QueryAll<T extends Element>(root: ParentNode, selector: string): T[];
+/**
+ * Attempts to find an element in the document.
+ * @param selector
+ */
+export function QueryAll<T extends Element = HTMLElement>(selector: string): T[];
+/**
+ * Attempts to find an element in the document.
+ * @param rootOrSelector
+ * @param selector
+ */
+export function QueryAll<T extends Element = HTMLElement>(rootOrSelector: ParentNode | string, selector?: string): T[] {
+    let root: ParentNode = null;
+    if (isString(rootOrSelector)) {
+        root = document;
+        selector = rootOrSelector;
+    }
+    else {
+        root = rootOrSelector;
+    }
+
+    const elems = root.querySelectorAll(selector);
+    return Array.from(elems) as T[];
+}
 
 /**
  * Indicates whether the element can be edited.

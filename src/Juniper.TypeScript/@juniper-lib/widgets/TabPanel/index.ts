@@ -1,4 +1,4 @@
-import { Attr, ClassList, CustomData, ID } from "@juniper-lib/dom/attrs";
+import { ClassList, CustomData, HtmlAttr, ID, QueryAll } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import { ButtonSmall, Div, Elements, ErsatzElement, elementApply, elementSetClass, elementSetDisplay, getElements, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
@@ -22,15 +22,15 @@ type TabPanelEntry<TabNames> = [TabNames, string, Elements<HTMLElement>];
 interface TabPanelView {
     button: HTMLButtonElement;
     panel: Elements<HTMLElement>;
-    displayType: CSSGlobalValue | CSSDisplayValue;
+    displayType: CssGlobalValue | CssDisplayValue;
 }
 
-function isRule<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp | Attr): obj is CssElementStyleProp | Attr {
+function isRule<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp | HtmlAttr): obj is CssElementStyleProp | HtmlAttr {
     return obj instanceof CssElementStyleProp
-        || obj instanceof Attr;
+        || obj instanceof HtmlAttr;
 }
 
-function isViewDef<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp | Attr): obj is TabPanelEntry<TabNames> {
+function isViewDef<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp | HtmlAttr): obj is TabPanelEntry<TabNames> {
     return !isRule(obj);
 }
 
@@ -52,7 +52,7 @@ export class TabPanel<TabNames extends string>
         }
     }
 
-    public static create<TabNames extends string>(...entries: (TabPanelEntry<TabNames> | CssElementStyleProp | Attr)[]): TabPanel<TabNames> {
+    public static create<TabNames extends string>(...entries: (TabPanelEntry<TabNames> | CssElementStyleProp | HtmlAttr)[]): TabPanel<TabNames> {
         const rules = entries.filter(isRule);
         const viewDefs = entries.filter(isViewDef);
         const viewsByName = new Map<TabNames, TabPanelView>();
@@ -65,7 +65,7 @@ export class TabPanel<TabNames extends string>
                 firstName = name;
             }
             const elem = resolveElement<HTMLElement>(panel);
-            const displayType = elem.style.display as CSSDisplayValue;
+            const displayType = elem.style.display as CssDisplayValue;
             elementApply(panel, ID(name));
             viewsByName.set(name, {
                 panel,
@@ -97,13 +97,13 @@ export class TabPanel<TabNames extends string>
         super();
 
         let counter = 0;
-        const btns: [string, HTMLButtonElement][] = [...element.querySelectorAll<HTMLButtonElement>(".tabs > button")]
+        const btns: [string, HTMLButtonElement][] = QueryAll<HTMLButtonElement>(element, ".tabs > button")
             .map(btn => [btn.dataset.panelname || `tab${++counter}`, btn]);
         const buttons = new Map<string, HTMLButtonElement>(btns);
 
         counter = 0;
         const panels = new Map<string, HTMLElement>(
-            [...element.querySelectorAll<HTMLElement>(".panels > *")]
+            QueryAll<HTMLElement>(element, ".panels > *")
                 .map(panel => [panel.id || `tab${++counter}`, panel])
         );
 
@@ -113,7 +113,7 @@ export class TabPanel<TabNames extends string>
                 this.select(name as TabNames);
                 this.dispatchEvent(new TabPanelTabSelectedEvent(name));
             });
-            let displayType = panel.style.display as CSSDisplayValue;
+            let displayType = panel.style.display as CssDisplayValue;
             if (displayType = "none") {
                 displayType = null;
             }

@@ -6,7 +6,7 @@ function getVertexName(n: Vertex) {
     return n.name;
 }
 
-function getVertexColor(n: Vertex): CSSColorValue {
+function getVertexColor(n: Vertex): CssColorValue {
     if (n.nodeClass === "node") {
         return "lightgreen";
     }

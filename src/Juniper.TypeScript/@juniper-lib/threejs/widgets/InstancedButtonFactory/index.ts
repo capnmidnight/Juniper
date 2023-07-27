@@ -42,8 +42,8 @@ export class InstancedButtonFactory implements ErsatzObject {
     constructor(
         private readonly imagePaths: PriorityMap<string, string, string>,
         private readonly padding: number,
-        public readonly buttonFillColor: CSSColorValue,
-        public readonly labelFillColor: CSSColorValue,
+        public readonly buttonFillColor: CssColorValue,
+        public readonly labelFillColor: CssColorValue,
         debug: boolean) {
 
         this.object = obj("InstancedButtonFactory");

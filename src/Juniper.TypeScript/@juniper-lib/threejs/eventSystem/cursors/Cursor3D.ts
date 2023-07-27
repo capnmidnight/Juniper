@@ -26,7 +26,7 @@ export class Cursor3D extends BaseCursor3D {
     override get style() {
         for (const child of this.object.children) {
             if (child.visible) {
-                return child.name as CSSCursorValue;
+                return child.name as CssCursorValue;
             }
         }
 

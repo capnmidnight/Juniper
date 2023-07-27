@@ -6,7 +6,7 @@ import { IWidget, widgetApply } from "./widgets";
 export class BasicWidget<T extends HTMLElement = HTMLElement> implements IWidget<T>, EventTarget {
     constructor(readonly element: T,
         readonly object: Object3D,
-        private readonly displayType: CSSGlobalValue | CSSDisplayValue) {
+        private readonly displayType: CssGlobalValue | CssDisplayValue) {
     }
 
     get name() {

@@ -56,7 +56,7 @@ export function widgetClearChildren(obj: IWidget) {
 export class Widget<T extends HTMLElement = HTMLElement> implements IWidget<T>, EventTarget {
     constructor(readonly element: T,
         readonly object: Object3D,
-        private readonly displayType: CSSGlobalValue | CSSDisplayValue) {
+        private readonly displayType: CssGlobalValue | CssDisplayValue) {
     }
 
     get name() {

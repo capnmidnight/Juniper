@@ -83,7 +83,7 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
 
     constructor(title: string,
         private readonly getNodeName: (value: T) => string,
-        private readonly getNodeColor: (value: T) => CSSColorValue,
+        private readonly getNodeColor: (value: T) => CssColorValue,
         private readonly getWeightMod: (a: T, b: T, connected: boolean) => number) {
         super(title);
 

@@ -1,18 +1,18 @@
-import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, dispose, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { arrayCompare, arrayScan } from "@juniper-lib/collections/arrays";
+import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, dispose, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/canvas";
+import { getHeight, getWidth } from "@juniper-lib/tslib/images";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { inches2Meters, meters2Inches } from "@juniper-lib/tslib/units/length";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { BufferGeometry, Matrix4, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Texture, Vector3, VideoTexture } from "three";
+import { plane } from "../Plane";
+import { StereoLayoutName } from "../VideoPlayer3D";
 import { cleanup } from "../cleanup";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { getRelativeXRRigidTransform } from "../getRelativeXRRigidTransform";
 import { solidTransparent } from "../materials";
-import { mesh, objectIsFullyVisible, objGraph } from "../objects";
-import { plane } from "../Plane";
+import { mesh, objGraph, objectIsFullyVisible } from "../objects";
 import { isMesh, isMeshBasicMaterial } from "../typeChecks";
-import { StereoLayoutName } from "../VideoPlayer3D";
-
 
 const S = new Vector3();
 
@@ -36,8 +36,8 @@ export class Image2D
     private wasUsingLayer = false;
 
     private layer: XRQuadLayer = null;
-    private curImage: TexImageSource | OffscreenCanvas = null;
-    private lastImage: TexImageSource | OffscreenCanvas = null;
+    private curImage: TexImageSource = null;
+    private lastImage: TexImageSource = null;
     private lastWidth: number = null;
     private lastHeight: number = null;
 
@@ -185,7 +185,7 @@ export class Image2D
 
     }
 
-    setTextureMap(img: TexImageSource | OffscreenCanvas): void {
+    setTextureMap(img: TexImageSource): void {
         if (this.curImage) {
             this.disposeImage();
         }
@@ -204,12 +204,11 @@ export class Image2D
 
             this.curImage = img;
 
+            this.setImageSize(getWidth(img), getHeight(img));
             if (img instanceof HTMLVideoElement) {
-                this.setImageSize(img.videoWidth, img.videoHeight);
                 this.mesh.material.map = new VideoTexture(img);
             }
             else {
-                this.setImageSize(img.width, img.height);
                 this.mesh.material.map = new Texture(img);
                 this.mesh.material.map.needsUpdate = true;
             }
@@ -224,9 +223,8 @@ export class Image2D
 
     updateTexture() {
         if (isDefined(this.curImage)) {
-            const curVideo = this.curImage as HTMLVideoElement;
-            const newWidth = this.isVideo ? curVideo.videoWidth : this.curImage.width;
-            const newHeight = this.isVideo ? curVideo.videoHeight : this.curImage.height;
+            const newWidth = getWidth(this.curImage);
+            const newHeight = getHeight(this.curImage);;
             if (this.imageWidth !== newWidth
                 || this.imageHeight !== newHeight) {
 
@@ -304,8 +302,8 @@ export class Image2D
                             layout,
                             textureType: "texture",
                             isStatic: this.webXRLayerType === "static",
-                            viewPixelWidth: this.curImage.width,
-                            viewPixelHeight: this.curImage.height,
+                            viewPixelWidth: getWidth(this.curImage),
+                            viewPixelHeight: getHeight(this.curImage),
                             transform,
                             width,
                             height

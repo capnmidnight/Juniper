@@ -201,4 +201,12 @@ export class EventedGamepad
 
         return this.pad.hapticActuators;
     }
+
+    get vibrationActuator(): GamepadHapticActuator {
+        if (!this.pad) {
+            return null;
+        }
+
+        return this.pad.vibrationActuator;
+    }
 }

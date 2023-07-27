@@ -1,5 +1,5 @@
 import { arrayClear, arrayReplace, arraySortedInsert } from "@juniper-lib/collections/arrays";
-import { ClassList, ColSpan, CustomData } from "@juniper-lib/dom/attrs";
+import { ClassList, ColSpan, CustomData, QueryAll } from "@juniper-lib/dom/attrs";
 import { padding, px } from "@juniper-lib/dom/css";
 import { getColumnIndex } from "@juniper-lib/dom/getColumnIndex";
 import { ButtonReset, ButtonSecondaryOutlineSmall, ElementChild, ErsatzElement, Label, Span, TBody, TD, TFoot, TH, THead, TR, Table, buttonSetEnabled, elementApply, elementClearChildren, elementGetText, elementSetClass, elementSetText } from "@juniper-lib/dom/tags";
@@ -192,15 +192,12 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
         this.pageIndexKey = `${this.resourceName}-page-index`;
         this.pageSizeKey = `${this.resourceName}-page-size`;
 
-        this.rows = Array.from(this.element.querySelectorAll("tbody > tr"));
+        this.rows = QueryAll(this.element, "tbody > tr");
 
         this.ranges = new Map<number, [HTMLValuedElement, HTMLValuedElement]>();
 
         if (this.element.tHead) {
-            this.filterElements = [
-                ...this.element.tHead.querySelectorAll<HTMLValuedElement>("input,select")
-            ];
-
+            this.filterElements = QueryAll(this.element.tHead, "input,select");
             this.resetButton = this.element.tHead.querySelector<HTMLButtonElement>("button[type=reset]");
         }
         else {
@@ -208,8 +205,9 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
         }
 
         this.colCount = Math.max(
-            ...Array.from(this.element.querySelectorAll("tr"))
-                .map(r => r.children.length));
+            ...QueryAll(this.element, "tr")
+                .map(r => r.children.length)
+        );
 
         this.noContentMessageElement = TR(TD(ColSpan(this.colCount), "No content"));
         this.paginator = TD(ColSpan(this.colCount), ClassList("multi"));

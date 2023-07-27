@@ -1,8 +1,8 @@
 export abstract class BaseCursor {
     private _visible = true;
-    private _style: CSSCursorValue = "default";
+    private _style: CssCursorValue = "default";
 
-    get style(): CSSCursorValue {
+    get style(): CssCursorValue {
         return this._style;
     }
 

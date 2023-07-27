@@ -25,7 +25,7 @@ function hideThumbnail() {
 const existing = new WeakSet<HTMLImageElement>();
 
 export function registerThumbnails() {
-    const thumbnails = Array.from(document.querySelectorAll<HTMLImageElement>(".thumbnail"));
+    const thumbnails = document.querySelectorAll<HTMLImageElement>(".thumbnail");
     for (const thumbnail of thumbnails) {
         if (!existing.has(thumbnail)) {
             thumbnail.addEventListener("click", () =>

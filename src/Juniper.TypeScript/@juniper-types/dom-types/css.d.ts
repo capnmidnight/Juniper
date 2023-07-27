@@ -1,4 +1,4 @@
-type CSSGlobalValue =
+type CssGlobalValue =
     | ""
     | "inherit"
     | "initial"
@@ -6,24 +6,24 @@ type CSSGlobalValue =
     | "revert-layer"
     | "unset";
 
-type CSSFunction<F extends string, T extends string | number> = `${F}(${T})`;
+type CssFunction<F extends string, T extends string | number> = `${F}(${T})`;
 
-type CSSUrl = CSSFunction<"url", string>;
+type CssUrl = CssFunction<"url", string>;
 
-type CSSPercentage = `${number}%`;
+type CssPercentage = `${number}%`;
 
-type CSSAlpha =
+type CssAlpha =
     | number
-    | CSSPercentage;
+    | CssPercentage;
 
-type CSSAngle =
+type CssAngle =
     | number
     | `${number}deg`
     | `${number}rad`
     | `${number}grad`
     | `${number}turn`;
 
-type CSSFontRelativeLength =
+type CssFontRelativeLength =
     | `${number}cap`
     | `${number}ch`
     | `${number}em`
@@ -33,7 +33,7 @@ type CSSFontRelativeLength =
     | `${number}rem`
     | `${number}rlh`;
 
-type CSSViewportPercentageLength =
+type CssViewportPercentageLength =
     | `${number}vh`
     | `${number}vw`
     | `${number}vi`
@@ -41,7 +41,7 @@ type CSSViewportPercentageLength =
     | `${number}vmin`
     | `${number}vmax`;
 
-type CSSAbsoluteLength =
+type CssAbsoluteLength =
     | `${number}px`
     | `${number}cm`
     | `${number}mm`
@@ -50,39 +50,39 @@ type CSSAbsoluteLength =
     | `${number}pc`
     | `${number}pt`;
 
-type CSSWidthKeyword =
+type CssWidthKeyword =
     | "thin"
     | "medium"
     | "thick";
 
-type CSSLength =
-    | CSSFontRelativeLength
-    | CSSViewportPercentageLength
-    | CSSAbsoluteLength;
+type CssLength =
+    | CssFontRelativeLength
+    | CssViewportPercentageLength
+    | CssAbsoluteLength;
 
-type CSSLengthPercentage =
-    | CSSLength
-    | CSSPercentage
+type CssLengthPercentage =
+    | CssLength
+    | CssPercentage
     | 0
     | "0";
 
-type CSSAtRuleRegular =
+type CssAtRuleRegular =
     | "charset"
     | "import"
     | "namespace"
     | "layer";
 
-type CSSBorderCollapseValue =
+type CssBorderCollapseValue =
     | "collapse"
     | "separate";
 
-type CSSBorderRepeatValue =
+type CssBorderRepeatValue =
     | "stretch"
     | "repeat"
     | "round"
     | "space";
 
-type CSSBorderStyleValue =
+type CssBorderStyleValue =
     | "none"
     | "hidden"
     | "dotted"
@@ -94,9 +94,9 @@ type CSSBorderStyleValue =
     | "inset"
     | "outset";
 
-type CSSCalcStatement = CSSFunction<"calc", string>;
+type CssCalcStatement = CssFunction<"calc", string>;
 
-type CSSColorKeywordValue =
+type CssColorKeywordValue =
     | "transparent"
     | "currentcolor"
     | "ActiveText"
@@ -275,15 +275,15 @@ type CSSColorKeywordValue =
 
 type HexDigit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "a" | "b" | "c" | "d" | "e" | "f" | "A" | "B" | "C" | "D" | "E" | "F";
 type HexNumber = `${HexDigit}${HexDigit}`
-type CSSColorHashValue = `#${string}`;
+type CssColorHashValue = `#${string}`;
 
-type CSSColorRGBValue = CSSFunction<"rgb" | "rgba", string>;
-type CSSColorHSLValue = CSSFunction<"hsl" | "hsla", string>;
-type CSSColorHWBValue = CSSFunction<"hwb", string>;
-type CSSColorLCHValue = CSSFunction<"lch", string>;
-type CSSColorLabValue = CSSFunction<"lab", string>;
+type CssColorRGBValue = CssFunction<"rgb" | "rgba", string>;
+type CssColorHSLValue = CssFunction<"hsl" | "hsla", string>;
+type CssColorHWBValue = CssFunction<"hwb", string>;
+type CssColorLCHValue = CssFunction<"lch", string>;
+type CssColorLabValue = CssFunction<"lab", string>;
 
-type CSSColorSpaceName =
+type CssColorSpaceName =
     | "srgb"
     | "srgb-linear"
     | "display-p3"
@@ -294,24 +294,24 @@ type CSSColorSpaceName =
     | "xyz-d50"
     | "xyz-d65";
 
-type CSSColorFunctionValue = CSSFunction<"color", `${CSSColorSpaceName} ${string}`>;
+type CssColorFunctionValue = CssFunction<"color", `${CssColorSpaceName} ${string}`>;
 
-type CSSColorValue =
-    | CSSColorKeywordValue
-    | CSSColorHashValue
-    | CSSColorRGBValue
-    | CSSColorHSLValue
-    | CSSColorHWBValue
-    | CSSColorLCHValue
-    | CSSColorLabValue
-    | CSSColorFunctionValue;
+type CssColorValue =
+    | CssColorKeywordValue
+    | CssColorHashValue
+    | CssColorRGBValue
+    | CssColorHSLValue
+    | CssColorHWBValue
+    | CssColorLCHValue
+    | CssColorLabValue
+    | CssColorFunctionValue;
 
-type CSSColorProfilePropName =
+type CssColorProfilePropName =
     | "src"
     | "rendering-intent"
     | "components";
 
-type CSSCounterStylePropName =
+type CssCounterStylePropName =
     | "system"
     | "negative"
     | "prefix"
@@ -323,7 +323,7 @@ type CSSCounterStylePropName =
     | "additive-symbols"
     | "speak-as";
 
-type CSSCounterStyleSystemValue =
+type CssCounterStyleSystemValue =
     | "cyclic"
     | "numeric"
     | "alphabetic"
@@ -333,23 +333,23 @@ type CSSCounterStyleSystemValue =
     | `fixed ${number}`
     | `extends ${string}`;
 
-type CSSCounterStyleRangeValue =
+type CssCounterStyleRangeValue =
     | `${number} ${number}`
     | `${number} infinite`
     | `infinite ${number}`
     | "infinite infinite";
 
-type CSSSizePropertyValue =
+type CssSizePropertyValue =
     | 0
     | "0"
-    | CSSLengthPercentage
+    | CssLengthPercentage
     | "auto"
     | "max-content"
     | "min-content"
     | "fit-content"
-    | CSSCalcStatement;
+    | CssCalcStatement;
 
-type CSSAlignmentBaselineValue =
+type CssAlignmentBaselineValue =
     | "auto"
     | "baseline"
     | "before-edge"
@@ -366,31 +366,31 @@ type CSSAlignmentBaselineValue =
     | "center"
     | "bottom";
 
-type CSSTimeSecondsValue = `${number}s`;
-type CSSTimeMillisecondsValue = `${number}ms`;
-type CSSTimeValue = CSSTimeSecondsValue | CSSTimeMillisecondsValue;
+type CssTimeSecondsValue = `${number}s`;
+type CssTimeMillisecondsValue = `${number}ms`;
+type CssTimeValue = CssTimeSecondsValue | CssTimeMillisecondsValue;
 
-type CSSAnimationDirectionValue =
+type CssAnimationDirectionValue =
     | "normal"
     | "reverse"
     | "alternate"
     | "alternate-reverse";
 
-type CSSAnimationFillModeValue =
+type CssAnimationFillModeValue =
     | "none"
     | "forwards"
     | "backwards"
     | "both";
 
-type CSSAnimationIterationCountValue =
+type CssAnimationIterationCountValue =
     | number
     | "infinite";
 
-type CSSAnimationPlayStateValue =
+type CssAnimationPlayStateValue =
     | "running"
     | "paused";
 
-type CSSAnimationTimingFunctionNamed =
+type CssAnimationTimingFunctionNamed =
     | "ease"
     | "ease-in"
     | "ease-out"
@@ -398,14 +398,14 @@ type CSSAnimationTimingFunctionNamed =
     | "linear"
     | "step-start"
     | "step-end";
-type CSSAnimationTimingFunctionCubicBezier = `cubic-bezier(${number}, ${number}, ${number}, ${number})`;
-type CSSAnimationTimingFunctionSteps = `steps(${number}, ${CSSAnimationTimingFunctionNamed})`;
-type CSSAnimationTimingFunctionValue =
-    | CSSAnimationTimingFunctionNamed
-    | CSSAnimationTimingFunctionCubicBezier
-    | CSSAnimationTimingFunctionSteps;
+type CssAnimationTimingFunctionCubicBezier = `cubic-bezier(${number}, ${number}, ${number}, ${number})`;
+type CssAnimationTimingFunctionSteps = `steps(${number}, ${CssAnimationTimingFunctionNamed})`;
+type CssAnimationTimingFunctionValue =
+    | CssAnimationTimingFunctionNamed
+    | CssAnimationTimingFunctionCubicBezier
+    | CssAnimationTimingFunctionSteps;
 
-type CSSAppearanceValue =
+type CssAppearanceValue =
     | "none"
     | "auto"
     | "menulist-button"
@@ -423,34 +423,34 @@ type CSSAppearanceValue =
     | "square-button"
     | "textarea";
 
-type CSSDropShadowParams =
-    | `${CSSLength} ${CSSLength}`
-    | `${CSSLength} ${CSSLength} ${string}`
-    | `${CSSLength} ${CSSLength} ${CSSLength} ${string}`;
+type CssDropShadowParams =
+    | `${CssLength} ${CssLength}`
+    | `${CssLength} ${CssLength} ${string}`
+    | `${CssLength} ${CssLength} ${CssLength} ${string}`;
 
 
-type CSSFilterFunction = CSSFunction<"blur", CSSLength>
-    | CSSFunction<"brightness", CSSAlpha>
-    | CSSFunction<"contrast", CSSAlpha>
-    | CSSFunction<"drop-shadow", CSSDropShadowParams>
-    | CSSFunction<"grayscale", CSSAlpha>
-    | CSSFunction<"hue-rotate", CSSAngle>
-    | CSSFunction<"invert", CSSAlpha>
-    | CSSFunction<"opacity", CSSAlpha>
-    | CSSFunction<"saturate", CSSAlpha>
-    | CSSFunction<"sepia", CSSAlpha>
-    | CSSUrl;
+type CssFilterFunction = CssFunction<"blur", CssLength>
+    | CssFunction<"brightness", CssAlpha>
+    | CssFunction<"contrast", CssAlpha>
+    | CssFunction<"drop-shadow", CssDropShadowParams>
+    | CssFunction<"grayscale", CssAlpha>
+    | CssFunction<"hue-rotate", CssAngle>
+    | CssFunction<"invert", CssAlpha>
+    | CssFunction<"opacity", CssAlpha>
+    | CssFunction<"saturate", CssAlpha>
+    | CssFunction<"sepia", CssAlpha>
+    | CssUrl;
 
-type CSSBackfaceVisibilityValue =
+type CssBackfaceVisibilityValue =
     | "visible"
     | "hiden";
 
-type CSSBackgroundAttachmentValue =
+type CssBackgroundAttachmentValue =
     | "scroll"
     | "fixed"
     | "local";
 
-type CSSBlendModeValue = "normal"
+type CssBlendModeValue = "normal"
     | "multiply"
     | "screen"
     | "overlay"
@@ -467,73 +467,73 @@ type CSSBlendModeValue = "normal"
     | "color"
     | "luminosity";
 
-type CSSBoxType =
+type CssBoxType =
     | "border-box"
     | "padding-box"
     | "content-box";
 
-type CSSClipValue =
-    | CSSBoxType
+type CssClipValue =
+    | CssBoxType
     | "text";
 
-type CSSGradient =
-    | CSSFunction<"linear-gradient", string>
-    | CSSFunction<"radial-gradient", string>
-    | CSSFunction<"repeating-linear-gradient", string>
-    | CSSFunction<"repeating-radial-gradient", string>
-    | CSSFunction<"conic-gradient", string>;
+type CssGradient =
+    | CssFunction<"linear-gradient", string>
+    | CssFunction<"radial-gradient", string>
+    | CssFunction<"repeating-linear-gradient", string>
+    | CssFunction<"repeating-radial-gradient", string>
+    | CssFunction<"conic-gradient", string>;
 
-type CSSImage = CSSUrl
-    | CSSGradient
-    | CSSFunction<"element", string>
-    | CSSFunction<"cross-fade", string>
-    | CSSFunction<"image-set", string>;
+type CssImage = CssUrl
+    | CssGradient
+    | CssFunction<"element", string>
+    | CssFunction<"cross-fade", string>
+    | CssFunction<"image-set", string>;
 
-type CSSBackgroundPositionHorizontalKeyword =
+type CssBackgroundPositionHorizontalKeyword =
     | "left"
     | "center"
     | "right";
-type CSSBackgroundPositionVerticalKeyword =
+type CssBackgroundPositionVerticalKeyword =
     | "top"
     | "center"
     | "bottom";
-type CSSBackgroundPositionKeyword =
-    | CSSBackgroundPositionHorizontalKeyword
-    | CSSBackgroundPositionVerticalKeyword;
-type CSSBackgroundPositionHorizontalValue =
-    | CSSBackgroundPositionKeyword
-    | CSSLengthPercentage;
-type CSSBackgroundPositionVerticalValue =
-    | CSSBackgroundPositionKeyword
-    | CSSLengthPercentage;
-type CSSBackgroundPositionValue =
-    | CSSBackgroundPositionKeyword
-    | CSSLengthPercentage;
+type CssBackgroundPositionKeyword =
+    | CssBackgroundPositionHorizontalKeyword
+    | CssBackgroundPositionVerticalKeyword;
+type CssBackgroundPositionHorizontalValue =
+    | CssBackgroundPositionKeyword
+    | CssLengthPercentage;
+type CssBackgroundPositionVerticalValue =
+    | CssBackgroundPositionKeyword
+    | CssLengthPercentage;
+type CssBackgroundPositionValue =
+    | CssBackgroundPositionKeyword
+    | CssLengthPercentage;
 
-type CSSBackgroundRepeat =
+type CssBackgroundRepeat =
     | "repeat"
     | "space"
     | "round"
     | "no-repeat";
 
-type CSSBackgroundRepeatValue =
+type CssBackgroundRepeatValue =
     | "repeat-x"
     | "repeat-y"
-    | CSSBackgroundRepeat;
+    | CssBackgroundRepeat;
 
-type CSSBackgroundSizeValue =
+type CssBackgroundSizeValue =
     | "auto"
-    | CSSLengthPercentage;
-type CSSBackgroundSizeSingleValue =
+    | CssLengthPercentage;
+type CssBackgroundSizeSingleValue =
     | "contain"
     | "cover"
-    | CSSBackgroundSizeValue;
+    | CssBackgroundSizeValue;
 
-type CSSElementPositionValue =
+type CssElementPositionValue =
     | "auto"
-    | CSSLengthPercentage;
+    | CssLengthPercentage;
 
-type CSSCursorValue =
+type CssCursorValue =
     | "auto"
     | "default"
     | "none"
@@ -571,13 +571,13 @@ type CSSCursorValue =
     | "zoom-in"
     | "zoom-out";
 
-type CSSDashedName = `--${string}`;
+type CssDashedName = `--${string}`;
 
-type CSSDirectionValue =
+type CssDirectionValue =
     | "ltr"
     | "rtl";
 
-type CSSDisplayValue =
+type CssDisplayValue =
     | "none"
     | "contents"
     | "block"
@@ -600,63 +600,63 @@ type CSSDisplayValue =
     | "table-row"
     | "list-item";
 
-type CSSFlexBasisValue =
-    | CSSLengthPercentage
+type CssFlexBasisValue =
+    | CssLengthPercentage
     | "auto"
     | "max-content"
     | "min-content"
     | "fit-content"
 
-type CSSFlexDirectionValue =
+type CssFlexDirectionValue =
     | "row"
     | "row-reverse"
     | "column"
     | "column-reverse";
 
-type CSSFlexWrapValue =
+type CssFlexWrapValue =
     | "nowrap"
     | "wrap"
     | "wrap-reverse";
 
-type CSSFlexFlowValue =
-    | CSSFlexDirectionValue
-    | CSSFlexWrapValue;
+type CssFlexFlowValue =
+    | CssFlexDirectionValue
+    | CssFlexWrapValue;
 
-type CSSFloatValue =
+type CssFloatValue =
     | "left"
     | "right"
     | "none"
     | "inline-start"
     | "inline-end";
 
-type CSSGridAutoFlowValue =
+type CssGridAutoFlowValue =
     | "row"
     | "column"
     | "dense"
     | "row dense"
     | "column dense";
 
-type CSSGridLineName = `[${string}]`;
+type CssGridLineName = `[${string}]`;
 
-type CSSGridFlexValue = `${number}fr`;
+type CssGridFlexValue = `${number}fr`;
 
-type CSSGridTemplateTrackSize =
-    | CSSLengthPercentage
-    | CSSGridFlexValue
+type CssGridTemplateTrackSize =
+    | CssLengthPercentage
+    | CssGridFlexValue
     | "max-content"
     | "min-content"
     | "auto";
 
-type CSSGridTemplateTrackValue =
+type CssGridTemplateTrackValue =
     | "none"
-    | CSSGridLineName
-    | CSSGridTemplateTrackSize
-    | CSSFunction<"minmax", `${CSSGridTemplateTrackSize}, ${CSSGridTemplateTrackSize}`>
-    | CSSFunction<"fit-content", CSSLengthPercentage>
-    | CSSFunction<"repeat", `${number | "auto-fill" | "auto-fit"}, ${string}`>
+    | CssGridLineName
+    | CssGridTemplateTrackSize
+    | CssFunction<"minmax", `${CssGridTemplateTrackSize}, ${CssGridTemplateTrackSize}`>
+    | CssFunction<"fit-content", CssLengthPercentage>
+    | CssFunction<"repeat", `${number | "auto-fill" | "auto-fit"}, ${string}`>
     | "subgrid";
 
-type CSSJustifyAlignValue =
+type CssJustifyAlignValue =
     | "center"
     | "start"
     | "end"
@@ -669,36 +669,36 @@ type CSSJustifyAlignValue =
     | "safe center"
     | "unsafe center";
 
-type CSSJustifyAlignContentValue =
-    | CSSJustifyAlignValue
+type CssJustifyAlignContentValue =
+    | CssJustifyAlignValue
     | "space-between"
     | "space-around"
     | "space-evenly";
 
-type CSSJustifyAlignItemsContentValue =
-    | CSSJustifyAlignValue
+type CssJustifyAlignItemsContentValue =
+    | CssJustifyAlignValue
     | "self-start"
     | "self-end"
     | "baseline"
     | "first baseline"
     | "last baseline";
 
-type CSSJustifyItemsValue =
-    | CSSJustifyAlignItemsContentValue
+type CssJustifyItemsValue =
+    | CssJustifyAlignItemsContentValue
     | "legacy right"
     | "legacy left"
     | "legacy center";
 
-type CSSJustifyAlignSelfValue =
-    | CSSJustifyAlignItemsContentValue
+type CssJustifyAlignSelfValue =
+    | CssJustifyAlignItemsContentValue
     | "auto";
 
-type CSSMediaQueryTypeValue =
+type CssMediaQueryTypeValue =
     | "all"
     | "print"
     | "screen";
 
-type CSSMediaQueryFeatureValue =
+type CssMediaQueryFeatureValue =
     | "any-hover"
     | "any-pointer"
     | "aspect-ratio"
@@ -726,7 +726,7 @@ type CSSMediaQueryFeatureValue =
     | "video-dynamic-range"
     | "width";
 
-type CSSMediaQueryOperatorValue =
+type CssMediaQueryOperatorValue =
     | "and"
     | "not"
     | "only"
@@ -736,31 +736,31 @@ type CSSMediaQueryOperatorValue =
     | ">"
     | ">=";
 
-type CSSOverflowValue =
+type CssOverflowValue =
     | "visible"
     | "hidden"
     | "clip"
     | "scroll"
     | "auto";
 
-type CSSPointerEventsValue =
+type CssPointerEventsValue =
     | "auto"
     | "none";
 
-type CSSPositionValue =
+type CssPositionValue =
     | "static"
     | "absolute"
     | "fixed"
     | "relative"
     | "sticky";
 
-type CSSRenderingIntentValue =
+type CssRenderingIntentValue =
     | "relative-colorimetric"
     | "absolute-colorimetric"
     | "perceptual"
     | "saturation";
 
-type CSSTextAlignLastValue =
+type CssTextAlignLastValue =
     | "auto"
     | "start"
     | "end"
@@ -770,15 +770,15 @@ type CSSTextAlignLastValue =
     | "justify"
     | "match-parent";
 
-type CSSTextAlignValue =
-    | CSSTextAlignLastValue
+type CssTextAlignValue =
+    | CssTextAlignLastValue
     | "justify-all";
 
-type CSSTextOverflowValue =
+type CssTextOverflowValue =
     | "clip"
     | "ellipsis";
 
-type CSSTouchActionValue =
+type CssTouchActionValue =
     | "auto"
     | "none"
     | "pan-x"
@@ -791,63 +791,63 @@ type CSSTouchActionValue =
     | "manipulation";
 
 
-type CSSTransformMatrixValue = `matrix(${number}, ${number}, ${number}, ${number}, ${number}, ${number})`;
-type CSSTransformMatrix3DValue = `matrix3d(${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number})`;
-type CSSTransformPerspectiveValue = `perspective(${CSSLength | "none"})`;
-type CSSTransformRotate = `rotate(${CSSAngle})`;
-type CSSTransformRotate3D = `rotate3d(${number}, ${number}, ${number}, ${CSSAngle})`;
-type CSSTransformRotateX = `rotateX(${CSSAngle})`;
-type CSSTransformRotateY = `rotateY(${CSSAngle})`;
-type CSSTransformRotateZ = `rotateZ(${CSSAngle})`;
-type CSSTransformTranslate = `translate(${CSSLengthPercentage}, ${CSSLengthPercentage})`;
-type CSSTransformTranslate3D = `translate3d(${CSSLengthPercentage}, ${CSSLengthPercentage}, ${CSSLengthPercentage})`;
-type CSSTransformTranslateX = `translateX(${CSSLengthPercentage})`;
-type CSSTransformTranslateY = `translateY(${CSSLengthPercentage})`;
-type CSSTransformTranslateZ = `translateZ(${CSSLengthPercentage})`;
-type CSSTransformScale = `scale(${number}, ${number})`;
+type CssTransformMatrixValue = `matrix(${number}, ${number}, ${number}, ${number}, ${number}, ${number})`;
+type CssTransformMatrix3DValue = `matrix3d(${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number})`;
+type CssTransformPerspectiveValue = `perspective(${CssLength | "none"})`;
+type CssTransformRotate = `rotate(${CssAngle})`;
+type CSSTransformRotate3D = `rotate3d(${number}, ${number}, ${number}, ${CssAngle})`;
+type CssTransformRotateX = `rotateX(${CssAngle})`;
+type CssTransformRotateY = `rotateY(${CssAngle})`;
+type CssTransformRotateZ = `rotateZ(${CssAngle})`;
+type CssTransformTranslate = `translate(${CssLengthPercentage}, ${CssLengthPercentage})`;
+type CSSTransformTranslate3D = `translate3d(${CssLengthPercentage}, ${CssLengthPercentage}, ${CssLengthPercentage})`;
+type CssTransformTranslateX = `translateX(${CssLengthPercentage})`;
+type CssTransformTranslateY = `translateY(${CssLengthPercentage})`;
+type CssTransformTranslateZ = `translateZ(${CssLengthPercentage})`;
+type CssTransformScale = `scale(${number}, ${number})`;
 type CSSTransformScale3D = `scale3d(${number}, ${number}, ${number})`;
-type CSSTransformScaleX = `scaleX(${number})`;
-type CSSTransformScaleY = `scaleY(${number})`;
-type CSSTransformScaleZ = `scaleZ(${number})`;
-type CSSTransformSkew = `skew(${CSSAngle}, ${CSSAngle})`;
-type CSSTransformSkewX = `skewX(${CSSAngle})`;
-type CSSTransformSkewY = `skewY(${CSSAngle})`;
+type CssTransformScaleX = `scaleX(${number})`;
+type CssTransformScaleY = `scaleY(${number})`;
+type CssTransformScaleZ = `scaleZ(${number})`;
+type CssTransformSkew = `skew(${CssAngle}, ${CssAngle})`;
+type CssTransformSkewX = `skewX(${CssAngle})`;
+type CssTransformSkewY = `skewY(${CssAngle})`;
 
-type CSSTransformValue =
-    | CSSTransformMatrixValue
-    | CSSTransformMatrix3DValue
-    | CSSTransformRotate
+type CssTransformValue =
+    | CssTransformMatrixValue
+    | CssTransformMatrix3DValue
+    | CssTransformRotate
     | CSSTransformRotate3D
-    | CSSTransformRotateX
-    | CSSTransformRotateY
-    | CSSTransformRotateZ
-    | CSSTransformTranslate
+    | CssTransformRotateX
+    | CssTransformRotateY
+    | CssTransformRotateZ
+    | CssTransformTranslate
     | CSSTransformTranslate3D
-    | CSSTransformTranslateX
-    | CSSTransformTranslateY
-    | CSSTransformTranslateZ
-    | CSSTransformScale
+    | CssTransformTranslateX
+    | CssTransformTranslateY
+    | CssTransformTranslateZ
+    | CssTransformScale
     | CSSTransformScale3D
-    | CSSTransformScaleX
-    | CSSTransformScaleY
-    | CSSTransformScaleZ
-    | CSSTransformSkew
-    | CSSTransformSkewX
-    | CSSTransformSkewY;
+    | CssTransformScaleX
+    | CssTransformScaleY
+    | CssTransformScaleZ
+    | CssTransformSkew
+    | CssTransformSkewX
+    | CssTransformSkewY;
 
-type CSSTransformBoxValue =
+type CssTransformBoxValue =
     | "content-box"
     | "border-box"
     | "fill-box"
     | "stroke-box"
     | "view-box";
 
-type CSSTransformStyleValue =
+type CssTransformStyleValue =
     | "flat"
     | "preserve-3d";
 
-type CSSVerticalAlignValue =
-    | CSSLengthPercentage
+type CssVerticalAlignValue =
+    | CssLengthPercentage
     | "baseline"
     | "sub"
     | "super"
@@ -857,12 +857,12 @@ type CSSVerticalAlignValue =
     | "top"
     | "bottom";
 
-type CSSVisiblityValue =
+type CssVisiblityValue =
     | "visible"
     | "hidden"
     | "collapse";
 
-type CSSWhiteSpaceValue =
+type CssWhiteSpaceValue =
     | "normal"
     | "nowrap"
     | "pre"
@@ -870,12 +870,12 @@ type CSSWhiteSpaceValue =
     | "pre-line"
     | "break-spaces";
 
-type CSSWordWrapValue =
+type CssWordWrapValue =
     | "normal"
     | "break-word"
     | "anywhere";
 
-type CSSWritingModeValue =
+type CssWritingModeValue =
     | "horizontal-tb"
     | "vertical-rl"
     | "vertical-lr"

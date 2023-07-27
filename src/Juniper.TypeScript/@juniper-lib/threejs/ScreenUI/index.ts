@@ -23,7 +23,7 @@ export class ScreenUI {
 
     readonly cells: Array<Array<HTMLElement>>;
 
-    constructor(buttonFillColor: CSSColorValue) {
+    constructor(buttonFillColor: CssColorValue) {
         singleton("Juniper.ThreeJS.ScreenUI.ButtonFillColor", () =>
             Style(
                 rule("#appContainer > .row > .cell > .btn",

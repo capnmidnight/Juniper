@@ -1,5 +1,5 @@
 import { arrayInsertAt, arrayScanReverse } from "@juniper-lib/collections/arrays";
-import { Attr, ClassList, CustomData, Draggable, ID } from "@juniper-lib/dom/attrs";
+import { ClassList, CustomData, Draggable, HtmlAttr, ID, QueryAll } from "@juniper-lib/dom/attrs";
 import { fr, gridColumn, gridRow, gridTemplateColumns, gridTemplateRows } from "@juniper-lib/dom/css";
 import { onClick, onDragEnd, onDragOver, onDragStart } from "@juniper-lib/dom/evts";
 import { ButtonSmall, Div, ElementChild, H3, IElementAppliable, elementApply, elementGetCustomData, elementInsertBefore, elementIsDisplayed, elementSetText, elementSwap, elementToggleDisplay } from "@juniper-lib/dom/tags";
@@ -23,7 +23,7 @@ function Dock(type: DockType, ...rest: ElementChild[]) {
 }
 
 function isProportion(r: ElementChild): boolean {
-    return r instanceof Attr
+    return r instanceof HtmlAttr
         && r.key === SIZE_KEY;
 }
 
@@ -315,19 +315,18 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
         const center = gridCell(2, -2);
         const centerAlt = gridCellAlt(2, -2);
 
-        const inAxis: CSSGridTemplateTrackSize[] = [];
-        group.querySelectorAll(":scope > .dock:not(.sep)")
-            .forEach((e, i) => {
+        const inAxis: CssGridTemplateTrackSize[] = QueryAll(group, ":scope > .dock:not(.sep)")
+            .map<CssGridTemplateTrackSize>((e, i) => {
                 const child = e as HTMLElement;
                 const start = 2 * i + offset + 1;
                 gridCell(start, start + 1).applyToElement(child);
                 centerAlt.applyToElement(child);
 
                 if (isClosed(child)) {
-                    inAxis.push("auto");
+                    return "auto";
                 }
                 else {
-                    inAxis.push(`${getProportion(child)}fr`);
+                    return `${getProportion(child)}fr`;
                 }
             });
 

@@ -36,7 +36,7 @@ import { TestStates } from "./TestStates";
 /**
  * Creates a portion of a progress bar.
  */
-function bar(c: CSSColorValue, w: number) {
+function bar(c: CssColorValue, w: number) {
     return [
         backgroundColor(c),
         color(c),

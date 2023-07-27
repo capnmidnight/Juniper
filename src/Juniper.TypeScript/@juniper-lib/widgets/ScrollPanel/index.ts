@@ -1,15 +1,15 @@
-import { Attr, ClassList } from "@juniper-lib/dom/attrs";
+import { HtmlAttr, ClassList } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import { Div, ElementChild, ErsatzElement } from "@juniper-lib/dom/tags";
 
 import "./styles.css";
 
-function isRule(obj: ElementChild): obj is CssElementStyleProp | Attr {
+function isRule(obj: ElementChild): obj is CssElementStyleProp | HtmlAttr {
     return obj instanceof CssElementStyleProp
-        || obj instanceof Attr;
+        || obj instanceof HtmlAttr;
 }
 
-function isElem(obj: ElementChild): obj is Exclude<ElementChild, CssElementStyleProp | Attr> {
+function isElem(obj: ElementChild): obj is Exclude<ElementChild, CssElementStyleProp | HtmlAttr> {
     return !isRule(obj);
 }
 

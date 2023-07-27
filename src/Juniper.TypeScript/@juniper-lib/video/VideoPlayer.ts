@@ -11,9 +11,9 @@ import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseVideoPlayer } from "./BaseVideoPlayer";
 import { FullVideoRecord } from "./data";
 
-const loadingCursor: CSSCursorValue = "wait";
-const loadedCursor: CSSCursorValue = "pointer";
-const errorCursor: CSSCursorValue = "not-allowed";
+const loadingCursor: CssCursorValue = "wait";
+const loadedCursor: CssCursorValue = "pointer";
+const errorCursor: CssCursorValue = "not-allowed";
 
 export class VideoPlayer
     extends BaseVideoPlayer
