@@ -22,7 +22,7 @@ import {
     Meter,
     Option,
     Select,
-    elementApply,
+    HtmlRender,
     elementClearChildren,
     elementSetDisplay
 } from "@juniper-lib/dom/tags";
@@ -40,7 +40,7 @@ const CAM_GROUP = "camFields" + stringRandom(8);
 
 function makeDeviceSelector(selector: HTMLSelectElement, devices: MediaDeviceInfo[], curDevice: MediaDeviceInfo) {
     elementClearChildren(selector);
-    elementApply(selector,
+    HtmlRender(selector,
         Option(Value(""), "NONE"),
         ...devices.map((device) =>
             Option(
@@ -86,7 +86,7 @@ export class DeviceDialog extends DialogBox {
         const clipLoaded = fetcher.assets(clipAsset)
             .then(() => this.audio.createBasicClip("test-audio", clipAsset, 0.5));
 
-        elementApply(this.contentArea,
+        HtmlRender(this.contentArea,
             paddingRight("2em"),
             this.properties = PropertyList.create(
                 group(CAM_GROUP,
@@ -248,7 +248,7 @@ export class DeviceDialog extends DialogBox {
             this.spkrLookup = makeLookup(spkrs, (device) => device.deviceId);
 
             elementClearChildren(this.speakers);
-            elementApply(this.speakers,
+            HtmlRender(this.speakers,
                 ...spkrs.map((device) =>
                     Option(
                         Value(device.deviceId),

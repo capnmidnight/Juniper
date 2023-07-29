@@ -1,6 +1,6 @@
 import { ClassList } from "@juniper-lib/dom/attrs";
 import { onClick, onDragEnd, onDragLeave, onDragOver, onDrop } from "@juniper-lib/dom/evts";
-import { Button, elementApply, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
+import { Button, HtmlRender, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
 import { MediaType } from "@juniper-lib/mediatypes";
 import { mediaTypesToAcceptValue } from "@juniper-lib/mediatypes/util";
 import { arrayReplace } from "@juniper-lib/collections/arrays";
@@ -46,7 +46,7 @@ export class FileUploadInput
             this._dragTarget = v;
 
             if (this.dragTarget) {
-                elementApply(this.dragTarget,
+                HtmlRender(this.dragTarget,
                     onDragOver(this.onDragOver),
                     onDragLeave(this.onDragEnd),
                     onDragEnd(this.onDragEnd),

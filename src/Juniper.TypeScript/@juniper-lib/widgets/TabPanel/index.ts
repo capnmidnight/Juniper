@@ -1,6 +1,6 @@
 import { ClassList, CustomData, HtmlAttr, ID, QueryAll } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
-import { ButtonSmall, Div, Elements, ErsatzElement, elementApply, elementSetClass, elementSetDisplay, getElements, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
+import { ButtonSmall, Div, Elements, ErsatzElement, HtmlRender, elementSetClass, elementSetDisplay, getElements, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
@@ -66,7 +66,7 @@ export class TabPanel<TabNames extends string>
             }
             const elem = resolveElement<HTMLElement>(panel);
             const displayType = elem.style.display as CssDisplayValue;
-            elementApply(panel, ID(name));
+            HtmlRender(panel, ID(name));
             viewsByName.set(name, {
                 panel,
                 displayType,

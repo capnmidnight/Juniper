@@ -1,7 +1,7 @@
 import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { isFunction } from "@juniper-lib/tslib/typeChecks";
-import { elementApply, IElementAppliable } from "./tags";
+import { HtmlRender, IElementAppliable } from "./tags";
 
 type EventListenerOpts = boolean | AddEventListenerOptions;
 
@@ -208,7 +208,7 @@ export function onWheel(callback: (evt: Event) => void, opts?: EventListenerOpts
 
 export function applyFakeProgress(file: string, elem: HTMLElement, prog: IProgress): void {
     if (prog) {
-        elementApply(elem,
+        HtmlRender(elem,
             onProgressCallback(prog),
             onLoadStart(() => prog.start(`${file} loading`)),
             onLoad(() => prog.end(`${file} loaded`))

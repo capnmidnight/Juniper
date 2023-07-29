@@ -15,7 +15,7 @@ import {
 } from "@juniper-lib/dom/evts";
 import {
     ButtonPrimarySmall, ButtonSecondarySmall, Div,
-    elementApply,
+    HtmlRender,
     elementClearChildren,
     elementGetIndexInParent,
     elementInsertBefore,
@@ -337,7 +337,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 delta = 0;
             };
 
-            elementApply(this.children,
+            HtmlRender(this.children,
 
                 onDragStart((evt) => {
                     clearTarget();
@@ -551,7 +551,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 }
 
                 const rootElement = this.nodes2Elements.get(this.rootNode);
-                elementApply(this.children, rootElement);
+                HtmlRender(this.children, rootElement);
             }
 
             this.locked = false;
@@ -700,7 +700,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             const parentElement = this.nodes2Elements.get(parentNode);
             if (parentElement) {
                 if (!this.canChangeOrder) {
-                    elementApply(parentElement.children, element);
+                    HtmlRender(parentElement.children, element);
                 }
                 else {
                     const index = this.options.getOrder(node.value);

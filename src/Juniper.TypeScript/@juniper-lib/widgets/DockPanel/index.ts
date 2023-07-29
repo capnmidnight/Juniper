@@ -2,7 +2,7 @@ import { arrayInsertAt, arrayScanReverse } from "@juniper-lib/collections/arrays
 import { ClassList, CustomData, Draggable, HtmlAttr, ID, QueryAll } from "@juniper-lib/dom/attrs";
 import { fr, gridColumn, gridRow, gridTemplateColumns, gridTemplateRows } from "@juniper-lib/dom/css";
 import { onClick, onDragEnd, onDragOver, onDragStart } from "@juniper-lib/dom/evts";
-import { ButtonSmall, Div, ElementChild, H3, IElementAppliable, elementApply, elementGetCustomData, elementInsertBefore, elementIsDisplayed, elementSetText, elementSwap, elementToggleDisplay } from "@juniper-lib/dom/tags";
+import { ButtonSmall, Div, ElementChild, H3, IElementAppliable, HtmlRender, elementGetCustomData, elementInsertBefore, elementIsDisplayed, elementSetText, elementSwap, elementToggleDisplay } from "@juniper-lib/dom/tags";
 import { blackMediumDownPointingTriangleCentered as closeIcon, blackMediumRightPointingTriangleCentered as openIcon } from "@juniper-lib/emoji";
 import { isBoolean, isDate, isDefined, isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { vec2 } from "gl-matrix";
@@ -339,7 +339,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
             ? gridTemplateAlt("min-content", fr(1), "min-content")
             : gridTemplateAlt("auto");
 
-        elementApply(group,
+        HtmlRender(group,
             template,
             templateAlt);
 
@@ -348,7 +348,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
                 const start = 2 * i + offset;
                 const isEdge = i === 0 || i === l;
                 if (!isEdge || isRearrangeable && parentDirection !== gParentDir) {
-                    elementApply(group,
+                    HtmlRender(group,
                         DockSep(
                             parentDirection,
                             i,
@@ -363,7 +363,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
             if (isRearrangeable && parentDirectionAlt !== gParentDir) {
                 for (let i = 0; i < 2; ++i) {
                     const start = 2 * i + 1;
-                    elementApply(group,
+                    HtmlRender(group,
                         DockSep(
                             parentDirectionAlt,
                             i,
@@ -481,7 +481,7 @@ export function DockCell(header: Exclude<ElementChild, IElementAppliable>, ...re
     const cell = Dock("cell",
         ...proportion,
         closer,
-        elementApply(
+        HtmlRender(
             header,
             Draggable(true),
             ClassList("header")

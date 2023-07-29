@@ -1,6 +1,6 @@
 import { ClassList, CustomData } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
-import { ButtonPrimary, ButtonSecondary, Div, ErsatzElement, H1, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, ButtonSecondary, Div, ErsatzElement, H1, HtmlRender, elementIsDisplayed, elementSetDisplay, elementSetText } from "@juniper-lib/dom/tags";
 import { Task } from "@juniper-lib/events/Task";
 
 import "./styles.css";
@@ -38,7 +38,7 @@ export abstract class DialogBox implements ErsatzElement {
         this.confirmButton.addEventListener("click", this.task.resolver(true));
         this.cancelButton.addEventListener("click", this.task.resolver(false));
 
-        elementApply(document.body, this);
+        HtmlRender(document.body, this);
     }
 
     get title() {

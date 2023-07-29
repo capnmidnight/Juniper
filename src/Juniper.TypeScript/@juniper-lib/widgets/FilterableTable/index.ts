@@ -2,7 +2,7 @@ import { arrayClear, arrayReplace, arraySortedInsert } from "@juniper-lib/collec
 import { ClassList, ColSpan, CustomData, QueryAll } from "@juniper-lib/dom/attrs";
 import { padding, px } from "@juniper-lib/dom/css";
 import { getColumnIndex } from "@juniper-lib/dom/getColumnIndex";
-import { ButtonReset, ButtonSecondaryOutlineSmall, ElementChild, ErsatzElement, Label, Span, TBody, TD, TFoot, TH, THead, TR, Table, buttonSetEnabled, elementApply, elementClearChildren, elementGetText, elementSetClass, elementSetText } from "@juniper-lib/dom/tags";
+import { ButtonReset, ButtonSecondaryOutlineSmall, ElementChild, ErsatzElement, Label, Span, TBody, TD, TFoot, TH, THead, TR, Table, buttonSetEnabled, HtmlRender, elementClearChildren, elementGetText, elementSetClass, elementSetText } from "@juniper-lib/dom/tags";
 import { debounce } from "@juniper-lib/events/debounce";
 import { identity } from "@juniper-lib/tslib/identity";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
@@ -228,7 +228,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
             this.element.tFoot = TFoot();
         }
 
-        elementApply(this.element.tFoot,
+        HtmlRender(this.element.tFoot,
             this.noContentMessageElement,
             ...this.element.tFoot.children,
             TR(this.paginator));
@@ -301,7 +301,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
             for (let i = 0; i < this.colCount; ++i) {
                 const cell = TD();
                 if (this.cellMappers.has(i)) {
-                    elementApply(cell, this.cellMappers.get(i)(value, row));
+                    HtmlRender(cell, this.cellMappers.get(i)(value, row));
                 }
                 row.appendChild(cell);
             }
@@ -315,7 +315,7 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
             elementClearChildren(body);
         }
 
-        elementApply(this.contentRoot,
+        HtmlRender(this.contentRoot,
             ...this.rows
         );
 

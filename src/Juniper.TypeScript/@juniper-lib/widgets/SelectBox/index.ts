@@ -1,6 +1,6 @@
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey } from "@juniper-lib/collections/arrays";
 import { ClassList } from "@juniper-lib/dom/attrs";
-import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
+import { Div, HtmlRender, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { isDefined, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
@@ -85,7 +85,7 @@ class SelectBoxRow<T>
         if (v !== this.contents) {
             this._contents = v;
             elementClearChildren(this);
-            elementApply(this, this._contents);
+            HtmlRender(this, this._contents);
         }
     }
 

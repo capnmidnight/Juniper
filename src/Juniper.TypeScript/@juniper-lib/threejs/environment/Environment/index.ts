@@ -7,7 +7,7 @@ import { ID } from "@juniper-lib/dom/attrs";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { display, em, flexDirection, gap, perc, pointerEvents, transform, width } from "@juniper-lib/dom/css";
 import { isModifierless } from "@juniper-lib/dom/evts";
-import { Div, elementApply } from "@juniper-lib/dom/tags";
+import { Div, HtmlRender } from "@juniper-lib/dom/tags";
 import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { all } from "@juniper-lib/events/all";
 import { AssetFile, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
@@ -273,7 +273,7 @@ export class Environment
         if (isDefined(this.screenControl)) {
             this.screenControl.addEventListener("sessionstarted", (evt) => {
                 if (evt.mode === ScreenMode.Fullscreen && this.confirmationDialog.element.parentElement !== this.screenControl.fullscreenElement) {
-                    elementApply(this.screenControl.fullscreenElement, this.devicesDialog, this.confirmationDialog);
+                    HtmlRender(this.screenControl.fullscreenElement, this.devicesDialog, this.confirmationDialog);
                 }
             });
         }
@@ -324,7 +324,7 @@ export class Environment
 
         if (isDefined(this.batteryImage)) {
             this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, width: 0.2, height: 0.1 });
-            elementApply(this.screenUISpace.topRight, this.batteryImage);
+            HtmlRender(this.screenUISpace.topRight, this.batteryImage);
         }
 
         this.xrUI.addItem(this.clockImage, { x: -1, y: 1, height: 0.1 });
@@ -339,20 +339,20 @@ export class Environment
 
         objGraph(this.worldUISpace, this.xrUI);
 
-        elementApply(this.screenUISpace.topLeft,
+        HtmlRender(this.screenUISpace.topLeft,
             pointerEvents("none"),
-            elementApply(this.webcams,
+            HtmlRender(this.webcams,
                 display("inline-block"),
                 width(perc(50)),
                 transform("scaleX(-1)")
             )
         );
-        elementApply(this.screenUISpace.topRight,
+        HtmlRender(this.screenUISpace.topRight,
             this.compassImage,
             this.statsImage);
-        elementApply(this.screenUISpace.bottomCenter, this.infoLabel);
-        elementApply(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton, this.anaglyphButton);
-        elementApply(this.screenUISpace.bottomLeft,
+        HtmlRender(this.screenUISpace.bottomCenter, this.infoLabel);
+        HtmlRender(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton, this.anaglyphButton);
+        HtmlRender(this.screenUISpace.bottomLeft,
             Div(this.menuButton,
                 display("flex"),
                 flexDirection("column-reverse"),
@@ -506,7 +506,7 @@ export class Environment
         }
 
         if (isHTMLCanvas(this.renderer.domElement)) {
-            elementApply(
+            HtmlRender(
                 this.renderer.domElement.parentElement,
                 this.renderer.domElement,
                 ...this.screenUISpace.elements);

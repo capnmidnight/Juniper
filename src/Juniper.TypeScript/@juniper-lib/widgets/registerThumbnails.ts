@@ -1,6 +1,6 @@
 import { ClassList, ID, Title_attr } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
-import { Div, IFrame, Img, elementApply, elementSetDisplay } from "@juniper-lib/dom/tags";
+import { Div, IFrame, Img, HtmlRender, elementSetDisplay } from "@juniper-lib/dom/tags";
 
 import "./registerThumbnails.css";
 
@@ -51,7 +51,7 @@ const thumbnailImage = thumbnailView.querySelector<HTMLImageElement>("img");
 const thumbnailIFrame = thumbnailView.querySelector<HTMLIFrameElement>("iframe");
 
 if (!thumbnailView.parentElement) {
-    elementApply(document.body, thumbnailView);
+    HtmlRender(document.body, thumbnailView);
     thumbnailView.addEventListener("pointerleave", hideThumbnail);
     thumbnailView.addEventListener("click", hideThumbnail);
 }

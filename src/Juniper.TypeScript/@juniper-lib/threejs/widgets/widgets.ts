@@ -1,6 +1,6 @@
 import { ElementChild, elementIsDisplayed, elementRemoveFromParent, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/tags";
 import {
-    elementApply,
+    HtmlRender,
     elementClearChildren,
     isElementChild,
     isErsatzElement
@@ -38,7 +38,7 @@ export function widgetSetEnabled(obj: IWidget, enabled: boolean) {
 }
 
 export function widgetApply(obj: IWidget, ...children: WidgetChild[]): void {
-    elementApply(obj, ...children.filter(isElementChild));
+    HtmlRender(obj, ...children.filter(isElementChild));
     objGraph(obj, ...children.filter(isObjects));
 }
 

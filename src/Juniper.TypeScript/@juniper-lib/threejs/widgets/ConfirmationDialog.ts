@@ -9,7 +9,7 @@ import {
     width
 } from "@juniper-lib/dom/css";
 import {
-    elementApply,
+    HtmlRender,
     elementIsDisplayed,
     elementSetDisplay,
     elementSetText
@@ -102,12 +102,12 @@ export class ConfirmationDialog extends DialogBox implements IWidget {
 
         this.cancelButton3D.object.position.set(2, -0.5, 0.5);
 
-        elementApply(this.container,
+        HtmlRender(this.container,
             maxWidth(`calc(${perc(100)} - ${em(2)})`),
             width("max-content")
         );
 
-        elementApply(this.contentArea,
+        HtmlRender(this.contentArea,
             fontSize(pt(18)),
             textAlign("center"),
             padding(em(1))

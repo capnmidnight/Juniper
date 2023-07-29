@@ -21,7 +21,7 @@ import {
 import { isModifierless } from "@juniper-lib/dom/evts";
 import {
     Div,
-    elementApply,
+    HtmlRender,
     elementSetDisplay,
     elementToggleDisplay,
     ErsatzElement
@@ -72,7 +72,7 @@ export class WindowLogger implements IDebugLogger, ErsatzElement {
             )
         );
 
-        elementApply(document.body, this);
+        HtmlRender(document.body, this);
 
         window.addEventListener("keypress", (evt) => {
             if (isModifierless(evt) && evt.key === "`") {
@@ -123,7 +123,7 @@ export class WindowLogger implements IDebugLogger, ErsatzElement {
             ];
 
             for (let i = 0; i < newRow.length; ++i) {
-                elementApply(newRow[i], ...track(i + 1, i + 2));
+                HtmlRender(newRow[i], ...track(i + 1, i + 2));
             }
 
             newRow[newRow.length - 1].style.gridColumnEnd = "-1";

@@ -2,7 +2,7 @@ import { JuniperAudioContext } from "@juniper-lib/audio/context/JuniperAudioCont
 import { BaseSpatializer } from "@juniper-lib/audio/spatializers/BaseSpatializer";
 import { Src } from "@juniper-lib/dom/attrs";
 import { cursor, display, opacity } from "@juniper-lib/dom/css";
-import { Div, ErsatzElement, Img, elementApply, elementSetDisplay } from "@juniper-lib/dom/tags";
+import { Div, ErsatzElement, Img, HtmlRender, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { all } from "@juniper-lib/events/all";
 import { once, success } from "@juniper-lib/events/once";
 import { IProgress } from "@juniper-lib/progress/IProgress";
@@ -58,7 +58,7 @@ export class VideoPlayer
 
     override async load(data: FullVideoRecord, prog?: IProgress): Promise<this> {
         try {
-            elementApply(this.thumbnail,
+            HtmlRender(this.thumbnail,
                 opacity(0.5),
                 cursor(loadingCursor)
             );
@@ -72,7 +72,7 @@ export class VideoPlayer
             return this;
         }
         finally {
-            elementApply(this.thumbnail,
+            HtmlRender(this.thumbnail,
                 opacity(1),
                 cursor(this.loaded
                     ? loadedCursor
@@ -94,7 +94,7 @@ export class VideoPlayer
     protected async loadThumbnail(data: FullVideoRecord, prog?: IProgress): Promise<void> {
         prog.start();
         if (isDefined(data)) {
-            elementApply(this.thumbnail,
+            HtmlRender(this.thumbnail,
                 Src(data.thumbnail.url),
                 opacity(0.5)
             );

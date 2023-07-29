@@ -1,4 +1,4 @@
-import { ButtonPrimary, elementApply, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
+import { ButtonPrimary, HtmlRender, elementSetDisplay, Img } from "@juniper-lib/dom/tags";
 import { all } from "@juniper-lib/events/all";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
 import { ButtonFactory } from "./ButtonFactory";
@@ -26,7 +26,7 @@ export class ToggleButton extends Widget<HTMLButtonElement> {
             "inline-block"
         );
 
-        elementApply(this, this.btnImage = Img());
+        HtmlRender(this, this.btnImage = Img());
         this.load();
     }
 

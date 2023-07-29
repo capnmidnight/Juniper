@@ -114,7 +114,7 @@ export function elementGetCustomData(elem: Elements<HTMLElement>, name: Lowercas
     return elem.dataset[name.toLowerCase()];
 }
 
-export function elementApply(element: Elements | string, ...children: ElementChild[]): Elements {
+export function HtmlRender(element: Elements | string, ...children: ElementChild[]): Elements {
     const elem = resolveElement(element);
 
     for (const child of children) {
@@ -216,7 +216,7 @@ export function HtmlTag<K extends keyof MapT & string, MapT extends Record<keyof
     }
 
     if (!elem && idAttr) {
-        elem = document.querySelector(idAttr.value as any) as any;
+        elem = document.getElementById(idAttr.value as any) as any;
         if (elem) {
             arrayRemove(rest, idAttr);
             if (elem.tagName !== name.toUpperCase()) {
@@ -229,7 +229,7 @@ export function HtmlTag<K extends keyof MapT & string, MapT extends Record<keyof
         elem = document.createElement(name) as MapT[K];
     }
 
-    elementApply(elem, ...rest);
+    HtmlRender(elem, ...rest);
 
     return elem;
 }

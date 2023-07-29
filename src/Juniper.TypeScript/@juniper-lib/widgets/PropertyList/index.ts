@@ -12,7 +12,7 @@ import {
     IDisableable,
     IElementAppliable,
     Label,
-    elementApply,
+    HtmlRender,
     elementIsDisplayed,
     elementSetClass,
     elementSetDisplay,
@@ -172,7 +172,7 @@ export class PropertyList
 
     append(...props: Property[]): void {
         const rows = createElements(props);
-        elementApply(this.element, ...rows);
+        HtmlRender(this.element, ...rows);
 
         for (const propDef of props) {
             const props = propDef instanceof PropertyGroup

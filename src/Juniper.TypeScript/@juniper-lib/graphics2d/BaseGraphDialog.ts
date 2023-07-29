@@ -25,7 +25,7 @@ import {
     Div,
     InputCheckbox,
     InputNumber, PreLabeled,
-    elementApply
+    HtmlRender
 } from "@juniper-lib/dom/tags";
 import { RequestAnimationFrameTimer } from "@juniper-lib/timers/RequestAnimationFrameTimer";
 import { Tau } from "@juniper-lib/tslib/math";
@@ -91,12 +91,12 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
 
         const idPostfix = stringRandom(5);
 
-        elementApply(this.container,
+        HtmlRender(this.container,
             width(perc(100)),
             height(perc(100))
         );
 
-        elementApply(
+        HtmlRender(
             this.contentArea,
             Div(
                 display("grid"),

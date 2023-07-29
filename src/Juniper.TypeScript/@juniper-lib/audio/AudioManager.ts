@@ -2,7 +2,7 @@ import { arrayClear } from "@juniper-lib/collections/arrays";
 import { Controls, Loop, Src} from "@juniper-lib/dom/attrs";
 import { onEvent } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
-import { Audio, ElementChild, elementApply } from "@juniper-lib/dom/tags";
+import { Audio, ElementChild, HtmlRender } from "@juniper-lib/dom/tags";
 import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
@@ -181,7 +181,7 @@ export class AudioManager
         const audio = await audioTask;
         audio.pause();
 
-        elementApply(audio, ...rest);
+        HtmlRender(audio, ...rest);
 
         return audio;
     }
