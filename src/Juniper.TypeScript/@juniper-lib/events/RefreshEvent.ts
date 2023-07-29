@@ -1,4 +1,4 @@
-import { TypedEvent } from "./EventBase";
+import { TypedEvent } from "./TypedEventBase";
 
 export class RefreshEvent extends TypedEvent<"refresh"> {
     constructor() {

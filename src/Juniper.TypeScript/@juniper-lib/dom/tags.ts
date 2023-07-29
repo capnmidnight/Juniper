@@ -203,12 +203,12 @@ export function getCanvas(selector: string) {
  * @param rest - optional attributes, child elements, and text
  * @returns
  */
-export function HtmlTag<K extends keyof HTMLElementTagNameMap>(name: K, ...rest: ElementChild[]): HTMLElementTagNameMap[K] {
+export function HtmlTag<K extends keyof MapT & string, MapT extends Record<keyof MapT, HTMLElement> = HTMLElementTagNameMap>(name: K, ...rest: ElementChild[]): MapT[K] {
     const attrs = rest.filter(isAttr);
     const idAttr = arrayScan(attrs, (v => v.key === "id"));
     const queryAttr = arrayScan(attrs, (v => v.key === "query"));
 
-    let elem: HTMLElementTagNameMap[K] = null;
+    let elem: MapT[K] & HTMLElement = null;
 
     if (queryAttr) {
         elem = queryAttr.value as any;
@@ -226,7 +226,7 @@ export function HtmlTag<K extends keyof HTMLElementTagNameMap>(name: K, ...rest:
     }
 
     if (!elem) {
-        elem = document.createElement(name);
+        elem = document.createElement(name) as MapT[K];
     }
 
     elementApply(elem, ...rest);
@@ -302,7 +302,7 @@ async function mediaElementCan(type: "canplay" | "canplaythrough", elem: HTMLMed
     }
 
     try {
-        await once<HTMLMediaElementEventMap>(elem, type, "error");
+        await once(elem, type, "error");
         return true;
     }
     catch (err) {

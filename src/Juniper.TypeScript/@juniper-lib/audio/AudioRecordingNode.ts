@@ -1,5 +1,5 @@
 import { arrayClear, arrayScan } from "@juniper-lib/collections/arrays";
-import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { debounce } from "@juniper-lib/events/debounce";
 import { MediaType } from "@juniper-lib/mediatypes";
 import * as allAudioTypes from "@juniper-lib/mediatypes/audio";
@@ -26,7 +26,7 @@ export class ActivityEvent extends TypedEvent<"activity"> {
     }
 }
 
-export interface AudioRecordingNodeEvents {
+export type AudioRecordingNodeEvents = {
     blobavailable: BlobAvailableEvent;
     dataavailable: BlobEvent;
     error: MediaRecorderErrorEvent;
@@ -35,7 +35,7 @@ export interface AudioRecordingNodeEvents {
     start: Event;
     stop: Event;
     activity: ActivityEvent;
-}
+};
 
 interface AudioRecordingNodeOptions extends MediaRecorderOptions, AudioNodeOptions {
 }

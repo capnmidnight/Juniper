@@ -1,10 +1,10 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { once } from "@juniper-lib/events/once";
 
-interface StreetViewAsyncEvents {
+type StreetViewAsyncEvents = {
     positionchanged: TypedEvent<"positionchanged">;
     _positionchanged: TypedEvent<"_positionchanged">
-}
+};
 
 export class StreetViewAsync extends TypedEventBase<StreetViewAsyncEvents> {
     private publicChangedEvt = new TypedEvent("positionchanged");

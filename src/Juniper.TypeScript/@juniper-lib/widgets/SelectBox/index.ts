@@ -1,7 +1,7 @@
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey } from "@juniper-lib/collections/arrays";
 import { ClassList } from "@juniper-lib/dom/attrs";
 import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { isDefined, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 import "./styles.css";
@@ -20,7 +20,7 @@ export class SelectBoxItemSelectedEvent<T> extends TypedEvent<"itemselected"> {
     }
 }
 
-interface SelectBoxEvents<T> {
+type SelectBoxEvents<T> = {
     itemselected: SelectBoxItemSelectedEvent<T>;
 }
 

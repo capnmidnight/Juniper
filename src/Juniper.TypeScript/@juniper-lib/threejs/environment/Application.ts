@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { IDataLogger } from "@juniper-lib/tslib/IDataLogger";
 import type { IProgress } from "@juniper-lib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -36,7 +36,7 @@ export class ApplicationHiddenEvent extends ApplicationEvent<"hidden">{
 }
 
 
-export interface ApplicationEvents {
+export type ApplicationEvents = {
     joinroom: ApplicationJoinRoomEvent;
     quit: ApplicationQuitEvent;
     shown: ApplicationShownEvent;

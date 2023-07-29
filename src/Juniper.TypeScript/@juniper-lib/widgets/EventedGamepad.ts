@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 
 export class GamepadButtonEvent<T extends "gamepadbuttondown" | "gamepadbuttonup" = "gamepadbuttondown" | "gamepadbuttonup"> extends TypedEvent<T> {
     constructor(type: T, public button: number) {
@@ -32,7 +32,7 @@ export class GamepadAxisMaxedEvent extends GamepadAxisEvent<"gamepadaxismaxed"> 
 
 type Stick = { x: number, y: number; };
 
-interface EventedGamepadEvents {
+type EventedGamepadEvents = {
     gamepadbuttonup: GamepadButtonUpEvent;
     gamepadbuttondown: GamepadButtonDownEvent;
     gamepadaxismaxed: GamepadAxisMaxedEvent;

@@ -1,5 +1,5 @@
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { once, success } from "@juniper-lib/events/once";
 
 class WithValueEvent<T extends string> extends TypedEvent<T> {

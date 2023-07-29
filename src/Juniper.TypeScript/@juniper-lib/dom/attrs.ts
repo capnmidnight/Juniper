@@ -354,7 +354,7 @@ export function AutoPlay(value: boolean) { return attr("autoplay", value, false,
 /**
  * Contains the time range of already buffered media.
   **/
-export function buffered(value: boolean) { return attr("buffered", value, false, "audio", "video"); }
+export function Buffered(value: boolean) { return attr("buffered", value, false, "audio", "video"); }
 
 /**
  * From the HTML Media Capture
@@ -638,7 +638,7 @@ export function ItemProp(value: string) { return attr("itemprop", value, false);
 /**
  * Specifies the type of key generated.
   **/
-export function keyType(value: string) { return attr("keytype", value, false, "keygen"); }
+export function KeyType(value: string) { return attr("keytype", value, false, "keygen"); }
 
 /**
  * Specifies the kind of text track.

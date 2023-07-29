@@ -1,9 +1,9 @@
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { FullAudioRecord } from "../data";
-import { BaseMediaElementSourceEvents, IBasePlayable, MediaElementSourceEvent } from "./IPlayable";
+import { IBasePlayable, MediaElementSourceEvent, MediaElementSourceEvents } from "./IPlayable";
 
 
-export interface IPlayer extends IBasePlayable<MediaPlayerEvents> {
+export interface IPlayer extends IBasePlayable<MediaPlayerEvents<IPlayer>> {
     data: FullAudioRecord | string;
     clear(): void;
     load(data: FullAudioRecord | string, prog?: IProgress): Promise<this>;
@@ -22,6 +22,6 @@ export class MediaPlayerLoadingEvent extends MediaPlayerEvent<"loading"> {
     }
 }
 
-export interface MediaPlayerEvents extends BaseMediaElementSourceEvents<IPlayer> {
+export type MediaPlayerEvents<T extends IPlayer = IPlayer> = MediaElementSourceEvents<T> & {
     loading: MediaPlayerLoadingEvent;
 }

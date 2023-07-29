@@ -1,7 +1,7 @@
 import { arraySortByKey } from "@juniper-lib/collections/arrays";
 import { ClassList, Value } from "@juniper-lib/dom/attrs";
 import { ErsatzElement, Option, Select, elementClearChildren } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { makeItemCallback } from "./SelectBox";
 import { withDefault } from "./SelectBox";
@@ -12,7 +12,7 @@ export class SelectListItemSelectedEvent<T> extends TypedEvent<"itemselected"> {
     }
 }
 
-interface SelectListEvents<T> {
+type SelectListEvents<T> = {
     itemselected: SelectListItemSelectedEvent<T>;
 }
 

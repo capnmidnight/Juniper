@@ -1,5 +1,5 @@
 import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
-import { TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { nothing } from "@juniper-lib/tslib/identity";
 import { isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { TestCase, TestCaseConstructor } from "./TestCase";
@@ -20,7 +20,7 @@ function isTest(testCase: TestCase, name: keyof TestCase, testName?: string) {
         && isFunction(testCase[name]);
 }
 
-interface TestRunnerEvents {
+type TestRunnerEvents = {
     testrunnerresults: TestRunnerResultsEvent;
 }
 

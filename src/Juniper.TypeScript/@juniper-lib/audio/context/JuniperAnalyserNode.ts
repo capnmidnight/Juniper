@@ -1,7 +1,8 @@
+import { TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioNode } from "./JuniperAudioNode";
 
-export class JuniperAnalyserNode<EventsT = void>
+export class JuniperAnalyserNode<EventsT extends TypedEventMap<string> = TypedEventMap<string>>
     extends JuniperAudioNode<AnalyserNode, EventsT>
     implements AnalyserNode {
 

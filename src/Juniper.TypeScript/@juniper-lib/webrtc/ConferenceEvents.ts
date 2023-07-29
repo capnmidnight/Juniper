@@ -147,7 +147,7 @@ export class UserChatEvent extends RemoteUserEvent<"chat"> {
     }
 }
 
-export interface ConferenceEvents {
+export type ConferenceEvents = {
     error: ConferenceErrorEvent;
     info: ConferenceInfoEvent;
     serverConnected: ConferenceServerConnectedEvent;

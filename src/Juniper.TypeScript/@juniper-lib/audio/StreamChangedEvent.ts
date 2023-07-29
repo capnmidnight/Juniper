@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 
 export class StreamChangedEvent
     extends TypedEvent<"streamchanged"> {

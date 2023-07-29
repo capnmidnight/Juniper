@@ -22,7 +22,7 @@ import { hasNewAudioListener } from "../util";
 export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestinationNode;
 
 export class WebAudioDestination
-    extends BaseNodeCluster<void>
+    extends BaseNodeCluster
     implements IReadyable, IPoseable, ErsatzElement<HTMLAudioElement> {
     readonly pose = new Pose();
     private readonly volumeControl: JuniperGainNode;

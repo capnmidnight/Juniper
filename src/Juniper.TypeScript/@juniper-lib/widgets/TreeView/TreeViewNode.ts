@@ -3,8 +3,8 @@ import { ClassList, Draggable, Title_attr } from "@juniper-lib/dom/attrs";
 import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/evts";
 import { ButtonSmall, Div, ErsatzElement, Span, elementIsDisplayed, elementSetDisplay, elementSetText, elementSetTitle } from "@juniper-lib/dom/tags";
 import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
 import { Task } from "@juniper-lib/events/Task";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { debounce } from "@juniper-lib/events/debounce";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
@@ -47,7 +47,7 @@ export class TreeViewNodeContextMenuEvent<T> extends TreeViewNodeEvent<"contextm
     }
 }
 
-export interface TreeViewNodeEvents<T> {
+export type TreeViewNodeEvents<T> = {
     click: TreeViewNodeClickedEvent<T>;
     select: TreeViewNodeSelectedEvent<T>;
     add: TreeViewNodeAddEvent<T>;
@@ -89,7 +89,7 @@ export class TreeViewNode<T>
         const onEnabledClick = (act: (evt: Event) => void) => onClick((evt: Event) => {
             if (this.enabled) {
                 evt.preventDefault();
-                evt.cancelBubble = true;
+                evt.stopPropagation();
                 act(evt);
             }
         });
@@ -113,7 +113,7 @@ export class TreeViewNode<T>
                 onDblClick((evt) => {
                     if (this.enabled && this.canHaveChildren) {
                         evt.preventDefault();
-                        evt.cancelBubble = true;
+                        evt.stopPropagation();
                         this.isOpen = !this.isOpen;
                     }
                 }),
@@ -123,7 +123,7 @@ export class TreeViewNode<T>
                     onClick((evt) => {
                         if (this.canHaveChildren) {
                             evt.preventDefault();
-                            evt.cancelBubble = true;
+                            evt.stopPropagation();
                             this.isOpen = !this.isOpen;
                         }
                         else {
@@ -168,7 +168,7 @@ export class TreeViewNode<T>
 
     async _launchMenu(parentEvt: Event, evt: TreeViewNodeEvent<string, T>): Promise<void> {
         parentEvt.preventDefault();
-        parentEvt.cancelBubble = true;
+        parentEvt.stopPropagation();
         this.adder.disabled = true;
         try {
             this.dispatchEvent(evt);
@@ -361,7 +361,9 @@ export class TreeViewNode<T>
 
         if (!this.selected) {
             const selectEvt = new TreeViewNodeSelectedEvent(this.node);
-            selectEvt.cancelBubble = !bubbles;
+            if (!bubbles) {
+                selectEvt.stopPropagation();
+            }
             this.dispatchEvent(selectEvt);
         }
     }

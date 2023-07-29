@@ -3,7 +3,7 @@ import { Controls, Loop, Src} from "@juniper-lib/dom/attrs";
 import { onEvent } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, ElementChild, elementApply } from "@juniper-lib/dom/tags";
-import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
 import { all } from "@juniper-lib/events/all";
@@ -32,7 +32,7 @@ type withPoserCallback<T> = (source: IPoseable) => T;
 const USE_HEADPHONES_KEY = "juniper::useHeadphones";
 const useHeadphonesToggledEvt = new TypedEvent("useheadphonestoggled");
 
-interface AudioManagerEvents {
+type AudioManagerEvents = {
     useheadphonestoggled: TypedEvent<"useheadphonestoggled">;
 }
 

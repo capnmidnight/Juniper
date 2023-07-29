@@ -9,8 +9,9 @@ import { Pose } from "../Pose";
 import { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { IAudioSource } from "./IAudioSource";
 import { dispose } from "@juniper-lib/tslib/using";
+import { TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 
-export abstract class BaseAudioSource<EventTypeT = void>
+export abstract class BaseAudioSource<EventTypeT extends TypedEventMap<string> = TypedEventMap<string>>
     extends BaseNodeCluster<EventTypeT>
     implements IAudioSource {
 

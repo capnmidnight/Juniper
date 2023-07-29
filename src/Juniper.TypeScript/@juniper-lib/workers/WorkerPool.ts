@@ -1,14 +1,14 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
-import { TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEventBase, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import { isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { WorkerClient } from "./WorkerClient";
 import type { FullWorkerClientOptions } from "./WorkerClientOptions";
 
-export type WorkerConstructorT<EventsT, WorkerClientT extends WorkerClient<EventsT>> = new (worker: Worker) => WorkerClientT;
+export type WorkerConstructorT<EventsT extends TypedEventMap<string>, WorkerClientT extends WorkerClient<EventsT>> = new (worker: Worker) => WorkerClientT;
 
-export class WorkerPool<EventsT, WorkerClientT extends WorkerClient<EventsT>>
-    extends TypedEventBase<EventsT>
+export class WorkerPool<EventMapT extends TypedEventMap<string>, WorkerClientT extends WorkerClient<EventMapT>>
+    extends TypedEventBase<EventMapT>
     implements IDisposable {
 
     private scriptPath: string;
@@ -19,7 +19,7 @@ export class WorkerPool<EventsT, WorkerClientT extends WorkerClient<EventsT>>
      * Creates a new pooled worker method executor.
      * @param options
      */
-    constructor(options: FullWorkerClientOptions, WorkerClientClass: WorkerConstructorT<EventsT, WorkerClientT>) {
+    constructor(options: FullWorkerClientOptions, WorkerClientClass: WorkerConstructorT<EventMapT, WorkerClientT>) {
         super();
 
         this.scriptPath = options.scriptPath;

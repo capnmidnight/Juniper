@@ -1,4 +1,4 @@
-import { TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEventBase, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
 import { isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
 import { WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEventMessage, WorkerServerMessages, WorkerServerProgressMessage, WorkerServerReturnMessage } from "@juniper-lib/workers/WorkerMessages";
@@ -38,7 +38,7 @@ class WorkerServerProgress extends BaseProgress {
     }
 }
 
-export class WorkerServer<EventsT> {
+export class WorkerServer<EventMapT extends TypedEventMap<string>> {
     private methods = new Map<string, workerServerMethod>();
 
     /**
@@ -52,7 +52,7 @@ export class WorkerServer<EventsT> {
         });
     }
 
-    postMessage(message: WorkerServerMessages<EventsT>, transferables?: (Transferable | OffscreenCanvas)[]): void {
+    postMessage(message: WorkerServerMessages<EventMapT>, transferables?: (Transferable | OffscreenCanvas)[]): void {
         if (isDefined(transferables)) {
             this.self.postMessage(message, transferables);
         }
@@ -208,14 +208,14 @@ export class WorkerServer<EventsT> {
     }
 
 
-    addEvent<EventNameT extends keyof EventsT & string, TransferableT>(
-        object: TypedEventBase<EventsT>,
+    addEvent<EventNameT extends keyof EventMapT & string, TransferableT>(
+        object: TypedEventBase<EventMapT>,
         eventName: EventNameT,
-        makePayload?: (evt: EventsT[EventNameT] & Event) => TransferableT,
+        makePayload?: (evt: EventMapT[EventNameT] & Event) => TransferableT,
         transferReturnValue?: createTransferableCallback<TransferableT>
     ): void {
-        object.addEventListener(eventName, (evt: EventsT[EventNameT] & Event) => {
-            let message: WorkerServerEventMessage<EventsT> = null;
+        object.addEventListener(eventName, (evt: EventMapT[EventNameT] & Event) => {
+            let message: WorkerServerEventMessage<EventMapT> = null;
             if (isDefined(makePayload)) {
                 message = {
                     type: "event",

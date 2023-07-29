@@ -24,7 +24,7 @@ import {
     ErsatzElement,
     InputText
 } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { alwaysFalse, identity } from "@juniper-lib/tslib/identity";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { TreeViewNode, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
@@ -78,7 +78,7 @@ export class TreeViewNodeReparentedEvent<DataT> extends TreeViewNodeEvent<"repar
     }
 }
 
-interface TreeViewEvents<T> {
+type TreeViewEvents<T> = {
     moved: TreeViewNodeMovedEvent<T>;
     reparented: TreeViewNodeReparentedEvent<T>;
     delete: TreeViewNodeDeleteEvent<T>;

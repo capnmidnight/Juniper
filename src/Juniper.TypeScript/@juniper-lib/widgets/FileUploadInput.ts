@@ -4,7 +4,7 @@ import { Button, elementApply, elementSetText, ErsatzElement } from "@juniper-li
 import { MediaType } from "@juniper-lib/mediatypes";
 import { mediaTypesToAcceptValue } from "@juniper-lib/mediatypes/util";
 import { arrayReplace } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export class FileUploadInputEvent extends TypedEvent<"input"> {
@@ -13,7 +13,7 @@ export class FileUploadInputEvent extends TypedEvent<"input"> {
     }
 }
 
-interface FileUploadInputEvents {
+type FileUploadInputEvents = {
     input: FileUploadInputEvent;
 }
 

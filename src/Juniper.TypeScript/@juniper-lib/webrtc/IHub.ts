@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { ConnectionState } from "./ConnectionState";
 
 export class HubCloseEvent extends TypedEvent<"close">{
@@ -62,7 +62,7 @@ export class HubUserChatEvent extends TypedEvent<"chat">{
     }
 }
 
-export interface IHubEvents {
+export type IHubEvents = {
     close: HubCloseEvent;
     reconnecting: HubReconnectingEvent;
     reconnected: HubReconnectedEvent;

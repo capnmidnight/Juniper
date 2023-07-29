@@ -1,5 +1,5 @@
 import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { Task } from "@juniper-lib/events/Task";
 import { isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable, dispose } from "@juniper-lib/tslib/using";
@@ -105,7 +105,7 @@ export class RemoteUserTrackRemovedEvent extends RemoteUserEvent<"trackRemoved">
     }
 }
 
-interface RemoteUserEvents {
+type RemoteUserEvents = {
     iceError: RemoteUserIceErrorEvent;
     iceCandidate: RemoteUserIceCandidateEvent;
     offer: RemoteUserOfferEvent;

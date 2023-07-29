@@ -1,36 +1,62 @@
-import { arrayClear, arrayRemoveAt } from "@juniper-lib/collections/arrays";
+﻿import { arrayClear, arrayRemoveAt } from "@juniper-lib/collections/arrays";
 import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
-type EventCallback = (evt: Event) => any;
+export interface EventMap {
+    [type: string]: Event;
+}
 
 export class EventBase implements EventTarget {
-    private readonly listeners = new Map<string, EventCallback[]>();
-    private readonly listenerOptions = new Map<EventCallback, boolean | AddEventListenerOptions>();
+    private readonly listeners = new Map<string, EventListenerOrEventListenerObject[]>();
+    private readonly listenerOptions = new Map<EventListenerOrEventListenerObject, boolean | AddEventListenerOptions>();
+    private readonly bubblers = new Set<EventTarget>();
+    private readonly scopes = new WeakMap<object, Array<[any, any]>>();
 
-    addEventListener(type: string, callback: (evt: Event) => any, options?: boolean | AddEventListenerOptions): void {
-        if (isFunction(callback)) {
-            let listeners = this.listeners.get(type);
-            if (!listeners) {
-                listeners = new Array<EventCallback>();
-                this.listeners.set(type, listeners);
-            }
+    addBubbler(bubbler: EventTarget) {
+        this.bubblers.add(bubbler);
+    }
 
-            if (!listeners.find((c) => c === callback)) {
-                listeners.push(callback);
+    removeBubbler(bubbler: EventTarget) {
+        this.bubblers.delete(bubbler);
+    }
 
-                if (options) {
-                    this.listenerOptions.set(callback, options);
-                }
+    addScopedEventListener(scope: object, type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+        if (!this.scopes.has(scope)) {
+            this.scopes.set(scope, []);
+        }
+        this.scopes.get(scope).push([type, callback]);
+        this.addEventListener(type, callback as any, options);
+    }
+
+    removeScope(scope: object) {
+        const listeners = this.scopes.get(scope);
+        if (listeners) {
+            this.scopes.delete(scope);
+            for (const [type, listener] of listeners) {
+                this.removeEventListener(type, listener);
             }
         }
     }
 
-    removeEventListener(type: string, callback: (evt: Event) => any) {
-        if (isFunction(callback)) {
-            const listeners = this.listeners.get(type);
-            if (listeners) {
-                this.removeListener(listeners, callback);
+    addEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+        let listeners = this.listeners.get(type);
+        if (!listeners) {
+            listeners = new Array<EventListenerOrEventListenerObject>();
+            this.listeners.set(type, listeners);
+        }
+
+        if (!listeners.find((c) => c === callback)) {
+            listeners.push(callback);
+
+            if (options) {
+                this.listenerOptions.set(callback, options);
             }
+        }
+    }
+
+    removeEventListener(type: string, callback: EventListenerOrEventListenerObject) {
+        const listeners = this.listeners.get(type);
+        if (listeners) {
+            this.removeListener(listeners, callback);
         }
     }
 
@@ -46,7 +72,7 @@ export class EventBase implements EventTarget {
         }
     }
 
-    private removeListener(listeners: EventCallback[], callback: EventCallback) {
+    private removeListener(listeners: EventListenerOrEventListenerObject[], callback: EventListenerOrEventListenerObject) {
         const idx = listeners.findIndex((c) => c === callback);
         if (idx >= 0) {
             arrayRemoveAt(listeners, idx);
@@ -67,49 +93,43 @@ export class EventBase implements EventTarget {
                     this.removeListener(listeners, callback);
                 }
 
-                callback.call(this, evt);
+                if (isFunction(callback)) {
+                    callback.call(this, evt);
+                }
+                else {
+                    callback.handleEvent(evt);
+                }
             }
         }
-        return !evt.defaultPrevented;
+
+        if (evt.defaultPrevented) {
+            return false;
+        }
+
+        for (const bubbler of this.bubblers) {
+            if (!bubbler.dispatchEvent(evt)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
-
-export class TypedEvent<T extends string> extends Event {
-
-    override get type(): T {
-        return super.type as T;
-    }
-
-    constructor(type: T, eventInitDict?: EventInit) {
-        super(type, eventInitDict);
-    }
-}
-
-export class TypedEventBase<EventsT> extends EventBase {
-    private readonly bubblers = new Set<TypedEventBase<EventsT>>();
+export class HTMLElementBase extends HTMLElement {
+    private readonly listeners = new Map<string, EventListenerOrEventListenerObject[]>();
+    private readonly listenerOptions = new Map<EventListenerOrEventListenerObject, boolean | AddEventListenerOptions>();
+    private readonly bubblers = new Set<EventTarget>();
     private readonly scopes = new WeakMap<object, Array<[any, any]>>();
 
-    addBubbler(bubbler: TypedEventBase<EventsT>) {
+    addBubbler(bubbler: EventTarget) {
         this.bubblers.add(bubbler);
     }
 
-    removeBubbler(bubbler: TypedEventBase<EventsT>) {
+    removeBubbler(bubbler: EventTarget) {
         this.bubblers.delete(bubbler);
     }
 
-    override addEventListener<K extends keyof EventsT & string>(type: K, callback: (evt: TypedEvent<K> & EventsT[K]) => any, options?: boolean | AddEventListenerOptions): void {
-        super.addEventListener(type, callback as any, options);
-    }
-
-    override removeEventListener<K extends keyof EventsT & string>(type: K, callback: (evt: TypedEvent<K> & EventsT[K]) => any) {
-        super.removeEventListener(type, callback as any);
-    }
-
-    override clearEventListeners<K extends keyof EventsT & string>(type?: K): void {
-        return super.clearEventListeners(type);
-    }
-
-    addScopedEventListener<K extends keyof EventsT & string>(scope: object, type: K, callback: (evt: TypedEvent<K> & EventsT[K]) => any, options?: boolean | AddEventListenerOptions): void {
+    addScopedEventListener(scope: object, type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
         if (!this.scopes.has(scope)) {
             this.scopes.set(scope, []);
         }
@@ -117,26 +137,87 @@ export class TypedEventBase<EventsT> extends EventBase {
         this.addEventListener(type, callback as any, options);
     }
 
-    removeScope<K extends keyof EventsT & string>(scope: object) {
+    removeScope(scope: object) {
         const listeners = this.scopes.get(scope);
         if (listeners) {
             this.scopes.delete(scope);
             for (const [type, listener] of listeners) {
-                this.removeEventListener(type as K, listener);
+                this.removeEventListener(type, listener);
             }
         }
     }
 
-    override dispatchEvent<T extends Event>(evt: T): boolean {
-        if (!super.dispatchEvent(evt)) {
+    override addEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+        let listeners = this.listeners.get(type);
+        if (!listeners) {
+            listeners = new Array<EventListenerOrEventListenerObject>();
+            this.listeners.set(type, listeners);
+        }
+
+        if (!listeners.find((c) => c === callback)) {
+            listeners.push(callback);
+
+            if (options) {
+                this.listenerOptions.set(callback, options);
+            }
+        }
+
+        super.addEventListener(type, callback, options);
+    }
+
+    override removeEventListener(type: string, callback: EventListenerOrEventListenerObject) {
+        const listeners = this.listeners.get(type);
+        if (listeners) {
+            this.removeListener(listeners, callback);
+        }
+
+        super.removeEventListener(type, callback);
+    }
+
+    private removeListener(listeners: EventListenerOrEventListenerObject[], callback: EventListenerOrEventListenerObject) {
+        const idx = listeners.findIndex((c) => c === callback);
+        if (idx >= 0) {
+            arrayRemoveAt(listeners, idx);
+            if (this.listenerOptions.has(callback)) {
+                this.listenerOptions.delete(callback);
+            }
+        }
+    }
+
+    clearEventListeners(type?: string): void {
+        for (const [evtName, handlers] of this.listeners) {
+            if (isNullOrUndefined(type) || type === evtName) {
+                for (const handler of handlers) {
+                    this.removeEventListener(type, handler);
+                }
+                arrayClear(handlers);
+                this.listeners.delete(evtName);
+            }
+        }
+    }
+
+    override dispatchEvent(evt: Event): boolean {
+        const result = super.dispatchEvent(evt);
+
+        const listeners = this.listeners.get(evt.type);
+        if (listeners) {
+            for (const callback of listeners) {
+                const options = this.listenerOptions.get(callback);
+                if (isDefined(options)
+                    && !isBoolean(options)
+                    && options.once) {
+                    this.removeListener(listeners, callback);
+                }
+            }
+        }
+
+        if (!result) {
             return false;
         }
 
-        if (!evt.cancelBubble) {
-            for (const bubbler of this.bubblers) {
-                if (!bubbler.dispatchEvent(evt)) {
-                    return false;
-                }
+        for (const bubbler of this.bubblers) {
+            if (!bubbler.dispatchEvent(evt)) {
+                return false;
             }
         }
 

@@ -1,3 +1,4 @@
+import { TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import type { FullWorkerClientOptions } from "@juniper-lib/workers/WorkerClientOptions";
 import { WorkerPool } from "@juniper-lib/workers/WorkerPool";
@@ -7,7 +8,7 @@ import { IRequest, IRequestWithBody } from "./IRequest";
 import { IResponse } from "./IResponse";
 
 export class FetchingServicePool
-    extends WorkerPool<void, FetchingServiceClient>
+    extends WorkerPool<TypedEventMap<string>, FetchingServiceClient>
     implements IFetchingService {
 
     constructor(

@@ -1,5 +1,5 @@
 import { BlobAvailableEvent } from "@juniper-lib/audio/AudioRecordingNode";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 
 export class SpeechRecognizerErrorEvent
     extends TypedEvent<"error">
@@ -27,7 +27,7 @@ export class SpeechRecognizerNoMatchEvent
     }
 }
 
-export interface SpeechRecognizerEvents {
+export type SpeechRecognizerEvents = {
     end: TypedEvent<"end">;
     error: SpeechRecognizerErrorEvent;
     nomatch: SpeechRecognizerNoMatchEvent;

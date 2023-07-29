@@ -1,5 +1,5 @@
 import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
-import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { TestScore } from "./TestScore";
 
 export type TestResults = PriorityMap<string, string, TestScore>;

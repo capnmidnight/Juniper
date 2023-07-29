@@ -1,6 +1,6 @@
 import { arrayScan } from "@juniper-lib/collections/arrays";
-import { TypedEventBase } from "@juniper-lib/events/EventBase";
 import { Task } from "@juniper-lib/events/Task";
+import { TypedEventBase, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import { IProgress, isProgressCallback } from "@juniper-lib/progress/IProgress";
 import { isWorkerSupported } from "@juniper-lib/tslib/flags";
 import { assertNever, isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -20,7 +20,7 @@ interface WorkerInvocation {
     methodName: string;
 }
 
-export abstract class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implements IDisposable {
+export abstract class WorkerClient<EventsMapT extends TypedEventMap<string> = TypedEventMap<string>> extends TypedEventBase<EventsMapT> implements IDisposable {
     private readonly invocations = new Map<number, WorkerInvocation>();
     private readonly tasks = new Array<Task<any>>();
 
@@ -37,7 +37,7 @@ export abstract class WorkerClient<EventsT = void> extends TypedEventBase<Events
             console.warn("Workers are not supported on this system.");
         }
 
-        this.worker.addEventListener("message", (evt: MessageEvent<WorkerServerMessages<EventsT>>) => {
+        this.worker.addEventListener("message", (evt: MessageEvent<WorkerServerMessages<EventsMapT>>) => {
             const data = evt.data;
             switch (data.type) {
                 case "event":
@@ -75,7 +75,7 @@ export abstract class WorkerClient<EventsT = void> extends TypedEventBase<Events
         this.worker.terminate();
     }
 
-    protected abstract propogateEvent(data: WorkerServerEventMessage<EventsT>): void;
+    protected abstract propogateEvent(data: WorkerServerEventMessage<EventsMapT>): void;
 
     private progressReport(data: WorkerServerProgressMessage) {
         const invocation = this.invocations.get(data.taskID);

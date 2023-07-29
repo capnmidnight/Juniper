@@ -1,9 +1,10 @@
 import { IAudioNode, IAudioParam } from "../IAudioNode";
 import { BaseNode } from "../BaseNode";
 import { InputResolution, JuniperAudioContext, OutputResolution } from "./JuniperAudioContext";
+import { TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 
 
-export abstract class JuniperAudioNode<NodeT extends AudioNode = AudioNode, EventsT = void>
+export abstract class JuniperAudioNode<NodeT extends AudioNode = AudioNode, EventsT extends TypedEventMap<string> = TypedEventMap<string>>
     extends BaseNode<EventsT>
     implements IAudioNode {
 

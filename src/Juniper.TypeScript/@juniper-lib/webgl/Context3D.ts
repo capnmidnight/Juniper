@@ -2,7 +2,7 @@ import type { CanvasTypes } from "@juniper-lib/dom/canvas";
 import { isOffscreenCanvas, setContextSize } from "@juniper-lib/dom/canvas";
 import { border, height, left, margin, padding, perc, position, top, touchAction, width } from "@juniper-lib/dom/css";
 import { elementApply } from "@juniper-lib/dom/tags";
-import { TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export class ResizeEvent extends Event {
@@ -14,7 +14,7 @@ export class ResizeEvent extends Event {
     }
 }
 
-interface Context3DEvents {
+type Context3DEvents = {
     resize: ResizeEvent;
 }
 

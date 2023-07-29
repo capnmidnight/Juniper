@@ -1,5 +1,5 @@
+import { TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import { IProgress } from "@juniper-lib/progress/IProgress";
-import { assertNever } from "@juniper-lib/tslib/typeChecks";
 import { WorkerClient } from "@juniper-lib/workers/WorkerClient";
 import { WorkerServerEventMessage } from "@juniper-lib/workers/WorkerMessages";
 import { IFetchingService } from "./IFetchingService";
@@ -17,6 +17,7 @@ function isDOMParsersSupportedType(type: string): type is DOMParserSupportedType
 function bufferToXml(response: IResponse<ArrayBuffer>): IResponse<HTMLElement> {
     const {
         status,
+
         requestPath,
         responsePath,
         content: buffer,
@@ -123,8 +124,8 @@ export class FetchingServiceClient
         return this.callMethod("evict", [path]);
     }
 
-    protected propogateEvent(data: WorkerServerEventMessage<void>) {
-        assertNever(data.eventName);
+    protected propogateEvent(_data: WorkerServerEventMessage<TypedEventMap<string>>) {
+        
     }
 
     private makeRequest<T>(methodName: string, request: IRequest, progress: IProgress): Promise<IResponse<T>> {

@@ -28,7 +28,7 @@ export class IDexDB implements IDisposable {
 
     static delete(dbName: string) {
         const deleteRequest = indexedDB.deleteDatabase(dbName);
-        const task = once<IDBOpenDBRequestEventMap>(deleteRequest, "success", "error", "blocked");
+        const task = once(deleteRequest, "success", "error", "blocked");
         return success(task);
     }
 
@@ -50,7 +50,7 @@ export class IDexDB implements IDisposable {
         let version: number = null;
 
         const D = indexedDB.open(name);
-        if (await success(once<IDBOpenDBRequestEventMap>(D, "success", "error", "blocked"))) {
+        if (await success(once(D, "success", "error", "blocked"))) {
             const db = D.result;
             version = db.version;
             const storesToScrutinize = new Array<string>();
@@ -71,7 +71,7 @@ export class IDexDB implements IDisposable {
             }
             if (storesToScrutinize.length > 0) {
                 const transaction = db.transaction(storesToScrutinize);
-                const transacting = once<IDBTransactionEventMap>(transaction, "complete", "error", "abort");
+                const transacting = once(transaction, "complete", "error", "abort");
                 const transacted = success(transacting);
 
                 for (const storeName of storesToScrutinize) {
@@ -145,7 +145,7 @@ export class IDexDB implements IDisposable {
         const openRequest = isDefined(version)
             ? indexedDB.open(name, version)
             : indexedDB.open(name);
-        const opening = once<IDBOpenDBRequestEventMap>(openRequest, "success", "error", "blocked");
+        const opening = once(openRequest, "success", "error", "blocked");
         const upgraded = success(upgrading);
         const opened = success(opening);
 
@@ -153,7 +153,7 @@ export class IDexDB implements IDisposable {
         openRequest.addEventListener("success", noUpgrade);
 
         openRequest.addEventListener("upgradeneeded", () => {
-            const transacting = once<IDBTransactionEventMap>(openRequest.transaction, "complete", "error", "abort");
+            const transacting = once(openRequest.transaction, "complete", "error", "abort");
             const db = openRequest.result;
             for (const storeName of storesToRemove) {
                 db.deleteObjectStore(storeName);
@@ -232,11 +232,11 @@ export class IDexStore<T> {
 
     private async request<T>(makeRequest: (store: IDBObjectStore) => IDBRequest<T>, mode: IDBTransactionMode): Promise<T> {
         const transaction = this.db.transaction(this.storeName, mode);
-        const transacting = once<IDBTransactionEventMap>(transaction, "complete", "error");
+        const transacting = once(transaction, "complete", "error");
 
         const store = transaction.objectStore(this.storeName);
         const request = makeRequest(store);
-        const requesting = once<IDBRequestEventMap>(request, "success", "error");
+        const requesting = once(request, "success", "error");
 
         if (!(await success(requesting))) {
             transaction.abort();

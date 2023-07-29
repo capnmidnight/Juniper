@@ -3,8 +3,9 @@ import { WorkerServer } from "@juniper-lib/workers/WorkerServer";
 import { IFetchingService } from "./IFetchingService";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IResponse } from "./IResponse";
+import { TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 
-export class FetchingServiceServer extends WorkerServer<void> {
+export class FetchingServiceServer extends WorkerServer<TypedEventMap<string>> {
     constructor(self: DedicatedWorkerGlobalScope, impl: IFetchingServiceImpl) {
         super(self);
         const fetcher = new FetchingService(impl);
@@ -16,7 +17,7 @@ function getContent<T extends Transferable | OffscreenCanvas>(response: IRespons
     return [response.content];
 }
 
-export function addFetcherMethods(server: WorkerServer<void>, fetcher: IFetchingService) {
+export function addFetcherMethods(server: WorkerServer<TypedEventMap<string>>, fetcher: IFetchingService) {
     server.addVoidMethod(fetcher, "setRequestVerificationToken", fetcher.setRequestVerificationToken);
 
     server.addMethod(fetcher, "clearCache", fetcher.clearCache);

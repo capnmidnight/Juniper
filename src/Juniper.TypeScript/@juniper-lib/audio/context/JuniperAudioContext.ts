@@ -114,7 +114,9 @@ export class JuniperAudioContext
 
     constructor(contextOptions?: AudioContextOptions) {
         super(contextOptions);
+
         this._destination = new JuniperAudioDestinationNode(this, super.destination);
+
         if (this.state === "running") {
             this._ready.resolve();
         }

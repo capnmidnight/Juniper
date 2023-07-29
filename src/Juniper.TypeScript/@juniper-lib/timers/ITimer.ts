@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { lerp } from "@juniper-lib/tslib/math";
 
 export abstract class BaseTimerTickEvent extends TypedEvent<"update"> {

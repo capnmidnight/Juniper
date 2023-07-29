@@ -378,7 +378,7 @@ export class RequestBuilder implements
 
     private async htmlElement<ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement | HTMLLinkElement, EventsT extends HTMLElementEventMap>(element: ElementT, resolveEvt: keyof EventsT & string, acceptType: string | MediaType): Promise<IResponse<ElementT>> {
         const response = await this.file(acceptType);
-        const task = once<EventsT>(element, resolveEvt, "error");
+        const task = once(element, resolveEvt, "error");
         if (element instanceof HTMLLinkElement) {
             element.href = response.content;
         }

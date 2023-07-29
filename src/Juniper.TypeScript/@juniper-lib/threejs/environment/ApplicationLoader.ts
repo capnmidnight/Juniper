@@ -1,5 +1,5 @@
 import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { Task } from "@juniper-lib/events/Task";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { progressPopper } from "@juniper-lib/progress/progressPopper";
@@ -54,7 +54,7 @@ class ApplicationLoadRequest<T extends Application> {
     }
 }
 
-interface ApplicationLoaderEvents {
+type ApplicationLoaderEvents = {
     apploading: ApplicationLoaderAppLoadingEvent;
     apploaded: ApplicationLoaderAppLoadedEvent;
     appshown: ApplicationLoaderAppShownEvent;

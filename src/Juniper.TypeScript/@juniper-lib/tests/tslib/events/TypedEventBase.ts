@@ -1,5 +1,5 @@
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { once } from "@juniper-lib/events/once";
 
 
@@ -13,7 +13,7 @@ class Rig extends TypedEventBase<{
 
     triggerNoBubbles() {
         const evt = new TypedEvent("test", { bubbles: true });
-        evt.cancelBubble = true;
+        evt.stopPropagation();
         this.dispatchEvent(evt);
     }
 }
@@ -38,7 +38,7 @@ export class TypedEventBaseTests extends TestCase {
         child.addBubbler(parent);
         const task = once(parent, "test", 10);
         const evt = new TypedEvent("test");
-        evt.cancelBubble = true;
+        evt.stopPropagation();
         child.triggerNoBubbles();
         await this.rejects(task);
     }

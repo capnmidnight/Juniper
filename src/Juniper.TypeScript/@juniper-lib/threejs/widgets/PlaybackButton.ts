@@ -1,16 +1,15 @@
 import { FullAudioRecord } from "@juniper-lib/audio/data";
-import { MediaElementSourceEvent } from "@juniper-lib/audio/sources/IPlayable";
-import { IPlayer } from "@juniper-lib/audio/sources/IPlayer";
+import { IPlayer, MediaPlayerEvents } from "@juniper-lib/audio/sources/IPlayer";
 import { keycapDigits } from "@juniper-lib/emoji/numbers";
+import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { all } from "@juniper-lib/events/all";
-import { TypedEvent } from "@juniper-lib/events/EventBase";
-import { AsyncCallback } from "@juniper-lib/tslib/identity";
 import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
+import { AsyncCallback } from "@juniper-lib/tslib/identity";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/using";
 import { Object3D } from "three";
-import { cleanup } from "../cleanup";
 import { Cube } from "../Cube";
+import { cleanup } from "../cleanup";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { solidWhite } from "../materials";
 import { ErsatzObject, obj, objGraph } from "../objects";
@@ -21,7 +20,8 @@ import { TextMesh } from "./TextMesh";
 const playEvt = new TypedEvent("play");
 const stopEvt = new TypedEvent("stop");
 const size = 0.1;
-interface PlaybackButtonEvents {
+
+type PlaybackButtonEvents = {
     play: TypedEvent<"play">;
     stop: TypedEvent<"stop">;
 }
@@ -161,7 +161,7 @@ export class PlaybackButton<T extends FullAudioRecord>
 
         refresh();
 
-        const local = <T extends MediaElementSourceEvent<string, IPlayer>>(callback: (evt: T) => void) => (evt: T) => {
+        const local = <T extends MediaPlayerEvents[keyof MediaPlayerEvents]>(callback: (evt: T) => void) => (evt: T) => {
             if (evt.source.data === this.data) {
                 callback(evt);
             }

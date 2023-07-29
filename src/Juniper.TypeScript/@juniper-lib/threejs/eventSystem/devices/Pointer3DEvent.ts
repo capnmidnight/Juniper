@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/EventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { Intersection, Vector3 } from "three";
 import type { RayTarget } from "../RayTarget";
 import type { IPointer } from "./IPointer";
@@ -51,7 +51,7 @@ export class Pointer3DEvent<T extends PointerEventTypes = PointerEventTypes> ext
     }
 }
 
-export interface Pointer3DEvents {
+export type Pointer3DEvents = {
     move: Pointer3DEvent<"move">;
     enter: Pointer3DEvent<"enter">;
     exit: Pointer3DEvent<"exit">;

@@ -1,5 +1,5 @@
 import { debounce } from "@juniper-lib/events/debounce";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/EventBase";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { SpeechRecognizer } from "microsoft-cognitiveservices-speech-sdk";
 import { ISpeechRecognizer, SpeechRecognizerEvents } from "./ISpeechRecognizer";
 

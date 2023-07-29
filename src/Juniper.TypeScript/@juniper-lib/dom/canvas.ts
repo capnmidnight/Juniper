@@ -198,7 +198,7 @@ export async function createImageFromFile(file: string): Promise<HTMLImageElemen
     }
 
     const img = Img(Src(file));
-    await once<HTMLElementEventMap>(img, "load", "error");
+    await once(img, "load", "error");
     return img;
 }
 
