@@ -182,7 +182,7 @@ export class DeviceDialog extends DialogBox {
                 )],
 
             this.headphoneWarning = Div(
-                ClassList("alert alert-warning"),
+                ClassList("alert", "alert-warning"),
                 "🎧🎙️ This site has a voice chat feature. Voice chat is best experienced using headphones."
             )
         );

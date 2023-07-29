@@ -97,7 +97,7 @@ export class TreeViewNode<T>
         this.element = Div(
             ClassList("tree-view-node"),
 
-            this.upper = Div(ClassList("drag-buffer top")),
+            this.upper = Div(ClassList("drag-buffer", "top")),
 
             this.infoView = Div(
                 ClassList("tree-view-node-label"),
@@ -158,7 +158,7 @@ export class TreeViewNode<T>
                 )
             ),
 
-            this.lower = Div(ClassList("drag-buffer bottom"))
+            this.lower = Div(ClassList("drag-buffer", "bottom"))
         );
 
         this.refresh();
