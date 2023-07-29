@@ -2,8 +2,9 @@ import { arrayRemove, arrayScan } from "@juniper-lib/collections/arrays";
 import { once } from "@juniper-lib/events/once";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/typeChecks";
-import { ClassList, HtmlFor, Type, isAttr } from "./attrs";
+import { ClassList, Href, HtmlFor, Rel, Type, isAttr } from "./attrs";
 import { PropSet, margin } from "./css";
+import { Text_Css } from "@juniper-lib/mediatypes";
 
 export interface ErsatzElement<T extends Element = Element> {
     element: T;
@@ -602,6 +603,16 @@ export function Style(parent: ParentNode, ...props: PropSet[]) {
     }
 
     return elem;
+}
+
+export function StyleBlob(...props: PropSet[]) {
+    const blob = new Blob(props.map(p => p.toString()), {
+        type: Text_Css.value
+    });
+    return Link(
+        Rel("stylesheet"),
+        Href(blob)
+    );
 }
 
 export function addStyle(...props: PropSet[]) {

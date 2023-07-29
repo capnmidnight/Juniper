@@ -583,7 +583,13 @@ export function High(value: number) { return attr("high", value, false, "meter")
 /**
  * The URL of a linked resource.
   **/
-export function Href(value: string | URL) { return attr("href", unpackURL(value), false, "a", "area", "base", "link"); }
+export function Href(value: string | URL | Blob) {
+    if (value instanceof Blob) {
+        value = URL.createObjectURL(value);
+    }
+
+    return attr("href", unpackURL(value), false, "a", "area", "base", "link");
+}
 
 /**
  * Specifies the language of the linked resource.
