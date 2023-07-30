@@ -171,6 +171,105 @@ export function lab(lightness: CssPercentage, a: number, b: number, alpha?: CssA
     }
 }
 
+export function matrix(a: number, b: number, c: number, d: number, tx: number, ty: number): CssTransformMatrixValue {
+    return `matrix(${a}, ${b}, ${c}, ${d}, ${tx}, ${ty})`
+}
+
+export function matrix3d(
+    a1: number, b1: number, c1: number, d1: number,
+    a2: number, b2: number, c2: number, d2: number,
+    a3: number, b3: number, c3: number, d3: number,
+    a4: number, b4: number, c4: number, d4: number): CssTransformMatrix3DValue {
+    return `matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`;
+}
+
+export function perspectiv(v: CssLength | "none"): CssTransformPerspectiveValue {
+    return `perspective(${v})`;
+}
+
+export function rotate(a: CssAngle): CssTransformRotate {
+    return `rotate(${a})`;
+}
+
+export function rotate3d(x: number, y: number, z: number, a: CssAngle): CSSTransformRotate3D {
+    return `rotate3d(${x}, ${y}, ${z}, ${a})`;
+}
+
+export function rotateX(a: CssAngle): CssTransformRotateX {
+    return `rotateX(${a})`;
+}
+
+export function rotateY(a: CssAngle): CssTransformRotateY {
+    return `rotateY(${a})`;
+}
+
+export function rotateZ(a: CssAngle): CssTransformRotateZ {
+    return `rotateZ(${a})`;
+}
+
+export function translate(x: CssLengthPercentage, y: CssLengthPercentage): CssTransformTranslate {
+    return `translate(${x}, ${y})`;
+}
+
+export function translate3d(x: CssLengthPercentage, y: CssLengthPercentage, z: CssLengthPercentage): CSSTransformTranslate3D {
+    return `translate3d(${x}, ${y}, ${z})`;
+}
+
+export function translateX(x: CssLengthPercentage): CssTransformTranslateX {
+    return `translateX(${x})`;
+}
+
+export function translateY(y: CssLengthPercentage): CssTransformTranslateY {
+    return `translateY(${y})`;
+}
+
+export function translateZ(z: CssLengthPercentage): CssTransformTranslateZ {
+    return `translateZ(${z})`;
+}
+
+export function scale(x: number, y: number): CssTransformScale {
+    return `scale(${x}, ${y})`;
+}
+
+export function scale3d(x: number, y: number, z: number): CSSTransformScale3D {
+    return `scale3d(${x}, ${y}, ${z})`;
+}
+
+export function scaleX(x: number): CssTransformScaleX {
+    return `scaleX(${x})`;
+}
+
+export function scaleY(y: number): CssTransformScaleY {
+    return `scaleY(${y})`;
+}
+
+export function scaleZ(z: number): CssTransformScaleZ {
+    return `scaleZ(${z})`;
+}
+
+export function skew(x: CssAngle, y: CssAngle): CssTransformSkew {
+    return `skew(${x}, ${y})`;
+}
+
+export function skewX(x: CssAngle): CssTransformSkewX {
+    return `skewX(${x})`;
+}
+
+export function skewY(y: CssAngle): CssTransformSkewY {
+    return `skewY(${y})`;
+}
+
+export function repeat(count: number | "auto-fill" | "auto-fit", expr: string): CssGridTemplateTrackRepeatValue {
+    return `repeat(${count}, ${expr})`;
+}
+
+export function fitContent(len: CssLengthPercentage): CssGridTemplateTrackFitContentValue {
+    return `fit-content(${len})`;
+}
+
+export function minMax(min: CssGridTemplateTrackSize, max: CssGridTemplateTrackSize): CssGridTemplateTrackMinMaxValue {
+    return `minmax(${min}, ${max})`;
+}
 /**
  * A selection of fonts for preferred monospace rendering.
  **/
@@ -824,7 +923,7 @@ export function inlineSize(v: string) { return new CssElementStyleProp("inlineSi
 
 export function isolation(v: string) { return new CssElementStyleProp("isolation", v); }
 
-export function justifyContent(v: CssGlobalValue | CssJustifyAlignContentValue ) { return new CssElementStyleProp("justifyContent", v); }
+export function justifyContent(v: CssGlobalValue | CssJustifyAlignContentValue) { return new CssElementStyleProp("justifyContent", v); }
 
 export function justifyItems(v: CssGlobalValue | CssJustifyItemsValue) { return new CssElementStyleProp("justifyItems", v); }
 

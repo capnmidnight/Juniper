@@ -647,13 +647,17 @@ type CssGridTemplateTrackSize =
     | "min-content"
     | "auto";
 
+type CssGridTemplateTrackMinMaxValue = CssFunction<"minmax", `${CssGridTemplateTrackSize}, ${CssGridTemplateTrackSize}`>;    
+type CssGridTemplateTrackFitContentValue = CssFunction<"fit-content", CssLengthPercentage>;
+type CssGridTemplateTrackRepeatValue = CssFunction<"repeat", `${number | "auto-fill" | "auto-fit"}, ${string}`>;
+
 type CssGridTemplateTrackValue =
     | "none"
     | CssGridLineName
     | CssGridTemplateTrackSize
-    | CssFunction<"minmax", `${CssGridTemplateTrackSize}, ${CssGridTemplateTrackSize}`>
-    | CssFunction<"fit-content", CssLengthPercentage>
-    | CssFunction<"repeat", `${number | "auto-fill" | "auto-fit"}, ${string}`>
+    | CssGridTemplateTrackMinMaxValue
+    | CssGridTemplateTrackFitContentValue
+    | CssGridTemplateTrackRepeatValue
     | "subgrid";
 
 type CssJustifyAlignValue =

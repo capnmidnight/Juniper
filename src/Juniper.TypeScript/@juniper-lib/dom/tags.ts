@@ -605,7 +605,7 @@ export function Style(parent: ParentNode, ...props: PropSet[]) {
     return elem;
 }
 
-export function StyleBlob(...props: PropSet[]) {
+export function StyleBlob(...props: (string | PropSet)[]) {
     const blob = new Blob(props.map(p => p.toString()), {
         type: Text_Css.value
     });
@@ -615,6 +615,6 @@ export function StyleBlob(...props: PropSet[]) {
     );
 }
 
-export function addStyle(...props: PropSet[]) {
+export function addStyle(...props: (string | PropSet)[]) {
     Style(document.head, ...props);
 }
