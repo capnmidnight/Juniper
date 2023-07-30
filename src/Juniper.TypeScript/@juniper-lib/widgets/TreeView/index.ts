@@ -24,7 +24,7 @@ import {
     ErsatzElement,
     InputText
 } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { alwaysFalse, identity } from "@juniper-lib/tslib/identity";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { TreeViewNode, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
@@ -85,7 +85,7 @@ type TreeViewEvents<T> = {
 }
 
 export class TreeView<ValueT, FilterTypeT extends string = never>
-    extends TypedEventBase<TreeViewNodeEvents<ValueT> & TreeViewEvents<ValueT>>
+    extends TypedEventTarget<TreeViewNodeEvents<ValueT> & TreeViewEvents<ValueT>>
     implements ErsatzElement {
 
     readonly element: HTMLElement;

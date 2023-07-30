@@ -1,6 +1,6 @@
 import type { CanvasTypes, Context2D } from "@juniper-lib/dom/canvas";
 import { createUICanvas } from "@juniper-lib/dom/canvas";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
 type CanvasImageEvents = {
@@ -12,7 +12,7 @@ export interface CanvasImageOptions {
 }
 
 export abstract class CanvasImage
-    extends TypedEventBase<CanvasImageEvents> {
+    extends TypedEventTarget<CanvasImageEvents> {
 
     private _canvas: CanvasTypes;
     private _scale = 250;

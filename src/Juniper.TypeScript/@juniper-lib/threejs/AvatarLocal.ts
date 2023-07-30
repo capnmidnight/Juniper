@@ -1,7 +1,7 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { arrayClear } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { isMobile, isMobileVR, isSafari } from "@juniper-lib/tslib/flags";
 import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/math";
 import { assertNever, isFunction, isGoodNumber } from "@juniper-lib/tslib/typeChecks";
@@ -48,7 +48,7 @@ type AvatarLocalEvents = {
 }
 
 export class AvatarLocal
-    extends TypedEventBase<AvatarLocalEvents>
+    extends TypedEventTarget<AvatarLocalEvents>
     implements ErsatzObject, IDisposable {
 
     private readonly avatarResetEvt = new AvatarResetEvent();

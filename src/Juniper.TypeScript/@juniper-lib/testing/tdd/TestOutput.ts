@@ -1,4 +1,4 @@
-import { TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { TestCaseConstructor } from "./TestCase";
 import { TestOutputResultsEvent, TestStats } from "./TestOutputResultsEvent";
 import { TestRunner } from "./TestRunner";
@@ -8,7 +8,7 @@ type TestOutputEvents = {
     "testoutputresults": TestOutputResultsEvent;
 }
 
-export class TestOutput extends TypedEventBase<TestOutputEvents> {
+export class TestOutput extends TypedEventTarget<TestOutputEvents> {
     private readonly CaseClasses: any[];
 
     constructor(...CaseClasses: TestCaseConstructor[]) {

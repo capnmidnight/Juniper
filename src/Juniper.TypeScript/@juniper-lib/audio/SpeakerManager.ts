@@ -1,5 +1,5 @@
 import { arrayScan, arraySortByKey } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
@@ -20,7 +20,7 @@ export class AudioOutputChangedEvent
 const PREFERRED_AUDIO_OUTPUT_ID_KEY = "calla:preferredAudioOutputID";
 
 export class SpeakerManager
-    extends TypedEventBase<{
+    extends TypedEventTarget<{
         audiooutputchanged: AudioOutputChangedEvent;
     }>
     implements IReadyable {

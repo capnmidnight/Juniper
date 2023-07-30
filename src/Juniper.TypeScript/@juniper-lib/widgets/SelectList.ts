@@ -1,7 +1,7 @@
 import { arraySortByKey } from "@juniper-lib/collections/arrays";
 import { ClassList, Value } from "@juniper-lib/dom/attrs";
 import { ErsatzElement, Option, Select, elementClearChildren } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { makeItemCallback } from "./SelectBox";
 import { withDefault } from "./SelectBox";
@@ -20,7 +20,7 @@ type SelectListEvents<T> = {
  * A select box that can be databound to collections.
  **/
 export class SelectList<T>
-    extends TypedEventBase<SelectListEvents<T>>
+    extends TypedEventTarget<SelectListEvents<T>>
     implements ErsatzElement {
 
     public readonly element = Select(ClassList("custom-select"));

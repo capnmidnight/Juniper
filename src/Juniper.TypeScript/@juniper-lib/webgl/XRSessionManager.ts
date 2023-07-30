@@ -1,5 +1,5 @@
 import { arrayRemove } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { Task } from "@juniper-lib/events/Task";
 import { deg2rad } from "@juniper-lib/tslib/math";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
@@ -13,7 +13,7 @@ export class XRSessionStartedEvent extends TypedEvent<"sessionstarted">{
     }
 }
 
-export class XRSessionManager extends TypedEventBase<{
+export class XRSessionManager extends TypedEventTarget<{
     sessionstarted: XRSessionStartedEvent;
     sessionended: TypedEvent<"sessionended">;
 }> {

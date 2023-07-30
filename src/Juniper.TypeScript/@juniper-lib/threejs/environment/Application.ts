@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { IDataLogger } from "@juniper-lib/tslib/IDataLogger";
 import type { IProgress } from "@juniper-lib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -44,7 +44,7 @@ export type ApplicationEvents = {
 }
 
 export abstract class Application<EventsT extends ApplicationEvents = ApplicationEvents>
-    extends TypedEventBase<EventsT>
+    extends TypedEventTarget<EventsT>
     implements IDisposable, IDataLogger {
 
     private dataLogger: IDataLogger = null;

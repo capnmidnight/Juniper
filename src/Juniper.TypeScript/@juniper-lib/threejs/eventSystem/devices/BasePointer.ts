@@ -1,4 +1,4 @@
-import { TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { Intersection, Vector3 } from "three";
 import { BufferReaderWriter } from "../../BufferReaderWriter";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
@@ -16,7 +16,7 @@ const MAX_DRAG_DISTANCE = 5;
 const ZERO = new Vector3();
 
 export abstract class BasePointer
-    extends TypedEventBase<Pointer3DEvents>
+    extends TypedEventTarget<Pointer3DEvents>
     implements IPointer {
 
     readonly origin = new Vector3();

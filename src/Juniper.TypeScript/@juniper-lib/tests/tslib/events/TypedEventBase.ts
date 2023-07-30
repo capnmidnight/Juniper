@@ -1,9 +1,9 @@
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { once } from "@juniper-lib/events/once";
 
 
-class Rig extends TypedEventBase<{
+class Rig extends TypedEventTarget<{
     test: TypedEvent<"test">;
 }>{
     triggerBubbles() {

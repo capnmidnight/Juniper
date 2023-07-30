@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "./TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "./TypedEventBase";
 
 export class DwellEvent extends TypedEvent<"dwell">{
     constructor(public readonly dwellTimeSeconds: number) {
@@ -6,7 +6,7 @@ export class DwellEvent extends TypedEvent<"dwell">{
     }
 }
 
-export class DwellEventer extends TypedEventBase<{
+export class DwellEventer extends TypedEventTarget<{
     dwell: DwellEvent;
 }>{
     private startTime: number = null;

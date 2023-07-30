@@ -3,7 +3,7 @@ import { BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayRemove, arraySortByKeyInPlace } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { isDesktop, isFirefox, isOculusBrowser, oculusBrowserVersion } from "@juniper-lib/tslib/flags";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { TimerTickEvent } from "@juniper-lib/timers/ITimer";
@@ -43,7 +43,7 @@ type BaseEnvironmentEvents = {
 }
 
 export class BaseEnvironment<Events = unknown>
-    extends TypedEventBase<Events & BaseEnvironmentEvents> {
+    extends TypedEventTarget<Events & BaseEnvironmentEvents> {
 
     private baseLayer: XRWebGLLayer | XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();

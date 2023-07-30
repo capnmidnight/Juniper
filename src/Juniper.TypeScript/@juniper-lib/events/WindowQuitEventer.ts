@@ -1,6 +1,6 @@
-import { TypedEvent, TypedEventBase } from "./TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "./TypedEventBase";
 
-export class WindowQuitEventer extends TypedEventBase<{
+export class WindowQuitEventer extends TypedEventTarget<{
     "quitting": TypedEvent<"quitting">
 }>{
     private readonly event = new TypedEvent("quitting");

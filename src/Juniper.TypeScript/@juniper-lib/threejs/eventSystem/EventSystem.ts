@@ -1,5 +1,5 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
-import { TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { Intersection, Mesh, Object3D, Raycaster, Vector3 } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
@@ -17,7 +17,7 @@ export type IntersectionSortFunction = (a: Intersection, b: Intersection) => num
 
 const defaultSortFunction: IntersectionSortFunction = (a, b) => a.distance - b.distance;
 
-export class EventSystem extends TypedEventBase<Pointer3DEvents> {
+export class EventSystem extends TypedEventTarget<Pointer3DEvents> {
     private readonly raycaster = new Raycaster();
 
     readonly mouse: PointerMouse;

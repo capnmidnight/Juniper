@@ -1,9 +1,9 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
-import { TypedEventBase, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import type { IProgress } from "./IProgress";
 
 export class BaseProgress<T extends TypedEventMap<string> = TypedEventMap<string>>
-    extends TypedEventBase<T>
+    extends TypedEventTarget<T>
     implements IProgress {
     private readonly attached = new Array<IProgress>();
     private soFar: number = null;

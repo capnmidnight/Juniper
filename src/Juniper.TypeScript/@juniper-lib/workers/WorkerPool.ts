@@ -1,5 +1,5 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
-import { TypedEventBase, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import { isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { WorkerClient } from "./WorkerClient";
@@ -8,7 +8,7 @@ import type { FullWorkerClientOptions } from "./WorkerClientOptions";
 export type WorkerConstructorT<EventsT extends TypedEventMap<string>, WorkerClientT extends WorkerClient<EventsT>> = new (worker: Worker) => WorkerClientT;
 
 export class WorkerPool<EventMapT extends TypedEventMap<string>, WorkerClientT extends WorkerClient<EventMapT>>
-    extends TypedEventBase<EventMapT>
+    extends TypedEventTarget<EventMapT>
     implements IDisposable {
 
     private scriptPath: string;

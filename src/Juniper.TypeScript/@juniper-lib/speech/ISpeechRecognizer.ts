@@ -1,5 +1,5 @@
 import { BlobAvailableEvent } from "@juniper-lib/audio/AudioRecordingNode";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 
 export class SpeechRecognizerErrorEvent
     extends TypedEvent<"error">
@@ -43,7 +43,7 @@ export type SpeechRecognizerEvents = {
 }
 
 
-export interface ISpeechRecognizer extends TypedEventBase<SpeechRecognizerEvents> {
+export interface ISpeechRecognizer extends TypedEventTarget<SpeechRecognizerEvents> {
     speakerCulture: Culture;
     targetCulture: Culture;
     continuous: boolean;

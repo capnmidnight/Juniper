@@ -1,7 +1,7 @@
 import { ClassList, CustomData, HtmlAttr, ID, QueryAll } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import { ButtonSmall, Div, Elements, ErsatzElement, HtmlRender, elementSetClass, elementSetDisplay, getElements, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 import "./styles.css";
@@ -35,7 +35,7 @@ function isViewDef<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp 
 }
 
 export class TabPanel<TabNames extends string>
-    extends TypedEventBase<TabPanelEvents<TabNames>>
+    extends TypedEventTarget<TabPanelEvents<TabNames>>
     implements ErsatzElement<HTMLElement> {
     private readonly views = new Map<TabNames, TabPanelView>();
 

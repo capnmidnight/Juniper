@@ -1,5 +1,5 @@
 import { arrayRemove } from "@juniper-lib/collections/arrays";
-import { TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { Mesh, Object3D } from "three";
 import { ErsatzObject, objectIsFullyVisible, objectResolve, Objects } from "../objects";
 import { Pointer3DEvents } from "./devices/Pointer3DEvent";
@@ -7,7 +7,7 @@ import { Pointer3DEvents } from "./devices/Pointer3DEvent";
 const RAY_TARGET_KEY = "Juniper:ThreeJS:EventSystem:RayTarget";
 
 export class RayTarget<EventsT = void>
-    extends TypedEventBase<EventsT & Pointer3DEvents>
+    extends TypedEventTarget<EventsT & Pointer3DEvents>
     implements ErsatzObject {
 
     readonly meshes = new Array<Mesh>();

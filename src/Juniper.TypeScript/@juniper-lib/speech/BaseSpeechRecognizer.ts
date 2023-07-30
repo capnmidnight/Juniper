@@ -1,10 +1,10 @@
 import { debounce } from "@juniper-lib/events/debounce";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { SpeechRecognizer } from "microsoft-cognitiveservices-speech-sdk";
 import { ISpeechRecognizer, SpeechRecognizerEvents } from "./ISpeechRecognizer";
 
 export abstract class BaseSpeechRecognizer
-    extends TypedEventBase<SpeechRecognizerEvents>
+    extends TypedEventTarget<SpeechRecognizerEvents>
     implements ISpeechRecognizer {
 
     protected readonly endEvt = new TypedEvent("end");

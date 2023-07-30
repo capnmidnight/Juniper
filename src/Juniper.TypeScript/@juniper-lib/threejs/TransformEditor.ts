@@ -1,7 +1,7 @@
 import { onClick } from "@juniper-lib/dom/evts";
 import { ButtonSecondary, elementSetClass, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { arrayReplace } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { deg2rad, HalfPi } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { ColorRepresentation, Euler, ExtrudeGeometry, Material, Mesh, Object3D, Quaternion, Shape, Vector2, Vector3 } from "three";
@@ -54,7 +54,7 @@ type TransformEditorEvents = {
 }
 
 export class TransformEditor
-    extends TypedEventBase<TransformEditorEvents>
+    extends TypedEventTarget<TransformEditorEvents>
     implements ErsatzObject {
 
     readonly object: Object3D;

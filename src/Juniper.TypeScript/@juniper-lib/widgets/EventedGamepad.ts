@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 
 export class GamepadButtonEvent<T extends "gamepadbuttondown" | "gamepadbuttonup" = "gamepadbuttondown" | "gamepadbuttonup"> extends TypedEvent<T> {
     constructor(type: T, public button: number) {
@@ -39,7 +39,7 @@ type EventedGamepadEvents = {
 }
 
 export class EventedGamepad
-    extends TypedEventBase<EventedGamepadEvents>
+    extends TypedEventTarget<EventedGamepadEvents>
     implements Gamepad {
     private readonly lastAxisValues = new Array<number>();
     private readonly btnDownEvts = new Array<GamepadButtonDownEvent>();

@@ -1,4 +1,4 @@
-import { EventBase, EventMap, HTMLElementBase } from "./EventBase";
+import { CustomEventTarget, EventMap, IEventTarget } from "./EventBase";
 
 export class TypedEvent<EventTypeT extends string> extends Event {
     override get type(): EventTypeT {
@@ -28,26 +28,21 @@ export type TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT extend
     TypedEventListener<EventMapT, EventTypeT>
     | TypedEventListenerObject<EventMapT, EventTypeT>;
 
-export interface TypedEventTarget<EventMapT extends TypedEventMap<string>> extends EventTarget {
-    addBubbler(bubbler: TypedEventTarget<EventMapT>): void;
-
-    removeBubbler(bubbler: TypedEventTarget<EventMapT>): void;
-
-    addScopedEventListener<EventTypeT extends keyof EventMapT>(scope: object, type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT>, options?: boolean | AddEventListenerOptions): void;
-
-    addEventListener<EventTypeT extends keyof EventMapT>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT>, options?: boolean | AddEventListenerOptions): void;
-
-    removeEventListener<EventTypeT extends keyof EventMapT>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT>): void;
-
+export interface ITypedEventTarget<EventMapT extends TypedEventMap<string>> extends IEventTarget {
     clearEventListeners<EventTypeT extends keyof EventMapT>(type?: EventTypeT): void;
+    addBubbler(bubbler: ITypedEventTarget<EventMapT>): void;
+    removeBubbler(bubbler: ITypedEventTarget<EventMapT>): void;
+    addScopedEventListener<EventTypeT extends keyof EventMapT>(scope: object, type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT>, options?: boolean | AddEventListenerOptions): void;
+    addEventListener<EventTypeT extends keyof EventMapT>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT>, options?: boolean | AddEventListenerOptions): void;
+    removeEventListener<EventTypeT extends keyof EventMapT>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT>): void;
 }
 
-export class TypedEventBase<EventMapT extends TypedEventMap<string>> extends EventBase implements TypedEventTarget<EventMapT> {
-    override addBubbler(bubbler: TypedEventTarget<EventMapT>) {
+export class TypedEventTarget<EventMapT extends TypedEventMap<string>> extends CustomEventTarget implements ITypedEventTarget<EventMapT> {
+    override addBubbler(bubbler: ITypedEventTarget<EventMapT>) {
         super.addBubbler(bubbler);
     }
 
-    override removeBubbler(bubbler: TypedEventTarget<EventMapT>) {
+    override removeBubbler(bubbler: ITypedEventTarget<EventMapT>) {
         super.removeBubbler(bubbler);
     }
 

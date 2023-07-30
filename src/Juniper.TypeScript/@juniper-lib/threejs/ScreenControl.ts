@@ -1,6 +1,6 @@
 import { hasFullscreenAPI } from "@juniper-lib/dom/fullscreen";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { hasVR, hasWebVR, hasWebXR, isMobileVR } from "@juniper-lib/tslib/flags";
 import { rad2deg } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -60,7 +60,7 @@ interface XRMode {
 }
 
 export class ScreenControl
-    extends TypedEventBase<ScreenControlEvents> {
+    extends TypedEventTarget<ScreenControlEvents> {
 
     private _currentMode: ScreenMode = ScreenMode.None;
     private buttons = new Map<ScreenMode, ScreenModeToggleButton>();

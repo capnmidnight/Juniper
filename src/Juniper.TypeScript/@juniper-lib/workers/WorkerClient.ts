@@ -1,6 +1,6 @@
 import { arrayScan } from "@juniper-lib/collections/arrays";
 import { Task } from "@juniper-lib/events/Task";
-import { TypedEventBase, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import { IProgress, isProgressCallback } from "@juniper-lib/progress/IProgress";
 import { isWorkerSupported } from "@juniper-lib/tslib/flags";
 import { assertNever, isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
@@ -20,7 +20,7 @@ interface WorkerInvocation {
     methodName: string;
 }
 
-export abstract class WorkerClient<EventsMapT extends TypedEventMap<string> = TypedEventMap<string>> extends TypedEventBase<EventsMapT> implements IDisposable {
+export abstract class WorkerClient<EventsMapT extends TypedEventMap<string> = TypedEventMap<string>> extends TypedEventTarget<EventsMapT> implements IDisposable {
     private readonly invocations = new Map<number, WorkerInvocation>();
     private readonly tasks = new Array<Task<any>>();
 

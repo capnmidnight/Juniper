@@ -1,5 +1,5 @@
 import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
-import { TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { nothing } from "@juniper-lib/tslib/identity";
 import { isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { TestCase, TestCaseConstructor } from "./TestCase";
@@ -24,7 +24,7 @@ type TestRunnerEvents = {
     testrunnerresults: TestRunnerResultsEvent;
 }
 
-export class TestRunner extends TypedEventBase<TestRunnerEvents> {
+export class TestRunner extends TypedEventTarget<TestRunnerEvents> {
 
     private readonly props: any[];
     private readonly CaseClasses: TestCaseConstructor[];

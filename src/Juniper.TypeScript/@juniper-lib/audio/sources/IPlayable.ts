@@ -1,7 +1,7 @@
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { PlaybackState } from "./PlaybackState";
 
-export interface IBasePlayable<T extends MediaElementSourceEvents> extends TypedEventBase<T> {
+export interface IBasePlayable<T extends MediaElementSourceEvents> extends TypedEventTarget<T> {
     playbackState: PlaybackState;
     play(): Promise<void>;
     playThrough(): Promise<void>;

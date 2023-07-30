@@ -1,6 +1,6 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { TypedEventBase, TypedEventMap } from "./TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "./TypedEventBase";
 
 export type TaskExecutionState =
     | "waiting"
@@ -108,7 +108,7 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
     }
 
     resolveOn<EventMapT extends TypedEventMap<string>, EventT extends keyof EventMapT = keyof EventMapT>(
-        target: TypedEventBase<EventMapT> | EventTarget,
+        target: TypedEventTarget<EventMapT> | EventTarget,
         resolveEvt: EventT,
         value: ResultsT) {
         const resolver = this.resolver(value);

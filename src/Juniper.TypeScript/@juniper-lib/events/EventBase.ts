@@ -5,7 +5,15 @@ export interface EventMap {
     [type: string]: Event;
 }
 
-export class EventBase implements EventTarget {
+export interface IEventTarget extends EventTarget {
+    clearEventListeners(type?: string): void;
+    addBubbler(bubbler: EventTarget): void;
+    removeBubbler(bubbler: EventTarget): void;
+    addScopedEventListener(scope: object, type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+    removeScope(scope: object): void;
+}
+
+export class CustomEventTarget implements IEventTarget {
     private readonly listeners = new Map<string, EventListenerOrEventListenerObject[]>();
     private readonly listenerOptions = new Map<EventListenerOrEventListenerObject, boolean | AddEventListenerOptions>();
     private readonly bubblers = new Set<EventTarget>();
@@ -116,20 +124,24 @@ export class EventBase implements EventTarget {
     }
 }
 
-export class EventBaseMixin implements EventTarget {
+export class EventBaseMixin implements IEventTarget {
     private readonly listeners = new Map<string, EventListenerOrEventListenerObject[]>();
     private readonly listenerOptions = new Map<EventListenerOrEventListenerObject, boolean | AddEventListenerOptions>();
     private readonly bubblers = new Set<EventTarget>();
     private readonly scopes = new WeakMap<object, Array<[any, any]>>();
 
-    constructor(private readonly parent: EventTarget) {
+    constructor(
+        private readonly _addEventListener: (type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) => void,
+        private readonly _removeEventListener: (type: string, callback: EventListenerOrEventListenerObject) => void,
+        private readonly _dispatchEvent: (evt: Event) => boolean
+    ) {
     }
 
-    addBubbler(bubbler: EventTarget) {
+    addBubbler(bubbler: EventTarget): void {
         this.bubblers.add(bubbler);
     }
 
-    removeBubbler(bubbler: EventTarget) {
+    removeBubbler(bubbler: EventTarget): void {
         this.bubblers.delete(bubbler);
     }
 
@@ -166,16 +178,16 @@ export class EventBaseMixin implements EventTarget {
             }
         }
 
-        this.parent.addEventListener(type, callback, options);
+        this._addEventListener(type, callback, options);
     }
 
-    removeEventListener(type: string, callback: EventListenerOrEventListenerObject) {
+    removeEventListener(type: string, callback: EventListenerOrEventListenerObject): void {
         const listeners = this.listeners.get(type);
         if (listeners) {
             this.removeListener(listeners, callback);
         }
 
-        this.parent.removeEventListener(type, callback);
+        this._removeEventListener(type, callback);
     }
 
     private removeListener(listeners: EventListenerOrEventListenerObject[], callback: EventListenerOrEventListenerObject) {
@@ -201,7 +213,7 @@ export class EventBaseMixin implements EventTarget {
     }
 
     dispatchEvent(evt: Event): boolean {
-        const result = this.parent.dispatchEvent(evt);
+        const result = this._dispatchEvent(evt);
 
         const listeners = this.listeners.get(evt.type);
         if (listeners) {
@@ -229,13 +241,16 @@ export class EventBaseMixin implements EventTarget {
     }
 }
 
-
 export function HTMLElementBase<BaseElementT extends CustomElementConstructor>(Base: BaseElementT) {
-    return class extends Base {
+    return class extends Base implements IEventTarget {
         readonly eventTarget: EventBaseMixin;
         constructor(..._rest: any[]) {
             super();
-            this.eventTarget = new EventBaseMixin(this);
+            this.eventTarget = new EventBaseMixin(
+                super.addEventListener.bind(this),
+                super.removeEventListener.bind(this),
+                super.dispatchEvent.bind(this)
+            );
         }
 
         override addEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {

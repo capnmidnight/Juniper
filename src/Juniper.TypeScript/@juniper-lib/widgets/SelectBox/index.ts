@@ -1,7 +1,7 @@
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey } from "@juniper-lib/collections/arrays";
 import { ClassList } from "@juniper-lib/dom/attrs";
 import { Div, HtmlRender, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { isDefined, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 import "./styles.css";
@@ -36,7 +36,7 @@ export function withDefault<T, V>(callback: readItemCallback<T, V>, defaultValue
 }
 
 class SelectBoxRow<T>
-    extends TypedEventBase<SelectBoxEvents<T>>
+    extends TypedEventTarget<SelectBoxEvents<T>>
     implements ErsatzElement {
 
     private _value: T;
@@ -122,7 +122,7 @@ class SelectBoxRow<T>
  * A select box that can be databound to collections.
  **/
 export class SelectBox<T>
-    extends TypedEventBase<SelectBoxEvents<T>>
+    extends TypedEventTarget<SelectBoxEvents<T>>
     implements ErsatzElement {
 
     private makeID: makeItemCallback<T>;

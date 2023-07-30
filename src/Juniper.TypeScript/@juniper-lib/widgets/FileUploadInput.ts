@@ -4,7 +4,7 @@ import { Button, HtmlRender, elementSetText, ErsatzElement } from "@juniper-lib/
 import { MediaType } from "@juniper-lib/mediatypes";
 import { mediaTypesToAcceptValue } from "@juniper-lib/mediatypes/util";
 import { arrayReplace } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export class FileUploadInputEvent extends TypedEvent<"input"> {
@@ -18,7 +18,7 @@ type FileUploadInputEvents = {
 }
 
 export class FileUploadInput
-    extends TypedEventBase<FileUploadInputEvents>
+    extends TypedEventTarget<FileUploadInputEvents>
     implements ErsatzElement {
 
     private readonly typeFilters = new Array<MediaType>();

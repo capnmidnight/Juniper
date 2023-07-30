@@ -1,8 +1,8 @@
 import { alwaysFalse, alwaysTrue } from "@juniper-lib/tslib/identity";
 import { isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/typeChecks";
-import { EventBase, EventMap } from "./EventBase";
+import { CustomEventTarget, EventMap } from "./EventBase";
 import { Task } from "./Task";
-import { TypedEventBase, TypedEventMap } from "./TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "./TypedEventBase";
 
 function targetValidateEvent(target: EventTarget, type: string) {
     return ("on" + type) in target;
@@ -15,8 +15,8 @@ function targetValidateEvent(target: EventTarget, type: string) {
  * @param [rejectEvt] - the name of the event that could reject the Promise this method creates.
  * @param [timeout] - the number of milliseconds to wait for the resolveEvt, before rejecting.
  */
-export function once<EventMapT extends TypedEventMap<string>, EventT extends keyof EventMapT = keyof EventMapT>(target: TypedEventBase<EventMapT>, resolveEvt: EventT, timeout: number, ...rejectEvts: (keyof EventMapT & string)[]): Task<EventMapT[EventT]>;
-export function once<EventMapT extends TypedEventMap<string>, EventT extends keyof EventMapT = keyof EventMapT>(target: TypedEventBase<EventMapT>, resolveEvt: EventT, ...rejectEvts: (keyof EventMapT & string)[]): Task<EventMapT[EventT]>;
+export function once<EventMapT extends TypedEventMap<string>, EventT extends keyof EventMapT = keyof EventMapT>(target: TypedEventTarget<EventMapT>, resolveEvt: EventT, timeout: number, ...rejectEvts: (keyof EventMapT & string)[]): Task<EventMapT[EventT]>;
+export function once<EventMapT extends TypedEventMap<string>, EventT extends keyof EventMapT = keyof EventMapT>(target: TypedEventTarget<EventMapT>, resolveEvt: EventT, ...rejectEvts: (keyof EventMapT & string)[]): Task<EventMapT[EventT]>;
 export function once<EventMapT extends EventMap, EventT extends keyof EventMapT = keyof EventMapT>(target: EventTarget, resolveEvt: EventT, rejectEvtOrTimeout?: number | string, ...rejectEvts: EventT[]): Task<Event>
 export function once(target: EventTarget, resolveEvt: string, rejectEvtOrTimeout?: number | string, ...rejectEvts: string[]): Task<Event> {
 
@@ -32,7 +32,7 @@ export function once(target: EventTarget, resolveEvt: string, rejectEvtOrTimeout
         timeout = rejectEvtOrTimeout;
     }
 
-    if (!(target instanceof EventBase)) {
+    if (!(target instanceof CustomEventTarget)) {
         if (!targetValidateEvent(target, resolveEvt)) {
             throw new Error(`Target does not have a ${resolveEvt} rejection event`);
         }

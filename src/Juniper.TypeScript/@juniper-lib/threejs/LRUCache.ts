@@ -1,5 +1,5 @@
 import { arrayClear, arrayRemove } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
 export class LRUCacheItemEvicted<KeyT, ValueT> extends TypedEvent<"itemevicted">
@@ -9,7 +9,7 @@ export class LRUCacheItemEvicted<KeyT, ValueT> extends TypedEvent<"itemevicted">
     }
 }
 
-export class LRUCache<KeyT, ValueT> extends TypedEventBase<{
+export class LRUCache<KeyT, ValueT> extends TypedEventTarget<{
     itemevicted: LRUCacheItemEvicted<KeyT, ValueT>;
 }>{
     map = new Map<KeyT, ValueT>();

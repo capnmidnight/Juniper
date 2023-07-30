@@ -1,5 +1,5 @@
 import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { Task } from "@juniper-lib/events/Task";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { progressPopper } from "@juniper-lib/progress/progressPopper";
@@ -61,7 +61,7 @@ type ApplicationLoaderEvents = {
 }
 
 export class ApplicationLoader
-    extends TypedEventBase<ApplicationLoaderEvents>
+    extends TypedEventTarget<ApplicationLoaderEvents>
     implements Iterable<Application> {
     private readonly loadedModules = new Map<string, Promise<ApplicationModule>>();
     private readonly loadingApps = new Map<string, Promise<Application>>();

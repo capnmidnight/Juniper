@@ -1,4 +1,4 @@
-import type { TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import type { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import type { Vector3 } from "three";
 import type { BufferReaderWriter } from "../../BufferReaderWriter";
 import type { BaseCursor3D } from "../cursors/BaseCursor3D";
@@ -7,7 +7,7 @@ import type { RayTarget } from "../RayTarget";
 import type { Pointer3DEvents } from "./Pointer3DEvent";
 import type { VirtualButton } from "./VirtualButton";
 
-export interface IPointer extends TypedEventBase<Pointer3DEvents> {
+export interface IPointer extends TypedEventTarget<Pointer3DEvents> {
     id: PointerID;
     type: PointerType;
     cursor: BaseCursor3D;

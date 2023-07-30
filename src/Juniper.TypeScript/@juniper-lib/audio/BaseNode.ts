@@ -1,10 +1,10 @@
-import { TypedEventBase, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import { IAudioNode, IAudioParam, isEndpoint, isIAudioNode } from "./IAudioNode";
 import type { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
 
 
 export abstract class BaseNode<EventMapT extends TypedEventMap<string>>
-    extends TypedEventBase<EventMapT>
+    extends TypedEventTarget<EventMapT>
     implements IAudioNode {
 
     private _name: string = null;

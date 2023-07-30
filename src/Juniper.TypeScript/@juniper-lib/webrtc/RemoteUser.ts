@@ -1,5 +1,5 @@
 import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { Task } from "@juniper-lib/events/Task";
 import { isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable, dispose } from "@juniper-lib/tslib/using";
@@ -121,7 +121,7 @@ type RemoteUserEvents = {
 
 const seenUsers = new Set<string>();
 
-export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDisposable {
+export class RemoteUser extends TypedEventTarget<RemoteUserEvents> implements IDisposable {
 
     private readonly userStateEvt = new UserStateEvent(this);
     private readonly userChatEvt = new UserChatEvent(this);

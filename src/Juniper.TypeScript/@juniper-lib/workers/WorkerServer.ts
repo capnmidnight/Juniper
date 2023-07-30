@@ -1,4 +1,4 @@
-import { TypedEventBase, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
 import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
 import { isArray, isDefined } from "@juniper-lib/tslib/typeChecks";
 import { WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEventMessage, WorkerServerMessages, WorkerServerProgressMessage, WorkerServerReturnMessage } from "@juniper-lib/workers/WorkerMessages";
@@ -209,7 +209,7 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
 
 
     addEvent<EventNameT extends keyof EventMapT & string, TransferableT>(
-        object: TypedEventBase<EventMapT>,
+        object: TypedEventTarget<EventMapT>,
         eventName: EventNameT,
         makePayload?: (evt: EventMapT[EventNameT] & Event) => TransferableT,
         transferReturnValue?: createTransferableCallback<TransferableT>

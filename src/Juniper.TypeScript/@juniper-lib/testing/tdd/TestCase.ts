@@ -1,4 +1,4 @@
-import { TypedEventBase } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
 import { isNumber, isString } from "@juniper-lib/tslib/typeChecks";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";
@@ -10,7 +10,7 @@ type TestCaseEvents = {
     testcasefail: TestCaseFailEvent;
 }
 
-export class TestCase extends TypedEventBase<TestCaseEvents> {
+export class TestCase extends TypedEventTarget<TestCaseEvents> {
 
     protected defaultError = 0.001;
 
