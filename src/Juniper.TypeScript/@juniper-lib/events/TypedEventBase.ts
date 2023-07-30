@@ -63,30 +63,3 @@ export class TypedEventTarget<EventMapT extends TypedEventMap<string>> extends C
     }
 }
 
-export function TypedHTMLElement<BaseElementT extends CustomElementConstructor>(Base: BaseElementT) {
-    return class <EventMapT extends TypedEventMap<string>> extends HTMLElementBase(Base) implements TypedEventTarget<EventMapT> {
-        override addBubbler(bubbler: TypedEventTarget<EventMapT>) {
-            super.addBubbler(bubbler);
-        }
-
-        override removeBubbler(bubbler: TypedEventTarget<EventMapT>) {
-            super.removeBubbler(bubbler);
-        }
-
-        override addScopedEventListener<EventTypeT extends keyof EventMapT>(scope: object, type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
-            super.addScopedEventListener(scope, type as string, callback as EventListenerOrEventListenerObject, options);
-        }
-
-        override addEventListener<EventTypeT extends keyof EventMapT>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
-            super.addEventListener(type as string, callback as EventListenerOrEventListenerObject, options);
-        }
-
-        override removeEventListener<EventTypeT extends keyof EventMapT>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<EventMapT, EventTypeT>): void {
-            super.removeEventListener(type as string, callback as EventListenerOrEventListenerObject);
-        }
-
-        override clearEventListeners<EventTypeT extends keyof EventMapT>(type?: EventTypeT): void {
-            return super.clearEventListeners(type as string);
-        }
-    }
-}
