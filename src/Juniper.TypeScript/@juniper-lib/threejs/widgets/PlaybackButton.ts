@@ -1,7 +1,7 @@
 import { FullAudioRecord } from "@juniper-lib/audio/data";
 import { IPlayer, MediaPlayerEvents } from "@juniper-lib/audio/sources/IPlayer";
 import { keycapDigits } from "@juniper-lib/emoji/numbers";
-import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventTarget";
 import { all } from "@juniper-lib/events/all";
 import { BaseProgress } from "@juniper-lib/progress/BaseProgress";
 import { AsyncCallback } from "@juniper-lib/tslib/identity";

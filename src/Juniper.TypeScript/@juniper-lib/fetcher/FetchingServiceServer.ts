@@ -3,7 +3,7 @@ import { WorkerServer } from "@juniper-lib/workers/WorkerServer";
 import { IFetchingService } from "./IFetchingService";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IResponse } from "./IResponse";
-import { TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventMap } from "@juniper-lib/events/TypedEventTarget";
 
 export class FetchingServiceServer extends WorkerServer<TypedEventMap<string>> {
     constructor(self: DedicatedWorkerGlobalScope, impl: IFetchingServiceImpl) {

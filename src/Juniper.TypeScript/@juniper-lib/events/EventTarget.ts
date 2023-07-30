@@ -124,7 +124,7 @@ export class CustomEventTarget implements IEventTarget {
     }
 }
 
-export class EventBaseMixin implements IEventTarget {
+export class EventTargetMixin implements IEventTarget {
     private readonly listeners = new Map<string, EventListenerOrEventListenerObject[]>();
     private readonly listenerOptions = new Map<EventListenerOrEventListenerObject, boolean | AddEventListenerOptions>();
     private readonly bubblers = new Set<EventTarget>();
@@ -241,48 +241,54 @@ export class EventBaseMixin implements IEventTarget {
     }
 }
 
-export function HTMLElementBase<BaseElementT extends CustomElementConstructor>(Base: BaseElementT) {
-    return class extends Base implements IEventTarget {
-        readonly eventTarget: EventBaseMixin;
-        constructor(..._rest: any[]) {
-            super();
-            this.eventTarget = new EventBaseMixin(
-                super.addEventListener.bind(this),
-                super.removeEventListener.bind(this),
-                super.dispatchEvent.bind(this)
-            );
-        }
+/**
+ * Don't actually instantiate or subclass this class. Use it as template to create new classes.
+ * Make sure to decorate your custom element with the `@CustomElement` decorator.
+ * 
+ * I know this sucks, but I can't get the type system to do what I want right now.
+ */
+export abstract class CustomHTMLElementExample extends HTMLElement implements IEventTarget {
 
-        override addEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
-            this.eventTarget.addEventListener(type, callback, options);
-        }
+    private readonly eventTarget: EventTargetMixin;
 
-        override removeEventListener(type: string, callback: EventListenerOrEventListenerObject) {
-            this.eventTarget.removeEventListener(type, callback);
-        }
+    constructor() {
+        super();
+        this.eventTarget = new EventTargetMixin(
+            super.addEventListener.bind(this),
+            super.removeEventListener.bind(this),
+            super.dispatchEvent.bind(this)
+        );
+    }
 
-        override dispatchEvent(evt: Event): boolean {
-            return this.eventTarget.dispatchEvent(evt);
-        }
+    override addEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addEventListener(type, callback, options);
+    }
 
-        addBubbler(bubbler: EventTarget) {
-            this.eventTarget.addBubbler(bubbler);
-        }
+    override removeEventListener(type: string, callback: EventListenerOrEventListenerObject) {
+        this.eventTarget.removeEventListener(type, callback);
+    }
 
-        removeBubbler(bubbler: EventTarget) {
-            this.eventTarget.removeBubbler(bubbler);
-        }
+    override dispatchEvent(evt: Event): boolean {
+        return this.eventTarget.dispatchEvent(evt);
+    }
 
-        addScopedEventListener(scope: object, type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
-            this.eventTarget.addScopedEventListener(scope, type, callback, options);
-        }
+    addBubbler(bubbler: EventTarget) {
+        this.eventTarget.addBubbler(bubbler);
+    }
 
-        removeScope(scope: object) {
-            this.eventTarget.removeScope(scope);
-        }
+    removeBubbler(bubbler: EventTarget) {
+        this.eventTarget.removeBubbler(bubbler);
+    }
 
-        clearEventListeners(type?: string): void {
-            this.eventTarget.clearEventListeners(type);
-        }
+    addScopedEventListener(scope: object, type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addScopedEventListener(scope, type, callback, options);
+    }
+
+    removeScope(scope: object) {
+        this.eventTarget.removeScope(scope);
+    }
+
+    clearEventListeners(type?: string): void {
+        this.eventTarget.clearEventListeners(type);
     }
 }

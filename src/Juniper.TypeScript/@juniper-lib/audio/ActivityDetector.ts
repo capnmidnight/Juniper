@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventTarget";
 import { JuniperAnalyserNode } from "./context/JuniperAnalyserNode";
 import { SetIntervalTimer } from "@juniper-lib/timers/SetIntervalTimer";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";

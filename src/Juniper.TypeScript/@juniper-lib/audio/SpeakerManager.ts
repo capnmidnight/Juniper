@@ -1,5 +1,5 @@
 import { arrayScan, arraySortByKey } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";

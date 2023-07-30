@@ -1,7 +1,7 @@
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey } from "@juniper-lib/collections/arrays";
 import { ClassList } from "@juniper-lib/dom/attrs";
 import { Div, HtmlRender, ElementChild, elementClearChildren, ErsatzElement, Select } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { isDefined, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
 import "./styles.css";

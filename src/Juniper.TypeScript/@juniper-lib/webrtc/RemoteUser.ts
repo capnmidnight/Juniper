@@ -1,5 +1,5 @@
 import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { Task } from "@juniper-lib/events/Task";
 import { isArrayBuffer } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable, dispose } from "@juniper-lib/tslib/using";

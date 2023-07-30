@@ -3,7 +3,7 @@ import { BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { arrayRemove, arraySortByKeyInPlace } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { isDesktop, isFirefox, isOculusBrowser, oculusBrowserVersion } from "@juniper-lib/tslib/flags";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { TimerTickEvent } from "@juniper-lib/timers/ITimer";

@@ -1,7 +1,7 @@
 import { AudioManager } from "@juniper-lib/audio/AudioManager";
 import { LocalUserMicrophone } from "@juniper-lib/audio/LocalUserMicrophone";
 import { StreamChangedEvent } from "@juniper-lib/audio/StreamChangedEvent";
-import { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { WindowQuitEventer } from "@juniper-lib/events/WindowQuitEventer";
 import { singleton } from "@juniper-lib/tslib/singleton";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";

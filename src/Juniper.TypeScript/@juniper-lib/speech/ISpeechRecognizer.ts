@@ -1,5 +1,5 @@
 import { BlobAvailableEvent } from "@juniper-lib/audio/AudioRecordingNode";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 
 export class SpeechRecognizerErrorEvent
     extends TypedEvent<"error">

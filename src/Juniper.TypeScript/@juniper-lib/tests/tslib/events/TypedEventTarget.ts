@@ -1,5 +1,5 @@
 import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { once } from "@juniper-lib/events/once";
 
 
@@ -18,7 +18,7 @@ class Rig extends TypedEventTarget<{
     }
 }
 
-export class TypedEventBaseTests extends TestCase {
+export class TypedEventTargetTests extends TestCase {
 
     override setup() {
     }

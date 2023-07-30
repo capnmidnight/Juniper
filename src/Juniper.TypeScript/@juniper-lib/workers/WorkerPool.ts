@@ -1,5 +1,5 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
-import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/TypedEventTarget";
 import { isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/typeChecks";
 import { IDisposable, dispose } from "@juniper-lib/tslib/using";
 import { WorkerClient } from "./WorkerClient";

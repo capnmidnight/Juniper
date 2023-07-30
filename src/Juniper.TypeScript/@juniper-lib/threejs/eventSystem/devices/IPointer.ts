@@ -1,4 +1,4 @@
-import type { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import type { TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import type { Vector3 } from "three";
 import type { BufferReaderWriter } from "../../BufferReaderWriter";
 import type { BaseCursor3D } from "../cursors/BaseCursor3D";

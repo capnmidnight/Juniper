@@ -4,7 +4,7 @@ import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/evts";
 import { ButtonSmall, Div, ErsatzElement, Span, elementIsDisplayed, elementSetDisplay, elementSetText, elementSetTitle } from "@juniper-lib/dom/tags";
 import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
 import { Task } from "@juniper-lib/events/Task";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { debounce } from "@juniper-lib/events/debounce";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 

@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventTarget } from "./TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "./TypedEventTarget";
 
 export class WindowQuitEventer extends TypedEventTarget<{
     "quitting": TypedEvent<"quitting">

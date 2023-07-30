@@ -1,5 +1,5 @@
 import { arrayScan, arraySortByKey } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 import { StreamChangedEvent } from "./StreamChangedEvent";
 

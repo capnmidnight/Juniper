@@ -1,7 +1,7 @@
 import { ClassList } from "@juniper-lib/dom/attrs";
 import { onInput } from "@juniper-lib/dom/evts";
 import { Div, ElementChild, ErsatzElement, InputNumber, InputRange } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 
 import "./style.css";
 

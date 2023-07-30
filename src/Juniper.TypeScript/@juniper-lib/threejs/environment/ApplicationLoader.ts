@@ -1,5 +1,5 @@
 import { unwrapResponse } from "@juniper-lib/fetcher/unwrapResponse";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { Task } from "@juniper-lib/events/Task";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { progressPopper } from "@juniper-lib/progress/progressPopper";

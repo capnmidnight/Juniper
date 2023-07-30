@@ -1,5 +1,5 @@
 import { arrayClear, arrayScan } from "@juniper-lib/collections/arrays";
-import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventTarget";
 import { debounce } from "@juniper-lib/events/debounce";
 import { MediaType } from "@juniper-lib/mediatypes";
 import * as allAudioTypes from "@juniper-lib/mediatypes/audio";

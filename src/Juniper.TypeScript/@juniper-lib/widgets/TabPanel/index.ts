@@ -1,7 +1,7 @@
 import { ClassList, CustomData, HtmlAttr, ID, QueryAll } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import { ButtonSmall, Div, Elements, ErsatzElement, HtmlRender, elementSetClass, elementSetDisplay, getElements, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 import "./styles.css";

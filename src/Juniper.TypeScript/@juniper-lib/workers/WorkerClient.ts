@@ -1,6 +1,6 @@
 import { arrayScan } from "@juniper-lib/collections/arrays";
 import { Task } from "@juniper-lib/events/Task";
-import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/TypedEventTarget";
 import { IProgress, isProgressCallback } from "@juniper-lib/progress/IProgress";
 import { isWorkerSupported } from "@juniper-lib/tslib/flags";
 import { assertNever, isArray, isDefined } from "@juniper-lib/tslib/typeChecks";

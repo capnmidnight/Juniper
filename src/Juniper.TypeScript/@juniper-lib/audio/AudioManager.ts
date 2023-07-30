@@ -5,7 +5,7 @@ import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, ElementChild, HtmlRender } from "@juniper-lib/dom/tags";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
-import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventTarget";
 import { all } from "@juniper-lib/events/all";
 import { AssetFile } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";

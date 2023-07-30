@@ -1,5 +1,5 @@
 import { IDisposable } from "@juniper-lib/tslib/using";
-import { TypedEvent, TypedEventTarget, TypedEventMap } from "./TypedEventBase";
+import { TypedEvent, TypedEventTarget, TypedEventMap } from "./TypedEventTarget";
 
 class EventScope implements IDisposable {
     constructor(private readonly target: EventTarget, private readonly eventName: string, private readonly handler: any) {

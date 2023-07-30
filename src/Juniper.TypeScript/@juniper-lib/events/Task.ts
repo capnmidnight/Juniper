@@ -1,6 +1,6 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { TypedEventTarget, TypedEventMap } from "./TypedEventBase";
+import { TypedEventTarget, TypedEventMap } from "./TypedEventTarget";
 
 export type TaskExecutionState =
     | "waiting"

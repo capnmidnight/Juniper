@@ -1,4 +1,4 @@
-import { TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventMap } from "@juniper-lib/events/TypedEventTarget";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { WorkerClient } from "@juniper-lib/workers/WorkerClient";
 import { WorkerServerEventMessage } from "@juniper-lib/workers/WorkerMessages";

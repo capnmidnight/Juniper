@@ -1,6 +1,6 @@
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { mediaElementCanPlay } from "@juniper-lib/dom/tags";
-import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventTarget";
 import { once } from "@juniper-lib/events/once";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";

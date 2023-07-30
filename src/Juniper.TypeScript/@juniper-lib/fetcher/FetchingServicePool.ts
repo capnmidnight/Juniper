@@ -1,4 +1,4 @@
-import { TypedEventMap } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventMap } from "@juniper-lib/events/TypedEventTarget";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import type { FullWorkerClientOptions } from "@juniper-lib/workers/WorkerClientOptions";
 import { WorkerPool } from "@juniper-lib/workers/WorkerPool";

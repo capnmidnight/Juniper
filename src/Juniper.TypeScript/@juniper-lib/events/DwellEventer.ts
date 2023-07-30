@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventTarget } from "./TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "./TypedEventTarget";
 
 export class DwellEvent extends TypedEvent<"dwell">{
     constructor(public readonly dwellTimeSeconds: number) {

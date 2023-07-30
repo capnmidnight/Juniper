@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { IDataLogger } from "@juniper-lib/tslib/IDataLogger";
 import type { IProgress } from "@juniper-lib/progress/IProgress";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";

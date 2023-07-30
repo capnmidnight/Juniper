@@ -1,5 +1,5 @@
 import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
-import { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { nothing } from "@juniper-lib/tslib/identity";
 import { isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { TestCase, TestCaseConstructor } from "./TestCase";

@@ -4,7 +4,7 @@ import { Button, HtmlRender, elementSetText, ErsatzElement } from "@juniper-lib/
 import { MediaType } from "@juniper-lib/mediatypes";
 import { mediaTypesToAcceptValue } from "@juniper-lib/mediatypes/util";
 import { arrayReplace } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 
 export class FileUploadInputEvent extends TypedEvent<"input"> {

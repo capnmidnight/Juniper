@@ -8,7 +8,7 @@ import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import { display, em, flexDirection, gap, perc, pointerEvents, transform, width } from "@juniper-lib/dom/css";
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { Div, HtmlRender } from "@juniper-lib/dom/tags";
-import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
+import { TypedEvent } from "@juniper-lib/events/TypedEventTarget";
 import { all } from "@juniper-lib/events/all";
 import { AssetFile, BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";

@@ -1,5 +1,5 @@
 import { arrayRemove } from "@juniper-lib/collections/arrays";
-import { TypedEventTarget } from "@juniper-lib/events/TypedEventBase";
+import { TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { Mesh, Object3D } from "three";
 import { ErsatzObject, objectIsFullyVisible, objectResolve, Objects } from "../objects";
 import { Pointer3DEvents } from "./devices/Pointer3DEvent";
