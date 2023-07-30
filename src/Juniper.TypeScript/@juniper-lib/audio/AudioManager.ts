@@ -1,11 +1,11 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
-import { Controls, Loop, Src} from "@juniper-lib/dom/attrs";
+import { Controls, Loop, Src } from "@juniper-lib/dom/attrs";
 import { onEvent } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, ElementChild, HtmlRender } from "@juniper-lib/dom/tags";
-import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
+import { TypedEvent } from "@juniper-lib/events/TypedEventBase";
 import { all } from "@juniper-lib/events/all";
 import { AssetFile } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
@@ -63,9 +63,6 @@ export class AudioManager
 
     private _useHeadphones = false;
 
-
-    get element() { return this.destination.element; }
-
     readonly destination: WebAudioDestination = null;
     readonly noSpatializer: NoSpatializer;
     readonly speakers: SpeakerManager;
@@ -96,7 +93,7 @@ export class AudioManager
 
         const noSpatializer = new NoSpatializer(destination.nonSpatializedInput);
 
-        const speakers = new SpeakerManager(destination.element);
+        const speakers = new SpeakerManager(destination.audioElement);
 
         super("audio-manager", context, null, null, [noSpatializer, destination]);
 

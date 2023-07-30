@@ -2,7 +2,7 @@ import { AutoPlay, Controls, ID, SrcObject } from "@juniper-lib/dom/attrs";
 import { display } from "@juniper-lib/dom/css";
 import { onPlay } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
-import { Audio, ErsatzElement } from "@juniper-lib/dom/tags";
+import { Audio } from "@juniper-lib/dom/tags";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
 import { BaseNodeCluster } from "../BaseNodeCluster";
@@ -23,7 +23,7 @@ export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestination
 
 export class WebAudioDestination
     extends BaseNodeCluster
-    implements IReadyable, IPoseable, ErsatzElement<HTMLAudioElement> {
+    implements IReadyable, IPoseable {
     readonly pose = new Pose();
     private readonly volumeControl: JuniperGainNode;
     private readonly destination: JuniperMediaStreamAudioDestinationNode;
@@ -31,7 +31,7 @@ export class WebAudioDestination
     readonly remoteUserInput: JuniperGainNode;
     readonly spatializedInput: JuniperGainNode;
     readonly nonSpatializedInput: JuniperGainNode;
-    readonly element: HTMLAudioElement;
+    readonly audioElement: HTMLAudioElement;
 
     private readonly _ready: Task;
     get ready(): Promise<void> { return this._ready; }
@@ -77,7 +77,7 @@ export class WebAudioDestination
         this.nonSpatializedInput = nonSpatializedInput;
         this.volumeControl = nonSpatializedInput;
         this.destination = destination;
-        this.element = element;
+        this.audioElement = element;
 
         remoteUserInput
             .connect(spatializedInput)
