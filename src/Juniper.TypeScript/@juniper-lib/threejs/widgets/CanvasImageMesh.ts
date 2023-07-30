@@ -28,6 +28,10 @@ export class CanvasImageMesh<T extends CanvasImage>
         }
     }
 
+    get canvas() {
+        return this._image.canvas;
+    }
+
     constructor(env: BaseEnvironment, name: string, webXRLayerType: WebXRLayerType, image: T, materialOptions?: MeshBasicMaterialParameters) {
         super(env, name, webXRLayerType, materialOptions);
         this.image = image;

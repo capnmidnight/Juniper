@@ -1,6 +1,5 @@
 import type { CanvasTypes, Context2D } from "@juniper-lib/dom/canvas";
-import { createUICanvas, isHTMLCanvas } from "@juniper-lib/dom/canvas";
-import type { ErsatzElement } from "@juniper-lib/dom/tags";
+import { createUICanvas } from "@juniper-lib/dom/canvas";
 import { TypedEvent, TypedEventBase } from "@juniper-lib/events/TypedEventBase";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 
@@ -13,8 +12,7 @@ export interface CanvasImageOptions {
 }
 
 export abstract class CanvasImage
-    extends TypedEventBase<CanvasImageEvents>
-    implements ErsatzElement {
+    extends TypedEventBase<CanvasImageEvents> {
 
     private _canvas: CanvasTypes;
     private _scale = 250;
@@ -23,7 +21,6 @@ export abstract class CanvasImage
     private wasVisible: boolean = null;
 
     protected redrawnEvt = new TypedEvent("redrawn");
-    readonly element: HTMLCanvasElement = null;
 
     constructor(width: number, height: number, options?: Partial<CanvasImageOptions>) {
         super();
@@ -38,10 +35,6 @@ export abstract class CanvasImage
 
         this._canvas = createUICanvas(width, height);
         this._g = this.canvas.getContext("2d") as Context2D;
-
-        if (isHTMLCanvas(this._canvas)) {
-            this.element = this._canvas;
-        }
     }
 
     protected fillRect(color: string, x: number, y: number, width: number, height: number, margin: number) {

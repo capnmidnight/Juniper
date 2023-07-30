@@ -615,6 +615,6 @@ export function StyleBlob(...props: (string | PropSet)[]) {
     );
 }
 
-export function addStyle(...props: (string | PropSet)[]) {
+export function addStyle(...props: PropSet[]) {
     Style(document.head, ...props);
 }

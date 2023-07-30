@@ -309,6 +309,10 @@ export class Environment
         }
     }
 
+    get canvas() {
+        return this.statsImage.image.canvas;
+    }
+
     private _testSpaceLayout = false;
     get testSpaceLayout() {
         return this._testSpaceLayout;
@@ -347,9 +351,13 @@ export class Environment
                 transform("scaleX(-1)")
             )
         );
-        HtmlRender(this.screenUISpace.topRight,
-            this.compassImage,
-            this.statsImage);
+
+        this.screenUISpace.topRight.append
+            (...[this.compassImage, this.statsImage]
+                .map(v => v.canvas)
+                .filter(isHTMLCanvas)
+                .map(v => v as HTMLCanvasElement));
+
         HtmlRender(this.screenUISpace.bottomCenter, this.infoLabel);
         HtmlRender(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton, this.anaglyphButton);
         HtmlRender(this.screenUISpace.bottomLeft,
