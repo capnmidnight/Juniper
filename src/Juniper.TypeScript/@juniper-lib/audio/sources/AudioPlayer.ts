@@ -1,6 +1,6 @@
 import { arrayClear, arrayReplace, arraySortByKeyInPlace } from "@juniper-lib/collections/arrays";
 import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/attrs";
-import { Audio, ErsatzElement, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
+import { Audio, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
 import { once } from "@juniper-lib/events/once";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { URLBuilder } from "@juniper-lib/tslib/URLBuilder";
@@ -19,9 +19,11 @@ import { PlaybackState } from "./PlaybackState";
 
 export class AudioPlayer
     extends BaseAudioSource<MediaPlayerEvents>
-    implements ErsatzElement<HTMLAudioElement>, IPlayer, IDisposable {
+    implements IPlayer, IDisposable {
 
     private readonly cacheBustSources = new Map<FullAudioRecord | string, number>();
+
+    private readonly audioElement: HTMLAudioElement;
 
     private readonly loadingEvt: MediaPlayerLoadingEvent;
     private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayer>;
@@ -47,14 +49,12 @@ export class AudioPlayer
         return this._loaded;
     }
 
-    readonly element: HTMLAudioElement;
-
     get title() {
-        return this.element.title;
+        return this.audioElement.title;
     }
 
     protected setTitle(v: string): void {
-        this.element.title = v;
+        this.audioElement.title = v;
     }
 
     private readonly sourcesByURL = new Map<string, AudioRecord>();
@@ -78,7 +78,7 @@ export class AudioPlayer
 
         elementNode.connect(this.volumeControl);
 
-        this.element = mediaElement;
+        this.audioElement = mediaElement;
 
         this.loadingEvt = new MediaPlayerLoadingEvent(this);
         this.loadEvt = new MediaElementSourceLoadedEvent(this);
@@ -95,7 +95,7 @@ export class AudioPlayer
         this.onPause = (evt: Event) => {
             this.disable();
 
-            if (this.element.currentTime === 0 || evt.type === "ended") {
+            if (this.audioElement.currentTime === 0 || evt.type === "ended") {
                 this.dispatchEvent(this.stopEvt);
             }
             else {
@@ -104,45 +104,45 @@ export class AudioPlayer
         };
 
         this.onTimeUpdate = async () => {
-            this.progEvt.value = this.element.currentTime;
-            this.progEvt.total = this.element.duration;
+            this.progEvt.value = this.audioElement.currentTime;
+            this.progEvt.total = this.audioElement.duration;
             this.dispatchEvent(this.progEvt);
         };
 
         this.onError = () => this.loadAudio();
 
-        this.element.addEventListener("play", this.onPlay);
-        this.element.addEventListener("pause", this.onPause);
-        this.element.addEventListener("ended", this.onPause);
-        this.element.addEventListener("error", this.onError);
-        this.element.addEventListener("waiting", this.onWaiting);
-        this.element.addEventListener("canplay", this.onCanPlay);
-        this.element.addEventListener("timeupdate", this.onTimeUpdate);
+        this.audioElement.addEventListener("play", this.onPlay);
+        this.audioElement.addEventListener("pause", this.onPause);
+        this.audioElement.addEventListener("ended", this.onPause);
+        this.audioElement.addEventListener("error", this.onError);
+        this.audioElement.addEventListener("waiting", this.onWaiting);
+        this.audioElement.addEventListener("canplay", this.onCanPlay);
+        this.audioElement.addEventListener("timeupdate", this.onTimeUpdate);
 
 
         Object.assign(window, { audioPlayer: this });
     }
 
     get hasAudio() {
-        const source = this.sourcesByURL.get(this.element.src);
+        const source = this.sourcesByURL.get(this.audioElement.src);
         return isDefined(source) && source.acodec !== "none"
-            || isDefined(this.element.audioTracks) && this.element.audioTracks.length > 0
-            || isDefined(this.element.webkitAudioDecodedByteCount) && this.element.webkitAudioDecodedByteCount > 0
-            || isDefined(this.element.mozHasAudio) && this.element.mozHasAudio;
+            || isDefined(this.audioElement.audioTracks) && this.audioElement.audioTracks.length > 0
+            || isDefined(this.audioElement.webkitAudioDecodedByteCount) && this.audioElement.webkitAudioDecodedByteCount > 0
+            || isDefined(this.audioElement.mozHasAudio) && this.audioElement.mozHasAudio;
     }
 
     protected override onDisposing(): void {
         super.onDisposing();
         this.clear();
 
-        this.element.removeEventListener("play", this.onPlay);
-        this.element.removeEventListener("pause", this.onPause);
-        this.element.removeEventListener("ended", this.onPause);
-        this.element.removeEventListener("error", this.onError);
-        this.element.removeEventListener("waiting", this.onWaiting);
-        this.element.removeEventListener("canplay", this.onCanPlay);
-        this.element.removeEventListener("timeupdate", this.onTimeUpdate);
-        this.element.dispatchEvent(RELEASE_EVT);
+        this.audioElement.removeEventListener("play", this.onPlay);
+        this.audioElement.removeEventListener("pause", this.onPause);
+        this.audioElement.removeEventListener("ended", this.onPause);
+        this.audioElement.removeEventListener("error", this.onError);
+        this.audioElement.removeEventListener("waiting", this.onWaiting);
+        this.audioElement.removeEventListener("canplay", this.onCanPlay);
+        this.audioElement.removeEventListener("timeupdate", this.onTimeUpdate);
+        this.audioElement.dispatchEvent(RELEASE_EVT);
     }
 
     clear(): void {
@@ -152,7 +152,7 @@ export class AudioPlayer
         arrayClear(this.sources);
         arrayClear(this.potatoes);
 
-        this.element.src = "";
+        this.audioElement.src = "";
         this._data = null;
         this._loaded = false;
     }
@@ -231,7 +231,7 @@ export class AudioPlayer
             prog.start();
         }
 
-        this.element.removeEventListener("error", this.onError);
+        this.audioElement.removeEventListener("error", this.onError);
 
         while (this.hasSources) {
             let url: string = null;
@@ -256,9 +256,9 @@ export class AudioPlayer
                 uri.query("v", cacheV.toString());
                 url = uri.toString();
             }
-            this.element.src = url;
-            this.element.load();
-            if (await mediaElementCanPlayThrough(this.element)) {
+            this.audioElement.src = url;
+            this.audioElement.load();
+            if (await mediaElementCanPlayThrough(this.audioElement)) {
                 if (isDefined(source)) {
                     this.sources.unshift(source);
                 }
@@ -266,7 +266,7 @@ export class AudioPlayer
                     this.potatoes.unshift(url);
                 }
 
-                this.element.addEventListener("error", this.onError);
+                this.audioElement.addEventListener("error", this.onError);
 
                 if (isDefined(prog)) {
                     prog.end();
@@ -286,17 +286,17 @@ export class AudioPlayer
             return "loading";
         }
 
-        if (this.element.error) {
+        if (this.audioElement.error) {
             return "errored";
         }
 
-        if (this.element.ended
-            || this.element.paused
-            && this.element.currentTime === 0) {
+        if (this.audioElement.ended
+            || this.audioElement.paused
+            && this.audioElement.currentTime === 0) {
             return "stopped";
         }
 
-        if (this.element.paused) {
+        if (this.audioElement.paused) {
             return "paused";
         }
 
@@ -305,7 +305,7 @@ export class AudioPlayer
 
     async play(): Promise<void> {
         await this.context.ready;
-        await this.element.play();
+        await this.audioElement.play();
     }
 
     async playThrough(): Promise<void> {
@@ -315,12 +315,12 @@ export class AudioPlayer
     }
 
     pause(): void {
-        this.element.pause();
+        this.audioElement.pause();
     }
 
     stop(): void {
         this.pause();
-        this.element.currentTime = 0;
+        this.audioElement.currentTime = 0;
     }
 
     restart(): Promise<void> {
