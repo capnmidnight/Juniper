@@ -115,11 +115,15 @@ export class EventBase implements EventTarget {
         return true;
     }
 }
-export class HTMLElementBase extends HTMLElement {
+
+export class EventBaseMixin implements EventTarget {
     private readonly listeners = new Map<string, EventListenerOrEventListenerObject[]>();
     private readonly listenerOptions = new Map<EventListenerOrEventListenerObject, boolean | AddEventListenerOptions>();
     private readonly bubblers = new Set<EventTarget>();
     private readonly scopes = new WeakMap<object, Array<[any, any]>>();
+
+    constructor(private readonly parent: EventTarget) {
+    }
 
     addBubbler(bubbler: EventTarget) {
         this.bubblers.add(bubbler);
@@ -147,7 +151,7 @@ export class HTMLElementBase extends HTMLElement {
         }
     }
 
-    override addEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+    addEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
         let listeners = this.listeners.get(type);
         if (!listeners) {
             listeners = new Array<EventListenerOrEventListenerObject>();
@@ -162,16 +166,16 @@ export class HTMLElementBase extends HTMLElement {
             }
         }
 
-        super.addEventListener(type, callback, options);
+        this.parent.addEventListener(type, callback, options);
     }
 
-    override removeEventListener(type: string, callback: EventListenerOrEventListenerObject) {
+    removeEventListener(type: string, callback: EventListenerOrEventListenerObject) {
         const listeners = this.listeners.get(type);
         if (listeners) {
             this.removeListener(listeners, callback);
         }
 
-        super.removeEventListener(type, callback);
+        this.parent.removeEventListener(type, callback);
     }
 
     private removeListener(listeners: EventListenerOrEventListenerObject[], callback: EventListenerOrEventListenerObject) {
@@ -196,8 +200,8 @@ export class HTMLElementBase extends HTMLElement {
         }
     }
 
-    override dispatchEvent(evt: Event): boolean {
-        const result = super.dispatchEvent(evt);
+    dispatchEvent(evt: Event): boolean {
+        const result = this.parent.dispatchEvent(evt);
 
         const listeners = this.listeners.get(evt.type);
         if (listeners) {
@@ -222,5 +226,48 @@ export class HTMLElementBase extends HTMLElement {
         }
 
         return true;
+    }
+}
+
+
+export function HTMLElementBase<BaseElementT extends CustomElementConstructor>(Base: BaseElementT) {
+    return class extends Base {
+        readonly eventTarget: EventBaseMixin;
+        constructor(..._rest: any[]) {
+            super();
+            this.eventTarget = new EventBaseMixin(this);
+        }
+
+        override addEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+            this.eventTarget.addEventListener(type, callback, options);
+        }
+
+        override removeEventListener(type: string, callback: EventListenerOrEventListenerObject) {
+            this.eventTarget.removeEventListener(type, callback);
+        }
+
+        override dispatchEvent(evt: Event): boolean {
+            return this.eventTarget.dispatchEvent(evt);
+        }
+
+        addBubbler(bubbler: EventTarget) {
+            this.eventTarget.addBubbler(bubbler);
+        }
+
+        removeBubbler(bubbler: EventTarget) {
+            this.eventTarget.removeBubbler(bubbler);
+        }
+
+        addScopedEventListener(scope: object, type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+            this.eventTarget.addScopedEventListener(scope, type, callback, options);
+        }
+
+        removeScope(scope: object) {
+            this.eventTarget.removeScope(scope);
+        }
+
+        clearEventListeners(type?: string): void {
+            this.eventTarget.clearEventListeners(type);
+        }
     }
 }
