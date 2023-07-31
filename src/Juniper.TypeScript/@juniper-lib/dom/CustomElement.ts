@@ -3,9 +3,33 @@ import { ITypedEventTarget, TypedEventListenerOrEventListenerObject, TypedEventM
 
 type CustomElementConstructor<T extends HTMLElement> = new () => T;
 
+const mayAttachShadowRoot = [
+    "article",
+    "aside",
+    "blockquote",
+    "body",
+    "div",
+    "footer",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "header",
+    "main",
+    "nav",
+    "p",
+    "section",
+    "span"
+]
+
 export function CustomElement<ElementT extends HTMLElement = HTMLElement>(tagName: string, extendsTag?: string) {
     return function <CustomElementT extends CustomElementConstructor<ElementT>>(Type: CustomElementT) {
         if (extendsTag) {
+            if (mayAttachShadowRoot.indexOf(extendsTag) < 0 && /\.attachShadow\b/.test(Type.toString())) {
+                console.warn(`The <${extendsTag}> tag may not have a shadowRoot attached`);
+            }
             customElements.define(tagName, Type, { extends: extendsTag });
         }
         else {

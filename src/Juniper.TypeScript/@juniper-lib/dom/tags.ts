@@ -121,8 +121,21 @@ export function elementGetCustomData(elem: Elements<HTMLElement>, name: Lowercas
     return elem.dataset[name.toLowerCase()];
 }
 
-export function HtmlRender(element: Element | ErsatzElement, ...children: ElementChild[]): Element {
-    const elem = resolveElement(element);
+type ReturnElementType<T> = T extends Element
+    ? T
+    : T extends ShadowRoot
+    ? T
+    : T extends Elements<infer ElementT>
+    ? ElementT
+    : never;
+
+export function HtmlRender<T extends Elements | ShadowRoot>(element: T, ...children: ElementChild[]): ReturnElementType<T> {
+    const elem = element instanceof Element
+        ? element
+        : element instanceof ShadowRoot
+            ? element
+            : element.element;
+
     const target = elem instanceof HTMLTemplateElement
         ? elem.content
         : elem;
@@ -136,7 +149,9 @@ export function HtmlRender(element: Element | ErsatzElement, ...children: Elemen
                 target.appendChild(resolveElement(child));
             }
             else if (isIElementAppliable(child)) {
-                child.applyToElement(elem);
+                if (!(elem instanceof ShadowRoot)) {
+                    child.applyToElement(elem);
+                }
             }
             else {
                 target.appendChild(document.createTextNode(child.toLocaleString()));
@@ -144,7 +159,7 @@ export function HtmlRender(element: Element | ErsatzElement, ...children: Elemen
         }
     }
 
-    return elem;
+    return elem as ReturnElementType<T>;
 }
 
 export function elementRemoveFromParent(elem: Elements | string): void {
