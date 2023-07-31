@@ -1,11 +1,11 @@
 {
-  "include" : [ "vestigial.ts" ],
+    "include": [ "vestigial.ts" ],
 
-  "exclude": [
-    "node_modules"
-  ],
+    "exclude": [
+        "node_modules"
+    ],
 
-  "compileOnSave": true,
+    "compileOnSave": true,
 
     "compilerOptions": {
         "lib": [ "ES2021", "DOM", "WebWorker", "DOM.Iterable" ],
@@ -24,7 +24,7 @@
         "resolveJsonModule": true,
         "skipDefaultLibCheck": true,
         "skipLibCheck": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "useDefineForClassFields": false,
 
         "allowJs": false,

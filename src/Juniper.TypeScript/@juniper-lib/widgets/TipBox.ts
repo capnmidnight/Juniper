@@ -1,26 +1,89 @@
-import { ClassList, ID, Open } from "@juniper-lib/dom/attrs";
+import { CustomElement } from "@juniper-lib/dom/CustomElement";
+import { ID, Name, Open, Query, Slot_attr } from "@juniper-lib/dom/attrs";
 import { onToggle } from "@juniper-lib/dom/evts";
-import { Details, ErsatzElement, LI, Summary, UL } from "@juniper-lib/dom/tags";
+import { Details, HtmlRender, LI, Slot, Summary, Template, UL } from "@juniper-lib/dom/tags";
+import { EventTargetMixin, IEventTarget } from "@juniper-lib/events/EventTarget";
 
-export class TipBox implements ErsatzElement {
+export function TipBox(tipBoxID: string, ...tips: string[]) {
+    return HtmlRender(
+        document.createElement("tip-box"),
+        ID(tipBoxID),
+        UL(
+            Slot_attr("tips-slot"),
+            ...tips.map(tip => LI(tip))
+        )
+    ) as TipBoxElement;
+}
 
-    readonly element: HTMLDetailsElement;
+const template = Template(
+    Details(
+        Summary("Tips:"),
+        Slot(Name("tips-slot"))
+    )
+);
 
-    constructor(tipBoxID: string, ...tips: string[]) {
-        const storageKey = `Juniper:Widgets:TipBox:${tipBoxID}`;
+@CustomElement("tip-box")
+export class TipBoxElement extends HTMLElement implements IEventTarget {
 
-        this.element = Details(
-            ID(tipBoxID),
-            ClassList("tip"),
-            Summary("Tips:"),
+    private readonly eventTarget: EventTargetMixin;
+
+    constructor() {
+        super();
+
+        this.eventTarget = new EventTargetMixin(
+            super.addEventListener.bind(this),
+            super.removeEventListener.bind(this),
+            super.dispatchEvent.bind(this)
+        );
+    }
+
+    connectedCallback() {
+
+        const storageKey = `Juniper:Widgets:TipBox:${this.id}`;
+
+        const shadowRoot = this.attachShadow({ mode: "closed" });
+        const instance = template.content.cloneNode(true) as DocumentFragment;
+        shadowRoot.appendChild(instance);
+
+        const details = Details(Query(shadowRoot, "details"),
             Open(localStorage.getItem(storageKey) !== "closed"),
-            UL(
-                ...tips.map(tip => LI(tip)),
-            ),
             onToggle(() =>
                 localStorage.setItem(
                     storageKey,
-                    this.element.open ? "open" : "closed"))
+                    details.open ? "open" : "closed")
+            )
         );
+    }
+
+    override addEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addEventListener(type, callback, options);
+    }
+
+    override removeEventListener(type: string, callback: EventListenerOrEventListenerObject) {
+        this.eventTarget.removeEventListener(type, callback);
+    }
+
+    override dispatchEvent(evt: Event): boolean {
+        return this.eventTarget.dispatchEvent(evt);
+    }
+
+    addBubbler(bubbler: EventTarget) {
+        this.eventTarget.addBubbler(bubbler);
+    }
+
+    removeBubbler(bubbler: EventTarget) {
+        this.eventTarget.removeBubbler(bubbler);
+    }
+
+    addScopedEventListener(scope: object, type: string, callback: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addScopedEventListener(scope, type, callback, options);
+    }
+
+    removeScope(scope: object) {
+        this.eventTarget.removeScope(scope);
+    }
+
+    clearEventListeners(type?: string): void {
+        this.eventTarget.clearEventListeners(type);
     }
 }

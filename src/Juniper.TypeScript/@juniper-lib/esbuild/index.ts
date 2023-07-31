@@ -177,6 +177,11 @@ export class Build {
             plugins,
             legalComments: "none",
             treeShaking: true,
+            tsconfigRaw: {
+                compilerOptions: {
+                    experimentalDecorators: true
+                }
+            }
         };
 
         for (const alterer of this.manualOptionsChanges) {

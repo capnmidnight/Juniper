@@ -54,7 +54,7 @@ export class Build {
             const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
             const namedExports = match[1]
                 .replace(/\b\w+\s+as\s+/g, "")
-                .split(',')
+                .split(",")
                 .map(v => v.trim());
             this.globalExternal("three", {
                 varName: "THREE",
@@ -116,7 +116,7 @@ export class Build {
             plugins.unshift(globalExternals(this.globalExternals));
         }
         plugins.push({
-            name: 'my-plugin',
+            name: "my-plugin",
             setup(build) {
                 let count = 0;
                 build.onEnd(() => {
@@ -143,6 +143,11 @@ export class Build {
             plugins,
             legalComments: "none",
             treeShaking: true,
+            tsconfigRaw: {
+                compilerOptions: {
+                    experimentalDecorators: true
+                }
+            }
         };
         for (const alterer of this.manualOptionsChanges) {
             alterer(opts);

@@ -738,7 +738,7 @@ export function Muted(value: boolean) { return attr("muted", value, false, "audi
 /**
  * Name of the element. For example used by the server to identify the fields in form submits.
   **/
-export function Name(value: string) { return attr("name", value, false, "button", "form", "fieldset", "iframe", "input", "keygen", "object", "output", "select", "textarea", "map", "meta", "param"); }
+export function Name(value: string) { return attr("name", value, false, "button", "form", "fieldset", "iframe", "input", "keygen", "map", "meta", "object", "output", "param", "select", "slot", "textarea"); }
 
 /**
  * This attribute indicates that the form shouldn't be validated when submitted.

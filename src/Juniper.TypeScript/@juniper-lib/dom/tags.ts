@@ -109,28 +109,37 @@ export function elementGetIndexInParent(elem: Elements): number {
     return null;
 }
 
+export function Clear() {
+    return {
+        applyToElement(elem: HTMLElement) { elem.innerHTML = ""; }
+    }
+}
+
 
 export function elementGetCustomData(elem: Elements<HTMLElement>, name: Lowercase<string>): string {
     elem = resolveElement(elem);
     return elem.dataset[name.toLowerCase()];
 }
 
-export function HtmlRender(element: Elements | string, ...children: ElementChild[]): Elements {
+export function HtmlRender(element: Element | ErsatzElement, ...children: ElementChild[]): Element {
     const elem = resolveElement(element);
+    const target = elem instanceof HTMLTemplateElement
+        ? elem.content
+        : elem;
 
     for (const child of children) {
         if (isDefined(child)) {
             if (child instanceof Node) {
-                elem.append(child);
+                target.appendChild(child);
             }
             else if (isErsatzElement(child)) {
-                elem.append(resolveElement(child));
+                target.appendChild(resolveElement(child));
             }
             else if (isIElementAppliable(child)) {
                 child.applyToElement(elem);
             }
             else {
-                elem.append(document.createTextNode(child.toLocaleString()));
+                target.appendChild(document.createTextNode(child.toLocaleString()));
             }
         }
     }
