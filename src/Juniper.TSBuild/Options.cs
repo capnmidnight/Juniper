@@ -42,21 +42,12 @@ namespace Juniper.TSBuild
         public DirectoryInfo? workingDir;
 
         public bool NPMInstalls => flags.Contains(nameof(NPMInstalls));
-        public bool NPMAudits => flags.Contains(nameof(NPMAudits));
-        public bool NPMAuditFixes => flags.Contains(nameof(NPMAuditFixes));
         public bool DeleteNodeModuleDirs => flags.Contains(nameof(DeleteNodeModuleDirs));
         public bool DeletePackageLockJsons => flags.Contains(nameof(DeletePackageLockJsons));
         public bool DeleteTSBuildInfos => flags.Contains(nameof(DeleteTSBuildInfos));
         public bool OpenPackageJsons => flags.Contains(nameof(OpenPackageJsons));
+        public bool OpenTSConfigJsons => flags.Contains(nameof(OpenTSConfigJsons));
         public bool TypeCheck => flags.Contains(nameof(TypeCheck));
-        public bool Deploy => flags.Contains(nameof(Deploy));
-        public bool PublishPatch => flags.Contains(nameof(PublishPatch));
-        public bool PublishMinor => flags.Contains(nameof(PublishMinor));
-        public bool PublishMajor => flags.Contains(nameof(PublishMajor));
-        public bool Publish => 
-            PublishPatch 
-            || PublishMinor 
-            || PublishMajor;
 
         public bool Build
         {
@@ -73,17 +64,12 @@ namespace Juniper.TSBuild
             var commands = new[]
             {
                 new Command("--upgrade", "Open package.json files", FlagSetter(nameof(OpenPackageJsons))),
+                new Command("--upgrade", "Open tsconfig.json files", FlagSetter(nameof(OpenTSConfigJsons))),
                 new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
                 new Command("--ts-clean", "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
                 new Command("--check", "Type Check", FlagSetter(nameof(TypeCheck))),
-                new Command("--build", "Build", FlagSetter(nameof(Build))),
-                new Command("--publish-patch", "Publish Patch", FlagSetter(nameof(PublishPatch))),
-                new Command("--publish-minor", "Publish Minor", FlagSetter(nameof(PublishMinor))),
-                new Command("--publish-major", "Publish Major", FlagSetter(nameof(PublishMajor))),
-                new Command("--deploy", "Deploy", FlagSetter(nameof(Deploy))),
-                new Command("--audit", "Audit NPM packages", FlagSetter(nameof(NPMAudits))),
-                new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(NPMAuditFixes)))
+                new Command("--build", "Build", FlagSetter(nameof(Build)))
             };
 
             interactiveCommands = commands
