@@ -27,7 +27,7 @@ import {
 import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { alwaysFalse, identity } from "@juniper-lib/tslib/identity";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { TreeViewNode, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
+import { TreeViewNodeElement, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNodeElement";
 
 import { PropertyDef, PropertyList } from "../PropertyList";
 import { SelectList } from "../SelectList";
@@ -100,10 +100,10 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
     private readonly options: TreeViewOptions<ValueT, FilterTypeT>;
     private readonly _canChangeOrder: boolean;
 
-    private readonly elements = new Array<TreeViewNode<ValueT>>();
-    private readonly nodes2Elements = new Map<TreeNode<ValueT>, TreeViewNode<ValueT>>();
+    private readonly elements = new Array<TreeViewNodeElement<ValueT>>();
+    private readonly nodes2Elements = new Map<TreeNode<ValueT>, TreeViewNodeElement<ValueT>>();
     private readonly htmlElements2Nodes = new Map<HTMLElement, TreeNode<ValueT>>();
-    private readonly htmlElements2Elements = new Map<HTMLElement, TreeViewNode<ValueT>>();
+    private readonly htmlElements2Elements = new Map<HTMLElement, TreeViewNodeElement<ValueT>>();
 
     private _rootNode: TreeNode<ValueT> = null;
     private locked = false;
@@ -194,7 +194,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                             else if (evt.key === "ArrowUp") {
                                 const index = elementGetIndexInParent(sel);
                                 if (index > 0) {
-                                    const nextHTMLElement = sel.element.parentElement.children[index - 1] as HTMLElement;
+                                    const nextHTMLElement = sel.parentElement.children[index - 1] as HTMLElement;
                                     const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
                                     nextElement._select(true);
                                 }
@@ -206,8 +206,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                             }
                             else if (evt.key === "ArrowDown") {
                                 const index = elementGetIndexInParent(sel);
-                                if (index < sel.element.parentElement.childElementCount - 1) {
-                                    const nextHTMLElement = sel.element.parentElement.children[index + 1] as HTMLElement;
+                                if (index < sel.parentElement.childElementCount - 1) {
+                                    const nextHTMLElement = sel.parentElement.children[index + 1] as HTMLElement;
                                     const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
                                     nextElement._select(true);
                                 }
@@ -215,7 +215,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                                     const parentNode = sel.node.parent;
                                     const parentElement = this.nodes2Elements.get(parentNode);
                                     const parentIndex = elementGetIndexInParent(parentElement);
-                                    const nextHTMLElement = parentElement.element.parentElement.children[parentIndex + 1] as HTMLElement;
+                                    const nextHTMLElement = parentElement.parentElement.children[parentIndex + 1] as HTMLElement;
                                     if (nextHTMLElement) {
                                         const nextElement = this.htmlElements2Elements.get(nextHTMLElement);
                                         nextElement._select(true);
@@ -224,22 +224,22 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                             }
                             else if (evt.key === "ArrowRight") {
                                 if (sel.node.hasChildren) {
-                                    if (sel.isOpen) {
-                                        const nextHTMLElem = sel.children.children[0] as HTMLElement;
+                                    if (sel.open) {
+                                        const nextHTMLElem = sel.childTreeNodes.children[0] as HTMLElement;
                                         if (nextHTMLElem) {
                                             const elem = this.htmlElements2Elements.get(nextHTMLElem);
                                             elem._select(true);
                                         }
                                     }
                                     else {
-                                        sel.isOpen = true;
+                                        sel.open = true;
                                     }
                                 }
                             }
                             else if (evt.key === "ArrowLeft") {
                                 const sel = this.selectedElement;
-                                if (sel.isOpen) {
-                                    sel.isOpen = false;
+                                if (sel.open) {
+                                    sel.open = false;
                                 }
                                 else if (sel.node.isChild && sel.node.parent.isChild) {
                                     const parentElem = this.nodes2Elements.get(sel.node.parent);
@@ -251,10 +251,10 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                             const rootElem = this.nodes2Elements.get(this.rootNode);
                             let htmlElem: HTMLElement = null;
                             if (evt.key === "ArrowUp") {
-                                htmlElem = rootElem.children.children[rootElem.children.children.length - 1] as HTMLElement;
+                                htmlElem = rootElem.childTreeNodes.children[rootElem.childTreeNodes.children.length - 1] as HTMLElement;
                             }
                             else if (evt.key === "ArrowDown") {
-                                htmlElem = rootElem.children.children[0] as HTMLElement;
+                                htmlElem = rootElem.childTreeNodes.children[0] as HTMLElement;
                             }
 
                             if (htmlElem) {
@@ -316,8 +316,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
         if (this.canChangeOrder) {
 
-            let draggedElement: TreeViewNode<ValueT> = null;
-            let dropElement: TreeViewNode<ValueT> = null;
+            let draggedElement: TreeViewNodeElement<ValueT> = null;
+            let dropElement: TreeViewNodeElement<ValueT> = null;
             let hoverTimer: number = null;
             let delta = 0;
             let lastTarget: HTMLElement = null;
@@ -342,7 +342,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 onDragStart((evt) => {
                     clearTarget();
                     draggedElement = this.findElement(evt.target);
-                    draggedElement.element.style.opacity = "0.5";
+                    draggedElement.style.opacity = "0.5";
                 }),
 
                 onDragOver((evt) => {
@@ -370,8 +370,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
                         dropElement.highlighted = delta;
 
-                        if (targetChanged && delta === 0 && !elem.isOpen) {
-                            hoverTimer = setTimeout(() => elem.isOpen = true, 1000) as unknown as number;
+                        if (targetChanged && delta === 0 && !elem.open) {
+                            hoverTimer = setTimeout(() => elem.open = true, 1000) as unknown as number;
                         }
 
                         evt.preventDefault();
@@ -389,7 +389,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
                 onDragEnd(() => {
                     if (draggedElement) {
-                        draggedElement.element.style.opacity = "1";
+                        draggedElement.style.opacity = "1";
                     }
 
                     clearTarget();
@@ -420,15 +420,15 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         const included = new Set<TreeNode<ValueT>>();
         for (const node of this.rootNode.depthFirst()) {
             const nameMatch = isNullOrUndefined(this.nameFilter)
-                || this.options.getLabel(node.value).toLocaleLowerCase().indexOf(this.nameFilter) >= 0;
+                || isDefined(node.value) && this.options.getLabel(node.value).toLocaleLowerCase().indexOf(this.nameFilter) >= 0;
             const typeMatch = isNullOrUndefined(this.typeFilter)
-                || this.options.typeFilters.getTypeFor(node.value) === this.typeFilter;
+                || isDefined(node.value) && this.options.typeFilters.getTypeFor(node.value) === this.typeFilter;
             const isMatch = nameMatch && typeMatch;
             const show = isMatch || included.has(node);
             const elem = this.nodes2Elements.get(node);
             elementSetDisplay(elem, show, "block");
             elem._filtered = included.has(node) && !isMatch;
-            elem.isOpen = true;
+            elem.open = true;
 
             if (show && isDefined(node.parent)) {
                 included.add(node.parent);
@@ -440,7 +440,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         }
     }
 
-    private canReparent(parent: TreeViewNode<ValueT>, child: TreeViewNode<ValueT>, target: HTMLElement) {
+    private canReparent(parent: TreeViewNodeElement<ValueT>, child: TreeViewNodeElement<ValueT>, target: HTMLElement) {
         return !this.readonly
             && isDefined(parent)
             && isDefined(child)
@@ -506,7 +506,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
     enableAllElements() {
         for (const element of this.elements) {
-            element.enabled = true;
+            element.disabled = false;
             element.specialSelectMode = false;
         }
     }
@@ -606,7 +606,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         }
     }
 
-    private get selectedElement(): TreeViewNode<ValueT> {
+    private get selectedElement(): TreeViewNodeElement<ValueT> {
         for (const elem of this.elements) {
             if (elem.selected) {
                 return elem;
@@ -616,12 +616,12 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         return null;
     }
 
-    private set selectedElement(e: TreeViewNode<ValueT>) {
+    private set selectedElement(e: TreeViewNodeElement<ValueT>) {
         if (isDefined(e)) {
             e._select(false);
             let here = e;
             while (isDefined(here)) {
-                here.isOpen = true;
+                here.open = true;
                 here = this.nodes2Elements.get(here.node.parent);
             }
             e.scrollIntoView();
@@ -653,11 +653,11 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         return null;
     }
 
-    private reorderChildren(parentElement: TreeViewNode<ValueT>) {
+    private reorderChildren(parentElement: TreeViewNodeElement<ValueT>) {
         if (!this.locked && this.canChangeOrder) {
-            const numChildren = parentElement.children.children.length;
+            const numChildren = parentElement.childTreeNodes.children.length;
             for (let i = 0; i < numChildren; ++i) {
-                const htmlElem = parentElement.children.children[i] as HTMLElement;
+                const htmlElem = parentElement.childTreeNodes.children[i] as HTMLElement;
                 const node = this.htmlElements2Nodes.get(htmlElem);
                 const elem = this.nodes2Elements.get(node);
                 const index = this.options.getOrder(node.value);
@@ -671,8 +671,8 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         }
     }
 
-    private createElement(node: TreeNode<ValueT>): TreeViewNode<ValueT> {
-        const element = new TreeViewNode(
+    private createElement(node: TreeNode<ValueT>): TreeViewNodeElement<ValueT> {
+        const element = TreeViewNodeElement.create(
             node,
             this.options.defaultLabel,
             this.options.getLabel,
@@ -692,15 +692,15 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
         this.elements.push(element);
         this.nodes2Elements.set(node, element);
-        this.htmlElements2Nodes.set(element.element, node);
-        this.htmlElements2Elements.set(element.element, element);
+        this.htmlElements2Nodes.set(element, node);
+        this.htmlElements2Elements.set(element, element);
 
         const parentNode = node.parent;
         if (parentNode) {
             const parentElement = this.nodes2Elements.get(parentNode);
             if (parentElement) {
                 if (!this.canChangeOrder) {
-                    HtmlRender(parentElement.children, element);
+                    HtmlRender(parentElement.childTreeNodes, element);
                 }
                 else {
                     const index = this.options.getOrder(node.value);
@@ -717,10 +717,10 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                     }
 
                     const nextElement = this.nodes2Elements.has(nextNode)
-                        && this.nodes2Elements.get(nextNode).element
+                        && this.nodes2Elements.get(nextNode)
                         || null;
 
-                    elementInsertBefore(parentElement.children, element, nextElement);
+                    elementInsertBefore(parentElement.childTreeNodes, element, nextElement);
 
                     this.reorderChildren(parentElement);
                 }
@@ -753,7 +753,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         const curParentElement = this.nodes2Elements.get(curParent);
 
         let nextParentElement = this.nodes2Elements.get(newParentNode);
-        let nextSiblingElement: TreeViewNode<ValueT> = null;
+        let nextSiblingElement: TreeViewNodeElement<ValueT> = null;
 
         if (delta !== 0) {
             nextSiblingElement = nextParentElement;
@@ -762,7 +762,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
             if (delta === 1) {
                 const index = elementGetIndexInParent(nextSiblingElement) + 1;
-                const nextSiblingHTMLElement = nextParentElement.children.children[index] as HTMLElement;
+                const nextSiblingHTMLElement = nextParentElement.childTreeNodes.children[index] as HTMLElement;
                 nextSiblingElement = this.htmlElements2Elements.get(nextSiblingHTMLElement);
             }
         }
@@ -777,7 +777,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             }
         }
 
-        elementInsertBefore(nextParentElement.children, curElement, nextSiblingElement);
+        elementInsertBefore(nextParentElement.childTreeNodes, curElement, nextSiblingElement);
 
         if (nextParentElement !== curParentElement) {
             newParentNode.connectTo(node);
@@ -789,7 +789,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
             this.reorderChildren(curParentElement);
         }
 
-        nextParentElement.isOpen = true;
+        nextParentElement.open = true;
     }
 
     removeValue(value: ValueT) {
@@ -806,13 +806,13 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
         element.removeScope(this);
         element.removeBubbler(this);
-        element.element.remove();
+        element.remove();
         node.removeFromParent();
 
         arrayRemove(this.elements, element);
         this.nodes2Elements.delete(node);
-        this.htmlElements2Nodes.delete(element.element);
-        this.htmlElements2Elements.delete(element.element);
+        this.htmlElements2Nodes.delete(element);
+        this.htmlElements2Elements.delete(element);
 
         this.reorderChildren(parentElement);
     }
@@ -821,7 +821,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         for (const element of this.elements) {
             if (element.node.isChild
                 && element.canHaveChildren) {
-                element.isOpen = false;
+                element.open = false;
             }
         }
     }
@@ -832,7 +832,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                 && element.canHaveChildren
                 && (isNullOrUndefined(maxDepth)
                     || element.node.depth <= maxDepth)) {
-                element.isOpen = true;
+                element.open = true;
             }
         }
     }

@@ -1,12 +1,74 @@
 import { TreeNode } from "@juniper-lib/collections/TreeNode";
-import { ClassList, Draggable, Title_attr } from "@juniper-lib/dom/attrs";
+import { CustomElement } from "@juniper-lib/dom/CustomElement";
+import { ClassList } from "@juniper-lib/dom/attrs";
 import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/evts";
-import { ButtonSmall, Div, ErsatzElement, Span, elementIsDisplayed, elementSetDisplay, elementSetText, elementSetTitle } from "@juniper-lib/dom/tags";
+import { ButtonSmall, Div, Span, StyleBlob, elementSetDisplay, elementSetText, elementSetTitle } from "@juniper-lib/dom/tags";
 import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
+import { EventTargetMixin } from "@juniper-lib/events/EventTarget";
 import { Task } from "@juniper-lib/events/Task";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
+import { ITypedEventTarget, TypedEvent, TypedEventListenerOrEventListenerObject } from "@juniper-lib/events/TypedEventTarget";
 import { debounce } from "@juniper-lib/events/debounce";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+import { isBoolean, isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+
+const styleSheet = StyleBlob(`
+.tree-view-node-children {
+    padding-left: 1.25em;
+}
+
+.tree-view-node {
+    white-space: pre;
+    color: black;
+    cursor: default;
+}
+
+    .tree-view-node:hover > .tree-view-node-label {
+        background-color: rgb(127, 127, 127, 0.125);
+    }
+
+.tree-view-node-label[draggable=true] {
+    cursor: grab;
+}
+
+.tree-view-node.disabled, .tree-view-node.disabled > .tree-view-node-label[draggable=true] {
+    cursor: not-allowed;
+}
+
+    .tree-view-node.disabled > .tree-view-node-label, .tree-view-node.filtered > .tree-view-node-label {
+        opacity: 0.5;
+    }
+
+    .tree-view-node.disabled:hover > .tree-view-node-label {
+        background-color: unset;
+    }
+
+.tree-view-node.selected > .tree-view-node-label {
+    background-color: rgb(221, 255, 255);
+}
+
+.tree-view-node.selected.disabled > .tree-view-node-label {
+    background-color: lightgrey;
+}
+
+.tree-view-node .drag-buffer {
+    width: 100%;
+    height: 0.3em;
+}
+
+.tree-view-node.highlighted {
+    background-color: rgb(221, 255, 221);
+}
+
+.tree-view-node .drag-buffer.highlighted {
+    background-color: rgb(200 200 200);
+}
+
+.tree-view-node-collapser, .tree-view-node-adder {
+    font-family: monospace;
+    font-size: 80%;
+    color: rgb(119, 119, 119);
+    border: none;
+    background-color: transparent;
+}`);
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {
     constructor(public readonly node: TreeNode<T>) {
@@ -26,7 +88,7 @@ export abstract class TreeViewNodeEvent<EventT extends string, ValueT> extends T
         return this._finished;
     }
 
-    constructor(type: EventT, public readonly parent: TreeViewNode<ValueT>) {
+    constructor(type: EventT, public readonly parent: TreeViewNodeElement<ValueT>) {
         super(type);
     }
 
@@ -36,13 +98,13 @@ export abstract class TreeViewNodeEvent<EventT extends string, ValueT> extends T
 }
 
 export class TreeViewNodeAddEvent<T> extends TreeViewNodeEvent<"add", T> {
-    constructor(parent: TreeViewNode<T>) {
+    constructor(parent: TreeViewNodeElement<T>) {
         super("add", parent);
     }
 }
 
 export class TreeViewNodeContextMenuEvent<T> extends TreeViewNodeEvent<"contextmenu", T> {
-    constructor(parent: TreeViewNode<T>) {
+    constructor(parent: TreeViewNodeElement<T>) {
         super("contextmenu", parent);
     }
 }
@@ -54,14 +116,42 @@ export type TreeViewNodeEvents<T> = {
     contextmenu: TreeViewNodeContextMenuEvent<T>;
 }
 
-export class TreeViewNode<T>
-    extends TypedEventTarget<TreeViewNodeEvents<T>>
-    implements ErsatzElement {
+@CustomElement("tree-view-node")
+export class TreeViewNodeElement<T>
+    extends HTMLElement
+    implements ITypedEventTarget<TreeViewNodeEvents<T>> {
 
-    public readonly element: HTMLElement;
+
+    static create<T>(
+        node: TreeNode<T>,
+        defaultLabel: string,
+        getLabel: (value: T) => string,
+        getDescription: (value: T) => string,
+        canChangeOrder: (value: T) => boolean,
+        getChildDescription: (node: T) => string,
+        canHaveChildren: (node: TreeNode<T>) => boolean,
+        createElement: (node: TreeNode<T>) => TreeViewNodeElement<T>) {
+
+        const element = document.createElement("tree-view-node") as TreeViewNodeElement<T>;
+
+        element.node = node;
+        element.defaultLabel = defaultLabel;
+        element._getLabel = getLabel;
+        element._getDescription = getDescription;
+        element._canChangeOrder = canChangeOrder;
+        element._getChildDescription = getChildDescription;
+        element._canHaveChildren = canHaveChildren;
+        element.createElement = createElement;
+
+        return element;
+    }
+
+    private readonly eventTarget: EventTargetMixin;
+    private readonly root: HTMLElement;
+    readonly childTreeNodes: HTMLElement;
+
     private readonly infoView: HTMLDivElement;
     private readonly subView: HTMLDivElement;
-    readonly children: HTMLDivElement;
 
     private readonly collapser: HTMLButtonElement;
     private readonly labeler: HTMLSpanElement;
@@ -72,37 +162,45 @@ export class TreeViewNode<T>
 
     readonly refresh: () => void;
 
-    constructor(
-        public readonly node: TreeNode<T>,
-        private readonly defaultLabel: string,
-        private readonly _getLabel: (value: T) => string,
-        private readonly _getDescription: (value: T) => string,
-        private readonly _canChangeOrder: (value: T) => boolean,
-        private readonly _getChildDescription: (node: T) => string,
-        private readonly _canHaveChildren: (node: TreeNode<T>) => boolean,
-        private readonly createElement: (node: TreeNode<T>) => TreeViewNode<T>) {
+    private _node: TreeNode<T>;
+    get node() { return this._node; }
+    private set node(v) { this._node = v; }
+
+    private defaultLabel: string;
+    private _getLabel: (value: T) => string;
+    private _getDescription: (value: T) => string;
+    private _canChangeOrder: (value: T) => boolean;
+    private _getChildDescription: (node: T) => string;
+    private _canHaveChildren: (node: TreeNode<T>) => boolean;
+    private createElement: (node: TreeNode<T>) => TreeViewNodeElement<T>;
+
+    constructor() {
 
         super();
+
+        this.eventTarget = new EventTargetMixin(
+            super.addEventListener.bind(this),
+            super.removeEventListener.bind(this),
+            super.dispatchEvent.bind(this)
+        );
 
         this.refresh = debounce(() => this.onRefresh());
 
         const onEnabledClick = (act: (evt: Event) => void) => onClick((evt: Event) => {
-            if (this.enabled) {
+            if (!this.disabled) {
                 evt.preventDefault();
                 evt.stopPropagation();
                 act(evt);
             }
         });
 
-        this.element = Div(
+        this.root = Div(
             ClassList("tree-view-node"),
 
             this.upper = Div(ClassList("drag-buffer", "top")),
 
             this.infoView = Div(
                 ClassList("tree-view-node-label"),
-
-                Draggable(this.canChangeOrder),
 
                 onEnabledClick(() => {
                     if (!this.selected) {
@@ -111,10 +209,10 @@ export class TreeViewNode<T>
                 }),
 
                 onDblClick((evt) => {
-                    if (this.enabled && this.canHaveChildren) {
+                    if (!this.disabled && this.canHaveChildren) {
                         evt.preventDefault();
                         evt.stopPropagation();
-                        this.isOpen = !this.isOpen;
+                        this.open = !this.open;
                     }
                 }),
 
@@ -124,7 +222,7 @@ export class TreeViewNode<T>
                         if (this.canHaveChildren) {
                             evt.preventDefault();
                             evt.stopPropagation();
-                            this.isOpen = !this.isOpen;
+                            this.open = !this.open;
                         }
                         else {
                             this._select(true);
@@ -133,9 +231,8 @@ export class TreeViewNode<T>
                 ),
 
                 this.labeler = Span(
-                    this.label,
                     onContextMenu(async (evt) => {
-                        if (this.enabled) {
+                        if (!this.disabled) {
                             await this._launchMenu(evt, new TreeViewNodeContextMenuEvent(this));
                         }
                     })
@@ -144,11 +241,10 @@ export class TreeViewNode<T>
 
             this.subView = Div(
                 ClassList("tree-view-node-children"),
-                this.children = Div(),
+                this.childTreeNodes = Div(),
 
                 this.adder = ButtonSmall(
                     ClassList("tree-view-node-adder"),
-                    Title_attr(this.adderTitle),
                     onEnabledClick(async (evt: Event) => {
                         if (this.canHaveChildren) {
                             await this._launchMenu(evt, new TreeViewNodeAddEvent(this));
@@ -160,10 +256,49 @@ export class TreeViewNode<T>
 
             this.lower = Div(ClassList("drag-buffer", "bottom"))
         );
+    }
 
+    connectedCallback() {
+        const shadowRoot = this.attachShadow({ mode: "closed" });
+        shadowRoot.append(styleSheet.cloneNode(), this.root);
+        this.infoView.draggable = this.canChangeOrder;
+        elementSetText(this.labeler, this.label);
+        this.adder.title = this.adderTitle;
+        this.setAttribute("open", "");
+        this.open = this.node.isRoot;
         this.refresh();
+    }
 
-        this.isOpen = node.isRoot;
+    override addEventListener<EventTypeT extends keyof TreeViewNodeEvents<T>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<TreeViewNodeEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addEventListener(type as string, callback as EventListenerOrEventListenerObject, options);
+    }
+
+    override removeEventListener<EventTypeT extends keyof TreeViewNodeEvents<T>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<TreeViewNodeEvents<T>, EventTypeT>): void {
+        this.eventTarget.removeEventListener(type as string, callback as EventListenerOrEventListenerObject);
+    }
+
+    override dispatchEvent(evt: Event): boolean {
+        return this.eventTarget.dispatchEvent(evt);
+    }
+
+    addBubbler(bubbler: ITypedEventTarget<TreeViewNodeEvents<T>>): void {
+        this.eventTarget.addBubbler(bubbler);
+    }
+
+    removeBubbler(bubbler: ITypedEventTarget<TreeViewNodeEvents<T>>): void {
+        this.eventTarget.removeBubbler(bubbler);
+    }
+
+    addScopedEventListener<EventTypeT extends keyof TreeViewNodeEvents<T>>(scope: object, type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<TreeViewNodeEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addScopedEventListener(scope, type as string, callback as EventListenerOrEventListenerObject, options);
+    }
+
+    removeScope(scope: object) {
+        this.eventTarget.removeScope(scope);
+    }
+
+    clearEventListeners<EventTypeT extends keyof TreeViewNodeEvents<T>>(type?: EventTypeT): void {
+        this.eventTarget.clearEventListeners(type as string);
     }
 
     async _launchMenu(parentEvt: Event, evt: TreeViewNodeEvent<string, T>): Promise<void> {
@@ -199,7 +334,7 @@ export class TreeViewNode<T>
         elementSetTitle(this.collapser, this.collapserTitle);
         elementSetText(this.collapser,
             canOpenClose
-                ? this.isOpen
+                ? this.open
                     ? blackMediumDownPointingTriangleCentered.emojiStyle
                     : blackMediumRightPointingTriangleCentered.emojiStyle
                 : blackDiamondCentered.emojiStyle);
@@ -211,7 +346,7 @@ export class TreeViewNode<T>
 
         elementSetTitle(this.adder, this.adderTitle);
         elementSetDisplay(this.adder, this.canHaveChildren, "inline-block");
-        elementSetDisplay(this.upper, this.node.isChild && this.canChangeOrder && isNullOrUndefined(this.element.previousSibling));
+        elementSetDisplay(this.upper, this.node.isChild && this.canChangeOrder && isNullOrUndefined(this.previousSibling));
         elementSetDisplay(this.lower, this.node.isChild && this.canChangeOrder);
 
         this.collapser.disabled = this.disabled && !this.specialSelectMode || this.node.isRoot;
@@ -253,7 +388,7 @@ export class TreeViewNode<T>
         if (!this.canHaveChildren) {
             return "Select " + this.description;
         }
-        else if (this.isOpen) {
+        else if (this.open) {
             return "Collapse " + this.description;
         }
         else {
@@ -266,46 +401,56 @@ export class TreeViewNode<T>
     }
 
     get disabled(): boolean {
-        return this.element.classList.contains("disabled");
+        return this.hasAttribute("disabled");
     }
 
     set disabled(v: boolean) {
         if (v !== this.disabled) {
-            this.element.classList.toggle("disabled");
+            if (v) {
+                this.setAttribute("disabled", "");
+            }
+            else {
+                this.removeAttribute("disabled");
+            }
+            this.root.classList.toggle("disabled", v);
             this.refresh();
         }
     }
 
-    get enabled(): boolean {
-        return !this.disabled;
-    }
-
-    set enabled(v: boolean) {
-        this.disabled = !v;
-    }
-
     get filtered(): boolean {
-        return this.element.classList.contains("filtered");
+        return this.hasAttribute("filtered");
     }
 
     set _filtered(v: boolean) {
         if (v !== this.filtered) {
-            this.element.classList.toggle("filtered");
+            if (v) {
+                this.setAttribute("filtered", "");
+            }
+            else {
+                this.removeAttribute("filtered");
+            }
+            this.root.classList.toggle("filtered", v);
         }
     }
 
     get selected(): boolean {
-        return this.element.classList.contains("selected");
+        return this.hasAttribute("selected");
     }
 
     set _selected(v: boolean) {
         if (v !== this.selected) {
-            this.element.classList.toggle("selected");
+            if (v) {
+                this.setAttribute("selected", "");
+            }
+            else {
+                this.removeAttribute("selected");
+            }
+            this.root.classList.toggle("selected", v);
         }
     }
 
     get highlighted(): number {
-        if (this.element.classList.contains("highlighted")) {
+        if (this.root.classList.contains("highlighted")) {
             return 0;
         }
         else if (this.upper.classList.contains("highlighted")) {
@@ -321,12 +466,12 @@ export class TreeViewNode<T>
 
     set highlighted(v: number) {
         if (v !== this.highlighted) {
-            this.element.classList.remove("highlighted");
+            this.root.classList.remove("highlighted");
             this.upper.classList.remove("highlighted");
             this.lower.classList.remove("highlighted");
 
             if (v === 0) {
-                this.element.classList.add("highlighted");
+                this.root.classList.add("highlighted");
             }
             else if (v === -1) {
                 this.upper.classList.add("highlighted");
@@ -337,19 +482,25 @@ export class TreeViewNode<T>
         }
     }
 
-    get isOpen(): boolean {
-        return elementIsDisplayed(this.subView);
+    get open(): boolean {
+        return this.hasAttribute("open");
     }
 
-    set isOpen(v: boolean) {
-        if (v !== this.isOpen) {
+    set open(v: boolean) {
+        if (v !== this.open) {
+            if (v) {
+                this.setAttribute("open", "");
+            }
+            else {
+                this.removeAttribute("open");
+            }
             elementSetDisplay(this.subView, v);
             this.refresh();
         }
     }
 
     add(value: T): void {
-        this.isOpen = true;
+        this.open = true;
         const node = new TreeNode(value);
         this.node.connectTo(node);
         this.createElement(node);
@@ -368,8 +519,26 @@ export class TreeViewNode<T>
         }
     }
 
-    scrollIntoView() {
-        this.element.scrollIntoView({
+    override scrollIntoView(arg?: boolean | ScrollIntoViewOptions) {
+        if (isNullOrUndefined(arg)) {
+            arg = {};
+        }
+
+        if (!isBoolean(arg)) {
+            if (isNullOrUndefined(arg.behavior)) {
+                arg.behavior = "smooth";
+            }
+
+            if (isNullOrUndefined(arg.block)) {
+                arg.block = "center";
+            }
+
+            if (isNullOrUndefined(arg.inline)) {
+                arg.inline = "nearest";
+            }
+        }
+
+        super.scrollIntoView({
             behavior: "smooth",
             block: "center",
             inline: "nearest"
