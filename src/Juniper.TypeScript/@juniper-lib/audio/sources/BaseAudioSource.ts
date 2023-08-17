@@ -1,15 +1,15 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
+import { TypedEventMap } from "@juniper-lib/events/TypedEventTarget";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { IAudioNode } from "../IAudioNode";
-import { JuniperAudioContext } from "../context/JuniperAudioContext";
+import { dispose } from "@juniper-lib/tslib/using";
 import { BaseNodeCluster } from "../BaseNodeCluster";
+import { IAudioNode } from "../IAudioNode";
+import { Pose } from "../Pose";
+import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperGainNode } from "../context/JuniperGainNode";
 import { effectStore } from "../effects";
-import { Pose } from "../Pose";
 import { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { IAudioSource } from "./IAudioSource";
-import { dispose } from "@juniper-lib/tslib/using";
-import { TypedEventMap } from "@juniper-lib/events/TypedEventTarget";
 
 export abstract class BaseAudioSource<EventTypeT extends TypedEventMap<string> = TypedEventMap<string>>
     extends BaseNodeCluster<EventTypeT>

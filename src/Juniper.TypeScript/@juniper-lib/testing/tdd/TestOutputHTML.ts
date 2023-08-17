@@ -11,9 +11,7 @@ import {
     gridTemplateColumns,
     height,
     overflow,
-    paddingTop,
     perc,
-    px,
     whiteSpace,
     width
 } from "@juniper-lib/dom/css";
@@ -88,13 +86,13 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
                 ],
                 table = Div(
                     display("grid"),
-                    gridTemplateColumns("auto", "auto", "auto", fr(1)),
+                    gridTemplateColumns("auto", "auto", "auto", "auto", fr(1)),
                     getMonospaceFamily(),
                     width(perc(100)),
                     columnGap(em(1)),
                     refresher(() => this.run()),
                     Div(
-                        gridColumn(2, 5),
+                        gridColumn(2, -1),
                         height(em(2)),
                         whiteSpace("nowrap"),
                         overflow("hidden"),
@@ -102,8 +100,8 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
                         Span(...basicStyle, ...bar("red", f)),
                         Span(...basicStyle, ...bar("grey", t))),
                     Div(gridColumn(1), "Rerun"),
-                    Div(gridColumn(2), "Name"),
-                    Div(gridColumn(3), "Status"));
+                    Div(gridColumn(2, 4), "Name"),
+                    Div(gridColumn(4, -1), "Status"));
 
             let lastTestCaseName: string = null;
             for (const [testCaseName, testName, test] of evt.results.entries()) {
@@ -112,15 +110,14 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
                     table.append(
                         refresher(() => this.run(testCaseName)),
                         Div(
-                            gridColumn(2, 5),
-                            paddingTop(px(20)),
+                            gridColumn(2, -1),
                             testCaseName));
                 }
                 table.append(
                     refresher(() => this.run(testCaseName, testName)),
-                    Div(gridColumn(2), testName),
-                    Div(gridColumn(3), makeStatus(test.state)),
-                    Div(gridColumn(4), test.messages.join(", ")));
+                    Div(gridColumn(3), testName),
+                    Div(gridColumn(4), makeStatus(test.state)),
+                    Div(gridColumn(5), test.messages.join(", ")));
             }
 
             if (isDefined(lastTable)) {

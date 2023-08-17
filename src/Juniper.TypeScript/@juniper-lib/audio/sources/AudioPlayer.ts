@@ -1,4 +1,4 @@
-import { arrayClear, arrayReplace, arraySortByKeyInPlace } from "@juniper-lib/collections/arrays";
+import { arrayClear, arrayReplace } from "@juniper-lib/collections/arrays";
 import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/attrs";
 import { Audio, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
 import { once } from "@juniper-lib/events/once";
@@ -10,7 +10,7 @@ import { IDisposable } from "@juniper-lib/tslib/using";
 import { RELEASE_EVT } from "../AudioManager";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
-import { AudioRecord, FullAudioRecord } from "../data";
+import { AudioRecord, FullAudioRecord, audioRecordSorter } from "../data";
 import { BaseSpatializer } from "../spatializers/BaseSpatializer";
 import { BaseAudioSource } from "./BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
@@ -173,7 +173,7 @@ export class AudioPlayer
         }
         else {
             this.setTitle(data.title);
-            arraySortByKeyInPlace(data.audios, (f) => -f.resolution);
+            data.audios.sort(audioRecordSorter);
             arrayReplace(this.sources, ...data.audios);
         }
 

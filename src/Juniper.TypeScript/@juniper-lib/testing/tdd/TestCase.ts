@@ -42,6 +42,13 @@ export class TestCase extends TypedEventTarget<TestCaseEvents> {
         return this.twoValueTest(actual, "===", expected, (a, b) => a === b, message);
     }
 
+    arraysMatch<T>(actual: T[], expected: T[], message?: string): boolean {
+        return this.twoValueTest(actual, "==", expected, (a, b) =>
+            a.length === b.length
+            && a.map((v, i) => v === b[i])
+                .reduce((a, b) => a && b, true), message);
+    }
+
     areApprox(actual: number, expected: number, expectedError?: number): boolean;
     areApprox(actual: number, expected: number, message: string, expectedError?: number): boolean;
     areApprox(actual: number, expected: number, messageOrExpectedError?: (string | number), expectedError?: number): boolean {

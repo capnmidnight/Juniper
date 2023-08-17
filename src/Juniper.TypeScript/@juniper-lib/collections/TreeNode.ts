@@ -1,5 +1,6 @@
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseGraphNode } from "./BaseGraphNode";
+import { Comparable } from "./arrays";
 
 export function buildTree<V>(
     items: readonly V[],
@@ -63,7 +64,7 @@ export class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
         super.connectAt(child, index);
     }
 
-    override connectSorted<KeyT>(child: this, sortKey: (value: ValueT) => KeyT): void {
+    override connectSorted<KeyT extends Comparable>(child: this, sortKey: (value: ValueT) => KeyT): void {
         child.removeFromParent();
         super.connectSorted(child, sortKey);
     }

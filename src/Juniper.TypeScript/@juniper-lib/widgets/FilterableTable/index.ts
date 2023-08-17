@@ -1,4 +1,4 @@
-import { arrayClear, arrayReplace, arraySortedInsert } from "@juniper-lib/collections/arrays";
+import { arrayClear, arrayReplace, insertSorted, binarySearch, compareBy } from "@juniper-lib/collections/arrays";
 import { ClassList, ColSpan, CustomData, QueryAll } from "@juniper-lib/dom/attrs";
 import { padding, px } from "@juniper-lib/dom/css";
 import { getColumnIndex } from "@juniper-lib/dom/getColumnIndex";
@@ -73,6 +73,8 @@ const DEFAULT_PAGE_SIZES = [
     50,
     100
 ];
+
+const comparer = compareBy<number>(identity);
 
 export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableElement> {
 
@@ -511,8 +513,12 @@ export class FilterableTable<T extends any> implements ErsatzElement<HTMLTableEl
         elementClearChildren(this.paginator);
 
         const pageNumbers: number[] = [];
-        const addPage = (page: number) =>
-            arraySortedInsert(pageNumbers, page, false);
+        const addPage = (page: number) => {
+            const idx = binarySearch(pageNumbers, page, comparer);
+            if (idx < 0) {
+                insertSorted(pageNumbers, page, idx);
+            }
+        };
 
         addPage(0);
         addPage(curPage);

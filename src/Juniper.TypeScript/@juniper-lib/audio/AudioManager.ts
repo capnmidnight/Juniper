@@ -1,6 +1,6 @@
 import { arrayClear } from "@juniper-lib/collections/arrays";
 import { Controls, Loop, Src } from "@juniper-lib/dom/attrs";
-import { onEvent } from "@juniper-lib/dom/evts";
+import { onReleased } from "@juniper-lib/dom/evts";
 import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
 import { Audio, ElementChild, HtmlRender } from "@juniper-lib/dom/tags";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
@@ -139,7 +139,7 @@ export class AudioManager
             const audio = Audio(
                 Src(HAX_SRC),
                 Controls(false),
-                onEvent("released", () => {
+                onReleased(() => {
                     audio.pause();
                     audio.src = HAX_SRC;
                 })

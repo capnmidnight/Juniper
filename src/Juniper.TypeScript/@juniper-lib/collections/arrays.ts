@@ -1,92 +1,133 @@
-import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+import { isDefined, isFunction, isNullOrUndefined, isNumber, isObject, isString } from "@juniper-lib/tslib/typeChecks";
 
-function defaultKeySelector<T>(obj: T): any {
-    return obj;
+interface IComparable<T> {
+    compareTo(b: T): number;
 }
 
-export function arrayBinarySearchFind<T, V>(arr: T[], key: V, keySelector: (obj: T) => V): T | undefined {
-    const idx = arrayBinarySearchByKey(arr, key, keySelector);
-    if (Number.isInteger(idx)) {
-        return arr[idx - 1];
+function isIComparable<T>(obj: any): obj is IComparable<T> {
+    return isObject(obj)
+        && "compareTo" in obj
+        && isFunction(obj.compareTo);
+}
+
+export type Comparable = number | Date | string | IComparable<any>;
+export type CompareDirection = "ascending" | "descending";
+export type CompareFunction<T> = ((a: T, b: T) => number) & {
+    direction: CompareDirection;
+}
+
+export type ComparableSelector<T> = (obj: T) => Comparable;
+
+export function compareBy<T>(direction: CompareDirection, ...getKeys: ComparableSelector<T>[]): CompareFunction<T>;
+export function compareBy<T>(...getKeys: ComparableSelector<T>[]): CompareFunction<T>;
+export function compareBy<T>(directionOrFirstKeyGetter: CompareDirection | ComparableSelector<T>, ...getKeys: ((obj: T) => Comparable)[]): CompareFunction<T> {
+    let direction: CompareDirection = null;
+    if (isString(directionOrFirstKeyGetter)) {
+        direction = directionOrFirstKeyGetter;
+    }
+    else {
+        direction = "ascending";
+        getKeys.unshift(directionOrFirstKeyGetter);
     }
 
-    return undefined;
+    const d = direction === "ascending" ? 1 : -1;
+
+    const comparer = (a: T, b: T) => {
+        if (a === b) {
+            return 0;
+        }
+
+        for (const getKey of getKeys) {
+            const keyA = isNullOrUndefined(a) ? null : getKey(a);
+            const keyB = isNullOrUndefined(b) ? null : getKey(b);
+            const relation = keyA === keyB
+                ? 0
+                : isString(keyA) && isString(keyB)
+                    ? d * keyA.localeCompare(keyB)
+                    : isIComparable(keyA) && isIComparable(keyB)
+                        ? d * keyA.compareTo(keyB)
+                        : direction === "ascending" && keyA > keyB
+                            || direction === "descending" && keyA < keyB
+                            ? 1 : -1;
+
+            if (relation !== 0) {
+                return relation;
+            }
+        }
+
+        return 0;
+    };
+
+    return Object.assign(comparer, {
+        direction
+    });
 }
 
-/**
- * Performs a binary search on a list to find where the item should be inserted.
- *
- * If the item is found, the returned index will be an exact integer.
- *
- * If the item is not found, the returned insertion index will be 0.5 greater than
- * the index at which it should be inserted.
- */
-export function arrayBinarySearchByKey<T, V>(arr: T[], itemKey: V, keySelector: (obj: T) => V): number {
+export type SearchMode = "append" | "prepend" | "search";
+
+export function binarySearch<T>(arr: ArrayLike<T>, searchValue: T, comparer: CompareFunction<T>, mode: SearchMode = "search") {
     let left = 0;
-    let right = arr.length;
-    let idx = Math.floor((left + right) / 2);
-    let found = false;
-    while (left < right && idx < arr.length) {
-        const compareTo = arr[idx];
-        const compareToKey = isNullOrUndefined(compareTo)
-            ? null
-            : keySelector(compareTo);
-        if (isDefined(compareToKey)
-            && itemKey < compareToKey) {
-            right = idx;
+    let right = arr.length - 1;
+    while (left <= right) {
+        let mid = (left + right) >> 1;
+        let relation = comparer(arr[mid], searchValue);
+        if (relation === 0) {
+            if (mode !== "search") {
+                const scanDirection = mode === "append" ? 1 : -1;
+                if (scanDirection > 0) {
+                    mid += scanDirection;
+                }
+                while (0 <= mid
+                    && mid < arr.length
+                    && (relation = comparer(arr[mid], searchValue)) === 0) {
+                    mid += scanDirection;
+                }
+                if (scanDirection < 0) {
+                    mid -= scanDirection;
+                }
+            }
+
+            return mid;
+        }
+        else if (relation < 0) {
+            left = mid - relation;
         }
         else {
-            if (itemKey === compareToKey) {
-                found = true;
-            }
-            left = idx + 1;
+            right = mid - relation;
         }
-
-        idx = Math.floor((left + right) / 2);
     }
 
-    if (!found) {
-        idx += 0.5;
+    return -left - 1;
+}
+
+export function insertSorted<T>(arr: T[], val: T, idx: number): number;
+export function insertSorted<T>(arr: T[], val: T, idx: number, mode: SearchMode): number;
+export function insertSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>): number;
+export function insertSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>, mode: SearchMode): number;
+export function insertSorted<T>(arr: T[], val: T, comparerOrIdx: CompareFunction<T> | number, mode: SearchMode = "search"): number {
+    let idx: number = null;
+    if (isNumber(comparerOrIdx)) {
+        idx = comparerOrIdx;
+    }
+    else {
+        idx = binarySearch(arr, val, comparerOrIdx, mode);
     }
 
+    if (idx < 0) {
+        idx = -idx - 1;
+    }
+
+    arrayInsertAt(arr, val, idx);
     return idx;
 }
 
-/**
- * Performs a binary search on a list to find where the item should be inserted.
- *
- * If the item is found, the returned index will be an exact integer.
- *
- * If the item is not found, the returned insertion index will be 0.5 greater than
- * the index at which it should be inserted.
- */
-export function arrayBinarySearch<T, V>(arr: T[], item: T, keySelector?: (obj: T) => V): number {
-    keySelector = keySelector || defaultKeySelector;
-    const itemKey = keySelector(item);
-    return arrayBinarySearchByKey(arr, itemKey, keySelector);
-}
-
-export function arrayBinaryContains<T, V>(arr: T[], item: T, keySelector?: (obj: T) => V): boolean {
-    return Number.isInteger(arrayBinarySearch(arr, item, keySelector));
-}
-
-function removeAtIndex<T>(arr: T[], idx: number): boolean {
-    if (Number.isInteger(idx)) {
-        arrayRemoveAt(arr, idx - 1);
-        return true;
+export function removeSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>): number {
+    const idx = binarySearch(arr, val, comparer);
+    if (idx >= 0) {
+        arrayRemoveAt(arr, idx);
+        return idx;
     }
-
-    return false;
-}
-
-export function arrayBinarySearchRemoveByKey<T, V>(arr: T[], itemKey: V, keySelector: (obj: T) => V): boolean {
-    const idx = arrayBinarySearchByKey(arr, itemKey, keySelector);
-    return removeAtIndex(arr, idx);
-}
-
-export function arrayBinarySearchRemove<T, V>(arr: T[], item: T, keySelector?: (obj: T) => V): boolean {
-    const idx = arrayBinarySearch(arr, item, keySelector);
-    return removeAtIndex(arr, idx);
+    return -1;
 }
 
 
@@ -204,7 +245,7 @@ export function arrayReplace<T>(arr: T[], ...items: T[]) {
     arr.splice(0, arr.length, ...items);
 }
 
-export function arrayCreate<T>(count: number, make: (i: number, len?: number) => T): T[]{
+export function arrayCreate<T>(count: number, make: (i: number, len?: number) => T): T[] {
     const arr = new Array<T>(count);
     for (let i = 0; i < count; ++i) {
         arr[i] = make(i, count);
@@ -268,79 +309,7 @@ export function arrayShuffle<T>(arr: readonly T[]): T[] {
     return output;
 }
 
-/**
- * Performs an insert operation that maintains the sort
- * order of the array, returning the index at which the
- * item was inserted.
- */
-export function arraySortedInsert<T>(arr: T[], item: T): number;
-export function arraySortedInsert<T, V>(arr: T[], item: T, keySelector?: (obj: T) => V): number;
-export function arraySortedInsert<T>(arr: T[], item: T, allowDuplicates?: boolean): number;
-export function arraySortedInsert<T, V>(arr: T[], item: T, keySelector?: (obj: T) => V, allowDuplicates?: boolean): number;
-export function arraySortedInsert<T, V>(arr: T[], item: T, keySelector?: ((obj: T) => V) | boolean, allowDuplicates?: boolean): number {
-    let ks: ((obj: T) => V) | undefined;
-
-    if (isFunction(keySelector)) {
-        ks = keySelector;
-    }
-    else if (isBoolean(keySelector)) {
-        allowDuplicates = keySelector;
-    }
-
-    if (isNullOrUndefined(allowDuplicates)) {
-        allowDuplicates = true;
-    }
-
-    return arraySortedInsertInternal<T, V>(arr, item, ks, allowDuplicates);
-}
-
-function arraySortedInsertInternal<T, V>(arr: T[], item: T, ks: ((obj: T) => V) | undefined, allowDuplicates: boolean) {
-    let idx = arrayBinarySearch(arr, item, ks);
-    const found = (idx % 1) === 0;
-    idx = idx | 0;
-    if (!found || allowDuplicates) {
-        arrayInsertAt(arr, item, idx);
-    }
-
-    return idx;
-}
-
-/**
- * Creates a new array that is sorted by the key extracted
- * by the keySelector callback, not modifying the input array,
- * (unlike JavaScript's own Array.prototype.sort).
- * @param arr
- * @param keySelector
- */
-export function arraySortByKey<T, V>(arr: ReadonlyArray<T>, keySelector: (obj: T) => V): T[] {
-    const newArr = Array.from(arr);
-    arraySortByKeyInPlace<T, V>(newArr, keySelector);
-    return newArr;
-}
-
-/**
- * Sorts an existing array by the key extracted by the keySelector
- * callback, without creating a new array.
- * @param arr
- * @param keySelector
- */
-export function arraySortByKeyInPlace<T, V>(newArr: T[], keySelector: (obj: T) => V) {
-    newArr.sort((a, b) => {
-        const keyA = keySelector(a);
-        const keyB = keySelector(b);
-        if (keyA < keyB) {
-            return -1;
-        }
-        else if (keyA > keyB) {
-            return 1;
-        }
-        else {
-            return 0;
-        }
-    });
-}
-
-const numericPattern = /^(\d+)/;
+const numericPattern = /^(-?(?:\d+\.)\d+)/;
 /**
  * Creates a new array that is sorted by the key extracted
  * by the keySelector callback, not modifying the input array,
@@ -352,37 +321,18 @@ const numericPattern = /^(\d+)/;
  * @param keySelector
  */
 export function arraySortNumericByKey<T>(arr: ReadonlyArray<T>, keySelector: (obj: T) => string): T[] {
-    const newArr = Array.from(arr);
-    newArr.sort((a, b) => {
-        const keyA = keySelector(a);
-        const keyB = keySelector(b);
-        const matchA = keyA.match(numericPattern);
-        const matchB = keyB.match(numericPattern);
-        if (isDefined(matchA)
-            && isDefined(matchB)) {
-            const numberA = parseFloat(matchA[1]);
-            const numberB = parseFloat(matchB[1]);
-
-            if (numberA < numberB) {
-                return -1;
-            }
-            else if (numberA > numberB) {
-                return 1;
-            }
+    const comparer = compareBy<T>(v => {
+        const key = keySelector(v);
+        const match = key.match(numericPattern);
+        if (isDefined(match)) {
+            return parseFloat(match[1]);
         }
-
-        if (keyA < keyB) {
-            return -1;
-        }
-        else if (keyA > keyB) {
-            return 1;
-        }
-        else {
-            return 0;
-        }
+        return key;
     });
 
-    return newArr;
+    return Array
+        .from(arr)
+        .sort(comparer);
 }
 
 export function arrayZip<T, V>(arr1: readonly T[], arr2: readonly T[], combine: (a: T, b: T) => V): V[] {

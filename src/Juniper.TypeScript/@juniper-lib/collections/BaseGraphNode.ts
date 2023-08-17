@@ -1,5 +1,5 @@
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
-import { arrayInsertAt, arrayRemove, arraySortedInsert } from "./arrays";
+import { Comparable, arrayInsertAt, arrayRemove, compareBy, insertSorted } from "./arrays";
 
 function breadthFirstPeek<ValueT>(arr: ValueT[]) {
     return arr[0];
@@ -24,10 +24,11 @@ export abstract class BaseGraphNode<ValueT> {
     constructor(public readonly value: ValueT) {
     }
 
-    connectSorted<KeyT>(child: this, keySelector: (value: ValueT) => KeyT): void {
+    connectSorted<KeyT extends Comparable>(child: this, keySelector: (value: ValueT) => KeyT): void {
         if (isDefined(keySelector)) {
-            arraySortedInsert(this._forward, child, (n) => keySelector(n.value));
-            arraySortedInsert(child._reverse, this, (n) => keySelector(n.value));
+            const comparer = compareBy<this>((n) => keySelector(n.value));
+            insertSorted(this._forward, child, comparer);
+            insertSorted(child._reverse, this, comparer);
         }
         else {
             this.connectTo(child);

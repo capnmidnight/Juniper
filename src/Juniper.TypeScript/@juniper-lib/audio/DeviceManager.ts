@@ -1,7 +1,7 @@
-import { arrayScan, arraySortByKey } from "@juniper-lib/collections/arrays";
+import { arrayScan, compareBy } from "@juniper-lib/collections/arrays";
 import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
-import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 import { StreamChangedEvent } from "./StreamChangedEvent";
+import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 
 export class DeviceSettingsChangedEvent extends TypedEvent<"devicesettingschanged"> {
     constructor() {
@@ -94,7 +94,7 @@ export class DeviceManager {
             }
         }
 
-        devices = arraySortByKey(devices || [], (d) => d.label);
+        devices = (devices || []).sort(deviceComparer);
 
         if (filterDuplicates) {
             devices = filterDeviceDuplicates(devices);
@@ -107,3 +107,5 @@ export class DeviceManager {
         return this.managers.map(m => m.outStream);
     }
 }
+
+export const deviceComparer = compareBy<MediaDeviceInfo>(d => d.label);

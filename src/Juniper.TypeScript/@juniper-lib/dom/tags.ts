@@ -1,10 +1,10 @@
-import { arrayRemove, arrayScan } from "@juniper-lib/collections/arrays";
+import { arrayRemove } from "@juniper-lib/collections/arrays";
 import { once } from "@juniper-lib/events/once";
+import { Text_Css } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/typeChecks";
 import { ClassList, Href, HtmlFor, Rel, Type, isAttr } from "./attrs";
 import { PropSet, margin } from "./css";
-import { Text_Css } from "@juniper-lib/mediatypes";
 
 export interface ErsatzElement<T extends Element = Element> {
     element: T;
@@ -129,12 +129,14 @@ type ReturnElementType<T> = T extends Element
     ? ElementT
     : never;
 
-export function HtmlRender<T extends Elements | ShadowRoot>(element: T, ...children: ElementChild[]): ReturnElementType<T> {
+export function HtmlRender<T extends Elements | ShadowRoot>(element: T | string, ...children: ElementChild[]): ReturnElementType<T> {
     const elem = element instanceof Element
         ? element
         : element instanceof ShadowRoot
             ? element
-            : element.element;
+            : isString(element)
+                ? document.querySelector(element)
+                : element.element;
 
     const target = elem instanceof HTMLTemplateElement
         ? elem.content
@@ -229,25 +231,24 @@ export function getCanvas(selector: string) {
  * @returns
  */
 export function HtmlTag<K extends keyof MapT & string, MapT extends Record<keyof MapT, HTMLElement> = HTMLElementTagNameMap>(name: K, ...rest: ElementChild[]): MapT[K] {
-    const attrs = rest.filter(isAttr);
-    const idAttr = arrayScan(attrs, (v => v.key === "id"));
-    const queryAttr = arrayScan(attrs, (v => v.key === "query"));
-
     let elem: MapT[K] & HTMLElement = null;
 
-    if (queryAttr) {
-        elem = queryAttr.value as any;
-        arrayRemove(rest, queryAttr);
-    }
-
-    if (!elem && idAttr) {
-        elem = document.getElementById(idAttr.value as any) as any;
-        if (elem) {
-            arrayRemove(rest, idAttr);
-            if (elem.tagName !== name.toUpperCase()) {
-                console.warn(`Expected a "${name.toUpperCase()}" element but found a "${elem.tagName}".`);
+    const finders = rest.filter(isAttr).filter(v => v.key === "id" || v.key === "query");
+    for (const finder of finders) {
+        if (finder.key === "query") {
+            elem = finder.value as any;
+            arrayRemove(rest, finder);
+        }
+        else if (finder.key === "id") {
+            elem = document.getElementById(finder.value as any) as any;
+            if (elem) {
+                arrayRemove(rest, finder);
             }
         }
+    }
+
+    if (elem && elem.tagName !== name.toUpperCase()) {
+        console.warn(`Expected a "${name.toUpperCase()}" element but found a "${elem.tagName}".`);
     }
 
     if (!elem) {

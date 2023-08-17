@@ -2,6 +2,7 @@ export * from "./audio-encoder";
 export * from "./battery";
 export * from "./css";
 export * from "./gamepad";
+export * from "./html-attributes";
 export * from "./html-media-element";
 export * from "./language-culture";
 export * from "./speech-recognizer";

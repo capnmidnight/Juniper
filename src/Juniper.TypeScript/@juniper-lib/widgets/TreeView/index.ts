@@ -1,6 +1,6 @@
+import { TreeNode, buildTree } from "@juniper-lib/collections/TreeNode";
 import { arrayClear, arrayRemove } from "@juniper-lib/collections/arrays";
-import { buildTree, TreeNode } from "@juniper-lib/collections/TreeNode";
-import { HtmlAttr, AutoComplete, ClassList, PlaceHolder, TabIndex } from "@juniper-lib/dom/attrs";
+import { AutoComplete, ClassList, HtmlAttr, PlaceHolder, TabIndex } from "@juniper-lib/dom/attrs";
 import { CssElementStyleProp } from "@juniper-lib/dom/css";
 import {
     isModifierless,
@@ -15,22 +15,22 @@ import {
 } from "@juniper-lib/dom/evts";
 import {
     ButtonPrimarySmall, ButtonSecondarySmall, Div,
+    ErsatzElement,
     HtmlRender,
+    InputText,
     elementClearChildren,
     elementGetIndexInParent,
     elementInsertBefore,
     elementReplace,
-    elementSetDisplay,
-    ErsatzElement,
-    InputText
+    elementSetDisplay
 } from "@juniper-lib/dom/tags";
 import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
-import { alwaysFalse, identity } from "@juniper-lib/tslib/identity";
+import { alwaysFalse } from "@juniper-lib/tslib/identity";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { TreeViewNodeElement, TreeViewNodeContextMenuEvent, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNodeElement";
+import { TreeViewNodeContextMenuEvent, TreeViewNodeElement, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNodeElement";
 
 import { PropertyDef, PropertyList } from "../PropertyList";
-import { SelectList } from "../SelectList";
+import { LabelField, SelectList, SelectListElement, SortKeyField, ValueField } from "../SelectList";
 import "./styles.css";
 
 
@@ -93,7 +93,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
     private readonly expandButton: HTMLButtonElement;
     private readonly collapseButton: HTMLButtonElement;
     private readonly filters: PropertyList;
-    private readonly filterTypeInput: SelectList<FilterTypeT> = null;
+    private readonly filterTypeInput: SelectListElement<FilterTypeT> = null;
     private readonly filterNameInput: HTMLInputElement;
 
     private readonly children: HTMLElement;
@@ -277,7 +277,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                     ["Name", this.filterNameInput = InputText(
                         ClassList("form-control"),
                         PlaceHolder("Filter by name"),
-                        AutoComplete(false),
+                        AutoComplete("off"),
                         onInput(() => {
                             this.nameFilter = this.filterNameInput.value.toLocaleLowerCase();
                             if (this.nameFilter.length === 0) {
@@ -291,11 +291,11 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
 
             if (isDefined(this.options.typeFilters)) {
                 this.filters.append(
-                    ["Type", this.filterTypeInput = new SelectList(
-                        identity,
-                        this.options.typeFilters.getTypeLabel,
-                        this.options.typeFilters.getTypeLabel,
-                        "Filter by type"
+                    ["Type", this.filterTypeInput = SelectList<FilterTypeT>(
+                        ValueField(v => v as string),
+                        LabelField(this.options.typeFilters.getTypeLabel),
+                        SortKeyField(this.options.typeFilters.getTypeLabel),
+                        PlaceHolder("Filter by type")
                     )]
                 );
 

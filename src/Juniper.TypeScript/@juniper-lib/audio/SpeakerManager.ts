@@ -1,8 +1,9 @@
-import { arrayScan, arraySortByKey } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
+import { arrayScan } from "@juniper-lib/collections/arrays";
 import { IReadyable } from "@juniper-lib/events/IReadyable";
 import { Task } from "@juniper-lib/events/Task";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+import { deviceComparer } from "./DeviceManager";
 import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 
 /**
@@ -163,7 +164,7 @@ export class SpeakerManager
             }
         }
 
-        devices = arraySortByKey(devices || [], (d) => d.label);
+        devices = (devices || []).sort(deviceComparer);
 
         if (filterDuplicates) {
             devices = filterDeviceDuplicates(devices);

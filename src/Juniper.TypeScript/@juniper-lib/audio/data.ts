@@ -1,3 +1,5 @@
+import { compareBy } from "@juniper-lib/collections/arrays";
+
 export interface MediaRecord {
     url: string;
     contentType: string;
@@ -14,3 +16,6 @@ export interface FullAudioRecord {
     title: string;
     audios: AudioRecord[];
 }
+
+
+export const audioRecordSorter = compareBy<AudioRecord>("descending", f => f.resolution);

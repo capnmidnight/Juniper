@@ -7,14 +7,14 @@ import {
     Step,
     Value
 } from "@juniper-lib/dom/attrs";
-import { resizeCanvas } from "@juniper-lib/dom/canvas";
+import { resizeContext } from "@juniper-lib/dom/canvas";
 import {
     alignItems,
     columnGap,
     display,
-    em,
     fr,
     gridTemplateColumns, height,
+    minHeight,
     perc,
     px,
     rgb,
@@ -23,9 +23,9 @@ import {
 import {
     Canvas,
     Div,
+    HtmlRender,
     InputCheckbox,
-    InputNumber, PreLabeled,
-    HtmlRender
+    InputNumber, PreLabeled
 } from "@juniper-lib/dom/tags";
 import { RequestAnimationFrameTimer } from "@juniper-lib/timers/RequestAnimationFrameTimer";
 import { Tau } from "@juniper-lib/tslib/math";
@@ -155,7 +155,7 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
             this.canvas = Canvas(
                 display("block"),
                 width(perc(100)),
-                height(`calc(${perc(100)} - ${em(2)})`)
+                minHeight("calc(100% - 2em)")
             )
         );
 
@@ -164,10 +164,14 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
         this.g.textBaseline = "middle";
 
         this.timer.addTickHandler(() => {
-            resizeCanvas(this.canvas);
             this.fr91();
             this.draw();
         });
+
+        const resizer = new ResizeObserver(() => {
+            resizeContext(this.g);
+        });
+        resizer.observe(this.canvas);
 
         const delta = vec2.create();
         this.canvas.addEventListener("mousedown", (evt) => {
@@ -335,7 +339,6 @@ export abstract class BaseGraphDialog<T> extends DialogBox {
         this.refreshData();
 
         this.t.valueAsNumber = 5;
-        resizeCanvas(this.canvas);
 
         if (!this.timer.isRunning) {
             this.timer.start();

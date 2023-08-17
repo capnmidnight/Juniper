@@ -1,6 +1,5 @@
 import { PriorityMap } from "@juniper-lib/collections/PriorityMap";
 import { TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
-import { nothing } from "@juniper-lib/tslib/identity";
 import { isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import type { TestCase, TestCaseConstructor } from "./TestCase";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
@@ -14,9 +13,8 @@ function testNames(TestClass: TestCase): (keyof TestCase)[] {
     return names as (keyof TestCase)[];
 }
 
-function isTest(testCase: TestCase, name: keyof TestCase, testName?: string) {
-    return (name === testName
-        || (isNullOrUndefined(testName) && name.startsWith("test_")))
+function isTest(testCase: TestCase, name: keyof TestCase) {
+    return name.startsWith("test_")
         && isFunction(testCase[name]);
 }
 
@@ -54,11 +52,11 @@ export class TestRunner extends TypedEventTarget<TestRunnerEvents> {
         const q = new Array<() => Promise<void>>();
         for (const CaseClass of this.CaseClasses) {
             for (const funcName of testNames(CaseClass.prototype)) {
-                if (isTest(CaseClass.prototype, funcName, testName)) {
+                if (isTest(CaseClass.prototype, funcName)) {
                     results.add(CaseClass.name, funcName, new TestScore(funcName));
 
-                    if (CaseClass.name === testCaseName
-                        || isNullOrUndefined(testCaseName)) {
+                    if ((isNullOrUndefined(testCaseName) || CaseClass.name === testCaseName)
+                        && (isNullOrUndefined(testName) || funcName === testName)) {
                         q.push(() => this.runTest(CaseClass, funcName, results, CaseClass.name, onUpdate));
                     }
                 }
@@ -70,7 +68,7 @@ export class TestRunner extends TypedEventTarget<TestRunnerEvents> {
             const N = 10;
             for (let i = 0; i < N && q.length > 0; ++i) {
                 const test = q.shift();
-                await test().finally(nothing);
+                await test();
                 if (i === N - 1) {
                     setTimeout(update);
                 }
@@ -79,7 +77,7 @@ export class TestRunner extends TypedEventTarget<TestRunnerEvents> {
         update();
     }
 
-    async runTest(CaseClass: TestCaseConstructor, funcName: string, results: TestResults, className: string, onUpdate: Function) {
+    private async runTest(CaseClass: TestCaseConstructor, funcName: string, results: TestResults, className: string, onUpdate: Function) {
         const testCase = new CaseClass(),
             func = (testCase as any)[funcName],
             caseResults = results.get(className),

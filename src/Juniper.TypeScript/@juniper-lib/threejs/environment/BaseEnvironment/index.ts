@@ -1,12 +1,12 @@
+import { compareBy, insertSorted, removeSorted } from "@juniper-lib/collections/arrays";
 import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
 import { BaseAsset, isAsset } from "@juniper-lib/fetcher/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/IFetcher";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { arrayRemove, arraySortByKeyInPlace } from "@juniper-lib/collections/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
-import { isDesktop, isFirefox, isOculusBrowser, oculusBrowserVersion } from "@juniper-lib/tslib/flags";
 import { IProgress } from "@juniper-lib/progress/IProgress";
 import { TimerTickEvent } from "@juniper-lib/timers/ITimer";
+import { isDesktop, isFirefox, isOculusBrowser, oculusBrowserVersion } from "@juniper-lib/tslib/flags";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
 import { feet2Meters } from "@juniper-lib/tslib/units/length";
 import { AmbientLight, Color, ColorManagement, DirectionalLight, GridHelper, Group, LinearEncoding, PerspectiveCamera, Scene, Vector4, WebGLRenderTarget, WebGLRenderer, WebXRArrayCamera, sRGBEncoding } from "three";
@@ -366,16 +366,19 @@ export class BaseEnvironment<Events = unknown>
         return this._hasXRCompositionLayers;
     }
 
+    private layerSorter = compareBy<XRLayer>("descending", l => this.layerSortOrder.get(l));
+
     addWebXRLayer(layer: XRLayer, sortOrder: number) {
-        this.layers.push(layer);
         this.layerSortOrder.set(layer, sortOrder);
-        arraySortByKeyInPlace(this.layers, (l) => -this.layerSortOrder.get(l));
+        insertSorted(this.layers, layer, this.layerSorter);
+
         this.updateLayers();
     }
 
     removeWebXRLayer(layer: XRLayer) {
+        removeSorted(this.layers, layer, this.layerSorter);
         this.layerSortOrder.delete(layer);
-        arrayRemove(this.layers, layer);
+
         this.updateLayers();
     }
 

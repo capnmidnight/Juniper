@@ -3,6 +3,8 @@ import { identity } from "@juniper-lib/tslib/identity";
 import { stringRandom } from "@juniper-lib/tslib/strings/stringRandom";
 import { isBoolean, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 
+const warnings = new Map<string, Set<string>>();
+
 /**
  * A setter functor for HTML attributes.
  **/
@@ -33,7 +35,15 @@ export class HtmlAttr<T extends string = string, V = number | object | ((elem: H
     applyToElement(elem: HTMLElement) {
         if (this.tags.length > 0
             && this.tags.indexOf(elem.tagName) === -1) {
-            console.warn(`Element ${elem.tagName} does not support Attribute ${this.key}`);
+            let set = warnings.get(elem.tagName);
+            if (!set) {
+                warnings.set(elem.tagName, set = new Set());
+            }
+
+            if (!set.has(this.key)) {
+                set.add(this.key);
+                console.warn(`Element ${elem.tagName} does not support Attribute ${this.key}`);
+            }
         }
 
         if (isFunction(this.value)) {
@@ -339,7 +349,7 @@ export function AutoCapitalize(value: boolean) { return attr("autocapitalize", v
 /**
  * Indicates whether controls in this form can by default have their values automatically completed by the browser.
   **/
-export function AutoComplete(value: boolean) { return attr("autocomplete", value ? "on" : "off", false, "form", "input", "select", "textarea"); }
+export function AutoComplete(value: HTMLAutoCompleteAttributeValue) { return attr("autocomplete", value, false, "form", "input", "select", "textarea"); }
 
 /**
  * The element should be automatically focused after the page loaded.
@@ -630,6 +640,8 @@ export function Integrity(value: string) { return attr("integrity", value, false
  * This attribute tells the browser to ignore the actual intrinsic size of the image and pretend it’s the size specified in the attribute.
   **/
 export function IntrinsicSize(value: string) { return attr("intrinsicsize", value, false, "img"); }
+
+export function Is(value: string) { return attr("is", value, false); }
 
 /**
  * Indicates that the image is part of a server-side image map.

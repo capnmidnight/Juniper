@@ -1,10 +1,10 @@
-import { MediaType } from "@juniper-lib/mediatypes";
-import { once } from "@juniper-lib/events/once";
 import { Task } from "@juniper-lib/events/Task";
+import { once } from "@juniper-lib/events/once";
+import { MediaType } from "@juniper-lib/mediatypes";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-import { Height, Width, Src } from "./attrs";
-import { Canvas, Img } from "./tags";
 import { dispose as disposeOld } from "@juniper-lib/tslib/using";
+import { Height, Src, Width } from "./attrs";
+import { Canvas, Img } from "./tags";
 
 export type CanvasTypes = HTMLCanvasElement | OffscreenCanvas;
 export type CanvasImageTypes = HTMLImageElement | HTMLCanvasElement | OffscreenCanvas | ImageBitmap;

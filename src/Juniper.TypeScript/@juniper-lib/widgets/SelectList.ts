@@ -1,10 +1,12 @@
-import { arraySortByKey } from "@juniper-lib/collections/arrays";
-import { ClassList, Value } from "@juniper-lib/dom/attrs";
-import { ErsatzElement, Option, Select, elementClearChildren } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
-import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
+import { CompareFunction, arrayReplace, compareBy } from "@juniper-lib/collections/arrays";
+import { CustomElement } from "@juniper-lib/dom/CustomElement";
+import { Disabled, Hidden, HtmlAttr, Is, ReadOnly, Value } from "@juniper-lib/dom/attrs";
+import { HtmlEvt } from "@juniper-lib/dom/evts";
+import { ElementChild, HtmlTag, Option, elementClearChildren } from "@juniper-lib/dom/tags";
+import { EventTargetMixin } from "@juniper-lib/events/EventTarget";
+import { ITypedEventTarget, TypedEvent, TypedEventListenerOrEventListenerObject } from "@juniper-lib/events/TypedEventTarget";
+import { isFunction, isNullOrUndefined, isObject, isString } from "@juniper-lib/tslib/typeChecks";
 import type { makeItemCallback } from "./SelectBox";
-import { withDefault } from "./SelectBox";
 
 export class SelectListItemSelectedEvent<T> extends TypedEvent<"itemselected"> {
     constructor(public item: T) {
@@ -13,66 +15,270 @@ export class SelectListItemSelectedEvent<T> extends TypedEvent<"itemselected"> {
 }
 
 type SelectListEvents<T> = {
-    itemselected: SelectListItemSelectedEvent<T>;
+    "input": InputEvent;
+    "itemselected": SelectListItemSelectedEvent<T>;
+
+}
+
+
+
+export function SelectList<T>(...rest: ElementChild[]): SelectListElement<T> {
+    return HtmlTag(
+        "select",
+        Is("select-list"),
+        ...rest
+    ) as SelectListElement<T>;
+}
+
+function FieldDef<T>(attrName: string, fieldName: string | makeItemCallback<T>) {
+    return new HtmlAttr(
+        attrName,
+        fieldGetter(fieldName),
+        false,
+        "select-list"
+    )
+}
+
+export function ValueField<T>(fieldName: string | makeItemCallback<T>) {
+    return FieldDef("getValue", fieldName);
+}
+
+export function LabelField<T>(fieldName: string | makeItemCallback<T>) {
+    return FieldDef("getLabel", fieldName);
+}
+
+export function SortKeyField<T>(fieldName: string | makeItemCallback<T>) {
+    return FieldDef("getSortKey", fieldName);
+}
+
+export function Values<T>(values: T[]) {
+    return new HtmlAttr("values", values, false, "select-list");
+}
+
+export function onItemSelected<T>(callback: (evt: SelectListItemSelectedEvent<T>) => void, opts?: EventListenerOptions) {
+    return new HtmlEvt("itemselected", callback, opts)
+}
+
+function fieldGetter<T>(fieldName: string | makeItemCallback<T>): makeItemCallback<T> {
+    if (isNullOrUndefined(fieldName) || (fieldName as string).length === 0) {
+        return null;
+    }
+
+    let getter: makeItemCallback<T> = null;
+
+    if (isString(fieldName)) {
+        getter = (item: T) => {
+            if (isObject(item)
+                && fieldName in item) {
+                getter = (item) =>
+                    //@ts-ignore
+                    item[fieldName];
+            }
+
+            if (!getter) {
+                return null;
+            }
+
+            return getter(item);
+        };
+    }
+    else {
+        getter = fieldName;
+    }
+
+    return (item: T) => {
+        if (isNullOrUndefined(item)) {
+            return null;
+        }
+
+        return getter(item);
+    }
+}
+
+function identityString(item: any): string {
+    if (isNullOrUndefined(item)) {
+        return null;
+    }
+
+    if (isString(item)) {
+        return item;
+    }
+    else if ("toString" in item
+        && isFunction(item.toString)) {
+        return item.toString();
+    }
+
+    return null;
 }
 
 /**
  * A select box that can be databound to collections.
  **/
-export class SelectList<T>
-    extends TypedEventTarget<SelectListEvents<T>>
-    implements ErsatzElement {
+@CustomElement("select-list", "select")
+export class SelectListElement<T>
+    extends HTMLSelectElement
+    implements ITypedEventTarget<SelectListEvents<T>> {
 
-    public readonly element = Select(ClassList("custom-select"));
+    private readonly eventTarget: EventTargetMixin;
+    private readonly valueToOption = new Map<string, HTMLOptionElement>();
+    private readonly optionToItem = new Map<HTMLOptionElement, T>();
+    private readonly _values: T[] = [];
 
-    private makeID: makeItemCallback<T>;
-    private makeLabel: makeItemCallback<T>;
-    private getSortKey: makeItemCallback<T>;
-
-    private itemToOption = new Map<string, HTMLOptionElement>();
-    private optionToItem = new Map<HTMLOptionElement, T>();
-
-    private _emptySelectionEnabled = false;
-    private _values: readonly T[] = null;
-
-    private noSelection: HTMLOptionElement;
+    private _getValue: makeItemCallback<T> = identityString;
+    private _getLabel: makeItemCallback<T> = identityString;
+    private _getSortKey: CompareFunction<T> = compareBy(identityString);
+    private noSelection: HTMLOptionElement = null;
 
     /**
      * Creates a select box that can bind to collections
-     * @param makeID - a function that evalutes a databound item to create an ID for it.
-     * @param makeLabel - a function that evalutes a databound item to create a label for it.
      */
-    constructor(makeID: makeItemCallback<T>, makeLabel: makeItemCallback<T>, getSortKey: makeItemCallback<T>);
-    /**
-     * Creates a select box that can bind to collections
-     * @param makeID - a function that evalutes a databound item to create an ID for it.
-     * @param makeLabel - a function that evalutes a databound item to create a label for it.
-     * @param noSelectionText - the text to display when no items are available.
-     */
-    constructor(makeID: makeItemCallback<T>, makeLabel: makeItemCallback<T>, getSortKey: makeItemCallback<T>, noSelectionText: string);
-    constructor(makeID: makeItemCallback<T>, makeLabel: makeItemCallback<T>, getSortKey: makeItemCallback<T>, noSelectionText?: string) {
+    constructor() {
         super();
 
-        this.makeID = withDefault(makeID);
-        this.makeLabel = withDefault(makeLabel, "None");
-        this.getSortKey = withDefault(getSortKey);
+        this.eventTarget = new EventTargetMixin(
+            super.addEventListener.bind(this),
+            super.removeEventListener.bind(this),
+            super.dispatchEvent.bind(this)
+        );
 
-        this.noSelection = Option(noSelectionText);
-
-        this.emptySelectionEnabled = !isNullOrUndefined(noSelectionText);
-
-        this.element.addEventListener("input", () =>
+        this.addEventListener("input", () =>
             this.dispatchEvent(new SelectListItemSelectedEvent(this.selectedValue)));
-
-        Object.seal(this);
     }
 
-    get disabled(): boolean {
-        return this.element.disabled;
+    connectedCallback() {
+        for (const name of this.getAttributeNames()) {
+            this.setAttribute(name, this.getAttribute(name));
+        }
     }
 
-    set disabled(v: boolean) {
-        this.element.disabled = v;
+    override setAttribute(name: string, value: string) {
+        switch (name.toLowerCase()) {
+            case "getvalue":
+                this.getValue = fieldGetter(value);
+                break;
+            case "getlabel":
+                this.getLabel = fieldGetter(value);
+                break;
+            case "getsortkey":
+                this.getSortKey = compareBy(fieldGetter(value));
+                break;
+            case "placeholder":
+                this.placeholder = value;
+                break;
+            default: super.setAttribute(name, value);
+        }
+    }
+
+    override removeAttribute(name: string) {
+        switch (name.toLowerCase()) {
+            case "getvalue":
+                this.getValue = null;
+                break;
+            case "getlabel":
+                this.getLabel = null;
+                break;
+            case "getsortkey":
+                this.getSortKey = null;
+                break;
+            case "placeholder":
+                this.placeholder = null;
+                break;
+            default: super.removeAttribute(name);
+        }
+    }
+
+    get getValue(): makeItemCallback<T> {
+        return this._getValue;
+    }
+
+    set getValue(v: makeItemCallback<T>) {
+        if (v !== this.getValue) {
+            super.removeAttribute("getValue");
+            this._getValue = v || identityString;
+            this.render();
+        }
+    }
+
+    get getLabel(): makeItemCallback<T> {
+        return this._getLabel;
+    }
+
+    set getLabel(v: makeItemCallback<T>) {
+        if (v !== this.getLabel) {
+            super.removeAttribute("getLabel");
+            this._getLabel = v || identityString;
+            this.render();
+        }
+    }
+
+    get getSortKey(): CompareFunction<T> {
+        return this._getSortKey;
+    }
+
+    set getSortKey(v: CompareFunction<T>) {
+        if (v !== this.getSortKey) {
+            this.removeAttribute("getSortKey");
+            this._getSortKey = v || compareBy(identityString);
+            this.render();
+        }
+    }
+
+    private noSelectionText: string = null;
+
+    get placeholder(): string {
+        return this.noSelectionText;
+    }
+
+    set placeholder(v: string) {
+        if (v !== this.placeholder) {
+            this.noSelectionText = v;
+
+            if (this.noSelectionText) {
+                this.noSelection = Option(
+                    ReadOnly(true),
+                    Hidden(true),
+                    Disabled(true),
+                    v
+                );
+            }
+            else {
+                this.noSelection = null;
+            }
+
+            this.render();
+        }
+    }
+
+    override addEventListener<EventTypeT extends keyof SelectListEvents<T>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<SelectListEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addEventListener(type as string, callback as EventListenerOrEventListenerObject, options);
+    }
+
+    override removeEventListener<EventTypeT extends keyof SelectListEvents<T>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<SelectListEvents<T>, EventTypeT>): void {
+        this.eventTarget.removeEventListener(type as string, callback as EventListenerOrEventListenerObject);
+    }
+
+    override dispatchEvent(evt: Event): boolean {
+        return this.eventTarget.dispatchEvent(evt);
+    }
+
+    addBubbler(bubbler: ITypedEventTarget<SelectListEvents<T>>): void {
+        this.eventTarget.addBubbler(bubbler);
+    }
+
+    removeBubbler(bubbler: ITypedEventTarget<SelectListEvents<T>>): void {
+        this.eventTarget.removeBubbler(bubbler);
+    }
+
+    addScopedEventListener<EventTypeT extends keyof SelectListEvents<T>>(scope: object, type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<SelectListEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addScopedEventListener(scope, type as string, callback as EventListenerOrEventListenerObject, options);
+    }
+
+    removeScope(scope: object) {
+        this.eventTarget.removeScope(scope);
+    }
+
+    clearEventListeners<EventTypeT extends keyof SelectListEvents<T>>(type?: EventTypeT): void {
+        this.eventTarget.clearEventListeners(type as string);
     }
 
     get enabled(): boolean {
@@ -90,25 +296,15 @@ export class SelectList<T>
     /**
      * Gets whether or not the select box will have a vestigial entry for "no selection" or "null" in the select box.
      **/
-    get emptySelectionEnabled(): boolean {
-        return this._emptySelectionEnabled;
-    }
-
-    /**
-     * Sets whether or not the select box will have a vestigial entry for "no selection" or "null" in the select box.
-     **/
-    set emptySelectionEnabled(value: boolean) {
-        if (value !== this.emptySelectionEnabled) {
-            this._emptySelectionEnabled = value;
-            this.render();
-        }
+    private get emptySelectionEnabled(): boolean {
+        return !isNullOrUndefined(this.noSelection);
     }
 
     /**
      * Gets the collection to which the select box was databound
      **/
     get values(): readonly T[] {
-        return this._values || [];
+        return this._values;
     }
 
     /**
@@ -118,22 +314,25 @@ export class SelectList<T>
         newItems = newItems || null;
         if (newItems !== this._values) {
             const curValue = this.selectedValue;
-            this._values = newItems;
+            arrayReplace(this._values, ...newItems);
             this.render();
             this.selectedValue = curValue;
         }
     }
 
     private get selectedOption(): HTMLOptionElement {
-        return this.element.selectedOptions.item(0);
+        return this.selectedOptions.item(0);
     }
 
     private set selectedOption(option: HTMLOptionElement) {
-        for (let i = 0; i < this.element.options.length; ++i) {
-            const here = this.element.options[i];
+        for (let i = 0; i < this.options.length; ++i) {
+            const here = this.options[i];
             here.selected = here === option;
         }
     }
+
+    private get makeValue() { return this.getValue || this.getLabel; }
+    private get makeLabel() { return this.getLabel || this.getValue; }
 
     /**
      * Gets the item at `selectedIndex` in the collection to which the select box was databound
@@ -147,44 +346,41 @@ export class SelectList<T>
      * sets that index as the `selectedIndex`.
      */
     set selectedValue(value: T) {
-        this.selectedOption = this.itemToOption.get(this.makeID(value));
+        if (this.makeValue) {
+            this.selectedOption = this.valueToOption.get(this.makeValue(value));
+        }
     }
-
-    refresh() {
-        this.render();
-    }
-
 
     private render() {
         elementClearChildren(this);
-        this.itemToOption.clear();
+        this.valueToOption.clear();
         this.optionToItem.clear();
 
-        if (this.count === 0 || this.emptySelectionEnabled) {
-            this.append(null, this.noSelection);
-        }
+        if (this.makeValue) {
+            if (this.count === 0 || this.emptySelectionEnabled) {
+                this.mapOption(null, this.noSelection);
+            }
 
-        if (this.count > 0) {
-            const sortedItems = arraySortByKey(this.values, this.getSortKey);
-            for (const item of sortedItems) {
-                const option = this.makeOption(item);
-                this.append(item, option);
+            if (this.count > 0) {
+                const items = [...this.values];
+                if (this.getSortKey) {
+                    items.sort(this.getSortKey);
+                }
+
+                for (const item of items) {
+                    const option = Option(
+                        Value(this.makeValue(item)),
+                        this.makeLabel(item)
+                    );
+                    this.mapOption(item, option);
+                }
             }
         }
     }
 
-    private makeOption(item: T): HTMLOptionElement {
-        const option = Option(
-            Value(this.makeID(item)),
-            this.makeLabel(item));
-        this.itemToOption.set(this.makeID(item), option);
-        this.optionToItem.set(option, item);
-        return option;
-    }
-
-    private append(value: T, option: HTMLOptionElement): void {
-        this.element.append(option);
-        this.itemToOption.set(this.makeID(value), option);
+    private mapOption(value: T, option: HTMLOptionElement): void {
+        this.append(option);
+        this.valueToOption.set(this.makeValue(value), option);
         this.optionToItem.set(option, value);
     }
 }

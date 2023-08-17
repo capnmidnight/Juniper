@@ -49,10 +49,6 @@ implements IElementAppliable {
      * @param callback - the callback function to use with the event handler.
      * @param opts - additional attach options.
      */
-    constructor(name: keyof DocumentEventMap, callback: (evt: T) => void, opts?: EventListenerOpts);
-    constructor(name: keyof HTMLBodyElementEventMap, callback: (evt: T) => void, opts?: EventListenerOpts);
-    constructor(name: keyof HTMLElementEventMap, callback: (evt: T) => void, opts?: EventListenerOpts);
-    constructor(name: keyof GlobalEventHandlersEventMap, callback: (evt: T) => void, opts?: EventListenerOpts);
     constructor(public name: string, public callback: (evt: T) => void, opts?: EventListenerOpts) {
         if (!isFunction(callback)) {
             throw new Error("A function instance is required for this parameter");
@@ -82,7 +78,7 @@ implements IElementAppliable {
 }
 
 
-export function onEvent<T extends Event>(eventName: string, callback: (evt: T) => void, opts?: EventListenerOpts): HtmlEvt<T> { return new HtmlEvt<T>(eventName as any, callback, opts); }
+function onEvent<T extends Event>(eventName: string, callback: (evt: T) => void, opts?: EventListenerOpts): HtmlEvt<T> { return new HtmlEvt<T>(eventName as any, callback, opts); }
 
 export function onAbort(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("abort", callback, opts); }
 export function onAfterPrint(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("afterprint", callback, opts); }
@@ -180,6 +176,7 @@ export function onProgressCallback(prog: IProgress) {
 }
 export function onRatechange(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("ratechange", callback, opts); }
 export function onReadystatechange(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("readystatechange", callback, opts); }
+export function onReleased(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("released", callback, opts); }
 export function onReset(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("reset", callback, opts); }
 export function onResize(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("resize", callback, opts); }
 export function onScroll(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("scroll", callback, opts); }

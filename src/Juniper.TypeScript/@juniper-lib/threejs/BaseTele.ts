@@ -1,11 +1,13 @@
+import { arrayRemove, compareBy, insertSorted } from "@juniper-lib/collections/arrays";
+import { all } from "@juniper-lib/events/all";
 import { AssetFile, BaseFetchedAsset } from "@juniper-lib/fetcher/Asset";
 import type { TextImageOptions } from "@juniper-lib/graphics2d/TextImage";
 import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { arrayRemove, arraySortedInsert } from "@juniper-lib/collections/arrays";
-import { all } from "@juniper-lib/events/all";
-import { Tau } from "@juniper-lib/tslib/math";
 import { IProgress } from "@juniper-lib/progress/IProgress";
+import { identity } from "@juniper-lib/tslib/identity";
+import { Tau } from "@juniper-lib/tslib/math";
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
+import { dispose } from "@juniper-lib/tslib/using";
 import {
     RoomJoinedEvent,
     RoomLeftEvent,
@@ -19,19 +21,20 @@ import { Object3D, Vector3 } from "three";
 import { AssetGltfModel } from "./AssetGltfModel";
 import { AvatarRemote } from "./AvatarRemote";
 import { BufferReaderWriter } from "./BufferReaderWriter";
-import { cleanup } from "./cleanup";
 import { DebugObject } from "./DebugObject";
+import { cleanup } from "./cleanup";
 import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
 import { convertMaterials, materialStandardToPhong } from "./materials";
 import { obj, objGraph } from "./objects";
-import { dispose } from "@juniper-lib/tslib/using";
 
 export const HANDEDNESSES: XRHandedness[] = [
     "none",
     "right",
     "left"
 ];
+
+const comparer = compareBy<string>(identity);
 
 export abstract class BaseTele extends Application {
 
@@ -119,7 +122,7 @@ export abstract class BaseTele extends Application {
         const onLocalUserIDChange = (evt: RoomJoinedEvent | RoomLeftEvent) => {
             arrayRemove(this.sortedUserIDs, this.env.avatar.name);
             this.env.avatar.name = evt.userID;
-            arraySortedInsert(this.sortedUserIDs, this.env.avatar.name);
+            insertSorted(this.sortedUserIDs, this.env.avatar.name, comparer);
             this.updateUserOffsets();
         };
 
@@ -140,7 +143,7 @@ export abstract class BaseTele extends Application {
 
             avatar.userName = evt.user.userName;
             this.avatars.set(evt.user.userID, avatar);
-            arraySortedInsert(this.sortedUserIDs, evt.user.userID);
+            insertSorted(this.sortedUserIDs, evt.user.userID, comparer);
             objGraph(this.remoteUsers, avatar);
 
             this.updateUserOffsets();
