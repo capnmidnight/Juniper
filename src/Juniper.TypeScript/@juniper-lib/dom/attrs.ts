@@ -46,10 +46,7 @@ export class HtmlAttr<T extends string = string, V = number | object | ((elem: H
             }
         }
 
-        if (isFunction(this.value)) {
-            this.value(elem);
-        }
-        else if (this.bySetAttribute) {
+        if (this.bySetAttribute) {
             elem.setAttribute(this.key, this.value.toString());
         }
         else if (this.key in elem) {
@@ -60,6 +57,9 @@ export class HtmlAttr<T extends string = string, V = number | object | ((elem: H
         }
         else if (this.value === true) {
             elem.setAttribute(this.key, "");
+        }
+        else if (isFunction(this.value)) {
+            this.value(elem);
         }
         else {
             elem.setAttribute(this.key, this.value.toString());

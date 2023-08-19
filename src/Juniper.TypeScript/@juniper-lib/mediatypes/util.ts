@@ -194,23 +194,30 @@ export class MediaType {
         }
     }
 
+    toFileSystemAPIAccepts(): Record<string, string | string[]> {
+        return {
+            [this.value]: this.extensions.map(v => "." + v)
+        };
+    }
+
     addExtension(fileName: string): string {
         if (!fileName) {
             throw new Error("File name is not defined");
         }
 
         if (this.primaryExtension) {
-            const idx = fileName.lastIndexOf(".");
-            if (idx > -1) {
-                const currentExtension = fileName.substring(idx + 1);
-                if (this.extensions.indexOf(currentExtension) > -1) {
-                    fileName = fileName.substring(0, idx);
-                }
-            }
-
+            fileName = MediaType.removeExtension(fileName);
             fileName = `${fileName}.${this.primaryExtension}`;
         }
 
+        return fileName;
+    }
+
+    static removeExtension(fileName: string) {
+        const idx = fileName.lastIndexOf(".");
+        if (idx > -1) {
+            fileName = fileName.substring(0, idx);
+        }
         return fileName;
     }
 }

@@ -35,7 +35,7 @@ function FieldDef<T>(attrName: string, fieldName: string | makeItemCallback<T>) 
         attrName,
         fieldGetter(fieldName),
         false,
-        "select-list"
+        "select"
     )
 }
 
@@ -52,7 +52,11 @@ export function SortKeyField<T>(fieldName: string | makeItemCallback<T>) {
 }
 
 export function Values<T>(values: T[]) {
-    return new HtmlAttr("values", values, false, "select-list");
+    return new HtmlAttr("values", values, false, "select");
+}
+
+export function SelectedValue<T>(value: T) {
+    return new HtmlAttr("selectedValue", value, false, "select");
 }
 
 export function onItemSelected<T>(callback: (evt: SelectListItemSelectedEvent<T>) => void, opts?: EventListenerOptions) {
@@ -126,7 +130,7 @@ export class SelectListElement<T>
 
     private _getValue: makeItemCallback<T> = identityString;
     private _getLabel: makeItemCallback<T> = identityString;
-    private _getSortKey: CompareFunction<T> = compareBy(identityString);
+    private _getSortKey: CompareFunction<T> = null;
     private noSelection: HTMLOptionElement = null;
 
     /**
@@ -218,7 +222,7 @@ export class SelectListElement<T>
     set getSortKey(v: CompareFunction<T>) {
         if (v !== this.getSortKey) {
             this.removeAttribute("getSortKey");
-            this._getSortKey = v || compareBy(identityString);
+            this._getSortKey = v;
             this.render();
         }
     }

@@ -306,11 +306,52 @@ export function elementSetClass(elem: Elements, enabled: boolean, className: str
     }
 }
 
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, label: string, title: string) {
+export type ButtonStyleType =
+    | "primary"
+    | "secondary"
+    | "success"
+    | "info"
+    | "warning"
+    | "danger"
+    | "light"
+    | "dark";
+
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, label: string): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, label: string, title: string): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, style: ButtonStyleType, enabled: boolean): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, style: ButtonStyleType, enabled: boolean, label: string): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, style: ButtonStyleType, enabled: boolean, label: string, title: string): void;
+export function buttonSetEnabled(button: Elements<HTMLButtonElement>, styleOrEnabled: boolean | ButtonStyleType, enabledOrlabel?: string | boolean, labelOrTitle?: string, title?: string): void {
     button = resolveElement(button);
+    let style: ButtonStyleType = null;
+    let enabled: boolean = null;
+    let label: string = null;
+    if (isBoolean(styleOrEnabled)) {
+        enabled = styleOrEnabled;
+        label = enabledOrlabel as string;
+        title = labelOrTitle;
+    }
+    else {
+        style = styleOrEnabled;
+        enabled = enabledOrlabel as boolean;
+        label = labelOrTitle;
+    }
+
     button.disabled = !enabled;
-    elementSetText(button, label);
-    elementSetTitle(button, title);
+
+    if (label) {
+        elementSetText(button, label);
+    }
+
+    if (title) {
+        elementSetTitle(button, title);
+    }
+
+    if (style) {
+        button.classList.toggle("btn-" + style, enabled);
+        button.classList.toggle("btn-outline-" + style, !enabled);
+    }
 }
 
 
