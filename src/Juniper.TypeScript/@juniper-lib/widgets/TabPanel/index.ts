@@ -1,9 +1,9 @@
-import { ClassList, CustomData, HtmlAttr, ID, QueryAll } from "@juniper-lib/dom/attrs";
-import { CssElementStyleProp } from "@juniper-lib/dom/css";
-import { ButtonSmall, Div, Elements, ErsatzElement, HtmlRender, elementSetClass, elementSetDisplay, getElements, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/TypedEventTarget";
-import { isNullOrUndefined } from "@juniper-lib/tslib/typeChecks";
-
+import { CustomElement } from "@juniper-lib/dom/CustomElement";
+import { ClassList, QueryAll } from "@juniper-lib/dom/attrs";
+import { onClick } from "@juniper-lib/dom/evts";
+import { ButtonSmall, Div, ElementChild, HtmlTag, elementSetClass, elementSetDisplay, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
+import { EventTargetMixin } from "@juniper-lib/events/EventTarget";
+import { ITypedEventTarget, TypedEvent, TypedEventListenerOrEventListenerObject } from "@juniper-lib/events/TypedEventTarget";
 import "./styles.css";
 
 
@@ -17,112 +17,83 @@ type TabPanelEvents<TabNames> = {
     tabselected: TabPanelTabSelectedEvent<TabNames>;
 }
 
-type TabPanelEntry<TabNames> = [TabNames, string, Elements<HTMLElement>];
-
-interface TabPanelView {
-    button: HTMLButtonElement;
-    panel: Elements<HTMLElement>;
-    displayType: CssGlobalValue | CssDisplayValue;
+export function TabPanel<TabNames extends string>(...rest: ElementChild[]) {
+    return HtmlTag<{
+        "tab-panel": TabPanelElement<TabNames>
+    }>("tab-panel", ...rest);
 }
 
-function isRule<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp | HtmlAttr): obj is CssElementStyleProp | HtmlAttr {
-    return obj instanceof CssElementStyleProp
-        || obj instanceof HtmlAttr;
-}
 
-function isViewDef<TabNames>(obj: TabPanelEntry<TabNames> | CssElementStyleProp | HtmlAttr): obj is TabPanelEntry<TabNames> {
-    return !isRule(obj);
-}
-
-export class TabPanel<TabNames extends string>
-    extends TypedEventTarget<TabPanelEvents<TabNames>>
-    implements ErsatzElement<HTMLElement> {
-    private readonly views = new Map<TabNames, TabPanelView>();
-
+@CustomElement("tab-panel")
+export class TabPanelElement<TabNames extends string>
+    extends HTMLElement
+    implements ITypedEventTarget<TabPanelEvents<TabNames>> {
+    private readonly eventTarget: EventTargetMixin;
+    private readonly panels: Map<TabNames, HTMLElement>;
+    private readonly panelNames: TabNames[];
+    private readonly buttons = new Map<TabNames, HTMLButtonElement>();
+    private readonly controls: HTMLElement;
+    private readonly inner: HTMLElement;
     private curTab: TabNames = null;
     private _disabled = false;
-
-    public static find() {
-        return Array
-            .from(getElements(".tab-panel"))
-            .map(v => new TabPanel(v));
-    }
-
-    public static create<TabNames extends string>(...entries: (TabPanelEntry<TabNames> | CssElementStyleProp | HtmlAttr)[]): TabPanel<TabNames> {
-        const rules = entries.filter(isRule);
-        const viewDefs = entries.filter(isViewDef);
-        const viewsByName = new Map<TabNames, TabPanelView>();
-
-        let firstName: TabNames = null;
-        for (const viewDef of viewDefs) {
-            const [name, label, panel] = viewDef;
-            const panelName = CustomData("panelname", name);
-            if (isNullOrUndefined(firstName)) {
-                firstName = name;
-            }
-            const elem = resolveElement<HTMLElement>(panel);
-            const displayType = elem.style.display as CssDisplayValue;
-            HtmlRender(panel, ID(name));
-            viewsByName.set(name, {
-                panel,
-                displayType,
-                button: ButtonSmall(
-                    label,
-                    panelName
-                )
-            });
-        }
-
-        const views = Array.from(viewsByName.values());
-
-        return new TabPanel<TabNames>(Div(
-            ClassList("tab-panel"),
-            ...rules,
-            Div(
-                ClassList("tabs"),
-                ...views.map(p => p.button)
-            ),
-            Div(
-                ClassList("panels"),
-                ...views.map(p => p.panel)
-            )
-        ));
-    }
-
-    constructor(public readonly element: HTMLElement) {
+    constructor() {
         super();
 
-        let counter = 0;
-        const btns: [string, HTMLButtonElement][] = QueryAll<HTMLButtonElement>(element, ".tabs > button")
-            .map(btn => [btn.dataset.panelname || `tab${++counter}`, btn]);
-        const buttons = new Map<string, HTMLButtonElement>(btns);
-
-        counter = 0;
-        const panels = new Map<string, HTMLElement>(
-            QueryAll<HTMLElement>(element, ".panels > *")
-                .map(panel => [panel.id || `tab${++counter}`, panel])
+        this.eventTarget = new EventTargetMixin(
+            super.addEventListener.bind(this),
+            super.removeEventListener.bind(this),
+            super.dispatchEvent.bind(this)
         );
 
-        for (const [name, button] of buttons) {
-            const panel = panels.get(name);
-            button.addEventListener("click", () => {
-                this.select(name as TabNames);
-                this.dispatchEvent(new TabPanelTabSelectedEvent(name));
-            });
-            let displayType = panel.style.display as CssDisplayValue;
-            if (displayType = "none") {
-                displayType = null;
-            }
-            this.views.set(name as TabNames, {
-                button,
-                displayType,
-                panel
-            });
-        }
+        this.panels = new Map(
+            QueryAll<HTMLElement>(this, ":scope > [data-tab-name]")
+                .map(d => [d.dataset.tabName as TabNames, d])
+        );
 
-        if (btns.length > 0) {
-            this.select(btns[0][0] as TabNames);
+        this.panelNames = Array.from(this.panels.keys());
+
+        this.buttons = new Map(this.panelNames
+            .map(name => {
+                const evt = new TabPanelTabSelectedEvent(name);
+                return [name, ButtonSmall(
+                    name,
+                    onClick(() => {
+                        this.select(name);
+                        this.dispatchEvent(evt);
+                    })
+                )];
+            }));
+
+        this.controls = Div(
+            ClassList("tabs"),
+            ...Array.from(this.buttons.values())
+        );
+
+        this.inner = Div(
+            ClassList("panels")
+        );
+    }
+
+    connectedCallback() {
+        this.append(
+            this.controls,
+            this.inner
+        );
+
+        this.inner.append(
+            ...Array.from(this.panels.values())
+        );
+
+        if (this.panelNames.length > 0) {
+            this.select(this.panelNames[0]);
         }
+    }
+
+    disconnectedCallback() {
+        this.controls.remove();
+        this.inner.replaceWith(
+            ...Array.from(this.panels.values())
+        );
     }
 
     get enabled(): boolean {
@@ -140,14 +111,15 @@ export class TabPanel<TabNames extends string>
     set disabled(v: boolean) {
         this._disabled = v;
 
-        for (const [name, view] of this.views) {
-            view.button.disabled = v || name === this.curTab;
-            elementSetClass(view.panel, v, "disabled");
-            if (isDisableable(view.panel)) {
-                view.panel.disabled = v;
+        for (const [name, panel] of this.panels) {
+            const button = this.buttons.get(name);
+            button.disabled = v || name === this.curTab;
+            elementSetClass(panel, v, "disabled");
+            if (isDisableable(panel)) {
+                panel.disabled = v;
             }
             else {
-                const elem = resolveElement(view.panel);
+                const elem = resolveElement(panel);
                 if (isDisableable(elem)) {
                     elem.disabled = v;
                 }
@@ -160,13 +132,46 @@ export class TabPanel<TabNames extends string>
     }
 
     select(name: TabNames): void {
-        if (this.views.has(name)) {
+        if (this.panels.has(name)) {
             this.curTab = name;
-            for (const [name, view] of this.views) {
+            for (const [name, panel] of this.panels) {
                 const visible = name === this.curTab;
-                view.button.disabled = visible || this.disabled;
-                elementSetDisplay(view.panel, visible, view.displayType);
+                const button = this.buttons.get(name);
+                button.disabled = visible || this.disabled;
+                elementSetDisplay(panel, visible);
             }
         }
+    }
+
+    override addEventListener<EventTypeT extends keyof TabPanelEvents<TabNames>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<TabPanelEvents<TabNames>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addEventListener(type as string, callback as EventListenerOrEventListenerObject, options);
+    }
+
+    override removeEventListener<EventTypeT extends keyof TabPanelEvents<TabNames>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<TabPanelEvents<TabNames>, EventTypeT>): void {
+        this.eventTarget.removeEventListener(type as string, callback as EventListenerOrEventListenerObject);
+    }
+
+    override dispatchEvent(evt: Event): boolean {
+        return this.eventTarget.dispatchEvent(evt);
+    }
+
+    addBubbler(bubbler: ITypedEventTarget<TabPanelEvents<TabNames>>): void {
+        this.eventTarget.addBubbler(bubbler);
+    }
+
+    removeBubbler(bubbler: ITypedEventTarget<TabPanelEvents<TabNames>>): void {
+        this.eventTarget.removeBubbler(bubbler);
+    }
+
+    addScopedEventListener<EventTypeT extends keyof TabPanelEvents<TabNames>>(scope: object, type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<TabPanelEvents<TabNames>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addScopedEventListener(scope, type as string, callback as EventListenerOrEventListenerObject, options);
+    }
+
+    removeScope(scope: object) {
+        this.eventTarget.removeScope(scope);
+    }
+
+    clearEventListeners<EventTypeT extends keyof TabPanelEvents<TabNames>>(type?: EventTypeT): void {
+        this.eventTarget.clearEventListeners(type as string);
     }
 }

@@ -74,7 +74,16 @@ export function isFocusable(elem: any): elem is IFocusable {
 
 export function elementSetDisplay<T extends HTMLElement = HTMLElement>(elem: Elements<T>, visible: boolean, visibleDisplayType: CssGlobalValue | CssDisplayValue = ""): void {
     elem = resolveElement(elem);
-    elem.style.display = visible ? visibleDisplayType : "none";
+    if (visible) {
+        elem.style.removeProperty("display");
+        const style = getComputedStyle(elem);
+        if (style.display === "none") {
+            elem.style.display = visibleDisplayType || "block";
+        }
+    }
+    else {
+        elem.style.display = "none";
+    }
 }
 
 export function elementIsDisplayed<T extends HTMLElement = HTMLElement>(elem: Elements<T>): boolean {
@@ -230,7 +239,7 @@ export function getCanvas(selector: string) {
  * @param rest - optional attributes, child elements, and text
  * @returns
  */
-export function HtmlTag<K extends keyof MapT & string, MapT extends Record<keyof MapT, HTMLElement> = HTMLElementTagNameMap>(name: K, ...rest: ElementChild[]): MapT[K] {
+export function HtmlTag<MapT extends Record<keyof MapT, HTMLElement> = HTMLElementTagNameMap, K extends keyof MapT & string = keyof MapT & string>(name: K, ...rest: ElementChild[]): MapT[K] {
     let elem: MapT[K] & HTMLElement = null;
 
     const finders = rest.filter(isAttr).filter(v => v.key === "id" || v.key === "query");

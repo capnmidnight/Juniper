@@ -253,38 +253,6 @@ export class SelectListElement<T>
         }
     }
 
-    override addEventListener<EventTypeT extends keyof SelectListEvents<T>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<SelectListEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
-        this.eventTarget.addEventListener(type as string, callback as EventListenerOrEventListenerObject, options);
-    }
-
-    override removeEventListener<EventTypeT extends keyof SelectListEvents<T>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<SelectListEvents<T>, EventTypeT>): void {
-        this.eventTarget.removeEventListener(type as string, callback as EventListenerOrEventListenerObject);
-    }
-
-    override dispatchEvent(evt: Event): boolean {
-        return this.eventTarget.dispatchEvent(evt);
-    }
-
-    addBubbler(bubbler: ITypedEventTarget<SelectListEvents<T>>): void {
-        this.eventTarget.addBubbler(bubbler);
-    }
-
-    removeBubbler(bubbler: ITypedEventTarget<SelectListEvents<T>>): void {
-        this.eventTarget.removeBubbler(bubbler);
-    }
-
-    addScopedEventListener<EventTypeT extends keyof SelectListEvents<T>>(scope: object, type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<SelectListEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
-        this.eventTarget.addScopedEventListener(scope, type as string, callback as EventListenerOrEventListenerObject, options);
-    }
-
-    removeScope(scope: object) {
-        this.eventTarget.removeScope(scope);
-    }
-
-    clearEventListeners<EventTypeT extends keyof SelectListEvents<T>>(type?: EventTypeT): void {
-        this.eventTarget.clearEventListeners(type as string);
-    }
-
     get enabled(): boolean {
         return !this.disabled;
     }
@@ -386,5 +354,37 @@ export class SelectListElement<T>
         this.append(option);
         this.valueToOption.set(this.makeValue(value), option);
         this.optionToItem.set(option, value);
+    }
+
+    override addEventListener<EventTypeT extends keyof SelectListEvents<T>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<SelectListEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addEventListener(type as string, callback as EventListenerOrEventListenerObject, options);
+    }
+
+    override removeEventListener<EventTypeT extends keyof SelectListEvents<T>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<SelectListEvents<T>, EventTypeT>): void {
+        this.eventTarget.removeEventListener(type as string, callback as EventListenerOrEventListenerObject);
+    }
+
+    override dispatchEvent(evt: Event): boolean {
+        return this.eventTarget.dispatchEvent(evt);
+    }
+
+    addBubbler(bubbler: ITypedEventTarget<SelectListEvents<T>>): void {
+        this.eventTarget.addBubbler(bubbler);
+    }
+
+    removeBubbler(bubbler: ITypedEventTarget<SelectListEvents<T>>): void {
+        this.eventTarget.removeBubbler(bubbler);
+    }
+
+    addScopedEventListener<EventTypeT extends keyof SelectListEvents<T>>(scope: object, type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<SelectListEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void {
+        this.eventTarget.addScopedEventListener(scope, type as string, callback as EventListenerOrEventListenerObject, options);
+    }
+
+    removeScope(scope: object) {
+        this.eventTarget.removeScope(scope);
+    }
+
+    clearEventListeners<EventTypeT extends keyof SelectListEvents<T>>(type?: EventTypeT): void {
+        this.eventTarget.clearEventListeners(type as string);
     }
 }

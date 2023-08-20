@@ -396,7 +396,7 @@ export function ClassName(value: string) { return attr("className", value, false
   **/
 export function ClassList(...values: string[]) {
     values = values.filter(identity);
-    return attr("classList", (element: HTMLElement) => element.classList.add(...values), false);
+    return attr("CLASS_LIST", (element: HTMLElement) => element.classList.add(...values), false);
 }
 
 /**
