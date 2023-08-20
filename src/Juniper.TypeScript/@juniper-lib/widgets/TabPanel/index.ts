@@ -1,6 +1,6 @@
 import { CustomElement } from "@juniper-lib/dom/CustomElement";
 import { ClassList, QueryAll } from "@juniper-lib/dom/attrs";
-import { onClick } from "@juniper-lib/dom/evts";
+import { EventListenerOpts, onClick, onEvent } from "@juniper-lib/dom/evts";
 import { ButtonSmall, Div, ElementChild, HtmlTag, elementSetClass, elementSetDisplay, isDisableable, resolveElement } from "@juniper-lib/dom/tags";
 import { EventTargetMixin } from "@juniper-lib/events/EventTarget";
 import { ITypedEventTarget, TypedEvent, TypedEventListenerOrEventListenerObject } from "@juniper-lib/events/TypedEventTarget";
@@ -22,6 +22,8 @@ export function TabPanel<TabNames extends string>(...rest: ElementChild[]) {
         "tab-panel": TabPanelElement<TabNames>
     }>("tab-panel", ...rest);
 }
+
+export function onTabSelected<TabNames>(callback: (evt: TabPanelTabSelectedEvent<TabNames>) => void, opts?: EventListenerOpts) { return onEvent("tabselected", callback, opts); }
 
 
 @CustomElement("tab-panel")

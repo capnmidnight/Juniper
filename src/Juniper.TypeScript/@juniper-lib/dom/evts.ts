@@ -3,7 +3,7 @@ import { IProgress } from "@juniper-lib/progress/IProgress";
 import { isFunction } from "@juniper-lib/tslib/typeChecks";
 import { HtmlRender, IElementAppliable } from "./tags";
 
-type EventListenerOpts = boolean | AddEventListenerOptions;
+export type EventListenerOpts = boolean | AddEventListenerOptions;
 
 export function isModifierless(evt: KeyboardEvent | MouseEvent | PointerEvent) {
     return !(evt.shiftKey || evt.altKey || evt.ctrlKey || evt.metaKey);
@@ -78,7 +78,7 @@ implements IElementAppliable {
 }
 
 
-function onEvent<T extends Event>(eventName: string, callback: (evt: T) => void, opts?: EventListenerOpts): HtmlEvt<T> { return new HtmlEvt<T>(eventName as any, callback, opts); }
+export function onEvent<T extends Event>(eventName: string, callback: (evt: T) => void, opts?: EventListenerOpts): HtmlEvt<T> { return new HtmlEvt<T>(eventName as any, callback, opts); }
 
 export function onAbort(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("abort", callback, opts); }
 export function onAfterPrint(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("afterprint", callback, opts); }
