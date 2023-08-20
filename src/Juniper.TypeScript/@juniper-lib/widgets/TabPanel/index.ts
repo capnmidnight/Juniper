@@ -43,13 +43,9 @@ export class TabPanel<TabNames extends string>
     private _disabled = false;
 
     public static find() {
-        return Array.from(TabPanel._find());
-    }
-
-    private static *_find() {
-        for (const elem of getElements(".tab-panel")) {
-            yield new TabPanel(elem);
-        }
+        return Array
+            .from(getElements(".tab-panel"))
+            .map(v => new TabPanel(v));
     }
 
     public static create<TabNames extends string>(...entries: (TabPanelEntry<TabNames> | CssElementStyleProp | HtmlAttr)[]): TabPanel<TabNames> {
