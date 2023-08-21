@@ -1,3 +1,4 @@
+import { CustomElement } from "@juniper-lib/dom/CustomElement";
 import {
     backgroundColor,
     color,
@@ -5,7 +6,10 @@ import {
     display,
     em,
     getMonospaceFamily,
-    gridAutoFlow, gridColumn, gridTemplateColumns, height,
+    gridAutoFlow,
+    gridColumn,
+    gridTemplateColumns,
+    height,
     left,
     opacity,
     overflow,
@@ -14,6 +18,7 @@ import {
     perc,
     pointerEvents,
     position,
+    rule,
     top,
     width,
     zIndex
@@ -21,12 +26,14 @@ import {
 import { isModifierless } from "@juniper-lib/dom/evts";
 import {
     Div,
+    ElementChild,
     HtmlRender,
+    HtmlTag,
+    StyleBlob,
     elementSetDisplay,
-    elementToggleDisplay,
-    ErsatzElement
+    elementToggleDisplay
 } from "@juniper-lib/dom/tags";
-import { IDebugLogger, isWorkerLoggerMessageData, MessageType } from "./models";
+import { IDebugLogger, MessageType, isWorkerLoggerMessageData } from "./models";
 
 function track(a: number, b: number) {
     return [
@@ -35,50 +42,74 @@ function track(a: number, b: number) {
     ];
 }
 
-export class WindowLogger implements IDebugLogger, ErsatzElement {
+const style = StyleBlob(
+    rule(":host",
+        position("fixed"),
+        top(0),
+        left(0),
+        width(perc(100)),
+        height(perc(100)),
+        zIndex(9001),
+        padding(em(1)),
+        opacity(0.5),
+        backgroundColor("black"),
+        color("white"),
+        overflow("hidden"),
+        pointerEvents("none")
+    ),
+
+    rule(":host > div",
+        display("grid"),
+        overflowY("auto"),
+        columnGap("0.5em"),
+        gridAutoFlow("row")
+    )
+);
+
+export function WindowLogger(...rest: ElementChild[]) {
+    const logger = HtmlTag<{ "window-logger": WindowLoggerElement }>("window-logger", ...rest);
+    if (!logger.isConnected) {
+        document.body.append(logger);
+    }
+    return logger;
+}
+
+@CustomElement("window-logger")
+export class WindowLoggerElement extends HTMLElement implements IDebugLogger {
     private readonly workerFunctions = new Map<MessageType, (slug: string, evt: MessageEvent<any>) => void>();
     private readonly logs = new Map<string, Array<any>>();
     private readonly rows = new Map<string, HTMLElement[]>();
+
+    private readonly onKeyPress: (evt: KeyboardEvent) => void;
     private readonly grid: HTMLElement;
 
     private workerCount = 0;
 
-    readonly element: HTMLElement;
-
     constructor() {
+        super();
         this.workerFunctions.set("log", this.workerLog.bind(this));
         this.workerFunctions.set("delete", this.workerDelete.bind(this));
         this.workerFunctions.set("clear", this.workerClear.bind(this));
 
-        this.element = Div(
-            position("fixed"),
-            display("none"),
-            top(0),
-            left(0),
-            width(perc(100)),
-            height(perc(100)),
-            zIndex(9001),
-            padding(em(1)),
-            opacity(0.5),
-            backgroundColor("black"),
-            color("white"),
-            overflow("hidden"),
-            pointerEvents("none"),
-            this.grid = Div(
-                display("grid"),
-                overflowY("auto"),
-                columnGap("0.5em"),
-                gridAutoFlow("row")
-            )
-        );
+        this.attachShadow({ mode: "closed" })
+            .append(
+                style,
+                this.grid = Div()
+            );
 
-        HtmlRender(document.body, this);
-
-        window.addEventListener("keypress", (evt) => {
-            if (isModifierless(evt) && evt.key === "`") {
+        this.onKeyPress = (evt) => {
+            if (isModifierless(evt) && evt.key === "Escape") {
                 this.toggle();
             }
-        });
+        };
+    }
+
+    connectedCallback() {
+        window.addEventListener("keydown", this.onKeyPress);
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener("keydown", this.onKeyPress);
     }
 
     toggle() {

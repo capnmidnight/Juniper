@@ -1,6 +1,6 @@
 import { ClassList } from "@juniper-lib/dom/attrs";
 import { backgroundColor, rule } from "@juniper-lib/dom/css";
-import { Div, addStyle } from "@juniper-lib/dom/tags";
+import { Div, Style } from "@juniper-lib/dom/tags";
 import { singleton } from "@juniper-lib/tslib/singleton";
 
 import "./style.css";
@@ -25,7 +25,7 @@ export class ScreenUI {
 
     constructor(buttonFillColor: CssColorValue) {
         singleton("Juniper.ThreeJS.ScreenUI.ButtonFillColor", () =>
-            addStyle(
+            Style(
                 rule("#appContainer > .row > .cell > .btn",
                     backgroundColor(buttonFillColor)
                 )

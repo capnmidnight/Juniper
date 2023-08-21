@@ -6,7 +6,6 @@ import { EventTargetMixin } from "@juniper-lib/events/EventTarget";
 import { ITypedEventTarget, TypedEvent, TypedEventListenerOrEventListenerObject } from "@juniper-lib/events/TypedEventTarget";
 import "./styles.css";
 
-
 export class TabPanelTabSelectedEvent<TabNames> extends TypedEvent<"tabselected">{
     constructor(public tabname: TabNames) {
         super("tabselected");

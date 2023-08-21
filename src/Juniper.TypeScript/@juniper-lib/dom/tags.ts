@@ -668,11 +668,9 @@ export function Run(...rest: ElementChild[]) {
         ...rest);
 }
 
-export function Style(parent: ParentNode, ...props: PropSet[]) {
+export function Style(...props: PropSet[]) {
     const elem = document.createElement("style");
-
-    parent.append(elem);
-
+    document.head.append(elem);
     for (const prop of props) {
         prop.applyToSheet(elem.sheet);
     }
@@ -688,8 +686,4 @@ export function StyleBlob(...props: (string | PropSet)[]) {
         Rel("stylesheet"),
         Href(blob)
     );
-}
-
-export function addStyle(...props: PropSet[]) {
-    Style(document.head, ...props);
 }

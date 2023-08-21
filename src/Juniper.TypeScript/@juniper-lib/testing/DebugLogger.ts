@@ -1,3 +1,4 @@
+import { Query } from "@juniper-lib/dom/attrs";
 import { IDebugLogger } from "./models";
 import { WindowLogger } from "./WindowLogger";
 import { WorkerLogger } from "./WorkerLogger";
@@ -7,7 +8,7 @@ const G = globalThis as any;
 const X = Symbol(1124198212012021);
 const logger: IDebugLogger = G[X] = (G[X] as IDebugLogger
     || IS_WORKER && new WorkerLogger()
-    || new WindowLogger());
+    || WindowLogger(Query("window-logger")));
 
 export class DebugLogger implements IDebugLogger {
 
