@@ -437,7 +437,7 @@ export function Cite(...rest: ElementChild[]): HTMLElement { return HtmlTag("cit
 export function Code(...rest: ElementChild[]): HTMLElement { return HtmlTag("code", ...rest); }
 export function Col(...rest: ElementChild[]): HTMLTableColElement { return HtmlTag("col", ...rest); }
 export function ColGroup(...rest: ElementChild[]): HTMLTableColElement { return HtmlTag("colgroup", ...rest); }
-export function Data(...rest: ElementChild[]): HTMLDataElement { return HtmlTag("data", ...rest); }
+export function DataTag(...rest: ElementChild[]): HTMLDataElement { return HtmlTag("data", ...rest); }
 export function DataList(...rest: ElementChild[]): HTMLDataListElement { return HtmlTag("datalist", ...rest); }
 export function DD(...rest: ElementChild[]): HTMLElement { return HtmlTag("dd", ...rest); }
 export function Del(...rest: ElementChild[]): HTMLModElement { return HtmlTag("del", ...rest); }

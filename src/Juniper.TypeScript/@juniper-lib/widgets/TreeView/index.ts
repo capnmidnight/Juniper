@@ -299,7 +299,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
                     )]
                 );
 
-                this.filterTypeInput.values = this.options.typeFilters.getTypes();
+                this.filterTypeInput.data = this.options.typeFilters.getTypes();
                 this.filterTypeInput.addEventListener("itemselected", (evt) => {
                     this.typeFilter = evt.item;
                     this.refreshFilter();
@@ -409,7 +409,7 @@ export class TreeView<ValueT, FilterTypeT extends string = never>
         }
 
         if (isDefined(this.filterTypeInput)) {
-            this.filterTypeInput.selectedValue = null;
+            this.filterTypeInput.selectedItem = null;
             this.typeFilter = null;
         }
 

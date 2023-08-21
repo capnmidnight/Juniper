@@ -106,6 +106,8 @@ export class WindowLoggerElement extends HTMLElement implements IDebugLogger {
 
     connectedCallback() {
         window.addEventListener("keydown", this.onKeyPress);
+        this.log("instructions", "Press Esc to toggle Debug View");
+        this.close();
     }
 
     disconnectedCallback() {

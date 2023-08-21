@@ -1,6 +1,6 @@
 import { CompareFunction, arrayReplace, compareBy } from "@juniper-lib/collections/arrays";
 import { CustomElement } from "@juniper-lib/dom/CustomElement";
-import { Disabled, Hidden, HtmlAttr, Is, ReadOnly, Value } from "@juniper-lib/dom/attrs";
+import { Disabled, Hidden, HtmlAttr, Is, Value } from "@juniper-lib/dom/attrs";
 import { HtmlEvt } from "@juniper-lib/dom/evts";
 import { ElementChild, HtmlTag, Option, elementClearChildren } from "@juniper-lib/dom/tags";
 import { EventTargetMixin } from "@juniper-lib/events/EventTarget";
@@ -9,7 +9,7 @@ import { isFunction, isNullOrUndefined, isObject, isString } from "@juniper-lib/
 import type { makeItemCallback } from "./SelectBox";
 
 export class SelectListItemSelectedEvent<T> extends TypedEvent<"itemselected"> {
-    constructor(public item: T) {
+    constructor(public readonly item: T, public readonly items: T[]) {
         super("itemselected");
     }
 }
@@ -17,8 +17,7 @@ export class SelectListItemSelectedEvent<T> extends TypedEvent<"itemselected"> {
 type SelectListEvents<T> = {
     "input": InputEvent;
     "itemselected": SelectListItemSelectedEvent<T>;
-
-}
+};
 
 
 
@@ -40,23 +39,23 @@ function FieldDef<T>(attrName: string, fieldName: string | makeItemCallback<T>) 
 }
 
 export function ValueField<T>(fieldName: string | makeItemCallback<T>) {
-    return FieldDef("getValue", fieldName);
+    return FieldDef("valueField", fieldName);
 }
 
 export function LabelField<T>(fieldName: string | makeItemCallback<T>) {
-    return FieldDef("getLabel", fieldName);
+    return FieldDef("labelField", fieldName);
 }
 
 export function SortKeyField<T>(fieldName: string | makeItemCallback<T>) {
-    return FieldDef("getSortKey", fieldName);
+    return FieldDef("sortKeyField", fieldName);
 }
 
-export function Values<T>(values: T[]) {
-    return new HtmlAttr("values", values, false, "select");
+export function DataAttr<T>(values: T[]) {
+    return new HtmlAttr("data", values, false, "select");
 }
 
-export function SelectedValue<T>(value: T) {
-    return new HtmlAttr("selectedValue", value, false, "select");
+export function SelectedItem<T>(value: T) {
+    return new HtmlAttr("selectedItem", value, false, "select");
 }
 
 export function onItemSelected<T>(callback: (evt: SelectListItemSelectedEvent<T>) => void, opts?: EventListenerOptions) {
@@ -146,7 +145,7 @@ export class SelectListElement<T>
         );
 
         this.addEventListener("input", () =>
-            this.dispatchEvent(new SelectListItemSelectedEvent(this.selectedValue)));
+            this.dispatchEvent(new SelectListItemSelectedEvent(this.selectedItem, this.selectedItems)));
     }
 
     connectedCallback() {
@@ -157,14 +156,14 @@ export class SelectListElement<T>
 
     override setAttribute(name: string, value: string) {
         switch (name.toLowerCase()) {
-            case "getvalue":
-                this.getValue = fieldGetter(value);
+            case "valuefield":
+                this.valueField = fieldGetter(value);
                 break;
-            case "getlabel":
-                this.getLabel = fieldGetter(value);
+            case "labelfield":
+                this.labelField = fieldGetter(value);
                 break;
-            case "getsortkey":
-                this.getSortKey = compareBy(fieldGetter(value));
+            case "sortkeyfield":
+                this.sortKeyField = compareBy(fieldGetter(value));
                 break;
             case "placeholder":
                 this.placeholder = value;
@@ -175,14 +174,14 @@ export class SelectListElement<T>
 
     override removeAttribute(name: string) {
         switch (name.toLowerCase()) {
-            case "getvalue":
-                this.getValue = null;
+            case "valuefield":
+                this.valueField = null;
                 break;
-            case "getlabel":
-                this.getLabel = null;
+            case "labelfield":
+                this.labelField = null;
                 break;
-            case "getsortkey":
-                this.getSortKey = null;
+            case "sortkeyfield":
+                this.sortKeyField = null;
                 break;
             case "placeholder":
                 this.placeholder = null;
@@ -191,36 +190,36 @@ export class SelectListElement<T>
         }
     }
 
-    get getValue(): makeItemCallback<T> {
+    get valueField(): makeItemCallback<T> {
         return this._getValue;
     }
 
-    set getValue(v: makeItemCallback<T>) {
-        if (v !== this.getValue) {
+    set valueField(v: makeItemCallback<T>) {
+        if (v !== this.valueField) {
             super.removeAttribute("getValue");
             this._getValue = v || identityString;
             this.render();
         }
     }
 
-    get getLabel(): makeItemCallback<T> {
+    get labelField(): makeItemCallback<T> {
         return this._getLabel;
     }
 
-    set getLabel(v: makeItemCallback<T>) {
-        if (v !== this.getLabel) {
+    set labelField(v: makeItemCallback<T>) {
+        if (v !== this.labelField) {
             super.removeAttribute("getLabel");
             this._getLabel = v || identityString;
             this.render();
         }
     }
 
-    get getSortKey(): CompareFunction<T> {
+    get sortKeyField(): CompareFunction<T> {
         return this._getSortKey;
     }
 
-    set getSortKey(v: CompareFunction<T>) {
-        if (v !== this.getSortKey) {
+    set sortKeyField(v: CompareFunction<T>) {
+        if (v !== this.sortKeyField) {
             this.removeAttribute("getSortKey");
             this._getSortKey = v;
             this.render();
@@ -239,7 +238,6 @@ export class SelectListElement<T>
 
             if (this.noSelectionText) {
                 this.noSelection = Option(
-                    ReadOnly(true),
                     Hidden(true),
                     Disabled(true),
                     v
@@ -275,20 +273,20 @@ export class SelectListElement<T>
     /**
      * Gets the collection to which the select box was databound
      **/
-    get values(): readonly T[] {
+    get data(): readonly T[] {
         return this._values;
     }
 
     /**
      * Sets the collection to which the select box will be databound
      **/
-    set values(newItems: readonly T[]) {
+    set data(newItems: readonly T[]) {
         newItems = newItems || null;
         if (newItems !== this._values) {
-            const curValue = this.selectedValue;
+            const curValue = this.selectedItem;
             arrayReplace(this._values, ...newItems);
             this.render();
-            this.selectedValue = curValue;
+            this.selectedItem = curValue;
         }
     }
 
@@ -303,13 +301,26 @@ export class SelectListElement<T>
         }
     }
 
-    private get makeValue() { return this.getValue || this.getLabel; }
-    private get makeLabel() { return this.getLabel || this.getValue; }
+    private get makeValue() { return this.valueField || this.labelField; }
+    private get makeLabel() { return this.labelField || this.valueField; }
+
+    get values() {
+        return Array
+            .from(this.selectedOptions)
+            .map(opt => opt.value);
+    }
+
+    set values(values: string[]) {
+        const v = new Set(values);
+        for (const option of this.options) {
+            option.selected = v.has(option.value || option.innerHTML);
+        }
+    }
 
     /**
      * Gets the item at `selectedIndex` in the collection to which the select box was databound
      */
-    get selectedValue(): T {
+    get selectedItem(): T {
         return this.optionToItem.get(this.selectedOption);
     }
 
@@ -317,10 +328,19 @@ export class SelectListElement<T>
      * Gets the index of the given item in the select box's databound collection, then
      * sets that index as the `selectedIndex`.
      */
-    set selectedValue(value: T) {
+    set selectedItem(value: T) {
         if (this.makeValue) {
             this.selectedOption = this.valueToOption.get(this.makeValue(value));
         }
+    }
+
+    get selectedItems(): T[] {
+        return Array.from(this.selectedOptions)
+            .map(opt => this.optionToItem.get(opt));
+    }
+
+    set selectedItems(values: T[]) {
+        this.values = values.map(v => this.makeValue(v));
     }
 
     private render() {
@@ -334,9 +354,9 @@ export class SelectListElement<T>
             }
 
             if (this.count > 0) {
-                const items = [...this.values];
-                if (this.getSortKey) {
-                    items.sort(this.getSortKey);
+                const items = [...this.data];
+                if (this.sortKeyField) {
+                    items.sort(this.sortKeyField);
                 }
 
                 for (const item of items) {
