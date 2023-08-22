@@ -40,7 +40,7 @@ export function makeProgress(element: HTMLProgressElement): IProgress {
  * A setter functor for HTML element events.
  **/
 export class HtmlEvt<T extends Event>
-implements IElementAppliable {
+    implements IElementAppliable {
     opts?: EventListenerOpts;
 
     /**
@@ -91,6 +91,7 @@ export function onBeforeInput(callback: (evt: Event) => void, opts?: EventListen
 export function onBeforePrint(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("beforeprint", callback, opts); }
 export function onBeforeUnload(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("beforeunload", callback, opts); }
 export function onBlur(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("blur", callback, opts); }
+export function onCancel(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("cancel", callback, opts); }
 export function onCanPlay(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("canplay", callback, opts); }
 export function onCanPlayThrough(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("canplaythrough", callback, opts); }
 export function onChange(callback: (evt: Event) => void, opts?: EventListenerOpts) { return onEvent("change", callback, opts); }
