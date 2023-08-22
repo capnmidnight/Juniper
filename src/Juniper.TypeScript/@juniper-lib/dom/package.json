@@ -15,7 +15,8 @@
     "@juniper-lib/progress": "*",
     "@juniper-lib/tslib": "*",
     "@juniper-types/dom-types": "*",
-    "@types/offscreencanvas": "2019.7.0"
+    "@types/offscreencanvas": "2019.7.0",
+    "@types/wicg-file-system-access": "2020.9.6"
   },
   "repository": {
     "type": "git",
