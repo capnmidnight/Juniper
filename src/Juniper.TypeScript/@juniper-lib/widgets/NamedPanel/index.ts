@@ -58,10 +58,6 @@ implements ErsatzElement {
 
     private onRefresh() {
         elementSetText(this.titleText, this._title);
-        //elementSetText(this.closer, this.open
-        //    ? blackMediumDownPointingTriangleCentered.textStyle
-        //    : blackMediumRightPointingTriangleCentered.textStyle
-        //);
         this.header.classList.toggle("closed", !this.open);
         elementSetDisplay(this.body, this.open);
     }
