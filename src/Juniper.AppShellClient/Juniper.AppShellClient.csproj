@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Replace("Client", ""))</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1901.177" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="MainWindow.xaml.cs">
+            <SubType>Code</SubType>
+        </Compile>
+    </ItemGroup>
+
+</Project>
