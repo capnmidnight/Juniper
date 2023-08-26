@@ -9,10 +9,29 @@ namespace Juniper.AppShell.WPF
             InitializeComponent();
         }
 
-        public Uri Source
+        public Task<Uri> GetSourceAsync() => 
+            Task.FromResult(Dispatcher.Invoke(() => WebView.Source));
+
+        public Task SetSourceAsync(Uri value)
         {
-            get => Dispatcher.Invoke(() => WebView.Source);
-            set => Dispatcher.Invoke(() => WebView.Source = value);
+            Dispatcher.Invoke(() =>
+            {
+                if (value == WebView.Source)
+                {
+                    WebView.Reload();
+                }
+                else
+                {
+                    WebView.Source = value;
+                }
+            });
+            return Task.CompletedTask;
+        }
+
+        public Task CloseAsync()
+        {
+            Dispatcher.Invoke(() => Close());
+            return Task.CompletedTask;
         }
     }
 }

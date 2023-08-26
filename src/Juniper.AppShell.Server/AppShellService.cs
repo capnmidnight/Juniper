@@ -3,67 +3,87 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 
 namespace Juniper.AppShell
 {
-    public class AppShellService<AppShellWindowFactoryT> : BackgroundService
+    public class AppShellService<AppShellWindowFactoryT> : BackgroundService, IAppShell
         where AppShellWindowFactoryT : IAppShellFactory, new()
     {
-        private readonly TaskCompletionSource source = new();
+        private readonly TaskCompletionSource applicationStart = new();
         private readonly AppShellWindowFactoryT factory = new();
 
         private readonly IServiceProvider services;
         private readonly IHostApplicationLifetime lifetime;
         private readonly ILogger<AppShellService<AppShellWindowFactoryT>> logger;
-        private IAppShell? window;
+
+        private readonly Task<IAppShell> windowTask;
 
         public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, ILogger<AppShellService<AppShellWindowFactoryT>> logger)
         {
             this.services = services;
             this.lifetime = lifetime;
             this.logger = logger;
-
-            this.lifetime.ApplicationStarted.Register(source.SetResult);
+            this.lifetime.ApplicationStarted.Register(applicationStart.SetResult);
+            logger.LogInformation("Opening window");
+            windowTask = factory.StartAsync();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            var serviceCancellation = new TaskCompletionSource();
-            cancellationToken.Register(serviceCancellation.SetResult);
-
-            await Task.WhenAny(serviceCancellation.Task, source.Task)
-                .ConfigureAwait(false);
-
-            if (cancellationToken.IsCancellationRequested)
+            try
             {
-                return;
+                var serviceCancellation = new TaskCompletionSource();
+                cancellationToken.Register(serviceCancellation.SetResult);
+
+                await Task.WhenAny(serviceCancellation.Task, applicationStart.Task)
+                    .ConfigureAwait(false);
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                logger.LogInformation("Checking addresses...");
+
+                var addresses = services
+                    .GetRequiredService<IServer>()
+                    ?.Features
+                    ?.Get<IServerAddressesFeature>()
+                    ?.Addresses
+                    ?.ToArray();
+
+                if (addresses is null || addresses.Length == 0)
+                {
+                    throw new Exception("Couldn't get addresses.");
+                }
+
+                logger.LogInformation("Addresses: {addresses}", string.Join(", ", addresses));
+
+                var address = addresses
+                    .Where(v => v.StartsWith("http:"))
+                    .Select(v => v.Replace("[::]", "localhost"))
+                    .FirstOrDefault()
+                    ?? addresses.First();
+
+                logger.LogInformation("Selected address: {address} (current source: {source}", address, await GetSourceAsync());
+                await SetSourceAsync(new Uri(address));
             }
-
-            logger.LogInformation("Checking addresses...");
-
-            var addresses = services
-                .GetRequiredService<IServer>()
-                ?.Features
-                ?.Get<IServerAddressesFeature>()
-                ?.Addresses
-                ?.ToArray();
-
-            if (addresses is null || addresses.Length == 0)
+            catch(Exception exp)
             {
-                logger.LogError("Couldn't get addresses.");
-                return;
+                logger.LogError(exp, "Could not start app window");
+                await CloseAsync();
             }
+        }
 
-            logger.LogInformation("Addresses: {addresses}", string.Join(", ", addresses));
+        public async Task<Uri> GetSourceAsync() {
+            var window = await windowTask;
+            return await window.GetSourceAsync();
+        }
 
-            var address = addresses
-                .Where(v => v.StartsWith("http:"))
-                .Select(v => v.Replace("[::]", "localhost"))
-                .FirstOrDefault()
-                ?? addresses.First();
+        public async Task SetSourceAsync(Uri value)
+        {
+            var window = await windowTask;
+            await window.SetSourceAsync(value);
+        }
 
-            logger.LogInformation("Selected address: {address}", address);
-
-            window = await factory.StartAsync();
-            logger.LogInformation("Current source: {source}", window.Source);
-            window.Source = new Uri(address);
+        public async Task CloseAsync()
+        {
+            var window = await windowTask;
+            await window.CloseAsync();
         }
     }
 }

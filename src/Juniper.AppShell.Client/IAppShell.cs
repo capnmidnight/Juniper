@@ -2,6 +2,9 @@
 {
     public interface IAppShell
     {
-        Uri Source { get; set; }
+        Task<Uri> GetSourceAsync();
+        Task SetSourceAsync(Uri source);
+
+        Task CloseAsync();
     }
 }
