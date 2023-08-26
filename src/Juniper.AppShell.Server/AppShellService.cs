@@ -3,6 +3,12 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 
 namespace Juniper.AppShell
 {
+    /// <summary>
+    /// A <see cref="BackgroundService"/> that opens a Window containing a WebView, waits for the
+    /// <see cref="WebApplication"/> to start, finds the `startup_port` the app started with, and navigates 
+    /// the WebView to `http://localhost:{startup_port}`
+    /// </summary>
+    /// <typeparam name="AppShellWindowFactoryT">A concrete instance of <see cref="IAppShellFactory"/> that creates the desired WebView container Window.</typeparam>
     public class AppShellService<AppShellWindowFactoryT> : BackgroundService, IAppShell
         where AppShellWindowFactoryT : IAppShellFactory, new()
     {
@@ -39,37 +45,30 @@ namespace Juniper.AppShell
 
                 logger.LogInformation("Checking addresses...");
 
-                var addresses = services
+                var address = (services
                     .GetRequiredService<IServer>()
-                    ?.Features
+                    .Features
                     ?.Get<IServerAddressesFeature>()
                     ?.Addresses
-                    ?.ToArray();
+                    ?.Select(a => new Uri(a))
+                    ?.Where(a => a.Scheme.StartsWith("http"))
+                    ?.OrderByDescending(v => v.Scheme)
+                    ?.Select(v => new Uri($"{v.Scheme}://localhost:{v.Port}"))
+                    ?.FirstOrDefault())
+                    ?? throw new Exception("Couldn't get any HTTP addresses.");
 
-                if (addresses is null || addresses.Length == 0)
-                {
-                    throw new Exception("Couldn't get addresses.");
-                }
-
-                logger.LogInformation("Addresses: {addresses}", string.Join(", ", addresses));
-
-                var address = addresses
-                    .Where(v => v.StartsWith("http:"))
-                    .Select(v => v.Replace("[::]", "localhost"))
-                    .FirstOrDefault()
-                    ?? addresses.First();
-
-                logger.LogInformation("Selected address: {address} (current source: {source}", address, await GetSourceAsync());
-                await SetSourceAsync(new Uri(address));
+                logger.LogInformation("Starting with address: {address}", address);
+                await SetSourceAsync(address);
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 logger.LogError(exp, "Could not start app window");
                 await CloseAsync();
             }
         }
 
-        public async Task<Uri> GetSourceAsync() {
+        public async Task<Uri> GetSourceAsync()
+        {
             var window = await windowTask;
             return await window.GetSourceAsync();
         }

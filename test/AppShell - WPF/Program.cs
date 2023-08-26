@@ -5,13 +5,11 @@ namespace Juniper.AppShell
         private static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.WebHost.UseAppShell<WPF.AppShellFactory>(true);
             builder.Services.AddRazorPages();
-            builder.Services.AddAppShell<WPF.AppShellFactory>();
 
             var app = builder.Build();
 
-            app.UseAppShell();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();

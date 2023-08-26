@@ -5,6 +5,8 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Juniper.AppShell.Test</RootNamespace>
+        <PublishReadyToRun>true</PublishReadyToRun>
+        <PublishSingleFile>true</PublishSingleFile>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
