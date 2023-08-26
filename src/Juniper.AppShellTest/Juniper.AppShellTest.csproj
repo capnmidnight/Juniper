@@ -1,15 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <OutputType>Library</OutputType>
         <TargetFramework>net7.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Replace("Client", ""))</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <OutputType>WinExe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Juniper.AppShellClient\Juniper.AppShellClient.csproj" />
+        <ProjectReference Include="..\Juniper.AppShell\Juniper.AppShell.csproj" />
     </ItemGroup>
 
 </Project>

@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Hosting.Server;
 
 namespace Juniper.AppShell
 {
-    public class WindowShellService : BackgroundService
+    public class AppShellService : BackgroundService
     {
         private readonly IServiceProvider services;
         private readonly IHostApplicationLifetime lifetime;
-        private readonly ILogger<WindowShellService> logger;
+        private readonly ILogger<AppShellService> logger;
         private readonly TaskCompletionSource source = new();
 
-        public WindowShellService(IServiceProvider services, IHostApplicationLifetime lifetime, ILogger<WindowShellService> logger)
+        public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, ILogger<AppShellService> logger)
         {
             this.services = services;
             this.lifetime = lifetime;
@@ -51,12 +51,13 @@ namespace Juniper.AppShell
 
             var address = addresses
                 .Where(v => v.StartsWith("http:"))
+                .Select(v => v.Replace("[::]", "localhost"))
                 .FirstOrDefault()
                 ?? addresses.First();
 
             logger.LogInformation("Selected address: {address}", address);
 
-            MainWindow.Start(address);
+            AppShellWindow.Start(address);
         }
     }
 }

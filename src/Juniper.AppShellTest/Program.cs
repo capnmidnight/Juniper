@@ -1,6 +1,5 @@
 namespace Juniper.AppShell
 {
-
     internal class Program
     {
         [STAThread]
@@ -9,12 +8,11 @@ namespace Juniper.AppShell
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddRazorPages();
-            builder.Services.AddHostedService<WindowShellService>();
+            builder.Services.AddAppShell();
 
             var app = builder.Build();
 
-            app.Urls.Add("http://localhost:9001");
-
+            app.UseAppShell();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
