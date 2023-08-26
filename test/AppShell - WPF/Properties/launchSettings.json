@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "AppShell": {
+    "AppShellTest": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

@@ -12,11 +12,13 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+html, body {
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }

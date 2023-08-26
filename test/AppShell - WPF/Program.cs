@@ -2,13 +2,12 @@ namespace Juniper.AppShell
 {
     internal class Program
     {
-        [STAThread]
         private static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddRazorPages();
-            builder.Services.AddAppShell();
+            builder.Services.AddAppShell<WPF.AppShellFactory>();
 
             var app = builder.Build();
 

@@ -1,16 +1,20 @@
-﻿using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Hosting.Server;
+﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 
 namespace Juniper.AppShell
 {
-    public class AppShellService : BackgroundService
+    public class AppShellService<AppShellWindowFactoryT> : BackgroundService
+        where AppShellWindowFactoryT : IAppShellFactory, new()
     {
+        private readonly TaskCompletionSource source = new();
+        private readonly AppShellWindowFactoryT factory = new();
+
         private readonly IServiceProvider services;
         private readonly IHostApplicationLifetime lifetime;
-        private readonly ILogger<AppShellService> logger;
-        private readonly TaskCompletionSource source = new();
+        private readonly ILogger<AppShellService<AppShellWindowFactoryT>> logger;
+        private IAppShell? window;
 
-        public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, ILogger<AppShellService> logger)
+        public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, ILogger<AppShellService<AppShellWindowFactoryT>> logger)
         {
             this.services = services;
             this.lifetime = lifetime;
@@ -57,7 +61,9 @@ namespace Juniper.AppShell
 
             logger.LogInformation("Selected address: {address}", address);
 
-            AppShellWindow.Start(address);
+            window = await factory.StartAsync();
+            logger.LogInformation("Current source: {source}", window.Source);
+            window.Source = new Uri(address);
         }
     }
 }

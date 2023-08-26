@@ -4,6 +4,7 @@
         <TargetFramework>net7.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Juniper.AppShell.Test</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -11,7 +12,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Juniper.AppShell\Juniper.AppShell.csproj" />
+      <ProjectReference Include="..\..\src\Juniper.AppShell.Server\Juniper.AppShell.Server.csproj" />
+      <ProjectReference Include="..\..\src\Juniper.AppShell.WPF\Juniper.AppShell.WPF.csproj" />
     </ItemGroup>
 
 </Project>
