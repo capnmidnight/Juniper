@@ -21,19 +21,8 @@ namespace Juniper.Services
     /// </summary>
     public static class DefaultConfiguration
     {
-        private const string DEFAULT_ADMIN_PATH = "/Admin";
-
-        public class BasicOptions
+        public static IServiceCollection ConfigureDefaultServices(this IServiceCollection services, IWebHostEnvironment env, IConfiguration config)
         {
-            public string AdminPath { get; set; } = DEFAULT_ADMIN_PATH;
-            public bool UseEmail { get; set; } = true;
-            public bool UseSignalR { get; set; } = true;
-        }
-
-        public static IServiceCollection ConfigureDefaultServices(this IServiceCollection services, IWebHostEnvironment env, BasicOptions? config = null)
-        {
-            config ??= new();
-
             if (!env.IsDevelopment())
             {
                 services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
@@ -46,9 +35,10 @@ namespace Juniper.Services
 
             var razorPages = services.AddRazorPages(options =>
             {
-                if (!string.IsNullOrEmpty(config.AdminPath))
+                var adminPath = config.GetValue<string?>("AdminPath");
+                if (!string.IsNullOrEmpty(adminPath))
                 {
-                    options.Conventions.AuthorizeFolder(config.AdminPath);
+                    options.Conventions.AuthorizeFolder(adminPath);
                 }
             });
 
@@ -62,12 +52,12 @@ namespace Juniper.Services
                 );
             }
 
-            if (config.UseEmail)
+            if (config.GetValue<object>("Mail") is not null)
             {
                 services.AddTransient<IEmailSender, EmailSender>();
             }
 
-            if (config.UseSignalR)
+            if (!string.IsNullOrEmpty(config.GetValue<string>("SignalRHub")))
             {
                 services.AddSignalR(options =>
                 {
@@ -79,20 +69,15 @@ namespace Juniper.Services
             return services;
         }
 
-        public class Options : BasicOptions
-        {
-            public bool UseIdentity { get; set; } = true;
-            public bool LogSQL { get; set; }
-        }
-
-        public static DbContextOptionsBuilder SetDefaultConnection(this DbContextOptionsBuilder options, string connectionStringName, IWebHostEnvironment? env = null, Options? config = null)
+        public static DbContextOptionsBuilder SetDefaultConnection(this DbContextOptionsBuilder options, string connectionStringName, IConfiguration config, IWebHostEnvironment? env = null)
         {
             options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
                 opts.EnableRetryOnFailure()
                     .UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
 
+            var detailedErrors = config.GetValue<bool>("DetailedErrors");
             if (env?.IsDevelopment() == true
-                && config?.LogSQL == true)
+                && detailedErrors)
             {
                 options.EnableDetailedErrors(true);
                 options.EnableSensitiveDataLogging(true);
@@ -104,18 +89,16 @@ namespace Juniper.Services
             return options;
         }
 
-        public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options? config = null)
+        public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, IConfiguration config)
             where ContextT : IdentityDbContext
         {
-            config ??= new();
-
             services.ConfigureDefaultServices(env, config);
 
             services.AddDbContext<ContextT>(options =>
-                options.SetDefaultConnection(connectionStringName, env, config));
+                options.SetDefaultConnection(connectionStringName, config, env));
 
-
-            if (config.UseIdentity)
+            var useIdentity = config.GetValue<bool>("UseIdentity");
+            if (useIdentity)
             {
                 services.AddDefaultIdentity<IdentityUser>(options =>
                 {
@@ -261,9 +244,10 @@ namespace Juniper.Services
         }
 
 
-        public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, string hubPath)
+        public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger)
             where HubT : Hub
         {
+            var hubPath = config.GetValue<string>("SignalRHub");
             return app.ConfigureRequestPipeline(env, config, logger, true, endpoints =>
                 endpoints.MapHub<HubT>(hubPath));
         }
