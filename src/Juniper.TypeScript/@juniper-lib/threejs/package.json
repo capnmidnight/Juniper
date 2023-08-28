@@ -29,6 +29,6 @@
   "devDependencies": {
     "@types/offscreencanvas": "2019.7.0",
     "@types/three": "0.150.2",
-    "@types/webxr": "0.5.2"
+    "@types/webxr": "0.5.4"
   }
 }
