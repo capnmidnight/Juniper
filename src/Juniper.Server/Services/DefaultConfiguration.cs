@@ -273,6 +273,25 @@ namespace Juniper.Services
             return ConfigureJuniperWebHost(webBuilder);
         }
 
+        public static WebApplication ConfigureJuniperWebApplication(this WebApplicationBuilder appBuilder, Action<IServiceCollection>? configureServices = null)
+        {
+            appBuilder.WebHost.ConfigureJuniperWebHost();
+
+            appBuilder.Services.ConfigureDefaultServices(appBuilder.Environment);
+
+            if (configureServices is not null)
+            {
+                configureServices(appBuilder.Services);
+            }
+
+            var app = appBuilder.Build();
+            var logger = app.Services.GetRequiredService<ILogger<WebApplicationBuilder>>();
+
+            app.ConfigureRequestPipeline(appBuilder.Environment, app.Configuration, logger);
+
+            return app;
+        }
+
         public static IWebHostBuilder ConfigureJuniperWebHost(this IWebHostBuilder webBuilder)
         {
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
