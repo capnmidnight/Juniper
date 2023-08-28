@@ -114,6 +114,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{3C2FD4AF-4C2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppShell - WPF", "test\AppShell - WPF\AppShell - WPF.csproj", "{9B3BE2CF-A283-4D65-AC4C-CF4E1BE0781C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper Web Examples", "test\Juniper Web Examples\Juniper Web Examples.csproj", "{6B880FA2-905F-4A92-9624-FF3913956F7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -402,6 +404,14 @@ Global
 		{9B3BE2CF-A283-4D65-AC4C-CF4E1BE0781C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9B3BE2CF-A283-4D65-AC4C-CF4E1BE0781C}.Release|x64.ActiveCfg = Release|Any CPU
 		{9B3BE2CF-A283-4D65-AC4C-CF4E1BE0781C}.Release|x64.Build.0 = Release|Any CPU
+		{6B880FA2-905F-4A92-9624-FF3913956F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B880FA2-905F-4A92-9624-FF3913956F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B880FA2-905F-4A92-9624-FF3913956F7A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6B880FA2-905F-4A92-9624-FF3913956F7A}.Debug|x64.Build.0 = Debug|Any CPU
+		{6B880FA2-905F-4A92-9624-FF3913956F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B880FA2-905F-4A92-9624-FF3913956F7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B880FA2-905F-4A92-9624-FF3913956F7A}.Release|x64.ActiveCfg = Release|Any CPU
+		{6B880FA2-905F-4A92-9624-FF3913956F7A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -436,6 +446,7 @@ Global
 		{A90562AC-6435-49DD-936F-72277A74C551} = {A5C15BD5-4C03-4AF8-BE5A-64BC26C7A985}
 		{49DCA7E6-1E28-40A3-8726-88655FC2EA60} = {A5C15BD5-4C03-4AF8-BE5A-64BC26C7A985}
 		{9B3BE2CF-A283-4D65-AC4C-CF4E1BE0781C} = {A5C15BD5-4C03-4AF8-BE5A-64BC26C7A985}
+		{6B880FA2-905F-4A92-9624-FF3913956F7A} = {3C2FD4AF-4C21-4182-8866-1B0312011C24}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26853D06-2187-498D-81B8-5BF110E83214}

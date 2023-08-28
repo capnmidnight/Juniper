@@ -166,7 +166,7 @@ namespace Juniper
         public static readonly Application Application_Java_Archive = new("java-archive", "jar");
         public static readonly Application Application_Java_Serialized_Object = new("java-serialized-object", "ser");
         public static readonly Application Application_Java_Vm = new("java-vm", "class");
-        public static readonly Application Application_Javascript = new("javascript", "js");
+        public static readonly Application Application_JavaScript = new("javascript", "js");
         public static readonly Application Application_Jf2feedJson = new("jf2feed+json", "json");
         public static readonly Application Application_Jose = new("jose");
         public static readonly Application Application_JoseJson = new("jose+json", "json");
@@ -1351,6 +1351,7 @@ namespace Juniper
         public static readonly Application Application_VendorTriscapeMxs = new("vnd.triscape.mxs", "mxs");
         public static readonly Application Application_VendorTrueapp = new("vnd.trueapp", "tra");
         public static readonly Application Application_VendorTruedoc = new("vnd.truedoc");
+        public static readonly Application Application_VendorTypeScript = new("vnd.typescript", "ts");
         public static readonly Application Application_VendorUbisoftWebplayer = new("vnd.ubisoft.webplayer");
         public static readonly Application Application_VendorUfdl = new("vnd.ufdl", "ufd", "ufdl");
         public static readonly Application Application_VendorUiqTheme = new("vnd.uiq.theme", "utz");

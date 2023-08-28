@@ -154,7 +154,7 @@ namespace Juniper.HTTP
             if (type is not null
                 && type != MediaType.Text.AnyText
                 && type != MediaType.Image.AnyImage
-                && type != MediaType.Application_Javascript
+                && type != MediaType.Application_JavaScript
                 && fileName is not null)
             {
                 response.Headers.Add("Content-Disposition", $"attachment; filename={fileName}");

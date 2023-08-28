@@ -39,7 +39,7 @@ namespace Juniper.Services
                 services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
             }
 
-            services.Configure<KestrelServerOptions>(options => 
+            services.Configure<KestrelServerOptions>(options =>
                 options.AllowSynchronousIO = false);
 
             services.AddControllersWithViews();
@@ -57,16 +57,9 @@ namespace Juniper.Services
                 razorPages.AddRazorRuntimeCompilation();
 
                 services.AddLogging(options =>
-                {
-                    var console = options.AddConsole();
-
-                    console.AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug);
-
-                    //if (config.UseSignalR)
-                    //{
-                    //    console.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Debug);
-                    //}
-                });
+                    options.AddConsole()
+                        .AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug)
+                );
             }
 
             if (config.UseEmail)
@@ -165,8 +158,11 @@ namespace Juniper.Services
             return services;
         }
 
-        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, PortOptions? ports, bool withAuth, bool withWebSockets, Action<IEndpointRouteBuilder>? configEndPoint)
+        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, bool withAuth, Action<IEndpointRouteBuilder>? configEndPoint)
         {
+            var useWebSockets = config.GetValue<bool>("UseWebSockets");
+            var httpsPort = config.GetValue<int?>("Ports:HTTPS");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -175,10 +171,10 @@ namespace Juniper.Services
             {
                 app.UseExceptionHandler("/Error");
 
-                if (ports?.HttpsPort > 0)
-            {
-                app.UseHsts();
-            }
+                if (httpsPort is not null)
+                {
+                    app.UseHsts();
+                }
             }
 
             app.Use(async (context, next) =>
@@ -187,7 +183,7 @@ namespace Juniper.Services
                 await next();
             });
 
-            if (ports?.HttpsPort > 0)
+            if (httpsPort is not null)
             {
                 app.UseHttpsRedirection();
             }
@@ -242,7 +238,7 @@ namespace Juniper.Services
                     .UseAuthorization();
             }
 
-            if (withWebSockets)
+            if (useWebSockets)
             {
                 app.UseWebSockets();
             }
@@ -259,23 +255,17 @@ namespace Juniper.Services
         }
 
 
-        public static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, PortOptions? ports)
+        public static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger)
         {
-            return app.ConfigureRequestPipeline(env, config, logger, ports, false, false, null);
+            return app.ConfigureRequestPipeline(env, config, logger, false, null);
         }
 
 
-        public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, PortOptions? ports, string hubPath)
+        public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, string hubPath)
             where HubT : Hub
         {
-            return app.ConfigureRequestPipeline(env, config, logger, ports, true, false, endpoints =>
+            return app.ConfigureRequestPipeline(env, config, logger, true, endpoints =>
                 endpoints.MapHub<HubT>(hubPath));
-        }
-
-        public struct PortOptions
-        {
-            public uint? HttpPort { get; set; }
-            public uint? HttpsPort { get; set; }
         }
 
 #if DEBUG
@@ -284,49 +274,66 @@ namespace Juniper.Services
         private const string BUILD = "RELEASE";
 #endif
 
-        public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host, PortOptions? ports = null)
+        public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host)
             where StartupT : class
         {
             return host.UseSystemd()
                 .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                    Console.WriteLine("Environment: {0}:{1}", env, BUILD);
+                    webBuilder.ConfigureJuniperWebHost<StartupT>());
+        }
 
-                    webBuilder.UseStartup<StartupT>();
+        public static IWebHostBuilder ConfigureJuniperWebHost<StartupT>(this IWebHostBuilder webBuilder)
+            where StartupT : class
+        {
+            webBuilder.UseStartup<StartupT>();
+            return ConfigureJuniperWebHost(webBuilder);
+        }
+
+        public static IWebHostBuilder ConfigureJuniperWebHost(this IWebHostBuilder webBuilder)
+        {
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            Console.WriteLine("Environment: {0}:{1}", env, BUILD);
+
 #if DEBUG
-                    if (env != Environments.Development)
+            if (env != Environments.Development)
+            {
+                webBuilder.ConfigureAppConfiguration(configBuilder =>
+                {
+                    var assembly = Assembly.GetEntryAssembly();
+                    if (assembly is not null)
                     {
-                        webBuilder.ConfigureAppConfiguration(app =>
-                        {
-                            var assembly = Assembly.GetEntryAssembly();
-                            if (assembly is not null)
-                            {
-                                app.AddUserSecrets(assembly);
-                            }
-                        });
+                        configBuilder.AddUserSecrets(assembly);
                     }
-
-                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                    {
-                        var urls = new List<string>();
-                        if (ports?.HttpPort > 0)
-                        {
-                            urls.Add($"http://*:{ports.Value.HttpPort}");
-                        }
-
-                        if (ports?.HttpsPort > 0)
-                        {
-                            urls.Add($"https://*:{ports.Value.HttpsPort}");
-                        }
-
-                        if (urls.Count > 0)
-                        {
-                            webBuilder.UseUrls(urls.ToArray());
-                        }
-                    }
-#endif
                 });
+            }
+#endif
+
+            return webBuilder.ConfigureAppConfiguration(configBuilder =>
+            {
+                var config = configBuilder.Build();
+                var isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
+                var httpPort = config.GetValue<uint?>("Ports:HTTP");
+                var httpsPort = config.GetValue<uint?>("Ports:HTTPS");
+                var urls = new List<string>();
+                if (httpPort is not null
+                    && (httpPort != 80
+                        || isWindows))
+                {
+                    urls.Add($"http://127.0.0.1:{httpPort}");
+                }
+
+                if (httpsPort is not null
+                    && (httpPort != 443
+                        || isWindows))
+                {
+                    urls.Add($"https://127.0.0.1:{httpsPort}");
+                }
+
+                if (urls.Count > 0)
+                {
+                    webBuilder.UseUrls(urls.ToArray());
+                }
+            });
         }
     }
 }

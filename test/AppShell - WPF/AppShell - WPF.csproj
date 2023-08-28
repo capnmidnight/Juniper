@@ -14,8 +14,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Juniper.AppShell.Server\Juniper.AppShell.Server.csproj" />
-      <ProjectReference Include="..\..\src\Juniper.AppShell.WPF\Juniper.AppShell.WPF.csproj" />
+        <ProjectReference Include="..\..\src\Juniper.AppShell.Server\Juniper.AppShell.Server.csproj" />
+        <ProjectReference Include="..\..\src\Juniper.AppShell.WPF\Juniper.AppShell.WPF.csproj" />
     </ItemGroup>
 
 </Project>

@@ -4,16 +4,8 @@ namespace Juniper.AppShell
     {
         private static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
-            builder.WebHost.UseAppShell<WPF.AppShellFactory>(true);
-            builder.Services.AddRazorPages();
-
-            var app = builder.Build();
-
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseAuthorization();
-            app.MapRazorPages();
+            var appBuilder = WebApplication.CreateBuilder(args);            
+            var app = appBuilder.AddAppShell<WPF.AppShellFactory>();
             app.Start();
         }
     }
