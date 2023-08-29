@@ -6,20 +6,6 @@ namespace Juniper.AppShell
 {
     public static class JuniperAppShellConfiguration
     {
-        public static IHostBuilder ConfigureJuniperHostAppShell<AppShellWindowFactoryT, StartupT>(this IHostBuilder host)
-            where AppShellWindowFactoryT : IAppShellFactory, new()
-            where StartupT : class =>
-            host.ConfigureJuniperHost<StartupT>()
-                .ConfigureServices(services =>
-                    services.UseAppShell<AppShellWindowFactoryT>());
-
-        public static IWebHostBuilder ConfigureJuniperWebHostAppShell<AppShellWindowFactoryT, StartupT>(this IWebHostBuilder webHost)
-            where AppShellWindowFactoryT : IAppShellFactory, new()
-            where StartupT : class =>
-            webHost.ConfigureJuniperWebHost<StartupT>()
-                .ConfigureServices(services =>
-                    services.UseAppShell<AppShellWindowFactoryT>());
-
         public static WebApplication ConfigureJuniperWebAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder, Action<IServiceCollection> configureServices, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline)
             where AppShellWindowFactoryT : IAppShellFactory, new() =>
             appBuilder.ConfigureJuniperWebApplication(

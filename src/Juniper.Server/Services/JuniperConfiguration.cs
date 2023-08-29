@@ -71,14 +71,14 @@ namespace Juniper.Services
             return services;
         }
 
-        public static DbContextOptionsBuilder SetDefaultJuniperConnection(this DbContextOptionsBuilder options, string connectionStringName, IConfiguration config, IWebHostEnvironment? env = null)
+        public static DbContextOptionsBuilder SetDefaultJuniperConnection<ProviderConfiguratorT>(this DbContextOptionsBuilder options, IWebHostEnvironment env, IConfiguration config, string connectionString)
+            where ProviderConfiguratorT : IDbProviderConfigurator, new()
         {
-            options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
-                opts.EnableRetryOnFailure()
-                    .UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
+            var providerConfigurator = new ProviderConfiguratorT();
+            providerConfigurator.ConfigureProvider(env, config, options, connectionString);
 
             var detailedErrors = config.GetValue<bool>("DetailedErrors");
-            if (env?.IsDevelopment() == true
+            if (env.IsDevelopment()
                 && detailedErrors)
             {
                 options.EnableDetailedErrors(true);
@@ -91,13 +91,14 @@ namespace Juniper.Services
             return options;
         }
 
-        public static IServiceCollection ConfigureJuniperServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, IConfiguration config)
+        public static IServiceCollection ConfigureJuniperServices<ProviderConfiguratorT, ContextT>(this IServiceCollection services, IWebHostEnvironment env, IConfiguration config, string connectionString)
+            where ProviderConfiguratorT : IDbProviderConfigurator, new()
             where ContextT : IdentityDbContext
         {
             services.ConfigureDefaultJuniperServices(env, config);
 
             services.AddDbContext<ContextT>(options =>
-                options.SetDefaultJuniperConnection(connectionStringName, config, env));
+                options.SetDefaultJuniperConnection<ProviderConfiguratorT>(env, config, connectionString));
 
             var useIdentity = config.GetValue<bool>("UseIdentity");
             if (useIdentity)
