@@ -2,11 +2,11 @@
 
 namespace Juniper.Examples
 {
-    public static class BuildConfig
+    public class BuildConfig : IBuildConfig
     {
         private const string ProjectName = "Juniper Web Examples";
 
-        public static BuildSystemOptions GetBuildConfig()
+        public BuildConfig()
         {
             var workingDir = new DirectoryInfo(".");
             var here = workingDir;
@@ -24,19 +24,18 @@ namespace Juniper.Examples
             var wwwRoot = projectOutDir.CD("wwwroot");
             var jsOutput = wwwRoot.CD("js");
 
-            var options = new BuildSystemOptions()
+            Options = new BuildSystemOptions
             {
-                CleanDirs = new[] 
+                CleanDirs = new[]
                 {
                     jsOutput
                 },
                 InProjectName = ProjectName,
-                OutProjectName = ProjectName
+                OutProjectName = ProjectName,
+                OptionalDependencies = new()
             };
-
-            options.OptionalDependencies = new();
-
-            return options;
         }
+
+        public BuildSystemOptions Options { get; }
     }
 }

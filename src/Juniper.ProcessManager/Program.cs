@@ -68,7 +68,7 @@ stdInEventer.Line += (_, e) =>
 void Message(CommandProxyDescription? desc, string cmdName, params string[] messageParts)
 {
     var response = new CommandProxyDescription(desc, cmdName, messageParts);
-    var cmd = cmdFactory.ToString(response);
+    var cmd = cmdFactory?.ToString(response) ?? "N/A";
     WriteLine(cmd);
 }
 

@@ -1,5 +1,6 @@
 ﻿namespace Juniper.TSBuild
 {
+
     public struct BuildSystemDependency
     {
         public string Name { get; set; }

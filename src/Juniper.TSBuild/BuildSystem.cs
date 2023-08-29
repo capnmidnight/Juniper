@@ -13,7 +13,8 @@ namespace Juniper.TSBuild
         { }
     }
 
-    public class BuildSystem : ILoggingSource, IDisposable
+    public class BuildSystem<BuildConfigT> : ILoggingSource, IDisposable
+        where BuildConfigT : IBuildConfig, new()
     {
         delegate void Writer(string format, params object[] args);
 
@@ -36,11 +37,11 @@ namespace Juniper.TSBuild
         static void WriteWarning(string format, params object[] values) =>
             Console.WriteLine(Colorize("warn", 33, format, values));
 
-        public static async Task Run(BuildSystemOptions options, string[] args)
+        public static async Task Run(string[] args)
         {
             var opts = new Options(args);
 
-            using var build = new BuildSystem(options, opts.workingDir);
+            using var build = new BuildSystem<BuildConfigT>(opts.workingDir);
 
             do
             {
@@ -127,8 +128,9 @@ namespace Juniper.TSBuild
             return dir;
         }
 
-        public BuildSystem(BuildSystemOptions options, DirectoryInfo? workingDir = null)
+        public BuildSystem(DirectoryInfo? workingDir = null)
         {
+            var options = new BuildConfigT().Options;
             workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
             var startDir = workingDir;
 
@@ -241,7 +243,7 @@ namespace Juniper.TSBuild
             }
         }
 
-        private BuildSystem AddDependency(string name, FileInfo from, FileInfo to, bool warnIfNotExists)
+        private BuildSystem<BuildConfigT> AddDependency(string name, FileInfo from, FileInfo to, bool warnIfNotExists)
         {
             dependencies.Add(from, (name, to, warnIfNotExists));
             var scriptFile = from.FullName;

@@ -5,7 +5,7 @@ const args = process.argv.slice(2);
 
 await (new Build(args)
     .plugin((minify) => glsl({ minify }))
-    .external("three")
+    .addThreeJS(true)
     .rootDir("src")
     .outBase("src")
     .entryName("[dir]/[name]")

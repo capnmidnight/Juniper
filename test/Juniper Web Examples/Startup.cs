@@ -19,18 +19,16 @@ namespace Juniper.Examples
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        BuildSystem? build;
+        BuildSystem<BuildConfig>? build;
         public void ConfigureServices(IServiceCollection services)
         {
-            var config = new DefaultConfiguration.Options();
-
-            services.ConfigureDefaultServices(env, config);
+            services.ConfigureDefaultJuniperServices(env, config);
 
             if (env.IsDevelopment())
             {
                 try
                 {
-                    build = new BuildSystem(BuildConfig.GetBuildConfig());
+                    build = new BuildSystem<BuildConfig>();
 
                     build.WatchAsync().Wait();
                 }
@@ -56,7 +54,7 @@ namespace Juniper.Examples
                 app.UseIPBanList("::ffff:10.20.22.108");
             }
 
-            app.ConfigureRequestPipeline(env, config, logger)
+            app.ConfigureJuniperRequestPipeline(env, config, logger)
                 .UseHttpLogging();
         }
     }
