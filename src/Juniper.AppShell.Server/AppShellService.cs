@@ -50,7 +50,6 @@ namespace Juniper.AppShell
                     ?.Select(a => new Uri(a))
                     ?.Where(a => a.Scheme.StartsWith("http"))
                     ?.OrderByDescending(v => v.Scheme)
-                    ?.Select(v => new Uri($"{v.Scheme}://localhost:{v.Port}"))
                     ?.FirstOrDefault())
                     ?? throw new Exception("Couldn't get any HTTP addresses.");
 

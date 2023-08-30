@@ -50,33 +50,6 @@ namespace Juniper.Services
             }
 #endif
 
-            var isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
-            var address = config.GetValue<string?>("AllowedHosts")
-                ?.Split(";")
-                ?.FirstOrDefault()
-                ?? "localhost";
-            var httpPort = config.GetValue<uint?>("Ports:HTTP");
-            var httpsPort = config.GetValue<uint?>("Ports:HTTPS");
-            var urls = new List<string>();
-            if (httpPort is not null
-                && (httpPort != 80
-                    || isWindows))
-            {
-                urls.Add($"http://{address}:{httpPort}");
-            }
-
-            if (httpsPort is not null
-                && (httpPort != 443
-                    || isWindows))
-            {
-                urls.Add($"https://{address}:{httpsPort}");
-            }
-
-            if (urls.Count > 0)
-            {
-                webBuilder.UseUrls(urls.ToArray());
-            }
-
             if (!env.IsDevelopment())
             {
                 services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
@@ -208,7 +181,7 @@ namespace Juniper.Services
             var config = app.Configuration;
 
             var useWebSockets = config.GetValue<bool>("UseWebSockets");
-            var httpsPort = config.GetValue<int?>("Ports:HTTPS");
+            var httpsAddress = config.GetValue<string?>("Kestrel:Endpoints:HTTPS:Url");
 
             if (env.IsDevelopment())
             {
@@ -218,7 +191,7 @@ namespace Juniper.Services
             {
                 app.UseExceptionHandler("/Error");
 
-                if (httpsPort is not null)
+                if (httpsAddress is not null)
                 {
                     app.UseHsts();
                 }
@@ -230,7 +203,7 @@ namespace Juniper.Services
                 await next();
             });
 
-            if (httpsPort is not null)
+            if (httpsAddress is not null)
             {
                 app.UseHttpsRedirection();
             }
