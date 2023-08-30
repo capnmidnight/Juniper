@@ -51,6 +51,10 @@ namespace Juniper.Services
 #endif
 
             var isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
+            var address = config.GetValue<string?>("AllowedHosts")
+                ?.Split(";")
+                ?.FirstOrDefault()
+                ?? "localhost";
             var httpPort = config.GetValue<uint?>("Ports:HTTP");
             var httpsPort = config.GetValue<uint?>("Ports:HTTPS");
             var urls = new List<string>();
@@ -58,14 +62,14 @@ namespace Juniper.Services
                 && (httpPort != 80
                     || isWindows))
             {
-                urls.Add($"http://127.0.0.1:{httpPort}");
+                urls.Add($"http://{address}:{httpPort}");
             }
 
             if (httpsPort is not null
                 && (httpPort != 443
                     || isWindows))
             {
-                urls.Add($"https://127.0.0.1:{httpsPort}");
+                urls.Add($"https://{address}:{httpsPort}");
             }
 
             if (urls.Count > 0)
