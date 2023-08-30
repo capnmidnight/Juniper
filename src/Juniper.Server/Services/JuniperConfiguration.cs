@@ -3,6 +3,7 @@
 using Juniper.Configuration;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -112,6 +113,16 @@ namespace Juniper.Services
                 {
                     options.ClientTimeoutInterval = TimeSpan.FromSeconds(5);
                     options.HandshakeTimeout = TimeSpan.FromSeconds(5);
+                });
+            }
+
+            if (env.IsDevelopment())
+            {
+                services.AddHttpLogging(opts =>
+                {
+                    opts.LoggingFields = HttpLoggingFields.All;
+                    opts.RequestHeaders.Add("host");
+                    opts.RequestHeaders.Add("user-agent");
                 });
             }
 
@@ -279,6 +290,11 @@ namespace Juniper.Services
 
             app.MapControllers();
             app.MapRazorPages();
+
+            if (env.IsDevelopment())
+            {
+                app.UseHttpLogging();
+            }
 
             return app;
         }
