@@ -3,7 +3,7 @@ using Juniper.AppShell;
 
 namespace Juniper.Services
 {
-    public static class JuniperAppShellConfiguration
+    public static class AppShellConfiguration
     {
 
         /// <summary>

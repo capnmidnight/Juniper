@@ -14,9 +14,7 @@ namespace Juniper.AppShell
     {
         private readonly TaskCompletionSource applicationStart = new();
         private readonly AppShellWindowFactoryT factory = new();
-
         private readonly IServiceProvider services;
-        private readonly IHostApplicationLifetime lifetime;
         private readonly ILogger<AppShellService<AppShellWindowFactoryT>> logger;
 
         private readonly Task<IAppShell> windowTask;
@@ -24,9 +22,8 @@ namespace Juniper.AppShell
         public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, ILogger<AppShellService<AppShellWindowFactoryT>> logger)
         {
             this.services = services;
-            this.lifetime = lifetime;
             this.logger = logger;
-            this.lifetime.ApplicationStarted.Register(applicationStart.SetResult);
+            lifetime.ApplicationStarted.Register(applicationStart.SetResult);
             logger.LogInformation("Opening window");
             windowTask = factory.StartAsync();
         }

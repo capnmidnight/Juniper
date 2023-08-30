@@ -6,13 +6,6 @@ using System.Text.Json;
 
 namespace Juniper.TSBuild
 {
-    public class BuildSystemProjectRootNotFoundException : DirectoryNotFoundException
-    {
-        public BuildSystemProjectRootNotFoundException(string message)
-            : base(message)
-        { }
-    }
-
     public class BuildSystem<BuildConfigT> : ILoggingSource, IDisposable
         where BuildConfigT : IBuildConfig, new()
     {

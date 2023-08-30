@@ -1,28 +1,14 @@
-using Juniper.Examples;
 using Juniper.Services;
-using Juniper.TSBuild;
 
 using Microsoft.AspNetCore.HttpLogging;
 
-
-BuildSystem<BuildConfig>? build;
-
 var builder = WebApplication
     .CreateBuilder(args)
+    .ConfigureBuildSystem<Juniper.Examples.BuildConfig>()
     .ConfigureJuniperWebApplication();
 
 if (builder.Environment.IsDevelopment())
 {
-    try
-    {
-        build = new BuildSystem<BuildConfig>();
-        await build.WatchAsync();
-    }
-    catch (BuildSystemProjectRootNotFoundException exp)
-    {
-        Console.WriteLine("WARNING: {0}", exp.Message);
-    }
-
     builder.Services.AddHttpLogging(opts =>
     {
         opts.LoggingFields = HttpLoggingFields.All;
@@ -40,4 +26,6 @@ if (builder.Environment.IsDevelopment())
     app.UseHttpLogging();
 }
 
+
+await app.BuildReady();
 await app.RunAsync();
