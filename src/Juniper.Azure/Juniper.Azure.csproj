@@ -11,6 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.28.0" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.31.0" />
   </ItemGroup>
 </Project>
