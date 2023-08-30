@@ -1,38 +1,41 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <AssemblyName>Juniper.TSBuild</AssemblyName>
-    <RootNamespace>Juniper</RootNamespace>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Authors>Sean T. McBeth</Authors>
-    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Description>General purpose server code</Description>
-    <PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
-    <PackageIcon>logo_juniper.min.png</PackageIcon>
-    <RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
-    <PackageId>SeanMcBeth.Juniper.TSBuild</PackageId>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <Version>1.0.2</Version>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>Juniper.TSBuild</AssemblyName>
+        <RootNamespace>Juniper</RootNamespace>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Authors>Sean T. McBeth</Authors>
+        <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+        <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+        <Description>General purpose server code</Description>
+        <PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
+        <PackageIcon>logo_juniper.min.png</PackageIcon>
+        <RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
+        <PackageId>SeanMcBeth.Juniper.TSBuild</PackageId>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <Version>1.0.2</Version>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<DebugType>portable</DebugType>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)'=='Release'">
-		<DebugType>none</DebugType>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DebugType>none</DebugType>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Juniper.ProcessManager\Juniper.ProcessManager.csproj">
-      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)'=='Debug'">
+        <ProjectReference Include="..\Juniper.ProcessManager\Juniper.ProcessManager.csproj">
+            <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
+            <Private>True</Private>
+        </ProjectReference>
+    </ItemGroup>
 
 </Project>
