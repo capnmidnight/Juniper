@@ -37,26 +37,31 @@ namespace Juniper.Processes
 
         public async Task ExecuteAsync()
         {
+            using var job = new Job("CommandTree");
+            
             foreach (var commands in commandTree)
             {
-                await ExecuteCommandsAsync(commands);
+                await ExecuteCommandsAsync(job, commands);
             }
         }
 
-        private async Task ExecuteCommandsAsync(ICommand[] commands)
+        private async Task ExecuteCommandsAsync(Job job, ICommand[] commands)
         {
             await Task.WhenAll(commands
                 .Select(command =>
-                    ExecuteCommandAsync(command)));
+                    ExecuteCommandAsync(job, command)));
         }
 
-        private async Task ExecuteCommandAsync(ICommand command)
+        private async Task ExecuteCommandAsync(Job job, ICommand command)
         {
             command.Info += Tasker_Info;
             command.Warning += Tasker_Warning;
             command.Err += Tasker_Err;
             try
             {
+                if(command is ShellCommand shellCommand) {
+                    shellCommand.job = job;
+                }
                 await command.RunAsync()
                     .ConfigureAwait(false);
             }

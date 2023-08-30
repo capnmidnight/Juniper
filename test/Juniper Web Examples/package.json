@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/web-examples",
+  "name": "@juniper-lib/web-examples",
   "private": true,
   "type": "module",
   "scripts": {

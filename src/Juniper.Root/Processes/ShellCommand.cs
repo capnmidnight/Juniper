@@ -100,6 +100,8 @@ namespace Juniper.Processes
 
         public string Arguments => args.ToArray().Join(' ');
 
+        internal Job? job;
+
         private bool running;
 
         public bool LoadWindowsUserProfile { get; set; }
@@ -141,9 +143,9 @@ namespace Juniper.Processes
                 "pwsh",
                 "-Command",
                 $"\"{command} {Arguments.Replace("\"", "`\"").ReplaceLineEndings("`n")}\"")
-                {
-                    CommandName = CommandName
-                };
+            {
+                CommandName = CommandName
+            };
 
         public override async Task RunAsync()
         {
@@ -277,6 +279,7 @@ namespace Juniper.Processes
                 throw new ProcessStartException("Could not start process.", exp);
             }
 
+            job?.AddProcess(proc);
             proc.BeginOutputReadLine();
             proc.BeginErrorReadLine();
 

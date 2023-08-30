@@ -1,5 +1,4 @@
 using Juniper.Processes;
-using Juniper.TSBuild;
 
 using static System.Console;
 
@@ -16,17 +15,10 @@ if (juniperDir is null)
     return;
 }
 
-var typeScriptDir = juniperDir.CD("src", "Juniper.TypeScript");
-var proxier = new CommandProxier(typeScriptDir);
+var typeScriptDir = juniperDir.CD("test", "Juniper Web Examples");
 var commandTree = new CommandTree();
-commandTree.AddCommands(
-    new ProxiedCommand(proxier, typeScriptDir, "npm", "-w", "@juniper-lib/environment", "run", "watch"),
-    new ProxiedCommand(proxier, typeScriptDir, "npm", "-w", "@juniper-lib/fetcher-worker", "run", "watch")
-);
-
-proxier.Info += (_, e) => WriteLine("Proxy Info: " + e.Value);
-proxier.Warning += (_, e) => WriteLine("Proxy Warning: " + e.Value);
-proxier.Err += (_, e) => Error.WriteLine("Proxy Error: " + e.Value.Unroll());
+commandTree.AddCommands(new ShellCommand(typeScriptDir, "npm", "install"));
+commandTree.AddCommands(new ShellCommand(typeScriptDir, "npm", "run", "watch"));
 
 commandTree.Info += (_, e) => WriteLine("Command Tree Info: " + e.Value);
 commandTree.Warning += (_, e) => WriteLine("Command Tree Warning: " + e.Value);
