@@ -1,12 +1,10 @@
-namespace Juniper.AppShell
-{
-    internal class Program
-    {
-        private static void Main(string[] args)
-        {
-            WebApplication.CreateBuilder(args)
-                .ConfigureJuniperWebAppShell<WPF.AppShellFactory>()
-                .Start();
-        }
-    }
-}
+using Juniper.Services;
+using Juniper.AppShell.WPF;
+
+WebApplication
+    .CreateBuilder(args)
+    .ConfigureJuniperWebApplication()
+    .ConfigureJuniperAppShell<AppShellFactory>()
+    .Build()
+    .ConfigureJuniperRequestPipeline()
+    .Start();

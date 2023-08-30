@@ -6,7 +6,6 @@
 	  <RootNamespace>Juniper.Examples</RootNamespace>
 	  <UserSecretsId>6dce2b4c-ea2e-47c8-9a46-1c9f0ab49ba0</UserSecretsId>
 	  <AssemblyName>Juniper.Examples - Web</AssemblyName>
-	  <StartupObject>Juniper.Examples.Program</StartupObject>
 	  <ImplicitUsings>true</ImplicitUsings>
 	  <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
 	  <Nullable>enable</Nullable>

@@ -1,4 +1,4 @@
-// Ignore Spelling: env
+// Ignore Spelling: env Configurator
 
 using Juniper.Configuration;
 
@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
@@ -23,8 +22,56 @@ namespace Juniper.Services
     /// </summary>
     public static class JuniperConfiguration
     {
-        public static IServiceCollection ConfigureDefaultJuniperServices(this IServiceCollection services, IWebHostEnvironment env, IConfiguration config)
+
+#if DEBUG
+        private const string BUILD = "DEBUG";
+#else
+        private const string BUILD = "RELEASE";
+#endif
+
+        public static WebApplicationBuilder ConfigureJuniperWebApplication(this WebApplicationBuilder builder)
         {
+            var webBuilder = builder.WebHost;
+            var config = builder.Configuration;
+            var services = builder.Services;
+            var env = builder.Environment;
+            var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            Console.WriteLine("Environment: {0}:{1}", envName, BUILD);
+
+#if DEBUG
+            if (!env.IsDevelopment())
+            {
+                var assembly = Assembly.GetEntryAssembly();
+                if (assembly is not null)
+                {
+                    builder.Configuration.AddUserSecrets(assembly);
+                }
+            }
+#endif
+
+            var isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
+            var httpPort = config.GetValue<uint?>("Ports:HTTP");
+            var httpsPort = config.GetValue<uint?>("Ports:HTTPS");
+            var urls = new List<string>();
+            if (httpPort is not null
+                && (httpPort != 80
+                    || isWindows))
+            {
+                urls.Add($"http://127.0.0.1:{httpPort}");
+            }
+
+            if (httpsPort is not null
+                && (httpPort != 443
+                    || isWindows))
+            {
+                urls.Add($"https://127.0.0.1:{httpsPort}");
+            }
+
+            if (urls.Count > 0)
+            {
+                webBuilder.UseUrls(urls.ToArray());
+            }
+
             if (!env.IsDevelopment())
             {
                 services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
@@ -68,37 +115,33 @@ namespace Juniper.Services
                 });
             }
 
-            return services;
+            return builder;
         }
 
-        public static DbContextOptionsBuilder SetDefaultJuniperConnection<ProviderConfiguratorT>(this DbContextOptionsBuilder options, IWebHostEnvironment env, IConfiguration config, string connectionString)
-            where ProviderConfiguratorT : IDbProviderConfigurator, new()
-        {
-            var providerConfigurator = new ProviderConfiguratorT();
-            providerConfigurator.ConfigureProvider(env, config, options, connectionString);
-
-            var detailedErrors = config.GetValue<bool>("DetailedErrors");
-            if (env.IsDevelopment()
-                && detailedErrors)
-            {
-                options.EnableDetailedErrors(true);
-                options.EnableSensitiveDataLogging(true);
-                options.EnableThreadSafetyChecks(true);
-                options.LogTo(Console.WriteLine, (_, lvl) => LogLevel.Information <= lvl && lvl < LogLevel.Error);
-                options.LogTo(Console.Error.WriteLine, LogLevel.Error);
-            }
-
-            return options;
-        }
-
-        public static IServiceCollection ConfigureJuniperServices<ProviderConfiguratorT, ContextT>(this IServiceCollection services, IWebHostEnvironment env, IConfiguration config, string connectionString)
+        public static WebApplicationBuilder ConfigureJuniperDatabase<ProviderConfiguratorT, ContextT>(this WebApplicationBuilder builder, string connectionStringName)
             where ProviderConfiguratorT : IDbProviderConfigurator, new()
             where ContextT : IdentityDbContext
         {
-            services.ConfigureDefaultJuniperServices(env, config);
+            var env = builder.Environment;
+            var config = builder.Configuration;
+            var services = builder.Services;
 
             services.AddDbContext<ContextT>(options =>
-                options.SetDefaultJuniperConnection<ProviderConfiguratorT>(env, config, connectionString));
+            {
+                var providerConfigurator = new ProviderConfiguratorT();
+                providerConfigurator.ConfigureProvider(env, config, options, $"name=ConnectionStrings:{connectionStringName}");
+
+                var detailedErrors = config.GetValue<bool>("DetailedErrors");
+                if (env.IsDevelopment()
+                    && detailedErrors)
+                {
+                    options.EnableDetailedErrors(true);
+                    options.EnableSensitiveDataLogging(true);
+                    options.EnableThreadSafetyChecks(true);
+                    options.LogTo(Console.WriteLine, (_, lvl) => LogLevel.Information <= lvl && lvl < LogLevel.Error);
+                    options.LogTo(Console.Error.WriteLine, LogLevel.Error);
+                }
+            });
 
             var useIdentity = config.GetValue<bool>("UseIdentity");
             if (useIdentity)
@@ -141,11 +184,14 @@ namespace Juniper.Services
                 });
             }
 
-            return services;
+            return builder;
         }
-
-        private static IApplicationBuilder ConfigureDefaultJuniperRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger, bool withAuth, Action<IEndpointRouteBuilder>? configEndPoint)
+       
+        public static WebApplication ConfigureJuniperRequestPipeline(this WebApplication app)
         {
+            var env = app.Environment;
+            var config = app.Configuration;
+
             var useWebSockets = config.GetValue<bool>("UseWebSockets");
             var httpsPort = config.GetValue<int?>("Ports:HTTPS");
 
@@ -197,13 +243,14 @@ namespace Juniper.Services
                 }
             };
 
+            var logger = app.Services.GetRequiredService<ILogger<StaticFileOptions>>();
             app.UseStaticFiles(staticFileOpts)
                 .Use(async (context, next) =>
                 {
                     await next();
 
                     if (context.Request.Path.Value?.StartsWith("/status/") != true
-                        && !context.Request.Accepts(MediaType.Application_Json)
+                        && context.Request.Accepts(MediaType.Text_Html)
                         && context.Response.StatusCode >= 400)
                     {
                         try
@@ -218,7 +265,8 @@ namespace Juniper.Services
                 })
                 .UseRouting();
 
-            if (withAuth)
+            var useIdentity = config.GetValue<bool>("UseIdentity");
+            if (useIdentity)
             {
                 app.UseAuthentication()
                     .UseAuthorization();
@@ -229,143 +277,21 @@ namespace Juniper.Services
                 app.UseWebSockets();
             }
 
-            return app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                    endpoints.MapRazorPages();
-                    if (configEndPoint is not null)
-                    {
-                        configEndPoint(endpoints);
-                    }
-                });
-        }
-
-
-        public static IApplicationBuilder ConfigureJuniperRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger) =>
-            app.ConfigureDefaultJuniperRequestPipeline(env, config, logger, false, null);
-
-
-        public static IApplicationBuilder ConfigureJuniperRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, ILogger logger)
-            where HubT : Hub
-        {
-            var hubPath = config.GetValue<string?>("SignalRHub")
-                ?? throw new Exception("No SignalRHub path defined in configuration.");
-
-            return app.ConfigureDefaultJuniperRequestPipeline(env, config, logger, true, endpoints =>
-                endpoints.MapHub<HubT>(hubPath));
-        }
-
-        private static void ConfigureDefaultJuniperWebAppRequestPipeline(WebApplication app, IWebHostEnvironment env, IConfiguration config, ILogger logger) =>
-            app.ConfigureJuniperRequestPipeline(env, config, logger);
-
-        private static void ConfigureDefaultJuniperWebAppRequestPipeline<HubT>(WebApplication app, IWebHostEnvironment env, IConfiguration config, ILogger logger)
-            where HubT : Hub =>
-            app.ConfigureJuniperRequestPipeline<HubT>(env, config, logger);
-
-#if DEBUG
-        private const string BUILD = "DEBUG";
-#else
-        private const string BUILD = "RELEASE";
-#endif
-
-        public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host)
-            where StartupT : class =>
-            host.UseSystemd()
-                .ConfigureWebHostDefaults(webBuilder =>
-                    webBuilder.ConfigureJuniperWebHost<StartupT>());
-
-        public static IWebHostBuilder ConfigureJuniperWebHost<StartupT>(this IWebHostBuilder webBuilder)
-            where StartupT : class =>
-            webBuilder.UseStartup<StartupT>()
-                .ConfigureDefaultJuniperWebHost();
-
-        private static IWebHostBuilder ConfigureDefaultJuniperWebHost(this IWebHostBuilder webBuilder)
-        {
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            Console.WriteLine("Environment: {0}:{1}", env, BUILD);
-
-#if DEBUG
-            if (env != Environments.Development)
-            {
-                webBuilder.ConfigureAppConfiguration(configBuilder =>
-                {
-                    var assembly = Assembly.GetEntryAssembly();
-                    if (assembly is not null)
-                    {
-                        configBuilder.AddUserSecrets(assembly);
-                    }
-                });
-            }
-#endif
-
-            return webBuilder.ConfigureAppConfiguration(configBuilder =>
-            {
-                var config = configBuilder.Build();
-                var isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
-                var httpPort = config.GetValue<uint?>("Ports:HTTP");
-                var httpsPort = config.GetValue<uint?>("Ports:HTTPS");
-                var urls = new List<string>();
-                if (httpPort is not null
-                    && (httpPort != 80
-                        || isWindows))
-                {
-                    urls.Add($"http://127.0.0.1:{httpPort}");
-                }
-
-                if (httpsPort is not null
-                    && (httpPort != 443
-                        || isWindows))
-                {
-                    urls.Add($"https://127.0.0.1:{httpsPort}");
-                }
-
-                if (urls.Count > 0)
-                {
-                    webBuilder.UseUrls(urls.ToArray());
-                }
-            });
-        }
-
-        private static WebApplication ConfigureJuniperWebApp(this WebApplicationBuilder appBuilder, Action<IServiceCollection>? configureServices, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline)
-        {
-            appBuilder.WebHost.ConfigureDefaultJuniperWebHost();
-            appBuilder.Services.ConfigureDefaultJuniperServices(appBuilder.Environment, appBuilder.Configuration);
-            configureServices?.Invoke(appBuilder.Services);
-
-            var app = appBuilder.Build();
-            var logger = app.Services.GetRequiredService<ILogger<WebApplicationBuilder>>();
-
-            configureRequestPipeline(app, appBuilder.Environment, appBuilder.Configuration, logger);
+            app.MapControllers();
+            app.MapRazorPages();
 
             return app;
         }
 
-        public static WebApplication ConfigureJuniperWebApplication(this WebApplicationBuilder appBuilder, Action<IServiceCollection> configureServices, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline) =>
-            appBuilder.ConfigureJuniperWebApp(configureServices, ActionExt.Join(ConfigureDefaultJuniperWebAppRequestPipeline, configureRequestPipeline));
+        public static WebApplication ConfigureJuniperHub<HubT>(this WebApplication app)
+            where HubT : Hub
+        {
+            var hubPath = app.Configuration.GetValue<string?>("SignalRHub")
+                ?? throw new Exception("No SignalRHub path defined in configuration.");
 
-        public static WebApplication ConfigureJuniperWebApplication(this WebApplicationBuilder appBuilder, Action<IServiceCollection> configureServices) =>
-            appBuilder.ConfigureJuniperWebApp(configureServices, ConfigureDefaultJuniperWebAppRequestPipeline);
+            app.MapHub<HubT>(hubPath); ;
+            return app;
+        }
 
-        public static WebApplication ConfigureJuniperWebApplication(this WebApplicationBuilder appBuilder, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline) =>
-            appBuilder.ConfigureJuniperWebApp(null, ActionExt.Join(ConfigureDefaultJuniperWebAppRequestPipeline, configureRequestPipeline));
-
-        public static WebApplication ConfigureJuniperWebApplication(this WebApplicationBuilder appBuilder) =>
-            appBuilder.ConfigureJuniperWebApp(null, ConfigureDefaultJuniperWebAppRequestPipeline);
-
-        public static WebApplication ConfigureJuniperWebApplication<HubT>(this WebApplicationBuilder appBuilder, Action<IServiceCollection> configureServices, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline)
-            where HubT : Hub =>
-            appBuilder.ConfigureJuniperWebApp(configureServices, ActionExt.Join(ConfigureDefaultJuniperWebAppRequestPipeline<HubT>, configureRequestPipeline));
-
-        public static WebApplication ConfigureJuniperWebApplication<HubT>(this WebApplicationBuilder appBuilder, Action<IServiceCollection> configureServices)
-            where HubT : Hub =>
-            appBuilder.ConfigureJuniperWebApp(configureServices, ConfigureDefaultJuniperWebAppRequestPipeline<HubT>);
-
-        public static WebApplication ConfigureJuniperWebApplication<HubT>(this WebApplicationBuilder appBuilder, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline)
-            where HubT : Hub =>
-            appBuilder.ConfigureJuniperWebApp(null, ActionExt.Join(ConfigureDefaultJuniperWebAppRequestPipeline<HubT>, configureRequestPipeline));
-
-        public static WebApplication ConfigureJuniperWebApplication<HubT>(this WebApplicationBuilder appBuilder)
-            where HubT : Hub =>
-            appBuilder.ConfigureJuniperWebApp(null, ConfigureDefaultJuniperWebAppRequestPipeline<HubT>);
     }
 }

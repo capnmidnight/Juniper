@@ -1,74 +1,21 @@
-﻿using Juniper.Services;
+﻿// Ignore Spelling: Configurator
+using Juniper.AppShell;
 
-using Microsoft.AspNetCore.SignalR;
-
-namespace Juniper.AppShell
+namespace Juniper.Services
 {
     public static class JuniperAppShellConfiguration
     {
-        public static WebApplication ConfigureJuniperWebAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder, Action<IServiceCollection> configureServices, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline)
-            where AppShellWindowFactoryT : IAppShellFactory, new() =>
-            appBuilder.ConfigureJuniperWebApplication(
-                configureServices.Join(services =>
-                    services.UseAppShell<AppShellWindowFactoryT>()),
-                configureRequestPipeline);
-
-        public static WebApplication ConfigureJuniperWebAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder, Action<IServiceCollection> configureServices)
-            where AppShellWindowFactoryT : IAppShellFactory, new() =>
-            appBuilder.ConfigureJuniperWebApplication(
-                configureServices.Join(services =>
-                    services.UseAppShell<AppShellWindowFactoryT>()));
-
-        public static WebApplication ConfigureJuniperWebAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline)
-            where AppShellWindowFactoryT : IAppShellFactory, new() =>
-            appBuilder.ConfigureJuniperWebApplication(services =>
-                services.UseAppShell<AppShellWindowFactoryT>(),
-                configureRequestPipeline);
-
-        public static WebApplication ConfigureJuniperWebAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder)
-            where AppShellWindowFactoryT : IAppShellFactory, new() =>
-            appBuilder.ConfigureJuniperWebApplication(services =>
-                services.UseAppShell<AppShellWindowFactoryT>());
-
-        public static WebApplication ConfigureJuniperWebAppShell<AppShellWindowFactoryT, HubT>(this WebApplicationBuilder appBuilder, Action<IServiceCollection> configureServices, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline)
-            where AppShellWindowFactoryT : IAppShellFactory, new()
-            where HubT : Hub =>
-            appBuilder.ConfigureJuniperWebApplication<HubT>(
-                configureServices.Join(services =>
-                    services.UseAppShell<AppShellWindowFactoryT>()),
-                configureRequestPipeline);
-
-        public static WebApplication ConfigureJuniperWebAppShell<AppShellWindowFactoryT, HubT>(this WebApplicationBuilder appBuilder, Action<IServiceCollection> configureServices)
-            where AppShellWindowFactoryT : IAppShellFactory, new()
-            where HubT : Hub =>
-            appBuilder.ConfigureJuniperWebApplication<HubT>(
-                configureServices.Join(services =>
-                    services.UseAppShell<AppShellWindowFactoryT>()));
-
-        public static WebApplication ConfigureJuniperWebAppShell<AppShellWindowFactoryT, HubT>(this WebApplicationBuilder appBuilder, Action<WebApplication, IWebHostEnvironment, IConfiguration, ILogger> configureRequestPipeline)
-            where AppShellWindowFactoryT : IAppShellFactory, new()
-            where HubT : Hub =>
-            appBuilder.ConfigureJuniperWebApplication<HubT>(services =>
-                services.UseAppShell<AppShellWindowFactoryT>(),
-                configureRequestPipeline);
-
-        public static WebApplication ConfigureJuniperWebAppShell<AppShellWindowFactoryT, HubT>(this WebApplicationBuilder appBuilder)
-            where AppShellWindowFactoryT : IAppShellFactory, new()
-            where HubT : Hub =>
-            appBuilder.ConfigureJuniperWebApplication<HubT>(services =>
-                services.UseAppShell<AppShellWindowFactoryT>());
 
         /// <summary>
-        /// Configures the WebHost to run on localhost with a random port and registers a service that opens
-        /// a window constructed by the provided <typeparamref name="AppShellWindowFactoryT"/> factory.
+        /// Registers a service that opens a window constructed by the provided <typeparamref name="AppShellWindowFactoryT"/> factory.
         /// </summary>
         /// <typeparam name="AppShellWindowFactoryT">A concrete instance of the <see cref="IAppShellFactory"/> interface </typeparam>
-        /// <param name="hostBuilder"></param>
-        /// <param name="useHttps">Defaults to false</param>
-        /// <returns><paramref name="hostBuilder"/></returns>
-        public static IServiceCollection UseAppShell<AppShellWindowFactoryT>(this IServiceCollection services)
-            where AppShellWindowFactoryT : IAppShellFactory, new() =>
-            services
+        /// <param name="appBuilder"></param>
+        /// <returns><paramref name="appBuilder"/></returns>
+        public static WebApplicationBuilder ConfigureJuniperAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder)
+            where AppShellWindowFactoryT : IAppShellFactory, new()
+        {
+            appBuilder.Services
                 // Give DI the class it needs to create
                 .AddSingleton<AppShellService<AppShellWindowFactoryT>>()
                 // Give DI an alias that other DI consumers can use to request the service without
@@ -78,5 +25,7 @@ namespace Juniper.AppShell
                 // Register the instance as a service so it will run.
                 .AddHostedService((serviceProvider) =>
                     serviceProvider.GetRequiredService<AppShellService<AppShellWindowFactoryT>>());
+            return appBuilder;
+        }
     }
 }

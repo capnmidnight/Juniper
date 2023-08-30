@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/junk/index.ts"],
+  "sourcesContent": ["\uFEFFconsole.log(\"Junk\");"],
+  "mappings": ";AAAC,QAAQ,IAAI,MAAM;",
+  "names": []
+}
