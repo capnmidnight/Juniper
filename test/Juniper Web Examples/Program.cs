@@ -2,7 +2,7 @@ using Juniper.Services;
 
 var app = WebApplication
     .CreateBuilder(args)
-    .ConfigureBuildSystem<Juniper.Examples.BuildConfig>()
+    .ConfigureJuniperBuildSystem<Juniper.Examples.BuildConfig>()
     .ConfigureJuniperWebApplication()
     .Build()
     .ConfigureJuniperRequestPipeline();

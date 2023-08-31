@@ -143,5 +143,18 @@ namespace System.IO
             return directory is not null
                 && (directory.Attributes & FileAttributes.ReparsePoint) != 0;
         }
+
+        public static FileInfo TouchCopy(this FileInfo file, DirectoryInfo dest)
+        {
+            return dest.Touch(file.Name);
+        }
+
+        public static Dictionary<string, (FileInfo From, FileInfo To)> CopyFiles(this DirectoryInfo src, DirectoryInfo dest) {
+            return src.GetFiles()
+                .ToDictionary(
+                    f => f.Name,
+                    f => (f, f.TouchCopy(dest))
+                );
+        }
     }
 }

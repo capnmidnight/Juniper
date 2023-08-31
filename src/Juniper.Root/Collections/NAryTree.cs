@@ -81,7 +81,7 @@ namespace Juniper.Collections
         /// <summary>
         /// How deep into the tree is this branch
         /// </summary>
-        protected int Depth
+        public int Depth
         {
             get
             {
@@ -107,22 +107,22 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsRoot => Parent is null;
 
-        public void Add(T value)
+        public NAryTree<T> Add(T value)
         {
-            Connect(new NAryTree<T>(value));
+            return Connect(new NAryTree<T>(value));
         }
 
-        public void AddRange(IEnumerable<T> values)
+        public IEnumerable<NAryTree<T>> AddRange(IEnumerable<T> values)
         {
             if (values is null)
             {
                 throw new ArgumentNullException(nameof(values));
             }
 
-            AddRange(values.Select(v => new NAryTree<T>(v)));
+            return ConnectRange(values.Select(v => new NAryTree<T>(v)));
         }
 
-        public void AddRange(IEnumerable<NAryTree<T>> nodes)
+        public IEnumerable<NAryTree<T>> ConnectRange(IEnumerable<NAryTree<T>> nodes)
         {
             if (nodes is null)
             {
@@ -133,15 +133,16 @@ namespace Juniper.Collections
             {
                 node.Parent = this;
                 ChildNodes.Add(node);
+                yield return node;
             }
         }
 
-        public void Connect(NAryTree<T> node)
+        public NAryTree<T> Connect(NAryTree<T> node)
         {
-            Connect(node, ChildNodes.Count);
+            return Connect(node, ChildNodes.Count);
         }
 
-        public void Connect(NAryTree<T> node, int index)
+        public NAryTree<T> Connect(NAryTree<T> node, int index)
         {
             if (node is null)
             {
@@ -155,6 +156,7 @@ namespace Juniper.Collections
 
             node.Parent = this;
             ChildNodes.Insert(index, node);
+            return node;
         }
 
         public IEnumerable<T> ValuesDepthFirst()

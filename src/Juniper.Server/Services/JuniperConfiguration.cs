@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
@@ -21,7 +22,7 @@ namespace Juniper.Services
     /// Extension methods that configure defaults for how I like
     /// to setup my servers.
     /// </summary>
-    public static class JuniperConfiguration
+    public static partial class JuniperConfiguration
     {
 
 #if DEBUG
@@ -108,7 +109,7 @@ namespace Juniper.Services
 
         public static WebApplicationBuilder ConfigureJuniperDatabase<ProviderConfiguratorT, ContextT>(this WebApplicationBuilder builder, string connectionStringName)
             where ProviderConfiguratorT : IDbProviderConfigurator, new()
-            where ContextT : IdentityDbContext
+            where ContextT : DbContext
         {
             var env = builder.Environment;
             var config = builder.Configuration;
@@ -131,7 +132,11 @@ namespace Juniper.Services
                 }
             });
 
-            var useIdentity = config.GetValue<bool>("UseIdentity");
+            var useIdentity = typeof(ContextT).IsAssignableTo(typeof(IdentityDbContext));
+
+            services.AddSingleton<IDBContextInformation>(_services =>
+                new DBContextInformation(useIdentity));
+
             if (useIdentity)
             {
                 services.AddDefaultIdentity<IdentityUser>(options =>
@@ -174,11 +179,12 @@ namespace Juniper.Services
 
             return builder;
         }
-       
+
         public static WebApplication ConfigureJuniperRequestPipeline(this WebApplication app)
         {
             var env = app.Environment;
             var config = app.Configuration;
+            var services = app.Services;
 
             var useWebSockets = config.GetValue<bool>("UseWebSockets");
             var httpsAddress = config.GetValue<string?>("Kestrel:Endpoints:HTTPS:Url");
@@ -231,7 +237,7 @@ namespace Juniper.Services
                 }
             };
 
-            var logger = app.Services.GetRequiredService<ILogger<StaticFileOptions>>();
+            var logger = services.GetRequiredService<ILogger<StaticFileOptions>>();
             app.UseStaticFiles(staticFileOpts)
                 .Use(async (context, next) =>
                 {
@@ -253,8 +259,8 @@ namespace Juniper.Services
                 })
                 .UseRouting();
 
-            var useIdentity = config.GetValue<bool>("UseIdentity");
-            if (useIdentity)
+            var dbInfo = services.GetService<IDBContextInformation>();
+            if (dbInfo?.UseIdentity == true)
             {
                 app.UseAuthentication()
                     .UseAuthorization();

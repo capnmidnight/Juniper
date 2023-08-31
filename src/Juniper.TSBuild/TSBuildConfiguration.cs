@@ -4,7 +4,7 @@ namespace Juniper.Services
 {
     public static class TSBuildConfiguration
     {
-        public static WebApplicationBuilder ConfigureBuildSystem<BuildConfigT>(this WebApplicationBuilder builder)
+        public static WebApplicationBuilder ConfigureJuniperBuildSystem<BuildConfigT>(this WebApplicationBuilder builder)
             where BuildConfigT : IBuildConfig, new()
         {
 #if DEBUG
