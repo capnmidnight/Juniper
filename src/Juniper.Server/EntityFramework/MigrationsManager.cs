@@ -4,9 +4,9 @@ namespace Juniper.EntityFramework
 {
     public static class MigrationsManager
     {
-        public static IHost MigrateDatabase<T>(this IHost host) where T : DbContext
+        public static WebApplication MigrateDatabase<T>(this WebApplication app) where T : DbContext
         {
-            using var scope = host.Services.CreateScope();
+            using var scope = app.Services.CreateScope();
             using var appContext = scope.ServiceProvider.GetRequiredService<T>();
 
             var pending = appContext.Database.GetPendingMigrations();
@@ -28,7 +28,7 @@ namespace Juniper.EntityFramework
                 Console.Error.WriteLine("Error during migration:\n{0}", ex.Unroll());
             }
 
-            return host;
+            return app;
         }
     }
 }
