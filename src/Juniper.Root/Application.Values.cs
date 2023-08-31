@@ -134,7 +134,7 @@ namespace Juniper
         public static readonly Application Application_Font_Woff = new("font-woff");
 
         public static readonly Application Application_Framework_AttributesXml = new("framework-attributes+xml", "xml");
-        public static readonly Application Application_GeoJson = new("geo+json", "json");
+        public static readonly Application Application_GeoJson = new("geo+json", "json", "geojson");
         public static readonly Application Application_GeoJson_Seq = new("geo+json-seq", "json-seq");
         public static readonly Application Application_GeopackageSqlite3 = new("geopackage+sqlite3", "sqlite3");
         public static readonly Application Application_GeoxacmlXml = new("geoxacml+xml", "xml");
