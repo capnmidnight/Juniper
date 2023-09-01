@@ -52,7 +52,8 @@ namespace Juniper.Services
             }
 #endif
 
-            if (!env.IsDevelopment())
+            if (!env.IsDevelopment()
+                && config.GetValue<string?>("Kestrel:Endpoints:HTTPS:Url") is not null)
             {
                 services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
             }
