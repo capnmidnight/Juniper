@@ -48,6 +48,7 @@ namespace Juniper.TSBuild
         public bool OpenPackageJsons => flags.Contains(nameof(OpenPackageJsons));
         public bool OpenTSConfigJsons => flags.Contains(nameof(OpenTSConfigJsons));
         public bool TypeCheck => flags.Contains(nameof(TypeCheck));
+        public bool Watch => flags.Contains(nameof(Watch));
 
         public bool Build
         {
@@ -69,7 +70,8 @@ namespace Juniper.TSBuild
                 new Command("--ts-clean", "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
                 new Command("--check", "Type Check", FlagSetter(nameof(TypeCheck))),
-                new Command("--build", "Build", FlagSetter(nameof(Build)))
+                new Command("--build", "Build", FlagSetter(nameof(Build))),
+                new Command("--watch", "Watch", FlagSetter(nameof(Watch)))
             };
 
             interactiveCommands = commands
@@ -81,6 +83,7 @@ namespace Juniper.TSBuild
                 .ToArray();
 
             var lastOpt = args
+                .Where(Directory.Exists)
                 .Where(ProcessArg)
                 .FirstOrDefault();
 

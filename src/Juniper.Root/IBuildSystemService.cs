@@ -1,6 +1,6 @@
 ﻿namespace Juniper.TSBuild
 {
-    interface IBuildSystemService
+    public interface IBuildSystemService
     {
         Task Ready { get; }
     }

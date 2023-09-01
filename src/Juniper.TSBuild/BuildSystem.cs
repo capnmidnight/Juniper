@@ -1,12 +1,11 @@
 using Juniper.Logging;
 using Juniper.Processes;
 
-using System.Net.NetworkInformation;
 using System.Text.Json;
 
 namespace Juniper.TSBuild
 {
-    public class BuildSystem<BuildConfigT> : ILoggingSource, IDisposable
+    public class BuildSystem<BuildConfigT> : ILoggingSource
         where BuildConfigT : IBuildConfig, new()
     {
         delegate void Writer(string format, params object[] args);
@@ -34,7 +33,7 @@ namespace Juniper.TSBuild
         {
             var opts = new Options(args);
 
-            using var build = new BuildSystem<BuildConfigT>(opts.workingDir);
+            var build = new BuildSystem<BuildConfigT>(opts.workingDir);
 
             do
             {
@@ -73,6 +72,15 @@ namespace Juniper.TSBuild
                     {
                         await build.TypeCheckAsync();
                     }
+                    else if (opts.Watch)
+                    {
+                        var canceller = new CancellationTokenSource();
+                        using var timer = await build.WatchAsync(canceller.Token, false);
+                        AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
+                        {
+                            canceller.Cancel();
+                        };
+                    }
                     else if (!opts.Finished || opts.Build)
                     {
                         await build.BuildAsync();
@@ -107,9 +115,6 @@ namespace Juniper.TSBuild
         private readonly List<DirectoryInfo> NPMProjects = new();
 
         private readonly bool hasNPM;
-
-        private Timer? timer;
-        private bool disposedValue;
 
         private static DirectoryInfo TestDir(string message, DirectoryInfo? dir)
         {
@@ -507,16 +512,24 @@ namespace Juniper.TSBuild
                     projectAppSettings, "Version"));
         }
 
-        public void Watch() =>
-            WatchAsync().Wait();
+        public Task<Timer> WatchAsync(bool stopAfterBuild) =>
+            WatchAsync(null, stopAfterBuild);
 
-        public async Task WatchAsync()
+        public async Task<Timer> WatchAsync(CancellationToken? cancellationToken, bool stopAfterBuild)
         {
             var proxy = new CommandProxier(inProjectDir);
             proxy.Info += Proxy_Info;
             proxy.Warning += Proxy_Warning;
             proxy.Err += Proxy_Err;
             await proxy.Start();
+            if (cancellationToken.HasValue)
+            {
+                cancellationToken.Value.Register(() =>
+                {
+                    OnInfo("Cancelling Build");
+                    proxy.Stop().Wait();
+                });
+            }
 
             var copyCommands = GetDependecies();
             var bundles = TryMake(
@@ -535,12 +548,9 @@ namespace Juniper.TSBuild
 
             await ValidateDependencies();
 
-            foreach (var b in bundles)
-            {
-                _ = b.RunSafeAsync();
-            }
+            var task = Task.WhenAll(bundles.Select(b => b.RunSafeAsync()));
 
-            timer = new Timer(new TimerCallback((_) =>
+            var timer = new Timer(new TimerCallback((_) =>
             {
                 foreach (var dep in copyCommands)
                 {
@@ -551,16 +561,28 @@ namespace Juniper.TSBuild
                 }
             }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
 
-            foreach (var line in from i in NetworkInterface.GetAllNetworkInterfaces()
-                                 where i.OperationalStatus == OperationalStatus.Up
-                                    && i.NetworkInterfaceType != NetworkInterfaceType.Loopback
-                                 let p = i.GetIPProperties()
-                                 from a in p.UnicastAddresses
-                                 where a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
-                                 select $"{i.Name}: {a.Address}")
+            if (stopAfterBuild)
             {
-                WriteInfo(line);
+                var bundler = new TaskCompletionSource();
+                EventHandler<StringEventArgs>? onInfo = null;
+                onInfo = new EventHandler<StringEventArgs>((object? sender, StringEventArgs e) =>
+                {
+                    if (e.Value.Contains("browser bundles built"))
+                    {
+                        Info -= onInfo;
+                        bundler.SetResult();
+                    }
+                });
+
+                Info += onInfo;
+                await bundler.Task ;
             }
+            else
+            {
+                await task;
+            }
+
+            return timer;
         }
 
         private async Task ValidateDependencies()
@@ -649,26 +671,6 @@ namespace Juniper.TSBuild
             {
                 OnError(e.Value);
             }
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    timer?.Dispose();
-                    timer = null;
-                }
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
     }
 }

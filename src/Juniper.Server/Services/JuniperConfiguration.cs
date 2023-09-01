@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using System.Net.NetworkInformation;
 
 using System.Reflection;
 
@@ -292,5 +293,24 @@ namespace Juniper.Services
             return app;
         }
 
+        public static WebApplication ShowNetworkInterfaces(this WebApplication app)
+        {
+            if (app.Environment.IsDevelopment())
+            {
+                var logger = app.Services.GetRequiredService<ILogger<NetworkInterface>>();
+
+                foreach (var (Name, Address) in from i in NetworkInterface.GetAllNetworkInterfaces()
+                                                where i.OperationalStatus == OperationalStatus.Up
+                                                   && i.NetworkInterfaceType != NetworkInterfaceType.Loopback
+                                                let p = i.GetIPProperties()
+                                                from a in p.UnicastAddresses
+                                                where a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
+                                                select (i.Name, a.Address))
+                {
+                    logger.LogInformation("{Name}: {Address}", Name, Address);
+                }
+            }
+            return app;
+        }
     }
 }
