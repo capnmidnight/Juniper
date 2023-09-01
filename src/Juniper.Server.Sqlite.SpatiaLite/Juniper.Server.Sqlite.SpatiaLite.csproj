@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Server\Juniper.Server.csproj" />
+		<!-- <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" /> -->
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.10" />
+  <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.6" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.NetTopologySuite" Version="7.0.10" />
+  </ItemGroup>
+
+</Project>

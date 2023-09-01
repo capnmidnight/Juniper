@@ -2,12 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Juniper.Server.NpgSql;
+namespace Juniper.Server.SqlLite;
 
-public class NpgSqlConfigurator : IDbProviderConfigurator
+public class Sqlite : IDbProviderConfigurator
 {
     public DbContextOptionsBuilder ConfigureProvider(IWebHostEnvironment env, IConfiguration config, DbContextOptionsBuilder options, string connectionString) =>
-        options.UseNpgsql(connectionString, opts =>
-            opts.EnableRetryOnFailure()
-                .UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
+        options.UseSqlite(connectionString);
 }
