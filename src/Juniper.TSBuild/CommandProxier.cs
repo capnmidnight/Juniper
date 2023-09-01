@@ -8,6 +8,7 @@ namespace Juniper.TSBuild
     {
         public DirectoryInfo Root { get; private set; }
         private readonly ShellCommand processManager;
+        private readonly TaskCompletionSource processQuit = new();
         private readonly JsonFactory<CommandProxyDescription> cmdFactory = new() { Formatting = Newtonsoft.Json.Formatting.None };
         private readonly Dictionary<int, ProxiedCommand> proxies = new();
         private int taskCounter = 0;
@@ -15,7 +16,6 @@ namespace Juniper.TSBuild
         public event EventHandler<StringEventArgs>? Info;
         public event EventHandler<StringEventArgs>? Warning;
         public event EventHandler<ErrorEventArgs>? Err;
-
         private bool ready;
 
         public CommandProxier(DirectoryInfo rootDir)
@@ -25,6 +25,13 @@ namespace Juniper.TSBuild
             processManager = new ShellCommand("Juniper.ProcessManager", Environment.ProcessId.ToString());
             processManager.Warning += (_, e) => Warning?.Invoke(this, e);
             processManager.Err += (_, e) => Err?.Invoke(this, e);
+        }
+
+        public async Task Stop()
+        {
+            var cmd = cmdFactory.ToString(new CommandProxyDescription("shutdown"));
+            processManager.Send(cmd);
+            await processQuit.Task;
         }
 
         public async Task Start()
@@ -65,7 +72,9 @@ namespace Juniper.TSBuild
                 }
             }
             processManager.Info += onInfo;
-            _ = processManager.RunAsync();
+            _ = processManager.RunAsync()
+                .ContinueWith(task => 
+                    processQuit.SetResult());
             await startup.Task;
         }
 

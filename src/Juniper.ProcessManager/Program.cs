@@ -8,7 +8,7 @@ using static System.Console;
 
 if (args.Length != 1)
 {
-    Console.Error.WriteLine("Excepted parent process ID to be passed as an argument");
+    Console.Error.WriteLine("Expected parent process ID to be passed as an argument");
     return;
 }
 
@@ -26,41 +26,50 @@ using var stdErr = OpenStandardError();
 using var stdInEventer = new StreamReaderEventer(stdIn);
 
 var running = true;
+var shuttingDown = false;
 var cmdFactory = new JsonFactory<CommandProxyDescription>() { Formatting = Newtonsoft.Json.Formatting.None };
 var commands = new Dictionary<int, ShellCommand>();
 var tasks = new Dictionary<int, Task>();
 
 stdInEventer.Line += (_, e) =>
 {
-    if (cmdFactory.TryParse(e.Value, out var desc)
-        && desc.Command == "exec")
+    if (cmdFactory.TryParse(e.Value, out var desc))
     {
-        if (commands.ContainsKey(desc.TaskID))
+        if (desc.Command == "shutdown")
         {
-            Error(desc, $"StartCommand: Task {desc.TaskID} has already been started.");
+            shuttingDown = true;
             return;
         }
 
-        if (desc.Args.Length == 0)
+        if (desc.Command == "exec")
         {
-            Error(desc, "StartCommand: No command name provided");
-            return;
-        }
+            if (commands.ContainsKey(desc.TaskID))
+            {
+                Error(desc, $"StartCommand: Task {desc.TaskID} has already been started.");
+                return;
+            }
 
-        try
-        {
-            var cmd = new ShellCommand(
-                desc.WorkingDir,
-                desc.Args.First(),
-                desc.Args.Skip(1).ToArray());
+            if (desc.Args.Length == 0)
+            {
+                Error(desc, "StartCommand: No command name provided");
+                return;
+            }
 
-            commands.Add(desc.TaskID, cmd);
+            try
+            {
+                var cmd = new ShellCommand(
+                    desc.WorkingDir,
+                    desc.Args.First(),
+                    desc.Args.Skip(1).ToArray());
 
-            Run(desc, cmd);
-        }
-        catch (ShellCommandNotFoundException exp)
-        {
-            Error(desc, exp.Unroll());
+                commands.Add(desc.TaskID, cmd);
+
+                Run(desc, cmd);
+            }
+            catch (ShellCommandNotFoundException exp)
+            {
+                Error(desc, exp.Unroll());
+            }
         }
     }
 };
@@ -138,7 +147,7 @@ Send("ready");
 while (running)
 {
     await Task.Delay(100);
-    if (host.HasExited)
+    if (host.HasExited || shuttingDown)
     {
         await Shutdown();
     }
