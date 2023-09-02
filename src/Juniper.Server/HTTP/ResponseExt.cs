@@ -1,15 +1,14 @@
-namespace Microsoft.AspNetCore.Http
+namespace Microsoft.AspNetCore.Http;
+
+public static class ResponseExt
 {
-    public static class ResponseExt
+    public static void RegisterForDispose(this HttpResponse response, IEnumerable<IDisposable> disposables)
     {
-        public static void RegisterForDispose(this HttpResponse response, IEnumerable<IDisposable> disposables)
+        foreach (var obj in disposables)
         {
-            foreach (var obj in disposables)
+            if (obj is not null)
             {
-                if (obj is not null)
-                {
-                    response.RegisterForDispose(obj);
-                }
+                response.RegisterForDispose(obj);
             }
         }
     }

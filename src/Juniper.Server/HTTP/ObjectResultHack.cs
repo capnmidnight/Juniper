@@ -1,11 +1,10 @@
-namespace Juniper.HTTP
+namespace Juniper.HTTP;
+
+public class ObjectResultHack : Exception
 {
-    public class ObjectResultHack : Exception
+    public object Value { get; }
+    public ObjectResultHack(object value)
     {
-        public object Value { get; }
-        public ObjectResultHack(object value)
-        {
-            Value = value;
-        }
+        Value = value;
     }
 }

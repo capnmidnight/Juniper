@@ -1,10 +1,9 @@
-namespace Juniper.Speech.Azure.CognitiveServices
+namespace Juniper.Speech.Azure.CognitiveServices;
+
+public enum SpeechStyle
 {
-    public enum SpeechStyle
-    {
-        None,
-        Cheerful,
-        Empathy,
-        Chat
-    }
+    None,
+    Cheerful,
+    Empathy,
+    Chat
 }

@@ -1,12 +1,10 @@
-
 using System.ComponentModel.DataAnnotations;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP;
+
+public class SingleFormFile
 {
-    public class SingleFormFile
-    {
-        [Required]
-        [Display(Name = "File")]
-        public IFormFile? FormFile { get; set; }
-    }
+    [Required]
+    [Display(Name = "File")]
+    public IFormFile? FormFile { get; set; }
 }

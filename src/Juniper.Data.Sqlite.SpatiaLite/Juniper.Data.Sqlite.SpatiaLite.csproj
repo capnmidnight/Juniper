@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Server\Juniper.Server.csproj" />
+    <ProjectReference Include="..\Juniper.Data\Juniper.Data.csproj" />
 		<!-- <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" /> -->
   <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.10" />
   <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.6" />

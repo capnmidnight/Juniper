@@ -1,69 +1,68 @@
 using Juniper.Processes;
 
-namespace Juniper.TSBuild
+namespace Juniper.TSBuild;
+
+public class ProxiedCommand : AbstractShellCommand
 {
-    public class ProxiedCommand : AbstractShellCommand
+    private readonly CommandProxier proxy;
+    private readonly DirectoryInfo workingDir;
+    private readonly string[] args;
+    private readonly TaskCompletionSource completer = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+    private static string MakeCommandName(DirectoryInfo? workingDir, ref string command, ref string[] args)
     {
-        private readonly CommandProxier proxy;
-        private readonly DirectoryInfo workingDir;
-        private readonly string[] args;
-        private readonly TaskCompletionSource completer = new(TaskCreationOptions.RunContinuationsAsynchronously);
-
-        private static string MakeCommandName(DirectoryInfo? workingDir, ref string command, ref string[] args)
+        if (workingDir is null)
         {
-            if (workingDir is null)
-            {
-                throw new ShellCommandNotFoundException("No working directory provided.");
-            }
-
-            if (string.IsNullOrEmpty(command))
-            {
-                throw new ShellCommandNotFoundException("No command provided.");
-            }
-
-            args ??= Array.Empty<string>();
-
-            var commandName = args.Prepend(command).ToArray().Join(' ');
-            if (workingDir is not null)
-            {
-                commandName = $"({workingDir.Name}) {commandName}";
-            }
-
-            return commandName;
+            throw new ShellCommandNotFoundException("No working directory provided.");
         }
 
-        public ProxiedCommand(CommandProxier proxy, DirectoryInfo workingDir, string command, params string[] args)
-            : base(MakeCommandName(workingDir, ref command, ref args))
+        if (string.IsNullOrEmpty(command))
         {
-            this.proxy = proxy;
-            this.workingDir = workingDir;
-            this.args = args.Prepend(command).ToArray();
+            throw new ShellCommandNotFoundException("No command provided.");
         }
 
-        public override async Task RunAsync()
+        args ??= Array.Empty<string>();
+
+        var commandName = args.Prepend(command).ToArray().Join(' ');
+        if (workingDir is not null)
         {
-            proxy.Exec(this, workingDir, args);
-            await completer.Task;
+            commandName = $"({workingDir.Name}) {commandName}";
         }
 
-        internal void ProxyInfo(string message)
-        {
-            OnInfo(message);
-        }
+        return commandName;
+    }
 
-        internal void ProxyWarning(string message)
-        {
-            OnWarning(message);
-        }
+    public ProxiedCommand(CommandProxier proxy, DirectoryInfo workingDir, string command, params string[] args)
+        : base(MakeCommandName(workingDir, ref command, ref args))
+    {
+        this.proxy = proxy;
+        this.workingDir = workingDir;
+        this.args = args.Prepend(command).ToArray();
+    }
 
-        internal void ProxyError(Exception exp)
-        {
-            OnError(exp);
-        }
+    public override async Task RunAsync()
+    {
+        proxy.Exec(this, workingDir, args);
+        await completer.Task;
+    }
 
-        internal void ProxyEnd()
-        {
-            completer.SetResult();
-        }
+    internal void ProxyInfo(string message)
+    {
+        OnInfo(message);
+    }
+
+    internal void ProxyWarning(string message)
+    {
+        OnWarning(message);
+    }
+
+    internal void ProxyError(Exception exp)
+    {
+        OnError(exp);
+    }
+
+    internal void ProxyEnd()
+    {
+        completer.SetResult();
     }
 }

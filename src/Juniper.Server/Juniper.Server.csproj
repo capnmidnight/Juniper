@@ -5,7 +5,6 @@
 		<RootNamespace>Juniper</RootNamespace>
 		<OutputType>Library</OutputType>
 		<TargetFramework>net7.0</TargetFramework>
-		<RuntimeIdentifiers>win-x86;win-x64;linux-x64;osx-x64;osx-arm64</RuntimeIdentifiers>
 		<Authors>Sean T. McBeth</Authors>
 		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -32,13 +31,12 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.10" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Juniper.Data\Juniper.Data.csproj" />
 	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
 	</ItemGroup>
 

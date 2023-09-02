@@ -2,111 +2,110 @@ using Microsoft.Net.Http.Headers;
 
 using System.Net;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP;
+
+public class WebSocketPool
 {
-    public class WebSocketPool
-    {
-        protected static readonly Dictionary<string, string?> userNames = new
+    protected static readonly Dictionary<string, string?> userNames = new
 ();
-        public static void SetUserToken(string userName, string token)
+    public static void SetUserToken(string userName, string token)
+    {
+        lock (userNames)
         {
-            lock (userNames)
+            userNames[token] = userName;
+        }
+    }
+
+    private readonly Dictionary<int, ServerWebSocketConnection> sockets = new();
+
+    public IReadOnlyCollection<ServerWebSocketConnection> Sockets => sockets.Values;
+
+    protected void Socket_Closed(object? sender, EventArgs e)
+    {
+        if (sender is ServerWebSocketConnection socket)
+        {
+            socket.Closed -= Socket_Closed;
+            socket.Dispose();
+
+            var keys = (from s in sockets
+                        where socket == s.Value
+                        select s.Key);
+
+            foreach (var key in keys)
             {
-                userNames[token] = userName;
+                _ = sockets.Remove(key);
+            }
+        }
+    }
+
+    public async Task<ServerWebSocketConnection> GetAsync(HttpListenerContext context)
+    {
+        if (context is null)
+        {
+            throw new ArgumentNullException(nameof(context));
+        }
+
+        var id = context.GetHashCode();
+        if (!sockets.ContainsKey(id))
+        {
+            var token = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
+            if (token is not null && userNames.ContainsKey(token))
+            {
+                var wsContext = await context.AcceptWebSocketAsync(token)
+                    .ConfigureAwait(false);
+
+                var userName = userNames.Get(token);
+                if (userName is not null)
+                {
+                    var socket = new ServerWebSocketConnection(context, wsContext.WebSocket, userName);
+                    socket.Closed += Socket_Closed;
+                    sockets.Add(id, socket);
+                }
+            }
+            else
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             }
         }
 
-        private readonly Dictionary<int, ServerWebSocketConnection> sockets = new();
+        return sockets[id];
+    }
 
-        public IReadOnlyCollection<ServerWebSocketConnection> Sockets => sockets.Values;
-
-        protected void Socket_Closed(object? sender, EventArgs e)
+    public async Task<ServerWebSocketConnection> GetAsync(HttpContext context)
+    {
+        if (context is null)
         {
-            if (sender is ServerWebSocketConnection socket)
+            throw new ArgumentNullException(nameof(context));
+        }
+
+        var id = context.GetHashCode();
+        if (!sockets.ContainsKey(id))
+        {
+            var token = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
+            if (token.Count != 1
+                || token[0] is not string t
+                || !userNames.ContainsKey(t))
             {
-                socket.Closed -= Socket_Closed;
-                socket.Dispose();
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            }
+            else
+            {
+                var webSocket = await context
+                    .WebSockets
+                    .AcceptWebSocketAsync(t)
+                    .ConfigureAwait(false);
 
-                var keys = (from s in sockets
-                            where socket == s.Value
-                            select s.Key);
-
-                foreach (var key in keys)
+                var userName = userNames.Get(t);
+                if (userName is not null)
                 {
-                    _ = sockets.Remove(key);
+                    var socket = new ServerWebSocketConnection(webSocket, userName);
+
+                    socket.Closed += Socket_Closed;
+                    sockets.Add(id, socket);
                 }
             }
         }
 
-        public async Task<ServerWebSocketConnection> GetAsync(HttpListenerContext context)
-        {
-            if (context is null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var id = context.GetHashCode();
-            if (!sockets.ContainsKey(id))
-            {
-                var token = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
-                if (token is not null && userNames.ContainsKey(token))
-                {
-                    var wsContext = await context.AcceptWebSocketAsync(token)
-                        .ConfigureAwait(false);
-
-                    var userName = userNames.Get(token);
-                    if (userName is not null)
-                    {
-                        var socket = new ServerWebSocketConnection(context, wsContext.WebSocket, userName);
-                        socket.Closed += Socket_Closed;
-                        sockets.Add(id, socket);
-                    }
-                }
-                else
-                {
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                }
-            }
-
-            return sockets[id];
-        }
-
-        public async Task<ServerWebSocketConnection> GetAsync(HttpContext context)
-        {
-            if (context is null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var id = context.GetHashCode();
-            if (!sockets.ContainsKey(id))
-            {
-                var token = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
-                if (token.Count != 1
-                    || token[0] is not string t
-                    || !userNames.ContainsKey(t))
-                {
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                }
-                else
-                {
-                    var webSocket = await context
-                        .WebSockets
-                        .AcceptWebSocketAsync(t)
-                        .ConfigureAwait(false);
-
-                    var userName = userNames.Get(t);
-                    if (userName is not null)
-                    {
-                        var socket = new ServerWebSocketConnection(webSocket, userName);
-
-                        socket.Closed += Socket_Closed;
-                        sockets.Add(id, socket);
-                    }
-                }
-            }
-
-            return sockets[id];
-        }
+        return sockets[id];
     }
 }

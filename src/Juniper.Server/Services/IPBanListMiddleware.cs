@@ -1,39 +1,38 @@
 using System.Net;
 
-namespace Juniper.Services
+namespace Juniper.Services;
+
+public static class IPBanListMiddlewareExt
 {
-    public static class IPBanListMiddlewareExt
+    public static IApplicationBuilder UseIPBanList(this IApplicationBuilder app, string bannedIPs)
     {
-        public static IApplicationBuilder UseIPBanList(this IApplicationBuilder app, string bannedIPs)
-        {
-            return app.UseMiddleware<IPBanListMiddleware>(bannedIPs);
-        }
+        return app.UseMiddleware<IPBanListMiddleware>(bannedIPs);
+    }
+}
+
+public class IPBanListMiddleware
+{
+    private readonly RequestDelegate next;
+    private readonly IPAddress[] bannedIPs;
+
+    public IPBanListMiddleware(RequestDelegate next, string bannedIPs)
+    {
+        this.next = next;
+        this.bannedIPs = bannedIPs.SplitX(';')
+            .Select(IPAddress.Parse)
+            .ToArray();
     }
 
-    public class IPBanListMiddleware
+    public async Task Invoke(HttpContext context)
     {
-        private readonly RequestDelegate next;
-        private readonly IPAddress[] bannedIPs;
-
-        public IPBanListMiddleware(RequestDelegate next, string bannedIPs)
+        var remoteIp = context.Connection.RemoteIpAddress;
+        if (remoteIp is null
+            || bannedIPs.Any(remoteIp.Equals))
         {
-            this.next = next;
-            this.bannedIPs = bannedIPs.SplitX(';')
-                .Select(IPAddress.Parse)
-                .ToArray();
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return;
         }
 
-        public async Task Invoke(HttpContext context)
-        {
-            var remoteIp = context.Connection.RemoteIpAddress;
-            if (remoteIp is null
-                || bannedIPs.Any(remoteIp.Equals))
-            {
-                context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                return;
-            }
-
-            await next.Invoke(context);
-        }
+        await next.Invoke(context);
     }
 }

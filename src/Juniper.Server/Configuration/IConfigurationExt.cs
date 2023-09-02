@@ -1,37 +1,36 @@
 using Microsoft.AspNetCore.StaticFiles;
 
-namespace Juniper.Configuration
+namespace Juniper.Configuration;
+
+public static partial class IConfigurationExt
 {
-    public static partial class IConfigurationExt
+    public const int CACHE_TIME = 24 * 60 * 60;
+
+    public static IList<string> GetDefaultFiles(this IConfiguration config) =>
+        (from file in config.GetSection("DefaultFiles").GetChildren()
+        where file?.Value is not null
+        select file.Value)
+            .ToList();
+
+    public static FileExtensionContentTypeProvider GetContentTypes(this IConfiguration config)
     {
-        public const int CACHE_TIME = 24 * 60 * 60;
-
-        public static IList<string> GetDefaultFiles(this IConfiguration config) =>
-            (from file in config.GetSection("DefaultFiles").GetChildren()
-            where file?.Value is not null
-            select file.Value)
-                .ToList();
-
-        public static FileExtensionContentTypeProvider GetContentTypes(this IConfiguration config)
+        var extTypes = new FileExtensionContentTypeProvider();
+        var optionalTypes = config.GetSection("ContentTypes")
+            ?.GetChildren();
+        if (optionalTypes is not null)
         {
-            var extTypes = new FileExtensionContentTypeProvider();
-            var optionalTypes = config.GetSection("ContentTypes")
-                ?.GetChildren();
-            if (optionalTypes is not null)
+            foreach (var type in optionalTypes)
             {
-                foreach (var type in optionalTypes)
+                if (type?.Value is not null)
                 {
-                    if (type?.Value is not null)
-                    {
-                        extTypes.Mappings[type.Key] = type.Value;
-                    }
+                    extTypes.Mappings[type.Key] = type.Value;
                 }
             }
-
-            return extTypes;
         }
 
-        public static Version? GetVersion(this IConfiguration config) =>
-            config.GetValue<Version>("Version");
+        return extTypes;
     }
+
+    public static Version? GetVersion(this IConfiguration config) =>
+        config.GetValue<Version>("Version");
 }

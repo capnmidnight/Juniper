@@ -1,49 +1,48 @@
 using System.Net;
 using System.Net.WebSockets;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP;
+
+public class ServerWebSocketConnection : WebSocketConnection<WebSocket>
 {
-    public class ServerWebSocketConnection : WebSocketConnection<WebSocket>
+    private HttpListenerContext? context;
+
+    public string UserName { get; set; }
+
+    public string? Token => Socket.SubProtocol;
+
+    public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
+        : base(rxBufferSize, dataBufferSize)
     {
-        private HttpListenerContext? context;
+        context = httpContext;
+        Socket = socket;
+        UserName = userName;
+    }
 
-        public string UserName { get; set; }
+    public ServerWebSocketConnection(WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
+        : base(rxBufferSize, dataBufferSize)
+    {
+        context = null;
+        disposedValue = true;
+        Socket = socket;
+        UserName = userName;
+    }
 
-        public string? Token => Socket.SubProtocol;
+    private bool disposedValue;
 
-        public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
-            : base(rxBufferSize, dataBufferSize)
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        if (!disposedValue)
         {
-            context = httpContext;
-            Socket = socket;
-            UserName = userName;
-        }
-
-        public ServerWebSocketConnection(WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
-            : base(rxBufferSize, dataBufferSize)
-        {
-            context = null;
-            disposedValue = true;
-            Socket = socket;
-            UserName = userName;
-        }
-
-        private bool disposedValue;
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            if (!disposedValue)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    context?.Response?.Close();
-                    context = null;
-                }
-
-                disposedValue = true;
+                context?.Response?.Close();
+                context = null;
             }
+
+            disposedValue = true;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Juniper.TSBuild
+﻿namespace Juniper.TSBuild;
+
+public class BuildSystemProjectRootNotFoundException : DirectoryNotFoundException
 {
-    public class BuildSystemProjectRootNotFoundException : DirectoryNotFoundException
-    {
-        public BuildSystemProjectRootNotFoundException(string message)
-            : base(message)
-        { }
-    }
+    public BuildSystemProjectRootNotFoundException(string message)
+        : base(message)
+    { }
 }
