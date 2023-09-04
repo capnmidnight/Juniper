@@ -126,7 +126,7 @@ public static class JuniperConfiguration
         }
     }
 
-    public static WebApplicationBuilder ConfigureJuniperDatabase<ProviderConfiguratorT, ContextT>(this WebApplicationBuilder builder, string connectionStringName)
+    public static WebApplicationBuilder ConfigureJuniperDatabase<ProviderConfiguratorT, ContextT>(this WebApplicationBuilder builder, string connectionString)
         where ProviderConfiguratorT : IDbProviderConfigurator, new()
         where ContextT : DbContext
     {
@@ -134,7 +134,7 @@ public static class JuniperConfiguration
         IConfiguration config = builder.Configuration;
         IServiceCollection services = builder.Services;
         
-        services.AddJuniperDatabase<ProviderConfiguratorT, ContextT>(config, env, connectionStringName);
+        services.AddJuniperDatabase<ProviderConfiguratorT, ContextT>(connectionString, env.IsDevelopment());
 
         var useIdentity = typeof(ContextT).IsAssignableTo(typeof(IdentityDbContext));
 
@@ -182,30 +182,6 @@ public static class JuniperConfiguration
         }
 
         return builder;
-    }
-
-    public static IServiceCollection AddJuniperDatabase<ProviderConfiguratorT, ContextT>(this IServiceCollection services, IConfiguration config, IHostEnvironment env, string connectionStringName)
-        where ProviderConfiguratorT : IDbProviderConfigurator, new()
-        where ContextT : DbContext
-    {
-        services.AddDbContext<ContextT>(options =>
-        {
-            var providerConfigurator = new ProviderConfiguratorT();
-            providerConfigurator.ConfigureProvider(config, options, $"name=ConnectionStrings:{connectionStringName}");
-
-            var detailedErrors = config.GetValue<bool>("DetailedErrors");
-            if (env.IsDevelopment()
-                && detailedErrors)
-            {
-                options.EnableDetailedErrors(true);
-                options.EnableSensitiveDataLogging(true);
-                options.EnableThreadSafetyChecks(true);
-                options.LogTo(Console.WriteLine, (_, lvl) => LogLevel.Information <= lvl && lvl < LogLevel.Error);
-                options.LogTo(Console.Error.WriteLine, LogLevel.Error);
-            }
-        });
-
-        return services;
     }
 
     public static WebApplicationBuilder ConfigureJuniperHTTPClient(this WebApplicationBuilder builder) 
