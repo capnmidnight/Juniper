@@ -33,17 +33,23 @@ public interface ISpeechService
 
 public static class WebApplicationBuilderExtensions
 {
-    public static WebApplicationBuilder ConfigureJuniperSpeechService(this WebApplicationBuilder builder, IConfiguration configuration)
+    public static IServiceCollection AddJuniperSpeechService(this IServiceCollection services, IConfiguration configuration)
     {
         var azureSubscriptionKey = configuration?.GetValue<string>("SubscriptionKey");
         var azureRegion = configuration?.GetValue<string>("Region");
         if (azureSubscriptionKey is not null
             && azureRegion is not null)
         {
-            builder.Services.AddTransient<ISpeechService>(provider =>
+            services.AddTransient<ISpeechService>(provider =>
                 new SpeechService(azureSubscriptionKey, azureRegion));
         }
 
+        return services;
+    }
+
+    public static WebApplicationBuilder AddJuniperSpeechService(this WebApplicationBuilder builder, string configGroup)
+    {
+        builder.Services.AddJuniperSpeechService(builder.Configuration.GetSection(configGroup));
         return builder;
     }
 }

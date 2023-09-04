@@ -184,7 +184,7 @@ public static class JuniperConfiguration
         return builder;
     }
 
-    public static WebApplicationBuilder ConfigureJuniperHTTPClient(this WebApplicationBuilder builder) 
+    public static WebApplicationBuilder AddJuniperHTTPClient(this WebApplicationBuilder builder) 
     {
         var http = new HttpClient(new HttpClientHandler
         {

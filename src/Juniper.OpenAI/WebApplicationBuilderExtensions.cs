@@ -4,14 +4,20 @@ namespace Juniper.OpenAI;
 
 public static class WebApplicationBuilderExtensions
 {
-    public static WebApplicationBuilder ConfigureJuniperOpenAI(this WebApplicationBuilder builder, IConfiguration config)
+    public static IServiceCollection AddJuniperOpenAI(this IServiceCollection services, IConfiguration config)
     {
         var openAIKey = config?.GetValue<string>("APIKey");
         if (openAIKey is not null)
         {
-            builder.Services.AddOpenAIService(settings =>
+            services.AddOpenAIService(settings =>
                 settings.ApiKey = openAIKey);
         }
+        return services;
+    }
+
+    public static WebApplicationBuilder AddJuniperOpenAI(this WebApplicationBuilder builder, string configGroup)
+    {
+        builder.Services.AddJuniperOpenAI(builder.Configuration.GetSection(configGroup));
         return builder;
     }
 }
