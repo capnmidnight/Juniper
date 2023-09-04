@@ -11,7 +11,7 @@ namespace Juniper.Processes
 
 
         public NPMInstallCommand(DirectoryInfo? workingDir, bool force, bool noPackageLock = true)
-            : base(workingDir, "npm", $"install --no-fund{(noPackageLock ? "--no-package-lock" : "")}")
+            : base(workingDir, "npm", $"install --no-fund{(noPackageLock ? " --no-package-lock" : "")}")
         {
             packageJson = this.workingDir.Touch("package.json");
             if (!packageJson.Exists)

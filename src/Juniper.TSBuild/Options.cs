@@ -64,10 +64,10 @@ class Options
     {
         var commands = new[]
         {
-            new Command("--upgrade", "Open package.json files", FlagSetter(nameof(OpenPackageJsons))),
-            new Command("--upgrade", "Open tsconfig.json files", FlagSetter(nameof(OpenTSConfigJsons))),
-            new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
-            new Command("--ts-clean", "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
+            new Command("--upgrade-js", "Open package.json files", FlagSetter(nameof(OpenPackageJsons))),
+            new Command("--upgrade-ts", "Open tsconfig.json files", FlagSetter(nameof(OpenTSConfigJsons))),
+            new Command("--clean-js", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
+            new Command("--clean-ts", "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
             new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
             new Command("--check", "Type Check", FlagSetter(nameof(TypeCheck))),
             new Command("--build", "Build", FlagSetter(nameof(Build))),
