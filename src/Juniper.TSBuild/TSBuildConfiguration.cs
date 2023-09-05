@@ -68,7 +68,7 @@ public static class TSBuildConfiguration
     /// </summary>
     /// <param name="app"></param>
     /// <returns></returns>
-    public static async Task BuildReady(this WebApplication app)
+    public static async Task BuildAsync(this WebApplication app)
     {
         var buildService = app.Services.GetService<IBuildSystemService>();
         if (buildService is not null)
@@ -84,18 +84,7 @@ public static class TSBuildConfiguration
     /// <returns></returns>
     public static async Task BuildAndRunAsync(this WebApplication app)
     {
-        await app.BuildReady();
+        await app.BuildAsync();
         await app.RunAsync();
-    }
-
-    /// <summary>
-    /// Waits for the ESBuild process to finish at least once before starting the web server
-    /// </summary>
-    /// <param name="app"></param>
-    /// <returns></returns>
-    public static async Task BuildAndStartAsync(this WebApplication app)
-    {
-        await app.BuildReady();
-        await app.StartAsync();
     }
 }
