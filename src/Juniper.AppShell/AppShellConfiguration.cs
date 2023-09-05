@@ -31,17 +31,17 @@ public static class AppShellConfiguration
         return appBuilder;
     }
 
-    public static async Task StartAppShellAsync(this WebApplication app, string firstPage)
+    public static async Task StartAppShellAsync(this WebApplication app, string title, string splashPage)
     {
         await app.StartAsync();
         var service = app.Services.GetRequiredService<IAppShellService>();
-        await service.StartAsync(firstPage);
+        await service.StartAppShellAsync(title, splashPage);
     }
 
     public static async Task RunAppShellAsync(this WebApplication app)
     {
         var service = app.Services.GetRequiredService<IAppShellService>();
-        var shell = await service.RunAsync();
+        var shell = await service.RunAppShellAsync();
         await shell.WaitForCloseAsync();
         await app.StopAsync();
         await app.WaitForShutdownAsync();

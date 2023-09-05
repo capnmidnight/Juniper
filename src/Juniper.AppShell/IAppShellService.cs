@@ -2,6 +2,6 @@
 
 public interface IAppShellService
 {
-    Task StartAsync(string splashPage);
-    Task<IAppShell> RunAsync();
+    Task StartAppShellAsync(string title, string splashPage);
+    Task<IAppShell> RunAppShellAsync();
 }

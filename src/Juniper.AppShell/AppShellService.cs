@@ -9,99 +9,92 @@ using System.Threading;
 namespace Juniper.AppShell;
 
 /// <summary>
-/// A <see cref="BackgroundService"/> that opens a Window containing a WebView, waits for the
+/// A <see cref="BackgroundService"/> that opens a appShell containing a WebView, waits for the
 /// <see cref="WebApplication"/> to start, finds the `startup_port` the app started with, and navigates 
 /// the WebView to `http://localhost:{startup_port}`
 /// </summary>
-/// <typeparam name="AppShellWindowFactoryT">A concrete instance of <see cref="IAppShellFactory"/> that creates the desired WebView container Window.</typeparam>
-public class AppShellService<AppShellWindowFactoryT> : IAppShellService, IAppShell
-    where AppShellWindowFactoryT : IAppShellFactory, new()
+/// <typeparam name="AppShellFactoryT">A concrete instance of <see cref="IAppShellFactory"/> that creates the desired WebView container appShell.</typeparam>
+public class AppShellService<AppShellFactoryT> : IAppShellService, IAppShell
+    where AppShellFactoryT : IAppShellFactory, new()
 {
     private readonly TaskCompletionSource<Uri> addressTask = new();
-    private readonly IServiceProvider services;
-    private readonly ILogger<AppShellService<AppShellWindowFactoryT>> logger;
-    private readonly Task<IAppShell> appShellTask;
+    private readonly TaskCompletionSource<IAppShell> appShellTask = new();
+    private readonly ILogger<AppShellService<AppShellFactoryT>> logger;
 
-    public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, ILogger<AppShellService<AppShellWindowFactoryT>> logger)
+    public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, ILogger<AppShellService<AppShellFactoryT>> logger)
     {
-        this.services = services;
         this.logger = logger;
-        appShellTask = new AppShellWindowFactoryT().StartAsync();
-        lifetime.ApplicationStarted.Register(GetAddress);
-        logger.LogInformation("Opening window");
+        lifetime.ApplicationStarted.Register(() =>
+        {
+            try
+            {
+                logger.LogInformation("Checking addresses...");
+
+                var address = (services
+                    .GetRequiredService<IServer>()
+                    .Features
+                    ?.Get<IServerAddressesFeature>()
+                    ?.Addresses
+                    ?.Select(a => new Uri(a))
+                    ?.Where(a => a.Scheme.StartsWith("http"))
+                    ?.OrderByDescending(v => v.Scheme)
+                    ?.FirstOrDefault())
+                    ?? throw new Exception("Couldn't get any HTTP addresses.");
+
+                logger.LogInformation("Starting with address: {address}", address);
+
+                addressTask.SetResult(address);
+            }
+            catch (Exception exp)
+            {
+                logger.LogError(exp, "Couldn't get startup address");
+                addressTask.SetException(exp);
+            }
+        });
     }
 
-    private void GetAddress()
+    public async Task StartAppShellAsync(string title, string splashPage)
     {
-
-        try
-        {
-            logger.LogInformation("Checking addresses...");
-
-            var address = (services
-                .GetRequiredService<IServer>()
-                .Features
-                ?.Get<IServerAddressesFeature>()
-                ?.Addresses
-                ?.Select(a => new Uri(a))
-                ?.Where(a => a.Scheme.StartsWith("http"))
-                ?.OrderByDescending(v => v.Scheme)
-                ?.FirstOrDefault())
-                ?? throw new Exception("Couldn't get any HTTP addresses.");
-
-            logger.LogInformation("Starting with address: {address}", address);
-
-            addressTask.SetResult(address);
-        }
-        catch(Exception exp)
-        {
-            logger.LogError(exp, "Couldn't get startup address");
-            addressTask.SetException(exp);
-        }
-    }
-
-    public async Task StartAsync(string splashPage)
-    {
+        logger.LogInformation("Opening appShell");
+        var appShell = await new AppShellFactoryT().StartAsync();
         logger.LogInformation("Showing first page: {slashPage}", splashPage);
         var address = await addressTask.Task;
-        await SetSourceAsync(new Uri(address, splashPage));
+        appShellTask.SetResult(appShell);
+        await Task.WhenAll(
+            SetTitleAsync(title),
+            SetSourceAsync(new Uri(address, splashPage))
+        );
     }
 
-    public async Task<IAppShell> RunAsync()
+    public async Task<IAppShell> RunAppShellAsync()
     {
         logger.LogInformation("Running app shell for real");
         var address = await addressTask.Task;
         await SetSourceAsync(address);
-        return await appShellTask;
+        return await appShellTask.Task;
     }
 
-    private async Task Do(Func<IAppShell, Task> action)
-    {
-        var window = await appShellTask;
-        await action(window);
-    }
+    private async Task Do(Func<IAppShell, Task> action) =>
+        await action(await appShellTask.Task);
 
-    private async Task<T> Do<T>(Func<IAppShell, Task<T>> action)
-    {
-        var window = await appShellTask;
-        return await action(window);
-    }
+    private async Task<T> Do<T>(Func<IAppShell, Task<T>> action) =>
+        await action(await appShellTask.Task);
 
     public Task<Uri> GetSourceAsync() =>
-        Do(window => window.GetSourceAsync());
+        Do(appShell => appShell.GetSourceAsync());
 
     public Task SetSourceAsync(Uri value) =>
-        Do(window => window.SetSourceAsync(value));
+        Do(appShell => appShell.SetSourceAsync(value));
 
     public Task<string> GetTitleAsync() =>
-        Do(window => window.GetTitleAsync());
+        Do(appShell => appShell.GetTitleAsync());
 
     public Task SetTitleAsync(string title) =>
-        Do(window => window.SetTitleAsync(title));
+        Do(appShell => appShell.SetTitleAsync(title));
 
     public Task CloseAsync() =>
-        Do(window => window.CloseAsync());
+        Do(appShell => appShell.CloseAsync());
 
     public Task WaitForCloseAsync() =>
-        Do(window => window.WaitForCloseAsync());
+        Do(appShell => appShell.WaitForCloseAsync());
 }
