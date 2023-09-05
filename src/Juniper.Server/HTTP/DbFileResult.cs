@@ -1,6 +1,8 @@
 using Juniper.Data;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 using System.Data.Common;
 

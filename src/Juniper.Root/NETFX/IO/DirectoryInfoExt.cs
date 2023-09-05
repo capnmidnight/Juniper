@@ -34,6 +34,17 @@ namespace System.IO
             return dir.DirectoryOp(subs, false);
         }
 
+        public static DirectoryInfo GoUpUntil(this DirectoryInfo dir, Func<DirectoryInfo, bool> test)
+        {
+            var here = dir;
+            while (here is not null && !test(here))
+            {
+                here = here.Parent;
+            }
+
+            return here;
+        }
+
         /// <summary>
         /// Retrieve the named subdirectory of a given directory, creating it if it doesn't exist.
         /// </summary>

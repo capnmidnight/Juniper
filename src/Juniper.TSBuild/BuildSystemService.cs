@@ -1,4 +1,7 @@
-﻿namespace Juniper.TSBuild;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
+namespace Juniper.TSBuild;
 
 public class BuildSystemService<BuildConfigT> : BackgroundService, IBuildSystemService
     where BuildConfigT : IBuildConfig, new()

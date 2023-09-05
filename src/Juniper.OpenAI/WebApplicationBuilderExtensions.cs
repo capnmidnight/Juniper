@@ -1,4 +1,8 @@
-﻿using OpenAI.Extensions;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+using OpenAI.Extensions;
 
 namespace Juniper.OpenAI;
 

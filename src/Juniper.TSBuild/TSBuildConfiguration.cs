@@ -1,5 +1,9 @@
 ﻿using Juniper.TSBuild;
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace Juniper.Services;
 
 public static class TSBuildConfiguration
@@ -82,5 +86,16 @@ public static class TSBuildConfiguration
     {
         await app.BuildReady();
         await app.RunAsync();
+    }
+
+    /// <summary>
+    /// Waits for the ESBuild process to finish at least once before starting the web server
+    /// </summary>
+    /// <param name="app"></param>
+    /// <returns></returns>
+    public static async Task BuildAndStartAsync(this WebApplication app)
+    {
+        await app.BuildReady();
+        await app.StartAsync();
     }
 }

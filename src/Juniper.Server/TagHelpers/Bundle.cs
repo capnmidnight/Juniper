@@ -1,12 +1,15 @@
 using Juniper.Configuration;
 
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace Juniper.TagHelpers;
 
 public abstract class Bundle : TagHelper
 {
-    private readonly IWebHostEnvironment env;
+    private readonly IHostEnvironment env;
     private readonly IConfiguration config;
     private readonly string tagName;
     private readonly string srcAttr;
@@ -14,7 +17,7 @@ public abstract class Bundle : TagHelper
     private readonly string ext;
     private string type;
 
-    protected Bundle(IWebHostEnvironment env, IConfiguration config, string tagName, string type, string srcAttr, string root, string ext)
+    protected Bundle(IHostEnvironment env, IConfiguration config, string tagName, string type, string srcAttr, string root, string ext)
     {
         this.env = env;
         this.config = config;

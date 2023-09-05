@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Juniper.HTTP;
