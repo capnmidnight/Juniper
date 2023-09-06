@@ -43,7 +43,6 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
         {
             StopOn(appCancelled);
 
-            logger.LogInformation("Waiting for server to start");
             await Task.WhenAny(
                 appStarting.Task,
                 appStopping.Task
@@ -52,7 +51,6 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
             if (serviceCanceller.IsCancellationRequested)
                 return;
 
-            logger.LogInformation("Checking addresses");
             var address = (services
                 .GetRequiredService<IServer>()
                 .Features
@@ -64,7 +62,6 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
                 ?.FirstOrDefault())
                 ?? throw new Exception("Couldn't get any HTTP addresses.");
 
-            logger.LogInformation("Starting with address: {address}", address);
             addressFetching.TrySetResult(address);
         }
         catch (Exception exp)
@@ -102,8 +99,8 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
     {
         try
         {
-            logger.LogInformation("Waiting for local address");
             var address = await addressFetching.Task;
+            address = new Uri(address, splashPage);
 
             logger.LogInformation("Opening AppShell");
             var appShell = await factory.StartAsync(serviceCanceller.Token);
@@ -112,13 +109,12 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
                 _ = appShell.CloseAsync();
             });
 
-            logger.LogInformation("Showing first page: {splashPage}", splashPage);
+            logger.LogInformation("Showing first page ({address}) titled \"{title}\"", address, title);
             await Task.WhenAll(
                 appShell.SetTitleAsync(title),
-                appShell.SetSourceAsync(new Uri(address, splashPage))
+                appShell.SetSourceAsync(address)
             );
 
-            logger.LogInformation("AppShell ready");
             appShellCreating.TrySetResult(appShell);
         }
         catch (TaskCanceledException)
@@ -135,16 +131,11 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
     {
         try
         {
-            logger.LogInformation("Getting address again");
             var address = await addressFetching.Task;
-
-            logger.LogInformation("Getting AppShell");
             var appShell = await appShellCreating.Task;
-
-            logger.LogInformation("Running AppShell for real");
             await appShell.SetSourceAsync(address);
-
-            logger.LogInformation("Waiting for AppShell to close");
+            
+            logger.LogInformation("AppShell ready");
             await appShell.WaitForCloseAsync();
         }
         catch (TaskCanceledException)

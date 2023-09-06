@@ -138,15 +138,6 @@ namespace Juniper.Processes
             this.args = args;
         }
 
-        public ICommand InSubShell() =>
-            new ShellCommand(workingDir,
-                "pwsh",
-                "-Command",
-                $"\"{command} {Arguments.Replace("\"", "`\"").ReplaceLineEndings("`n")}\"")
-            {
-                CommandName = CommandName
-            };
-
         public override async Task RunAsync(CancellationToken cancellationToken)
         {
             if (running)
@@ -247,13 +238,10 @@ namespace Juniper.Processes
 
             void Proc_Exited(object? sender, EventArgs e)
             {
-                if (completer is not null)
+                lock (syncroot)
                 {
-                    lock (syncroot)
-                    {
-                        completer.TrySetResult();
-                        completer = null;
-                    }
+                    completer?.TrySetResult();
+                    completer = null;
                 }
             }
 

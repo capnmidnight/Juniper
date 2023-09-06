@@ -1,8 +1,10 @@
+using System.Text.RegularExpressions;
+
 using Juniper.Processes;
 
 namespace Juniper.TSBuild;
 
-public class ProxiedCommand : AbstractShellCommand
+public partial class ProxiedCommand : AbstractShellCommand
 {
     private readonly CommandProxier proxy;
     private readonly DirectoryInfo workingDir;
@@ -51,9 +53,17 @@ public class ProxiedCommand : AbstractShellCommand
         OnInfo(message);
     }
 
+
+    [GeneratedRegex(@"Non-zero exit value = -?\d+. Invocation = .+npm(\.cmd)? run watch", RegexOptions.ExplicitCapture | RegexOptions.Compiled)]
+    private static partial Regex GetNPMPattern();
+    private static readonly Regex NPMPattern = GetNPMPattern();
+
     internal void ProxyWarning(string message)
     {
-        OnWarning(message);
+        if (!NPMPattern.IsMatch(message))
+        {
+            OnWarning(message);
+        }
     }
 
     internal void ProxyError(Exception exp)

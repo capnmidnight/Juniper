@@ -12,6 +12,7 @@ namespace Juniper.TSBuild
         public string OutProjectName;
         public DeploymentOptions Deployment;
         public Dictionary<string, (FileInfo From, FileInfo To)> Dependencies;
+        public DirectoryInfo[] AdditionalNPMProjects;
         public Dictionary<string, (FileInfo From, FileInfo To)> OptionalDependencies = new();
         public (string Name, string Version, string Reason)[] BannedDependencies;
     }

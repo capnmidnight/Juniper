@@ -168,12 +168,17 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         if (hasNPM)
         {
-            CheckNPMProject(inProjectDir);
-            CheckTSProject(inProjectDir);
-            CheckESBuildProject(inProjectDir);
+            var dirs = (options.AdditionalNPMProjects ?? Array.Empty<DirectoryInfo>())
+                .Prepend(inProjectDir)
+                .Prepend(juniperTsDir);
 
-            CheckNPMProject(juniperTsDir);
-            CheckTSProject(juniperTsDir);
+            foreach (var dir in dirs)
+            {
+                CheckNPMProject(dir);
+                CheckTSProject(dir);
+            }
+
+            CheckESBuildProject(inProjectDir);
 
             AddDependencies(options.Dependencies, true);
             AddDependencies(options.OptionalDependencies, false);

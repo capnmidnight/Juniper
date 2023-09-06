@@ -15,7 +15,6 @@ public class BuildSystemService<BuildConfigT> : IBuildSystemService
     public BuildSystemService(IHostApplicationLifetime lifetime, ILogger<BuildSystemService<BuildConfigT>> logger)
     {
         this.logger = logger;
-        logger.LogInformation("Preparing build");
         build = new BuildSystem<BuildConfigT>();
         Ready = RunBuildAsync();
         lifetime.ApplicationStopping.Register(Stop);
@@ -30,7 +29,7 @@ public class BuildSystemService<BuildConfigT> : IBuildSystemService
     {
         try
         {
-            logger.LogInformation("Starting build...");
+            logger.LogInformation("Starting build");
             await build.WatchAsync(true, serviceCancelled.Token);
             logger.LogInformation("Build ready");
         }
@@ -41,7 +40,6 @@ public class BuildSystemService<BuildConfigT> : IBuildSystemService
         catch (Exception exp)
         {
             logger.LogError(exp, "Build failed");
-            throw;
         }
     }
 }

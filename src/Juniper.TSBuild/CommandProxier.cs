@@ -1,10 +1,12 @@
+using System.Text.RegularExpressions;
+
 using Juniper.IO;
 using Juniper.Logging;
 using Juniper.Processes;
 
 namespace Juniper.TSBuild;
 
-public class CommandProxier : ILoggingSource
+public partial class CommandProxier : ILoggingSource
 {
     public DirectoryInfo Root { get; private set; }
     private readonly ShellCommand processManager;
@@ -18,12 +20,23 @@ public class CommandProxier : ILoggingSource
     public event EventHandler<ErrorEventArgs>? Err;
     private bool ready;
 
+
+    [GeneratedRegex(@"Non-zero exit value = -?\d+. Invocation = .+Juniper\.ProcessManager", RegexOptions.ExplicitCapture | RegexOptions.Compiled)]
+    private static partial Regex GetPMPattern();
+    private static readonly Regex PMPattern = GetPMPattern();
+
     public CommandProxier(DirectoryInfo rootDir)
     {
         Root = rootDir;
 
         processManager = new ShellCommand("Juniper.ProcessManager", Environment.ProcessId.ToString());
-        processManager.Warning += (_, e) => Warning?.Invoke(this, e);
+        processManager.Warning += (_, e) =>
+        {
+            if (!PMPattern.IsMatch(e.Value))
+            {
+                Warning?.Invoke(this, e);
+            }
+        };
         processManager.Err += (_, e) => Err?.Invoke(this, e);
     }
 
