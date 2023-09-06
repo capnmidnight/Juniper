@@ -87,7 +87,8 @@ public static class JuniperConfiguration
         services.Configure<KestrelServerOptions>(options =>
             options.AllowSynchronousIO = false);
 
-        services.AddControllersWithViews();
+        services.AddControllersWithViews(opts => 
+            opts.InputFormatters.Add(new TextPlainInputFormatter()));
 
         var razorPages = services.AddRazorPages(options =>
         {
