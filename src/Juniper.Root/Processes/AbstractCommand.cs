@@ -14,13 +14,13 @@ namespace Juniper.Processes
             CommandName = commandName;
         }
 
-        public abstract Task RunAsync();
+        public abstract Task RunAsync(CancellationToken cancellationToken);
 
-        public async Task RunSafeAsync()
+        public async Task RunSafeAsync(CancellationToken cancellationToken)
         {
             try
             {
-                await RunAsync();
+                await RunAsync(cancellationToken);
             }
             catch (Exception ex)
             {

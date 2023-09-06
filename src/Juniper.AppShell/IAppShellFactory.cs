@@ -2,5 +2,5 @@
 
 public interface IAppShellFactory
 {
-    Task<IAppShell> StartAsync();
+    Task<IAppShell> StartAsync(CancellationToken cancellationToken);
 }

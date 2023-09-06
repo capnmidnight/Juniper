@@ -23,20 +23,24 @@ public class DbRawQuery
         this.db = db;
         this.makeCommand = makeCommand;
     }
+    
+    public Task WriteToAsync(Stream body) =>
+        WriteToAsync(null, null, body, CancellationToken.None);
 
-    public Task WriteToAsync(Stream body, CancellationToken? cancellationToken = null) =>
+    public Task WriteToAsync(Stream body, CancellationToken cancellationToken) =>
         WriteToAsync(null, null, body, cancellationToken);
 
-    public Task WriteToAsync(Stream body, long rangeStart, long rangeEnd, CancellationToken? cancellationToken = null) =>
+    public Task WriteToAsync(Stream body, long rangeStart, long rangeEnd) =>
+        WriteToAsync(rangeStart, rangeEnd, body, CancellationToken.None);
+
+    public Task WriteToAsync(Stream body, long rangeStart, long rangeEnd, CancellationToken cancellationToken) =>
         WriteToAsync(rangeStart, rangeEnd, body, cancellationToken);
 
-    private async Task WriteToAsync(long? rangeStart, long? rangeEnd, Stream body, CancellationToken? cancellationToken)
+    private async Task WriteToAsync(long? rangeStart, long? rangeEnd, Stream body, CancellationToken cancellationToken)
     {
-        cancellationToken ??= CancellationToken.None;
-
         using var conn = db.GetDbConnection();
 
-        await conn.OpenAsync(cancellationToken.Value)
+        await conn.OpenAsync(cancellationToken)
             .ConfigureAwait(false);
 
         using var cmd = conn.CreateCommand();
@@ -46,10 +50,10 @@ public class DbRawQuery
             CommandBehavior.SingleResult
             | CommandBehavior.SequentialAccess
             | CommandBehavior.CloseConnection,
-            cancellationToken.Value)
+            cancellationToken)
             .ConfigureAwait(false);
 
-        var read = await reader.ReadAsync(cancellationToken.Value)
+        var read = await reader.ReadAsync(cancellationToken)
             .ConfigureAwait(false);
 
         if (!read)
@@ -69,17 +73,17 @@ public class DbRawQuery
                 while (toBurn > 0)
                 {
                     var shouldBurn = (int)Math.Min(toBurn, FRAME_SIZE);
-                    var wasBurned = await stream.ReadAsync(mem.Mem[..shouldBurn], cancellationToken.Value);
+                    var wasBurned = await stream.ReadAsync(mem.Mem[..shouldBurn], cancellationToken);
                     toBurn -= wasBurned;
                 }
             }
 
             var rangeLength = rangeEnd.Value - rangeStart.Value;
-            await CopyToAsync(stream, body, rangeLength, FRAME_SIZE, cancellationToken.Value);
+            await CopyToAsync(stream, body, rangeLength, FRAME_SIZE, cancellationToken);
         }
         else
         {
-            await stream.CopyToAsync(body, cancellationToken.Value)
+            await stream.CopyToAsync(body, cancellationToken)
                 .ConfigureAwait(false);
         }
     }

@@ -147,7 +147,7 @@ namespace Juniper.Processes
                 CommandName = CommandName
             };
 
-        public override async Task RunAsync()
+        public override async Task RunAsync(CancellationToken cancellationToken)
         {
             if (running)
             {
@@ -206,22 +206,22 @@ namespace Juniper.Processes
                 Info += Proc_AccumOutputData;
                 Warning += Proc_AccumErrorData;
 
-                await ExecuteProcess(proc);
+                await ExecuteProcess(proc, cancellationToken);
 
                 Info -= Proc_AccumOutputData;
                 Warning -= Proc_AccumErrorData;
             }
             else
             {
-                await ExecuteProcess(proc);
+                await ExecuteProcess(proc, cancellationToken);
             }
         }
 
-        public async Task<string[]> RunForStdOutAsync()
+        public async Task<string[]> RunForStdOutAsync(CancellationToken cancellationToken)
         {
             var accum = AccumulateOutput;
             AccumulateOutput = true;
-            await RunAsync();
+            await RunAsync(cancellationToken);
             var output = TotalStandardOutput?.ToArray() ?? Array.Empty<string>();
             if (!accum)
             {
@@ -232,11 +232,10 @@ namespace Juniper.Processes
             return output;
         }
 
-        private async Task ExecuteProcess(Process proc)
+        private async Task ExecuteProcess(Process proc, CancellationToken cancellationToken)
         {
             var syncroot = new object();
             var completer = new TaskCompletionSource();
-            var task = completer.Task;
             void Proc_InputDataReceived(object? sender, StringEventArgs e) =>
                 proc.StandardInput.WriteLine(e.Value);
 
@@ -252,7 +251,7 @@ namespace Juniper.Processes
                 {
                     lock (syncroot)
                     {
-                        completer?.SetResult();
+                        completer.TrySetResult();
                         completer = null;
                     }
                 }
@@ -273,33 +272,54 @@ namespace Juniper.Processes
                 {
                     throw new ProcessStartException("Could not start process.");
                 }
+                cancellationToken.Register(() =>
+                {
+                    try
+                    {
+                        proc.Kill();
+                    }
+                    catch (NotSupportedException)
+                    {
+                    }
+                    catch (InvalidOperationException)
+                    {
+                    }
+                });
+
+                job?.AddProcess(proc);
+                proc.BeginOutputReadLine();
+                proc.BeginErrorReadLine();
+
+                await completer.Task;
+                ExitCode = proc.ExitCode;
+            }
+            catch (TaskCanceledException)
+            {
+                // do nothing
+                ExitCode = -1;
             }
             catch (Exception exp)
             {
+                ExitCode = -1;
                 throw new ProcessStartException("Could not start process.", exp);
             }
-
-            job?.AddProcess(proc);
-            proc.BeginOutputReadLine();
-            proc.BeginErrorReadLine();
-
-            await task;
-
-            AppDomain.CurrentDomain.ProcessExit -= CurrentDomain_ProcessExit;
-            AppDomain.CurrentDomain.DomainUnload -= CurrentDomain_ProcessExit;
-            AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_ProcessExit;
-            proc.OutputDataReceived -= Proc_OutputDataReceived;
-            proc.ErrorDataReceived -= Proc_ErrorDataReceived;
-            proc.Exited -= Proc_Exited;
-            Input -= Proc_InputDataReceived;
-            KillProc -= Proc_KillProc;
-
-            ExitCode = proc.ExitCode;
-            running = false;
-
-            if (ExitCode != 0)
+            finally
             {
-                throw new Exception($"Non-zero exit value = {ExitCode}. Invocation = {proc.StartInfo.FileName} {proc.StartInfo.Arguments}. Working directory = {proc.StartInfo.WorkingDirectory}");
+                AppDomain.CurrentDomain.ProcessExit -= CurrentDomain_ProcessExit;
+                AppDomain.CurrentDomain.DomainUnload -= CurrentDomain_ProcessExit;
+                AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_ProcessExit;
+                proc.OutputDataReceived -= Proc_OutputDataReceived;
+                proc.ErrorDataReceived -= Proc_ErrorDataReceived;
+                proc.Exited -= Proc_Exited;
+                Input -= Proc_InputDataReceived;
+                KillProc -= Proc_KillProc;
+
+                running = false;
+
+                if (ExitCode != 0)
+                {
+                    OnWarning($"Non-zero exit value = {ExitCode}. Invocation = {proc.StartInfo.FileName} {proc.StartInfo.Arguments}. Working directory = {proc.StartInfo.WorkingDirectory}");
+                }
             }
         }
 

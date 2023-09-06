@@ -11,20 +11,21 @@ public static class IServiceProviderExtensions
     {
         using var scope = services.CreateScope();
         using var appContext = scope.ServiceProvider.GetRequiredService<T>();
-        appContext.Database.AutoMigrate();
+        var logger = services.GetRequiredService<ILogger<T>>();
+        appContext.Database.AutoMigrate(logger);
         return services;
     }
 
-    public static void AutoMigrate(this DatabaseFacade database)
+    public static void AutoMigrate(this DatabaseFacade database, ILogger? logger = null)
     {
         var pending = database.GetPendingMigrations();
         if (pending.Any())
         {
-            Console.WriteLine("Pending migrations: {0}", string.Join(", ", pending));
+            logger?.LogInformation("Pending migrations: {migrations}", string.Join(", ", pending));
         }
         else
         {
-            Console.WriteLine("No pending migrations");
+            logger?.LogInformation("No pending migrations");
         }
 
         try
@@ -33,7 +34,7 @@ public static class IServiceProviderExtensions
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine("Error during migration:\n{0}", ex.Unroll());
+            logger?.LogError(ex, "Error during migration");
         }
     }
 

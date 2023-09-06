@@ -10,7 +10,7 @@ namespace Juniper.Processes
             this.file = file;
         }
 
-        public override Task RunAsync()
+        public override Task RunAsync(CancellationToken cancellationToken)
         {
             if (file.Exists)
             {

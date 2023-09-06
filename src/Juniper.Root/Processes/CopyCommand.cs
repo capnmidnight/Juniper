@@ -22,7 +22,7 @@ namespace Juniper.Processes
             this.replacement = replacement;
         }
 
-        public override Task RunAsync()
+        public override Task RunAsync(CancellationToken cancellationToken)
         {
             Check();
             return Task.CompletedTask;

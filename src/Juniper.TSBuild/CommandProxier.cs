@@ -34,9 +34,11 @@ public class CommandProxier : ILoggingSource
         await processQuit.Task;
     }
 
-    public async Task Start()
+    public async Task Start(CancellationToken cancellationToken)
     {
         var startup = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        cancellationToken.Register(() => startup.TrySetCanceled());
+
         void onInfo(object? _, StringEventArgs e)
         {
             if (cmdFactory.TryParse(e.Value, out var cmd))
@@ -58,8 +60,12 @@ public class CommandProxier : ILoggingSource
                     if (!ready)
                     {
                         ready = true;
-                        startup.SetResult();
+                        startup.TrySetResult();
                     }
+                }
+                else if (cmd.Command == "Shutting down")
+                {
+                    processQuit.TrySetResult();
                 }
                 else
                 {
@@ -72,9 +78,9 @@ public class CommandProxier : ILoggingSource
             }
         }
         processManager.Info += onInfo;
-        _ = processManager.RunAsync()
-            .ContinueWith(task => 
-                processQuit.SetResult());
+        _ = processManager.RunAsync(CancellationToken.None)
+            .ContinueWith(task =>
+                processQuit.TrySetResult(), CancellationToken.None);
         await startup.Task;
     }
 

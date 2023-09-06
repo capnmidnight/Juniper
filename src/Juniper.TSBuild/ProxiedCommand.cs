@@ -40,7 +40,7 @@ public class ProxiedCommand : AbstractShellCommand
         this.args = args.Prepend(command).ToArray();
     }
 
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken)
     {
         proxy.Exec(this, workingDir, args);
         await completer.Task;
@@ -63,6 +63,6 @@ public class ProxiedCommand : AbstractShellCommand
 
     internal void ProxyEnd()
     {
-        completer.SetResult();
+        completer.TrySetResult();
     }
 }

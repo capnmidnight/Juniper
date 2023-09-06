@@ -10,7 +10,7 @@ namespace Juniper.Processes
             this.dir = dir;
         }
 
-        public override Task RunAsync()
+        public override Task RunAsync(CancellationToken cancellationToken)
         {
             if (dir.Exists)
             {

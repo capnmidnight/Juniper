@@ -22,11 +22,14 @@ public static class AppShellConfiguration
             .AddSingleton<AppShellService<AppShellWindowFactoryT>>()
             // Give DI an alias that other DI consumers can use to request the service without
             // knowing the specific type of `AppShellWindowFactorT`
-            .AddSingleton<IAppShellService>((serviceProvider) =>
+            .AddSingleton<IAppShellService>(serviceProvider =>
                 serviceProvider.GetRequiredService<AppShellService<AppShellWindowFactoryT>>())
             // Give DI an alias that other DI consumers can use to request the app shell without
             // knowing the specific type of `AppShellWindowFactorT`
-            .AddSingleton<IAppShell>((serviceProvider) =>
+            .AddSingleton<IAppShell>(serviceProvider =>
+                serviceProvider.GetRequiredService<AppShellService<AppShellWindowFactoryT>>())
+            // Queue the service for execution after the server has started.
+            .AddHostedService(serviceProvider =>
                 serviceProvider.GetRequiredService<AppShellService<AppShellWindowFactoryT>>());
         return appBuilder;
     }
@@ -41,9 +44,11 @@ public static class AppShellConfiguration
     public static async Task RunAppShellAsync(this WebApplication app)
     {
         var service = app.Services.GetRequiredService<IAppShellService>();
-        var shell = await service.RunAppShellAsync();
-        await shell.WaitForCloseAsync();
-        await app.StopAsync();
-        await app.WaitForShutdownAsync();
+        await service.RunAppShellAsync();
+        if (!app.Lifetime.ApplicationStopping.IsCancellationRequested)
+        {
+            await app.StopAsync();
+            await app.WaitForShutdownAsync();
+        }
     }
 }

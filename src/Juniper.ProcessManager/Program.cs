@@ -26,7 +26,7 @@ using var stdErr = OpenStandardError();
 using var stdInEventer = new StreamReaderEventer(stdIn);
 
 var running = true;
-var shuttingDown = false;
+var shuttingDown = new CancellationTokenSource();
 var cmdFactory = new JsonFactory<CommandProxyDescription>() { Formatting = Newtonsoft.Json.Formatting.None };
 var commands = new Dictionary<int, ShellCommand>();
 var tasks = new Dictionary<int, Task>();
@@ -37,7 +37,7 @@ stdInEventer.Line += (_, e) =>
     {
         if (desc.Command == "shutdown")
         {
-            shuttingDown = true;
+            shuttingDown.Cancel();
             return;
         }
 
@@ -109,7 +109,7 @@ async void Run(CommandProxyDescription desc, ShellCommand cmd)
     cmd.Err += Cmd_Err;
     try
     {
-        var task = cmd.RunAsync();
+        var task = cmd.RunAsync(shuttingDown.Token);
         tasks.Add(desc.TaskID, task);
         await task;
         Message(desc, "ended");
@@ -130,6 +130,7 @@ async void Run(CommandProxyDescription desc, ShellCommand cmd)
 async Task Shutdown()
 {
     Send("Shutting down");
+    await Task.Delay(100);
     stdInEventer.Stop();
     foreach (var cmd in commands.Values)
     {
@@ -147,7 +148,7 @@ Send("ready");
 while (running)
 {
     await Task.Delay(100);
-    if (host.HasExited || shuttingDown)
+    if (host.HasExited || shuttingDown.IsCancellationRequested)
     {
         await Shutdown();
     }

@@ -35,24 +35,24 @@ namespace Juniper.Processes
             return AddCommands(commands.ToArray());
         }
 
-        public async Task ExecuteAsync()
+        public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             using var job = new Job("CommandTree");
             
             foreach (var commands in commandTree)
             {
-                await ExecuteCommandsAsync(job, commands);
+                await ExecuteCommandsAsync(job, commands, cancellationToken);
             }
         }
 
-        private async Task ExecuteCommandsAsync(Job job, ICommand[] commands)
+        private async Task ExecuteCommandsAsync(Job job, ICommand[] commands, CancellationToken cancellationToken)
         {
             await Task.WhenAll(commands
                 .Select(command =>
-                    ExecuteCommandAsync(job, command)));
+                    ExecuteCommandAsync(job, command, cancellationToken)));
         }
 
-        private async Task ExecuteCommandAsync(Job job, ICommand command)
+        private async Task ExecuteCommandAsync(Job job, ICommand command, CancellationToken cancellationToken)
         {
             command.Info += Tasker_Info;
             command.Warning += Tasker_Warning;
@@ -62,7 +62,7 @@ namespace Juniper.Processes
                 if(command is ShellCommand shellCommand) {
                     shellCommand.job = job;
                 }
-                await command.RunAsync()
+                await command.RunAsync(cancellationToken)
                     .ConfigureAwait(false);
             }
             finally

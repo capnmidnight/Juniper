@@ -31,17 +31,17 @@ namespace Juniper.Processes
             }
         }
 
-        public override async Task RunAsync()
+        public override async Task RunAsync(CancellationToken cancellationToken)
         {
             var needsInstall = !nodeModulesDir.Exists || force;
             if (!needsInstall)
             {
                 using var packageStream = packageJson.OpenRead();
-                var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream);
+                var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream, cancellationToken: cancellationToken);
                 var dependencies = (package?.dependencies ?? new Dictionary<string, string>()).Merge(package?.devDependencies);
                 foreach (var (name, requiredVersionStr) in dependencies)
                 {
-                    if (await NeedsInstall(name, requiredVersionStr))
+                    if (await NeedsInstall(name, requiredVersionStr, cancellationToken))
                     {
                         needsInstall = true;
                     }
@@ -50,14 +50,14 @@ namespace Juniper.Processes
 
             if (needsInstall)
             {
-                await base.RunAsync();
+                await base.RunAsync(cancellationToken);
             }
         }
 
         private static readonly Regex versionPattern = new(@"(>|<|>=|<=|~|\^|=)?(\d+\.\d+\.\d+)", RegexOptions.Compiled);
         private readonly bool force;
 
-        private async Task<bool> NeedsInstall(string name, string requiredVersionStr)
+        private async Task<bool> NeedsInstall(string name, string requiredVersionStr, CancellationToken cancellationToken)
         {
             var depDir = nodeModulesDir.CD(name);
             if (!depDir.Exists)
@@ -96,7 +96,7 @@ namespace Juniper.Processes
             }
 
             using var packageStream = depPackageJson.OpenRead();
-            var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream);
+            var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream, cancellationToken: cancellationToken);
             if (package?.version is null
                 || !Version.TryParse(package.version, out var actualVersion))
             {

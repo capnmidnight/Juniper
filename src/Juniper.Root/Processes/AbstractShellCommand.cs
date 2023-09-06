@@ -12,17 +12,6 @@ namespace Juniper.Processes
 
         }
 
-        private async Task RunCommand(ICommand command)
-        {
-            command.Info += Command_Info;
-            command.Warning += Command_Warning;
-            command.Err += Command_Error;
-            await command.RunSafeAsync();
-            command.Info -= Command_Info;
-            command.Warning -= Command_Warning;
-            command.Err -= Command_Error;
-        }
-
         private void Command_Info(object? sender, StringEventArgs e)
         {
             OnInfo(e.Value);

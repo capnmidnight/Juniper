@@ -31,6 +31,9 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     public static async Task Run(string[] args)
     {
+        var canceller = new CancellationTokenSource();
+        AppDomain.CurrentDomain.ProcessExit += (sender, e) => canceller.Cancel();
+
         var opts = new Options(args);
 
         var build = new BuildSystem<BuildConfigT>(opts.workingDir);
@@ -46,44 +49,39 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
                 if (opts.DeleteNodeModuleDirs)
                 {
-                    build.DeleteNodeModuleDirs();
+                    build.DeleteNodeModuleDirs(canceller.Token);
                 }
                 else if (opts.DeletePackageLockJsons)
                 {
-                    build.DeletePackageLockJsons();
+                    build.DeletePackageLockJsons(canceller.Token);
                 }
                 else if (opts.DeleteTSBuildInfos)
                 {
-                    build.DeleteTSBuildInfos();
+                    build.DeleteTSBuildInfos(canceller.Token);
                 }
                 else if (opts.NPMInstalls)
                 {
-                    await build.NPMInstallsAsync();
+                    await build.NPMInstallsAsync(canceller.Token);
                 }
                 else if (opts.OpenPackageJsons)
                 {
-                    await build.OpenPackageJsonsAsync();
+                    await build.OpenPackageJsonsAsync(canceller.Token);
                 }
                 else if (opts.OpenTSConfigJsons)
                 {
-                    await build.OpenTSConfigJsonsAsync();
+                    await build.OpenTSConfigJsonsAsync(canceller.Token);
                 }
                 else if (opts.TypeCheck)
                 {
-                    await build.TypeCheckAsync();
+                    await build.TypeCheckAsync(canceller.Token);
                 }
                 else if (opts.Watch)
                 {
-                    var canceller = new CancellationTokenSource();
-                    using var timer = await build.WatchAsync(canceller.Token, false);
-                    AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
-                    {
-                        canceller.Cancel();
-                    };
+                    await build.WatchAsync(false, canceller.Token);
                 }
                 else if (!opts.Finished || opts.Build)
                 {
-                    await build.BuildAsync();
+                    await build.BuildAsync(canceller.Token);
                 }
             }
             catch (Exception exp)
@@ -255,7 +253,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private (string Name, string Version, string Reason)[]? BannedDependencies { get; }
 
-    private async Task WithCommandTree(Action<CommandTree> buildTree)
+    private async Task WithCommandTree(Action<CommandTree> buildTree, CancellationToken cancellationToken)
     {
         var commands = new CommandTree();
         commands.Info += (sender, e) =>
@@ -297,16 +295,16 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         buildTree(commands);
 
         var start = DateTime.Now;
-        await commands.ExecuteAsync();
+        await commands.ExecuteAsync(cancellationToken);
         var end = DateTime.Now;
         var delta = end - start;
 
         OnInfo($"Build finished in {delta.TotalSeconds:0.00}s");
     }
 
-    private void DeleteDir(DirectoryInfo dir)
+    private void DeleteDir(DirectoryInfo dir, CancellationToken cancellationToken)
     {
-        for (int attempts = 2; attempts > 0; attempts--)
+        for (int attempts = 2; attempts > 0 && !cancellationToken.IsCancellationRequested; attempts--)
         {
             try
             {
@@ -324,9 +322,9 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         }
     }
 
-    private void DeleteFile(FileInfo lockFile)
+    private void DeleteFile(FileInfo lockFile, CancellationToken cancellationToken)
     {
-        for (int attempts = 2; attempts > 0; attempts--)
+        for (int attempts = 2; attempts > 0 && !cancellationToken.IsCancellationRequested; attempts--)
         {
             try
             {
@@ -344,33 +342,33 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         }
     }
 
-    private void DeleteFiles(IEnumerable<FileInfo> files)
+    private void DeleteFiles(IEnumerable<FileInfo> files, CancellationToken cancellationToken)
     {
         foreach (var file in files.Where(f => f.Exists))
         {
-            DeleteFile(file);
+            DeleteFile(file, cancellationToken);
         }
     }
 
-    private void DeleteDirectories(IEnumerable<DirectoryInfo> dirs)
+    private void DeleteDirectories(IEnumerable<DirectoryInfo> dirs, CancellationToken cancellationToken)
     {
         foreach (var dir in dirs.Where(d => d.Exists))
         {
-            DeleteDir(dir);
+            DeleteDir(dir, cancellationToken);
         }
     }
 
-    private void DeleteNodeModuleDirs() =>
-        DeleteDirectories(FindAllNodeModulesDirs());
+    private void DeleteNodeModuleDirs(CancellationToken cancellationToken) =>
+        DeleteDirectories(FindAllNodeModulesDirs(), cancellationToken);
 
     private IEnumerable<DirectoryInfo> FindAllNodeModulesDirs() =>
         FindDirectories("node_modules", inProjectDir, outProjectDir, juniperTsDir);
 
-    private void DeletePackageLockJsons() =>
-        DeleteFiles(FindFiles("package-lock.json"));
+    private void DeletePackageLockJsons(CancellationToken cancellationToken) =>
+        DeleteFiles(FindFiles("package-lock.json"), cancellationToken);
 
-    private void DeleteTSBuildInfos() =>
-        DeleteFiles(FindFiles("tsconfig.tsbuildinfo"));
+    private void DeleteTSBuildInfos(CancellationToken cancellationToken) =>
+        DeleteFiles(FindFiles("tsconfig.tsbuildinfo"), cancellationToken);
 
     private IEnumerable<FileInfo> FindFiles(string name) =>
         FindFiles(name, inProjectDir, outProjectDir, juniperTsDir);
@@ -444,25 +442,25 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             dir => new NPMInstallCommand(dir, true)
         );
 
-    private Task NPMInstallsAsync() =>
+    private Task NPMInstallsAsync(CancellationToken cancellationToken) =>
         WithCommandTree(commands =>
-            commands.AddCommands(GetInstallCommands()));
+            commands.AddCommands(GetInstallCommands()), cancellationToken);
 
-    private Task OpenPackageJsonsAsync() =>
+    private Task OpenPackageJsonsAsync(CancellationToken cancellationToken) =>
         WithCommandTree(commands =>
             commands.AddCommands(TryMake(
                 FindFiles("package.json"),
                 f => new ShellCommand(f.Directory, "explorer", f.Name)
-            )));
+            )), cancellationToken);
 
-    private Task OpenTSConfigJsonsAsync() =>
+    private Task OpenTSConfigJsonsAsync(CancellationToken cancellationToken) =>
         WithCommandTree(commands =>
             commands.AddCommands(TryMake(
                 FindFiles("tsconfig.json"),
                 f => new ShellCommand(f.Directory, "explorer", f.Name)
-            )));
+            )), cancellationToken);
 
-    private Task TypeCheckAsync() =>
+    private Task TypeCheckAsync(CancellationToken cancellationToken) =>
         WithCommandTree(commands =>
             commands.AddCommands(TryMake(
                 NPMProjects,
@@ -470,7 +468,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                     dir == inProjectDir
                         ? new ShellCommand(dir, "npm", "run", "check")
                         : new ShellCommand(dir, "npm", "run", "check", "--workspaces", "--if-present")
-            )));
+            )), cancellationToken);
 
     private DirectoryInfo[] GetProjectESBuildDirectories() =>
         ESBuildProjects.Where(dir => dir == inProjectDir).ToArray();
@@ -484,8 +482,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             )
             .ToArray();
 
-    private Task BuildAsync() =>
-        WithCommandTree(GetBuildCommands);
+    private Task BuildAsync(CancellationToken cancellationToken) =>
+        WithCommandTree(GetBuildCommands, cancellationToken);
 
     private void GetBuildCommands(ICommandTree commands)
     {
@@ -512,43 +510,59 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 projectAppSettings, "Version"));
     }
 
-    public Task<Timer> WatchAsync(bool stopAfterBuild) =>
-        WatchAsync(null, stopAfterBuild);
-
-    public async Task<Timer> WatchAsync(CancellationToken? cancellationToken, bool stopAfterBuild)
+    public async Task WatchAsync(bool continueAfterFirstBuild, CancellationToken cancellationToken)
     {
-        var proxy = new CommandProxier(inProjectDir);
-        proxy.Info += Proxy_Info;
-        proxy.Warning += Proxy_Warning;
-        proxy.Err += Proxy_Err;
-        await proxy.Start();
-        if (cancellationToken.HasValue)
+        try
         {
-            cancellationToken.Value.Register(() =>
+            var buildCanceller = new CancellationTokenSource();
+            cancellationToken.Register(() =>
             {
-                OnInfo("Cancelling Build");
-                proxy.Stop().Wait();
+                buildCanceller.Cancel();
             });
+            AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
+                buildCanceller.Cancel();
+
+            var proxy = new CommandProxier(inProjectDir);
+            proxy.Info += Proxy_Info;
+            proxy.Warning += Proxy_Warning;
+            proxy.Err += Proxy_Err;
+            await proxy.Start(buildCanceller.Token);
+
+            buildCanceller.Token.Register(() =>
+            {
+                OnInfo("Stopping build");
+                proxy.Stop().Wait();
+                OnInfo("Build stopped");
+            });
+
+            var copyCommands = GetDependecies();
+            var bundles = TryMake(
+                ESBuildProjects,
+                dir => MakeWatchCommand(proxy, dir)
+            ).ToArray();
+
+            await WithCommandTree(commands =>
+            {
+                commands
+                    .AddMessage("Starting watch")
+                    .AddCommands(GetCleanCommands())
+                    .AddCommands(GetInstallCommands())
+                    .AddCommands(copyCommands);
+            }, buildCanceller.Token);
+
+            await ValidateDependencies();
+            await RunWatchAsync(continueAfterFirstBuild, copyCommands, bundles, buildCanceller.Token);
         }
-
-        var copyCommands = GetDependecies();
-        var bundles = TryMake(
-            ESBuildProjects,
-            dir => MakeWatchCommand(proxy, dir)
-        ).ToArray();
-
-        await WithCommandTree(commands =>
+        catch (TaskCanceledException)
         {
-            commands
-                .AddMessage("Starting watch")
-                .AddCommands(GetCleanCommands())
-                .AddCommands(GetInstallCommands())
-                .AddCommands(copyCommands);
-        });
+            //do nothing
+        }
+    }
 
-        await ValidateDependencies();
-
-        var task = Task.WhenAll(bundles.Select(b => b.RunSafeAsync()));
+    private Task RunWatchAsync(bool continueAfterFirstBuild, CopyCommand[] copyCommands, AbstractShellCommand[] bundles, CancellationToken buildCancelled)
+    {
+        var completeBuildTask = Task.WhenAll(bundles.Select(b =>
+            b.RunSafeAsync(buildCancelled)));
 
         var timer = new Timer(new TimerCallback((_) =>
         {
@@ -560,30 +574,40 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 };
             }
         }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
-
-        if (stopAfterBuild)
+        buildCancelled.Register(() =>
         {
-            var bundler = new TaskCompletionSource();
-            EventHandler<StringEventArgs>? onInfo = null;
-            onInfo = new EventHandler<StringEventArgs>((object? sender, StringEventArgs e) =>
+            timer.Dispose();
+        });
+
+        if (!continueAfterFirstBuild)
+        {
+            return completeBuildTask;
+        }
+
+        var firstBuild = new TaskCompletionSource();
+        buildCancelled.Register(() =>
+        {
+            firstBuild.TrySetCanceled();
+        });
+        EventHandler<StringEventArgs>? onInfo = null;
+        onInfo = new EventHandler<StringEventArgs>((object? sender, StringEventArgs e) =>
+        {
+            if (e.Value.Contains("browser bundles built"))
             {
-                if (e.Value.Contains("browser bundles built"))
-                {
-                    Info -= onInfo;
-                    bundler.SetResult();
-                }
-            });
+                Info -= onInfo;
+                firstBuild.TrySetResult();
+            }
+        });
 
-            Info += onInfo;
-            await bundler.Task ;
-        }
-        else
+        Info += onInfo;
+        buildCancelled.Register(() =>
         {
-            await task;
-        }
+            Info -= onInfo;
+        });
 
-        return timer;
+        return firstBuild.Task;
     }
+
 
     private async Task ValidateDependencies()
     {

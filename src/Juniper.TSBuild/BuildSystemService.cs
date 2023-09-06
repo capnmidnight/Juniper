@@ -3,49 +3,40 @@ using Microsoft.Extensions.Logging;
 
 namespace Juniper.TSBuild;
 
-public class BuildSystemService<BuildConfigT> : BackgroundService, IBuildSystemService
+public class BuildSystemService<BuildConfigT> : IBuildSystemService
     where BuildConfigT : IBuildConfig, new()
 {
-    private readonly CancellationTokenSource canceller = new();
+    private readonly CancellationTokenSource serviceCancelled = new();
     private readonly BuildSystem<BuildConfigT> build;
     private readonly ILogger<BuildSystemService<BuildConfigT>> logger;
 
     public Task Ready { get; }
-    private Timer? timer;
 
-    public BuildSystemService(ILogger<BuildSystemService<BuildConfigT>> logger)
+    public BuildSystemService(IHostApplicationLifetime lifetime, ILogger<BuildSystemService<BuildConfigT>> logger)
     {
         this.logger = logger;
         logger.LogInformation("Preparing build");
         build = new BuildSystem<BuildConfigT>();
-        Ready = RunBuildAsync(canceller.Token);
-        canceller.Token.Register(() =>
-            timer?.Dispose());
+        Ready = RunBuildAsync();
+        lifetime.ApplicationStopping.Register(Stop);
     }
 
     public void Stop()
     {
-        canceller.Cancel();
+        serviceCancelled.Cancel();
     }
 
-    protected override async Task ExecuteAsync(CancellationToken appCancellationToken)
-    {
-        var appCancellation = new TaskCompletionSource();
-        appCancellationToken.Register(appCancellation.SetResult);
-        await Task.WhenAny(Ready, appCancellation.Task);
-        if (appCancellationToken.IsCancellationRequested)
-        {
-            canceller.Cancel();
-        }
-    }
-
-    private async Task RunBuildAsync(CancellationToken cancellationToken)
+    private async Task RunBuildAsync()
     {
         try
         {
             logger.LogInformation("Starting build...");
-            timer = await build.WatchAsync(cancellationToken, true);
+            await build.WatchAsync(true, serviceCancelled.Token);
             logger.LogInformation("Build ready");
+        }
+        catch (TaskCanceledException)
+        {
+            // do nothing
         }
         catch (Exception exp)
         {

@@ -4,23 +4,23 @@ namespace Juniper.AppShell;
 
 public class WpfAppShellFactory : IAppShellFactory
 {
-    public Task<IAppShell> StartAsync()
+    public async Task<IAppShell> StartAsync(CancellationToken cancellationToken)
     {
-        var task = new TaskCompletionSource<IAppShell>();
+        var appShellCreating = new TaskCompletionSource<IAppShell>();
         var thread = new Thread(() =>
         {
             var app = Application.Current ?? new Application();
             app.Dispatcher.Invoke(() =>
             {
-                var window = new WpfAppShell();
-                task.SetResult(window);
-                app.Run(window);
+                var appShell = new WpfAppShell();
+                appShellCreating.TrySetResult(appShell);
+                app.Run(appShell);
             });
         });
 
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
 
-        return task.Task;
+        return await appShellCreating.Task;
     }
 }

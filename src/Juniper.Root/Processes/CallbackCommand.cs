@@ -10,7 +10,7 @@ namespace Juniper.Processes
             this.act = act;
         }
 
-        public override Task RunAsync()
+        public override Task RunAsync(CancellationToken cancellationToken)
         {
             act();
             return Task.CompletedTask; ;

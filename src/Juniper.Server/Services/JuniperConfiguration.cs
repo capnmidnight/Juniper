@@ -52,7 +52,7 @@ public static class JuniperConfiguration
 
     public static WebApplicationBuilder ConfigureJuniperWebApplication(this WebApplicationBuilder builder)
     {
-        builder.Host.ConfigureJuniperWebHost(builder.Configuration, builder.Configuration, builder.Services, builder.Environment);
+        builder.Configuration.ConfigureJuniperWebHost(builder.Services, builder.Environment);
         return builder;
     }
 
@@ -71,12 +71,12 @@ public static class JuniperConfiguration
         return configBuilder;
     }
 
-    public static void ConfigureJuniperWebHost(this IHostBuilder hostBuilder, IConfigurationBuilder configBuilder, IConfiguration config, IServiceCollection services, IHostEnvironment env)
+    public static void ConfigureJuniperWebHost(this ConfigurationManager config, IServiceCollection services, IHostEnvironment env)
     {
         var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         Console.WriteLine("Environment: {0}:{1}", envName, BUILD);
 
-        configBuilder.AddAssemblyUserSecrets(env);
+        config.AddAssemblyUserSecrets(env);
 
         if (!env.IsDevelopment()
             && config.GetValue<string?>("Kestrel:Endpoints:HTTPS:Url") is not null)

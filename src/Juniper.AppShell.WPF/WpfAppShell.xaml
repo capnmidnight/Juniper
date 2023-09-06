@@ -7,7 +7,7 @@
         xmlns:ms="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
         Title="AppShellWindow" Height="450" Width="800">
-    <DockPanel>
+    <DockPanel>    
         <ms:WebView2 x:Name="WebView"></ms:WebView2>
     </DockPanel>
 </Window>

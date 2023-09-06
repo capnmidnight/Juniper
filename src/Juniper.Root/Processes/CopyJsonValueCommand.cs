@@ -12,21 +12,21 @@ namespace Juniper.Processes
         private readonly string readField;
         private readonly string writeField;
 
-        private static async Task<JsonNode?> ReadJsonAsync(FileInfo path)
+        private static async Task<JsonNode?> ReadJsonAsync(FileInfo path, CancellationToken cancellationToken)
         {
             if (path?.Exists != true)
             {
                 return null;
             }
 
-            var json = await File.ReadAllTextAsync(path.FullName);
+            var json = await File.ReadAllTextAsync(path.FullName, cancellationToken);
 
             return JsonNode.Parse(json);
         }
 
-        public static async Task<string?> ReadJsonValueAsync(FileInfo file, string field)
+        public static async Task<string?> ReadJsonValueAsync(FileInfo file, string field, CancellationToken cancellationToken)
         {
-            var doc = await ReadJsonAsync(file);
+            var doc = await ReadJsonAsync(file, cancellationToken);
             if (doc is null)
             {
                 return null;
@@ -35,9 +35,9 @@ namespace Juniper.Processes
             return doc[field]?.GetValue<string>();
         }
 
-        public static async Task WriteJsonValueAsync(FileInfo file, string field, string value)
+        public static async Task WriteJsonValueAsync(FileInfo file, string field, string value, CancellationToken cancellationToken)
         {
-            var doc = await ReadJsonAsync(file);
+            var doc = await ReadJsonAsync(file, cancellationToken);
             doc ??= JsonNode.Parse("{}");
             if (doc is null)
             {
@@ -52,7 +52,7 @@ namespace Juniper.Processes
                 WriteIndented = true
             });
 
-            await File.WriteAllTextAsync(file.FullName, json);
+            await File.WriteAllTextAsync(file.FullName, json, cancellationToken);
         }
 
         public CopyJsonValueCommand(FileInfo readFile, string readField, FileInfo writeFile, string writeField)
@@ -64,9 +64,9 @@ namespace Juniper.Processes
             this.writeField = writeField;
         }
 
-        public override async Task RunAsync()
+        public override async Task RunAsync(CancellationToken cancellationToken)
         {
-            var fromJson = await ReadJsonAsync(readFile);
+            var fromJson = await ReadJsonAsync(readFile, cancellationToken);
 
             if (fromJson is null)
             {
@@ -81,7 +81,7 @@ namespace Juniper.Processes
                 return;
             }
 
-            var toJson = (await ReadJsonAsync(writeFile))
+            var toJson = (await ReadJsonAsync(writeFile, cancellationToken))
                 ?? JsonNode.Parse("{}");
             if (toJson is null)
             {
@@ -96,7 +96,7 @@ namespace Juniper.Processes
                 WriteIndented = true
             });
 
-            await File.WriteAllTextAsync(writeFile.FullName, appsettingsJson);
+            await File.WriteAllTextAsync(writeFile.FullName, appsettingsJson, cancellationToken);
 
             OnInfo($"Wrote {writeField} = {value}");
         }

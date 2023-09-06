@@ -12,7 +12,7 @@
             this.args = args;
         }
 
-        public override Task RunAsync()
+        public override Task RunAsync(CancellationToken cancellationToken)
         {
             OnInfo(string.Format(format, args));
             return Task.CompletedTask;

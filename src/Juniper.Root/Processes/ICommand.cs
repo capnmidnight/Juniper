@@ -5,7 +5,7 @@ namespace Juniper.Processes
     public interface ICommand : ILoggingSource
     {
         string CommandName { get; }
-        Task RunAsync();
-        Task RunSafeAsync();
+        Task RunAsync(CancellationToken cancellationToken);
+        Task RunSafeAsync(CancellationToken cancellationToken);
     }
 }

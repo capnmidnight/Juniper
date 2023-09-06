@@ -53,9 +53,7 @@ public static class TSBuildConfiguration
         {
             services
                 .AddSingleton<BuildSystemService<BuildConfigT>>()
-                .AddSingleton((Func<IServiceProvider, IBuildSystemService>)(serviceProvider =>
-                    serviceProvider.GetRequiredService<BuildSystemService<BuildConfigT>>()))
-                .AddHostedService(serviceProvider =>
+                .AddSingleton<IBuildSystemService>(serviceProvider =>
                     serviceProvider.GetRequiredService<BuildSystemService<BuildConfigT>>());
         }
 #endif
