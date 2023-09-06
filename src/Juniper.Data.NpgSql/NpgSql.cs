@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Juniper.Data.NpgSql;
+namespace Juniper.Data;
 
 public class NpgSql : IDbProviderConfigurator
 {

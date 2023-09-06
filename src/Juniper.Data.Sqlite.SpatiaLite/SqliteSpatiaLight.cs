@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Juniper.Data.SqlLite.SpatiaLite;
+namespace Juniper.Data.SqlLite;
 
 public class SqliteSpatiaLite : IDbProviderConfigurator
 {

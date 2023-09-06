@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Juniper.Data.SqlLite;
+namespace Juniper.Data;
 
 public class Sqlite : IDbProviderConfigurator
 {

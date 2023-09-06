@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <AssemblyName>Juniper.Data</AssemblyName>
-        <RootNamespace>Juniper</RootNamespace>
+        <RootNamespace>Juniper.Data</RootNamespace>
         <OutputType>Library</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <Authors>Sean T. McBeth</Authors>
