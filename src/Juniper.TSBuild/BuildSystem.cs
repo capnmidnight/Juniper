@@ -108,7 +108,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private readonly Dictionary<FileInfo, (string, FileInfo, bool)> dependencies = new();
     private readonly Dictionary<string, (string, string)> mapFileReplacements = new();
-    private readonly List<DirectoryInfo> TSProjects = new();
     private readonly List<DirectoryInfo> ESBuildProjects = new();
     private readonly List<DirectoryInfo> NPMProjects = new();
 
@@ -168,20 +167,30 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         if (hasNPM)
         {
-            var dirs = (options.AdditionalNPMProjects ?? Array.Empty<DirectoryInfo>())
-                .Prepend(inProjectDir)
-                .Prepend(juniperTsDir);
-
-            foreach (var dir in dirs)
+            if (!options.SkipInstall)
             {
-                CheckNPMProject(dir);
-                CheckTSProject(dir);
+                var dirs = (options.AdditionalNPMProjects ?? Array.Empty<DirectoryInfo>())
+                    .Prepend(inProjectDir)
+                    .Prepend(juniperTsDir);
+
+                foreach (var dir in dirs)
+                {
+                    CheckNPMProject(dir);
+                }
             }
 
             CheckESBuildProject(inProjectDir);
 
-            AddDependencies(options.Dependencies, true);
-            AddDependencies(options.OptionalDependencies, false);
+            if (options.Dependencies is not null)
+            {
+                AddDependencies(options.Dependencies, true);
+            }
+
+            if (options.OptionalDependencies is not null)
+            {
+                AddDependencies(options.OptionalDependencies, false);
+            }
+
             BannedDependencies = options.BannedDependencies;
         }
 
@@ -196,15 +205,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         if (pkgFile.Exists)
         {
             NPMProjects.Add(project);
-        }
-    }
-
-    private void CheckTSProject(DirectoryInfo project)
-    {
-        var tsConfigFile = project.Touch("tsconfig.json");
-        if (tsConfigFile.Exists)
-        {
-            TSProjects.Add(project);
         }
     }
 

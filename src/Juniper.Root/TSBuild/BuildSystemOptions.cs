@@ -10,6 +10,7 @@ namespace Juniper.TSBuild
         public DirectoryInfo[] CleanDirs;
         public string InProjectName;
         public string OutProjectName;
+        public bool SkipInstall;
         public DeploymentOptions Deployment;
         public Dictionary<string, (FileInfo From, FileInfo To)> Dependencies;
         public DirectoryInfo[] AdditionalNPMProjects;

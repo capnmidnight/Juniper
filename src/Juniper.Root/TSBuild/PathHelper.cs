@@ -43,6 +43,8 @@
 
         public void AddUITextures(BuildSystemOptions options, DirectoryInfo uiImgOUtput)
         {
+            options.Dependencies ??= new();
+
             foreach (var file in Textures.CD("UI").EnumerateFiles())
             {
                 options.Dependencies.Add(file.Name, (file, uiImgOUtput.Touch(file.Name)));
