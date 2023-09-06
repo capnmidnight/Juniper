@@ -208,5 +208,18 @@ namespace System
                 yield return partition.ToArray();
             }
         }
+
+        public static int IndexOf<T>(this T[] arr, T value)
+        {
+            for(var i = 0; i < arr.Length; ++i)
+            {
+                if (ReferenceEquals(arr[i], value))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
     }
 }

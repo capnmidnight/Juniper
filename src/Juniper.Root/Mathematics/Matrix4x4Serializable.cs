@@ -102,29 +102,6 @@ namespace Juniper.Mathematics
                 Values[0xC], Values[0xD], Values[0xE], Values[0xF]);
         }
 
-        public Accord.Math.Matrix4x4 ToAccordMatrix4x4()
-        {
-            return new Accord.Math.Matrix4x4
-            {
-                V00 = Values[0x0],
-                V01 = Values[0x1],
-                V02 = Values[0x2],
-                V03 = Values[0x3],
-                V10 = Values[0x4],
-                V11 = Values[0x5],
-                V12 = Values[0x6],
-                V13 = Values[0x7],
-                V20 = Values[0x8],
-                V21 = Values[0x9],
-                V22 = Values[0xA],
-                V23 = Values[0xB],
-                V30 = Values[0xC],
-                V31 = Values[0xD],
-                V32 = Values[0xE],
-                V33 = Values[0xF]
-            };
-        }
-
         public static implicit operator System.Numerics.Matrix4x4(Matrix4x4Serializable v)
         {
             return v.ToSystemMatrix4x4();
@@ -133,16 +110,6 @@ namespace Juniper.Mathematics
         public static explicit operator Matrix4x4Serializable(System.Numerics.Matrix4x4 v)
         {
             return System.Numerics.MathExt.ToJuniperMatrix4x4Serializable(v);
-        }
-
-        public static implicit operator Accord.Math.Matrix4x4(Matrix4x4Serializable v)
-        {
-            return v.ToAccordMatrix4x4();
-        }
-
-        public static explicit operator Matrix4x4Serializable(Accord.Math.Matrix4x4 v)
-        {
-            return Accord.Math.MathExt.ToJuniperMatrix4x4Serializable(v);
         }
     }
 }

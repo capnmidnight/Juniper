@@ -70,29 +70,6 @@ namespace System.Numerics
             return new Juniper.Mathematics.Matrix4x4Serializable(v);
         }
 
-        public static Accord.Math.Matrix4x4 ToAccordMatrix4x4(this Matrix4x4 v)
-        {
-            return new Accord.Math.Matrix4x4
-            {
-                V00 = v.M11,
-                V01 = v.M12,
-                V02 = v.M13,
-                V03 = v.M14,
-                V10 = v.M21,
-                V11 = v.M22,
-                V12 = v.M23,
-                V13 = v.M24,
-                V20 = v.M31,
-                V21 = v.M32,
-                V22 = v.M33,
-                V23 = v.M34,
-                V30 = v.M41,
-                V31 = v.M42,
-                V32 = v.M43,
-                V33 = v.M44
-            };
-        }
-
         public static Matrix4x4 ToSystemMatrix4x4(this float[] values)
         {
             if (values is null)
@@ -207,11 +184,6 @@ namespace System.Numerics
             }
 
             return new Vector3(values[0], values[1], values[2]);
-        }
-
-        public static Accord.Math.Vector3 ToAccordVector3(this Vector3 v)
-        {
-            return new Accord.Math.Vector3(v.X, v.Y, v.Z);
         }
 
         /// <summary>
@@ -345,11 +317,6 @@ namespace System.Numerics
             return new Vector4(values[0], values[1], values[2], values[4]);
         }
 
-        public static Accord.Math.Vector4 ToAccordVector4(this Vector4 v)
-        {
-            return new Accord.Math.Vector4(v.X, v.Y, v.Z, v.W);
-        }
-
         public static Juniper.Mathematics.QuaternionSerializable ToJuniperQuaternionSerializable(this Quaternion q)
         {
             return new Juniper.Mathematics.QuaternionSerializable(q.X, q.Y, q.Z, q.W);
@@ -378,11 +345,6 @@ namespace System.Numerics
         public static Juniper.Mathematics.PlaneSerializable ToJuniperPlaneSerializable(this Plane p)
         {
             return new Juniper.Mathematics.PlaneSerializable(p.Normal.X, p.Normal.Y, p.Normal.Z, p.D);
-        }
-
-        public static Accord.Math.Plane ToAccordPlane(this Plane p)
-        {
-            return new Accord.Math.Plane(p.Normal.X, p.Normal.Y, p.Normal.Z, p.D);
         }
 
         public static float[] ToArray(this Plane p)

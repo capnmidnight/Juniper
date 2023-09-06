@@ -111,11 +111,6 @@ namespace Juniper.Mathematics
             return new System.Numerics.Vector4(X, Y, Z, W);
         }
 
-        public Accord.Math.Vector4 ToAccordVector4()
-        {
-            return new Accord.Math.Vector4(X, Y, Z, W);
-        }
-
         public static implicit operator System.Numerics.Vector4(Vector4Serializable v)
         {
             return v.ToSystemVector4();
@@ -124,16 +119,6 @@ namespace Juniper.Mathematics
         public static implicit operator Vector4Serializable(System.Numerics.Vector4 v)
         {
             return System.Numerics.MathExt.ToJuniperVector4Serializable(v);
-        }
-
-        public static implicit operator Accord.Math.Vector4(Vector4Serializable v)
-        {
-            return v.ToAccordVector4();
-        }
-
-        public static implicit operator Vector4Serializable(Accord.Math.Vector4 v)
-        {
-            return Accord.Math.MathExt.ToJuniperVector4Serializable(v);
         }
     }
 }

@@ -98,34 +98,9 @@ namespace Juniper.Mathematics
             return !(left == right);
         }
 
-        public System.Numerics.Plane ToSystemPlane()
+        public readonly System.Numerics.Plane ToSystemPlane()
         {
             return new System.Numerics.Plane(X, Y, Z, D);
-        }
-
-        public Accord.Math.Plane ToAccordPlane()
-        {
-            return new Accord.Math.Plane(X, Y, Z, D);
-        }
-
-        public static implicit operator System.Numerics.Plane(PlaneSerializable p)
-        {
-            return p.ToSystemPlane();
-        }
-
-        public static implicit operator PlaneSerializable(System.Numerics.Plane p)
-        {
-            return System.Numerics.MathExt.ToJuniperPlaneSerializable(p);
-        }
-
-        public static implicit operator Accord.Math.Plane(PlaneSerializable p)
-        {
-            return p.ToAccordPlane();
-        }
-
-        public static explicit operator PlaneSerializable(Accord.Math.Plane p)
-        {
-            return Accord.Math.MathExt.ToJuniperPlaneSerializable(p);
         }
     }
 }
