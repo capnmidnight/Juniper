@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Juniper.EntityFramework.Identity;
+namespace Juniper.Data.Identity;
 
 
 public static class IdentityResultExtensions

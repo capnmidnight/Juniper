@@ -9,6 +9,7 @@ import { progressSplit } from "@juniper-lib/progress/progressSplit";
 import { assertNever, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/typeChecks";
 import { using } from "@juniper-lib/tslib/using";
 import { translateResponse } from "./translateResponse";
+import { Text_Plain } from "@juniper-lib/mediatypes";
 export function isXHRBodyInit(obj) {
     return isString(obj)
         || isArrayBufferView(obj)
@@ -301,19 +302,28 @@ export class FetchingServiceImplXHR {
     sendSomethingGetSomething(xhrType, request, defaultPostHeaders, progress) {
         let body = null;
         const headers = mapJoin(new Map(), defaultPostHeaders, request.headers);
-        if (request.body instanceof FormData
-            && isDefined(headers)) {
-            const toDelete = new Array();
+        let contentType = null;
+        if (isDefined(headers)) {
+            const contentTypeHeaders = new Array();
             for (const key of headers.keys()) {
                 if (key.toLowerCase() === "content-type") {
-                    toDelete.push(key);
+                    contentTypeHeaders.push(key);
                 }
             }
-            for (const key of toDelete) {
-                headers.delete(key);
+            if (contentTypeHeaders.length > 0) {
+                if (!(request.body instanceof FormData)) {
+                    contentType = headers.get(contentTypeHeaders[0]);
+                    // If there's more than one, keep just the first one
+                    contentTypeHeaders.shift();
+                }
+                // delete all the rest, or all if we're submitting a form
+                for (const key of contentTypeHeaders) {
+                    headers.delete(key);
+                }
             }
         }
-        if (isXHRBodyInit(request.body) && !isString(request.body)) {
+        if (isXHRBodyInit(request.body) && !isString(request.body)
+            || isString(request.body) && Text_Plain.matches(contentType)) {
             body = request.body;
         }
         else if (isDefined(request.body)) {

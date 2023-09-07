@@ -14,6 +14,7 @@ import type { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFet
 import type { IRequest, IRequestWithBody } from "./IRequest";
 import type { IResponse, ResponseCallback } from "./IResponse";
 import { translateResponse } from "./translateResponse";
+import { Text_Plain } from "@juniper-lib/mediatypes";
 
 export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
     return isString(obj)
@@ -380,20 +381,32 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
         const headers = mapJoin(new Map<string, string>(), defaultPostHeaders, request.headers);
 
-        if (request.body instanceof FormData
-            && isDefined(headers)) {
-            const toDelete = new Array<string>();
+        let contentType: string = null;
+
+        if (isDefined(headers)) {
+            const contentTypeHeaders = new Array<string>();
             for (const key of headers.keys()) {
                 if (key.toLowerCase() === "content-type") {
-                    toDelete.push(key);
+                    contentTypeHeaders.push(key);
                 }
             }
-            for (const key of toDelete) {
-                headers.delete(key);
+
+            if (contentTypeHeaders.length > 0) {
+                if (!(request.body instanceof FormData)) {
+                    contentType = headers.get(contentTypeHeaders[0]);
+                    // If there's more than one, keep just the first one
+                    contentTypeHeaders.shift();
+                }
+
+                // delete all the rest, or all if we're submitting a form
+                for (const key of contentTypeHeaders) {
+                    headers.delete(key);
+                }
             }
         }
 
-        if (isXHRBodyInit(request.body) && !isString(request.body)) {
+        if (isXHRBodyInit(request.body) && !isString(request.body)
+            || isString(request.body) && Text_Plain.matches(contentType)) {
             body = request.body;
         }
         else if (isDefined(request.body)) {

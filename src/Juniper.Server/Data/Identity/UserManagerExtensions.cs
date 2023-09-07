@@ -12,7 +12,7 @@ using System.Text;
 
 using static Juniper.Services.EmailMessage;
 
-namespace Juniper.EntityFramework.Identity;
+namespace Juniper.Data.Identity;
 
 public static class UserManagerExtensions
 {

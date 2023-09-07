@@ -21,7 +21,8 @@ public class BuildOptions
         new CommandDefinition("--install", "Install NPM packages", opt => opt.FlagSetter(nameof(NPMInstalls))),
         new CommandDefinition("--check", "Type Check", opt => opt.FlagSetter(nameof(TypeCheck))),
         new CommandDefinition("--build", "Build", opt => opt.FlagSetter(nameof(Build))),
-        new CommandDefinition("--watch", "Watch", opt => opt.FlagSetter(nameof(Watch)))
+        new CommandDefinition("--watch", "Watch", opt => opt.FlagSetter(nameof(Watch))),
+        new CommandDefinition("--interactive", null, opt => opt.FlagSetter(nameof(Interactive)))
     };
 
     public static bool IsBuildCommand(string[] args)
