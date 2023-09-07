@@ -1,18 +1,31 @@
 {
-  "extends": ["../../tsconfig.json"],
-
+  "extends": [
+    "../tsconfig_base.json"
+  ],
   "include": [
     "**/*.ts"
   ],
-
-  "exclude": [
-    "node_modules"
-  ],
-
-  "compilerOptions": {
-    "typeRoots": [
-      "../../node_modules/@types",
-      "../../node_modules/@juniper-types"
-    ]
-  }
+  "references": [
+    {
+      "path": "..\\collections"
+    },
+    {
+      "path": "..\\dom"
+    },
+    {
+      "path": "..\\events"
+    },
+    {
+      "path": "..\\fetcher"
+    },
+    {
+      "path": "..\\progress"
+    },
+    {
+      "path": "..\\timers"
+    },
+    {
+      "path": "..\\tslib"
+    }
+  ]
 }

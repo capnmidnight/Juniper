@@ -1,54 +1,35 @@
 {
-    "include": [ "vestigial.ts" ],
+  "files": [ ],
 
-    "exclude": [
-        "node_modules"
-    ],
+  "references": [
+    { "path": "@juniper-lib/audio" },
+    { "path": "@juniper-lib/ble" },
+    { "path": "@juniper-lib/collections" },
+    { "path": "@juniper-lib/dom" },
+    { "path": "@juniper-lib/emoji" },
+    { "path": "@juniper-lib/events" },
+    { "path": "@juniper-lib/fetcher" },
+    { "path": "@juniper-lib/gis" },
+    { "path": "@juniper-lib/google-maps" },
+    { "path": "@juniper-lib/graphics2d" },
+    { "path": "@juniper-lib/hax" },
+    { "path": "@juniper-lib/indexdb" },
+    { "path": "@juniper-lib/mediatypes" },
+    { "path": "@juniper-lib/progress" },
+    { "path": "@juniper-lib/speech" },
+    { "path": "@juniper-lib/testing" },
+    { "path": "@juniper-lib/tests" },
+    { "path": "@juniper-lib/threejs" },
+    { "path": "@juniper-lib/timers" },
+    { "path": "@juniper-lib/tslib" },
+    { "path": "@juniper-lib/video" },
+    { "path": "@juniper-lib/webgl" },
+    { "path": "@juniper-lib/webrtc" },
+    { "path": "@juniper-lib/widgets" },
+    { "path": "@juniper-lib/workers" }
+  ],
 
-    "compileOnSave": true,
-
-    "compilerOptions": {
-        "lib": [ "ES2021", "DOM", "WebWorker", "DOM.Iterable" ],
-        "target": "ES2021",
-        "module": "ES2020",
-        "moduleResolution": "node",
-
-        "declaration": true,
-        "disableSizeLimit": true,
-        "downlevelIteration": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "importHelpers": true,
-        "incremental": true,
-        "removeComments": false,
-        "resolveJsonModule": true,
-        "skipDefaultLibCheck": true,
-        "skipLibCheck": true,
-        "sourceMap": true,
-        "useDefineForClassFields": false,
-
-        "allowJs": false,
-        "allowSyntheticDefaultImports": true,
-        "allowUmdGlobalAccess": true,
-        "allowUnreachableCode": false,
-        "allowUnusedLabels": false,
-
-        "noEmit": true,
-        "noEmitHelpers": false,
-        "noEmitOnError": false,
-        "noErrorTruncation": true,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitAny": true,
-        "noImplicitOverride": true,
-        "noImplicitReturns": true,
-        "noImplicitUseStrict": false,
-        "noImplicitThis": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-
-        "strictBindCallApply": true,
-        "strictFunctionTypes": true,
-        "strictNullChecks": false,
-        "strictPropertyInitialization": false
-    }
+  "compilerOptions": {
+    "composite": true
+  }
 }

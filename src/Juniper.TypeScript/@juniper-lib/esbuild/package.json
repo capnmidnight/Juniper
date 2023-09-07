@@ -6,8 +6,8 @@
   "description": "A shortcut system for using ESBuild in my projects",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "build": "tsc"
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "2.1.2",

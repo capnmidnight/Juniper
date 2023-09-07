@@ -1,18 +1,34 @@
 {
-  "extends": ["../../tsconfig.json"],
-
+  "extends": [
+    "../tsconfig_base.json"
+  ],
   "include": [
     "**/*.ts"
   ],
-
-  "exclude": [
-    "node_modules"
-  ],
-
-  "compilerOptions": {
-    "typeRoots": [
-      "../../node_modules/@types",
-      "../../node_modules/@juniper-types"
-    ]
-  }
+  "references": [
+    {
+      "path": "..\\dom"
+    },
+    {
+      "path": "..\\events"
+    },
+    {
+      "path": "..\\fetcher"
+    },
+    {
+      "path": "..\\gis"
+    },
+    {
+      "path": "..\\hax"
+    },
+    {
+      "path": "..\\mediatypes"
+    },
+    {
+      "path": "..\\testing"
+    },
+    {
+      "path": "..\\tslib"
+    }
+  ]
 }

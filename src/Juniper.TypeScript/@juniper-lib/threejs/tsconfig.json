@@ -1,18 +1,55 @@
 {
-  "extends": ["../../tsconfig.json"],
-
+  "extends": [
+    "../tsconfig_base.json"
+  ],
   "include": [
     "**/*.ts"
   ],
-
-  "exclude": [
-    "node_modules"
-  ],
-
-  "compilerOptions": {
-    "typeRoots": [
-      "../../node_modules/@types",
-      "../../node_modules/@juniper-types"
-    ]
-  }
+  "references": [
+    {
+      "path": "..\\graphics2d"
+    },
+    {
+      "path": "..\\audio"
+    },
+    {
+      "path": "..\\collections"
+    },
+    {
+      "path": "..\\dom"
+    },
+    {
+      "path": "..\\emoji"
+    },
+    {
+      "path": "..\\events"
+    },
+    {
+      "path": "..\\fetcher"
+    },
+    {
+      "path": "..\\mediatypes"
+    },
+    {
+      "path": "..\\progress"
+    },
+    {
+      "path": "..\\speech"
+    },
+    {
+      "path": "..\\timers"
+    },
+    {
+      "path": "..\\tslib"
+    },
+    {
+      "path": "..\\video"
+    },
+    {
+      "path": "..\\webrtc"
+    },
+    {
+      "path": "..\\widgets"
+    }
+  ]
 }

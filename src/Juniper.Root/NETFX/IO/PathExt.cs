@@ -58,30 +58,36 @@ namespace System.IO
             return FixPath(path).SplitX(Path.DirectorySeparatorChar);
         }
 
+        public static string Abs2Rel(this DirectoryInfo to, DirectoryInfo from) =>
+            Abs2Rel(to.FullName, from.FullName, false);
+
+        public static string Abs2Rel(this FileInfo to, DirectoryInfo from) =>
+            Abs2Rel(to.FullName, from.FullName);
+
         /// <summary>
         /// Creates a file path that is relative to the currently-edited demo path.
         /// </summary>
         /// <returns>The relative path.</returns>
-        /// <param name="fullPath">Full path.</param>
-        /// <param name="directory">
+        /// <param name="to">Full path.</param>
+        /// <param name="from">
         /// The directory from which to consider the relative path. If no value is provided (i.e.
         /// `null` or empty string), then the current working directory is used.
         /// </param>
-        public static string Abs2Rel(string fullPath, string directory)
+        public static string Abs2Rel(string to, string from, bool isFile = true)
         {
-            if (!Path.IsPathRooted(fullPath))
+            if (!Path.IsPathRooted(to))
             {
-                return fullPath;
+                return to;
             }
             else
             {
-                if (string.IsNullOrEmpty(directory))
+                if (string.IsNullOrEmpty(from))
                 {
-                    directory = Environment.CurrentDirectory;
+                    from = Environment.CurrentDirectory;
                 }
 
-                var partsA = PathParts(directory);
-                var partsB = PathParts(fullPath);
+                var partsA = PathParts(from);
+                var partsB = PathParts(to);
 
                 var counter = 0;
                 while (counter < partsA.Length
@@ -91,7 +97,7 @@ namespace System.IO
                     ++counter;
                 }
 
-                if (counter == partsB.Length - 1)
+                if (counter == partsB.Length - (isFile ? 1 : 0))
                 {
                     return null;
                 }
@@ -99,16 +105,12 @@ namespace System.IO
                 {
                     var aLen = partsA.Length - counter;
                     var bLen = partsB.Length - counter;
-                    var parts = new string[aLen + bLen];
-                    for (var i = 0; i < aLen; ++i)
-                    {
-                        parts[i] = "..";
-                    }
 
-                    Array.Copy(partsB, counter, parts, aLen, bLen);
-
-                    if (parts.Length > 0)
+                    if (aLen + bLen > 0)
                     {
+                        var parts = new string[aLen + bLen];
+                        Array.Fill(parts, "..", 0, aLen);
+                        Array.Copy(partsB, counter, parts, aLen, bLen);
                         return Path.Combine(parts);
                     }
                     else

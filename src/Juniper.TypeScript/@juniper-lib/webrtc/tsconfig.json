@@ -1,18 +1,25 @@
 {
-  "extends": ["../../tsconfig.json"],
-
+  "extends": [
+    "../tsconfig_base.json"
+  ],
   "include": [
     "**/*.ts"
   ],
-
-  "exclude": [
-    "node_modules"
-  ],
-
-  "compilerOptions": {
-    "typeRoots": [
-      "../../node_modules/@types",
-      "../../node_modules/@juniper-types"
-    ]
-  }
+  "references": [
+    {
+      "path": "..\\audio"
+    },
+    {
+      "path": "..\\dom"
+    },
+    {
+      "path": "..\\events"
+    },
+    {
+      "path": "..\\tslib"
+    },
+    {
+      "path": "..\\video"
+    }
+  ]
 }

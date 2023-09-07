@@ -6,12 +6,13 @@
   "description": "A collection of all the UTF-8 Emoji code points that I could find",
   "main": "index.ts",
   "scripts": {
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "build": "tsc -b"
   },
   "repository": {
     "type": "git",
     "url": "github.com/capnmidnight/Juniper"
   },
-  "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
+  "author": "Sean T. McBeth \u003Csean.mcbeth@gmail.com\u003E",
   "license": "MIT"
 }

@@ -1,0 +1,39 @@
+import { TestCase } from "@juniper-lib/testing/tdd/TestCase";
+export declare class URLBuilderTests extends TestCase {
+    test_EmptyConstructor(): void;
+    test_EmptyConstructor_SetProtocol(): void;
+    test_EmptyConstructor_SetHost(): void;
+    test_EmptyConstructor_SetHostName(): void;
+    test_EmptyConstructor_SetProtocolAndHost(): void;
+    test_EmptyConstructor_SetProtocolAndHostName(): void;
+    test_EmptyConstructor_SetProtocolAndHostNameAndPathName(): void;
+    test_EmptyConstructor_SetProtocolAndPathNameAndHostName(): void;
+    test_EmptyConstructor_SetHostNameAndProtocolAndPathName(): void;
+    test_EmptyConstructor_SetHostNameAndPathNameAndProtocol(): void;
+    test_EmptyConstructor_SetPathNameAndProtocolAndHostName(): void;
+    test_EmptyConstructor_SetPathNameAndHostNameAndProtocol(): void;
+    test_EmptyConstructor_BaseAndPathName(): void;
+    test_EmptyConstructor_PathNameAndBase(): void;
+    test_CantResetBase1(): void;
+    test_CantResetBase2(): void;
+    test_CanResetBaseBeforePathIsSet(): void;
+    test_PathPush1(): void;
+    test_PathPush2(): void;
+    test_PathPop(): void;
+    test_PathPopPush(): void;
+    test_UndefinedConstructor(): void;
+    test_UndefinedUndefinedConstructor(): void;
+    test_UndefinedNullConstructor(): void;
+    test_NullConstructor(): void;
+    test_NullUndefinedConstructor(): void;
+    test_NullNullConstructor(): void;
+    test_FullURLConstructor(): void;
+    test_RelativeConstructorWithStringBase1(): void;
+    test_RelativeConstructorWithNullBase(): void;
+    test_RelativeConstructorWithUndefinedBase(): void;
+    test_RelativeConstructorWithStringBase2(): void;
+    test_RelativeConstructorWithStringBase3(): void;
+    test_AbsoluteConstructorWithStringBase1(): void;
+    test_AbsoluteConstructorWithStringBase2(): void;
+}
+//# sourceMappingURL=URLBuilder.d.ts.map

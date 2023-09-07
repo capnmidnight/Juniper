@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Juniper.TypeScriptManager": {
+      "commandName": "Project",
+      "workingDirectory": "$(ProjectDir)\\..\\Juniper.TypeScript"
+    }
+  }
+}

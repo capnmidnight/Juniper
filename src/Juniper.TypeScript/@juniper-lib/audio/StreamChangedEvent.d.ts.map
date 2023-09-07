@@ -1,0 +1,1 @@
+{"version":3,"file":"StreamChangedEvent.d.ts","sourceRoot":"","sources":["StreamChangedEvent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,sCAAsC,CAAC;AAElE,qBAAa,kBACT,SAAQ,UAAU,CAAC,eAAe,CAAC;aAEf,SAAS,EAAE,WAAW;aACtB,SAAS,EAAE,WAAW;gBADtB,SAAS,EAAE,WAAW,EACtB,SAAS,EAAE,WAAW;CAG7C"}

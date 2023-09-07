@@ -1,0 +1,1 @@
+{"version":3,"file":"ManagedWebGLObject.d.ts","sourceRoot":"","sources":["ManagedWebGLObject.ts"],"names":[],"mappings":"AAAA,8BAAsB,kBAAkB,CAAC,QAAQ;IAEzC,SAAS,CAAC,QAAQ,CAAC,EAAE,EAAE,sBAAsB;aAC7B,MAAM,EAAE,QAAQ;gBADb,EAAE,EAAE,sBAAsB,EAC7B,MAAM,EAAE,QAAQ;CAEvC"}
