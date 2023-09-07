@@ -10,6 +10,30 @@ namespace System
     /// </summary>
     public static class NumberExt
     {
+        public static uint NumDigits(this byte value) =>
+            DigitCount(value);
+        public static uint NumDigits(this sbyte value) =>
+            DigitCount(value);
+        public static uint NumDigits(this ushort value) =>
+            DigitCount(value);
+        public static uint NumDigits(this short value) =>
+            DigitCount(value);
+        public static uint NumDigits(this uint value) =>
+            DigitCount(value);
+        public static uint NumDigits(this int value) =>
+            DigitCount(value);
+        public static uint NumDigits(this ulong value) =>
+            DigitCount(value);
+        public static uint NumDigits(this long value) =>
+            DigitCount(value);
+        public static uint NumDigits(this float value) =>
+            DigitCount(value);
+        public static uint NumDigits(this double value) =>
+            DigitCount(value);
+
+        private static uint DigitCount(this double value) =>
+            (uint)Max(1, Ceiling(Log10(Abs(value) + 1)));
+
         private static void AppendSigFig(float value, int numDigits, StringBuilder output)
         {
             if (numDigits < 1)
@@ -37,7 +61,7 @@ namespace System
                     value = -value;
                 }
 
-                var numLeftDigits = (int)Log10(value) + 1;
+                var numLeftDigits = value.NumDigits();
 
                 var numRightDigits = numDigits - numLeftDigits;
 
@@ -98,7 +122,7 @@ namespace System
                     value = -value;
                 }
 
-                var numLeftDigits = (int)Log10(value) + 1;
+                var numLeftDigits = value.NumDigits();
 
                 var numRightDigits = numDigits - numLeftDigits;
 
