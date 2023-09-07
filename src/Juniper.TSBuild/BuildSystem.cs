@@ -34,7 +34,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         var canceller = new CancellationTokenSource();
         AppDomain.CurrentDomain.ProcessExit += (sender, e) => canceller.Cancel();
 
-        var opts = new Options(args);
+        var opts = new BuildOptions(args);
 
         var build = new BuildSystem<BuildConfigT>(opts.workingDir);
 

@@ -1,5 +1,6 @@
 namespace Juniper.TSBuild;
 
+record CommandDefinition(string? Flag, string? Description, Func<BuildOptions, Action<bool>> Definition);
 record Command(string? Flag, string? Description, Action<bool> Action);
 
 public enum PublishLevel
@@ -9,8 +10,34 @@ public enum PublishLevel
     Major
 }
 
-class Options
+public class BuildOptions
 {
+    private static readonly CommandDefinition[] commands = new[]
+    {
+        new CommandDefinition("--upgrade-js", "Open package.json files", opt => opt.FlagSetter(nameof(OpenPackageJsons))),
+        new CommandDefinition("--upgrade-ts", "Open tsconfig.json files", opt => opt.FlagSetter(nameof(OpenTSConfigJsons))),
+        new CommandDefinition("--clean-js", "Delete NPM Packages", opt => opt.FlagSetter(nameof(DeleteNodeModuleDirs))),
+        new CommandDefinition("--clean-ts", "Delete tsconfig.tsbuildinfo", opt => opt.FlagSetter(nameof(DeleteTSBuildInfos))),
+        new CommandDefinition("--install", "Install NPM packages", opt => opt.FlagSetter(nameof(NPMInstalls))),
+        new CommandDefinition("--check", "Type Check", opt => opt.FlagSetter(nameof(TypeCheck))),
+        new CommandDefinition("--build", "Build", opt => opt.FlagSetter(nameof(Build))),
+        new CommandDefinition("--watch", "Watch", opt => opt.FlagSetter(nameof(Watch)))
+    };
+
+    public static bool IsBuildCommand(string[] args)
+    {
+        var flags = commands.Select(c => c.Flag).ToHashSet();
+        foreach(var arg in args)
+        {
+            if (flags.Contains(arg))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private string? curAnyArg;
     private bool AnyOnly => curAnyArg is not null;
 
@@ -60,26 +87,16 @@ class Options
     private readonly Command[] interactiveCommands;
     private readonly Command[] flagCommands;
 
-    public Options(string[] args)
+    public BuildOptions(string[] args)
     {
-        var commands = new[]
-        {
-            new Command("--upgrade-js", "Open package.json files", FlagSetter(nameof(OpenPackageJsons))),
-            new Command("--upgrade-ts", "Open tsconfig.json files", FlagSetter(nameof(OpenTSConfigJsons))),
-            new Command("--clean-js", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
-            new Command("--clean-ts", "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
-            new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
-            new Command("--check", "Type Check", FlagSetter(nameof(TypeCheck))),
-            new Command("--build", "Build", FlagSetter(nameof(Build))),
-            new Command("--watch", "Watch", FlagSetter(nameof(Watch)))
-        };
-
         interactiveCommands = commands
             .Where(cmd => cmd.Description is not null)
+            .Select(cmd => new Command(cmd.Flag, cmd.Description, cmd.Definition(this)))
             .ToArray();
 
         flagCommands = commands
             .Where(cmd => cmd.Flag is not null)
+            .Select(cmd => new Command(cmd.Flag, cmd.Description, cmd.Definition(this)))
             .ToArray();
 
         var lastOpt = args
