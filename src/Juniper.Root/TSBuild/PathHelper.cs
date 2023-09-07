@@ -43,12 +43,15 @@
 
         public void AddUITextures(BuildSystemOptions options, DirectoryInfo uiImgOUtput)
         {
-            options.Dependencies ??= new();
-
+            var newDeps = new List<BuildSystemDependency>();
             foreach (var file in Textures.CD("UI").EnumerateFiles())
             {
-                options.Dependencies.Add(file.Name, (file, uiImgOUtput.Touch(file.Name)));
+                newDeps.Add(file.MakeDependency(uiImgOUtput));
             }
+
+            options.Dependencies = options.Dependencies is null
+                ? newDeps
+                : options.Dependencies.Union(newDeps);
         }
 
 

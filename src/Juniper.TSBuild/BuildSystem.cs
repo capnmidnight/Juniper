@@ -167,7 +167,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         if (hasNPM)
         {
-            if (!options.SkipInstall)
+            if (!options.SkipNPMInstall)
             {
                 var dirs = (options.AdditionalNPMProjects ?? Array.Empty<DirectoryInfo>())
                     .Prepend(inProjectDir)
@@ -233,13 +233,13 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         throw new Exception("Couldn't find Juniper");
     }
 
-    private void AddDependencies(Dictionary<string, (FileInfo From, FileInfo To)>? deps, bool warnIfNotExists)
+    private void AddDependencies(IEnumerable<BuildSystemDependency> deps, bool warnIfNotExists)
     {
         if (deps is not null)
         {
-            foreach (var d in deps)
+            foreach (var (Name, From, To) in deps)
             {
-                AddDependency(d.Key, d.Value.From, d.Value.To, warnIfNotExists);
+                AddDependency(Name, From, To, warnIfNotExists);
             }
         }
     }
@@ -253,6 +253,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             scriptFile = scriptFile[..^4];
             mapFileReplacements.Add(scriptFile, (from.Name, to.Name));
         }
+
         return this;
     }
 
