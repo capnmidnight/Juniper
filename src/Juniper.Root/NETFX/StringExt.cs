@@ -8,8 +8,16 @@ namespace System
     /// <summary>
     /// Extension methods for System.string.
     /// </summary>
-    public static class StringExt
+    public static partial class StringExt
     {
+        [GeneratedRegex("((?:^|-)[a-z])", RegexOptions.Compiled)]
+        private static partial Regex GetCapitalizePattern();
+        private static readonly Regex CapitalizePattern = GetCapitalizePattern();
+
+        public static string Capitalize(this string value) =>
+            CapitalizePattern.Replace(value, new MatchEvaluator(match =>
+                match.Groups[1].Value.Replace("-", " ").ToUpperInvariant()));
+
         /// <summary>
         /// Perforum `Uri.UnescapeDataString(value)` on this string.
         /// </summary>
@@ -68,7 +76,7 @@ namespace System
         /// <returns></returns>
         public static string Join(this string[] parts)
         {
-            return Join(parts, Path.DirectorySeparatorChar);
+            return parts.Join(Path.DirectorySeparatorChar);
         }
 
         /// <summary>
@@ -223,7 +231,7 @@ namespace System
                     var x = a[i - 1];
                     var deleteCost = matrix[i - 1, j] + 1;
                     var insertCost = matrix[i, j - 1] + 1;
-                    var subCost = (x == y ? 0 : 1);
+                    var subCost = x == y ? 0 : 1;
                     var substitutionCost = matrix[i - 1, j - 1] + subCost;
                     matrix[i, j] = Min(Min(deleteCost, insertCost), substitutionCost);
                     if (j > 1 && i > 1 && a[i - 2] == y && b[j - 2] == x)
@@ -312,7 +320,7 @@ namespace System
                 return b.Length == 0 ? 1 : 0;
             }
 
-            var searchRange = Max(0, (Max(a.Length, b.Length) / 2) - 1);
+            var searchRange = Max(0, Max(a.Length, b.Length) / 2 - 1);
 
             var matchesA = new bool[a.Length];
             var matchesB = new bool[b.Length];
@@ -362,9 +370,9 @@ namespace System
             var halfNumTransposed = numTransposed / 2;
 
             float numCommonFloat = numCommon;
-            var weight = ((numCommonFloat / a.Length)
-                + (numCommonFloat / b.Length)
-                + ((numCommon - halfNumTransposed) / numCommonFloat)) / 3f;
+            var weight = (numCommonFloat / a.Length
+                + numCommonFloat / b.Length
+                + (numCommon - halfNumTransposed) / numCommonFloat) / 3f;
 
             if (weight <= WinklerThreshold)
             {
@@ -384,12 +392,12 @@ namespace System
                 return weight;
             }
 
-            return weight + (0.1f * position * (1 - weight));
+            return weight + 0.1f * position * (1 - weight);
         }
 
         public static int DistanceTo(this string a, string b)
         {
-            return WagnerFischer_Damerau_Levenshtein_Distance(a, b);
+            return a.WagnerFischer_Damerau_Levenshtein_Distance(b);
         }
 
         public static float Similarity(this string a, string b)
