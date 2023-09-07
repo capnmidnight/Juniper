@@ -67,7 +67,7 @@ namespace System.IO
                 throw new ArgumentNullException(nameof(dir));
             }
 
-            var file = new FileInfo(Path.Combine(dir.FullName, fileName));
+            var file = new FileInfo(PathExt.Combine(dir.FullName, fileName));
             return file;
         }
 

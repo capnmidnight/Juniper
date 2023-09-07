@@ -4,5 +4,5 @@ namespace Juniper.Data;
 
 public interface IDbProviderConfigurator
 {
-    DbContextOptionsBuilder ConfigureProvider(DbContextOptionsBuilder options, string connectionString);
+    DbContextOptionsBuilder ConfigureProvider(DbContextOptionsBuilder optionsBuilder, string connectionString);
 }

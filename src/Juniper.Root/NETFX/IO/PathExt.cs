@@ -15,6 +15,9 @@ namespace System.IO
             .Where(c => c != ':')
             .ToArray();
 
+        public static string Combine(params string[] parts) =>
+            Path.Combine(parts).NormalizePath();
+
         /// <summary>
         /// Converts paths specified in any combination of forward- or back-slashes to the correct
         /// slash for the current system.
