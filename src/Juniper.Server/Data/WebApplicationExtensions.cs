@@ -16,7 +16,6 @@ public static class WebApplicationExtensions
         where DbContextT : DbContext
     {
         var filesByType = new Dictionary<string, List<FileInfo>>();
-        var cwd = new DirectoryInfo(Directory.GetCurrentDirectory());
         string? collecting = null;
         foreach (var arg in args)
         {
@@ -32,9 +31,9 @@ public static class WebApplicationExtensions
             {
                 collecting = null;
             }
-            else if (collecting == "gis")
+            else if (importers.ContainsKey(collecting))
             {
-                var file = cwd.Touch(arg);
+                var file = new FileInfo(arg);
                 if (!file.Exists)
                 {
                     Console.Error.WriteLine("File does not exist: {0}", file.FullName);
