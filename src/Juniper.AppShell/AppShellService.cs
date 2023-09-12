@@ -168,6 +168,9 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
     public Task SetTitleAsync(string title) =>
         Do(appShell => appShell.SetTitleAsync(title));
 
+    public Task SetSize(int width, int height) =>
+        Do(appShell => appShell.SetSize(width, height));
+
     public Task CloseAsync() =>
         Do(appShell => appShell.CloseAsync());
 

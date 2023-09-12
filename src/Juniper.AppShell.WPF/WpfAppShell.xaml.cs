@@ -39,6 +39,13 @@ public partial class WpfAppShell : Window, IAppShell
     public Task SetTitleAsync(string title) =>
         Do(() => Title = title);
 
+    public Task SetSize(int width, int height) =>
+        Do(() =>
+        {
+            Width = width;
+            Height = height;
+        });
+
     public Task CloseAsync()
     {
         try
@@ -64,5 +71,4 @@ public partial class WpfAppShell : Window, IAppShell
     {
         await closing.Task;
     }
-
 }
