@@ -8,8 +8,8 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@juniper-lib/events": "*",
-    "@juniper-lib/progress": "*",
-    "@juniper-lib/tslib": "*"
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/progress": "file:../progress",
+    "@juniper-lib/tslib": "file:../tslib"
   }
 }

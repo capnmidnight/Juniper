@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "gl-matrix": "3.4.3",
-    "@juniper-types/extra-types": "*",
-    "@juniper-lib/tslib": "*"
+    "@juniper-types/extra-types": "file:../../@juniper-types/extra-types",
+    "@juniper-lib/tslib": "file:../tslib"
   },
   "repository": {
     "type": "git",

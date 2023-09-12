@@ -278,7 +278,9 @@ namespace System.Collections.Generic
             return dict2;
         }
 
-        public static IDictionary<TKey, TValue> Merge<TKey, TValue>(this IDictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
+#nullable enable
+        public static IDictionary<TKey, TValue> Merge<TKey, TValue>(this IDictionary<TKey, TValue>? left, IDictionary<TKey, TValue>? right)
+            where TKey : notnull
         {
             var dict = new Dictionary<TKey, TValue>();
             if (left is not null)
@@ -299,6 +301,7 @@ namespace System.Collections.Generic
 
             return dict;
         }
+#nullable disable
 
         public static Dictionary<K, V> FilterBy<K, V, T>(this Dictionary<K, V> toFilter, Dictionary<K, T> lookup)
         {

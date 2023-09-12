@@ -10,6 +10,7 @@ namespace Juniper.Processes
         public Dictionary<string, string>? scripts { get; set; }
         public Dictionary<string, string>? dependencies { get; set; }
         public Dictionary<string, string>? devDependencies { get; set; }
+        public string[]? workspaces { get; set; }
 #pragma warning restore IDE1006 // Naming Styles
     }
 }

@@ -10,7 +10,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@juniper-lib/tslib": "*"
+    "@juniper-lib/tslib": "file:../tslib"
   },
   "repository": {
     "type": "git",

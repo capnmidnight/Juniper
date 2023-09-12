@@ -8,14 +8,14 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@juniper-lib/collections": "*",
-    "@juniper-lib/dom": "*",
-    "@juniper-lib/events": "*",
-    "@juniper-lib/mediatypes": "*",
-    "@juniper-lib/progress": "*",
-    "@juniper-lib/tslib": "*",
-    "@juniper-lib/workers": "*",
-    "@juniper-types/indexdb": "*",
+    "@juniper-lib/collections": "file:../collections",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/progress": "file:../progress",
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/workers": "file:../workers",
+    "@juniper-types/indexdb": "file:../../@juniper-types/indexdb",
     "@types/offscreencanvas": "2019.7.0"
   }
 }

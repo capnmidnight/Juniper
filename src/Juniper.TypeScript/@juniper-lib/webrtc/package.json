@@ -8,12 +8,12 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@juniper-lib/audio": "*",
-    "@juniper-lib/dom": "*",
-    "@juniper-lib/events": "*",
-    "@juniper-lib/tslib": "*",
-    "@juniper-lib/video": "*",
-    "@juniper-types/dom-types": "*",
+    "@juniper-lib/audio": "file:../audio",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/video": "file:../video",
+    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
     "webrtc-adapter": "8.2.3"
   }
 }

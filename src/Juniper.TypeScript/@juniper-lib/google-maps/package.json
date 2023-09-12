@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "1.16.2",
-    "@juniper-lib/events": "*",
-    "@juniper-lib/tslib": "*",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/tslib": "file:../tslib",
     "@types/google.maps": "3.54.0"
   },
   "repository": {

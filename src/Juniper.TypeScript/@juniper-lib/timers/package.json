@@ -8,8 +8,8 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@juniper-lib/collections": "*",
-    "@juniper-lib/events": "*",
-    "@juniper-lib/tslib": "*"
+    "@juniper-lib/collections": "file:../collections",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/tslib": "file:../tslib"
   }
 }

@@ -8,12 +8,12 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@juniper-lib/collections": "*",
-    "@juniper-lib/dom": "*",
-    "@juniper-lib/events": "*",
-    "@juniper-lib/graphics2d": "*",
-    "@juniper-lib/progress": "*",
-    "@juniper-lib/tslib": "*",
+    "@juniper-lib/collections": "file:../collections",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/graphics2d": "file:../graphics2d",
+    "@juniper-lib/progress": "file:../progress",
+    "@juniper-lib/tslib": "file:../tslib",
     "@types/offscreencanvas": "2019.7.0",
     "@types/webxr": "0.5.4",
     "gl-matrix": "3.4.3"

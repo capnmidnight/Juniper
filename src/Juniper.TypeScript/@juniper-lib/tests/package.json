@@ -8,16 +8,16 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@juniper-lib/dom": "*",
-    "@juniper-lib/events": "*",
-    "@juniper-lib/fetcher": "*",
-    "@juniper-lib/gis": "*",
-    "@juniper-lib/hax": "*",
-    "@juniper-lib/mediatypes": "*",
-    "@juniper-lib/testing": "*",
-    "@juniper-lib/tslib": "*",
-    "@juniper-types/dom-types": "*",
-    "@juniper-types/indexdb": "*",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/fetcher": "file:../fetcher",
+    "@juniper-lib/gis": "file:../gis",
+    "@juniper-lib/hax": "file:../hax",
+    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/testing": "file:../testing",
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
+    "@juniper-types/indexdb": "file:../../@juniper-types/indexdb",
     "@types/offscreencanvas": "2019.7.0",
     "gl-matrix": "3.4.3"
   }

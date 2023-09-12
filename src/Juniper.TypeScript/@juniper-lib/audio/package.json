@@ -8,14 +8,14 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@juniper-lib/collections": "*",
-    "@juniper-lib/dom": "*",
-    "@juniper-lib/events": "*",
-    "@juniper-lib/fetcher": "*",
-    "@juniper-lib/progress": "*",
-    "@juniper-lib/timers": "*",
-    "@juniper-lib/tslib": "*",
-    "@juniper-types/dom-types": "*",
+    "@juniper-lib/collections": "file:../collections",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/fetcher": "file:../fetcher",
+    "@juniper-lib/progress": "file:../progress",
+    "@juniper-lib/timers": "file:../timers",
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
     "@types/dom-mediacapture-record": "1.0.16",
     "gl-matrix": "3.4.3"
   }

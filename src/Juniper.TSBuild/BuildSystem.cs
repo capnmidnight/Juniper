@@ -445,7 +445,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private IEnumerable<NPMInstallCommand> GetInstallCommands() =>
         TryMake(
             NPMProjects,
-            dir => new NPMInstallCommand(dir, true)
+            dir => new NPMInstallCommand(dir)
         );
 
     private Task NPMInstallsAsync(CancellationToken cancellationToken) =>

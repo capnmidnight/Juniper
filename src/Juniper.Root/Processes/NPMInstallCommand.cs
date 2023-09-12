@@ -6,21 +6,19 @@ namespace Juniper.Processes
 {
     public class NPMInstallCommand : ShellCommand
     {
-        private readonly FileInfo packageJson;
         private readonly DirectoryInfo nodeModulesDir;
 
 
-        public NPMInstallCommand(DirectoryInfo? workingDir, bool force, bool noPackageLock = true)
-            : base(workingDir, "npm", $"install --no-fund{(noPackageLock ? " --no-package-lock" : "")}")
+        public NPMInstallCommand(DirectoryInfo? workingDir, bool noPackageLock = true)
+            : base(workingDir, "npm", $"install --no-fund --prefer-offline{(noPackageLock ? " --no-package-lock" : "")}")
         {
-            packageJson = this.workingDir.Touch("package.json");
+            var packageJson = this.workingDir.Touch("package.json");
             if (!packageJson.Exists)
             {
                 throw new FileNotFoundException("Given directory is not an NPM module!", packageJson.FullName);
             }
 
             nodeModulesDir = workingDir.CD("node_modules");
-            this.force = force;
         }
 
         protected override void OnInfo(string message)
@@ -33,17 +31,41 @@ namespace Juniper.Processes
 
         public override async Task RunAsync(CancellationToken cancellationToken)
         {
-            var needsInstall = !nodeModulesDir.Exists || force;
+            var needsInstall = !nodeModulesDir.Exists;
             if (!needsInstall)
             {
-                using var packageStream = packageJson.OpenRead();
-                var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream, cancellationToken: cancellationToken);
-                var dependencies = (package?.dependencies ?? new Dictionary<string, string>()).Merge(package?.devDependencies);
-                foreach (var (name, requiredVersionStr) in dependencies)
+                var queue = new Queue<DirectoryInfo>() { workingDir };
+                var checkedPackageJsons = new HashSet<string>();
+                while (queue.Count > 0 && !needsInstall)
                 {
-                    if (await NeedsInstall(name, requiredVersionStr, cancellationToken))
+                    var here = queue.Dequeue();
+                    var packageJson = here.Touch("package.json");
+                    if (packageJson.Exists && !checkedPackageJsons.Contains(packageJson.FullName))
                     {
-                        needsInstall = true;
+                        checkedPackageJsons.Add(packageJson.FullName);
+
+                        using var packageStream = packageJson.OpenRead();
+                        var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream, cancellationToken: cancellationToken);
+                        if (package is not null)
+                        {
+                            var workspaces = package.workspaces ?? Array.Empty<string>();
+                            queue.AddRange(workspaces
+                                .Where(w => w is not null)
+                                .SelectMany(workingDir.GetDirectories)
+                                .Where(w => w.Touch("package.json").Exists));
+
+                            var dependencies = package.dependencies.Merge(package?.devDependencies);
+                            foreach (var (name, requiredVersionStr) in dependencies)
+                            {
+                                var installReason = await NeedsInstall(here, name, requiredVersionStr, cancellationToken);
+                                if (installReason is not null)
+                                {
+                                    OnWarning(installReason);
+                                    needsInstall = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -55,53 +77,56 @@ namespace Juniper.Processes
         }
 
         private static readonly Regex versionPattern = new(@"(>|<|>=|<=|~|\^|=)?(\d+\.\d+\.\d+)", RegexOptions.Compiled);
-        private readonly bool force;
 
-        private async Task<bool> NeedsInstall(string name, string requiredVersionStr, CancellationToken cancellationToken)
+        private async Task<string?> NeedsInstall(DirectoryInfo fromDir, string name, string requiredVersionStr, CancellationToken cancellationToken)
         {
-            var depDir = nodeModulesDir.CD(name);
-            if (!depDir.Exists)
-            {
-                OnInfo($"Dependency {name} does not exist");
-                return true;
-            }
-
-            var depPackageJson = depDir.Touch("package.json");
-            if (!depPackageJson.Exists)
-            {
-                OnInfo($"Dependency {name} is missing package.json");
-                return true;
-            }
-
             if (requiredVersionStr.StartsWith("http")
                 || requiredVersionStr.StartsWith("git"))
             {
-                OnInfo($"Dependency {name} is a URL dependency");
-                return true;
+                return $"Dependency {name} is a URL dependency";
             }
 
             if (requiredVersionStr.Length == 0
-                || requiredVersionStr == "*"
-                || requiredVersionStr.StartsWith("file:"))
+                || requiredVersionStr == "*")
             {
-                return false;
+                return $"Dependency {name} is a glob dependency";
+            }
+
+            var packageDir = ResolveNPMPackage(fromDir, name);
+            if (packageDir?.Exists != true)
+            {
+                return $"Dependency {name} couldn't be found in any resolution directories";
+            }
+
+            if(requiredVersionStr.StartsWith("file:"))
+            {
+                return null;
+            }
+
+            var depPackageJson = packageDir.Touch("package.json");
+            if (!depPackageJson.Exists)
+            {
+                return $"Dependency {name} is missing package.json";
+            }
+
+            using var packageStream = depPackageJson.OpenRead();
+            var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream, cancellationToken: cancellationToken);
+            if(package is null)
+            {
+                return $"Dependency {name} couldn't parse package.json";
+            }
+
+            if (package.version is null
+                || !Version.TryParse(package.version, out var actualVersion))
+            {
+                return $"Dependency {name} does not have a version value in package.json";
             }
 
             var match = versionPattern.Match(requiredVersionStr);
             if (!match.Success
                 || !Version.TryParse(match.Groups[2].Value, out var requiredVersion))
             {
-                OnInfo($"Required version of dependency {name} cannot be parsed");
-                return true;
-            }
-
-            using var packageStream = depPackageJson.OpenRead();
-            var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream, cancellationToken: cancellationToken);
-            if (package?.version is null
-                || !Version.TryParse(package.version, out var actualVersion))
-            {
-                OnInfo($"Dependency {name} does not have a version value in package.json");
-                return true;
+                return $"Required version of dependency {name} cannot be parsed";
             }
 
             var op = match.Groups[1].Value;
@@ -120,11 +145,26 @@ namespace Juniper.Processes
             };
             if (!isGood)
             {
-                OnInfo($"Versions don't match {package.name}: {package.version} {op} {requiredVersionStr[op.Length..]}");
-                return true;
+                return $"Dependency {name} versions don't match {package.name}: {package.version} {op} {requiredVersionStr[op.Length..]}";
             }
 
-            return false;
+            return null;
+        }
+
+        private DirectoryInfo? ResolveNPMPackage(DirectoryInfo? fromDir, string name)
+        {
+            while(fromDir is not null)
+            {
+                var depDir = fromDir.CD("node_modules", name);
+                if (depDir.Exists)
+                {
+                    return depDir;
+                }
+
+                fromDir = fromDir.Parent;
+            }
+
+            return null;
         }
     }
 }

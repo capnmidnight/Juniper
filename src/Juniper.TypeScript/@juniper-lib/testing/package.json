@@ -8,9 +8,9 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@juniper-lib/dom": "*",
-    "@juniper-lib/events": "*",
-    "@juniper-lib/tslib": "*",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/tslib": "file:../tslib",
     "@types/offscreencanvas": "2019.7.0",
     "gl-matrix": "3.4.3"
   }

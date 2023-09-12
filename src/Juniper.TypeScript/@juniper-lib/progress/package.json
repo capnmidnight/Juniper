@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "gl-matrix": "3.4.3",
-    "@juniper-lib/collections": "*",
-    "@juniper-lib/events": "*",
-    "@juniper-types/extra-types": "*"
+    "@juniper-lib/collections": "file:../collections",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-types/extra-types": "file:../../@juniper-types/extra-types"
   },
   "repository": {
     "type": "git",
