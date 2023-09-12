@@ -162,7 +162,6 @@ export class Build {
         const opts: BuildOptions = {
             platform: "browser",
             format: "esm",
-            target: "es2021",
             logLevel: "error",
             color: true,
             bundle: true,

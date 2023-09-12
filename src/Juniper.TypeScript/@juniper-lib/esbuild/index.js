@@ -128,7 +128,6 @@ export class Build {
         const opts = {
             platform: "browser",
             format: "esm",
-            target: "es2021",
             logLevel: "error",
             color: true,
             bundle: true,
