@@ -1,6 +1,7 @@
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseGraphNode } from "./BaseGraphNode";
 import { Comparable } from "./arrays";
+import { makeLookup } from "./makeLookup";
 
 export function buildTree<V>(
     items: readonly V[],
@@ -29,6 +30,15 @@ export function buildTree<V>(
     }
 
     return rootNode;
+}
+
+export function buildTreeByID<V, K>(
+    items: readonly V[],
+    getItemID: (v: V) => K,
+    getParentID: (v: V) => K,
+    getOrder?: (v: V) => number): TreeNode<V> {
+    const map = makeLookup(items, getItemID);
+    return buildTree(items, v => map.get(getParentID(v)), getOrder);
 }
 
 /**

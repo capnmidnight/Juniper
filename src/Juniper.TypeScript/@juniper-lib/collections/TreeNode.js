@@ -1,5 +1,6 @@
 import { isDefined } from "@juniper-lib/tslib/typeChecks";
 import { BaseGraphNode } from "./BaseGraphNode";
+import { makeLookup } from "./makeLookup";
 export function buildTree(items, getParent, _getOrder) {
     const getOrder = (v) => isDefined(v)
         && isDefined(_getOrder)
@@ -19,6 +20,10 @@ export function buildTree(items, getParent, _getOrder) {
         parentNode.connectSorted(node, getOrder);
     }
     return rootNode;
+}
+export function buildTreeByID(items, getItemID, getParentID, getOrder) {
+    const map = makeLookup(items, getItemID);
+    return buildTree(items, v => map.get(getParentID(v)), getOrder);
 }
 /**
  * A TreeNode is a GraphNode that can have only one parent.

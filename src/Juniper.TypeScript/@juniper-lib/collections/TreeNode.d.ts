@@ -1,6 +1,7 @@
 import { BaseGraphNode } from "./BaseGraphNode";
 import { Comparable } from "./arrays";
 export declare function buildTree<V>(items: readonly V[], getParent: (v: V) => V, _getOrder?: (v: V) => number): TreeNode<V>;
+export declare function buildTreeByID<V, K>(items: readonly V[], getItemID: (v: V) => K, getParentID: (v: V) => K, getOrder?: (v: V) => number): TreeNode<V>;
 /**
  * A TreeNode is a GraphNode that can have only one parent.
  **/
