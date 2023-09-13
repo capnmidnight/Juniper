@@ -8,8 +8,8 @@ namespace Juniper.TSBuild
     public class BuildSystemOptions
     {
         public DirectoryInfo[] CleanDirs;
-        public string InProjectName;
-        public string OutProjectName;
+        public DirectoryInfo InProject;
+        public DirectoryInfo OutProject;
         public bool SkipNPMInstall;
         public DeploymentOptions Deployment;
         public DirectoryInfo[] AdditionalNPMProjects;

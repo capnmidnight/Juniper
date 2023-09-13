@@ -129,22 +129,16 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
         var startDir = workingDir;
 
-        var inProjectName = options.InProjectName ?? options.OutProjectName;
-        var outProjectName = options.OutProjectName ?? options.InProjectName;
+        inProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.InProject ?? options.OutProject);
 
-        while (startDir != null
-            && !startDir.CD(inProjectName).Exists)
-        {
-            startDir = startDir.Parent;
-        }
+        outProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.OutProject
+            ?? options.InProject);
 
         startDir = TestDir($"Couldn't find project root from {workingDir.FullName}", startDir);
 
         var juniperDir = FindJuniperDir(startDir);
 
         juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
-        inProjectDir = TestDir($"Couldn't find project {inProjectName} from {startDir}", startDir.CD(inProjectName));
-        outProjectDir = TestDir($"Couldn't find project {outProjectName} from {startDir}", startDir.CD(outProjectName));
         cleanDirs = options.CleanDirs
             ?.Where(dir => dir?.Exists == true)
             ?.ToArray()
@@ -567,6 +561,12 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private Task RunWatchAsync(bool continueAfterFirstBuild, CopyCommand[] copyCommands, AbstractShellCommand[] bundles, CancellationToken buildCancelled)
     {
+        if (bundles.Length == 0)
+        {
+            // nothing to do;
+            return Task.CompletedTask;
+        }
+
         var completeBuildTask = Task.WhenAll(bundles.Select(b =>
             b.RunSafeAsync(buildCancelled)));
 
