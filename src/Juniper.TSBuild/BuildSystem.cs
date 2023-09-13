@@ -108,7 +108,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private readonly Dictionary<FileInfo, (string, FileInfo, bool)> dependencies = new();
     private readonly Dictionary<string, (string, string)> mapFileReplacements = new();
-    private readonly List<DirectoryInfo> ESBuildProjects = new();
+    private readonly List<DirectoryInfo> BuildProjects = new();
+    private readonly List<DirectoryInfo> WatchProjects = new();
     private readonly List<DirectoryInfo> NPMProjects = new();
 
     private readonly bool hasNPM;
@@ -167,13 +168,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                     .Prepend(inProjectDir)
                     .Prepend(juniperTsDir);
 
-                foreach (var dir in dirs)
-                {
-                    CheckNPMProject(dir);
-                }
+                Task.WaitAll(dirs.Select(CheckNPMProjectAsync).ToArray());
             }
-
-            CheckESBuildProject(inProjectDir);
 
             if (options.Dependencies is not null)
             {
@@ -193,21 +189,25 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         Err += (sender, e) => WriteError(e.Value.Unroll());
     }
 
-    private void CheckNPMProject(DirectoryInfo project)
+    private async Task CheckNPMProjectAsync(DirectoryInfo project)
     {
         var pkgFile = project.Touch("package.json");
         if (pkgFile.Exists)
         {
             NPMProjects.Add(project);
-        }
-    }
+            var package = await NPMPackage.Read(pkgFile);
+            if (package?.scripts is not null)
+            {
+                if (package.scripts.ContainsKey("build"))
+                {
+                    BuildProjects.Add(project);
+                }
 
-    private void CheckESBuildProject(DirectoryInfo project)
-    {
-        if (project.Touch("esbuild.config.js").Exists
-            || project.Touch("esbuild.config.mjs").Exists)
-        {
-            ESBuildProjects.Add(project);
+                if (package.scripts.ContainsKey("watch"))
+                {
+                    WatchProjects.Add(project);
+                }
+            }
         }
     }
 
@@ -470,9 +470,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                         : new ShellCommand(dir, "npm", "run", "check", "--workspaces", "--if-present")
             )), cancellationToken);
 
-    private DirectoryInfo[] GetProjectESBuildDirectories() =>
-        ESBuildProjects.Where(dir => dir == inProjectDir).ToArray();
-
     private CopyCommand[] GetDependecies() =>
         dependencies
             .Select(kv =>
@@ -488,7 +485,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private void GetBuildCommands(ICommandTree commands)
     {
         var copyCommands = GetDependecies();
-        var projES = GetProjectESBuildDirectories();
 
         commands
             .AddMessage("Starting build")
@@ -496,10 +492,10 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             .AddCommands(GetInstallCommands())
             .AddCommands(copyCommands);
 
-        if (projES.Length > 0)
+        if (BuildProjects.Count > 0)
         {
             commands.AddCommands(TryMake(
-                projES,
+                BuildProjects,
                 dir => new ShellCommand(dir, "npm", "run", "build")
             ));
         }
@@ -515,10 +511,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         try
         {
             var buildCanceller = new CancellationTokenSource();
-            cancellationToken.Register(() =>
-            {
-                buildCanceller.Cancel();
-            });
+            cancellationToken.Register(buildCanceller.Cancel);
             AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
                 buildCanceller.Cancel();
 
@@ -536,8 +529,20 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             });
 
             var copyCommands = GetDependecies();
+            var timer = new Timer(new TimerCallback((_) =>
+            {
+                foreach (var dep in copyCommands)
+                {
+                    if (dep.Recheck())
+                    {
+                        OnInfo(Colorize("watch", 36, "{0} copied", dep.CommandName));
+                    };
+                }
+            }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
+            buildCanceller.Token.Register(timer.Dispose);
+
             var bundles = TryMake(
-                ESBuildProjects,
+                WatchProjects,
                 dir => MakeWatchCommand(proxy, dir)
             ).ToArray();
 
@@ -551,7 +556,11 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             }, buildCanceller.Token);
 
             await ValidateDependencies();
-            await RunWatchAsync(continueAfterFirstBuild, copyCommands, bundles, buildCanceller.Token);
+            await RunWatchAsync(continueAfterFirstBuild, bundles, buildCanceller.Token);
+            if (!continueAfterFirstBuild && !buildCanceller.IsCancellationRequested)
+            {
+                await timer.DisposeAsync();
+            }
         }
         catch (TaskCanceledException)
         {
@@ -559,7 +568,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         }
     }
 
-    private Task RunWatchAsync(bool continueAfterFirstBuild, CopyCommand[] copyCommands, AbstractShellCommand[] bundles, CancellationToken buildCancelled)
+    private Task RunWatchAsync(bool continueAfterFirstBuild, AbstractShellCommand[] bundles, CancellationToken buildCancelled)
     {
         if (bundles.Length == 0)
         {
@@ -569,18 +578,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         var completeBuildTask = Task.WhenAll(bundles.Select(b =>
             b.RunSafeAsync(buildCancelled)));
-
-        var timer = new Timer(new TimerCallback((_) =>
-        {
-            foreach (var dep in copyCommands)
-            {
-                if (dep.Recheck())
-                {
-                    OnInfo(Colorize("watch", 36, "{0} copied", dep.CommandName));
-                };
-            }
-        }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
-        buildCancelled.Register(timer.Dispose);
 
         if (!continueAfterFirstBuild)
         {
@@ -592,6 +589,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         {
             firstBuild.TrySetCanceled();
         });
+
         EventHandler<StringEventArgs>? onInfo = null;
         onInfo = new EventHandler<StringEventArgs>((object? sender, StringEventArgs e) =>
         {
@@ -608,7 +606,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             Info -= onInfo;
         });
 
-        return firstBuild.Task;
+        return Task.WhenAny(completeBuildTask, firstBuild.Task);
     }
 
 
@@ -623,8 +621,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                     var pkgFile = dir.CD(pkgName).Touch("package.json");
                     if (pkgFile.Exists)
                     {
-                        using var packageStream = pkgFile.OpenRead();
-                        var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream);
+                        var package = await NPMPackage.Read(pkgFile );
                         if (package?.version == version)
                         {
                             OnWarning($"Banned package found: {pkgName}: {version} -> {reason}");

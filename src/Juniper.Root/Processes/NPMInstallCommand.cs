@@ -44,8 +44,7 @@ namespace Juniper.Processes
                     {
                         checkedPackageJsons.Add(packageJson.FullName);
 
-                        using var packageStream = packageJson.OpenRead();
-                        var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream, cancellationToken: cancellationToken);
+                        var package = await NPMPackage.Read(packageJson, cancellationToken);
                         if (package is not null)
                         {
                             var workspaces = package.workspaces ?? Array.Empty<string>();
@@ -109,9 +108,8 @@ namespace Juniper.Processes
                 return $"Dependency {name} is missing package.json";
             }
 
-            using var packageStream = depPackageJson.OpenRead();
-            var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream, cancellationToken: cancellationToken);
-            if(package is null)
+            var package = await NPMPackage.Read(depPackageJson, cancellationToken);
+            if (package is null)
             {
                 return $"Dependency {name} couldn't parse package.json";
             }
