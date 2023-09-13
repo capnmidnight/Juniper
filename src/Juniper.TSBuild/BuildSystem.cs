@@ -210,8 +210,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private void CheckESBuildProject(DirectoryInfo project)
     {
-        var esbuildFile = project.Touch("esbuild.config.js");
-        if (esbuildFile.Exists)
+        if (project.Touch("esbuild.config.js").Exists
+            || project.Touch("esbuild.config.mjs").Exists)
         {
             ESBuildProjects.Add(project);
         }
@@ -580,10 +580,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 };
             }
         }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
-        buildCancelled.Register(() =>
-        {
-            timer.Dispose();
-        });
+        buildCancelled.Register(timer.Dispose);
 
         if (!continueAfterFirstBuild)
         {
