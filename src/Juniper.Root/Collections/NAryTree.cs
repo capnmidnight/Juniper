@@ -86,7 +86,7 @@ namespace Juniper.Collections
             get
             {
                 var depth = 0;
-                var here = this;
+                var here = Parent;
                 while (here is not null)
                 {
                     ++depth;
