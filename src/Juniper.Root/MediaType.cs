@@ -299,7 +299,8 @@ namespace Juniper
             return ReferenceEquals(this, Any)
                 || Value == value.Value
                 || (Type == value.Type
-                    && SubType == "*");
+                    && (SubType == "*"
+                    || value.SubType == "*"));
         }
 
         public virtual bool GuessMatches(string fileName)
