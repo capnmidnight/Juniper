@@ -95,7 +95,7 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
     }
 
 
-    public async Task StartAppShellAsync(string title, string splashPage)
+    public async Task StartAppShellAsync(string title, string splashPage, string iconPath)
     {
         try
         {
@@ -111,6 +111,7 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
 
             logger.LogInformation("Showing first page ({address}) titled \"{title}\"", address, title);
             await Task.WhenAll(
+                appShell.SetIconAsync(new Uri(iconPath)),
                 appShell.SetTitleAsync(title),
                 appShell.SetSourceAsync(address)
             );
@@ -176,4 +177,7 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
 
     public Task WaitForCloseAsync() =>
         Do(appShell => appShell.WaitForCloseAsync());
+
+    public Task SetIconAsync(Uri path) =>
+        Do(appShell => appShell.SetIconAsync(path));
 }

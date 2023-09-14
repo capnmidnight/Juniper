@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace Juniper.AppShell;
@@ -38,6 +39,9 @@ public partial class WpfAppShell : Window, IAppShell
 
     public Task SetTitleAsync(string title) =>
         Do(() => Title = title);
+
+    public Task SetIconAsync(Uri path) =>
+        Do(() => Icon = new BitmapImage(path));
 
     public Task SetSize(int width, int height) =>
         Do(() =>

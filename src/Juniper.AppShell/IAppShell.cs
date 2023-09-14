@@ -10,4 +10,5 @@ public interface IAppShell
     Task SetSize(int width, int height);
     Task CloseAsync();
     Task WaitForCloseAsync();
+    Task SetIconAsync(Uri path);
 }
