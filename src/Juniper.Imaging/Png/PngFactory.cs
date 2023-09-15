@@ -23,14 +23,24 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="stream">Png bytes.</param>
-        public ImageLines Deserialize(Stream stream)
+        public ImageLines Deserialize(Stream stream) =>
+            Deserialize(stream, true);
+
+        public ImageLines Dequeue(Stream stream) =>
+            Deserialize(stream, false);
+
+        private ImageLines Deserialize(Stream stream, bool closeWhenDone)
         {
             if (stream is null)
             {
                 throw new System.ArgumentNullException(nameof(stream));
             }
 
-            using var png = new PngReader(stream);
+            using var png = new PngReader(stream)
+            {
+                ShouldCloseStream = closeWhenDone
+            };
+
             png.SetUnpackedMode(true);
             var image = png.ReadRowsByte();
             png.End();
@@ -41,7 +51,13 @@ namespace Juniper.Imaging
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="stream">Png bytes.</param>
-        public long Serialize(Stream stream, ImageLines value)
+        public long Serialize(Stream stream, ImageLines value) =>
+            Serialize(stream, value, true);
+
+        public long Enqueue(Stream stream, ImageLines value) =>
+            Serialize(stream, value, false);
+
+        private long Serialize(Stream stream, ImageLines value, bool closeWhenDone)
         {
             if (stream is null)
             {
@@ -58,7 +74,8 @@ namespace Juniper.Imaging
             using var png = new PngWriter(stream, info)
             {
                 CompLevel = compressionLevel,
-                IdatMaxSize = IDATMaxSize
+                IdatMaxSize = IDATMaxSize,
+                ShouldCloseStream = closeWhenDone
             };
 
             png.SetFilterType(FilterType.FILTER_PAETH);

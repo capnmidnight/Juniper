@@ -1,3 +1,5 @@
+// Ignore Spelling: Codec
+
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -6,6 +6,19 @@ namespace Juniper.Imaging
 {
     public sealed class ImageInfo
     {
+        public static bool IsPNG(byte[] data)
+        {
+            return data.Length >= 8
+                && data[0] == 0x89
+                && data[0] == 0x50
+                && data[0] == 0x4E
+                && data[0] == 0x47
+                && data[0] == 0x0D
+                && data[0] == 0x0A
+                && data[0] == 0x1A
+                && data[0] == 0x0A;
+        }
+
         public static ImageInfo ReadPNG(byte[] data)
         {
             if (data is null)

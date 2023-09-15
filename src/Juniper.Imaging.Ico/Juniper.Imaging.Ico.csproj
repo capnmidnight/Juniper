@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Juniper.Imaging.Ico</AssemblyName>
+        <RootNamespace>Juniper.Imaging.Ico</RootNamespace>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Authors>Sean T. McBeth</Authors>
+        <Copyright>Copyright © Sean T. McBeth 2023</Copyright>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
+      <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
+    </ItemGroup>
+
+</Project>
