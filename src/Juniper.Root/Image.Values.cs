@@ -61,7 +61,7 @@ namespace Juniper
         public static readonly Image Image_VendorFujixeroxEdmics_Mmr = new("vnd.fujixerox.edmics-mmr", "mmr");
         public static readonly Image Image_VendorFujixeroxEdmics_Rlc = new("vnd.fujixerox.edmics-rlc", "rlc");
         public static readonly Image Image_VendorGlobalgraphicsPgb = new("vnd.globalgraphics.pgb");
-        public static readonly Image Image_VendorMicrosoftIcon = new("vnd.microsoft.icon");
+        public static readonly Image Image_VendorMicrosoftIcon = new("vnd.microsoft.icon", "ico");
         public static readonly Image Image_VendorMix = new("vnd.mix");
         public static readonly Image Image_VendorMozillaApng = new("vnd.mozilla.apng");
         public static readonly Image Image_VendorMs_Modi = new("vnd.ms-modi", "mdi");
