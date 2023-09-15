@@ -1,5 +1,3 @@
-using Accord.Math;
-
 using Juniper.IO;
 
 using System;
