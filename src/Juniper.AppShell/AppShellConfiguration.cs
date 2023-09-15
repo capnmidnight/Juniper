@@ -34,7 +34,7 @@ public static class AppShellConfiguration
         return appBuilder;
     }
 
-    public static async Task StartAppShellAsync(this WebApplication app, string title, string splashPage, string iconPath)
+    public static async Task StartAppShellAsync(this WebApplication app, string title, string splashPage, string iconPath = null)
     {
         await app.StartAsync();
         var service = app.Services.GetRequiredService<IAppShellService>();
