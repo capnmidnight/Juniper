@@ -5,11 +5,21 @@ using System.Text.RegularExpressions;
 
 namespace Juniper
 {
-    public static class StringExt
+    public static class MediaTypeExtensions
     {
-        public static string AddExtension(this string str, MediaType contentType)
+        public static IReadOnlyList<MediaType> GuessMediaType(this FileInfo file)
         {
-            return contentType.AddExtension(str);
+            if (file is null)
+            {
+                return Array.Empty<MediaType>();
+            }
+
+            return MediaType.GuessByFileName(file.Name);
+        }
+
+        public static FileInfo AddExtension(this FileInfo file, MediaType type)
+        {
+            return new FileInfo(type.AddExtension(file.FullName));
         }
     }
 
@@ -132,16 +142,6 @@ namespace Juniper
 
             var ext = Path.GetExtension(fileName);
             return GuessByExtension(ext);
-        }
-
-        public static IReadOnlyList<MediaType> GuessByFile(FileInfo file)
-        {
-            if (file is null)
-            {
-                return Array.Empty<MediaType>();
-            }
-
-            return GuessByFileName(file.Name);
         }
 
         public static MediaType Lookup(string value)

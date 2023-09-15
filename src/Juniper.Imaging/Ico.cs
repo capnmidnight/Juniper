@@ -1,14 +1,12 @@
 ﻿// Ignore Spelling: Ico
 
-using Hjg.Pngcs;
-
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Juniper.Imaging.Ico;
 
-public static class Ico
+public static partial class Ico
 {
     private static T ReadStruct<T>(Stream stream) where T: struct
     {
@@ -26,7 +24,7 @@ public static class Ico
         var size = Marshal.SizeOf<T>();
         var data = new byte[size];
         var ptr = Marshal.AllocHGlobal(size);
-        Marshal.StructureToPtr<T>(value, ptr, false);
+        Marshal.StructureToPtr(value, ptr, false);
         Marshal.Copy(ptr, data, 0, size);
         stream.Write(data, 0, size);
         return size;
@@ -35,13 +33,13 @@ public static class Ico
     private static IcoImageFileRaw LoadRaw(FileInfo file)
     {
         using var stream = file.OpenRead();
-        var header = ReadStruct<Header>(stream);
-        var imageDirectory = new ImageDirectoryEntry[header.NumImages];
+        var header = ReadStruct<IcoHeader>(stream);
+        var imageDirectory = new IcoImageDirectoryEntry[header.NumImages];
         var imageData = new byte[header.NumImages][];
 
         for(var i = 0; i < header.NumImages; ++i)
         {
-            imageDirectory[i] = ReadStruct<ImageDirectoryEntry>(stream);            
+            imageDirectory[i] = ReadStruct<IcoImageDirectoryEntry>(stream);            
         }
 
         for(var i = 0; i < header.NumImages; ++i)
@@ -84,9 +82,9 @@ public static class Ico
     public static void Save(FileInfo file, ImageData[] images)
     {
         using var stream = file.OpenWrite();
-        var header = new Header(IcoType.Ico, images.Length);
+        var header = new IcoHeader(IcoType.Ico, images.Length);
         var offset = WriteStruct(stream, header);
-        offset += images.Length * Marshal.SizeOf<ImageDirectoryEntry>();
+        offset += images.Length * Marshal.SizeOf<IcoImageDirectoryEntry>();
 
         var data = new byte[images.Length][];
         var factory = new PngFactory();
@@ -109,9 +107,9 @@ public static class Ico
     public static void Concatenate(FileInfo file, params FileInfo[] images)
     {
         using var stream = file.OpenWrite();
-        var header = new Header(IcoType.Ico, images.Length);
+        var header = new IcoHeader(IcoType.Ico, images.Length);
         var offset = WriteStruct(stream, header);
-        offset += images.Length * Marshal.SizeOf<ImageDirectoryEntry>();
+        offset += images.Length * Marshal.SizeOf<IcoImageDirectoryEntry>();
 
         var data = new byte[images.Length][];
         var factory = new PngFactory();
@@ -133,7 +131,7 @@ public static class Ico
 
     private static int WriteInfo(FileStream stream, int offset, byte[] data, ImageInfo info)
     {
-        var entry = new ImageDirectoryEntry
+        var entry = new IcoImageDirectoryEntry
         {
             Width = info.Dimensions.Width,
             Height = info.Dimensions.Height,

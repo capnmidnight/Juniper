@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Imaging.Ico\Juniper.Imaging.Ico.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Imaging\Juniper.Imaging.csproj" />
   </ItemGroup>
 
 </Project>

@@ -48,7 +48,7 @@ public static class HttpListenerResponseExt
         }
 
         MediaType type = MediaType.Application_Octet_Stream;
-        var types = MediaType.GuessByFile(file);
+        var types = file.GuessMediaType();
         if (types.Count > 0)
         {
             type = types[0];

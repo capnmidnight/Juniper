@@ -22,7 +22,7 @@ namespace Juniper.IO
                 return null;
             }
 
-            return fileRef.CacheID?.AddExtension(fileRef.ContentType);
+            return fileRef.ContentType.AddExtension(fileRef.CacheID);
         }
 
         public static FileInfo operator +(DirectoryInfo directory, ContentReference fileRef)

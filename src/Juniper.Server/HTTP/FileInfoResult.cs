@@ -36,7 +36,7 @@ public class FileInfoResult : IActionResult
     {
         var type = MediaType.Parse(contentType);
         this.contentType = contentType;
-        this.fileName = (fileName ?? "download").AddExtension(type);
+        this.fileName = type.AddExtension(fileName ?? "download");
         this.cacheTime = cacheTime;
         this.logger = logger;
         this.size = size;
