@@ -3,6 +3,9 @@
   "private": false,
   "version": "1.0.0",
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
   "description": "Promisified stuff for working with Google Maps",
   "scripts": {
     "check": "tsc --noEmit",

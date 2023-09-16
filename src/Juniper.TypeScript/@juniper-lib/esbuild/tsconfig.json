@@ -1,55 +1,15 @@
 {
-  "files": [ "index.ts" ],
-
-  "compileOnSave": true,
-
+  "extends": "../../tsconfig_base.json",
+  "include": [
+    "./src/**/*.ts"
+  ],
   "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
     "typeRoots": [
-      "../../node_modules/@types"
+      "node_modules/@types"
     ],
 
-    "lib": [ "ES2021" ],
-    "target": "ES2021",
-    "module": "ES2020",
-    "moduleResolution": "node",
-
-    "declaration": true,
-    "declarationMap": true,
-    "disableSizeLimit": true,
-    "downlevelIteration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "incremental": true,
-    "removeComments": false,
-    "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "useDefineForClassFields": false,
-
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "allowUmdGlobalAccess": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-
-    "noEmit": false,
-    "noEmitHelpers": false,
-    "noEmitOnError": false,
-    "noErrorTruncation": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noImplicitUseStrict": false,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false
+    "lib": [ "ES2021", "DOM" ]
   }
 }

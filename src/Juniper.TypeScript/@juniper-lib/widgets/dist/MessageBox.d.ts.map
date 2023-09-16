@@ -1,0 +1,1 @@
+{"version":3,"file":"MessageBox.d.ts","sourceRoot":"","sources":["../src/MessageBox.ts"],"names":[],"mappings":"AAIA,qBAAa,UAAU;IAKP,OAAO,CAAC,MAAM;IAJ1B,OAAO,CAAC,IAAI,CAA4B;IACxC,OAAO,CAAC,aAAa,CAAoB;IACzC,OAAO,CAAC,YAAY,CAAoB;gBAEpB,MAAM,EAAE,WAAW;IAQjC,IAAI,IAAI,OAAO,CAAC,OAAO,CAAC;CAOjC"}

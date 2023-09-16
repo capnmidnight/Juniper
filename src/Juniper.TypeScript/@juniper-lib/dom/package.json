@@ -3,6 +3,9 @@
   "private": false,
   "version": "1.0.2",
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
   "description": "Lots of functions for manipulating DOM",
   "main": "index.ts",
   "scripts": {

@@ -3,6 +3,9 @@
   "name": "@juniper-lib/audio",
   "private": true,
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc -b"

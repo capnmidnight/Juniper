@@ -3,8 +3,12 @@
   "private": false,
   "version": "1.0.0",
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "description": "A shortcut system for using ESBuild in my projects",
-  "main": "index.js",
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc"

@@ -3,6 +3,11 @@
   "name": "@juniper-lib/tests",
   "private": true,
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc -b"

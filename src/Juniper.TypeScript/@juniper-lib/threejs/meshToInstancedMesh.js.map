@@ -1,1 +1,0 @@
-{"version":3,"file":"meshToInstancedMesh.js","sourceRoot":"","sources":["meshToInstancedMesh.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAQ,MAAM,OAAO,CAAC;AAE5C,MAAM,UAAU,mBAAmB,CAAC,KAAa,EAAE,IAAU;IACzD,OAAO,IAAI,aAAa,CAAC,IAAI,CAAC,QAAQ,EAAE,IAAI,CAAC,QAAQ,EAAE,KAAK,CAAC,CAAC;AAClE,CAAC"}

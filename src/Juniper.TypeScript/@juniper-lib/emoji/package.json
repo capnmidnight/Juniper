@@ -3,6 +3,9 @@
   "private": false,
   "version": "1.0.2",
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
   "description": "A collection of all the UTF-8 Emoji code points that I could find",
   "main": "index.ts",
   "scripts": {

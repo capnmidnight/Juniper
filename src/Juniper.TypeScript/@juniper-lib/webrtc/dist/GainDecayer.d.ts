@@ -1,0 +1,44 @@
+import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
+import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
+import { JuniperGainNode } from "@juniper-lib/audio/dist/context/JuniperGainNode";
+export declare class GainDecayer extends ActivityDetector {
+    private readonly control;
+    min: number;
+    max: number;
+    threshold: number;
+    attack: number;
+    decay: number;
+    sustain: number;
+    hold: number;
+    release: number;
+    private curLength;
+    private _enabled;
+    private shouldRun;
+    constructor(context: JuniperAudioContext, control: JuniperGainNode, min: number, max: number, threshold: number, attack: number, decay: number, sustain: number, hold: number, release: number);
+    get enabled(): boolean;
+    set enabled(v: boolean);
+    start(): void;
+    stop(): void;
+    private refresh;
+    get length(): number;
+    private get time();
+    private set time(value);
+    private get attackStart();
+    private get attackEnd();
+    private get decayStart();
+    private get decayEnd();
+    private get holdStart();
+    private get holdEnd();
+    private get releaseStart();
+    private get releaseEnd();
+    private get attacking();
+    private get decaying();
+    private get holding();
+    private get releasing();
+    private get pAttack();
+    private get pDecay();
+    private get pRelease();
+    private get value();
+    get gain(): number;
+}
+//# sourceMappingURL=GainDecayer.d.ts.map

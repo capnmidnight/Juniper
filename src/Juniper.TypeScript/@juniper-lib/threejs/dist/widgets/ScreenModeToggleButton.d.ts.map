@@ -1,0 +1,1 @@
+{"version":3,"file":"ScreenModeToggleButton.d.ts","sourceRoot":"","sources":["../../src/widgets/ScreenModeToggleButton.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,eAAe,CAAC;AAC3C,OAAO,EAAE,aAAa,EAAE,MAAM,iBAAiB,CAAC;AAChD,OAAO,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAE9C,qBAAa,sBAAuB,SAAQ,YAAY;aACA,IAAI,EAAE,UAAU;gBAAxD,OAAO,EAAE,aAAa,EAAkB,IAAI,EAAE,UAAU;CAIvE"}

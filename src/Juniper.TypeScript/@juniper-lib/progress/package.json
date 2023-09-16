@@ -5,6 +5,9 @@
   "type": "module",
   "description": "A kitchen sink of features usefull in TypeScript projects",
   "main": "index.ts",
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc -b"

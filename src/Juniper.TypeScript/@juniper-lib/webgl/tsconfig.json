@@ -1,31 +1,21 @@
 {
-  "extends": [
-    "../tsconfig_base.json"
-  ],
+  "extends": "../../tsconfig_base.json",
   "include": [
-    "**/*.ts",
-    "**/*.glsl",
-    "**/*.frag",
-    "**/*.vert"
+    "./src/**/*.ts",
+    "./src/**/*.glsl",
+    "./src/**/*.frag",
+    "./src/**/*.vert"
   ],
   "references": [
-    {
-      "path": "..\\collections"
-    },
-    {
-      "path": "..\\dom"
-    },
-    {
-      "path": "..\\events"
-    },
-    {
-      "path": "..\\graphics2d"
-    },
-    {
-      "path": "..\\progress"
-    },
-    {
-      "path": "..\\tslib"
-    }
-  ]
+    { "path": "..\\collections" },
+    { "path": "..\\dom" },
+    { "path": "..\\events" },
+    { "path": "..\\graphics2d" },
+    { "path": "..\\progress" },
+    { "path": "..\\tslib" }
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  }
 }

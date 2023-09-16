@@ -1,1 +1,0 @@
-{"version":3,"file":"JuniperAudioDestinationNode.d.ts","sourceRoot":"","sources":["JuniperAudioDestinationNode.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,mBAAmB,EAAE,MAAM,uBAAuB,CAAC;AAC5D,OAAO,EAAE,gBAAgB,EAAE,MAAM,oBAAoB,CAAC;AAEtD,qBAAa,2BACT,SAAQ,gBAAgB,CAAC,oBAAoB,CAC7C,YAAW,oBAAoB;gBAEnB,OAAO,EAAE,mBAAmB,EAAE,WAAW,EAAE,oBAAoB;IAI3E,IAAI,eAAe,IAAI,MAAM,CAAuC;CACvE"}

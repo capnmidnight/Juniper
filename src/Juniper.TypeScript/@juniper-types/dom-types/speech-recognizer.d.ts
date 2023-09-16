@@ -28,7 +28,7 @@ interface SpeechRecognition extends EventTarget {
     removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 }
 
-class SpeechRecognition implements SpeechRecognition {
+declare class SpeechRecognition implements SpeechRecognition {
 }
 
 type SpeechRecognitionError =
@@ -46,7 +46,7 @@ interface SpeechRecognitionErrorEvent extends Event {
     readonly message: string;
 }
 
-class SpeechRecognitionErrorEvent implements SpeechRecognitionErrorEvent {
+declare class SpeechRecognitionErrorEvent implements SpeechRecognitionErrorEvent {
 }
 
 
@@ -55,6 +55,6 @@ interface SpeechRecognitionEvent extends Event {
     readonly results: SpeechRecognitionResultList;
 }
 
-class SpeechRecognitionEvent implements SpeechRecognitionEvent {
+declare class SpeechRecognitionEvent implements SpeechRecognitionEvent {
 }
 

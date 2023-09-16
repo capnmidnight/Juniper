@@ -1,0 +1,1 @@
+{"version":3,"file":"resolveCamera.js","sourceRoot":"","sources":["../src/resolveCamera.ts"],"names":[],"mappings":"AAEA,MAAM,UAAU,aAAa,CAAC,QAAuB,EAAE,MAAyB;IAC5E,IAAI,QAAQ,CAAC,EAAE,CAAC,YAAY,EAAE;QAC1B,OAAO,QAAQ,CAAC,EAAE,CAAC,SAAS,EAAE,CAAC;KAClC;SACI;QACD,OAAO,MAAM,CAAC;KACjB;AACL,CAAC"}

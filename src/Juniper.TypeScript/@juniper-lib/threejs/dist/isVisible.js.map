@@ -1,0 +1,1 @@
+{"version":3,"file":"isVisible.js","sourceRoot":"","sources":["../src/isVisible.ts"],"names":[],"mappings":"AAEA,MAAM,UAAU,SAAS,CAAC,GAAa;IACnC,OAAO,GAAG,IAAI,IAAI,EAAE;QAChB,IAAI,CAAC,GAAG,CAAC,OAAO,EAAE;YACd,OAAO,KAAK,CAAC;SAChB;QAED,GAAG,GAAG,GAAG,CAAC,MAAM,CAAC;KACpB;IAED,OAAO,IAAI,CAAC;AAChB,CAAC"}

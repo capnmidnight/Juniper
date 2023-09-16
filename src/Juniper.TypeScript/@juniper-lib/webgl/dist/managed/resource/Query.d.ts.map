@@ -1,0 +1,1 @@
+{"version":3,"file":"Query.d.ts","sourceRoot":"","sources":["../../../src/managed/resource/Query.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,oBAAoB,EAAE,MAAM,wBAAwB,CAAC;AAE9D,qBAAa,KAAM,SAAQ,oBAAoB,CAAC,UAAU,CAAC;gBAC3C,EAAE,EAAE,sBAAsB;IAItC,SAAS,CAAC,WAAW,IAAI,IAAI;CAGhC"}

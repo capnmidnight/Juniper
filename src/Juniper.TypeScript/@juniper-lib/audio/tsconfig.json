@@ -1,31 +1,19 @@
 {
-  "extends": [
-    "../tsconfig_base.json"
-  ],
+  "extends": "../../tsconfig_base.json",
   "include": [
-    "**/*.ts"
+    "./src/**/*.ts"
   ],
   "references": [
-    {
-      "path": "..\\collections"
-    },
-    {
-      "path": "..\\dom"
-    },
-    {
-      "path": "..\\events"
-    },
-    {
-      "path": "..\\fetcher"
-    },
-    {
-      "path": "..\\progress"
-    },
-    {
-      "path": "..\\timers"
-    },
-    {
-      "path": "..\\tslib"
-    }
-  ]
+    { "path": "..\\collections" },
+    { "path": "..\\dom" },
+    { "path": "..\\events" },
+    { "path": "..\\fetcher" },
+    { "path": "..\\progress" },
+    { "path": "..\\timers" },
+    { "path": "..\\tslib" }
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  }
 }

@@ -3,6 +3,9 @@
   "private": false,
   "version": "1.0.0",
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
   "description": "Useful records of Bluetooth Low Energy objects",
   "main": "index.ts",
   "scripts": {

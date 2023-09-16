@@ -3,8 +3,11 @@
   "private": false,
   "version": "1.0.0",
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
+  "main": "dist/index.ts",
   "description": "Wrappers for simplifying working with IndexDB",
-  "main": "index.ts",
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc -b"

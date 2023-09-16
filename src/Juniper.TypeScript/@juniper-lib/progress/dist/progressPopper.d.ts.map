@@ -1,0 +1,1 @@
+{"version":3,"file":"progressPopper.d.ts","sourceRoot":"","sources":["../src/progressPopper.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,0BAA0B,EAAE,MAAM,8BAA8B,CAAC;AAC1E,OAAO,EAAE,SAAS,EAAE,MAAM,aAAa,CAAC;AAExC,wBAAgB,cAAc,CAAC,QAAQ,EAAE,SAAS,kCAEjD;AAED,qBAAa,8BAA+B,SAAQ,0BAA0B;IAC1E,GAAG,CAAC,MAAM,CAAC,EAAE,MAAM;CAGtB"}

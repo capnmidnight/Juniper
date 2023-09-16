@@ -1,19 +1,15 @@
 {
-  "extends": [
-    "../tsconfig_base.json"
-  ],
+  "extends":     "../../tsconfig_base.json",
   "include": [
-    "**/*.ts"
+    "./src/**/*.ts"
   ],
   "references": [
-    {
-      "path": "..\\collections"
-    },
-    {
-      "path": "..\\events"
-    },
-    {
-      "path": "..\\tslib"
-    }
-  ]
+    { "path": "..\\collections" },
+    { "path": "..\\events" },
+    { "path": "..\\tslib" }
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  }
 }

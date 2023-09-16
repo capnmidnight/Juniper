@@ -1,8 +1,6 @@
 using Juniper.Logging;
 using Juniper.Processes;
 
-using System.Text.Json;
-
 namespace Juniper.TSBuild;
 
 public class BuildSystem<BuildConfigT> : ILoggingSource

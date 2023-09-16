@@ -6,8 +6,38 @@
     "tslib": "2.6.2",
     "typescript": "5.2.2"
   },
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
+  },
   "workspaces": [
-    "@juniper-lib/*",
-    "@juniper-types/*"
+    "@juniper-lib/audio",
+    "@juniper-lib/ble",
+    "@juniper-lib/collection",
+    "@juniper-lib/dom",
+    "@juniper-lib/emoji",
+    "@juniper-lib/events",
+    "@juniper-lib/fetcher",
+    "@juniper-lib/gis",
+    "@juniper-lib/google-maps",
+    "@juniper-lib/graphics2d",
+    "@juniper-lib/hax",
+    "@juniper-lib/indexdb",
+    "@juniper-lib/mediatypes",
+    "@juniper-lib/progress",
+    "@juniper-lib/speech",
+    "@juniper-lib/testing",
+    "@juniper-lib/tests",
+    "@juniper-lib/threejs",
+    "@juniper-lib/timers",
+    "@juniper-lib/tslib",
+    "@juniper-lib/video",
+    "@juniper-lib/webgl",
+    "@juniper-lib/webrtc",
+    "@juniper-lib/widgets",
+    "@juniper-lib/workers",
+    "@juniper-types/dom-types",
+    "@juniper-types/extra-types",
+    "@juniper-types/indexdb"
   ]
 }

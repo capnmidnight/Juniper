@@ -1,3 +1,3 @@
-export * from "./culture";
-export * from "./generic";
-export * from "./glsl";
+import "./culture";
+import "./generic";
+import "./glsl";

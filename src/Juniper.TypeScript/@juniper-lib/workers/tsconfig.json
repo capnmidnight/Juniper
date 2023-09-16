@@ -1,19 +1,16 @@
 {
-  "extends": [
-    "../tsconfig_base.json"
-  ],
+  "extends": "../../tsconfig_base.json",
   "include": [
-    "**/*.ts"
+    "./src/**/*.ts"
   ],
   "references": [
-    {
-      "path": "..\\events"
-    },
-    {
-      "path": "..\\progress"
-    },
-    {
-      "path": "..\\tslib"
-    }
-  ]
+    { "path": "..\\events" },
+    { "path": "..\\progress" },
+    { "path": "..\\tslib" }
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "lib": ["ES2021", "DOM", "WebWorker"]
+  }
 }

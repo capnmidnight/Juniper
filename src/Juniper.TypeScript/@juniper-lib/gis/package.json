@@ -3,6 +3,9 @@
   "private": false,
   "version": "1.2.1",
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
   "description": "A kitchen sink of features useful in TypeScript projects",
   "main": "index.ts",
   "scripts": {

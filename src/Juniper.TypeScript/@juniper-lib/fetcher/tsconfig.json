@@ -1,31 +1,19 @@
 {
-  "extends": [
-    "../tsconfig_base.json"
-  ],
+  "extends": "../../tsconfig_base.json",
   "include": [
-    "**/*.ts"
+    "./src/**/*.ts"
   ],
   "references": [
-    {
-      "path": "..\\collections"
-    },
-    {
-      "path": "..\\dom"
-    },
-    {
-      "path": "..\\events"
-    },
-    {
-      "path": "..\\mediatypes"
-    },
-    {
-      "path": "..\\progress"
-    },
-    {
-      "path": "..\\tslib"
-    },
-    {
-      "path": "..\\workers"
-    }
-  ]
+    { "path": "..\\collections" },
+    { "path": "..\\dom" },
+    { "path": "..\\events" },
+    { "path": "..\\mediatypes" },
+    { "path": "..\\progress" },
+    { "path": "..\\tslib" },
+    { "path": "..\\workers" }
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  }
 }

@@ -3,7 +3,9 @@
   "private": false,
   "version": "1.0.0",
   "type": "module",
-  "main": "index.ts",
+  "files": [
+    "dist/*"
+  ],
   "description": "Functionality for injecting and inspecting objects",
   "scripts": {
     "check": "tsc --noEmit",

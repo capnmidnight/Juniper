@@ -1,0 +1,3 @@
+import { haxTests } from "./hax";
+export declare const tests: (typeof haxTests | typeof import("./collections/binarySearch").BinarySearchTests | typeof import("./fetcher/Fetcher").FetcherTests | typeof import("./units/fileSizes").FileSizeTests | typeof import("./tslib/collections/TreeNode").TreeNodeTests | typeof import("./tslib/events/once").OnceTests | typeof import("./tslib/events/once").SuccessTests | typeof import("./tslib/events/Task").TaskTests | typeof import("./tslib/events/TypedEventTarget").TypedEventTargetTests | typeof import("./tslib/gis/UTMPoint").UTMPointTests | typeof import("./tslib/URLBuilder").URLBuilderTests | typeof import("./tslib/using").UsingTests)[];
+//# sourceMappingURL=index.d.ts.map

@@ -1,4 +1,4 @@
-type Data = ArrayBuffer | TypedArray | DataView;
+type Data = ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | DataView;
 
 type AudioDataFormat =
     | "u8"
@@ -38,7 +38,7 @@ interface AudioData {
     close(): void;
 }
 
-class AudioData implements AudioData {
+declare class AudioData implements AudioData {
     constructor(init: AudioDataInit);
 }
 
@@ -60,7 +60,7 @@ interface EncodedAudioChunk {
     copyTo(destination: Data): void;
 }
 
-class EncodedAudioChunk implements EncodedAudioChunk {
+declare class EncodedAudioChunk implements EncodedAudioChunk {
     constructor(optionss: EncodedAudioChunkOptions);
 }
 
@@ -100,7 +100,6 @@ interface AudioEncoderConfigurationSupportInfo {
 }
 
 interface AudioEncoder extends EventTarget {
-    static isConfigSupported(config: AudioEncoderConfig): Promise<AudioEncoderConfigurationSupportInfo>;
 
     readonly encodeQueueSize: number;
     readonly state: AudioEncoderState;
@@ -118,6 +117,7 @@ interface AudioEncoder extends EventTarget {
     removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 }
 
-class AudioEncoder implements AudioEncoder {
+declare class AudioEncoder implements AudioEncoder {
+    static isConfigSupported(config: AudioEncoderConfig): Promise<AudioEncoderConfigurationSupportInfo>;
     constructor(init: AudioEncoderOptions);
 }

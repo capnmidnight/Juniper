@@ -1,6 +1,7 @@
 {
-  "files": [ ],
-
+  "extends": "./tsconfig_base.json",
+  "files": [],
+  "include": [],
   "references": [
     { "path": "@juniper-lib/audio" },
     { "path": "@juniper-lib/ble" },
@@ -27,9 +28,5 @@
     { "path": "@juniper-lib/webrtc" },
     { "path": "@juniper-lib/widgets" },
     { "path": "@juniper-lib/workers" }
-  ],
-
-  "compilerOptions": {
-    "composite": true
-  }
+  ]
 }

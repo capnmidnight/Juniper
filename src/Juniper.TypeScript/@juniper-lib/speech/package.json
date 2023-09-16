@@ -3,6 +3,10 @@
   "name": "@juniper-lib/speech",
   "private": true,
   "type": "module",
+  "files": [
+    "dist/*"
+  ],
+  "module": "dist/index.js",
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc -b"
