@@ -68,7 +68,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(outputFile));
             }
 
-            if (MediaType.Application_Json.GuessMatches(outputFile))
+            if (outputFile.Matches(MediaType.Application_Json))
             {
                 var json = new JsonFactory<T>();
                 using var stream = outputFile.Create();

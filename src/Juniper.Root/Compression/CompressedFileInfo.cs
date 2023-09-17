@@ -103,6 +103,11 @@ namespace Juniper.Compression
             return !(left == right);
         }
 
+        public bool Matches(MediaType type)
+        {
+            return type.GuessMatches(Name);
+        }
+
         public override string ToString()
         {
             if (IsFile)

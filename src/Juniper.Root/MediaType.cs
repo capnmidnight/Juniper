@@ -17,6 +17,16 @@ namespace Juniper
             return MediaType.GuessByFileName(file.Name);
         }
 
+        public static bool Matches(this FileInfo file, MediaType type)
+        {
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            return type.GuessMatches(file.Name);
+        }
+
         public static FileInfo AddExtension(this FileInfo file, MediaType type)
         {
             return new FileInfo(type.AddExtension(file.FullName));
@@ -312,16 +322,6 @@ namespace Juniper
 
             var types = GuessByFileName(fileName);
             return types.Contains(this);
-        }
-
-        public bool GuessMatches(FileInfo file)
-        {
-            if (file is null)
-            {
-                throw new ArgumentNullException(nameof(file));
-            }
-
-            return GuessMatches(file.Name);
         }
 
         public string AddExtension(string fileName)

@@ -18,7 +18,7 @@ namespace Juniper.Collections
             }
 
             using var stream = file.OpenRead();
-            if (MediaType.Application_Json.GuessMatches(file))
+            if (file.Matches(MediaType.Application_Json))
             {
                 return LoadJSON<NodeT>(stream);
             }
