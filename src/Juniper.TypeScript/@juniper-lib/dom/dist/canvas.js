@@ -1,6 +1,6 @@
 import { Task } from "@juniper-lib/events/dist/Task";
 import { once } from "@juniper-lib/events/dist/once";
-import { MediaType } from "@juniper-lib/mediatypes/dist";
+import { MediaType } from "@juniper-lib/mediatypes";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
 import { dispose as disposeOld } from "@juniper-lib/tslib/dist/using";
 import { Height, Src, Width } from "./attrs";

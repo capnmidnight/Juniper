@@ -3,7 +3,7 @@ import { AudioStreamSource } from "@juniper-lib/audio/dist/sources/AudioStreamSo
 import { AutoPlay, SrcObject } from "@juniper-lib/dom/dist/attrs";
 import { getMonospaceFonts } from "@juniper-lib/dom/dist/css";
 import { Video } from "@juniper-lib/dom/dist/tags";
-import { star } from "@juniper-lib/emoji/dist";
+import { star } from "@juniper-lib/emoji";
 import { TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
 import { FWD, HalfPi } from "@juniper-lib/tslib/dist/math";
 import { isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";

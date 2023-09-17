@@ -1,9 +1,9 @@
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
 import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
+import { arrayClear } from "@juniper-lib/collections/dist/arrays";
 import { and } from "@juniper-lib/tslib/dist/identity";
-import { BaseVideoPlayer } from "@juniper-lib/video/dist/BaseVideoPlayer";
-import { cleanup } from "./cleanup";
+import { BaseVideoPlayer } from "@juniper-lib/video";
 import { createEACGeometry, createQuadGeometry } from "./CustomGeometry";
+import { cleanup } from "./cleanup";
 import { solidTransparent } from "./materials";
 import { obj } from "./objects";
 import { Image2D } from "./widgets/Image2D";

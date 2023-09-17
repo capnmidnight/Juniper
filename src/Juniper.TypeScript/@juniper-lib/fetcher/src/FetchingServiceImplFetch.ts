@@ -1,4 +1,4 @@
-import { IDexDB, IDexDBOptionsDef, IDexStore } from "@juniper-lib/indexdb/dist";
+import { IDexDB, IDexDBOptionsDef, IDexStore } from "@juniper-lib/indexdb";
 import { mapJoin } from "@juniper-lib/collections/dist/mapJoin";
 import { PriorityList } from "@juniper-lib/collections/dist/PriorityList";
 import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";

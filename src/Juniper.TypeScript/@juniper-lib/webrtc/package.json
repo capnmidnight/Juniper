@@ -3,6 +3,8 @@
   "name": "@juniper-lib/webrtc",
   "private": true,
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
     "dist/*"
   ],

@@ -1,12 +1,12 @@
 import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
 import { BaseSpatializer } from "@juniper-lib/audio/dist/spatializers/BaseSpatializer";
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
 import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
+import { arrayClear } from "@juniper-lib/collections/dist/arrays";
 import { and } from "@juniper-lib/tslib/dist/identity";
-import { BaseVideoPlayer } from "@juniper-lib/video/dist/BaseVideoPlayer";
+import { BaseVideoPlayer } from "@juniper-lib/video";
 import { BufferGeometry, MeshBasicMaterial, Object3D } from "three";
+import { PosUV, QuadPosUV, createEACGeometry, createQuadGeometry } from "./CustomGeometry";
 import { cleanup } from "./cleanup";
-import { createEACGeometry, createQuadGeometry, PosUV, QuadPosUV } from "./CustomGeometry";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { solidTransparent } from "./materials";
 import { ErsatzObject, obj } from "./objects";

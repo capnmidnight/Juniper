@@ -1,4 +1,4 @@
-import type { MediaType } from "@juniper-lib/mediatypes/dist";
+import type { MediaType } from "@juniper-lib/mediatypes";
 import { identity } from "@juniper-lib/tslib/dist/identity";
 import { stringRandom } from "@juniper-lib/tslib/dist/strings/stringRandom";
 import { isBoolean, isFunction, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";

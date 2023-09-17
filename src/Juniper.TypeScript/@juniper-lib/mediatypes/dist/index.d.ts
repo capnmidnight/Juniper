@@ -7,7 +7,7 @@ export * from "./message";
 export * from "./model";
 export * from "./multipart";
 export * from "./text";
-export { MediaType } from "./util";
+export { MediaType, mediaTypesToAcceptValue } from "./util";
 export * from "./video";
 export * from "./xConference";
 export * from "./xShader";

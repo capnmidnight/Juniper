@@ -1,4 +1,4 @@
-import { Model_Gltf_Binary } from "@juniper-lib/mediatypes/dist";
+import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { HalfPi, Pi } from "@juniper-lib/tslib/dist/math";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
 import { IDisposable } from "@juniper-lib/tslib/dist/using";

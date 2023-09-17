@@ -2,7 +2,7 @@ import { compareBy, insertSorted, removeSorted } from "@juniper-lib/collections/
 import { isHTMLCanvas } from "@juniper-lib/dom/dist/canvas";
 import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
 import { isAsset } from "@juniper-lib/fetcher/dist/Asset";
-import { Model_Gltf_Binary } from "@juniper-lib/mediatypes/dist";
+import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { isDesktop, isFirefox, isOculusBrowser, oculusBrowserVersion } from "@juniper-lib/tslib/dist/flags";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
 import { feet2Meters } from "@juniper-lib/tslib/dist/units/length";

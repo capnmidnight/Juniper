@@ -1,4 +1,4 @@
-import type { MediaType } from "@juniper-lib/mediatypes/dist";
+import type { MediaType } from "@juniper-lib/mediatypes";
 /**
  * A setter functor for HTML attributes.
  **/

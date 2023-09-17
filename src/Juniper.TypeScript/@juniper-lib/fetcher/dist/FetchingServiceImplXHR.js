@@ -1,4 +1,4 @@
-import { IDexDB } from "@juniper-lib/indexdb/dist";
+import { IDexDB } from "@juniper-lib/indexdb";
 import { mapJoin } from "@juniper-lib/collections/dist/mapJoin";
 import { PriorityList } from "@juniper-lib/collections/dist/PriorityList";
 import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
@@ -9,7 +9,7 @@ import { progressSplit } from "@juniper-lib/progress/dist/progressSplit";
 import { assertNever, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
 import { using } from "@juniper-lib/tslib/dist/using";
 import { translateResponse } from "./translateResponse";
-import { Text_Plain } from "@juniper-lib/mediatypes/dist";
+import { Text_Plain } from "@juniper-lib/mediatypes";
 export function isXHRBodyInit(obj) {
     return isString(obj)
         || isArrayBufferView(obj)

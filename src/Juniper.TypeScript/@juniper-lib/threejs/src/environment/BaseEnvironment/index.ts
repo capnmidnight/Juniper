@@ -3,7 +3,7 @@ import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/dist/canvas";
 import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
 import { BaseAsset, isAsset } from "@juniper-lib/fetcher/dist/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { Model_Gltf_Binary } from "@juniper-lib/mediatypes/dist";
+import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import { TimerTickEvent } from "@juniper-lib/timers/dist/ITimer";
 import { isDesktop, isFirefox, isOculusBrowser, oculusBrowserVersion } from "@juniper-lib/tslib/dist/flags";

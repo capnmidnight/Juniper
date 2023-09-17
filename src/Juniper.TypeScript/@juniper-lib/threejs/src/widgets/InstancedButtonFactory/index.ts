@@ -2,7 +2,7 @@ import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
 import { arrayCompare, arrayRemove, arrayReplace } from "@juniper-lib/collections/dist/arrays";
 import { CanvasTypes, Context2D, createUICanvas } from "@juniper-lib/dom/dist/canvas";
 import { AssetImage } from "@juniper-lib/fetcher/dist/Asset";
-import { Image_Png } from "@juniper-lib/mediatypes/dist";
+import { Image_Png } from "@juniper-lib/mediatypes";
 import { Exception } from "@juniper-lib/tslib/dist/Exception";
 import { nextPowerOf2 } from "@juniper-lib/tslib/dist/math";
 import { CanvasTexture, Color, DoubleSide, DynamicDrawUsage, InstancedMesh, MeshBasicMaterial, Object3D, PlaneGeometry, ShaderMaterial, Uniform } from "three";

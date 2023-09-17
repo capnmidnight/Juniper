@@ -1,5 +1,5 @@
 import { ErsatzElement } from "@juniper-lib/dom/dist/tags";
-import { MediaType } from "@juniper-lib/mediatypes/dist";
+import { MediaType } from "@juniper-lib/mediatypes";
 import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
 export declare class FileUploadInputEvent extends TypedEvent<"input"> {
     readonly files: File[];

@@ -1,4 +1,4 @@
-import { Audio_Wav } from "@juniper-lib/mediatypes/dist";
+import { Audio_Wav } from "@juniper-lib/mediatypes";
 import { audioBufferGetData } from "./audioBufferGetData";
 
 export function audioBufferToWav(buffer: AudioBuffer, useFloat32 = false) {

@@ -15,7 +15,7 @@ import { StatsImage } from "@juniper-lib/graphics2d/dist/StatsImage";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import { ISpeechRecognizer } from "@juniper-lib/speech/dist/ISpeechRecognizer";
 import { SpeechRecognizerFactory } from "@juniper-lib/speech/dist/createSpeechRecognizer";
-import { LocalUserWebcam } from "@juniper-lib/video/dist/LocalUserWebcam";
+import { LocalUserWebcam } from "@juniper-lib/video";
 import { ScreenUI } from "../../ScreenUI";
 import { SpaceUI } from "../../SpaceUI";
 import { VideoPlayer3D } from "../../VideoPlayer3D";

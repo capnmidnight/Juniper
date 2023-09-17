@@ -1,6 +1,6 @@
 import { BaseFetchedAsset, isAsset } from "@juniper-lib/fetcher/dist/Asset";
 import { translateResponse } from "@juniper-lib/fetcher/dist/translateResponse";
-import { Model_Gltf_Binary, Model_Gltf_Json } from "@juniper-lib/mediatypes/dist";
+import { Model_Gltf_Binary, Model_Gltf_Json } from "@juniper-lib/mediatypes";
 import { isDefined, isFunction } from "@juniper-lib/tslib/dist/typeChecks";
 export class AssetGltfModel extends BaseFetchedAsset {
     constructor(env, path, type, useCache) {

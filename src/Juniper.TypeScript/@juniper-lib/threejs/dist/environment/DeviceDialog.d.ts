@@ -3,7 +3,7 @@ import { AudioManager } from "@juniper-lib/audio/dist/AudioManager";
 import { DeviceManager } from "@juniper-lib/audio/dist/DeviceManager";
 import { LocalUserMicrophone } from "@juniper-lib/audio/dist/LocalUserMicrophone";
 import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { LocalUserWebcam } from "@juniper-lib/video/dist/LocalUserWebcam";
+import { LocalUserWebcam } from "@juniper-lib/video";
 import { DialogBox } from "@juniper-lib/widgets/dist/DialogBox";
 export declare class DeviceDialog extends DialogBox {
     private readonly devices;

@@ -6,8 +6,9 @@
   "files": [
     "dist/*"
   ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "description": "A collection of all the UTF-8 Emoji code points that I could find",
-  "main": "index.ts",
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc -b"

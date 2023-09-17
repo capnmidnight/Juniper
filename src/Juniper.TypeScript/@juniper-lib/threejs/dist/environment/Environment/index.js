@@ -15,11 +15,11 @@ import { AudioGraphDialog } from "@juniper-lib/graphics2d/dist/AudioGraphDialog"
 import { BatteryImage } from "@juniper-lib/graphics2d/dist/BatteryImage";
 import { ClockImage } from "@juniper-lib/graphics2d/dist/ClockImage";
 import { StatsImage } from "@juniper-lib/graphics2d/dist/StatsImage";
-import { Audio_Mpeg } from "@juniper-lib/mediatypes/dist";
+import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/dist/flags";
 import { rad2deg } from "@juniper-lib/tslib/dist/math";
 import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { LocalUserWebcam } from "@juniper-lib/video/dist/LocalUserWebcam";
+import { LocalUserWebcam } from "@juniper-lib/video";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/dist/constants";
 import { ScreenMode } from "../../ScreenMode";
 import { ScreenUI } from "../../ScreenUI";

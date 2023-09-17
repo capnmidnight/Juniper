@@ -1,6 +1,6 @@
 import { arrayRemove } from "@juniper-lib/collections/dist/arrays";
 import { once } from "@juniper-lib/events/dist/once";
-import { Text_Css } from "@juniper-lib/mediatypes/dist";
+import { Text_Css } from "@juniper-lib/mediatypes";
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/dist/typeChecks";
 import { ClassList, Href, HtmlFor, Rel, Type, isAttr } from "./attrs";
 import { margin } from "./css";

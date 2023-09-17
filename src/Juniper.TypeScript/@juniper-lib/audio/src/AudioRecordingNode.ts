@@ -1,7 +1,7 @@
 import { arrayClear, arrayScan } from "@juniper-lib/collections/dist/arrays";
 import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
 import { debounce } from "@juniper-lib/events/dist/debounce";
-import { MediaType } from "@juniper-lib/mediatypes/dist";
+import { MediaType } from "@juniper-lib/mediatypes";
 import * as allAudioTypes from "@juniper-lib/mediatypes/dist/audio";
 import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
 import { ActivityDetector } from "./ActivityDetector";

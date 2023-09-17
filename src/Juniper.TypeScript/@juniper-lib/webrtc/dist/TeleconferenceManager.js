@@ -6,9 +6,9 @@ import { dispose } from "@juniper-lib/tslib/dist/using";
 import "webrtc-adapter";
 import { ConferenceErrorEvent, ConferenceServerConnectedEvent, ConferenceServerDisconnectedEvent, RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent } from "./ConferenceEvents";
 import { ConnectionState, settleConnected, whenDisconnected } from "./ConnectionState";
-import { DEFAULT_LOCAL_USER_ID } from "./constants";
 import { GainDecayer } from "./GainDecayer";
 import { RemoteUser } from "./RemoteUser";
+import { DEFAULT_LOCAL_USER_ID } from "./constants";
 const sockets = singleton("Juniper:Sockets", () => new Array());
 function fakeSocket(...args) {
     const socket = new WebSocket(...args);

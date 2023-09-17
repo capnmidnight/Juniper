@@ -6,7 +6,7 @@ import { WindowQuitEventer } from "@juniper-lib/events/dist/WindowQuitEventer";
 import { singleton } from "@juniper-lib/tslib/dist/singleton";
 import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
 import { IDisposable, dispose } from "@juniper-lib/tslib/dist/using";
-import { LocalUserWebcam } from "@juniper-lib/video/dist/LocalUserWebcam";
+import { LocalUserWebcam } from "@juniper-lib/video";
 import "webrtc-adapter";
 import {
     ConferenceErrorEvent,
@@ -19,7 +19,6 @@ import {
     UserLeftEvent
 } from "./ConferenceEvents";
 import { ConnectionState, settleConnected, whenDisconnected } from "./ConnectionState";
-import { DEFAULT_LOCAL_USER_ID } from "./constants";
 import { GainDecayer } from "./GainDecayer";
 import {
     HubAnswerReceivedEvent,
@@ -42,6 +41,7 @@ import {
     RemoteUserTrackMutedEvent,
     RemoteUserTrackRemovedEvent
 } from "./RemoteUser";
+import { DEFAULT_LOCAL_USER_ID } from "./constants";
 
 const sockets = singleton("Juniper:Sockets", () => new Array<WebSocket>());
 function fakeSocket(...args: any[]): WebSocket {

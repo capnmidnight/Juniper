@@ -3,7 +3,7 @@ import { AssetImage } from "@juniper-lib/fetcher/dist/Asset";
 import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
 import { Animator } from "@juniper-lib/graphics2d/dist/animation/Animator";
 import { bump } from "@juniper-lib/graphics2d/dist/animation/tween";
-import { Image_Jpeg, Image_Png } from "@juniper-lib/mediatypes/dist";
+import { Image_Jpeg, Image_Png } from "@juniper-lib/mediatypes";
 import { arrayReplace } from "@juniper-lib/collections/dist/arrays";
 import { clamp } from "@juniper-lib/tslib/dist/math";
 import { progressOfArray } from "@juniper-lib/progress/dist/progressOfArray";

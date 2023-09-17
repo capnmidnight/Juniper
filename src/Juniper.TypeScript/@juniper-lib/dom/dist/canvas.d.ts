@@ -1,4 +1,4 @@
-import { MediaType } from "@juniper-lib/mediatypes/dist";
+import { MediaType } from "@juniper-lib/mediatypes";
 export type CanvasTypes = HTMLCanvasElement | OffscreenCanvas;
 export type CanvasImageTypes = HTMLImageElement | HTMLCanvasElement | OffscreenCanvas | ImageBitmap;
 export type Context2D = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;

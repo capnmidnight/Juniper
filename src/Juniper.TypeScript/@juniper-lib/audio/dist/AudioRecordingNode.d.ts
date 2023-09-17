@@ -1,6 +1,6 @@
 /// <reference types="dom-mediacapture-record" />
 import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { MediaType } from "@juniper-lib/mediatypes/dist";
+import { MediaType } from "@juniper-lib/mediatypes";
 import { ActivityDetector } from "./ActivityDetector";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";

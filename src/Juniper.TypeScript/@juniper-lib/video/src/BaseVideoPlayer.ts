@@ -11,7 +11,7 @@ import { PriorityList } from "@juniper-lib/collections/dist/PriorityList";
 import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/dist/attrs";
 import { Audio, ElementChild, Video, mediaElementCanPlayThrough } from "@juniper-lib/dom/dist/tags";
 import { once } from "@juniper-lib/events/dist/once";
-import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes/dist";
+import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import { progressTasks } from "@juniper-lib/progress/dist/progressTasks";
 import { AsyncCallback } from "@juniper-lib/tslib/dist/identity";

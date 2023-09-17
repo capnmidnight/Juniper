@@ -1,6 +1,6 @@
 import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
 import { BaseSpatializer } from "@juniper-lib/audio/dist/spatializers/BaseSpatializer";
-import { BaseVideoPlayer } from "@juniper-lib/video/dist/BaseVideoPlayer";
+import { BaseVideoPlayer } from "@juniper-lib/video";
 import { BufferGeometry, MeshBasicMaterial, Object3D } from "three";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { ErsatzObject } from "./objects";

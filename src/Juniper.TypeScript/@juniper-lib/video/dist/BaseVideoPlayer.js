@@ -8,7 +8,7 @@ import { PriorityList } from "@juniper-lib/collections/dist/PriorityList";
 import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/dist/attrs";
 import { Audio, Video, mediaElementCanPlayThrough } from "@juniper-lib/dom/dist/tags";
 import { once } from "@juniper-lib/events/dist/once";
-import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes/dist";
+import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
 import { progressTasks } from "@juniper-lib/progress/dist/progressTasks";
 import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
 import { isVideoRecord } from "./data";

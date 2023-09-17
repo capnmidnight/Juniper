@@ -1,4 +1,4 @@
-import { Application_Javascript, Application_Json, MediaType, Text_Css } from "@juniper-lib/mediatypes/dist";
+import { Application_Javascript, Application_Json, MediaType, Text_Css } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import { isBoolean, isDefined, isFunction } from "@juniper-lib/tslib/dist/typeChecks";
 import { IFetcher, IFetcherBodiedResult } from "./IFetcher";

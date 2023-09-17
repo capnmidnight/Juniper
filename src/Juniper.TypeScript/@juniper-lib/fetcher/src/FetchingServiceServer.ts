@@ -1,9 +1,9 @@
+import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
+import { WorkerServer } from "@juniper-lib/workers";
 import { FetchingService } from "./FetchingService";
-import { WorkerServer } from "@juniper-lib/workers/dist/WorkerServer";
 import { IFetchingService } from "./IFetchingService";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IResponse } from "./IResponse";
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
 
 export class FetchingServiceServer extends WorkerServer<TypedEventMap<string>> {
     constructor(self: DedicatedWorkerGlobalScope, impl: IFetchingServiceImpl) {

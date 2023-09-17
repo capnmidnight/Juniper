@@ -1,4 +1,4 @@
-import { Application_Javascript, Application_Json, Text_Css } from "@juniper-lib/mediatypes/dist";
+import { Application_Javascript, Application_Json, Text_Css } from "@juniper-lib/mediatypes";
 import { isBoolean, isDefined, isFunction } from "@juniper-lib/tslib/dist/typeChecks";
 import { unwrapResponse } from "./unwrapResponse";
 export function isAsset(obj) {

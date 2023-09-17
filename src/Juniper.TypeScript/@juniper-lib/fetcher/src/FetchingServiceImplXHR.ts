@@ -1,4 +1,4 @@
-import { IDexDB, IDexDBOptionsDef, IDexStore } from "@juniper-lib/indexdb/dist";
+import { IDexDB, IDexDBOptionsDef, IDexStore } from "@juniper-lib/indexdb";
 import { mapJoin } from "@juniper-lib/collections/dist/mapJoin";
 import { PriorityList } from "@juniper-lib/collections/dist/PriorityList";
 import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
@@ -14,7 +14,7 @@ import type { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFet
 import type { IRequest, IRequestWithBody } from "./IRequest";
 import type { IResponse, ResponseCallback } from "./IResponse";
 import { translateResponse } from "./translateResponse";
-import { Text_Plain } from "@juniper-lib/mediatypes/dist";
+import { Text_Plain } from "@juniper-lib/mediatypes";
 
 export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
     return isString(obj)

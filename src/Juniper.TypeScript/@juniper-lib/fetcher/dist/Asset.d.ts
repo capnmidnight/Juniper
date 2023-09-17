@@ -1,4 +1,4 @@
-import { MediaType } from "@juniper-lib/mediatypes/dist";
+import { MediaType } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import { IFetcher, IFetcherBodiedResult } from "./IFetcher";
 import { IResponse } from "./IResponse";

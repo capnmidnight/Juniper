@@ -4,7 +4,7 @@ import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import { ClassList } from "@juniper-lib/dom/dist/attrs";
 import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/dist/evts";
 import { ButtonSmall, Div, Span, StyleBlob, elementSetDisplay, elementSetText, elementSetTitle } from "@juniper-lib/dom/dist/tags";
-import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji/dist";
+import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
 import { EventTargetMixin } from "@juniper-lib/events/dist/EventTarget";
 import { Task } from "@juniper-lib/events/dist/Task";
 import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";

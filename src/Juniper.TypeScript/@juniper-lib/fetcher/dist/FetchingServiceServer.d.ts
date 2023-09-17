@@ -1,8 +1,8 @@
 /// <reference types="offscreencanvas" />
-import { WorkerServer } from "@juniper-lib/workers/dist/WorkerServer";
+import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
+import { WorkerServer } from "@juniper-lib/workers";
 import { IFetchingService } from "./IFetchingService";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
 export declare class FetchingServiceServer extends WorkerServer<TypedEventMap<string>> {
     constructor(self: DedicatedWorkerGlobalScope, impl: IFetchingServiceImpl);
 }

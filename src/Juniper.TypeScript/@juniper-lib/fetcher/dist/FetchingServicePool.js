@@ -1,4 +1,4 @@
-import { WorkerPool } from "@juniper-lib/workers/dist/WorkerPool";
+import { WorkerPool } from "@juniper-lib/workers";
 import { FetchingServiceClient } from "./FetchingServiceClient";
 export class FetchingServicePool extends WorkerPool {
     constructor(options, fetcher) {

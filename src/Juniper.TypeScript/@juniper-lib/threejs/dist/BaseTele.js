@@ -1,7 +1,7 @@
 import { arrayRemove, compareBy, insertSorted } from "@juniper-lib/collections/dist/arrays";
 import { all } from "@juniper-lib/events/dist/all";
 import { AssetFile } from "@juniper-lib/fetcher/dist/Asset";
-import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes/dist";
+import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { identity } from "@juniper-lib/tslib/dist/identity";
 import { Tau } from "@juniper-lib/tslib/dist/math";
 import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";

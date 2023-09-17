@@ -1,5 +1,5 @@
 import { CanvasTypes } from "@juniper-lib/dom/dist/canvas";
-import { MediaType } from "@juniper-lib/mediatypes/dist";
+import { MediaType } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetcherBasic, IFetcherBodiedResult, IFetcherBodilessResult, IFetcherResult, IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec, IFetcherSendProgressTimeoutCredentialsCacheGetBody } from "./IFetcher";

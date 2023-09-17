@@ -1,7 +1,7 @@
 import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import type { FullWorkerClientOptions } from "@juniper-lib/workers/dist/WorkerClientOptions";
-import { WorkerPool } from "@juniper-lib/workers/dist/WorkerPool";
+import type { FullWorkerClientOptions } from "@juniper-lib/workers";
+import { WorkerPool } from "@juniper-lib/workers";
 import { FetchingServiceClient } from "./FetchingServiceClient";
 import { IFetchingService } from "./IFetchingService";
 import { IRequest, IRequestWithBody } from "./IRequest";

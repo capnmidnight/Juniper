@@ -1,6 +1,6 @@
 import { canvasToBlob, createUtilityCanvas } from "@juniper-lib/dom/dist/canvas";
 import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { Image_Jpeg } from "@juniper-lib/mediatypes/dist";
+import { Image_Jpeg } from "@juniper-lib/mediatypes";
 import { deg2rad, HalfPi, Pi } from "@juniper-lib/tslib/dist/math";
 import { progressOfArray } from "@juniper-lib/progress/dist/progressOfArray";
 import { dispose } from "@juniper-lib/tslib/dist/using";

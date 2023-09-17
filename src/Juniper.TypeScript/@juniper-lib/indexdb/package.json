@@ -6,7 +6,8 @@
   "files": [
     "dist/*"
   ],
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "description": "Wrappers for simplifying working with IndexDB",
   "scripts": {
     "check": "tsc --noEmit",

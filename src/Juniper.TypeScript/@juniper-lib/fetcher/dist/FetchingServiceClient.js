@@ -1,4 +1,4 @@
-import { WorkerClient } from "@juniper-lib/workers/dist/WorkerClient";
+import { WorkerClient } from "@juniper-lib/workers";
 function isDOMParsersSupportedType(type) {
     return type === "application/xhtml+xml"
         || type === "application/xml"

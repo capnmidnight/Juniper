@@ -1,4 +1,4 @@
-import type { MediaType } from "@juniper-lib/mediatypes/dist";
+import type { MediaType } from "@juniper-lib/mediatypes";
 import type { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import type { BaseAsset } from "./Asset";
 import type { HTTPMethods } from "./HTTPMethods";

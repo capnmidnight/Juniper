@@ -2,7 +2,7 @@ import { AudioManager } from "@juniper-lib/audio/dist/AudioManager";
 import { LocalUserMicrophone } from "@juniper-lib/audio/dist/LocalUserMicrophone";
 import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
 import { IDisposable } from "@juniper-lib/tslib/dist/using";
-import { LocalUserWebcam } from "@juniper-lib/video/dist/LocalUserWebcam";
+import { LocalUserWebcam } from "@juniper-lib/video";
 import "webrtc-adapter";
 import { ConferenceEvents } from "./ConferenceEvents";
 import { ConnectionState } from "./ConnectionState";

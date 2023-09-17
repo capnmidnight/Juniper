@@ -18,19 +18,19 @@ import { display, em, margin, paddingRight } from "@juniper-lib/dom/dist/css";
 import { onClick, onInput } from "@juniper-lib/dom/dist/evts";
 import {
     ButtonSecondary, Div,
+    HtmlRender,
     InputCheckbox,
     Meter,
     Option,
     Select,
-    HtmlRender,
     elementClearChildren,
     elementSetDisplay
 } from "@juniper-lib/dom/dist/tags";
 import { AssetFile } from "@juniper-lib/fetcher/dist/Asset";
 import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { Audio_Mpeg } from "@juniper-lib/mediatypes/dist";
+import { Audio_Mpeg } from "@juniper-lib/mediatypes";
 import { stringRandom } from "@juniper-lib/tslib/dist/strings/stringRandom";
-import { LocalUserWebcam } from "@juniper-lib/video/dist/LocalUserWebcam";
+import { LocalUserWebcam } from "@juniper-lib/video";
 import { DialogBox } from "@juniper-lib/widgets/dist/DialogBox";
 import { InputRangeWithNumber } from "@juniper-lib/widgets/dist/InputRangeWithNumber";
 import { PropertyList, group } from "@juniper-lib/widgets/dist/PropertyList";

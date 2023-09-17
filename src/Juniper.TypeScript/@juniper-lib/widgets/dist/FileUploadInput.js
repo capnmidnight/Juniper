@@ -1,7 +1,7 @@
 import { ClassList } from "@juniper-lib/dom/dist/attrs";
 import { onClick, onDragEnd, onDragLeave, onDragOver, onDrop } from "@juniper-lib/dom/dist/evts";
 import { Button, HtmlRender, elementSetText } from "@juniper-lib/dom/dist/tags";
-import { mediaTypesToAcceptValue } from "@juniper-lib/mediatypes/dist/util";
+import { mediaTypesToAcceptValue } from "@juniper-lib/mediatypes";
 import { arrayReplace } from "@juniper-lib/collections/dist/arrays";
 import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
 import { isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";

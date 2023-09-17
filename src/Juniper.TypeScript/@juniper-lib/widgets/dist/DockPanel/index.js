@@ -3,7 +3,7 @@ import { ClassList, CustomData, Draggable, HtmlAttr, ID, QueryAll } from "@junip
 import { fr, gridColumn, gridRow, gridTemplateColumns, gridTemplateRows } from "@juniper-lib/dom/dist/css";
 import { onClick, onDragEnd, onDragOver, onDragStart } from "@juniper-lib/dom/dist/evts";
 import { ButtonSmall, Div, H3, HtmlRender, elementGetCustomData, elementInsertBefore, elementIsDisplayed, elementSetText, elementSwap, elementToggleDisplay } from "@juniper-lib/dom/dist/tags";
-import { blackMediumDownPointingTriangleCentered as closeIcon, blackMediumRightPointingTriangleCentered as openIcon } from "@juniper-lib/emoji/dist";
+import { blackMediumDownPointingTriangleCentered as closeIcon, blackMediumRightPointingTriangleCentered as openIcon } from "@juniper-lib/emoji";
 import { isBoolean, isDate, isDefined, isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/dist/typeChecks";
 import { vec2 } from "gl-matrix";
 import "./styles.css";

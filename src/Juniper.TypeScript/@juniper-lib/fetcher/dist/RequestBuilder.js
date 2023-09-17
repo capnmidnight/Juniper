@@ -3,7 +3,7 @@ import { createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCan
 import { Img, Link, Script } from "@juniper-lib/dom/dist/tags";
 import { once } from "@juniper-lib/events/dist/once";
 import { waitFor } from "@juniper-lib/events/dist/waitFor";
-import { Application_Javascript, Application_Json, Application_Wasm, Text_Css, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes/dist";
+import { Application_Javascript, Application_Json, Application_Wasm, Text_Css, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
 import { assertNever, isDefined, isFunction, isString } from "@juniper-lib/tslib/dist/typeChecks";
 import { dispose } from "@juniper-lib/tslib/dist/using";
 import { translateResponse } from "./translateResponse";

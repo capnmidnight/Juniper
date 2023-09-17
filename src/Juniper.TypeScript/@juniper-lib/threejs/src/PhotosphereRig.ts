@@ -1,7 +1,7 @@
 import { canvasToBlob, CanvasTypes, Context2D, createUtilityCanvas } from "@juniper-lib/dom/dist/canvas";
 import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
 import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { Image_Jpeg } from "@juniper-lib/mediatypes/dist";
+import { Image_Jpeg } from "@juniper-lib/mediatypes";
 import { deg2rad, HalfPi, Pi } from "@juniper-lib/tslib/dist/math";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import { progressOfArray } from "@juniper-lib/progress/dist/progressOfArray";

@@ -1,5 +1,5 @@
+import { WorkerServer } from "@juniper-lib/workers";
 import { FetchingService } from "./FetchingService";
-import { WorkerServer } from "@juniper-lib/workers/dist/WorkerServer";
 export class FetchingServiceServer extends WorkerServer {
     constructor(self, impl) {
         super(self);

@@ -2,7 +2,7 @@ import { arrayRemove, compareBy, insertSorted } from "@juniper-lib/collections/d
 import { all } from "@juniper-lib/events/dist/all";
 import { AssetFile, BaseFetchedAsset } from "@juniper-lib/fetcher/dist/Asset";
 import type { TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
-import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes/dist";
+import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import { identity } from "@juniper-lib/tslib/dist/identity";
 import { Tau } from "@juniper-lib/tslib/dist/math";

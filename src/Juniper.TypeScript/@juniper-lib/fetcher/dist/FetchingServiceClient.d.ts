@@ -1,7 +1,6 @@
 import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
 import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { WorkerClient } from "@juniper-lib/workers/dist/WorkerClient";
-import { WorkerServerEventMessage } from "@juniper-lib/workers/dist/WorkerMessages";
+import { WorkerClient, WorkerServerEventMessage } from "@juniper-lib/workers";
 import { IFetchingService } from "./IFetchingService";
 import { IRequest, IRequestWithBody } from "./IRequest";
 import { IResponse } from "./IResponse";

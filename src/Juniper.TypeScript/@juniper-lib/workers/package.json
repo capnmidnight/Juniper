@@ -6,6 +6,8 @@
   "files": [
     "dist/*"
   ],
+  "module": "dist/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc -b"
