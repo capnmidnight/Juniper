@@ -28,44 +28,38 @@ namespace Juniper.Xml
 
             using var stream = new StreamReader(file.FullName);
             var root = XElement.Load(stream);
-            return new XmlSpreadsheet2003(root);
+            return new XmlSpreadsheet2003(file.Name, root);
         }
 
+        public string Name { get; }
 
-        private readonly XElement root;
+        public Dictionary<string, Worksheet> Worksheets { get; }
 
-        public Worksheet[] Worksheets { get; }
-
-        private XmlSpreadsheet2003(XElement root)
+        private XmlSpreadsheet2003(string name, XElement root)
         {
-            this.root = root;
+            Name = name;
             Worksheets = root.Elements(WORKSHEET)
                 .Select(e => new Worksheet(e))
-                .ToArray();
+                .ToDictionary(s => s.Name);
         }
 
         public class Worksheet
         {
-            private readonly XElement element;
-
-            public string Name => element.Attribute(NAME).Value;
+            public string Name { get; }
 
             public Table Table { get; }
 
             internal Worksheet(XElement element)
             {
-                this.element = element;
-
+                Name = element.Attribute(NAME).Value;
                 Table = new Table(element.Element(TABLE));
             }
         }
 
         public class Table
         {
-            private readonly XElement element;
-
             public string[] Headers { get; }
-            public List<Dictionary<string, string>> Rows { get; }
+            public List<Row> Rows { get; }
 
             public string SortKey => Headers
                 .ToArray()
@@ -81,18 +75,20 @@ namespace Juniper.Xml
                         .All(v => v);
             }
 
-            internal Table(IEnumerable<Dictionary<string, string>> rows)
+            internal Table(IEnumerable<Row> rows)
             {
-                Headers = rows.SelectMany(r => r.Keys).Distinct().ToArray();
+                Headers = rows.SelectMany(r => r.Headers).Distinct().ToArray();
                 Array.Sort(Headers);
                 Rows = rows.ToList();
             }
 
+            public bool IsUnderused => Rows.Any(r => r.IsUnderused);
+
+            public IEnumerable<Row> UnderusedRows => Rows.Where(r => r.IsUnderused);
+
             internal Table(XElement element)
             {
-                this.element = element;
-
-                if(element is null)
+                if (element is null)
                 {
                     throw new Exception("Excpected a Table element");
                 }
@@ -103,7 +99,7 @@ namespace Juniper.Xml
                            select header.Value)
                             .ToArray();
 
-                Rows = new List<Dictionary<string, string>>();
+                Rows = new List<Row>();
                 foreach (var row in rows)
                 {
                     var dict = new Dictionary<string, string>();
@@ -111,7 +107,7 @@ namespace Juniper.Xml
                     {
                         dict.Add(header, "");
                     }
-                    Rows.Add(dict);
+                    Rows.Add(new Row(dict));
                     var index = 0;
                     foreach (var cell in row.Elements(CELL))
                     {
@@ -132,6 +128,44 @@ namespace Juniper.Xml
 
                 Array.Sort(Headers);
             }
+        }
+
+        public class Row
+        {
+            private Dictionary<string, string> data;
+            private Dictionary<string, bool> accessed;
+
+            internal Row(Dictionary<string, string> data)
+            {
+                this.data = data;
+                accessed = data.Keys.ToDictionary(v => v, _ => false);
+            }
+
+            public IEnumerable<string> Headers => data.Keys;
+
+            public bool Has(string header) => data.ContainsKey(header);
+
+            public string this[string header]
+            {
+                get
+                {
+                    if (!Has(header))
+                    {
+                        return null;
+                    }
+
+                    accessed[header] = true;
+                    return data[header];
+                }
+            }
+
+            public bool IsUnderused => accessed.Any(kv => !kv.Value);
+
+            public string[] UnusedFields =>
+                (from kv in accessed
+                 where !kv.Value
+                 select kv.Key)
+                .ToArray();
         }
     }
 }
