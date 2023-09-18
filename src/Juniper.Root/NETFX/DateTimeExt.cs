@@ -63,5 +63,37 @@ namespace System
 
             return JD + delta.TotalDays - JDEpoch;
         }
+
+        public static DateTime Min(IEnumerable<DateTime?> dates)
+        {
+            var min = DateTime.MaxValue;
+            foreach(var value in dates)
+            {
+                if(value is not null && value < min)
+                {
+                    min = value.Value;
+                }
+            }
+            return min;
+        }
+
+        public static DateTime Min(params DateTime?[] dates) => 
+            Min(dates.AsEnumerable());
+
+        public static DateTime Max(IEnumerable<DateTime?> dates)
+        {
+            var max = DateTime.MinValue;
+            foreach (var value in dates)
+            {
+                if (value is not null && value > max)
+                {
+                    max = value.Value;
+                }
+            }
+            return max;
+        }
+
+        public static DateTime Max(params DateTime?[] dates) =>
+            Max(dates.AsEnumerable());
     }
 }

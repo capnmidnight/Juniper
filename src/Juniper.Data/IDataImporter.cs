@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq.Expressions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,68 +15,51 @@ public interface IDataImporter<DbContextT>
 
 public static class DbContextTExtensions
 {
-    private static Dictionary<DbContext, Dictionary<IListSource, List<object>>> contextCaches = new();
-    public static EntityT Upsert<DbContextT, EntityT>(this DbSet<EntityT> set, DbContextT db, Func<EntityT, bool> filter, Func<EntityT> create)
-        where DbContextT : DbContext
-        where EntityT : class
-    {
-        if(!contextCaches.ContainsKey(db))
-        {
-            contextCaches.Add(db, new Dictionary<IListSource, List<object>>());
-        }
+    private static Dictionary<DbContext, Dictionary<IQueryable, ISet<object>>> contextCaches = new();
 
-        var contextCache = contextCaches[db];
-        if (!contextCache.ContainsKey(set))
-        {
-            contextCache.Add(set, new List<object>());
-        }
-
-        var setCache = contextCache[set];
-
-        var value = set.SingleOrDefault(filter);
-
-        if (value is null)
-        {
-            value = setCache.SingleOrDefault(obj => obj is EntityT ent && filter(ent)) as EntityT;
-            if (value is null)
-            {
-                value = set.Add(create()).Entity;
-                setCache.Add(value);
-            }
-            else
-            {
-
-            }
-        }
-
-        return value;
-    }
-
-
-    public static EntityT? FindCached<DbContextT, EntityT>(this DbSet<EntityT> set, DbContextT db, Func<EntityT, bool> filter)
+    private static ISet<object> CoallesceCache<DbContextT, EntityT>(IQueryable<EntityT> set, DbContextT db, params string[] includeProps)
         where DbContextT : DbContext
         where EntityT : class
     {
         if (!contextCaches.ContainsKey(db))
         {
-            return null;
+            contextCaches.Add(db, new Dictionary<IQueryable, ISet<object>>());
         }
 
         var contextCache = contextCaches[db];
         if (!contextCache.ContainsKey(set))
         {
-            return null;
+            foreach(var includeProp in includeProps)
+            {
+                set = set.Include(includeProp);
+            }
+            contextCache.Add(set, set.Select(item => item as object).ToHashSet());
         }
 
         var setCache = contextCache[set];
+        return setCache;
+    }
 
-        var value = set.FirstOrDefault(filter);
-
-        if (value is null)
+    public static IEnumerable<EntityT> GetAllCached<DbContextT, EntityT>(this DbSet<EntityT> set, DbContextT db, params string[] includeProps)
+        where DbContextT : DbContext
+        where EntityT : class
+    {
+        var setCache = CoallesceCache(set, db, includeProps);
+        foreach (var obj in setCache)
         {
-            value = setCache.FirstOrDefault(obj => obj is EntityT ent && filter(ent)) as EntityT;
+            if (obj is EntityT ent)
+            {
+                yield return ent;
+            }
         }
+    }
 
-        return value;
+    public static void AddCached<DbContextT, EntityT>(this DbSet<EntityT> set, DbContextT db, EntityT obj)
+        where DbContextT : DbContext
+        where EntityT : class
+    {
+        var setCache = CoallesceCache(set, db);
+        set.Add(obj);
+        setCache.Add(obj);
     }
 }
