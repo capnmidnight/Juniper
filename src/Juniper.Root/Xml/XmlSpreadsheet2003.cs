@@ -145,6 +145,8 @@ namespace Juniper.Xml
 
             public bool Has(string header) => data.ContainsKey(header);
 
+            public string Peek(string header) => data.Get(header);
+
             public string this[string header]
             {
                 get
