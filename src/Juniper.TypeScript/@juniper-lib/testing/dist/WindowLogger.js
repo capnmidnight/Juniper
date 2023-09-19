@@ -1,5 +1,3 @@
-import { __decorate, __metadata } from "tslib";
-import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import { backgroundColor, color, columnGap, display, em, getMonospaceFamily, gridAutoFlow, gridColumn, gridTemplateColumns, height, left, opacity, overflow, overflowY, padding, perc, pointerEvents, position, rule, top, width, zIndex } from "@juniper-lib/dom/dist/css";
 import { isModifierless } from "@juniper-lib/dom/dist/evts";
 import { Div, HtmlRender, HtmlTag, StyleBlob, elementSetDisplay, elementToggleDisplay } from "@juniper-lib/dom/dist/tags";
@@ -18,7 +16,7 @@ export function WindowLogger(...rest) {
     }
     return logger;
 }
-let WindowLoggerElement = class WindowLoggerElement extends HTMLElement {
+export class WindowLoggerElement extends HTMLElement {
     constructor() {
         super();
         this.workerFunctions = new Map();
@@ -141,10 +139,6 @@ let WindowLoggerElement = class WindowLoggerElement extends HTMLElement {
     workerLog(slug, evt) {
         this.log(slug + evt.data.id, ...evt.data.values);
     }
-};
-WindowLoggerElement = __decorate([
-    CustomElement("window-logger"),
-    __metadata("design:paramtypes", [])
-], WindowLoggerElement);
-export { WindowLoggerElement };
+}
+customElements.define("window-logger", WindowLoggerElement);
 //# sourceMappingURL=WindowLogger.js.map

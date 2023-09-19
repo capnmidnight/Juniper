@@ -1,6 +1,4 @@
-import { __decorate, __metadata } from "tslib";
 import { TreeNode } from "@juniper-lib/collections/dist/TreeNode";
-import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import { ClassList } from "@juniper-lib/dom/dist/attrs";
 import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/dist/evts";
 import { ButtonSmall, Div, Span, StyleBlob, elementSetDisplay, elementSetText, elementSetTitle } from "@juniper-lib/dom/dist/tags";
@@ -104,7 +102,7 @@ export class TreeViewNodeContextMenuEvent extends TreeViewNodeEvent {
         super("contextmenu", parent);
     }
 }
-let TreeViewNodeElement = class TreeViewNodeElement extends HTMLElement {
+export class TreeViewNodeElement extends HTMLElement {
     static create(node, defaultLabel, getLabel, getDescription, canChangeOrder, getChildDescription, canHaveChildren, createElement) {
         const element = document.createElement("tree-view-node");
         element.node = node;
@@ -401,10 +399,6 @@ let TreeViewNodeElement = class TreeViewNodeElement extends HTMLElement {
             inline: "nearest"
         });
     }
-};
-TreeViewNodeElement = __decorate([
-    CustomElement("tree-view-node"),
-    __metadata("design:paramtypes", [])
-], TreeViewNodeElement);
-export { TreeViewNodeElement };
+}
+customElements.define("tree-view-node", TreeViewNodeElement);
 //# sourceMappingURL=TreeViewNodeElement.js.map

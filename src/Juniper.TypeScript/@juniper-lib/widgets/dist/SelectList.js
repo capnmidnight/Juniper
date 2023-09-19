@@ -1,6 +1,4 @@
-import { __decorate, __metadata } from "tslib";
 import { arrayReplace, compareBy } from "@juniper-lib/collections/dist/arrays";
-import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import { Disabled, Hidden, HtmlAttr, Is, Value } from "@juniper-lib/dom/dist/attrs";
 import { HtmlEvt } from "@juniper-lib/dom/dist/evts";
 import { HtmlTag, Option, elementClearChildren } from "@juniper-lib/dom/dist/tags";
@@ -83,7 +81,7 @@ function identityString(item) {
 /**
  * A select box that can be databound to collections.
  **/
-let SelectListElement = class SelectListElement extends HTMLSelectElement {
+export class SelectListElement extends HTMLSelectElement {
     /**
      * Creates a select box that can bind to collections
      */
@@ -310,10 +308,6 @@ let SelectListElement = class SelectListElement extends HTMLSelectElement {
     clearEventListeners(type) {
         this.eventTarget.clearEventListeners(type);
     }
-};
-SelectListElement = __decorate([
-    CustomElement("select-list", "select"),
-    __metadata("design:paramtypes", [])
-], SelectListElement);
-export { SelectListElement };
+}
+customElements.define("select-list", SelectListElement, { extends: "select" });
 //# sourceMappingURL=SelectList.js.map

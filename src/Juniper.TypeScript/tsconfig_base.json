@@ -42,6 +42,7 @@
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true

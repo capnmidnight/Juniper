@@ -1,5 +1,4 @@
 import { CompareFunction, arrayReplace, compareBy } from "@juniper-lib/collections/dist/arrays";
-import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import { Disabled, Hidden, HtmlAttr, Is, Value } from "@juniper-lib/dom/dist/attrs";
 import { HtmlEvt } from "@juniper-lib/dom/dist/evts";
 import { ElementChild, HtmlTag, Option, elementClearChildren } from "@juniper-lib/dom/dist/tags";
@@ -117,7 +116,6 @@ function identityString(item: any): string {
 /**
  * A select box that can be databound to collections.
  **/
-@CustomElement("select-list", "select")
 export class SelectListElement<T>
     extends HTMLSelectElement
     implements ITypedEventTarget<SelectListEvents<T>> {
@@ -408,3 +406,5 @@ export class SelectListElement<T>
         this.eventTarget.clearEventListeners(type as string);
     }
 }
+
+customElements.define("select-list", SelectListElement, { extends: "select" });

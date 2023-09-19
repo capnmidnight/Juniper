@@ -1,5 +1,3 @@
-import { __decorate, __metadata } from "tslib";
-import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import { ClassList, QueryAll } from "@juniper-lib/dom/dist/attrs";
 import { onClick, onEvent } from "@juniper-lib/dom/dist/evts";
 import { ButtonSmall, Div, HtmlTag, elementSetClass, elementSetDisplay, isDisableable, resolveElement } from "@juniper-lib/dom/dist/tags";
@@ -16,7 +14,7 @@ export function TabPanel(...rest) {
     return HtmlTag("tab-panel", ...rest);
 }
 export function onTabSelected(callback, opts) { return onEvent("tabselected", callback, opts); }
-let TabPanelElement = class TabPanelElement extends HTMLElement {
+export class TabPanelElement extends HTMLElement {
     constructor() {
         super();
         this.buttons = new Map();
@@ -112,10 +110,6 @@ let TabPanelElement = class TabPanelElement extends HTMLElement {
     clearEventListeners(type) {
         this.eventTarget.clearEventListeners(type);
     }
-};
-TabPanelElement = __decorate([
-    CustomElement("tab-panel"),
-    __metadata("design:paramtypes", [])
-], TabPanelElement);
-export { TabPanelElement };
+}
+customElements.define("tab-panel", TabPanelElement);
 //# sourceMappingURL=index.js.map

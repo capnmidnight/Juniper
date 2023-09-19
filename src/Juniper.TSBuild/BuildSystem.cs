@@ -545,6 +545,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 projectAppSettings, "Version"));
     }
 
+
+
     public async Task WatchAsync(bool continueAfterFirstBuild, CancellationToken cancellationToken)
     {
         try
@@ -580,9 +582,17 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
             buildCanceller.Token.Register(timer.Dispose);
 
+            var watchProjectPaths = WatchProjects.Select(pkg => pkg.FullName).ToHashSet();
+            var buildOnlyProjects = BuildProjects.Where(pkg => !watchProjectPaths.Contains(pkg.FullName));
+
+            var preBuilds = TryMake(
+                buildOnlyProjects,
+                file => MakeProxiedBuildCommand(proxy, file)
+            ).ToArray();
+
             var bundles = TryMake(
-                WatchProjects.Select(file => file.Directory),
-                dir => MakeWatchCommand(proxy, dir)
+                WatchProjects,
+                file => MakeProxiedWatchCommand(proxy, file)
             ).ToArray();
 
             await WithCommandTree(commands =>
@@ -591,6 +601,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                     .AddMessage("Starting watch")
                     .AddCommands(GetCleanCommands())
                     .AddCommands(GetInstallCommands())
+                    .AddCommands(preBuilds)
                     .AddCommands(copyCommands);
             }, buildCanceller.Token);
 
@@ -671,9 +682,18 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         }
     }
 
-    private AbstractShellCommand MakeWatchCommand(CommandProxier proxy, DirectoryInfo dir)
+    private AbstractShellCommand MakeProxiedBuildCommand(CommandProxier proxy, FileInfo pkg)
     {
-        var cmd = new ProxiedCommand(proxy, dir, "npm", "run", "watch");
+        var cmd = new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "build");
+        cmd.Info += Proxy_Info;
+        cmd.Err += Proxy_Err;
+        cmd.Warning += Proxy_Warning;
+        return cmd;
+    }
+
+    private AbstractShellCommand MakeProxiedWatchCommand(CommandProxier proxy, FileInfo pkg)
+    {
+        var cmd = new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-watch");
         cmd.Info += Proxy_Info;
         cmd.Err += Proxy_Err;
         cmd.Warning += Proxy_Warning;

@@ -1,5 +1,4 @@
 import { TreeNode } from "@juniper-lib/collections/dist/TreeNode";
-import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import { ClassList } from "@juniper-lib/dom/dist/attrs";
 import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/dist/evts";
 import { ButtonSmall, Div, Span, StyleBlob, elementSetDisplay, elementSetText, elementSetTitle } from "@juniper-lib/dom/dist/tags";
@@ -116,7 +115,6 @@ export type TreeViewNodeEvents<T> = {
     contextmenu: TreeViewNodeContextMenuEvent<T>;
 }
 
-@CustomElement("tree-view-node")
 export class TreeViewNodeElement<T>
     extends HTMLElement
     implements ITypedEventTarget<TreeViewNodeEvents<T>> {
@@ -545,3 +543,5 @@ export class TreeViewNodeElement<T>
         });
     }
 }
+
+customElements.define("tree-view-node", TreeViewNodeElement);

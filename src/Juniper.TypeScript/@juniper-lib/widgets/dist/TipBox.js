@@ -1,5 +1,3 @@
-import { __decorate, __metadata } from "tslib";
-import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import { ID, Name, Open, Query, Slot_attr } from "@juniper-lib/dom/dist/attrs";
 import { onToggle } from "@juniper-lib/dom/dist/evts";
 import { Details, HtmlRender, LI, Slot, Summary, Template, UL } from "@juniper-lib/dom/dist/tags";
@@ -8,7 +6,7 @@ export function TipBox(tipBoxID, ...tips) {
     return HtmlRender(document.createElement("tip-box"), ID(tipBoxID), UL(Slot_attr("tips-slot"), ...tips.map(tip => LI(tip))));
 }
 const template = Template(Details(Summary("Tips:"), Slot(Name("tips-slot"))));
-let TipBoxElement = class TipBoxElement extends HTMLElement {
+export class TipBoxElement extends HTMLElement {
     constructor() {
         super();
         this.eventTarget = new EventTargetMixin(super.addEventListener.bind(this), super.removeEventListener.bind(this), super.dispatchEvent.bind(this));
@@ -44,10 +42,6 @@ let TipBoxElement = class TipBoxElement extends HTMLElement {
     clearEventListeners(type) {
         this.eventTarget.clearEventListeners(type);
     }
-};
-TipBoxElement = __decorate([
-    CustomElement("tip-box"),
-    __metadata("design:paramtypes", [])
-], TipBoxElement);
-export { TipBoxElement };
+}
+customElements.define("tip-box", TipBoxElement);
 //# sourceMappingURL=TipBox.js.map

@@ -1,4 +1,3 @@
-import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import {
     backgroundColor,
     color,
@@ -74,7 +73,6 @@ export function WindowLogger(...rest: ElementChild[]) {
     return logger;
 }
 
-@CustomElement("window-logger")
 export class WindowLoggerElement extends HTMLElement implements IDebugLogger {
     private readonly workerFunctions = new Map<MessageType, (slug: string, evt: MessageEvent<any>) => void>();
     private readonly logs = new Map<string, Array<any>>();
@@ -232,3 +230,5 @@ export class WindowLoggerElement extends HTMLElement implements IDebugLogger {
         this.log(slug + evt.data.id, ...evt.data.values);
     }
 }
+
+customElements.define("window-logger", WindowLoggerElement);

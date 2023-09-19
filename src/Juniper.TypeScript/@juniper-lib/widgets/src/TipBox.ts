@@ -1,4 +1,3 @@
-import { CustomElement } from "@juniper-lib/dom/dist/CustomElement";
 import { ID, Name, Open, Query, Slot_attr } from "@juniper-lib/dom/dist/attrs";
 import { onToggle } from "@juniper-lib/dom/dist/evts";
 import { Details, HtmlRender, LI, Slot, Summary, Template, UL } from "@juniper-lib/dom/dist/tags";
@@ -22,7 +21,6 @@ const template = Template(
     )
 );
 
-@CustomElement("tip-box")
 export class TipBoxElement extends HTMLElement implements IEventTarget {
 
     private readonly eventTarget: EventTargetMixin;
@@ -87,3 +85,5 @@ export class TipBoxElement extends HTMLElement implements IEventTarget {
         this.eventTarget.clearEventListeners(type);
     }
 }
+
+customElements.define("tip-box", TipBoxElement);
