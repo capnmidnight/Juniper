@@ -33,14 +33,14 @@ namespace Juniper.Xml
 
         public string Name { get; }
 
-        public Dictionary<string, Worksheet> Worksheets { get; }
+        public Worksheet[] Worksheets { get; }
 
         private XmlSpreadsheet2003(string name, XElement root)
         {
             Name = name;
             Worksheets = root.Elements(WORKSHEET)
                 .Select(e => new Worksheet(e))
-                .ToDictionary(s => s.Name);
+                .ToArray();
         }
 
         public class Worksheet
