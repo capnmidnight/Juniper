@@ -8,13 +8,14 @@
   ],
   "description": "Promisified stuff for working with Google Maps",
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "1.16.2",
     "@juniper-lib/events": "file:../events",
-    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "file:../tslib"
+  },
+  "devDependencies": {
     "@types/google.maps": "3.54.0"
   },
   "repository": {

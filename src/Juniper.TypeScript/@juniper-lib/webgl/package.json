@@ -7,8 +7,7 @@
     "dist/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",
@@ -17,8 +16,10 @@
     "@juniper-lib/graphics2d": "file:../graphics2d",
     "@juniper-lib/progress": "file:../progress",
     "@juniper-lib/tslib": "file:../tslib",
-    "@types/offscreencanvas": "2019.7.0",
-    "@types/webxr": "0.5.4",
     "gl-matrix": "3.4.3"
+  },
+  "devDependencies": {
+    "@types/offscreencanvas": "2019.7.0",
+    "@types/webxr": "0.5.4"
   }
 }

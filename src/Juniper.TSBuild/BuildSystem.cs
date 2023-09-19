@@ -15,7 +15,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             format = string.Format(format, args);
         }
 
-        return string.Format("\u001b[{0}m{1}:\u001b[0m {2}", color, tag, format);
+        return $"\u001b[{color}m{tag}:\u001b[0m {format}";
     }
 
     static void WriteError(string format, params object[] values) =>
@@ -99,16 +99,17 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private readonly DirectoryInfo[] cleanDirs;
     private readonly DirectoryInfo inProjectDir;
     private readonly DirectoryInfo outProjectDir;
-    private readonly DirectoryInfo juniperTsDir;
     private readonly FileInfo projectPackage;
     private readonly FileInfo projectAppSettings;
-    private readonly DeploymentOptions? deployment;
 
     private readonly Dictionary<FileInfo, (string, FileInfo, bool)> dependencies = new();
     private readonly Dictionary<string, (string, string)> mapFileReplacements = new();
-    private readonly List<DirectoryInfo> BuildProjects = new();
-    private readonly List<DirectoryInfo> WatchProjects = new();
-    private readonly List<DirectoryInfo> NPMProjects = new();
+
+    private readonly List<FileInfo> NPMProjects = new();
+    private readonly List<FileInfo> InstallProjects = new();
+    private readonly List<FileInfo> BuildProjects = new();
+    private readonly List<FileInfo> WatchProjects = new();
+    private readonly List<FileInfo> CheckProjects = new();
 
     private readonly bool hasNPM;
 
@@ -126,18 +127,16 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     {
         var options = new BuildConfigT().Options;
         workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
-        var startDir = workingDir;
+
+        var startDir = TestDir($"Couldn't find project root from {workingDir.FullName}", workingDir);
 
         inProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.InProject ?? options.OutProject);
 
-        outProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.OutProject
-            ?? options.InProject);
-
-        startDir = TestDir($"Couldn't find project root from {workingDir.FullName}", startDir);
+        outProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.OutProject ?? options.InProject);
 
         var juniperDir = FindJuniperDir(startDir);
+        var juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
 
-        juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
         cleanDirs = options.CleanDirs
             ?.Where(dir => dir?.Exists == true)
             ?.ToArray()
@@ -146,27 +145,26 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         projectPackage = inProjectDir.Touch("package.json");
         projectAppSettings = outProjectDir.Touch("appsettings.json");
 
-        if (options.Deployment is not null)
-        {
-            deployment = new DeploymentOptions(
-                options.Deployment.HostName,
-                options.Deployment.UserName,
-                options.Deployment.KeyFile,
-                options.Deployment.RemoteDirName,
-                options.Deployment.RemoteServiceName ?? options.Deployment.RemoteDirName);
-        }
-
         hasNPM = ShellCommand.IsAvailable("npm");
 
         if (hasNPM)
         {
             if (!options.SkipNPMInstall)
             {
-                var dirs = (options.AdditionalNPMProjects ?? Array.Empty<DirectoryInfo>())
-                    .Prepend(inProjectDir)
-                    .Prepend(juniperTsDir);
+                var dirs = new[]{
+                    juniperTsDir,
+                    inProjectDir
+                };
 
-                Task.WaitAll(dirs.Select(CheckNPMProjectAsync).ToArray());
+                if (options.AdditionalNPMProjects is not null)
+                {
+                    dirs = dirs.Union(options.AdditionalNPMProjects).ToArray();
+                }
+
+                foreach (var dir in dirs)
+                {
+                    CheckNPMProjectAsync(dir).Wait();
+                }
             }
 
             if (options.Dependencies is not null)
@@ -189,21 +187,61 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private async Task CheckNPMProjectAsync(DirectoryInfo project)
     {
-        var pkgFile = project.Touch("package.json");
-        if (pkgFile.Exists)
+        var workspaceProjects = new HashSet<string>();
+
+        var packages = project
+            .LazyRecurse(IsNotBinDir)
+            .Select(dir => dir.Touch("package.json"))
+            .Where(file => file.Exists)
+            .ToArray();
+
+        foreach (var pkgFile in packages)
         {
-            NPMProjects.Add(project);
-            var package = await NPMPackage.Read(pkgFile);
-            if (package?.scripts is not null)
+            if (!workspaceProjects.Contains(pkgFile.FullName))
             {
-                if (package.scripts.ContainsKey("build"))
+                var package = await NPMPackage.ReadAsync(pkgFile)
+                    ?? throw new FileNotFoundException("Couldn't read package.json", pkgFile.FullName);
+
+                NPMProjects.Add(pkgFile);
+
+                if (package.dependencies is not null || package.devDependencies is not null)
                 {
-                    BuildProjects.Add(project);
+                    InstallProjects.Add(pkgFile);
                 }
 
-                if (package.scripts.ContainsKey("watch"))
+                if (package.scripts is not null)
                 {
-                    WatchProjects.Add(project);
+                    if (package.scripts.ContainsKey("build"))
+                    {
+                        BuildProjects.Add(pkgFile);
+                    }
+
+                    if (package.scripts.ContainsKey("watch"))
+                    {
+                        WatchProjects.Add(pkgFile);
+                    }
+
+                    if (package.scripts.ContainsKey("check"))
+                    {
+                        CheckProjects.Add(pkgFile);
+                    }
+                }
+
+                if (package.workspaces is not null)
+                {
+                    var here = pkgFile.Directory!;
+                    foreach (var pkg in package.workspaces
+                        .Select(dirName => here.CD(dirName).Touch("package.json")))
+                    {
+                        if (pkg.Exists)
+                        {
+                            workspaceProjects.Add(pkg.FullName);
+                        }
+                        else
+                        {
+                            Console.Error.WriteLine($"Package file {pkgFile.FullName} specifies a workspace project that doesn't exist: {pkg.FullName}!");
+                        }
+                    }
                 }
             }
         }
@@ -360,7 +398,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         DeleteDirectories(FindAllNodeModulesDirs(), cancellationToken);
 
     private IEnumerable<DirectoryInfo> FindAllNodeModulesDirs() =>
-        FindDirectories("node_modules", inProjectDir, outProjectDir, juniperTsDir);
+        FindDirectories("node_modules", InstallProjects.ToArray());
 
     private void DeletePackageLockJsons(CancellationToken cancellationToken) =>
         DeleteFiles(FindFiles("package-lock.json"), cancellationToken);
@@ -369,19 +407,18 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         DeleteFiles(FindFiles("tsconfig.tsbuildinfo"), cancellationToken);
 
     private IEnumerable<FileInfo> FindFiles(string name) =>
-        FindFiles(name, inProjectDir, outProjectDir, juniperTsDir);
+        FindFiles(name, NPMProjects.ToArray());
+
+    private static IEnumerable<FileInfo> FindFiles(string name, params FileInfo[] files) =>
+        FindFiles(name, files.Select(file => file.Directory!).ToArray());
 
     private static IEnumerable<FileInfo> FindFiles(string name, params DirectoryInfo[] dirs)
     {
-        var q = new Queue<DirectoryInfo>();
-        q.AddRange(dirs);
-        while (q.Count > 0)
+        foreach (var dir in dirs)
         {
-            var here = q.Dequeue();
-            if (here.Name != "node_modules")
+            foreach (var subDir in dir.LazyRecurse(IsNotBinDir))
             {
-                q.AddRange(here.EnumerateDirectories());
-                var file = here.Touch(name);
+                var file = subDir.Touch(name);
                 if (file.Exists)
                 {
                     yield return file;
@@ -389,6 +426,12 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             }
         }
     }
+
+    private static bool IsNotBinDir(DirectoryInfo d) =>
+        d.Name != "node_modules" && d.Name != "bin";
+
+    private static IEnumerable<DirectoryInfo> FindDirectories(string name, params FileInfo[] files)
+        => FindDirectories(name, files.Select(file => file.Directory!).ToArray());
 
     private static IEnumerable<DirectoryInfo> FindDirectories(string name, params DirectoryInfo[] dirs)
     {
@@ -422,9 +465,10 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         }
     }
 
-    private IEnumerable<T> TryMake<V, T>(IEnumerable<V> collection, Func<V, T> make) where T : class =>
+    private IEnumerable<T> TryMake<V, T>(IEnumerable<V?> collection, Func<V, T> make) where T : class =>
         collection
-            .Select(dir => TryMake(() => make(dir)))
+            .Where(dir => dir is not null)
+            .Select(dir => TryMake(() => make(dir!)))
             .Where(t => t is not null)
             .Cast<T>();
 
@@ -436,7 +480,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private IEnumerable<NPMInstallCommand> GetInstallCommands() =>
         TryMake(
-            NPMProjects,
+            InstallProjects,
             dir => new NPMInstallCommand(dir)
         );
 
@@ -461,11 +505,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private Task TypeCheckAsync(CancellationToken cancellationToken) =>
         WithCommandTree(commands =>
             commands.AddCommands(TryMake(
-                NPMProjects,
-                dir =>
-                    dir == inProjectDir
-                        ? new ShellCommand(dir, "npm", "run", "check")
-                        : new ShellCommand(dir, "npm", "run", "check", "--workspaces", "--if-present")
+                CheckProjects,
+                file => new NPMRunCommand(file, "check")
             )), cancellationToken);
 
     private CopyCommand[] GetDependecies() =>
@@ -494,7 +535,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         {
             commands.AddCommands(TryMake(
                 BuildProjects,
-                dir => new ShellCommand(dir, "npm", "run", "build")
+                file => new NPMRunCommand(file, "build")
             ));
         }
 
@@ -540,7 +581,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             buildCanceller.Token.Register(timer.Dispose);
 
             var bundles = TryMake(
-                WatchProjects,
+                WatchProjects.Select(file => file.Directory),
                 dir => MakeWatchCommand(proxy, dir)
             ).ToArray();
 
@@ -619,7 +660,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                     var pkgFile = dir.CD(pkgName).Touch("package.json");
                     if (pkgFile.Exists)
                     {
-                        var package = await NPMPackage.Read(pkgFile );
+                        var package = await NPMPackage.ReadAsync(pkgFile);
                         if (package?.version == version)
                         {
                             OnWarning($"Banned package found: {pkgName}: {version} -> {reason}");
@@ -632,20 +673,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private AbstractShellCommand MakeWatchCommand(CommandProxier proxy, DirectoryInfo dir)
     {
-        var args = new List<string>
-        {
-            "run",
-            "watch"
-        };
-
-        if (dir != inProjectDir)
-        {
-            args.Add("-w");
-            args.Add(string.Join("/", dir.Parent?.Name, dir.Name));
-            dir = juniperTsDir;
-        }
-
-        var cmd = new ProxiedCommand(proxy, dir, "npm", args.ToArray());
+        var cmd = new ProxiedCommand(proxy, dir, "npm", "run", "watch");
         cmd.Info += Proxy_Info;
         cmd.Err += Proxy_Err;
         cmd.Warning += Proxy_Warning;

@@ -1,22 +1,23 @@
 #nullable enable
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Juniper.Processes
 {
     public class NPMInstallCommand : ShellCommand
     {
+        private readonly FileInfo packageJson;
         private readonly DirectoryInfo nodeModulesDir;
 
 
-        public NPMInstallCommand(DirectoryInfo? workingDir, bool noPackageLock = true)
-            : base(workingDir, "npm", $"install --no-fund --prefer-offline{(noPackageLock ? " --no-package-lock" : "")}")
+        public NPMInstallCommand(FileInfo packageJson, bool noPackageLock = true)
+            : base(packageJson.Directory, "npm", $"install --no-fund --prefer-offline{(noPackageLock ? " --no-package-lock" : "")}")
         {
-            var packageJson = this.workingDir.Touch("package.json");
             if (!packageJson.Exists)
             {
-                throw new FileNotFoundException("Given directory is not an NPM module!", packageJson.FullName);
+                throw new FileNotFoundException("package.json file does not exist!", packageJson.FullName);
             }
+
+            this.packageJson = packageJson;
 
             nodeModulesDir = workingDir.CD("node_modules");
         }
@@ -39,12 +40,11 @@ namespace Juniper.Processes
                 while (queue.Count > 0 && !needsInstall)
                 {
                     var here = queue.Dequeue();
-                    var packageJson = here.Touch("package.json");
-                    if (packageJson.Exists && !checkedPackageJsons.Contains(packageJson.FullName))
+                    if (!checkedPackageJsons.Contains(packageJson.FullName))
                     {
                         checkedPackageJsons.Add(packageJson.FullName);
 
-                        var package = await NPMPackage.Read(packageJson, cancellationToken);
+                        var package = await NPMPackage.ReadAsync(packageJson, cancellationToken);
                         if (package is not null)
                         {
                             var workspaces = package.workspaces ?? Array.Empty<string>();
@@ -108,7 +108,7 @@ namespace Juniper.Processes
                 return $"Dependency {name} is missing package.json";
             }
 
-            var package = await NPMPackage.Read(depPackageJson, cancellationToken);
+            var package = await NPMPackage.ReadAsync(depPackageJson, cancellationToken);
             if (package is null)
             {
                 return $"Dependency {name} couldn't parse package.json";

@@ -10,8 +10,7 @@
   "module": "dist/index.js",
   "description": "A collection of all the UTF-8 Emoji code points that I could find",
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",

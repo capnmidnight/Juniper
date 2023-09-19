@@ -7,14 +7,15 @@
     "dist/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/events": "file:../events",
     "@juniper-lib/tslib": "file:../tslib",
-    "@types/offscreencanvas": "2019.7.0",
     "gl-matrix": "3.4.3"
+  },
+  "devDependencies": {
+    "@types/offscreencanvas": "2019.7.0"
   }
 }

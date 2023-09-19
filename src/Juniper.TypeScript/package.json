@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "tslib": "2.6.2",
     "typescript": "5.2.2"
   },
   "scripts": {
-    "build": "tsc --build",
-    "watch": "tsc --build --watch"
+    "build": "tsc --build & npm run build --workspaces --if-present",
+    "watch": "tsc --build --watch & npm run watch --workspaces --if-present",
+    "check": "tsc --noEmit & npm run check --workspaces --if-present"
   },
   "workspaces": [
     "@juniper-lib/audio",
     "@juniper-lib/ble",
-    "@juniper-lib/collection",
+    "@juniper-lib/collections",
     "@juniper-lib/dom",
     "@juniper-lib/emoji",
     "@juniper-lib/events",

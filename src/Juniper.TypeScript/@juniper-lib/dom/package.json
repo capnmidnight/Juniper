@@ -10,15 +10,16 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",
     "@juniper-lib/events": "file:../events",
     "@juniper-lib/mediatypes": "file:../mediatypes",
     "@juniper-lib/progress": "file:../progress",
-    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "file:../tslib"
+  },
+  "devDependencies": {
     "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
     "@types/offscreencanvas": "2019.7.0",
     "@types/wicg-file-system-access": "2020.9.6"

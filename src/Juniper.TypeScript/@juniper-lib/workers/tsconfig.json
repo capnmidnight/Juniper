@@ -4,9 +4,9 @@
     "./src/**/*.ts"
   ],
   "references": [
-    { "path": "..\\events" },
-    { "path": "..\\progress" },
-    { "path": "..\\tslib" }
+    { "path": "../events" },
+    { "path": "../progress" },
+    { "path": "../tslib" }
   ],
   "compilerOptions": {
     "outDir": "./dist",

@@ -57,13 +57,8 @@ stdInEventer.Line += (_, e) =>
 
             try
             {
-                var cmd = new ShellCommand(
-                    desc.WorkingDir,
-                    desc.Args.First(),
-                    desc.Args.Skip(1).ToArray());
-
+                var cmd = MakeCommand(desc);
                 commands.Add(desc.TaskID, cmd);
-
                 Run(desc, cmd);
             }
             catch (ShellCommandNotFoundException exp)
@@ -165,4 +160,28 @@ foreach (var proc in procs)
     {
         WriteLine(ex.Unroll());
     }
+}
+
+static ShellCommand MakeCommand(CommandProxyDescription desc)
+{
+    if (desc.Args[0] == "npm")
+    {
+        var pkg = desc.WorkingDir.Touch("package.json");
+        if (pkg.Exists)
+        {
+            if (desc.Args.Length >= 2 && desc.Args[1] == "install")
+            {
+                return new NPMInstallCommand(pkg);
+            }
+            else if (desc.Args.Length >= 3 && desc.Args[1] == "run")
+            {
+                return new NPMRunCommand(pkg, desc.Args[2]);
+            }
+        }
+    }
+
+    return new ShellCommand(
+        desc.WorkingDir,
+        desc.Args.First(),
+        desc.Args.Skip(1).ToArray());
 }

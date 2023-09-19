@@ -154,5 +154,22 @@ namespace System.IO
             return directory is not null
                 && (directory.Attributes & FileAttributes.ReparsePoint) != 0;
         }
+
+        public static IEnumerable<DirectoryInfo> LazyRecurse(this DirectoryInfo directory, Func<DirectoryInfo, bool> filter)
+        {
+            var queue = new Queue<DirectoryInfo>
+            {
+                directory
+            };
+            while(queue.Count > 0 )
+            {
+                var here = queue.Dequeue();
+                if (filter(here))
+                {
+                    queue.AddRange(here.GetDirectories());
+                    yield return here;
+                }
+            }
+        }
     }
 }

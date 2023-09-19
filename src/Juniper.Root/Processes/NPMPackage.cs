@@ -1,6 +1,5 @@
 #nullable enable
 using System.Text.Json;
-using System.Threading;
 
 namespace Juniper.Processes
 {
@@ -16,10 +15,13 @@ namespace Juniper.Processes
         public string[]? workspaces { get; set; }
 #pragma warning restore IDE1006 // Naming Styles
 
-        public static Task<NPMPackage?> Read(FileInfo file) =>
-            Read(file, CancellationToken.None);
+        public static NPMPackage? Read(FileInfo file) =>
+            ReadAsync(file).Result;
 
-        public static async Task<NPMPackage?> Read(FileInfo file, CancellationToken cancellationToken)
+        public static Task<NPMPackage?> ReadAsync(FileInfo file) =>
+            ReadAsync(file, CancellationToken.None);
+
+        public static async Task<NPMPackage?> ReadAsync(FileInfo file, CancellationToken cancellationToken)
         {
             using var packageStream = file.OpenRead();
             var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream, cancellationToken: cancellationToken);

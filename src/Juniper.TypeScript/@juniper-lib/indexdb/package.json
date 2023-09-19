@@ -10,13 +10,14 @@
   "module": "dist/index.js",
   "description": "Wrappers for simplifying working with IndexDB",
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",
     "@juniper-lib/events": "file:../events",
-    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "file:../tslib"
+  },
+  "devDependencies": {
     "@juniper-types/indexdb": "file:../../@juniper-types/indexdb"
   },
   "repository": {

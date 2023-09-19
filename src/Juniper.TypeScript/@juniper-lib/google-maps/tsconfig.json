@@ -4,8 +4,8 @@
     "./src/**/*.ts"
   ],
   "references": [
-    { "path": "..\\events" },
-    { "path": "..\\tslib" }
+    { "path": "../events" },
+    { "path": "../tslib" }
   ],
   "compilerOptions": {
     "outDir": "./dist",

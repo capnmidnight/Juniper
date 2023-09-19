@@ -9,8 +9,7 @@
   "module": "dist/index.js",
   "main": "dist/index.js",
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/events": "file:../events",

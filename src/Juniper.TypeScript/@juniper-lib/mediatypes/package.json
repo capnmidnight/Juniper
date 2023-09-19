@@ -10,8 +10,7 @@
     "dist/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/tslib": "file:../tslib"

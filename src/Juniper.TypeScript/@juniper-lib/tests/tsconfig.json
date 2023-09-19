@@ -4,14 +4,14 @@
     "./src/**/*.ts"
   ],
   "references": [
-    { "path": "..\\dom" },
-    { "path": "..\\events" },
-    { "path": "..\\fetcher" },
-    { "path": "..\\gis" },
-    { "path": "..\\hax" },
-    { "path": "..\\mediatypes" },
-    { "path": "..\\testing" },
-    { "path": "..\\tslib" }
+    { "path": "../dom" },
+    { "path": "../events" },
+    { "path": "../fetcher" },
+    { "path": "../gis" },
+    { "path": "../hax" },
+    { "path": "../mediatypes" },
+    { "path": "../testing" },
+    { "path": "../tslib" }
   ],
   "compilerOptions": {
     "outDir": "./dist",

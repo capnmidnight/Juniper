@@ -4,7 +4,7 @@
     "./src/**/*.ts"
   ],
   "references": [
-    { "path": "..\\tslib" }
+    { "path": "../tslib" }
   ],
   "compilerOptions": {
     "outDir": "./dist",

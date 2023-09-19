@@ -7,8 +7,7 @@
     "dist/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/graphics2d": "file:../graphics2d",
@@ -26,11 +25,11 @@
     "@juniper-lib/video": "file:../video",
     "@juniper-lib/webrtc": "file:../webrtc",
     "@juniper-lib/widgets": "file:../widgets",
-    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
     "three": "0.150.1",
     "webxr-polyfill": "2.0.3"
   },
   "devDependencies": {
+    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
     "@types/offscreencanvas": "2019.7.0",
     "@types/three": "0.150.2",
     "@types/webxr": "0.5.4"

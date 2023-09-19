@@ -32,7 +32,7 @@
         {
             return new BuildSystemDependency
             {
-                Name = $"{to.Name}/${from.Name}",
+                Name = $"{to.Name}/{from.Name}",
                 From = from,
                 To = from.TouchCopy(to)
             };

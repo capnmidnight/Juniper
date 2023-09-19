@@ -4,11 +4,11 @@
     "./src/**/*.ts"
   ],
   "references": [
-    { "path": "..\\audio" },
-    { "path": "..\\dom" },
-    { "path": "..\\events" },
-    { "path": "..\\tslib" },
-    { "path": "..\\video" }
+    { "path": "../audio" },
+    { "path": "../dom" },
+    { "path": "../events" },
+    { "path": "../tslib" },
+    { "path": "../video" }
   ],
   "compilerOptions": {
     "outDir": "./dist",

@@ -4,9 +4,9 @@
     "./src/**/*.ts"
   ],
   "references": [
-    { "path": "..\\dom" },
-    { "path": "..\\events" },
-    { "path": "..\\tslib" }
+    { "path": "../dom" },
+    { "path": "../events" },
+    { "path": "../tslib" }
   ],
   "compilerOptions": {
     "outDir": "./dist",

@@ -10,8 +10,7 @@
   "module": "dist/index.js",
   "description": "Useful records of Bluetooth Low Energy objects",
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/tslib": "file:../tslib"

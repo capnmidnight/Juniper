@@ -10,11 +10,12 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
-    "gl-matrix": "3.4.3",
+    "gl-matrix": "3.4.3"
+  },
+  "devDependencies": {
     "@juniper-types/extra-types": "file:../../@juniper-types/extra-types"
   },
   "repository": {

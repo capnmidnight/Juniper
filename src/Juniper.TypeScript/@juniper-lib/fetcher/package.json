@@ -7,8 +7,7 @@
     "dist/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",
@@ -17,7 +16,9 @@
     "@juniper-lib/mediatypes": "file:../mediatypes",
     "@juniper-lib/progress": "file:../progress",
     "@juniper-lib/tslib": "file:../tslib",
-    "@juniper-lib/workers": "file:../workers",
+    "@juniper-lib/workers": "file:../workers"
+  },
+  "devDependencies": {
     "@juniper-types/indexdb": "file:../../@juniper-types/indexdb",
     "@types/offscreencanvas": "2019.7.0"
   }

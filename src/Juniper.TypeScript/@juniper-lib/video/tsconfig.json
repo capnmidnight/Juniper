@@ -4,14 +4,14 @@
     "./src/**/*.ts"
   ],
   "references": [
-    { "path": "..\\audio" },
-    { "path": "..\\collections" },
-    { "path": "..\\dom" },
-    { "path": "..\\events" },
-    { "path": "..\\fetcher" },
-    { "path": "..\\mediatypes" },
-    { "path": "..\\progress" },
-    { "path": "..\\tslib" }
+    { "path": "../audio" },
+    { "path": "../collections" },
+    { "path": "../dom" },
+    { "path": "../events" },
+    { "path": "../fetcher" },
+    { "path": "../mediatypes" },
+    { "path": "../progress" },
+    { "path": "../tslib" }
   ],
   "compilerOptions": {
     "outDir": "./dist",

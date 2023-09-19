@@ -4,11 +4,11 @@
     "./src/**/*.ts"
   ],
   "references": [
-    { "path": "..\\collections" },
-    { "path": "..\\events" },
-    { "path": "..\\mediatypes" },
-    { "path": "..\\progress" },
-    { "path": "..\\tslib" }
+    { "path": "../collections" },
+    { "path": "../events" },
+    { "path": "../mediatypes" },
+    { "path": "../progress" },
+    { "path": "../tslib" }
   ],
   "compilerOptions": {
     "outDir": "./dist",

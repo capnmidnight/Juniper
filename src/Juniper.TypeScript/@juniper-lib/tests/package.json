@@ -9,8 +9,7 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/dom": "file:../dom",
@@ -21,9 +20,11 @@
     "@juniper-lib/mediatypes": "file:../mediatypes",
     "@juniper-lib/testing": "file:../testing",
     "@juniper-lib/tslib": "file:../tslib",
+    "gl-matrix": "3.4.3"
+  },
+  "devDependencies": {
     "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
     "@juniper-types/indexdb": "file:../../@juniper-types/indexdb",
-    "@types/offscreencanvas": "2019.7.0",
-    "gl-matrix": "3.4.3"
+    "@types/offscreencanvas": "2019.7.0"
   }
 }

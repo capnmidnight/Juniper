@@ -7,8 +7,7 @@
     "dist/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",
@@ -18,8 +17,10 @@
     "@juniper-lib/progress": "file:../progress",
     "@juniper-lib/timers": "file:../timers",
     "@juniper-lib/tslib": "file:../tslib",
-    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
-    "@types/dom-mediacapture-record": "1.0.16",
     "gl-matrix": "3.4.3"
+  },
+  "devDependencies": {
+    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
+    "@types/dom-mediacapture-record": "1.0.16"
   }
 }

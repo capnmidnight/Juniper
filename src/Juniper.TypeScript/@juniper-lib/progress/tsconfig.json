@@ -4,8 +4,8 @@
     "./src/**/*.ts"
   ],
   "references": [
-    { "path": "..\\collections" },
-    { "path": "..\\events" }
+    { "path": "../collections" },
+    { "path": "../events" }
   ],
   "compilerOptions": {
     "outDir": "./dist",

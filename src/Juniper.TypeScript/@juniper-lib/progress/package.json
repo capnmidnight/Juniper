@@ -10,13 +10,14 @@
     "dist/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc -b"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
-    "gl-matrix": "3.4.3",
     "@juniper-lib/collections": "file:../collections",
     "@juniper-lib/events": "file:../events",
+    "gl-matrix": "3.4.3"
+  },
+  "devDependencies": {
     "@juniper-types/extra-types": "file:../../@juniper-types/extra-types"
   },
   "repository": {
