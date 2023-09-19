@@ -11,7 +11,8 @@
   "description": "A shortcut system for using ESBuild in my projects",
   "scripts": {
     "check": "tsc --noEmit",
-    "build": "tsc"
+    "build": "tsc",
+    "juniper-build": "npm run build"
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "2.1.2",

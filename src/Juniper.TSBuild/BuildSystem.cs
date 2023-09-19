@@ -210,7 +210,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
                 if (package.scripts is not null)
                 {
-                    if (package.scripts.ContainsKey("build"))
+                    if (isInProjectProcess && package.scripts.ContainsKey("juniper-build")
+                        || !isInProjectProcess && package.scripts.ContainsKey("build"))
                     {
                         BuildProjects.Add(pkgFile);
                     }
@@ -684,7 +685,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private AbstractShellCommand MakeProxiedBuildCommand(CommandProxier proxy, FileInfo pkg)
     {
-        var cmd = new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "build");
+        var cmd = new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-build");
         cmd.Info += Proxy_Info;
         cmd.Err += Proxy_Err;
         cmd.Warning += Proxy_Warning;
