@@ -111,6 +111,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private readonly List<FileInfo> WatchProjects = new();
     private readonly List<FileInfo> CheckProjects = new();
 
+    private readonly bool isInProjectProcess;
     private readonly bool hasNPM;
 
     private static DirectoryInfo TestDir(string message, DirectoryInfo? dir)
@@ -125,6 +126,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     public BuildSystem(DirectoryInfo? workingDir = null)
     {
+        isInProjectProcess = workingDir is null;
         var options = new BuildConfigT().Options;
         workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
 
@@ -161,10 +163,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                     dirs = dirs.Union(options.AdditionalNPMProjects).ToArray();
                 }
 
-                foreach (var dir in dirs)
-                {
-                    CheckNPMProjectAsync(dir).Wait();
-                }
+                Task.WaitAll(dirs.Select(CheckNPMProjectAsync).ToArray());
             }
 
             if (options.Dependencies is not null)
@@ -216,7 +215,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                         BuildProjects.Add(pkgFile);
                     }
 
-                    if (package.scripts.ContainsKey("watch"))
+                    if (isInProjectProcess && package.scripts.ContainsKey("juniper-watch")
+                        || !isInProjectProcess && package.scripts.ContainsKey("watch"))
                     {
                         WatchProjects.Add(pkgFile);
                     }
