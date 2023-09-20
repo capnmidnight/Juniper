@@ -214,6 +214,8 @@ public static class JuniperConfiguration
         var useWebSockets = config.GetValue<bool>("UseWebSockets");
         var httpsAddress = config.GetValue<string?>("Kestrel:Endpoints:HTTPS:Url");
 
+        app.UseHostFiltering();
+
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();

@@ -1,5 +1,7 @@
 ﻿// Ignore Spelling: Configurator
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HostFiltering;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -17,6 +19,13 @@ public static class AppShellConfiguration
     public static WebApplicationBuilder ConfigureJuniperAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder)
         where AppShellWindowFactoryT : IAppShellFactory, new()
     {
+        appBuilder.Services.Configure<HostFilteringOptions>(options =>
+        {
+            options.AllowedHosts = new[] { "127.0.0.1" };
+        });
+
+        appBuilder.WebHost.UseUrls("http://127.0.0.1:0");
+
         appBuilder.Services
             // Give DI the class it needs to create
             .AddSingleton<AppShellService<AppShellWindowFactoryT>>()
