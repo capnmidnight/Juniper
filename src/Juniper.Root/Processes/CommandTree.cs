@@ -3,7 +3,7 @@ using Juniper.Logging;
 
 namespace Juniper.Processes
 {
-    public class CommandTree : ICommandTree, ILoggingSource
+    public class CommandTree : ILoggingSource
     {
         private readonly List<ICommand[]> commandTree = new();
 
@@ -13,24 +13,27 @@ namespace Juniper.Processes
 
         public IEnumerable<IEnumerable<ICommand>> Tree => commandTree;
 
-        public ICommandTree AddMessage(string format, params object[] args)
+        public CommandTree  AddMessage(string format, params object[] args)
         {
             return AddCommands(new MessageCommand(format, args));
         }
 
-        public ICommandTree AddCommands(params ICommand[] commands)
+        public CommandTree  AddCommands(params ICommand[] commands)
         {
-            commandTree.Add(commands);
+            if (commands.Length > 0)
+            {
+                commandTree.Add(commands);
+            }
             return this;
         }
 
-        public ICommandTree AddCommands(Action<ICommandTree> addCommands)
+        public CommandTree  AddCommands(Action<CommandTree > addCommands)
         {
             addCommands(this);
             return this;
         }
 
-        public ICommandTree AddCommands(IEnumerable<ICommand> commands)
+        public CommandTree  AddCommands(IEnumerable<ICommand> commands)
         {
             return AddCommands(commands.ToArray());
         }

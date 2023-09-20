@@ -112,6 +112,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private readonly List<FileInfo> CheckProjects = new();
 
     private readonly bool isInProjectProcess;
+    private readonly bool skipPreBuild;
     private readonly bool hasNPM;
 
     private static DirectoryInfo TestDir(string message, DirectoryInfo? dir)
@@ -128,6 +129,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     {
         isInProjectProcess = workingDir is null;
         var options = new BuildConfigT().Options;
+        skipPreBuild = options.SkipPreBuild;
         workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
 
         var startDir = TestDir($"Couldn't find project root from {workingDir.FullName}", workingDir);
@@ -522,7 +524,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private Task BuildAsync(CancellationToken cancellationToken) =>
         WithCommandTree(GetBuildCommands, cancellationToken);
 
-    private void GetBuildCommands(ICommandTree commands)
+    private void GetBuildCommands(CommandTree commands)
     {
         var copyCommands = GetDependecies();
 
@@ -584,7 +586,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             buildCanceller.Token.Register(timer.Dispose);
 
             var watchProjectPaths = WatchProjects.Select(pkg => pkg.FullName).ToHashSet();
-            var buildOnlyProjects = BuildProjects.Where(pkg => !watchProjectPaths.Contains(pkg.FullName));
+            var buildOnlyProjects = BuildProjects.Where(pkg =>
+                !skipPreBuild && !watchProjectPaths.Contains(pkg.FullName));
 
             var preBuilds = TryMake(
                 buildOnlyProjects,

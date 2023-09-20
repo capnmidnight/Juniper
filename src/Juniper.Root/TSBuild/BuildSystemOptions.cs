@@ -11,6 +11,7 @@ namespace Juniper.TSBuild
         public DirectoryInfo InProject;
         public DirectoryInfo OutProject;
         public bool SkipNPMInstall;
+        public bool SkipPreBuild;
         public DeploymentOptions Deployment;
         public DirectoryInfo[] AdditionalNPMProjects;
         public IEnumerable<BuildSystemDependency> Dependencies;
