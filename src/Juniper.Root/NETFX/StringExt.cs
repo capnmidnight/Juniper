@@ -10,6 +10,12 @@ namespace System
     /// </summary>
     public static partial class StringExt
     {
+        public static string Colorize(this string msg, string tag, int color) =>
+            $"{tag.Colorize(color)} {msg}";
+
+        public static string Colorize(this string msg, int color) =>
+            $"\u001b[{color}m{msg}\u001b[0m";
+
         [GeneratedRegex("((?:^|-)[a-z])", RegexOptions.Compiled)]
         private static partial Regex GetCapitalizePattern();
         private static readonly Regex CapitalizePattern = GetCapitalizePattern();

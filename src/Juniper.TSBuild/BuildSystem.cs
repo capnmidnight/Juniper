@@ -8,24 +8,14 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 {
     delegate void Writer(string format, params object[] args);
 
-    static string Colorize(string tag, int color, string format, params object[] args)
-    {
-        if (args.Length > 0)
-        {
-            format = string.Format(format, args);
-        }
-
-        return $"\u001b[{color}m{tag}:\u001b[0m {format}";
-    }
-
     static void WriteError(string format, params object[] values) =>
-        Console.Error.WriteLine(Colorize("error", 31, format, values));
+        Console.Error.WriteLine(string.Format(format, values).Colorize("error", 31));
 
     static void WriteInfo(string format, params object[] values) =>
-        Console.WriteLine(Colorize("info", 32, format, values));
+        Console.WriteLine(string.Format(format, values).Colorize("info", 32));
 
     static void WriteWarning(string format, params object[] values) =>
-        Console.WriteLine(Colorize("warn", 33, format, values));
+        Console.WriteLine(string.Format(format, values).Colorize("warn", 33));
 
     public static async Task Run(string[] args)
     {
@@ -579,7 +569,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 {
                     if (dep.Recheck())
                     {
-                        OnInfo(Colorize("watch", 36, "{0} copied", dep.CommandName));
+                        OnInfo($"{dep.CommandName} copied".Colorize("watch", 36));
                     };
                 }
             }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
