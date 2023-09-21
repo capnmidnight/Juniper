@@ -7,8 +7,11 @@ public interface IAppShell
 
     Task<string> GetTitleAsync();
     Task SetTitleAsync(string title);
-    Task SetSize(int width, int height);
+
+    Task SetSizeAsync(int width, int height);
+    Task MinimizeAsync();
+    Task<bool> ToggleExpandedAsync();
+
     Task CloseAsync();
     Task WaitForCloseAsync();
-    Task SetIconAsync(Uri path);
 }

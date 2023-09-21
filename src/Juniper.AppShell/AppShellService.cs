@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting.Server;
+﻿using Juniper.TSBuild;
+
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
-using Juniper.TSBuild;
-using System.Runtime.CompilerServices;
 
 namespace Juniper.AppShell;
 
@@ -149,7 +148,7 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
 
             if (width is not null && height is not null)
             {
-                await appShell.SetSize(width.Value, height.Value);
+                await appShell.SetSizeAsync(width.Value, height.Value);
             }
 
             await appShell.SetSourceAsync(address);
@@ -193,8 +192,8 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
     public Task SetTitleAsync(string title) =>
         Do(appShell => appShell.SetTitleAsync(title));
 
-    public Task SetSize(int width, int height) =>
-        Do(appShell => appShell.SetSize(width, height));
+    public Task SetSizeAsync(int width, int height) =>
+        Do(appShell => appShell.SetSizeAsync(width, height));
 
     public Task CloseAsync() =>
         Do(appShell => appShell.CloseAsync());
@@ -202,6 +201,9 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
     public Task WaitForCloseAsync() =>
         Do(appShell => appShell.WaitForCloseAsync());
 
-    public Task SetIconAsync(Uri path) =>
-        Do(appShell => appShell.SetIconAsync(path));
+    public Task MinimizeAsync() =>
+        Do(appShell => appShell.MinimizeAsync());
+
+    public Task<bool> ToggleExpandedAsync() =>
+        Do(appShell => appShell.ToggleExpandedAsync());
 }

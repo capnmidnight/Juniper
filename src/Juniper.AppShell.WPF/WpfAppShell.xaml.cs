@@ -43,12 +43,20 @@ public partial class WpfAppShell : Window, IAppShell
     public Task SetIconAsync(Uri path) =>
         Do(() => Icon = new BitmapImage(path));
 
-    public Task SetSize(int width, int height) =>
+    public Task SetSizeAsync(int width, int height) =>
         Do(() =>
         {
             Width = width;
             Height = height;
         });
+
+    public Task MinimizeAsync() =>
+        Do(() => WindowState = WindowState.Minimized);
+
+    public Task<bool> ToggleExpandedAsync() =>
+        Do(() => (WindowState = WindowState == WindowState.Normal
+                ? WindowState.Maximized
+                : WindowState.Normal) == WindowState.Maximized);
 
     public Task CloseAsync()
     {
@@ -56,7 +64,7 @@ public partial class WpfAppShell : Window, IAppShell
         {
             Dispatcher.Invoke(Close);
         }
-        catch(TaskCanceledException)
+        catch (TaskCanceledException)
         {
             // do nothing
         }
