@@ -32,7 +32,7 @@ public class FileInfoResult : IActionResult
     /// <param name="fileName">The name of the file that will be sent. This should be retrieved separately.</param>
     /// <param name="cacheTime">The number of seconds to tell the client to cache the result.</param>
     /// <param name="range">A range request expression.</param>
-    public FileInfoResult(long size, string contentType, string? fileName, int cacheTime, string range, ILogger? logger = null)
+    public FileInfoResult(long size, string contentType, string? fileName, int cacheTime, string? range, ILogger? logger = null)
     {
         var type = MediaType.Parse(contentType);
         this.contentType = contentType;
@@ -44,7 +44,7 @@ public class FileInfoResult : IActionResult
         hasRange = !string.IsNullOrEmpty(range);
         if (hasRange)
         {
-            var rangeMatch = rangePattern.Match(range);
+            var rangeMatch = rangePattern.Match(range!);
             var rangeStart = rangeMatch.Groups[1].Value;
             var rangeEnd = rangeMatch.Groups[2].Value;
             this.rangeStart = rangeStart.Length > 0 ? long.Parse(rangeStart) : 0;
