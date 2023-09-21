@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Juniper.AppShell;
+
 
 /// <summary>
 /// A <see cref="BackgroundService"/> that opens a appShell containing a WebView, waits for the
@@ -23,11 +25,13 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
     private readonly AppShellFactoryT factory = new();
 
     private readonly IServiceProvider services;
+    private readonly IOptions<AppShellOptions> options;
     private readonly ILogger<AppShellService<AppShellFactoryT>> logger;
 
-    public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, ILogger<AppShellService<AppShellFactoryT>> logger)
+    public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, IOptions<AppShellOptions> options, ILogger<AppShellService<AppShellFactoryT>> logger)
     {
         this.services = services;
+        this.options = options;
         this.logger = logger;
         lifetime.ApplicationStarted.Register(() =>
         {
@@ -49,7 +53,9 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
             );
 
             if (serviceCanceller.IsCancellationRequested)
+            {
                 return;
+            }
 
             var address = (services
                 .GetRequiredService<IServer>()
@@ -94,13 +100,14 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
         });
     }
 
-
-    public async Task StartAppShellAsync(string title, string splashPage, string? iconPath = null)
+    public async Task StartAppShellAsync()
     {
         try
         {
+            var title = options.Value.Window?.Title;
+            var splash = options.Value.SplashScreenPath;
+
             var address = await addressFetching.Task;
-            address = new Uri(address, splashPage);
 
             logger.LogInformation("Opening AppShell");
             var appShell = await factory.StartAsync(serviceCanceller.Token);
@@ -109,42 +116,43 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
                 _ = appShell.CloseAsync();
             });
 
-            logger.LogInformation("Showing first page ({address}) titled \"{title}\"", address, title);
-
-            if (iconPath is not null)
+            if (title is not null)
             {
-                await Task.WhenAll(
-                    appShell.SetIconAsync(new Uri(iconPath)),
-                    appShell.SetTitleAsync(title),
-                    appShell.SetSourceAsync(address)
-                );
+                await appShell.SetTitleAsync(title);
             }
-            else
+
+            if (splash is not null)
             {
-                await Task.WhenAll(
-                    appShell.SetTitleAsync(title),
-                    appShell.SetSourceAsync(address)
-                );
+                logger.LogInformation("Showing first page ({address}) titled \"{title}\"", address, splash);
+                var splashAddress = new Uri(address, splash);
+                await appShell.SetSourceAsync(splashAddress);
             }
 
             appShellCreating.TrySetResult(appShell);
         }
         catch (TaskCanceledException)
-        {
+            {
             // do nothing
-        }
+            }
         catch (Exception ex)
-        {
+            {
             logger.LogError(ex, "Failed to start AppShell");
         }
-    }
+            }
 
     public async Task RunAppShellAsync()
     {
         try
         {
+            var width = options.Value.Window?.Size?.Width;
+            var height = options.Value.Window?.Size?.Height;
             var address = await addressFetching.Task;
             var appShell = await appShellCreating.Task;
+            if (width is not null && height is not null)
+            {
+                await appShell.SetSize(width.Value, height.Value);
+            }
+
             await appShell.SetSourceAsync(address);
 
             logger.LogInformation("AppShell ready");

@@ -16,9 +16,32 @@ public static class AppShellConfiguration
     /// <typeparam name="AppShellWindowFactoryT">A concrete instance of the <see cref="IAppShellFactory"/> interface </typeparam>
     /// <param name="appBuilder"></param>
     /// <returns><paramref name="appBuilder"/></returns>
-    public static WebApplicationBuilder ConfigureJuniperAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder)
+    public static WebApplicationBuilder ConfigureJuniperAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder, AppShellOptions? options = null)
         where AppShellWindowFactoryT : IAppShellFactory, new()
     {
+        appBuilder.Services.Configure<AppShellOptions>(appBuilder.Configuration.GetSection(AppShellOptions.AppShell));
+        if (options is not null)
+        {
+            appBuilder.Services.PostConfigure<AppShellOptions>(oldOpts =>
+            {
+                oldOpts.SplashScreenPath = options.SplashScreenPath ?? oldOpts.SplashScreenPath;
+                if(options.Window is not null)
+                {
+                    var oldWindow = oldOpts.Window;
+                    oldOpts.Window = options.Window;
+                    oldOpts.Window.Title = options.Window.Title ?? oldWindow?.Title;
+
+                    if (options.Window.Size is not null)
+                    {
+                        var oldSize = oldWindow?.Size;
+                        oldOpts.Window.Size = options.Window.Size;
+                        oldOpts.Window.Size.Width = options.Window.Size.Width ?? oldSize?.Width;
+                        oldOpts.Window.Size.Height = options.Window.Size.Height ?? oldSize?.Height;
+                    }
+                }
+            });
+        }
+
         appBuilder.Services.Configure<HostFilteringOptions>(options =>
         {
             options.AllowedHosts = new[] { "127.0.0.1" };
@@ -43,11 +66,11 @@ public static class AppShellConfiguration
         return appBuilder;
     }
 
-    public static async Task StartAppShellAsync(this WebApplication app, string title, string splashPage, string iconPath = null)
+    public static async Task StartAppShellAsync(this WebApplication app)
     {
         await app.StartAsync();
         var service = app.Services.GetRequiredService<IAppShellService>();
-        await service.StartAppShellAsync(title, splashPage, iconPath);
+        await service.StartAppShellAsync();
     }
 
     public static async Task RunAppShellAsync(this WebApplication app)

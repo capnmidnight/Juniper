@@ -1,10 +1,6 @@
-using System.Reflection;
-
 using Microsoft.AspNetCore.Builder;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Juniper.Data;
 
@@ -20,6 +16,6 @@ public static class WebApplicationExtensions
         where DbContextT : DbContext
     {
         using var scope = app.Services.CreateScope();
-        return scope.ImportDataAsync<DbContextT>(args, importers);
+        return scope.ImportDataAsync(args, importers);
     }
 }
