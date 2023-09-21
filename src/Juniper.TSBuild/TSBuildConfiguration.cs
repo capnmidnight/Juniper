@@ -19,7 +19,9 @@ public static class TSBuildConfiguration
     public static WebApplicationBuilder AddJuniperBuildSystem<BuildConfigT>(this WebApplicationBuilder builder)
         where BuildConfigT : IBuildConfig, new()
     {
+#if DEBUG
         builder.Services.AddJuniperBuildSystem<BuildConfigT>(builder.Environment);
+#endif
         return builder;
     }
 
@@ -68,11 +70,15 @@ public static class TSBuildConfiguration
     /// <returns></returns>
     public static async Task BuildAsync(this WebApplication app)
     {
+#if DEBUG
         var buildService = app.Services.GetService<IBuildSystemService>();
         if (buildService is not null)
         {
             await buildService.Ready;
         }
+#else
+        await Task.CompletedTask;
+#endif
     }
 
     /// <summary>

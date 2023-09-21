@@ -2,6 +2,4 @@
 
 public interface IAppShellService
 {
-    Task StartAppShellAsync();
-    Task RunAppShellAsync();
 }

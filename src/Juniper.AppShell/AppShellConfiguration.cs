@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HostFiltering;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Juniper.AppShell;
 
 public static class AppShellConfiguration
 {
-
+    private static bool NoWebView => Environment.GetCommandLineArgs().Contains("--no-webview");
     /// <summary>
     /// Registers a service that opens a window constructed by the provided <typeparamref name="AppShellWindowFactoryT"/> factory.
     /// </summary>
@@ -19,6 +18,11 @@ public static class AppShellConfiguration
     public static WebApplicationBuilder ConfigureJuniperAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder, AppShellOptions? options = null)
         where AppShellWindowFactoryT : IAppShellFactory, new()
     {
+        if (NoWebView)
+        {
+            return appBuilder;
+        }
+
         appBuilder.Services.Configure<AppShellOptions>(appBuilder.Configuration.GetSection(AppShellOptions.AppShell));
         if (options is not null)
         {
@@ -63,24 +67,7 @@ public static class AppShellConfiguration
             // Queue the service for execution after the server has started.
             .AddHostedService(serviceProvider =>
                 serviceProvider.GetRequiredService<AppShellService<AppShellWindowFactoryT>>());
+
         return appBuilder;
-    }
-
-    public static async Task StartAppShellAsync(this WebApplication app)
-    {
-        await app.StartAsync();
-        var service = app.Services.GetRequiredService<IAppShellService>();
-        await service.StartAppShellAsync();
-    }
-
-    public static async Task RunAppShellAsync(this WebApplication app)
-    {
-        var service = app.Services.GetRequiredService<IAppShellService>();
-        await service.RunAppShellAsync();
-        if (!app.Lifetime.ApplicationStopping.IsCancellationRequested)
-        {
-            await app.StopAsync();
-            await app.WaitForShutdownAsync();
-        }
     }
 }

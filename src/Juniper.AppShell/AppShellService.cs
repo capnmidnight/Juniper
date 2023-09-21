@@ -5,6 +5,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Juniper.TSBuild;
+using System.Runtime.CompilerServices;
+
 namespace Juniper.AppShell;
 
 
@@ -25,20 +28,26 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
     private readonly AppShellFactoryT factory = new();
 
     private readonly IServiceProvider services;
+    private readonly IBuildSystemService? buildSystem;
     private readonly IOptions<AppShellOptions> options;
     private readonly ILogger<AppShellService<AppShellFactoryT>> logger;
+    private readonly IHostApplicationLifetime lifetime;
 
     public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, IOptions<AppShellOptions> options, ILogger<AppShellService<AppShellFactoryT>> logger)
     {
         this.services = services;
+        buildSystem = services.GetService<IBuildSystemService>();
         this.options = options;
         this.logger = logger;
+        this.lifetime = lifetime;
+
         lifetime.ApplicationStarted.Register(() =>
         {
             appStarting.TrySetResult();
         });
 
         StopOn(lifetime.ApplicationStopping);
+        _ = StartAppShellAsync();
     }
 
     protected override async Task ExecuteAsync(CancellationToken appCancelled)
@@ -100,11 +109,13 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
         });
     }
 
-    public async Task StartAppShellAsync()
+    private async Task StartAppShellAsync()
     {
         try
         {
             var title = options.Value.Window?.Title;
+            var width = options.Value.Window?.Size?.Width;
+            var height = options.Value.Window?.Size?.Height;
             var splash = options.Value.SplashScreenPath;
 
             var address = await addressFetching.Task;
@@ -129,25 +140,13 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
             }
 
             appShellCreating.TrySetResult(appShell);
-        }
-        catch (TaskCanceledException)
+
+
+            if (buildSystem is not null)
             {
-            // do nothing
-            }
-        catch (Exception ex)
-            {
-            logger.LogError(ex, "Failed to start AppShell");
-        }
+                await buildSystem.Ready;
             }
 
-    public async Task RunAppShellAsync()
-    {
-        try
-        {
-            var width = options.Value.Window?.Size?.Width;
-            var height = options.Value.Window?.Size?.Height;
-            var address = await addressFetching.Task;
-            var appShell = await appShellCreating.Task;
             if (width is not null && height is not null)
             {
                 await appShell.SetSize(width.Value, height.Value);
@@ -157,6 +156,12 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
 
             logger.LogInformation("AppShell ready");
             await appShell.WaitForCloseAsync();
+            
+            if (!lifetime.ApplicationStopping.IsCancellationRequested)
+            {
+                lifetime.StopApplication();
+            }
+
         }
         catch (TaskCanceledException)
         {
@@ -164,7 +169,7 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to run AppShell");
+            logger.LogError(ex, "Failed to start AppShell");
         }
     }
 
