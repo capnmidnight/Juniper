@@ -24,6 +24,18 @@ namespace System
             CapitalizePattern.Replace(value, new MatchEvaluator(match =>
                 match.Groups[1].Value.Replace("-", " ").ToUpperInvariant()));
 
+        public static  string Interpolate(this string format, params object[] args)
+        {
+            if(args.Length == 0)
+            {
+                return format;
+            }
+            else
+            {
+                return string.Format(format);
+            }
+        }
+
         /// <summary>
         /// Perforum `Uri.UnescapeDataString(value)` on this string.
         /// </summary>

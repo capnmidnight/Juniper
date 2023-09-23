@@ -9,13 +9,13 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     delegate void Writer(string format, params object[] args);
 
     static void WriteError(string format, params object[] values) =>
-        Console.Error.WriteLine(string.Format(format, values).Colorize("error", 31));
+        Console.Error.WriteLine(format.Interpolate(values).Colorize("error", 31));
 
     static void WriteInfo(string format, params object[] values) =>
-        Console.WriteLine(string.Format(format, values).Colorize("info", 32));
+        Console.WriteLine(format.Interpolate(values).Colorize("info", 32));
 
     static void WriteWarning(string format, params object[] values) =>
-        Console.WriteLine(string.Format(format, values).Colorize("warn", 33));
+        Console.WriteLine(format.Interpolate(values).Colorize("warn", 33));
 
     public static async Task Run(string[] args)
     {

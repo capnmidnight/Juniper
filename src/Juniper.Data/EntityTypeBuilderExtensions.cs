@@ -1,3 +1,5 @@
+// Ignore Spelling: Nav
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,22 +24,23 @@ public static class EntityTypeBuilderExtensions
                 joinTableName,
                 right => right.HasOne<TRelatedEntity>()
                     .WithMany()
-                    .HasForeignKey(rightColumnName)
-                    .HasConstraintName($"_{joinTableName}_FK_{rightColumnName}"),
+                    .HasForeignKey(leftColumnName)
+                    .HasConstraintName($"FK_{joinTableName}_{leftColumnName}"),
                 left => left.HasOne<TEntity>()
                     .WithMany()
-                    .HasForeignKey(leftColumnName)
-                    .HasConstraintName($"_{joinTableName}_FK_{leftColumnName}"),
+                    .HasForeignKey(rightColumnName)
+                    .HasConstraintName($"FK_{joinTableName}_{rightColumnName}"),
                 j =>
                 {
                     j.HasKey(leftColumnName, rightColumnName)
-                        .HasName($"{joinTableName}_pk");
+                        .HasName($"PK_{joinTableName}");
 
                     j.ToTable(joinTableName);
 
-                    j.HasIndex(new[] { leftColumnName }, $"IX_{joinTableName}_{leftColumnName}");
-
-                    j.HasIndex(new[] { leftColumnName, rightColumnName }, $"_{joinTableName}_{leftColumnName}_{rightColumnName}_IDX");
+                    j.HasIndex(
+                        new[] { leftColumnName, rightColumnName }, 
+                        $"IDX_{joinTableName}_{leftColumnName}_{rightColumnName}_IDX"
+                    );
 
                     j.IndexerProperty<int>(leftColumnName);
 
