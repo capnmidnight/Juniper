@@ -12,10 +12,18 @@ public static class WebApplicationExtensions
         return app;
     }
 
-    public static Task ImportDataAsync<DbContextT>(this WebApplication app, string[] args, Dictionary<string, IDataImporter<DbContextT>> importers)
+    public static async Task ImportDataAsync<DbContextT>(this WebApplication app, string[] args, Dictionary<string, IDataImporter<DbContextT>>? importers = null, IDataGenerator<DbContextT>? generator = null)
         where DbContextT : DbContext
     {
         using var scope = app.Services.CreateScope();
-        return scope.ImportDataAsync(args, importers);
+        if(generator is not null)
+        {
+            await scope.GenerateDataAsync(generator);
+        }
+
+        if (importers is not null)
+        {
+            await scope.ImportDataAsync(args, importers);
+        }
     }
 }

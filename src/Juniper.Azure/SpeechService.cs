@@ -7,13 +7,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Juniper.Azure;
@@ -21,6 +23,13 @@ namespace Juniper.Azure;
 public record RecognitionResult(string Culture, string Text);
 public record Viseme(uint ID, float Offset);
 public record SynthesisResult(TempFile File, Viseme[] Visemes);
+
+public class SpeechServiceOptions
+{
+    public const string SpeechService = "Azure";
+    public string SubscriptionKey { get; set; } = null;
+    public string Region { get; set; } = null;
+}
 
 public interface ISpeechService
 {
@@ -31,26 +40,21 @@ public interface ISpeechService
     public string Region { get; }
 }
 
-public static class WebApplicationBuilderExtensions
+public static class SpeechServiceConfiguration
 {
-    public static IServiceCollection AddJuniperSpeechService(this IServiceCollection services, IConfiguration configuration)
+    public static WebApplicationBuilder ConfigureJuniperSpeechService(this WebApplicationBuilder appBuilder)
     {
-        var azureSubscriptionKey = configuration?.GetValue<string>("SubscriptionKey");
-        var azureRegion = configuration?.GetValue<string>("Region");
-        if (azureSubscriptionKey is not null
-            && azureRegion is not null)
-        {
-            services.AddTransient<ISpeechService>(provider =>
-                new SpeechService(azureSubscriptionKey, azureRegion));
-        }
+        appBuilder.Services.Configure<SpeechServiceOptions>(appBuilder.Configuration.GetSection(SpeechServiceOptions.SpeechService));
 
-        return services;
-    }
+        appBuilder.Services
+            // Give DI the class it needs to create
+            .AddSingleton<SpeechService>()
+            // Give DI an alias that other DI consumers can use to request the service without
+            // knowing the specific type of `AppShellWindowFactorT`
+            .AddSingleton<ISpeechService>(serviceProvider =>
+                serviceProvider.GetRequiredService<SpeechService>());
 
-    public static WebApplicationBuilder AddJuniperSpeechService(this WebApplicationBuilder builder, string configGroup)
-    {
-        builder.Services.AddJuniperSpeechService(builder.Configuration.GetSection(configGroup));
-        return builder;
+        return appBuilder;
     }
 }
 
@@ -58,8 +62,10 @@ public class SpeechService : ISpeechService
 {
     private readonly SpeechConfig speechConfig;
 
-    public SpeechService(string subscriptionKey, string region)
+    public SpeechService(IOptions<SpeechServiceOptions> options)
     {
+        var subscriptionKey = options.Value.SubscriptionKey;
+        var region = options.Value.Region;
         speechConfig = SpeechConfig.FromSubscription(subscriptionKey, region);
         speechConfig.SetProfanity(ProfanityOption.Raw);
     }

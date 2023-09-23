@@ -50,7 +50,7 @@ public static class IServiceProviderExtensions
         return services;
     }
 
-    public static void AddJuniperDatabase<ProviderConfiguratorT>(this DbContextOptionsBuilder options, string connectionString, bool detailedErrors) 
+    public static void AddJuniperDatabase<ProviderConfiguratorT>(this DbContextOptionsBuilder options, string connectionString, bool detailedErrors)
         where ProviderConfiguratorT : IDbProviderConfigurator, new()
     {
         var providerConfigurator = new ProviderConfiguratorT();
@@ -72,6 +72,23 @@ public static class IServiceProviderExtensions
         return scope.ServiceProvider.GetRequiredService<ILogger<T>>();
     }
 
+    public static async Task GenerateDataAsync<DbContextT>(this IServiceScope scope, IDataGenerator<DbContextT> generator)
+        where DbContextT : DbContext
+    {
+        using var db = scope.ServiceProvider.GetRequiredService<DbContextT>(); var createLoggerMethod = typeof(IServiceProviderExtensions)
+            .GetMethod(nameof(CreateLogger), BindingFlags.Static | BindingFlags.NonPublic)
+            ?? throw new Exception("Can't find createLoggerMethod");
+
+        var type = generator.GetType();
+        var createLogger = createLoggerMethod.MakeGenericMethod(type);
+        var logger = createLogger.Invoke(null, new[] { scope }) as ILogger
+            ?? throw new Exception("Couldn't create logger");
+
+        generator.Import(scope.ServiceProvider, db, logger);
+
+        await db.SaveChangesAsync();
+    }
+
     public static Task ImportDataAsync<DbContextT>(this IServiceScope scope, string[] args, Dictionary<string, IDataImporter<DbContextT>> importers)
         where DbContextT : DbContext
     {
@@ -91,6 +108,7 @@ public static class IServiceProviderExtensions
 
         return db.ImportDataAsync(args, importers, createLogger);
     }
+
     public static async Task ImportDataAsync<DbContextT>(this DbContextT db, string[] args, Dictionary<string, IDataImporter<DbContextT>> importers, Func<IDataImporter<DbContextT>, ILogger> createLogger)
         where DbContextT : DbContext
     {

@@ -3,117 +3,136 @@ using Juniper.Progress;
 using Juniper.World.GIS.Google.Geocoding;
 using Juniper.World.GIS.Google.StreetView;
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Juniper.World.GIS.Google
+namespace Juniper.World.GIS.Google;
+
+public class GoogleMapsStreamingClientOptions {
+    public const string Google = "Google";
+    public string APIKey { get; set; }
+    public string SigningKey { get; set; }
+}
+
+
+public static class GoogleMapsStreamingClientConfiguration
 {
-    public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
+    public static WebApplicationBuilder ConfigureJuniperGoogleMaps(this WebApplicationBuilder builder)
     {
-        protected HttpClient Http { get; private set; }
-        protected string ApiKey { get; private set; }
-        protected string SigningKey { get; private set; }
-        protected CachingStrategy Cache { get; private set; }
+        builder.Services.Configure<GoogleMapsStreamingClientOptions>(builder.Configuration.GetSection(GoogleMapsStreamingClientOptions.Google));
 
-        private Exception lastError;
+        builder.Services.AddSingleton<GoogleMapsStreamingClient>();
+        builder.Services.AddSingleton<IGoogleMapsStreamingClient>(serviceProvider =>
+            serviceProvider.GetRequiredService<GoogleMapsStreamingClient>());
+        return builder;
+    }
+}
+public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
+{
+    protected HttpClient Http { get; private set; }
+    protected string ApiKey { get; private set; }
+    protected string SigningKey { get; private set; }
+    protected CachingStrategy Cache { get; private set; }
 
-        public GoogleMapsStreamingClient(HttpClient http, string apiKey, string signingKey, CachingStrategy cache)
+    private Exception lastError;
+
+    public GoogleMapsStreamingClient(HttpClient http, IOptions<GoogleMapsStreamingClientOptions> options)
+    {
+        Http = http;
+        ApiKey = options.Value.APIKey ?? throw new ArgumentNullException(nameof(GoogleMapsStreamingClientOptions.APIKey));
+        SigningKey = options.Value.SigningKey ?? throw new ArgumentNullException(nameof(GoogleMapsStreamingClientOptions.SigningKey));
+        Cache = CachingStrategy.GetNoCache();
+    }
+
+    public string Status => lastError?.Message ?? "NONE";
+
+    public void ClearError()
+    {
+        lastError = null;
+    }
+
+    public Task<Stream> ReverseGeocodeStreamAsync(LatLngPoint latLng, IProgress prog = null)
+    {
+        return Cache.GetStreamAsync(new ReverseGeocodingRequest(Http, ApiKey)
         {
-            Http = http;
-            ApiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
-            SigningKey = signingKey ?? throw new ArgumentNullException(nameof(signingKey));
-            Cache = cache ?? throw new ArgumentNullException(nameof(cache));
-        }
+            Location = latLng
+        }, prog);
+    }
 
-        public GoogleMapsStreamingClient(HttpClient http, string apiKey, string signingKey)
-            : this(http, apiKey, signingKey, CachingStrategy.GetTempCache())
-        { }
-
-        public string Status => lastError?.Message ?? "NONE";
-
-        public void ClearError()
+    public Task<Stream> GetMetadataStreamAsync(string pano, int searchRadius = 50, IProgress prog = null)
+    {
+        return Cache.GetStreamAsync(new MetadataRequest(Http, ApiKey, SigningKey)
         {
-            lastError = null;
-        }
+            Pano = pano,
+            Radius = searchRadius
+        }, prog);
+    }
 
-        public Task<Stream> ReverseGeocodeStreamAsync(LatLngPoint latLng, IProgress prog = null)
+    public Task<Stream> SearchMetadataStreamAsync(string placeName, int searchRadius = 50, IProgress prog = null)
+    {
+        return Cache.GetStreamAsync(new MetadataRequest(Http, ApiKey, SigningKey)
         {
-            return Cache.GetStreamAsync(new ReverseGeocodingRequest(Http, ApiKey)
+            Place = placeName,
+            Radius = searchRadius
+        }, prog);
+    }
+
+    public Task<Stream> GetMetadataStreamAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
+    {
+        return Cache.GetStreamAsync(new MetadataRequest(Http, ApiKey, SigningKey)
+        {
+            Location = latLng,
+            Radius = searchRadius
+        }, prog);
+    }
+
+    public async Task<Stream> SearchMetadataStreamAsync(string searchLocation, string searchPano, LatLngPoint searchPoint, int searchRadius, IProgress prog = null)
+    {
+        try
+        {
+            var metaSubProgs = prog.Split("Searching by Pano_ID", "Searching by Lat/Lng", "Searching by Location Name");
+            if (searchPano != null)
             {
-                Location = latLng
-            }, prog);
-        }
-
-        public Task<Stream> GetMetadataStreamAsync(string pano, int searchRadius = 50, IProgress prog = null)
-        {
-            return Cache.GetStreamAsync(new MetadataRequest(Http, ApiKey, SigningKey)
-            {
-                Pano = pano,
-                Radius = searchRadius
-            }, prog);
-        }
-
-        public Task<Stream> SearchMetadataStreamAsync(string placeName, int searchRadius = 50, IProgress prog = null)
-        {
-            return Cache.GetStreamAsync(new MetadataRequest(Http, ApiKey, SigningKey)
-            {
-                Place = placeName,
-                Radius = searchRadius
-            }, prog);
-        }
-
-        public Task<Stream> GetMetadataStreamAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
-        {
-            return Cache.GetStreamAsync(new MetadataRequest(Http, ApiKey, SigningKey)
-            {
-                Location = latLng,
-                Radius = searchRadius
-            }, prog);
-        }
-
-        public async Task<Stream> SearchMetadataStreamAsync(string searchLocation, string searchPano, LatLngPoint searchPoint, int searchRadius, IProgress prog = null)
-        {
-            try
-            {
-                var metaSubProgs = prog.Split("Searching by Pano_ID", "Searching by Lat/Lng", "Searching by Location Name");
-                if (searchPano != null)
-                {
-                    return await GetMetadataStreamAsync(searchPano, searchRadius, metaSubProgs[0])
-                        .ConfigureAwait(false);
-                }
-
-                if (searchPoint != null)
-                {
-                    return await GetMetadataStreamAsync(searchPoint, searchRadius, metaSubProgs[1])
-                        .ConfigureAwait(false);
-                }
-
-                if (searchLocation != null)
-                {
-                    return await SearchMetadataStreamAsync(searchLocation, searchRadius, metaSubProgs[2])
-                        .ConfigureAwait(false);
-                }
-
-                return default;
+                return await GetMetadataStreamAsync(searchPano, searchRadius, metaSubProgs[0])
+                    .ConfigureAwait(false);
             }
-            finally
-            {
-                prog.Report(1);
-            }
-        }
 
-        public virtual Task<Stream> GetImageStreamAsync(string pano, int fovDegrees, int headingDegrees, int pitchDegrees, IProgress prog = null)
-        {
-            return Cache.GetStreamAsync(new ImageRequest(Http, ApiKey, SigningKey, new Size(640, 640))
+            if (searchPoint != null)
             {
-                Pano = pano,
-                FOVDegrees = fovDegrees,
-                HeadingDegrees = headingDegrees,
-                PitchDegrees = pitchDegrees
-            }, prog);
+                return await GetMetadataStreamAsync(searchPoint, searchRadius, metaSubProgs[1])
+                    .ConfigureAwait(false);
+            }
+
+            if (searchLocation != null)
+            {
+                return await SearchMetadataStreamAsync(searchLocation, searchRadius, metaSubProgs[2])
+                    .ConfigureAwait(false);
+            }
+
+            return default;
         }
+        finally
+        {
+            prog.Report(1);
+        }
+    }
+
+    public virtual Task<Stream> GetImageStreamAsync(string pano, int fovDegrees, int headingDegrees, int pitchDegrees, IProgress prog = null)
+    {
+        return Cache.GetStreamAsync(new ImageRequest(Http, ApiKey, SigningKey, new Size(640, 640))
+        {
+            Pano = pano,
+            FOVDegrees = fovDegrees,
+            HeadingDegrees = headingDegrees,
+            PitchDegrees = pitchDegrees
+        }, prog);
     }
 }

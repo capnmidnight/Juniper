@@ -26,7 +26,7 @@ namespace Juniper
         public static async Task<YTMetadata?> GetJSON(HttpClient http, string youtubUrl)
         {
             var cmd = new YouTubeDLP("-j", youtubUrl);
-            var lines = await cmd.RunForStdOutAsync();
+            var lines = await cmd.RunForStdOutAsync(CancellationToken.None);
             var input = lines.Join(Environment.NewLine);
             var obj = JsonConvert.DeserializeObject<YTMetadata>(input);
             if (obj is not null)

@@ -113,7 +113,7 @@ namespace Juniper.Sound
                 throw new FileNotFoundException(file.FullName);
             }
 
-            var types = MediaType.GuessByFile(file).ToArray();
+            var types = file.GuessMediaType().ToArray();
 
             return await ConvertAsync(format, file, types);
         }

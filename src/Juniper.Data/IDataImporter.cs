@@ -9,3 +9,10 @@ public interface IDataImporter<DbContextT>
 {
     void Import(DbContextT db, FileInfo file, ILogger logger);
 }
+
+public interface IDataGenerator<DbContextT>
+    where DbContextT : DbContext
+
+{
+    void Import(IServiceProvider services, DbContextT db, ILogger logger);
+}
