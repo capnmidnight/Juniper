@@ -3,6 +3,8 @@
 using Microsoft.EntityFrameworkCore;
 
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace Juniper.Data;
 
@@ -19,7 +21,22 @@ public class DefaultValueSqlAttribute : Attribute
 
 public static class ContextExtensions
 {
-    public static void Apply<ContextT>(this ContextT db, ModelBuilder builder)
+    public static void ApplyModelConfigurators<ContextT>(this ContextT db, ModelBuilder builder)
+        where ContextT : DbContext
+    {
+        foreach (var configurator
+            in from type in typeof(ContextT).Assembly.GetTypes()
+               let typeName = type.Name
+               from method in type.GetMethods(BindingFlags.Public | BindingFlags.Static)
+               let parameters = method.GetParameters()
+               where parameters.FirstOrDefault()?.ParameterType == typeof(ModelBuilder)
+               select method)
+        {
+            configurator.Invoke(null, new[] { builder });
+        }
+    }
+
+    public static void ApplyDefaultSqlValues<ContextT>(this ContextT db, ModelBuilder builder)
         where ContextT : DbContext
     {
         foreach (var (type, prop, attr)
@@ -34,5 +51,12 @@ public static class ContextExtensions
                 .Property(prop.Name)
                 .HasDefaultValueSql(attr.Value);
         }
+    }
+
+    public static void JuniperModelCreating<ContextT>(this ContextT db, ModelBuilder builder)
+        where ContextT : DbContext
+    {
+        db.ApplyModelConfigurators(builder);
+        db.ApplyDefaultSqlValues(builder);
     }
 }

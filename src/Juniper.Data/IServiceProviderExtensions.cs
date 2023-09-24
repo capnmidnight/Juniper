@@ -20,6 +20,7 @@ public static class IServiceProviderExtensions
 
     public static void AutoMigrate(this DatabaseFacade database, ILogger? logger = null)
     {
+        var connectionString = database.GetConnectionString();
         var pending = database.GetPendingMigrations();
         if (pending.Any())
         {
