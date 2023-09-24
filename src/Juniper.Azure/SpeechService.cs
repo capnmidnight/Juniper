@@ -26,7 +26,7 @@ public record SynthesisResult(TempFile File, Viseme[] Visemes);
 
 public class SpeechServiceOptions
 {
-    public const string SpeechService = "Azure";
+    public const string SpeechService = "Azure:Speech";
     public string SubscriptionKey { get; set; } = null;
     public string Region { get; set; } = null;
 }
@@ -44,7 +44,8 @@ public static class SpeechServiceConfiguration
 {
     public static WebApplicationBuilder ConfigureJuniperSpeechService(this WebApplicationBuilder appBuilder)
     {
-        appBuilder.Services.Configure<SpeechServiceOptions>(appBuilder.Configuration.GetSection(SpeechServiceOptions.SpeechService));
+        var configSection = appBuilder.Configuration.GetSection(SpeechServiceOptions.SpeechService);
+        appBuilder.Services.Configure<SpeechServiceOptions>(configSection);
 
         appBuilder.Services
             // Give DI the class it needs to create

@@ -188,52 +188,54 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         foreach (var pkgFile in packages)
         {
-            if (!workspaceProjects.Contains(pkgFile.FullName))
-            {
-                var package = await NPMPackage.ReadAsync(pkgFile)
-                    ?? throw new FileNotFoundException("Couldn't read package.json", pkgFile.FullName);
+            var package = await NPMPackage.ReadAsync(pkgFile)
+                ?? throw new FileNotFoundException("Couldn't read package.json", pkgFile.FullName);
 
+            var isWorkSpaceSubProject = workspaceProjects.Contains(pkgFile.FullName);
+
+            if (!isWorkSpaceSubProject)
+            {
                 NPMProjects.Add(pkgFile);
 
                 if (package.dependencies is not null || package.devDependencies is not null)
                 {
                     InstallProjects.Add(pkgFile);
                 }
+            }
 
-                if (package.scripts is not null)
+            if (package.scripts is not null)
+            {
+                if (isInProjectProcess && package.scripts.ContainsKey("juniper-build")
+                    || !isInProjectProcess && !isWorkSpaceSubProject && package.scripts.ContainsKey("build"))
                 {
-                    if (isInProjectProcess && package.scripts.ContainsKey("juniper-build")
-                        || !isInProjectProcess && package.scripts.ContainsKey("build"))
-                    {
-                        BuildProjects.Add(pkgFile);
-                    }
-
-                    if (isInProjectProcess && package.scripts.ContainsKey("juniper-watch")
-                        || !isInProjectProcess && package.scripts.ContainsKey("watch"))
-                    {
-                        WatchProjects.Add(pkgFile);
-                    }
-
-                    if (package.scripts.ContainsKey("check"))
-                    {
-                        CheckProjects.Add(pkgFile);
-                    }
+                    BuildProjects.Add(pkgFile);
                 }
 
-                if (package.workspaces is not null)
+                if (isInProjectProcess && package.scripts.ContainsKey("juniper-watch")
+                    || !isInProjectProcess && !isWorkSpaceSubProject && package.scripts.ContainsKey("watch"))
                 {
-                    var here = pkgFile.Directory!;
-                    foreach (var pkg in package.workspaces
-                        .Select(dirName => here.CD(dirName).Touch("package.json")))
+                    WatchProjects.Add(pkgFile);
+                }
+
+                if (!isWorkSpaceSubProject && package.scripts.ContainsKey("check"))
+                {
+                    CheckProjects.Add(pkgFile);
+                }
+            }
+
+            if (package.workspaces is not null)
+            {
+                var here = pkgFile.Directory!;
+                foreach (var pkg in package.workspaces
+                    .Select(dirName => here.CD(dirName).Touch("package.json")))
+                {
+                    if (pkg.Exists)
                     {
-                        if (pkg.Exists)
-                        {
-                            workspaceProjects.Add(pkg.FullName);
-                        }
-                        else
-                        {
-                            Console.Error.WriteLine($"Package file {pkgFile.FullName} specifies a workspace project that doesn't exist: {pkg.FullName}!");
-                        }
+                        workspaceProjects.Add(pkg.FullName);
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine($"Package file {pkgFile.FullName} specifies a workspace project that doesn't exist: {pkg.FullName}!");
                     }
                 }
             }

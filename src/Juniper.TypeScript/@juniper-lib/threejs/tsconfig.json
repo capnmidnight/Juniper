@@ -1,8 +1,7 @@
 {
   "extends": "../../tsconfig_base.json",
   "include": [
-    "./src/**/*.js",
-    "./src/**/*.ts"
+    "./src/**/*"
   ],
   "references": [
     { "path": "../graphics2d" },
@@ -24,6 +23,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "allowJs": true
+    "allowJs": true,
+    "declaration": true,
+    "declarationMap": true
   }
 }

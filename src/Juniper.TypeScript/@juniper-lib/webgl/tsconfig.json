@@ -1,10 +1,10 @@
 {
   "extends": "../../tsconfig_base.json",
   "include": [
-    "./src/**/*.ts",
-    "./src/**/*.glsl",
-    "./src/**/*.frag",
-    "./src/**/*.vert"
+    "src/**/*.ts",
+    "src/**/*.glsl",
+    "src/**/*.frag",
+    "src/**/*.vert"
   ],
   "references": [
     { "path": "../collections" },

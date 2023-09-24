@@ -1,0 +1,26 @@
+.tree-view {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+}
+
+    .tree-view .btn-sm {
+        padding: 0;
+    }
+
+.tree-view-inner {
+    border: inset 2px;
+    background-color: rgb(224, 224, 224);
+    white-space: nowrap;
+    overflow-wrap: normal;
+    overflow: auto scroll;
+    font-family: system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans' 'Droid Sans', sans-serif;
+}
+
+.tree-view-controls {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.tree-view-children {
+    height: 0;
+}

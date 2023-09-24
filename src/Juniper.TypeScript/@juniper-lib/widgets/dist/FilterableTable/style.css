@@ -1,0 +1,23 @@
+table.summary > tbody > tr.selected,
+table.summary > tbody > tr.selected > td {
+    background-color: rgb(221, 255, 255);
+}
+
+table.summary > thead > tr > th:not(.multi) .btn,
+table.summary > * > tr > td:not(.multi) .btn {
+    width: 100%;
+}
+
+.form-control {
+    display: inline-block;
+}
+
+.multi .form-control {
+    width: unset;
+}
+
+table.summary input[required=true]::before,
+table.summary select[required=true]::before {
+    content: "*";
+    color: red;
+}

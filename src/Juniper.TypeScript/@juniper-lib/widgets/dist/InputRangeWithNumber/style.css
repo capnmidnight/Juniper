@@ -1,0 +1,5 @@
+.input-range-with-number {
+    display: grid;
+    column-gap: 5px;
+    grid-template-columns: 1fr auto;
+}

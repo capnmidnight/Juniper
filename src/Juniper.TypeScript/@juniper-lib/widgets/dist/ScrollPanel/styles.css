@@ -1,0 +1,8 @@
+.scroll-panel {
+    overflow: auto auto;
+    padding: 0.5em;
+}
+
+.scroll-panel-inner {
+    height: 0;
+}

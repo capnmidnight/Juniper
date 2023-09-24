@@ -7,7 +7,11 @@
     "dist/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "ts-build": "tsc -b",
+    "copy-assets": "pwsh -Command \"foreach($type in @(\\\"*.glsl\\\", \\\"*.vert\\\", \\\"*.frag\\\", \\\"*.css\\\")) { Get-ChildItem .\\src\\* -Attribute Directory | Copy-Item -Destination .\\dist -Recurse -Filter $type -Force }\"",
+    "build": "npm run ts-build && npm run copy-assets",
+    "juniper-build": "npm run build"
   },
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",

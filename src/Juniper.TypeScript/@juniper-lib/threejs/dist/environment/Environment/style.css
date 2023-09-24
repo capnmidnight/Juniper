@@ -1,0 +1,5 @@
+#juniperSubMenu {
+    display: none;
+    flex-direction: column-reverse;
+    gap: .25em;
+}
