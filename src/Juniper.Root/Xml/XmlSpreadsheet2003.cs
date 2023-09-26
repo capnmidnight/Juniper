@@ -42,48 +42,41 @@ namespace Juniper.Xml
             internal Worksheet(XElement element)
             {
                 Name = element.Attribute(NAME).Value;
-                Table = new Table(element.Element(TABLE));
+                Table = new Table(this, element.Element(TABLE));
             }
         }
 
         public class Table
         {
             public HashSet<string> Headers { get; }
-            public List<Row> Rows { get; }
+            public Row[] Rows { get; }
 
-            private string sortKey = null;
-            public string SortKey => sortKey ??= Headers
-                .OrderBy(Always.Identity)
-                .ToArray()
-                .Join(", ");
+            public Worksheet Sheet { get; }
 
             public bool IsUnderused => Rows.Any(r => r.IsUnderused);
 
             public IEnumerable<Row> UnderusedRows => Rows.Where(r => r.IsUnderused);
 
-            internal Table(XElement element)
+            internal Table(Worksheet sheet, XElement element)
             {
                 if (element is null)
                 {
                     throw new Exception("Expected a Table element");
                 }
 
+                Sheet = sheet;
+
                 var rows = new Queue<XElement>(element.Elements(ROW));
                 var headers = (from cell in rows.Dequeue().Elements(CELL)
-                           let header = cell.Element(DATA)
-                           select header.Value)
+                               let header = cell.Element(DATA)
+                               select header.Value)
                             .ToArray();
 
                 Headers = new(headers);
-                Rows = new List<Row>();
-                foreach (var row in rows)
+
+                Rows = rows.Select(row =>
                 {
                     var dict = new Dictionary<string, string>();
-                    foreach (var header in headers)
-                    {
-                        dict.Add(header, "");
-                    }
-                    Rows.Add(new Row(dict));
                     var index = 0;
                     foreach (var cell in row.Elements(CELL))
                     {
@@ -100,7 +93,10 @@ namespace Juniper.Xml
                             ++index;
                         }
                     }
-                }
+
+                    return new Row(this, dict);
+                })
+                    .ToArray();
 
             }
 
@@ -114,20 +110,19 @@ namespace Juniper.Xml
 
         public class Row
         {
-            private Dictionary<string, string> data;
-            private Dictionary<string, bool> accessed;
+            public Dictionary<string, Cell> Cells { get; }
 
-            internal Row(Dictionary<string, string> data)
+            public Table Table { get; }
+
+            internal Row(Table table, Dictionary<string, string> data)
             {
-                this.data = data;
-                accessed = data.Keys.ToDictionary(v => v, _ => false);
+                Table = table;
+                Cells = data.ToDictionary(kv => kv.Key, kv => new Cell(this, kv.Key, kv.Value));
             }
 
-            public IEnumerable<string> Headers => data.Keys;
+            public bool Has(params string[] headers) => headers.All(Cells.ContainsKey);
 
-            public bool Has(string header) => data.ContainsKey(header);
-
-            public string Peek(string header) => data.Get(header);
+            public string? Peek(string header) => Cells.Get(header)?.Peek;
 
             public string this[string header]
             {
@@ -138,18 +133,54 @@ namespace Juniper.Xml
                         return null;
                     }
 
-                    accessed[header] = true;
-                    return data[header];
+                    return Cells[header].Value;
                 }
             }
 
-            public bool IsUnderused => accessed.Any(kv => !kv.Value);
+            public bool IsUnderused => Cells.Values.Any(v => !v.Accessed);
 
             public string[] UnusedFields =>
-                (from kv in accessed
-                 where !kv.Value
+                (from kv in Cells
+                 where !kv.Value.Accessed
                  select kv.Key)
                 .ToArray();
+        }
+
+        public class Cell
+        {
+            public Row Row { get; }
+
+            public string Key { get; }
+
+            private readonly string value;
+
+            public string Value
+            {
+                get
+                {
+                    Accessed = true;
+                    return value;
+                }
+            }
+
+            /// <summary>
+            /// Get the value without modifying the Accessed flag
+            /// </summary>
+            public string Peek => value;
+
+            /// <summary>
+            /// A flag indicating that this cell's value has been accessed. Useful
+            /// for importers that do advanced validation that want to make sure they
+            /// use all of the cell values in a work sheet.
+            /// </summary>
+            public bool Accessed { get; private set; }
+
+            internal Cell(Row row, string key, string value)
+            {
+                Row = row;
+                Key = key;
+                this.value = value;
+            }
         }
     }
 }
