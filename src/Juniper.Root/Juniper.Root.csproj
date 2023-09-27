@@ -15,6 +15,7 @@
 		<PackageId>SeanMcBeth.Juniper</PackageId>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">

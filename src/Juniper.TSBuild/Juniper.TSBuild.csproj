@@ -17,6 +17,7 @@
         <PackageId>SeanMcBeth.Juniper.TSBuild</PackageId>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <Version>1.0.2</Version>
+        <Platforms>AnyCPU;x64</Platforms>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Debug'">

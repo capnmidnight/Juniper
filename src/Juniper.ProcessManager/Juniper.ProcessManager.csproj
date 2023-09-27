@@ -11,6 +11,7 @@
 		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
 		<IsPublishable>False</IsPublishable>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">

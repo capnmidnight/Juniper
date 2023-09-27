@@ -17,6 +17,7 @@
 		<PackageId>SeanMcBeth.Juniper.Server</PackageId>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<IsPackable>True</IsPackable>
+		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
