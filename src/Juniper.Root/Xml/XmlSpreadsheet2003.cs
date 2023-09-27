@@ -1,4 +1,6 @@
-﻿using System.Xml.Linq;
+﻿#nullable enable
+
+using System.Xml.Linq;
 
 namespace Juniper.Xml
 {
@@ -41,8 +43,8 @@ namespace Juniper.Xml
 
             internal Worksheet(XElement element)
             {
-                Name = element.Attribute(NAME).Value;
-                Table = new Table(this, element.Element(TABLE));
+                Name = element.Attribute(NAME)!.Value;
+                Table = new Table(this, element.Element(TABLE)!);
             }
         }
 
@@ -124,7 +126,7 @@ namespace Juniper.Xml
 
             public string? Peek(string header) => Cells.Get(header)?.Peek;
 
-            public string this[string header]
+            public string? this[string header]
             {
                 get
                 {
