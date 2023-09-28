@@ -192,6 +192,12 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
     public Task SetTitleAsync(string title) =>
         Do(appShell => appShell.SetTitleAsync(title));
 
+    public Task<bool> GetCanGoBackAsync() =>
+        Do(appShell => appShell.GetCanGoBackAsync());
+
+    public Task<bool> GetCanGoForwardAsync() =>
+        Do(appShell => appShell.GetCanGoForwardAsync());
+
     public Task SetSizeAsync(int width, int height) =>
         Do(appShell => appShell.SetSizeAsync(width, height));
 

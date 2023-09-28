@@ -40,8 +40,11 @@ public partial class WpfAppShell : Window, IAppShell
     public Task SetTitleAsync(string title) =>
         Do(() => Title = title);
 
-    public Task SetIconAsync(Uri path) =>
-        Do(() => Icon = new BitmapImage(path));
+    public Task<bool> GetCanGoBackAsync() =>
+        Do(() => WebView.CanGoBack);
+
+    public Task<bool> GetCanGoForwardAsync() =>
+        Do(() => WebView.CanGoForward);
 
     public Task SetSizeAsync(int width, int height) =>
         Do(() =>
@@ -79,8 +82,6 @@ public partial class WpfAppShell : Window, IAppShell
         closing.TrySetResult();
     }
 
-    public async Task WaitForCloseAsync()
-    {
-        await closing.Task;
-    }
+    public Task WaitForCloseAsync() =>
+        closing.Task;
 }

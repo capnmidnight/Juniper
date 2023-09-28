@@ -8,6 +8,9 @@ public interface IAppShell
     Task<string> GetTitleAsync();
     Task SetTitleAsync(string title);
 
+    Task<bool> GetCanGoBackAsync();
+    Task<bool> GetCanGoForwardAsync();
+
     Task SetSizeAsync(int width, int height);
     Task MinimizeAsync();
     Task<bool> ToggleExpandedAsync();
