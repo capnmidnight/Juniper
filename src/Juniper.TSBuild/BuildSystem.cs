@@ -87,8 +87,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     }
 
     private readonly DirectoryInfo[] cleanDirs;
-    private readonly DirectoryInfo inProjectDir;
-    private readonly DirectoryInfo outProjectDir;
+    private readonly DirectoryInfo workingDir;
     private readonly FileInfo projectPackage;
     private readonly FileInfo projectAppSettings;
 
@@ -115,26 +114,28 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         return dir;
     }
 
-    public BuildSystem(DirectoryInfo? workingDir = null)
+    public BuildSystem(DirectoryInfo? startDir = null)
     {
-        isInProjectProcess = workingDir is null;
+        isInProjectProcess = startDir is null;
+        startDir ??= new DirectoryInfo(Environment.CurrentDirectory);
+
+        workingDir = TestDir($"Couldn't find project root from {startDir.FullName}", startDir);
+
         var options = new BuildConfigT().Options;
-        skipPreBuild = options.SkipPreBuild;
-        workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
 
-        var startDir = TestDir($"Couldn't find project root from {workingDir.FullName}", workingDir);
+        var inProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.InProject ?? options.OutProject);
 
-        inProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.InProject ?? options.OutProject);
+        var outProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.OutProject ?? options.InProject);
 
-        outProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.OutProject ?? options.InProject);
-
-        var juniperDir = FindJuniperDir(startDir);
+        var juniperDir = FindJuniperDir(workingDir);
         var juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
 
         cleanDirs = options.CleanDirs
             ?.Where(dir => dir?.Exists == true)
             ?.ToArray()
             ?? Array.Empty<DirectoryInfo>();
+
+        skipPreBuild = options.SkipPreBuild;
 
         projectPackage = inProjectDir.Touch("package.json");
         projectAppSettings = outProjectDir.Touch("appsettings.json");
@@ -551,7 +552,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
                 buildCanceller.Cancel();
 
-            var proxy = new CommandProxier(inProjectDir);
+            var proxy = new CommandProxier(workingDir);
             proxy.Info += Proxy_Info;
             proxy.Warning += Proxy_Warning;
             proxy.Err += Proxy_Err;
