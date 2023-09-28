@@ -22,7 +22,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         var canceller = new CancellationTokenSource();
         AppDomain.CurrentDomain.ProcessExit += (sender, e) => canceller.Cancel();
 
-        var opts = new BuildOptions(args);
+        var opts = new BuildRunOptions(args);
 
         var build = new BuildSystem<BuildConfigT>(opts.workingDir);
 
@@ -123,9 +123,9 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         var options = new BuildConfigT().Options;
 
-        var inProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.InProject ?? options.OutProject);
+        var inProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.Project ?? options.InProject ?? options.OutProject);
 
-        var outProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.OutProject ?? options.InProject);
+        var outProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.Project ?? options.OutProject ?? options.InProject);
 
         var juniperDir = FindJuniperDir(workingDir);
         var juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));

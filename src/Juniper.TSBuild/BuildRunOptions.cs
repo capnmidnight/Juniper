@@ -1,6 +1,6 @@
 namespace Juniper.TSBuild;
 
-record CommandDefinition(string? Flag, string? Description, Func<BuildOptions, Action<bool>> Definition);
+record CommandDefinition(string? Flag, string? Description, Func<BuildRunOptions, Action<bool>> Definition);
 record Command(string? Flag, string? Description, Action<bool> Action);
 
 public enum PublishLevel
@@ -10,7 +10,7 @@ public enum PublishLevel
     Major
 }
 
-public class BuildOptions
+public class BuildRunOptions
 {
     private static readonly CommandDefinition[] commands = new[]
     {
@@ -88,7 +88,7 @@ public class BuildOptions
     private readonly Command[] interactiveCommands;
     private readonly Command[] flagCommands;
 
-    public BuildOptions(string[] args)
+    public BuildRunOptions(string[] args)
     {
         interactiveCommands = commands
             .Where(cmd => cmd.Description is not null)
