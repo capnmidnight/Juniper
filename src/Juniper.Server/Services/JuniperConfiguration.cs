@@ -41,21 +41,6 @@ public static class JuniperConfiguration
     private const string BUILD = "RELEASE";
 #endif
 
-    public static WebApplicationBuilder UseSystemd(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddSystemd();
-        return builder;
-    }
-
-    public static IWebHostBuilder UseSystemd(this IWebHostBuilder builder) =>
-        builder.ConfigureServices(services => services.AddSystemd());
-
-    public static WebApplicationBuilder ConfigureJuniperWebApplication(this WebApplicationBuilder builder)
-    {
-        builder.Configuration.ConfigureJuniperWebHost(builder.Services, builder.Environment);
-        return builder;
-    }
-
     public static IConfigurationBuilder AddAssemblyUserSecrets(this IConfigurationBuilder configBuilder, IHostEnvironment env)
     {
 #if DEBUG
@@ -71,136 +56,85 @@ public static class JuniperConfiguration
         return configBuilder;
     }
 
-    public static void ConfigureJuniperWebHost(this ConfigurationManager config, IServiceCollection services, IHostEnvironment env)
+    public static WebApplicationBuilder UseSystemd(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSystemd();
+        return builder;
+    }
+
+    public static IWebHostBuilder UseSystemd(this IWebHostBuilder builder) =>
+        builder.ConfigureServices(services => services.AddSystemd());
+
+    public static WebApplicationBuilder ConfigureJuniperWebApplication(this WebApplicationBuilder builder)
     {
         var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         Console.WriteLine("Environment: {0}:{1}", envName, BUILD);
 
-        config.AddAssemblyUserSecrets(env);
+        builder.Configuration.AddAssemblyUserSecrets(builder.Environment);
 
-        if (!env.IsDevelopment()
-            && config.GetValue<string?>("Kestrel:Endpoints:HTTPS:Url") is not null)
+        if (!builder.Environment.IsDevelopment()
+            && builder.Configuration.GetValue<string?>("Kestrel:Endpoints:HTTPS:Url") is not null)
         {
-            services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
+            builder.Services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
         }
 
-        services.Configure<KestrelServerOptions>(options =>
+        builder.Services.Configure<KestrelServerOptions>(options =>
             options.AllowSynchronousIO = false);
 
-        services.AddControllersWithViews(opts => 
+        builder.Services.AddControllersWithViews(opts => 
             opts.InputFormatters.Add(new TextPlainInputFormatter()));
 
-        var razorPages = services.AddRazorPages(options =>
+        var razorPages = builder.Services.AddRazorPages(options =>
         {
-            var adminPath = config.GetValue<string?>("AdminPath");
+            var adminPath = builder.Configuration.GetValue<string?>("AdminPath");
             if (!string.IsNullOrEmpty(adminPath))
             {
                 options.Conventions.AuthorizeFolder(adminPath);
             }
         });
 
-        if (env.IsDevelopment())
+        if (builder.Environment.IsDevelopment())
         {
             razorPages.AddRazorRuntimeCompilation();
 
-            services.AddLogging(options =>
+            builder.Services.AddLogging(options =>
                 options.AddConsole()
                     .AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug)
             );
         }
 
-        if (config.GetValue<object>("Mail") is not null)
+        if (builder.Configuration.GetValue<bool>("UseSession"))
         {
-            services.AddTransient<IEmailSender, EmailSender>();
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.IsEssential = true;
+            });
         }
 
-        if (!string.IsNullOrEmpty(config.GetValue<string>("SignalRHub")))
+        if (builder.Configuration.GetValue<object>("Mail") is not null)
         {
-            services.AddSignalR(options =>
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+        }
+
+        if (!string.IsNullOrEmpty(builder.Configuration.GetValue<string>("SignalRHub")))
+        {
+            builder.Services.AddSignalR(options =>
             {
                 options.ClientTimeoutInterval = TimeSpan.FromSeconds(5);
                 options.HandshakeTimeout = TimeSpan.FromSeconds(5);
             });
         }
 
-        if (env.IsDevelopment())
+        if (builder.Environment.IsDevelopment())
         {
-            services.AddHttpLogging(opts =>
+            builder.Services.AddHttpLogging(opts =>
             {
                 opts.LoggingFields = HttpLoggingFields.All;
                 opts.RequestHeaders.Add("host");
                 opts.RequestHeaders.Add("user-agent");
             });
         }
-    }
-
-    public static WebApplicationBuilder ConfigureJuniperDatabase<ProviderConfiguratorT, ContextT>(this WebApplicationBuilder builder, string connectionString)
-        where ProviderConfiguratorT : IDbProviderConfigurator, new()
-        where ContextT : DbContext
-    {
-        IHostEnvironment env = builder.Environment;
-        IConfiguration config = builder.Configuration;
-        IServiceCollection services = builder.Services;
-        
-        services.AddJuniperDatabase<ProviderConfiguratorT, ContextT>(connectionString, env.IsDevelopment());
-
-        var useIdentity = typeof(ContextT).IsAssignableTo(typeof(IdentityDbContext));
-
-        services.AddSingleton<IDBContextInformation>(_services =>
-            new DBContextInformation(useIdentity));
-
-        if (useIdentity)
-        {
-            services.AddDefaultIdentity<IdentityUser>(options =>
-            {
-                var isDev = env.IsDevelopment();
-                options.User.RequireUniqueEmail = true;
-
-                options.Password.RequireDigit = !isDev;
-                options.Password.RequireLowercase = !isDev;
-                options.Password.RequireUppercase = !isDev;
-                options.Password.RequireNonAlphanumeric = !isDev;
-                options.Password.RequiredLength = isDev ? 0 : 8;
-                options.Password.RequiredUniqueChars = 1;
-
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 3;
-                options.Lockout.AllowedForNewUsers = true;
-
-                options.SignIn.RequireConfirmedAccount = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
-                options.SignIn.RequireConfirmedEmail = false;
-            })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ContextT>();
-
-            services.Configure<CookieAuthenticationOptions>(options =>
-            {
-                options.Cookie.IsEssential = true;
-                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
-                options.Cookie.HttpOnly = true;
-
-                options.ExpireTimeSpan = TimeSpan.FromDays(5);
-                options.SlidingExpiration = true;
-
-                options.LoginPath = "/Identity/Account/Login";
-                options.LogoutPath = "/Identity/Account/Logout";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-            });
-        }
-
-        return builder;
-    }
-
-    public static WebApplicationBuilder AddJuniperHTTPClient(this WebApplicationBuilder builder) 
-    {
-        var http = new HttpClient(new HttpClientHandler
-        {
-            AllowAutoRedirect = false,
-            UseCookies = false
-        });
-
-        builder.Services.AddSingleton(http);
 
         return builder;
     }
@@ -301,12 +235,88 @@ public static class JuniperConfiguration
         app.MapControllers();
         app.MapRazorPages();
 
+        if (app.Configuration.GetValue<bool>("UseSession"))
+        {
+            app.UseSession();
+        }
+
         if (env.IsDevelopment())
         {
             app.UseHttpLogging();
         }
 
         return app;
+    }
+
+    public static WebApplicationBuilder ConfigureJuniperDatabase<ProviderConfiguratorT, ContextT>(this WebApplicationBuilder builder, string connectionString)
+        where ProviderConfiguratorT : IDbProviderConfigurator, new()
+        where ContextT : DbContext
+    {
+        IHostEnvironment env = builder.Environment;
+        IConfiguration config = builder.Configuration;
+        IServiceCollection services = builder.Services;
+        
+        services.AddJuniperDatabase<ProviderConfiguratorT, ContextT>(connectionString, env.IsDevelopment());
+
+        var useIdentity = typeof(ContextT).IsAssignableTo(typeof(IdentityDbContext));
+
+        services.AddSingleton<IDBContextInformation>(_services =>
+            new DBContextInformation(useIdentity));
+
+        if (useIdentity)
+        {
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                var isDev = env.IsDevelopment();
+                options.User.RequireUniqueEmail = true;
+
+                options.Password.RequireDigit = !isDev;
+                options.Password.RequireLowercase = !isDev;
+                options.Password.RequireUppercase = !isDev;
+                options.Password.RequireNonAlphanumeric = !isDev;
+                options.Password.RequiredLength = isDev ? 0 : 8;
+                options.Password.RequiredUniqueChars = 1;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.AllowedForNewUsers = true;
+
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+                options.SignIn.RequireConfirmedEmail = false;
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ContextT>();
+
+            services.Configure<CookieAuthenticationOptions>(options =>
+            {
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+                options.Cookie.HttpOnly = true;
+
+                options.ExpireTimeSpan = TimeSpan.FromDays(5);
+                options.SlidingExpiration = true;
+
+                options.LoginPath = "/Identity/Account/Login";
+                options.LogoutPath = "/Identity/Account/Logout";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            });
+        }
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddJuniperHTTPClient(this WebApplicationBuilder builder) 
+    {
+        var http = new HttpClient(new HttpClientHandler
+        {
+            AllowAutoRedirect = false,
+            UseCookies = false
+        });
+
+        builder.Services.AddSingleton(http);
+
+        return builder;
     }
 
     public static WebApplication ConfigureJuniperHub<HubT>(this WebApplication app)
