@@ -1278,24 +1278,22 @@ namespace Juniper
             new("\u231B", "Hourglass Done"),
             new("\u23F3", "Hourglass Not Done"));
 
-        public static readonly Emoji clockwiseVerticalArrows = new(0x1F503 + emojiStyle, "Clockwise Vertical Arrows");
-        public static readonly Emoji counterclockwiseArrowsButton = new(0x1F504 + emojiStyle, "Counterclockwise Arrows Button");
-        public static readonly Emoji leftRightArrow = new("\u2194" + emojiStyle, "Left-Right Arrow");
-        public static readonly Emoji upDownArrow = new("\u2195" + emojiStyle, "Up-Down Arrow");
-        public static readonly Emoji upLeftArrow = new("\u2196" + emojiStyle, "Up-Left Arrow");
-        public static readonly Emoji upRightArrow = new("\u2197" + emojiStyle, "Up-Right Arrow");
+        public static readonly Emoji clockwiseVerticalArrows = new(0x1F503, "Clockwise Vertical Arrows");
+        public static readonly Emoji counterclockwiseArrowsButton = new(0x1F504, "Counterclockwise Arrows Button");
+        public static readonly Emoji leftRightArrow = new("\u2194", "Left-Right Arrow");
+        public static readonly Emoji upDownArrow = new("\u2195", "Up-Down Arrow");
+        public static readonly Emoji upLeftArrow = new("\u2196", "Up-Left Arrow");
+        public static readonly Emoji upRightArrow = new("\u2197", "Up-Right Arrow");
         public static readonly Emoji downRightArrow = new("\u2198", "Down-Right Arrow");
-        public static readonly Emoji downRightArrowText = new("\u2198" + textStyle, "Down-Right Arrow");
-        public static readonly Emoji downRightArrowEmoji = new("\u2198" + emojiStyle, "Down-Right Arrow");
-        public static readonly Emoji downLeftArrow = new("\u2199" + emojiStyle, "Down-Left Arrow");
-        public static readonly Emoji rightArrowCurvingLeft = new("\u21A9" + emojiStyle, "Right Arrow Curving Left");
-        public static readonly Emoji leftArrowCurvingRight = new("\u21AA" + emojiStyle, "Left Arrow Curving Right");
-        public static readonly Emoji rightArrow = new("\u27A1" + emojiStyle, "Right Arrow");
-        public static readonly Emoji rightArrowCurvingUp = new("\u2934" + emojiStyle, "Right Arrow Curving Up");
-        public static readonly Emoji rightArrowCurvingDown = new("\u2935" + emojiStyle, "Right Arrow Curving Down");
-        public static readonly Emoji leftArrow = new("\u2B05" + emojiStyle, "Left Arrow");
-        public static readonly Emoji upArrow = new("\u2B06" + emojiStyle, "Up Arrow");
-        public static readonly Emoji downArrow = new("\u2B07" + emojiStyle, "Down Arrow");
+        public static readonly Emoji downLeftArrow = new("\u2199", "Down-Left Arrow");
+        public static readonly Emoji rightArrowCurvingLeft = new("\u21A9", "Right Arrow Curving Left");
+        public static readonly Emoji leftArrowCurvingRight = new("\u21AA", "Left Arrow Curving Right");
+        public static readonly Emoji rightArrow = new("\u27A1", "Right Arrow");
+        public static readonly Emoji rightArrowCurvingUp = new("\u2934", "Right Arrow Curving Up");
+        public static readonly Emoji rightArrowCurvingDown = new("\u2935", "Right Arrow Curving Down");
+        public static readonly Emoji leftArrow = new("\u2B05", "Left Arrow");
+        public static readonly Emoji upArrow = new("\u2B06", "Up Arrow");
+        public static readonly Emoji downArrow = new("\u2B07", "Down Arrow");
         public static readonly EmojiGroup arrows = new(
             "Arrows", "Arrows pointing in different directions",
             clockwiseVerticalArrows,
@@ -1304,7 +1302,7 @@ namespace Juniper
             upDownArrow,
             upLeftArrow,
             upRightArrow,
-            downRightArrowEmoji,
+            downRightArrow,
             downLeftArrow,
             rightArrowCurvingLeft,
             leftArrowCurvingRight,
@@ -1415,8 +1413,30 @@ namespace Juniper
         public static readonly Emoji repeatSingleButton = new(0x1F502, "Repeat Single Button");
         public static readonly Emoji upwardsButton = new(0x1F53C, "Upwards Button");
         public static readonly Emoji downwardsButton = new(0x1F53D, "Downwards Button");
-        public static readonly Emoji playButton = new("\u25B6" + emojiStyle, "Play Button");
-        public static readonly Emoji reverseButton = new("\u25C0" + emojiStyle, "Reverse Button");
+
+        public static readonly Emoji leftPointingAngleBracket = new("\u2329", "Left-Pointing Angle Bracket");
+        public static readonly Emoji rightPointingAngleBracket = new("\u232A", "Right-Pointing Angle Bracket");
+        public static readonly Emoji mediumLeftPointingAngleBracketOrnament = new("\u276C", "Medium Left-Pointing Angle Bracket Ornament");
+        public static readonly Emoji mediumRightPointingAngleBracketOrnament = new("\u276D", "Medium Right-Pointing Angle Bracket Ornament");
+        public static readonly Emoji heavyLeftPointingAngleBracketOrnament = new("\u2770", "Heavy Left-Pointing Angle Bracket Ornament");
+        public static readonly Emoji heavyRightPointingAngleBracketOrnament = new("\u2771", "Heavy Right-Pointing Angle Bracket Ornament");
+        public static readonly Emoji mathematicalLeftAngleBracket = new("\u27E8", "Mathematical Left Angle Bracket");
+        public static readonly Emoji mathematicalRightAngleBracket = new("\u27E9", "Mathematical Right Angle Bracket");
+        public static readonly Emoji mathematicalLeftDoubleAngleBracket = new("\u27EA", "Mathematical Left Double Angle Bracket");
+        public static readonly Emoji mathematicalRightDoubleAngleBracket = new("\u27EB", "Mathematical Right Double Angle Bracket");
+        public static readonly Emoji leftAngleBracketWithDot = new("\u2991", "Left Angle Bracket with Dot");
+        public static readonly Emoji rightAngleBracketWithDot = new("\u2992", "Right Angle Bracket with Dot");
+        public static readonly Emoji leftPointingCurvedAngleBracket = new("\u29FC", "Left-Pointing Curved Angle Bracket");
+        public static readonly Emoji rightPointingCurvedAngleBracket = new("\u29FD", "Right-Pointing Curved Angle Bracket");
+        public static readonly Emoji leftAngleBracket = new("\u3008", "Left Angle Bracket");
+        public static readonly Emoji rightAngleBracket = new("\u3009", "Right Angle Bracket");
+        public static readonly Emoji leftDoubleAngleBracket = new("\u300A", "Left Double Angle Bracket");
+        public static readonly Emoji rightDoubleAngleBracket = new("\u300B", "Right Double Angle Bracket");
+        public static readonly Emoji presentationFormForVerticalLeftDoubleAngleBracket = new("\uFE3D", "Presentation Form For Vertical Left Double Angle Bracket");
+        public static readonly Emoji presentationFormForVerticalRightDoubleAngleBracket = new("\uFE3E", "Presentation Form For Vertical Right Double Angle Bracket");
+        public static readonly Emoji presentationFormForVerticalLeftAngleBracket = new("\uFE3F", "Presentation Form For Vertical Left Angle Bracket");
+        public static readonly Emoji presentationFormForVerticalRightAngleBracket = new("\uFE40", "Presentation Form For Vertical Right Angle Bracket");
+
         public static readonly Emoji ejectButton = new("\u23CF" + emojiStyle, "Eject Button");
         public static readonly Emoji fastForwardButton = new("\u23E9", "Fast-Forward Button");
         public static readonly Emoji fastReverseButton = new("\u23EA", "Fast Reverse Button");
@@ -1425,9 +1445,15 @@ namespace Juniper
         public static readonly Emoji nextTrackButton = new("\u23ED" + emojiStyle, "Next Track Button");
         public static readonly Emoji lastTrackButton = new("\u23EE" + emojiStyle, "Last Track Button");
         public static readonly Emoji playOrPauseButton = new("\u23EF" + emojiStyle, "Play or Pause Button");
+        public static readonly Emoji blackMediumLeftPointingTriangle = new("\u23F4", "Black Medium Left-Pointing Triangle");
+        public static readonly Emoji blackMediumRightPointingTriangle = new("\u23F5", "Black Medium Right-Pointing Triangle");
+        public static readonly Emoji blackMediumUpPointingTriangle = new("\u23F6", "Black Medium Up-Pointing Triangle");
+        public static readonly Emoji blackMediumDownPointingTriangle = new("\u23F7", "Black Medium Down-Pointing Triangle");
         public static readonly Emoji pauseButton = new("\u23F8" + emojiStyle, "Pause Button");
         public static readonly Emoji stopButton = new("\u23F9" + emojiStyle, "Stop Button");
         public static readonly Emoji recordButton = new("\u23FA" + emojiStyle, "Record Button");
+        public static readonly Emoji playButton = new("\u25B6" + emojiStyle, "Play Button");
+        public static readonly Emoji reverseButton = new("\u25C0" + emojiStyle, "Reverse Button");
         public static readonly EmojiGroup buttons = new(
             "Buttons", "Buttons",
             clearButton,
