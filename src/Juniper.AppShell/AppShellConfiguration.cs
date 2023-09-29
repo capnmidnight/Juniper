@@ -23,6 +23,8 @@ public static class AppShellConfiguration
             return appBuilder;
         }
 
+        appBuilder.Services.AddControllers().AddApplicationPart(typeof(AppShellController).Assembly);
+
         appBuilder.Services.Configure<AppShellOptions>(appBuilder.Configuration.GetSection(AppShellOptions.AppShell));
         if (options is not null)
         {

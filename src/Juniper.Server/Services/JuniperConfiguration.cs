@@ -65,6 +65,12 @@ public static class JuniperConfiguration
     public static IWebHostBuilder UseSystemd(this IWebHostBuilder builder) =>
         builder.ConfigureServices(services => services.AddSystemd());
 
+    public static WebApplicationBuilder AddPart<T>(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddControllers().AddApplicationPart(typeof(T).Assembly);
+        return builder;
+    }
+
     public static WebApplicationBuilder ConfigureJuniperWebApplication(this WebApplicationBuilder builder)
     {
         var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
