@@ -73,6 +73,10 @@ export function binarySearch(arr, searchValue, comparer, mode = "search") {
     return -left - 1;
 }
 export function insertSorted(arr, val, comparerOrIdx, mode = "search") {
+    const allowDuplicates = mode !== "set";
+    if (mode === "set") {
+        mode = "search";
+    }
     let idx = null;
     if (isNumber(comparerOrIdx)) {
         idx = comparerOrIdx;
@@ -82,6 +86,9 @@ export function insertSorted(arr, val, comparerOrIdx, mode = "search") {
     }
     if (idx < 0) {
         idx = -idx - 1;
+    }
+    else if (!allowDuplicates) {
+        return -1;
     }
     arrayInsertAt(arr, val, idx);
     return idx;

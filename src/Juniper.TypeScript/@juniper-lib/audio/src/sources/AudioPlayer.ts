@@ -327,5 +327,9 @@ export class AudioPlayer
         this.stop();
         return this.play();
     }
+
+    get element() {
+        return this.audioElement;
+    }
 }
 

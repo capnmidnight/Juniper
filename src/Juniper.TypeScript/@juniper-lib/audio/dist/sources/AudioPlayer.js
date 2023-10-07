@@ -240,5 +240,8 @@ export class AudioPlayer extends BaseAudioSource {
         this.stop();
         return this.play();
     }
+    get element() {
+        return this.audioElement;
+    }
 }
 //# sourceMappingURL=AudioPlayer.js.map

@@ -100,11 +100,17 @@ export function binarySearch<T>(arr: ArrayLike<T>, searchValue: T, comparer: Com
     return -left - 1;
 }
 
+export type InsertMode = "set" | SearchMode;
+
 export function insertSorted<T>(arr: T[], val: T, idx: number): number;
-export function insertSorted<T>(arr: T[], val: T, idx: number, mode: SearchMode): number;
 export function insertSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>): number;
-export function insertSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>, mode: SearchMode): number;
-export function insertSorted<T>(arr: T[], val: T, comparerOrIdx: CompareFunction<T> | number, mode: SearchMode = "search"): number {
+export function insertSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>, mode: InsertMode): number;
+export function insertSorted<T>(arr: T[], val: T, comparerOrIdx: CompareFunction<T> | number, mode: InsertMode = "search"): number {
+    const allowDuplicates = mode !== "set";
+    if (mode === "set") {
+        mode = "search";
+    }
+
     let idx: number = null;
     if (isNumber(comparerOrIdx)) {
         idx = comparerOrIdx;
@@ -115,6 +121,9 @@ export function insertSorted<T>(arr: T[], val: T, comparerOrIdx: CompareFunction
 
     if (idx < 0) {
         idx = -idx - 1;
+    }
+    else if (!allowDuplicates) {
+        return -1;
     }
 
     arrayInsertAt(arr, val, idx);

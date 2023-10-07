@@ -11,10 +11,10 @@ export declare function compareBy<T>(direction: CompareDirection, ...getKeys: Co
 export declare function compareBy<T>(...getKeys: ComparableSelector<T>[]): CompareFunction<T>;
 export type SearchMode = "append" | "prepend" | "search";
 export declare function binarySearch<T>(arr: ArrayLike<T>, searchValue: T, comparer: CompareFunction<T>, mode?: SearchMode): number;
+export type InsertMode = "set" | SearchMode;
 export declare function insertSorted<T>(arr: T[], val: T, idx: number): number;
-export declare function insertSorted<T>(arr: T[], val: T, idx: number, mode: SearchMode): number;
 export declare function insertSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>): number;
-export declare function insertSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>, mode: SearchMode): number;
+export declare function insertSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>, mode: InsertMode): number;
 export declare function removeSorted<T>(arr: T[], val: T, comparer: CompareFunction<T>): number;
 /**
  * Empties out an array, returning the items that were in the array.

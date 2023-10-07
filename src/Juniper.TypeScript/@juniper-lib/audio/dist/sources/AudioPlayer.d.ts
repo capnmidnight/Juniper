@@ -45,5 +45,6 @@ export declare class AudioPlayer extends BaseAudioSource<MediaPlayerEvents> impl
     pause(): void;
     stop(): void;
     restart(): Promise<void>;
+    get element(): HTMLAudioElement;
 }
 //# sourceMappingURL=AudioPlayer.d.ts.map
