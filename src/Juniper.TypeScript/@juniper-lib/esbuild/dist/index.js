@@ -119,9 +119,12 @@ export class Build {
             name: "my-plugin",
             setup(build) {
                 let count = 0;
-                build.onEnd(() => {
+                build.onStart(() => {
+                    console.log("Building", name, ...entryPoints);
+                });
+                build.onEnd((result) => {
                     const type = count++ > 0 ? "rebuilt" : "built";
-                    console.log(name, type);
+                    console.log(name, type, ...Object.keys(result.metafile.outputs).filter(v => v.endsWith(".js")));
                 });
             },
         });
@@ -135,6 +138,7 @@ export class Build {
             format: "esm",
             legalComments: "none",
             logLevel: "error",
+            metafile: true,
             minify: isRelease,
             outbase: this.outbase,
             outdir: this.outDirName,
