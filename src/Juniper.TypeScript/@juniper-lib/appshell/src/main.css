@@ -1,0 +1,63 @@
+main {
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: auto 1fr auto;
+}
+
+    main > nav {
+        width: 25rem;
+        flex-grow: 0;
+    }
+
+#content {
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+    #content > h1 {
+        text-align: center;
+    }
+
+    #content > article {
+        overflow: auto;
+        scroll-behavior: smooth;
+        padding: 0 3rem 5rem 3rem;
+        grid-row: 2/-1;
+    }
+
+.scrollIndicator {
+    border: none;
+    font-size: 32pt;
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    padding: 0;
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+    .scrollIndicator.top {
+        top: 0;
+        margin-bottom: -32pt;
+    }
+
+    .scrollIndicator.bottom {
+        bottom: 0;
+        margin-top: -32pt;
+    }
+
+#utilColumn {
+    padding: 0 2rem;
+    max-width: 15rem;
+}
+
+
+button {
+    cursor: pointer;
+}

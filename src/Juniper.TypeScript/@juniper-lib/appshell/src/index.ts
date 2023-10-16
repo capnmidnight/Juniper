@@ -1,5 +1,9 @@
 import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
 import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
+import "./header.css";
+import "./index.css";
+import "./main.css";
+import "./nav.css";
 
 export class AppShell {
     constructor(private readonly fetcher: IFetcher) {

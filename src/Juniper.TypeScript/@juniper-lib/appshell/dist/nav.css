@@ -1,0 +1,76 @@
+main > nav {
+    position: relative;
+    transition: width .2s;
+    overflow-x: hidden;
+}
+
+    main > nav.hidden {
+        width: 0rem;
+    }
+
+    main > nav > ul {
+        opacity: 1;
+        transition: opacity .2s;
+        padding: 0;
+        margin: 2rem;
+    }
+
+    main > nav ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main > nav li {
+        margin-top: 2px;
+    }
+
+    main > nav.hidden > ul {
+        opacity: 0;
+    }
+
+    main > nav a, main > nav span {
+        display: block;
+    }
+
+    main > nav li > a,
+    main > nav li > details > summary {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+    }
+
+        main > nav li > a:hover,
+        main > nav li > details > summary:hover {
+            margin-left: 2px;
+            font-weight: bold;
+        }
+
+    main > nav summary {
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+    }
+
+        main > nav summary > :first-child {
+            flex-grow: 1;
+        }
+
+    main > nav .expander {
+        cursor: zoom-in;
+    }
+
+    main > nav .collapser {
+        cursor: zoom-out;
+    }
+
+    main > nav details > summary > .expander,
+    main > nav details[open] > summary > .collapser {
+        display: initial;
+    }
+
+    main > nav details > summary > .collapser,
+    main > nav details[open] > summary > .expander {
+        display: none;
+    }
