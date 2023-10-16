@@ -3,6 +3,7 @@
   "files": [],
   "include": [],
   "references": [
+    { "path": "@juniper-lib/appshell" },
     { "path": "@juniper-lib/audio" },
     { "path": "@juniper-lib/ble" },
     { "path": "@juniper-lib/collections" },

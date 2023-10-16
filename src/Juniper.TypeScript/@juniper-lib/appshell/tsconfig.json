@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig_base.json",
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "references": [
+    { "path": "../fetcher" },
+    { "path": "../tslib" }
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  }
+}

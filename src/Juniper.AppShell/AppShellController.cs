@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Juniper.AppShell
@@ -114,5 +115,19 @@ namespace Juniper.AppShell
 
         Task IAppShell.WaitForCloseAsync() =>
             Do(appShell => appShell.WaitForCloseAsync());
+
+        [HttpPost]
+        [Route("hidemenu")]
+        public void HideMenu([FromBody] string hidden)
+        {
+            if (hidden == "true")
+            {
+                Request.HttpContext.Session.SetString("hideMenu", "hidden");
+            }
+            else
+            {
+                Request.HttpContext.Session.Remove("hideMenu");
+            }
+        }
     }
 }

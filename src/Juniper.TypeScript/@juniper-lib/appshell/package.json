@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper-lib/appshell",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist/*"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@juniper-lib/fetcher": "file:../fetcher",
+    "@juniper-lib/tslib": "file:../tslib"
+  }
+}
