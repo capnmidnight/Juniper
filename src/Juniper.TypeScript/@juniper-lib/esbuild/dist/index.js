@@ -78,10 +78,21 @@ export class Build {
         return this;
     }
     find(...rootDirs) {
-        const dirs = rootDirs
-            .map(LS)
-            .filter(identity);
-        const entryPoints = findEntries(...dirs);
+        function* recurse(dirs) {
+            while (dirs.length > 0) {
+                const dir = dirs.shift();
+                const subDirs = fs.readdirSync(dir, { withFileTypes: true })
+                    .filter(e => e.isDirectory()
+                    && e.name !== "node_modules"
+                    && e.name !== "bin"
+                    && e.name !== "obj")
+                    .map(e => path.join(dir, e.name));
+                dirs.push(...subDirs);
+                yield dir;
+            }
+        }
+        const entryPoints = Array.from(recurse(rootDirs))
+            .filter(x => fs.existsSync(path.join(x, "index.ts")));
         return this.bundles(...entryPoints);
     }
     manually(thunk) {
@@ -167,42 +178,5 @@ export class Build {
             await ctx.dispose();
         }
     }
-}
-function LS(path) {
-    if (!fs.existsSync(path)) {
-        return null;
-    }
-    return [path, fs.readdirSync(path, {
-            withFileTypes: true
-        })];
-}
-function findEntries(...dirs) {
-    return dirs
-        .filter(identity)
-        .map(withIndexDirs)
-        .flatMap(identity);
-}
-function identity(x) {
-    return x;
-}
-function withIndexDirs(dirSpec) {
-    const [parent, dirs] = dirSpec;
-    return dirs
-        .filter(dir => hasIndexFile(parent, dir))
-        .map(dir => path.join(parent, dir.name));
-}
-function hasIndexFile(parent, dir) {
-    if (!dir.isDirectory()) {
-        return false;
-    }
-    const fileName = path.join(parent, dir.name);
-    const results = LS(fileName);
-    if (!results) {
-        return false;
-    }
-    const [_, files] = results;
-    return files.filter(f => f.isFile()
-        && f.name === "index.ts")
-        .length === 1;
 }
 //# sourceMappingURL=index.js.map

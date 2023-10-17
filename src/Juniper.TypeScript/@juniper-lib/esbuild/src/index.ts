@@ -102,10 +102,23 @@ export class Build {
     }
 
     find(...rootDirs: string[]) {
-        const dirs = rootDirs
-            .map(LS)
-            .filter(identity);
-        const entryPoints = findEntries(...dirs);
+        function* recurse(dirs: string[]) {
+            while (dirs.length > 0) {
+                const dir = dirs.shift();
+                const subDirs = fs.readdirSync(dir, { withFileTypes: true })
+                    .filter(e => e.isDirectory()
+                        && e.name !== "node_modules"
+                        && e.name !== "bin"
+                        && e.name !== "obj")
+                    .map(e => path.join(dir, e.name));
+                dirs.push(...subDirs);
+                yield dir;
+            }
+        }
+
+        const entryPoints = Array.from(recurse(rootDirs))
+            .filter(x => fs.existsSync(path.join(x, "index.ts")));
+
         return this.bundles(...entryPoints);
     }
 
@@ -190,7 +203,7 @@ export class Build {
         for (const alterer of this.manualOptionsChanges) {
             alterer(opts);
         }
-        
+
         if (!this.isWatch) {
             await build(opts);
         }
@@ -204,51 +217,4 @@ export class Build {
             await ctx.dispose();
         }
     }
-}
-
-type DirSpec = [string, fs.Dirent[]];
-
-function LS(path: string): DirSpec {
-    if (!fs.existsSync(path)) {
-        return null;
-    }
-
-    return [path, fs.readdirSync(path, {
-        withFileTypes: true
-    })];
-}
-
-function findEntries(...dirs: DirSpec[]) {
-    return dirs
-        .filter(identity)
-        .map(withIndexDirs)
-        .flatMap(identity);
-}
-
-function identity<T>(x: T): T {
-    return x;
-}
-
-function withIndexDirs(dirSpec: DirSpec) {
-    const [parent, dirs] = dirSpec;
-    return dirs
-        .filter(dir => hasIndexFile(parent, dir))
-        .map(dir => path.join(parent, dir.name));
-}
-
-function hasIndexFile(parent: string, dir: fs.Dirent) {
-    if (!dir.isDirectory()) {
-        return false;
-    }
-
-    const fileName = path.join(parent, dir.name);
-    const results = LS(fileName);
-    if (!results) {
-        return false;
-    }
-
-    const [_, files] = results;
-    return files.filter(f => f.isFile()
-        && f.name === "index.ts")
-        .length === 1;
 }
