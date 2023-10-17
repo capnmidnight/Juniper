@@ -33,8 +33,12 @@ export class AppShell {
     }
     setBodyUI(scrollToTop, scrollToBottom, article) {
         function indicateScroll() {
-            scrollToTop.style.opacity = article.scrollTop > 25 ? "1" : "0";
-            scrollToBottom.style.opacity = (article.scrollTop + article.clientHeight) < article.scrollHeight - 25 ? "1" : "0";
+            const scrollTopVisible = article.scrollTop > 25;
+            const scrollBottomVisible = (article.scrollTop + article.clientHeight) < article.scrollHeight - 25;
+            scrollToTop.style.opacity = scrollTopVisible ? "1" : "0";
+            scrollToTop.style.pointerEvents = scrollTopVisible ? "" : "none";
+            scrollToBottom.style.opacity = scrollBottomVisible ? "1" : "0";
+            scrollToBottom.style.pointerEvents = scrollBottomVisible ? "" : "none";
         }
         scrollToTop.addEventListener("click", () => article.scroll({
             behavior: "smooth",

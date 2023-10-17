@@ -32,6 +32,7 @@ main {
     }
 
 .scrollIndicator {
+    background-color: transparent;
     border: none;
     font-size: 32pt;
     position: relative;
