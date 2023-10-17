@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace Juniper.AppShell;
@@ -22,8 +21,16 @@ public partial class WpfAppShell : Window, IAppShell
         Do(() => WebView.Source);
 
     public Task SetSourceAsync(Uri value) =>
-        Do(() =>
+        Do(async () =>
         {
+            var completer = new TaskCompletionSource();
+            void WebView_Loaded(object sender, RoutedEventArgs e)
+            {
+                completer.SetResult();
+            }
+
+            WebView.Loaded += WebView_Loaded;
+
             if (value == WebView.Source)
             {
                 WebView.Reload();
@@ -32,6 +39,9 @@ public partial class WpfAppShell : Window, IAppShell
             {
                 WebView.Source = value;
             }
+
+            await completer.Task;
+            WebView.Loaded -= WebView_Loaded;
         });
 
     public Task<string> GetTitleAsync() =>

@@ -104,6 +104,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private readonly bool skipPreBuild;
     private readonly bool hasNPM;
 
+    private int bundleCountGuess = 1;
+
     private static DirectoryInfo TestDir(string message, DirectoryInfo? dir)
     {
         if (dir?.Exists != true)
@@ -157,6 +159,11 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 }
 
                 Task.WaitAll(dirs.Select(CheckNPMProjectAsync).ToArray());
+
+                var bundleCountGuesses = dirs.Select(GuessBundleCounts).ToArray();
+                Task.WaitAll(bundleCountGuesses);
+                var counts = bundleCountGuesses.Select(v => v.Result).ToArray();
+                bundleCountGuess = Math.Max(1, counts.Sum());
             }
 
             if (options.Dependencies is not null)
@@ -175,6 +182,18 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         Info += (sender, e) => WriteInfo(e.Value);
         Warning += (sender, e) => WriteWarning(e.Value);
         Err += (sender, e) => WriteError(e.Value.Unroll());
+    }
+
+    private async Task<int> GuessBundleCounts(DirectoryInfo project)
+    {
+        var esBuildConfig = project.Touch("esbuild.config.mjs");
+        if(!esBuildConfig.Exists)
+        {
+            return 0;
+        }
+
+        var text = await File.ReadAllTextAsync(esBuildConfig.FullName);
+        return text.Split("findBundles").Length - 2;
     }
 
     private async Task CheckNPMProjectAsync(DirectoryInfo project)
@@ -637,15 +656,20 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             firstBuild.TrySetCanceled();
         });
 
-        EventHandler<StringEventArgs>? onInfo = null;
-        onInfo = new EventHandler<StringEventArgs>((object? sender, StringEventArgs e) =>
+        var buildCount = 2 * bundleCountGuess;
+
+        void onInfo(object? sender, StringEventArgs e)
         {
             if (e.Value.Contains("browser bundles built"))
             {
-                Info -= onInfo;
-                firstBuild.TrySetResult();
+                --buildCount;
+                if (buildCount == 0)
+                {
+                    Info -= onInfo;
+                    firstBuild.TrySetResult();
+                }
             }
-        });
+        };
 
         Info += onInfo;
         buildCancelled.Register(() =>

@@ -88,7 +88,9 @@ public static class TSBuildConfiguration
     /// <returns></returns>
     public static async Task BuildAndRunAsync(this WebApplication app)
     {
-        await app.BuildAsync();
-        await app.RunAsync();
+        await Task.WhenAll(
+            app.BuildAsync(),
+            app.RunAsync()
+        );
     }
 }

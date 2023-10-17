@@ -146,12 +146,12 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
                 await buildSystem.Ready;
             }
 
+            await appShell.SetSourceAsync(address);
+
             if (width is not null && height is not null)
             {
                 await appShell.SetSizeAsync(width.Value, height.Value);
             }
-
-            await appShell.SetSourceAsync(address);
 
             logger.LogInformation("AppShell ready");
             await appShell.WaitForCloseAsync();
