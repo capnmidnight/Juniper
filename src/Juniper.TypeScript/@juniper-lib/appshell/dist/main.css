@@ -2,9 +2,9 @@ main {
     margin: 0 auto;
     width: 100%;
     overflow: hidden;
-    display: grid;
-    grid-auto-flow: row;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
 }
 
     main > nav {
@@ -14,7 +14,6 @@ main {
 
 #content {
     flex-grow: 1;
-    flex-shrink: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -27,8 +26,7 @@ main {
     #content > article {
         overflow: auto;
         scroll-behavior: smooth;
-        padding: 0 3rem 5rem 3rem;
-        grid-row: 2/-1;
+        padding: 3rem;
     }
 
 .scrollIndicator {
