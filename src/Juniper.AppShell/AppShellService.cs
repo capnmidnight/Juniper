@@ -119,6 +119,11 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
 
             var address = await addressFetching.Task;
 
+            if (buildSystem is not null)
+            {
+                await buildSystem.Started;
+            }
+
             logger.LogInformation("Opening AppShell");
             var appShell = await factory.StartAsync(serviceCanceller.Token);
             _ = appStopping.Task.ContinueWith((_) =>
@@ -139,7 +144,6 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
             }
 
             appShellCreating.TrySetResult(appShell);
-
 
             if (buildSystem is not null)
             {

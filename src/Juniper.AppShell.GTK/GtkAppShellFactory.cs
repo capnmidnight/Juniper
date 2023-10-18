@@ -1,6 +1,5 @@
 namespace Juniper.AppShell;
 
-using System.Reflection;
 using Gtk;
 
 public class GtkAppShellFactory<AppShellT> : IAppShellFactory
@@ -9,14 +8,21 @@ public class GtkAppShellFactory<AppShellT> : IAppShellFactory
     public Task<IAppShell> StartAsync(CancellationToken cancellationToken)
     {
         Application.Init();
-        
-        var app = new Application("org.juniper.appshell", GLib.ApplicationFlags.None);
-        app.Register(GLib.Cancellable.Current);
+        var shellTask = new TaskCompletionSource<IAppShell>();
+        var thread = new Thread(new ThreadStart(delegate ()
+        {
+            var app = new Application("org.juniper.appshell", GLib.ApplicationFlags.None);
+            app.Register(GLib.Cancellable.Current);
 
-        var appShell = new AppShellT();
-        app.AddWindow(appShell);
-        appShell.Show();
+            var appShell = new AppShellT();
+            app.AddWindow(appShell);
+            shellTask.SetResult(appShell);
+            appShell.Show();
+            Application.Run();
+        }));
 
-        return Task.FromResult((IAppShell)appShell);
+        thread.Start();
+
+        return shellTask.Task;
     }
 }

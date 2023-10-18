@@ -93,4 +93,17 @@ public static class TSBuildConfiguration
             app.RunAsync()
         );
     }
+
+    /// <summary>
+    /// Waits for the ESBuild process to finish at least once before starting the web server
+    /// </summary>
+    /// <param name="app"></param>
+    /// <returns></returns>
+    public static async Task BuildAndStartAsync(this WebApplication app)
+    {
+        await Task.WhenAll(
+            app.BuildAsync(),
+            app.StartAsync()
+        );
+    }
 }

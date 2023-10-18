@@ -104,6 +104,9 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private readonly bool skipPreBuild;
     private readonly bool hasNPM;
 
+    private readonly TaskCompletionSource starting = new();
+    public Task Started => starting.Task;
+
     private int bundleCountGuess = 1;
 
     private static DirectoryInfo TestDir(string message, DirectoryInfo? dir)
@@ -187,7 +190,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private async Task<int> GuessBundleCounts(DirectoryInfo project)
     {
         var esBuildConfig = project.Touch("esbuild.config.mjs");
-        if(!esBuildConfig.Exists)
+        if (!esBuildConfig.Exists)
         {
             return 0;
         }
@@ -566,6 +569,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     {
         try
         {
+            starting.SetResult();
             var buildCanceller = new CancellationTokenSource();
             cancellationToken.Register(buildCanceller.Cancel);
             AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
@@ -622,6 +626,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             }, buildCanceller.Token);
 
             await ValidateDependencies();
+            
             await RunWatchAsync(continueAfterFirstBuild, bundles, buildCanceller.Token);
             if (!continueAfterFirstBuild && !buildCanceller.IsCancellationRequested)
             {

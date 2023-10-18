@@ -9,6 +9,7 @@ public class BuildSystemService<BuildConfigT> : IBuildSystemService
     private readonly CancellationTokenSource serviceCancelled = new();
     private readonly BuildSystem<BuildConfigT> build;
     private readonly ILogger<BuildSystemService<BuildConfigT>> logger;
+    public Task Started => build.Started;
 
     public Task Ready { get; }
 
