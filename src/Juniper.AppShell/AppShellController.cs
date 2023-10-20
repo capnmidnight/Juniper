@@ -15,8 +15,7 @@ namespace Juniper.AppShell
             appShell = services.GetService<IAppShell>();
         }
 
-        [HttpPost]
-        [Route("action")]
+        [HttpPost("action")]
         public async Task<bool> Act([FromBody] string actionName)
         {
             if (appShell is not null)
@@ -51,41 +50,34 @@ namespace Juniper.AppShell
             return func(appShell);
         }
 
-        [HttpGet]
-        [Route("title")]
+        [HttpGet("title")]
         public Task<string> GetTitleAsync() =>
             Do(appShell => appShell.GetTitleAsync());
 
-        [HttpPost]
-        [Route("title")]
+        [HttpPost("title")]
         public Task SetTitleAsync([FromBody] string title) =>
             Do(appShell => appShell.SetTitleAsync(title));
 
-        [HttpGet]
-        [Route("source")]
+        [HttpGet("source")]
         public Task<Uri> GetSourceAsync() =>
             Do(appShell => appShell.GetSourceAsync());
 
-        [HttpPost]
-        [Route("source")]
+        [HttpPost("source")]
         public Task SetSourceAsync([FromBody] Uri source) =>
             Do(appShell => appShell.SetSourceAsync(source));
 
-        [HttpGet]
-        [Route("cangoback")]
+        [HttpGet("cangoback")]
         public Task<bool> GetCanGoBackAsync() =>
             Do(appShell => appShell.GetCanGoBackAsync());
 
-        [HttpGet]
-        [Route("cangoforward")]
+        [HttpGet("cangoforward")]
         public Task<bool> GetCanGoForwardAsync() =>
             Do(appShell => appShell.GetCanGoForwardAsync());
 
         Task IAppShell.SetSizeAsync(int width, int height) =>
             Do(appShell => appShell.SetSizeAsync(width, height));
 
-        [HttpPost]
-        [Route("size")]
+        [HttpPost("size")]
         public async Task<IActionResult> SetSizeAsync([FromBody] string sizeExpr)
         {
             var parts = sizeExpr.Split('x');
@@ -100,18 +92,15 @@ namespace Juniper.AppShell
             return Ok();
         }
 
-        [HttpPost]
-        [Route("maximize")]
+        [HttpPost("maximize")]
         public Task MaximizeAsync() =>
             Do(appShell => appShell.MaximizeAsync());
 
-        [HttpPost]
-        [Route("minimize")]
+        [HttpPost("minimize")]
         public Task MinimizeAsync() =>
             Do(appShell => appShell.MinimizeAsync());
 
-        [HttpPost]
-        [Route("toggleexpanded")]
+        [HttpPost("toggleexpanded")]
         public Task<bool> ToggleExpandedAsync() =>
             Do(appShell => appShell.ToggleExpandedAsync());
 
@@ -121,8 +110,7 @@ namespace Juniper.AppShell
         Task IAppShell.WaitForCloseAsync() =>
             Do(appShell => appShell.WaitForCloseAsync());
 
-        [HttpPost]
-        [Route("hidemenu")]
+        [HttpPost("hidemenu")]
         public void HideMenu([FromBody] string hidden)
         {
             if (hidden == "true")
