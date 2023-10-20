@@ -113,6 +113,7 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
         try
         {
             var title = options.Value.Window?.Title;
+            var maximize = options.Value.Window?.Maximized;
             var width = options.Value.Window?.Size?.Width;
             var height = options.Value.Window?.Size?.Height;
             var splash = options.Value.SplashScreenPath;
@@ -152,7 +153,11 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
 
             await appShell.SetSourceAsync(address);
 
-            if (width is not null && height is not null)
+            if(maximize is not null)
+            {
+                await appShell.MaximizeAsync();
+            }
+            else if (width is not null && height is not null)
             {
                 await appShell.SetSizeAsync(width.Value, height.Value);
             }
@@ -210,6 +215,9 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
 
     public Task WaitForCloseAsync() =>
         Do(appShell => appShell.WaitForCloseAsync());
+
+    public Task MaximizeAsync() =>
+        Do(appShell => appShell.MaximizeAsync());
 
     public Task MinimizeAsync() =>
         Do(appShell => appShell.MinimizeAsync());

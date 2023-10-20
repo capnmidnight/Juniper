@@ -13,6 +13,7 @@ public class AppShellOptions
 public class AppShellWindowOptions
 {
     public string? Title { get; set; } = null;
+    public bool? Maximized { get; set; } = null;
     public AppShellWindowSizeOption? Size { get; set; } = null;
 }
 

@@ -63,6 +63,9 @@ public partial class WpfAppShell : Window, IAppShell
             Height = height;
         });
 
+    public Task MaximizeAsync() =>
+        Do(() => WindowState = WindowState.Maximized);
+
     public Task MinimizeAsync() =>
         Do(() => WindowState = WindowState.Minimized);
 

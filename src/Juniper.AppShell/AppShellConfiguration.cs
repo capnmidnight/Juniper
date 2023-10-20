@@ -36,6 +36,7 @@ public static class AppShellConfiguration
                     var oldWindow = oldOpts.Window;
                     oldOpts.Window = options.Window;
                     oldOpts.Window.Title = options.Window.Title ?? oldWindow?.Title;
+                    oldOpts.Window.Maximized = options.Window.Maximized ?? oldWindow?.Maximized;
 
                     if (options.Window.Size is not null)
                     {

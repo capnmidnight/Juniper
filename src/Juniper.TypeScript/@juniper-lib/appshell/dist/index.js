@@ -7,6 +7,14 @@ export class AppShell {
     constructor(fetcher) {
         this.fetcher = fetcher;
     }
+    maximize() {
+        return this.fetcher.post("/api/appshell/maximize")
+            .exec();
+    }
+    minimize() {
+        return this.fetcher.post("/api/appshell/minimize")
+            .exec();
+    }
     setMenuHidden(hidden) {
         return this.fetcher.post("/api/appshell/hidemenu")
             .body(hidden)

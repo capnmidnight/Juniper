@@ -10,6 +10,16 @@ export class AppShell {
 
     }
 
+    maximize() {
+        return this.fetcher.post("/api/appshell/maximize")
+            .exec();
+    }
+
+    minimize() {
+        return this.fetcher.post("/api/appshell/minimize")
+            .exec();
+    }
+
     setMenuHidden(hidden: boolean) {
         return this.fetcher.post("/api/appshell/hidemenu")
             .body(hidden)

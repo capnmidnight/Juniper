@@ -1,18 +1,19 @@
 ﻿namespace Juniper.AppShell;
 
 using Gtk;
+
 using WebKit;
 
 public class GtkAppShell : Window, IAppShell
 {
     private readonly WebView webView;
-    private readonly TaskCompletionSource deletedTask = new ();
+    private readonly TaskCompletionSource deletedTask = new();
     public GtkAppShell()
     : base("Juniper AppShell")
     {
         webView = new WebView();
         Add(webView);
-        
+
         DeleteEvent += (object src, DeleteEventArgs evt) => deletedTask.SetResult();
     }
 
@@ -36,6 +37,12 @@ public class GtkAppShell : Window, IAppShell
 
     public Task<string> GetTitleAsync() =>
         Task.FromResult(Title);
+
+    public Task MaximizeAsync()
+    {
+        Maximize();
+        return Task.CompletedTask;
+    }
 
     public Task MinimizeAsync()
     {
@@ -63,11 +70,13 @@ public class GtkAppShell : Window, IAppShell
 
     public Task<bool> ToggleExpandedAsync()
     {
-        if(IsMaximized){
+        if (IsMaximized)
+        {
             Deiconify();
             return Task.FromResult(false);
         }
-        else{
+        else
+        {
             Maximize();
             return Task.FromResult(true);
         }

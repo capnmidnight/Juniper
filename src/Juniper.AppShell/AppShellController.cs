@@ -101,6 +101,11 @@ namespace Juniper.AppShell
         }
 
         [HttpPost]
+        [Route("maximize")]
+        public Task MaximizeAsync() =>
+            Do(appShell => appShell.MaximizeAsync());
+
+        [HttpPost]
         [Route("minimize")]
         public Task MinimizeAsync() =>
             Do(appShell => appShell.MinimizeAsync());

@@ -12,6 +12,7 @@ public interface IAppShell
     Task<bool> GetCanGoForwardAsync();
 
     Task SetSizeAsync(int width, int height);
+    Task MaximizeAsync();
     Task MinimizeAsync();
     Task<bool> ToggleExpandedAsync();
 
