@@ -35,6 +35,14 @@ namespace Juniper.Xml
                 .ToArray();
         }
 
+        public void GlobalReplaceValue(string v1, string v2)
+        {
+            foreach(var worksheet in Worksheets)
+            {
+                worksheet.Table.GlobalReplaceValue(v1, v2);
+            }
+        }
+
         public class Worksheet
         {
             public string Name { get; }
@@ -108,6 +116,14 @@ namespace Juniper.Xml
             public bool Matches(params string[] headers) =>
                 headers.Length == Headers.Count
                 && Has(headers);
+
+            public void GlobalReplaceValue(string v1, string v2)
+            {
+                foreach(var row in Rows)
+                {
+                    row.GlobalReplaceValue(v1, v2);
+                }
+            }
         }
 
         public class Row
@@ -125,6 +141,14 @@ namespace Juniper.Xml
             public bool Has(params string[] headers) => headers.All(Cells.ContainsKey);
 
             public string? Peek(string header) => Cells.Get(header)?.Peek;
+
+            public void GlobalReplaceValue(string v1, string v2)
+            {
+                foreach(var cell in Cells.Values)
+                {
+                    cell.ReplaceValue(v1, v2);
+                }
+            }
 
             public string? this[string header]
             {
@@ -154,7 +178,7 @@ namespace Juniper.Xml
 
             public string Key { get; }
 
-            private readonly string value;
+            private string value;
 
             public string Value
             {
@@ -182,6 +206,14 @@ namespace Juniper.Xml
                 Row = row;
                 Key = key;
                 this.value = value;
+            }
+
+            public void ReplaceValue(string v1, string v2)
+            {
+                if (value.Trim().ToLower() == v1.ToLower())
+                {
+                    value = v2;
+                }
             }
         }
     }
