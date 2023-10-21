@@ -16,7 +16,8 @@ namespace GtkApp1
             var win = new MainWindow();
             app.AddWindow(win);
 
-            win.Show();
+            win.ShowAll();
+            win.webView.LoadUri("https://seanmcbeth.com");
             Application.Run();
         }
     }

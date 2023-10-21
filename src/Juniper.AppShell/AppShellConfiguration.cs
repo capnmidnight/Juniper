@@ -16,7 +16,7 @@ public static class AppShellConfiguration
     /// <param name="appBuilder"></param>
     /// <returns><paramref name="appBuilder"/></returns>
     public static WebApplicationBuilder ConfigureJuniperAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder, AppShellOptions? options = null)
-        where AppShellWindowFactoryT : IAppShellFactory, new()
+        where AppShellWindowFactoryT : class, IAppShellFactory, new()
     {
         if (NoWebView)
         {
@@ -57,19 +57,22 @@ public static class AppShellConfiguration
         appBuilder.WebHost.UseUrls("http://127.0.0.1:0");
 
         appBuilder.Services
+            .AddSingleton<AppShellWindowFactoryT>()
+            .AddSingleton<IAppShellFactory>(serviceProvider =>
+                serviceProvider.GetRequiredService<AppShellWindowFactoryT>())
             // Give DI the class it needs to create
-            .AddSingleton<AppShellService<AppShellWindowFactoryT>>()
+            .AddSingleton<AppShellService>()
             // Give DI an alias that other DI consumers can use to request the service without
             // knowing the specific type of `AppShellWindowFactorT`
             .AddSingleton<IAppShellService>(serviceProvider =>
-                serviceProvider.GetRequiredService<AppShellService<AppShellWindowFactoryT>>())
+                serviceProvider.GetRequiredService<AppShellService>())
             // Give DI an alias that other DI consumers can use to request the app shell without
             // knowing the specific type of `AppShellWindowFactorT`
             .AddSingleton<IAppShell>(serviceProvider =>
-                serviceProvider.GetRequiredService<AppShellService<AppShellWindowFactoryT>>())
+                serviceProvider.GetRequiredService<AppShellService>())
             // Queue the service for execution after the server has started.
             .AddHostedService(serviceProvider =>
-                serviceProvider.GetRequiredService<AppShellService<AppShellWindowFactoryT>>());
+                serviceProvider.GetRequiredService<AppShellService>());
 
         return appBuilder;
     }

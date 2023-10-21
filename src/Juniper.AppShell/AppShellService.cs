@@ -15,30 +15,29 @@ namespace Juniper.AppShell;
 /// <see cref="WebApplication"/> to start, finds the `startup_port` the app started with, and navigates 
 /// the WebView to `http://localhost:{startup_port}`
 /// </summary>
-/// <typeparam name="AppShellFactoryT">A concrete instance of <see cref="IAppShellFactory"/> that creates the desired WebView container appShell.</typeparam>
-public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellService, IAppShell
-    where AppShellFactoryT : IAppShellFactory, new()
+public class AppShellService : BackgroundService, IAppShellService, IAppShell
 {
     private readonly TaskCompletionSource appStarting = new();
     private readonly TaskCompletionSource appStopping = new();
     private readonly CancellationTokenSource serviceCanceller = new();
     private readonly TaskCompletionSource<Uri> addressFetching = new();
     private readonly TaskCompletionSource<IAppShell> appShellCreating = new();
-    private readonly AppShellFactoryT factory = new();
+    private readonly IAppShellFactory factory;
 
     private readonly IServiceProvider services;
-    private readonly IBuildSystemService? buildSystem;
     private readonly IOptions<AppShellOptions> options;
-    private readonly ILogger<AppShellService<AppShellFactoryT>> logger;
+    private readonly ILogger logger;
     private readonly IHostApplicationLifetime lifetime;
+    private readonly IBuildSystemService? buildSystem;
 
-    public AppShellService(IServiceProvider services, IHostApplicationLifetime lifetime, IOptions<AppShellOptions> options, ILogger<AppShellService<AppShellFactoryT>> logger)
+    public AppShellService(IAppShellFactory factory, IServiceProvider services, IHostApplicationLifetime lifetime, IOptions<AppShellOptions> options, ILogger<AppShellService> logger)
     {
+        this.factory = factory;
         this.services = services;
-        buildSystem = services.GetService<IBuildSystemService>();
         this.options = options;
         this.logger = logger;
         this.lifetime = lifetime;
+        buildSystem = services.GetService<IBuildSystemService>();
 
         lifetime.ApplicationStarted.Register(() =>
         {
@@ -153,7 +152,7 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
 
             await appShell.SetSourceAsync(address);
 
-            if(maximize is not null)
+            if (maximize is not null)
             {
                 await appShell.MaximizeAsync();
             }
@@ -164,7 +163,7 @@ public class AppShellService<AppShellFactoryT> : BackgroundService, IAppShellSer
 
             logger.LogInformation("AppShell ready");
             await appShell.WaitForCloseAsync();
-            
+
             if (!lifetime.ApplicationStopping.IsCancellationRequested)
             {
                 lifetime.StopApplication();

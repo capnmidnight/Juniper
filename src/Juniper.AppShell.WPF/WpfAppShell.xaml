@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Juniper.AppShell"
         xmlns:ms="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
-        Title="AppShellWindow" Height="600" Width="800">
+        Title="AppShellWindow" 
+        Width="800"
+        Height="600">
     <DockPanel>    
         <ms:WebView2 x:Name="WebView"></ms:WebView2>
     </DockPanel>

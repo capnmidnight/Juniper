@@ -5,17 +5,26 @@ using Gtk;
 public class GtkAppShellFactory<AppShellT> : IAppShellFactory
     where AppShellT : Window, IAppShell, new()
 {
+    private readonly TaskCompletionSource<IAppShell> appShellCreating = new TaskCompletionSource<IAppShell>();
     public Task<IAppShell> StartAsync(CancellationToken cancellationToken)
     {
-        var thread = Thread.CurrentThread;
+        return appShellCreating.Task;
+    }
+
+    public void Run()
+    {
         Application.Init();
         var app = new Application("org.juniper.appshell", GLib.ApplicationFlags.None);
-        app.Register(GLib.Cancellable.Current);
-
         var appShell = new AppShellT();
+        app.Register(GLib.Cancellable.Current);
         app.AddWindow(appShell);
         appShell.ShowAll();
-
-        return Task.FromResult(appShell as IAppShell);
+        appShellCreating.SetResult(appShell);
+        Application.Run();
     }
+}
+
+public class GtkAppShellFactory : GtkAppShellFactory<GtkAppShell>
+{
+
 }

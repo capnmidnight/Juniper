@@ -25,3 +25,7 @@ public class WpfAppShellFactory<AppShellT> : IAppShellFactory
         return await appShellCreating.Task;
     }
 }
+
+public class WpfAppShellFactory : WpfAppShellFactory<WpfAppShell> {
+    
+}

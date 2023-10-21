@@ -4,16 +4,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="**\*.glade" />
-    <EmbeddedResource Include="**\*.glade">
-      <LogicalName>%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="GtkSharp" Version="3.24.24.*" />
+    <PackageReference Include="WebkitGtkSharp" Version="3.24.24.95" />
   </ItemGroup>
 
 </Project>
