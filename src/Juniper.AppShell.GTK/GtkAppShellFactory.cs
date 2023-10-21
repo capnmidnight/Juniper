@@ -13,10 +13,9 @@ public class GtkAppShellFactory<AppShellT> : IAppShellFactory
         app.Register(GLib.Cancellable.Current);
 
         var appShell = new AppShellT();
-        appShell.WaitForCloseAsync().ContinueWith(delegate {
-            Application.Invoke(delegate {
-                Application.Quit();
-            });
+        appShell.WaitForCloseAsync().ContinueWith(delegate
+        {
+            Application.Quit();
         }, cancellationToken);
 
         app.AddWindow(appShell);

@@ -31,6 +31,7 @@ public static class AppShellConfiguration
             appBuilder.Services.PostConfigure<AppShellOptions>(oldOpts =>
             {
                 oldOpts.SplashScreenPath = options.SplashScreenPath ?? oldOpts.SplashScreenPath;
+                oldOpts.ApplicationURI = options.ApplicationURI ?? oldOpts.ApplicationURI;
                 if(options.Window is not null)
                 {
                     var oldWindow = oldOpts.Window;

@@ -6,6 +6,7 @@ public class AppShellOptions
 {
     public const string AppShell = "AppShell";
     public string? SplashScreenPath { get; set; } = null;
+    public string? ApplicationURI { get; set; } = null;
 
     public AppShellWindowOptions? Window { get; set; } = null;
 }

@@ -116,6 +116,10 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
             var width = options.Value.Window?.Size?.Width;
             var height = options.Value.Window?.Size?.Height;
             var splash = options.Value.SplashScreenPath;
+            var applicationURIString = options.Value.ApplicationURI;
+            var applicationURI = applicationURIString is not null 
+                ? new Uri(applicationURIString) 
+                : null;
 
             var address = await addressFetching.Task;
 
@@ -150,7 +154,7 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
                 await buildSystem.Ready;
             }
 
-            await appShell.SetSourceAsync(address);
+            await appShell.SetSourceAsync(applicationURI ?? address);
 
             if (maximize is not null)
             {
