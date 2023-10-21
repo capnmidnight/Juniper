@@ -7,22 +7,15 @@ public class GtkAppShellFactory<AppShellT> : IAppShellFactory
 {
     public Task<IAppShell> StartAsync(CancellationToken cancellationToken)
     {
+        var thread = Thread.CurrentThread;
         Application.Init();
-        var shellTask = new TaskCompletionSource<IAppShell>();
-        var thread = new Thread(new ThreadStart(delegate ()
-        {
-            var app = new Application("org.juniper.appshell", GLib.ApplicationFlags.None);
-            app.Register(GLib.Cancellable.Current);
+        var app = new Application("org.juniper.appshell", GLib.ApplicationFlags.None);
+        app.Register(GLib.Cancellable.Current);
 
-            var appShell = new AppShellT();
-            app.AddWindow(appShell);
-            shellTask.SetResult(appShell);
-            appShell.Show();
-            Application.Run();
-        }));
+        var appShell = new AppShellT();
+        app.AddWindow(appShell);
+        appShell.ShowAll();
 
-        thread.Start();
-
-        return shellTask.Task;
+        return Task.FromResult(appShell as IAppShell);
     }
 }
