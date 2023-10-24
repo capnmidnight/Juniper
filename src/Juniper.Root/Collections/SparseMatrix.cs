@@ -1,16 +1,14 @@
-using Juniper.IO;
-
 using System.Runtime.Serialization;
+
+using Juniper.IO;
 
 namespace Juniper.Collections
 {
     [Serializable]
-    public class SparseMatrix<IndexT, ValueT> : ISaveable<SparseMatrix<IndexT, ValueT>>
-        where IndexT : IComparable<IndexT>
-        where ValueT : IComparable<ValueT>
+    public class SparseMatrix<KeyT, ValueT> : ISaveable<SparseMatrix<KeyT, ValueT>>
 
     {
-        private readonly Dictionary<IndexT, Dictionary<IndexT, ValueT>> map;
+        private readonly Dictionary<KeyT, Dictionary<KeyT, ValueT>> map;
 
         public SparseMatrix()
         {
@@ -20,12 +18,12 @@ namespace Juniper.Collections
         protected SparseMatrix(SerializationInfo info, StreamingContext context)
             : this()
         {
-            var entries = info.GetValue<(IndexT x, IndexT y, ValueT v)[]>(nameof(map));
+            var entries = info.GetValue<(KeyT x, KeyT y, ValueT v)[]>(nameof(map));
             foreach ((var x, var y, var v) in entries)
             {
                 if (!ContainsColumn(x))
                 {
-                    map.Add(x, new Dictionary<IndexT, ValueT>());
+                    map.Add(x, new Dictionary<KeyT, ValueT>());
                 }
 
                 map[x].Add(y, v);
@@ -34,7 +32,7 @@ namespace Juniper.Collections
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            var entries = new List<(IndexT x, IndexT y, ValueT v)>();
+            var entries = new List<(KeyT x, KeyT y, ValueT v)>();
             foreach (var (x, col) in map)
             {
                 foreach (var (y, value) in col)
@@ -45,7 +43,7 @@ namespace Juniper.Collections
             info.AddValue(nameof(map), entries.ToArray());
         }
 
-        public ValueT this[IndexT x, IndexT y]
+        public ValueT this[KeyT x, KeyT y]
         {
 
             get => Contains(x, y) ? map[x][y] : default;
@@ -53,7 +51,7 @@ namespace Juniper.Collections
             {
                 if (!map.ContainsKey(x))
                 {
-                    map.Add(x, new Dictionary<IndexT, ValueT>());
+                    map.Add(x, new Dictionary<KeyT, ValueT>());
                 }
 
                 map[x][y] = value;
@@ -65,20 +63,33 @@ namespace Juniper.Collections
             from cell in col
             select cell.Value;
 
-        public IEnumerable<(IndexT x, IndexT y, ValueT value)> Entries =>
+        public IEnumerable<(KeyT x, KeyT y, ValueT value)> Entries =>
             from col in map
             from cell in col.Value
             select (col.Key, cell.Key, cell.Value);
 
-        public IEnumerable<IndexT> Columns => map.Keys;
-        public IEnumerable<IndexT> Cells(IndexT x) => map[x].Keys;
-        public IEnumerable<IndexT> Rows =>
+        public IEnumerable<KeyT> Columns => map.Keys;
+        
+        public IEnumerable<KeyT> ColumnCells(KeyT x) => map[x].Keys;
+        
+        public IEnumerable<KeyT> Rows =>
             (from x in Columns
-             from cell in Cells(x)
+             from cell in ColumnCells(x)
              select cell)
             .Distinct();
 
-        public IEnumerable<IndexT> Keys =>
+        public IEnumerable<KeyT> RowCells(KeyT y)
+        {
+            foreach(var column in Columns)
+            {
+                if (map[column].ContainsKey(y))
+                {
+                    yield return column;
+                }
+            }
+        }
+
+        public IEnumerable<KeyT> Keys =>
             Columns
                 .Union(Rows)
                 .Distinct();
@@ -86,7 +97,7 @@ namespace Juniper.Collections
         public int Count =>
             map.Values.Sum(col => col.Count);
 
-        public void Add(IndexT x, IndexT y, ValueT value)
+        public void Add(KeyT x, KeyT y, ValueT value)
         {
             if (Contains(x, y))
             {
@@ -101,23 +112,23 @@ namespace Juniper.Collections
             map.Clear();
         }
 
-        public bool ContainsColumn(IndexT x)
+        public bool ContainsColumn(KeyT x)
         {
             return map.ContainsKey(x);
         }
 
-        public bool ContainsRow(IndexT y)
+        public bool ContainsRow(KeyT y)
         {
             return map.Any(col => col.Value.ContainsKey(y));
         }
 
-        public bool Contains(IndexT x, IndexT y)
+        public bool Contains(KeyT x, KeyT y)
         {
             return map.ContainsKey(x)
                 && map[x].ContainsKey(y);
         }
 
-        public bool RemoveColumn(IndexT x)
+        public bool RemoveColumn(KeyT x)
         {
             if (!ContainsColumn(x))
             {
@@ -130,10 +141,10 @@ namespace Juniper.Collections
             return true;
         }
 
-        public bool RemoveRow(IndexT y)
+        public bool RemoveRow(KeyT y)
         {
             bool removed = false;
-            var toRemove = new List<IndexT>();
+            var toRemove = new List<KeyT>();
             foreach (var (col, values) in map)
             {
                 if (values.Remove(y))
@@ -154,7 +165,7 @@ namespace Juniper.Collections
             return removed;
         }
 
-        public bool Remove(IndexT x, IndexT y)
+        public bool Remove(KeyT x, KeyT y)
         {
             if (!Contains(x, y))
             {

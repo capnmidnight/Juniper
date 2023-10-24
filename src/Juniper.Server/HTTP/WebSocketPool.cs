@@ -55,8 +55,8 @@ public class WebSocketPool
                 var wsContext = await context.AcceptWebSocketAsync(token)
                     .ConfigureAwait(false);
 
-                var userName = userNames.Get(token);
-                if (userName is not null)
+                if (userNames.TryGetValue(token, out var userName)
+                    && userName is not null)
                 {
                     var socket = new ServerWebSocketConnection(context, wsContext.WebSocket, userName);
                     socket.Closed += Socket_Closed;
@@ -82,10 +82,10 @@ public class WebSocketPool
         var id = context.GetHashCode();
         if (!sockets.ContainsKey(id))
         {
-            var token = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
-            if (token.Count != 1
-                || token[0] is not string t
-                || !userNames.ContainsKey(t))
+            var tokens = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
+            if (tokens.Count != 1
+                || tokens[0] is not string token
+                || !userNames.ContainsKey(token))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             }
@@ -93,11 +93,11 @@ public class WebSocketPool
             {
                 var webSocket = await context
                     .WebSockets
-                    .AcceptWebSocketAsync(t)
+                    .AcceptWebSocketAsync(token)
                     .ConfigureAwait(false);
 
-                var userName = userNames.Get(t);
-                if (userName is not null)
+                if (userNames.TryGetValue(token, out var userName)
+                    && userName is not null)
                 {
                     var socket = new ServerWebSocketConnection(webSocket, userName);
 

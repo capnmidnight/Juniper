@@ -1,69 +1,77 @@
-using Juniper.IO;
-
-namespace Juniper.Collections
+﻿namespace Juniper.Collections
 {
-    public abstract class Graph
+    public static class Graph
     {
-        public static Graph<NodeT> Load<NodeT>(FileInfo file)
-            where NodeT : IComparable<NodeT>
+        public static Graph<KeyT, ValueT> ToGraph<KeyT, ValueT>(this IEnumerable<ValueT> items, Func<ValueT, KeyT> getFromKey, Func<ValueT, KeyT> getToKey)
         {
-            if (file is null)
-            {
-                throw new ArgumentNullException(nameof(file));
-            }
-
-            if (!file.Exists)
-            {
-                throw new FileNotFoundException(file.FullName);
-            }
-
-            using var stream = file.OpenRead();
-            if (file.Matches(MediaType.Application_Json))
-            {
-                return LoadJSON<NodeT>(stream);
-            }
-            else
-            {
-                throw new InvalidOperationException("Don't know how to read the file type.");
-            }
+            return items.ToGraph(getFromKey, getToKey, Always.Identity);
         }
 
-        public static Graph<NodeT> LoadJSON<NodeT>(Stream stream) where NodeT : IComparable<NodeT>
+        public static Graph<KeyT, ValueT> ToGraph<NodeT, KeyT, ValueT>(this IEnumerable<NodeT> items, Func<NodeT, KeyT> getFromKey, Func<NodeT, KeyT> getToKey, Func<NodeT, ValueT> getValue)
         {
-            return Load(new JsonFactory<Graph<NodeT>>(), stream);
+            var graph = new Graph<KeyT, ValueT>();
+            foreach (var item in items)
+            {
+                graph.Add(new Edge<KeyT, ValueT>(getFromKey(item), getToKey(item), getValue(item)));
+            }
+
+            return graph;
+        }
+    }
+
+    public class Graph<KeyT, ValueT>
+    {
+        private SparseMatrix<KeyT, List<Edge<KeyT, ValueT>>> matrix = new();
+
+        public void Add(Edge<KeyT, ValueT> edge)
+        {
+            if (!matrix.Contains(edge.From, edge.To))
+            {
+                matrix.Add(edge.From, edge.To, new List<Edge<KeyT, ValueT>>());
+            }
+
+            matrix[edge.From, edge.To].Add(edge);
         }
 
-        private static Graph<NodeT> Load<NodeT, M>(IDeserializer<Graph<NodeT>, M> deserializer, Stream stream)
-            where M : MediaType
-            where NodeT : IComparable<NodeT>
+        public IEnumerable<Edge<KeyT, ValueT>> Flood(KeyT from)
         {
-            if (deserializer is null)
+            var visited = new HashSet<KeyT>();
+            var queue = new Queue<KeyT> { from };
+            while (queue.Count > 0)
             {
-                throw new ArgumentNullException(nameof(deserializer));
+                var here = queue.Dequeue();
+                visited.Add(here);
+
+                if (matrix.ContainsColumn(here))
+                {
+                    var cells = matrix.ColumnCells(here);
+                    queue.AddRange(cells.Where(v => !visited.Contains(v)));
+
+                    foreach (var cell in cells)
+                    {
+                        var edges = matrix[here, cell];
+                        foreach (var edge in edges)
+                        {
+                            yield return edge;
+                        }
+                    }
+                }
+
+                if (matrix.ContainsRow(here))
+                {
+                    var cells = matrix.RowCells(here);
+                    queue.AddRange(cells.Where(v => !visited.Contains(v)));
+
+                    foreach (var cell in cells)
+                    {
+                        var edges = matrix[cell, here];
+                        foreach (var edge in edges)
+                        {
+                            yield return edge;
+                        }
+                    }
+                }
             }
-
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            return deserializer.Deserialize(stream);
-        }
-
-        public static Graph<NodeT> Load<NodeT>(string fileName)
-            where NodeT : IComparable<NodeT>
-        {
-            if (fileName is null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            if (fileName.Length == 0)
-            {
-                throw new ArgumentException("path must not be empty string", nameof(fileName));
-            }
-
-            return Load<NodeT>(new FileInfo(fileName));
         }
     }
 }

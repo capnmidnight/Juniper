@@ -1,25 +1,37 @@
 namespace Juniper.Collections
 {
-    public static class NAryTree
+    public static class Tree
     {
-        public static NAryTree<V> ToTree<K, V>(this IEnumerable<V> items,
-            Func<V, K> getKey,
-            Func<V, K> getParentKey,
-            Func<V, int> getOrder = null)
+        public static Tree<ValueT> ToTree<KeyT, ValueT>(this IEnumerable<ValueT> items,
+            Func<ValueT, KeyT> getKey,
+            Func<ValueT, KeyT> getParentKey,
+            Func<ValueT, int> getOrder = null)
         {
-            var rootNode = new NAryTree<V>(default);
-            var nodes = new Dictionary<K, NAryTree<V>>();
+            return items.ToTree(getKey, getParentKey, Always.Identity, getOrder);
+        }
+
+        public static Tree<ValueT> ToTree<NodeT, KeyT, ValueT>(this IEnumerable<NodeT> items,
+            Func<NodeT, KeyT> getKey,
+            Func<NodeT, KeyT> getParentKey,
+            Func<NodeT, ValueT> getValue,
+            Func<NodeT, int> getOrder = null)
+        {
+            var rootNode = new Tree<ValueT>(default);
+            var nodes = new Dictionary<KeyT, Tree<ValueT>>();
 
             foreach (var item in items)
             {
                 var nodeID = getKey(item);
-                var node = new NAryTree<V>(item);
+                var value = getValue(item);
+                var node = new Tree<ValueT>(value);
                 nodes.Add(nodeID, node);
             }
 
-            foreach (var node in nodes.Values)
+            foreach (var item in items)
             {
-                var parentNodeID = getParentKey(node.Value);
+                var nodeID = getKey(item);
+                var node = nodes[nodeID];
+                var parentNodeID = getParentKey(item);
                 var isParentNodeDefined = parentNodeID != null;
                 var hasParentNode = isParentNodeDefined && nodes.ContainsKey(parentNodeID);
                 var parentNode = !isParentNodeDefined
@@ -33,7 +45,7 @@ namespace Juniper.Collections
                     var index = parentNode.Children.Count;
                     if (getOrder is not null)
                     {
-                        index = getOrder(node.Value);
+                        index = getOrder(item);
                     }
                     parentNode.Connect(node, index);
                 }
@@ -43,37 +55,38 @@ namespace Juniper.Collections
         }
     }
 
+
     /// <summary>
     /// A node in an N-ary tree.
     /// </summary>
     /// <typeparam name="T">Any type of object</typeparam>
-    public partial class NAryTree<T>
+    public partial class Tree<T>
     {
         /// <summary>
         /// The value stored in this node.
         /// </summary>
         public T Value { get; internal set; }
 
-        protected List<NAryTree<T>> ChildNodes { get; } = new List<NAryTree<T>>();
+        protected List<Tree<T>> ChildNodes { get; } = new List<Tree<T>>();
 
         /// <summary>
         /// All nodes below the current node.
         /// </summary>
-        public IReadOnlyList<NAryTree<T>> Children => ChildNodes;
+        public IReadOnlyList<Tree<T>> Children => ChildNodes;
 
         /// <summary>
         /// The next node above the current node.
         /// </summary>
-        public NAryTree<T> Parent { get; private set; }
+        public Tree<T> Parent { get; private set; }
 
-        public NAryTree()
+        public Tree()
         { }
 
         /// <summary>
         /// Creates a root node with no children.
         /// </summary>
         /// <param name="value">The value to store at the root.</param>
-        public NAryTree(T value)
+        public Tree(T value)
         {
             Value = value;
         }
@@ -107,22 +120,22 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsRoot => Parent is null;
 
-        public NAryTree<T> Add(T value)
+        public Tree<T> Add(T value)
         {
-            return Connect(new NAryTree<T>(value));
+            return Connect(new Tree<T>(value));
         }
 
-        public IEnumerable<NAryTree<T>> AddRange(IEnumerable<T> values)
+        public IEnumerable<Tree<T>> AddRange(IEnumerable<T> values)
         {
             if (values is null)
             {
                 throw new ArgumentNullException(nameof(values));
             }
 
-            return ConnectRange(values.Select(v => new NAryTree<T>(v)));
+            return ConnectRange(values.Select(v => new Tree<T>(v)));
         }
 
-        public IEnumerable<NAryTree<T>> ConnectRange(IEnumerable<NAryTree<T>> nodes)
+        public IEnumerable<Tree<T>> ConnectRange(IEnumerable<Tree<T>> nodes)
         {
             if (nodes is null)
             {
@@ -137,12 +150,12 @@ namespace Juniper.Collections
             }
         }
 
-        public NAryTree<T> Connect(NAryTree<T> node)
+        public Tree<T> Connect(Tree<T> node)
         {
             return Connect(node, ChildNodes.Count);
         }
 
-        public NAryTree<T> Connect(NAryTree<T> node, int index)
+        public Tree<T> Connect(Tree<T> node, int index)
         {
             if (node is null)
             {
@@ -167,9 +180,9 @@ namespace Juniper.Collections
             }
         }
 
-        public IEnumerable<NAryTree<T>> NodesDepthFirst()
+        public IEnumerable<Tree<T>> NodesDepthFirst()
         {
-            var toVisit = new Stack<NAryTree<T>>();
+            var toVisit = new Stack<Tree<T>>();
             toVisit.Push(this);
             while (toVisit.Count > 0)
             {
@@ -194,9 +207,9 @@ namespace Juniper.Collections
             }
         }
 
-        public IEnumerable<NAryTree<T>> NodesBreadthFirst()
+        public IEnumerable<Tree<T>> NodesBreadthFirst()
         {
-            var toVisit = new Queue<NAryTree<T>>();
+            var toVisit = new Queue<Tree<T>>();
             toVisit.Enqueue(this);
             while (toVisit.Count > 0)
             {
@@ -213,9 +226,9 @@ namespace Juniper.Collections
             }
         }
 
-        public NAryTree<T> Trim(Func<NAryTree<T>, bool> filter)
+        public Tree<T> Trim(Func<Tree<T>, bool> filter)
         {
-            var toVisit = new Queue<NAryTree<T>>();
+            var toVisit = new Queue<Tree<T>>();
             toVisit.Enqueue(this);
             while (toVisit.Count > 0)
             {
@@ -236,7 +249,7 @@ namespace Juniper.Collections
             return this;
         }
 
-        public bool Contains(NAryTree<T> node)
+        public bool Contains(Tree<T> node)
         {
             while (node is not null)
             {
@@ -251,7 +264,7 @@ namespace Juniper.Collections
             return false;
         }
 
-        public void Remove(NAryTree<T> child)
+        public void Remove(Tree<T> child)
         {
             if (child.Parent == this)
             {
@@ -268,12 +281,12 @@ namespace Juniper.Collections
             }
         }
 
-        public NAryTree<T> Find(T value)
+        public Tree<T> Find(T value)
         {
             return FindByKey(value, Always.Identity);
         }
 
-        public NAryTree<T> FindByKey<K>(K key1, Func<T, K> getKey)
+        public Tree<T> FindByKey<K>(K key1, Func<T, K> getKey)
         {
             var isClass = typeof(K).IsClass;
             foreach (var node in NodesBreadthFirst())

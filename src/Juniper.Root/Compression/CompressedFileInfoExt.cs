@@ -29,15 +29,15 @@ namespace Juniper.Compression
                 .Distinct();
         }
 
-        public static NAryTree<CompressedFileInfo> Tree(this IEnumerable<CompressedFileInfo> rawEntries)
+        public static Tree<CompressedFileInfo> Tree(this IEnumerable<CompressedFileInfo> rawEntries)
         {
             rawEntries = rawEntries.ToArray();
 
-            var tree = new NAryTree<CompressedFileInfo>(new CompressedFileInfo());
+            var tree = new Tree<CompressedFileInfo>(new CompressedFileInfo());
             var directories = rawEntries.Directories();
             var files = rawEntries.Files();
             var entries = directories.Concat(files)
-                .Select(e => new NAryTree<CompressedFileInfo>())
+                .Select(e => new Tree<CompressedFileInfo>())
                 .ToDictionary(e => e.Value.FullName);
 
             foreach (var entry in entries.Values)

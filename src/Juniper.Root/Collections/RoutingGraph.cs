@@ -1,11 +1,94 @@
-using Juniper.IO;
-
 using System.Runtime.Serialization;
+
+using Juniper.IO;
 
 namespace Juniper.Collections
 {
+    public static class RoutingGraph
+    {
+        public static RoutingGraph<KeyT> ToRoutingGraph<NodeT, KeyT, ValueT>(this IEnumerable<NodeT> items,
+            Func<NodeT, KeyT> getKey,
+            Func<NodeT, KeyT> getParentKey,
+            Func<NodeT, float> getCost = null)
+        where KeyT : IComparable<KeyT>
+        {
+            getCost ??= _ => 1;
+
+            var graph = new RoutingGraph<KeyT>(true);
+
+            graph.SetConnections(items
+                .Select(item => new RoutingEdge<KeyT>(getParentKey(item), getKey(item), getCost(item)))
+                .ToArray()
+            );
+
+            return graph;
+        }
+
+        public static RoutingGraph<NodeT> Load<NodeT>(FileInfo file)
+            where NodeT : IComparable<NodeT>
+        {
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            if (!file.Exists)
+            {
+                throw new FileNotFoundException(file.FullName);
+            }
+
+            using var stream = file.OpenRead();
+            if (file.Matches(MediaType.Application_Json))
+            {
+                return LoadJSON<NodeT>(stream);
+            }
+            else
+            {
+                throw new InvalidOperationException("Don't know how to read the file type.");
+            }
+        }
+
+        public static RoutingGraph<NodeT> LoadJSON<NodeT>(Stream stream) where NodeT : IComparable<NodeT>
+        {
+            return Load(new JsonFactory<RoutingGraph<NodeT>>(), stream);
+        }
+
+        private static RoutingGraph<NodeT> Load<NodeT, M>(IDeserializer<RoutingGraph<NodeT>, M> deserializer, Stream stream)
+            where M : MediaType
+            where NodeT : IComparable<NodeT>
+        {
+            if (deserializer is null)
+            {
+                throw new ArgumentNullException(nameof(deserializer));
+            }
+
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            return deserializer.Deserialize(stream);
+        }
+
+        public static RoutingGraph<NodeT> Load<NodeT>(string fileName)
+            where NodeT : IComparable<NodeT>
+        {
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            return Load<NodeT>(new FileInfo(fileName));
+        }
+    }
+
     [Serializable]
-    public class Graph<NodeT> : ISaveable<Graph<NodeT>>
+    public class RoutingGraph<NodeT> : ISaveable<RoutingGraph<NodeT>>
         where NodeT : IComparable<NodeT>
     {
         private readonly List<Route<NodeT>> connections;
@@ -18,7 +101,7 @@ namespace Juniper.Collections
 
         private bool dirty;
 
-        public Graph(bool directed = false)
+        public RoutingGraph(bool directed = false)
         {
             this.directed = directed;
             dirty = false;
@@ -28,9 +111,9 @@ namespace Juniper.Collections
             network = new();
         }
 
-        public Graph<NodeT> Clone()
+        public RoutingGraph<NodeT> Clone()
         {
-            var graph = new Graph<NodeT>(directed);
+            var graph = new RoutingGraph<NodeT>(directed);
             graph.connections.AddRange(Connections.Distinct());
             foreach (var (x, y, value) in network.Entries)
             {
@@ -53,7 +136,7 @@ namespace Juniper.Collections
             return graph;
         }
 
-        protected Graph(SerializationInfo info, StreamingContext context)
+        protected RoutingGraph(SerializationInfo info, StreamingContext context)
         {
             if (info is null)
             {
@@ -146,42 +229,32 @@ namespace Juniper.Collections
             dirty = true;
         }
 
-        private void AddConnection(NodeT start, NodeT end, float cost)
+        private void AddConnection(RoutingEdge<NodeT> edge)
         {
             _ = connections.RemoveAll(connect =>
-                connect.Contains(start)
-                && connect.Contains(end)
+                connect.Contains(edge.From)
+                && connect.Contains(edge.To)
                 && (!directed
-                    || connect.Ordered(start, end)));
+                    || connect.Ordered(edge.From, edge.To)));
 
-            connections.Add(new Route<NodeT>(cost, start, end));
+            connections.Add(new Route<NodeT>(edge));
         }
 
-        public void SetConnection(NodeT start, NodeT end, float cost = 1)
+        public void SetConnection(RoutingEdge<NodeT> edge)
         {
-            if (!start.Equals(end))
+            if (!edge.From.Equals(edge.To))
             {
-                AddConnection(start, end, cost);
+                AddConnection(edge);
 
                 ResetNetwork();
             }
         }
 
-        public void SetConnections(params (NodeT start, NodeT end, float cost)[] connections)
+        public void SetConnections(params RoutingEdge<NodeT>[] connections)
         {
-            foreach ((var start, var end, var cost) in connections)
+            foreach (var edge in connections)
             {
-                AddConnection(start, end, cost);
-            }
-
-            ResetNetwork();
-        }
-
-        public void SetConnections(params (NodeT start, NodeT end)[] connections)
-        {
-            foreach ((var start, var end) in connections)
-            {
-                AddConnection(start, end, 1);
+                AddConnection(edge);
             }
 
             ResetNetwork();
@@ -295,7 +368,7 @@ namespace Juniper.Collections
         {
             if (Exists(node))
             {
-                foreach (var y in network.Cells(node))
+                foreach (var y in network.ColumnCells(node))
                 {
                     yield return network[node, y];
                 }

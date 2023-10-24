@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Juniper.Collections
 {
+
     [Serializable]
     public class Route<ValueT> :
         ISerializable,
@@ -140,8 +141,8 @@ namespace Juniper.Collections
             Cost = cost;
         }
 
-        public Route(float cost, ValueT firstNode, ValueT secondNode, params ValueT[] nodes)
-            : this(true, nodes.Prepend(secondNode).Prepend(firstNode), cost)
+        public Route(Edge<ValueT, float> edge, params ValueT[] nodes)
+            : this(true, nodes.Prepend(edge.From).Prepend(edge.To), edge.Value)
         { }
 
         protected Route(SerializationInfo info, StreamingContext context)
