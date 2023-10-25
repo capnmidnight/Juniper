@@ -9,6 +9,10 @@ public partial class WpfAppShell : Window, IAppShell
     public WpfAppShell()
     {
         InitializeComponent();
+        WebView.ZoomFactorChanged += delegate
+        {
+            WebView.ZoomFactor = WebView.ZoomFactor;
+        };
     }
 
     private Task<T> Do<T>(Func<T> action) =>
