@@ -1,0 +1,24 @@
+﻿.force-directed-graph {
+    position: relative;
+    user-select: none;
+}
+
+    .force-directed-graph > canvas {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .force-directed-graph > .graph-node {
+        position: absolute;
+        z-index: 2;
+    }
+
+    .force-directed-graph > .highlighted {
+        z-index: 3;
+    }
+
+    .force-directed-graph > .selected {
+        z-index: 4;
+    }

@@ -1,0 +1,44 @@
+import "./index.css";
+export declare class ForceDirectedGraph<T> {
+    private readonly content;
+    private readonly getWeightMod;
+    private readonly getID1;
+    private readonly getName1;
+    private readonly getID2;
+    private readonly getName2;
+    private readonly makeLink;
+    private readonly connectorsCanvas;
+    private readonly g;
+    private readonly graph;
+    private readonly elementToNode;
+    private readonly mousePoint;
+    private data;
+    private grabbed;
+    private timer;
+    private render;
+    limit: number;
+    cooling: boolean;
+    attract: number;
+    repel: number;
+    private _running;
+    get running(): boolean;
+    get w(): number;
+    get h(): number;
+    constructor(content: HTMLElement, getWeightMod: (a: T, b: T, connected: boolean) => number, getID1: (value: T) => number, getName1: (value: T) => string, getID2: (value: T) => number, getName2: (value: T) => string, makeLink: (value: T, id: number, name: string) => string | HTMLElement);
+    start(): void;
+    stop(): void;
+    get values(): T[];
+    private addNode;
+    set values(v: T[]);
+    reset(): void;
+    private _render;
+    private setMouse;
+    private draw;
+    getElement(id: number): HTMLElement;
+    private setElementClass;
+    select(id: number): void;
+    highlight(id: number): void;
+    private applyForces;
+    fr91(): void;
+}
+//# sourceMappingURL=index.d.ts.map

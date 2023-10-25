@@ -7,6 +7,8 @@
     "dist/*"
   ],
   "description": "DOM Widgets",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "scripts": {
     "check": "tsc --noEmit",
     "ts-build": "tsc -b",
