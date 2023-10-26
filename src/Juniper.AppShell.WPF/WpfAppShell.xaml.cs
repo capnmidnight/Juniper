@@ -6,9 +6,12 @@ namespace Juniper.AppShell;
 
 public partial class WpfAppShell : Window, IAppShell
 {
+    private readonly Task init;
+
     public WpfAppShell()
     {
         InitializeComponent();
+
         WebView.ZoomFactorChanged += delegate
         {
             // This event will fire whenever the user changes zoom factor (e.g.,
@@ -19,13 +22,35 @@ public partial class WpfAppShell : Window, IAppShell
             // persist between page loads.
             WebView.ZoomFactor = WebView.ZoomFactor;
         };
+
+        init = WebView.EnsureCoreWebView2Async();
     }
 
-    private Task<T> Do<T>(Func<T> action) =>
-        Dispatcher.InvokeAsync(action).Task;
+    private async Task<T> Do<T>(Func<Task<T>> action)
+    {
+        await init;
+        var task = await Dispatcher.InvokeAsync(action).Task;
+        return await task;
+    }
 
-    private Task Do(Action action) =>
-        Dispatcher.InvokeAsync(action).Task;
+    private async Task Do(Func<Task> action)
+    {
+        await init;
+        var task = await Dispatcher.InvokeAsync(action).Task;
+        await task;
+    }
+
+    private async Task<T> Do<T>(Func<T> action)
+    {
+        await init;
+        return await Dispatcher.InvokeAsync(action).Task;
+    }
+
+    private async Task Do(Action action)
+    {
+        await init;
+        await Dispatcher.InvokeAsync(action).Task;
+    }
 
     public Task<Uri> GetSourceAsync() =>
         Do(() => WebView.Source);
@@ -34,25 +59,30 @@ public partial class WpfAppShell : Window, IAppShell
         Do(async () =>
         {
             var completer = new TaskCompletionSource();
-            void WebView_Loaded(object sender, RoutedEventArgs e)
+            void CoreWebView2_DOMContentLoaded(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2DOMContentLoadedEventArgs e)
             {
                 completer.SetResult();
             }
 
-            WebView.Loaded += WebView_Loaded;
+            WebView.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
 
-            if (value == WebView.Source)
-            {
-                WebView.Reload();
-            }
-            else
-            {
-                WebView.Source = value;
-            }
+            SetSourceInternal(value);
 
             await completer.Task;
-            WebView.Loaded -= WebView_Loaded;
+            WebView.CoreWebView2.DOMContentLoaded -= CoreWebView2_DOMContentLoaded;
         });
+
+    private void SetSourceInternal(Uri value)
+    {
+        if (value == WebView.Source)
+        {
+            WebView.Reload();
+        }
+        else
+        {
+            WebView.Source = value;
+        }
+    }
 
     public Task<string> GetTitleAsync() =>
         Do(() => Title);
@@ -99,6 +129,7 @@ public partial class WpfAppShell : Window, IAppShell
     }
 
     private readonly TaskCompletionSource closing = new();
+
     protected override void OnClosing(CancelEventArgs e)
     {
         base.OnClosing(e);

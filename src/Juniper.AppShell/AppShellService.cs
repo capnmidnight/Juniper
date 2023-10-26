@@ -117,8 +117,8 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
             var height = options.Value.Window?.Size?.Height;
             var splash = options.Value.SplashScreenPath;
             var applicationURIString = options.Value.ApplicationURI;
-            var applicationURI = applicationURIString is not null 
-                ? new Uri(applicationURIString) 
+            var applicationURI = applicationURIString is not null
+                ? new Uri(applicationURIString)
                 : null;
 
             var address = await addressFetching.Task;
@@ -137,14 +137,15 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
 
             if (title is not null)
             {
+                logger.LogInformation("Setting window title: \"{title}\"", title);
                 await appShell.SetTitleAsync(title);
             }
 
             if (splash is not null)
             {
-                logger.LogInformation("Showing first page ({address}) titled \"{title}\"", address, splash);
-                var splashAddress = new Uri(address, splash);
-                await appShell.SetSourceAsync(splashAddress);
+                var splashURI = new Uri(address, splash);
+                logger.LogInformation("Showing splash page {URI}", splashURI);
+                await appShell.SetSourceAsync(splashURI);
             }
 
             appShellCreating.TrySetResult(appShell);
@@ -154,14 +155,18 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
                 await buildSystem.Ready;
             }
 
-            await appShell.SetSourceAsync(applicationURI ?? address);
+            var finalURI = applicationURI ?? address;
+            logger.LogInformation("Showing final page {URI}", finalURI);
+            await appShell.SetSourceAsync(finalURI);
 
             if (maximize is not null)
             {
+                logger.LogInformation("Maximizing window");
                 await appShell.MaximizeAsync();
             }
             else if (width is not null && height is not null)
             {
+                logger.LogInformation("Setting window size {width} x {height}", width.Value, height.Value);
                 await appShell.SetSizeAsync(width.Value, height.Value);
             }
 
