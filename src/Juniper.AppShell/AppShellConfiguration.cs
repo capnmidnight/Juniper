@@ -10,21 +10,26 @@ public static class AppShellConfiguration
 {
     private static bool NoWebView => Environment.GetCommandLineArgs().Contains("--no-webview");
     /// <summary>
-    /// Registers a service that opens a window constructed by the provided <typeparamref name="AppShellWindowFactoryT"/> factory.
+    /// Registers a service that opens a window constructed by the provided <typeparamref name="AppShellFactoryT"/> factory.
     /// </summary>
-    /// <typeparam name="AppShellWindowFactoryT">A concrete instance of the <see cref="IAppShellFactory"/> interface </typeparam>
+    /// <typeparam name="AppShellFactoryT">A concrete instance of the <see cref="IAppShellFactory"/> interface </typeparam>
     /// <param name="appBuilder"></param>
     /// <returns><paramref name="appBuilder"/></returns>
-    public static WebApplicationBuilder ConfigureJuniperAppShell<AppShellWindowFactoryT>(this WebApplicationBuilder appBuilder, AppShellOptions? options = null)
-        where AppShellWindowFactoryT : class, IAppShellFactory, new()
+    public static WebApplicationBuilder ConfigureJuniperAppShell<AppShellFactoryT>(this WebApplicationBuilder appBuilder, AppShellOptions? options = null)
+        where AppShellFactoryT : class, IAppShellFactory, new()
     {
         if (NoWebView)
         {
             return appBuilder;
         }
 
+        // We have to manually instruct the system to search for the AppShellController
+        // because the optimized Release build would otherwise elide the code, as there
+        // would be no physical reference to it anywhere and would look like dead-code.
         appBuilder.Services.AddControllers().AddApplicationPart(typeof(AppShellController).Assembly);
 
+        
+        // <Normalize the options>
         appBuilder.Services.Configure<AppShellOptions>(appBuilder.Configuration.GetSection(AppShellOptions.AppShell));
         if (options is not null)
         {
@@ -49,28 +54,37 @@ public static class AppShellConfiguration
                 }
             });
         }
+        // </Normalize the options>
 
+
+        // Limit AppShell programs to listening on LocalHost, so they don't accidentally
+        // open whole in the user's system.
         appBuilder.Services.Configure<HostFilteringOptions>(options =>
         {
             options.AllowedHosts = new[] { "127.0.0.1" };
         });
 
+        // Specifying port 0 here instructs the OS to assign a random port so we don't
+        // clash with any other AppShell and/or Electron apps on the system.
         appBuilder.WebHost.UseUrls("http://127.0.0.1:0");
 
         appBuilder.Services
-            .AddSingleton<AppShellWindowFactoryT>()
+            
+            // Make the service provider instantiate the factory...
+            .AddSingleton<AppShellFactoryT>()
+            // ... so that it's available for DI in the AppShellService.
             .AddSingleton<IAppShellFactory>(serviceProvider =>
-                serviceProvider.GetRequiredService<AppShellWindowFactoryT>())
-            // Give DI the class it needs to create
+                serviceProvider.GetRequiredService<AppShellFactoryT>())
+
+
+            // Make the service provider instantiate the service...
             .AddSingleton<AppShellService>()
-            // Give DI an alias that other DI consumers can use to request the service without
-            // knowing the specific type of `AppShellWindowFactorT`
-            .AddSingleton<IAppShellService>(serviceProvider =>
-                serviceProvider.GetRequiredService<AppShellService>())
-            // Give DI an alias that other DI consumers can use to request the app shell without
-            // knowing the specific type of `AppShellWindowFactorT`
+            // ... so that it's available for DI to other resources
+            // so that it can forward method calls to the AppShell
             .AddSingleton<IAppShell>(serviceProvider =>
                 serviceProvider.GetRequiredService<AppShellService>())
+
+
             // Queue the service for execution after the server has started.
             .AddHostedService(serviceProvider =>
                 serviceProvider.GetRequiredService<AppShellService>());

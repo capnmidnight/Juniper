@@ -11,6 +11,12 @@ public partial class WpfAppShell : Window, IAppShell
         InitializeComponent();
         WebView.ZoomFactorChanged += delegate
         {
+            // This event will fire whenever the user changes zoom factor (e.g.,
+            // by typing CTRL+PLUS/CTRL+MINUS, or doing CTRL-MOUSE_WHEEL).
+            // But WebView2 doesn't persist user-selected zoom factor between
+            // page loads. So we read the current (user-selected) zoom factor
+            // and set it to be (program-selected) zoom factor and now it will
+            // persist between page loads.
             WebView.ZoomFactor = WebView.ZoomFactor;
         };
     }
