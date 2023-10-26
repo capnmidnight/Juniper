@@ -8,7 +8,6 @@ main {
 }
 
     main > nav {
-        width: 25rem;
         flex-grow: 0;
     }
 
@@ -38,17 +37,23 @@ main {
     overflow: visible;
     padding: 0;
     opacity: 0;
+    pointer-events: none;
     transition: opacity .2s;
 }
 
     .scrollIndicator.top {
         top: 0;
-        margin-bottom: -32pt;
+        margin-bottom: -48pt;
     }
 
     .scrollIndicator.bottom {
         bottom: 0;
-        margin-top: -32pt;
+        margin-top: -48pt;
+    }
+
+    .scrollIndicator.visible {
+        opacity: 1;
+        pointer-events: auto;
     }
 
 #utilColumn {

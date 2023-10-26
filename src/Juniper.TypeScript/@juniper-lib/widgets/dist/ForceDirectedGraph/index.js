@@ -3,6 +3,91 @@ import { Tau } from "@juniper-lib/tslib/dist/math";
 import { ForceDirectedNode } from "./ForceDirectedNode";
 import "./index.css";
 const size = 20;
+function elementComputeBounds(element, cache) {
+    if (cache && cache.has(element)) {
+        return cache.get(element);
+    }
+    const boundingRect = element.getBoundingClientRect();
+    const styles = getComputedStyle(element);
+    if (boundingRect.width * boundingRect.height === 0 || styles.display === "none") {
+        return null;
+    }
+    const sMarginTop = parseFloat(styles.marginTop);
+    const sMarginRight = parseFloat(styles.marginRight);
+    const sMarginBottom = parseFloat(styles.marginBottom);
+    const sMarginLeft = parseFloat(styles.marginLeft);
+    const sPaddingTop = parseFloat(styles.paddingTop);
+    const sPaddingRight = parseFloat(styles.paddingRight);
+    const sPaddingBottom = parseFloat(styles.paddingBottom);
+    const sPaddingLeft = parseFloat(styles.paddingLeft);
+    const sBorderTop = parseFloat(styles.borderTopWidth);
+    const sBorderRight = parseFloat(styles.borderRightWidth);
+    const sBorderBottom = parseFloat(styles.borderBottomWidth);
+    const sBorderLeft = parseFloat(styles.borderLeftWidth);
+    const borderLeft = boundingRect.x;
+    const borderTop = boundingRect.y;
+    const borderWidth = boundingRect.width;
+    const borderHeight = boundingRect.height;
+    const borderRight = borderLeft + borderWidth;
+    const borderBottom = borderTop + borderHeight;
+    const marginLeft = borderLeft - sMarginLeft;
+    const marginTop = borderTop - sMarginTop;
+    const paddingLeft = borderLeft + sBorderLeft;
+    const paddingTop = borderTop + sBorderTop;
+    const interiorLeft = paddingLeft + sPaddingLeft;
+    const interiorTop = paddingTop + sPaddingTop;
+    const marginRight = borderRight + sMarginRight;
+    const marginBottom = borderBottom + sMarginBottom;
+    const paddingRight = borderRight - sBorderRight;
+    const paddingBottom = borderBottom - sBorderBottom;
+    const interiorRight = paddingRight - sPaddingRight;
+    const interiorBottom = paddingBottom - sPaddingBottom;
+    const marginWidth = marginRight - marginLeft;
+    const marginHeight = marginBottom - marginTop;
+    const paddingWidth = paddingRight - paddingLeft;
+    const paddingHeight = paddingBottom - paddingTop;
+    const interiorWidth = interiorRight - interiorLeft;
+    const interiorHeight = interiorBottom - interiorTop;
+    const bounds = {
+        styles,
+        margin: {
+            left: marginLeft,
+            right: marginRight,
+            top: marginTop,
+            bottom: marginBottom,
+            width: marginWidth,
+            height: marginHeight
+        },
+        border: {
+            left: borderLeft,
+            top: borderTop,
+            right: borderRight,
+            bottom: borderBottom,
+            width: borderWidth,
+            height: borderHeight
+        },
+        padding: {
+            left: paddingLeft,
+            top: paddingTop,
+            right: paddingRight,
+            bottom: paddingBottom,
+            width: paddingWidth,
+            height: paddingHeight
+        },
+        interior: {
+            left: interiorLeft,
+            top: interiorTop,
+            right: interiorRight,
+            bottom: interiorBottom,
+            width: interiorWidth,
+            height: interiorHeight
+        }
+    };
+    if (cache) {
+        cache.set(element, bounds);
+    }
+    return bounds;
+}
 export class ForceDirectedGraph {
     get running() { return this._running; }
     get w() {
@@ -142,13 +227,20 @@ export class ForceDirectedGraph {
         this.g.save();
         this.g.translate(size, size);
         this.g.scale(devicePixelRatio, devicePixelRatio);
+        const boundsCache = new Map();
         for (const n1 of this.graph.values()) {
             const p1 = n1.position;
+            const bounds1 = elementComputeBounds(n1.element, boundsCache);
+            const sx = p1[0] + bounds1.interior.width / 2;
+            const sy = p1[1] + bounds1.interior.height / 2;
             for (const node2 of n1.connections) {
                 const p2 = node2.position;
+                const bounds2 = elementComputeBounds(node2.element, boundsCache);
+                const ex = p2[0] + bounds2.interior.width / 2;
+                const ey = p2[1] + bounds2.interior.height / 2;
                 this.g.beginPath();
-                this.g.moveTo(p1[0], p1[1]);
-                this.g.lineTo(p2[0], p2[1]);
+                this.g.moveTo(sx, sy);
+                this.g.lineTo(ex, ey);
                 this.g.stroke();
             }
         }

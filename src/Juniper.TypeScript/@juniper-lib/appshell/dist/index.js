@@ -43,10 +43,8 @@ export class AppShell {
         function indicateScroll() {
             const scrollTopVisible = article.scrollTop > 25;
             const scrollBottomVisible = (article.scrollTop + article.clientHeight) < article.scrollHeight - 25;
-            scrollToTop.style.opacity = scrollTopVisible ? "1" : "0";
-            scrollToTop.style.pointerEvents = scrollTopVisible ? "" : "none";
-            scrollToBottom.style.opacity = scrollBottomVisible ? "1" : "0";
-            scrollToBottom.style.pointerEvents = scrollBottomVisible ? "" : "none";
+            scrollToTop.classList.toggle("visible", scrollTopVisible);
+            scrollToBottom.classList.toggle("visible", scrollBottomVisible);
         }
         scrollToTop.addEventListener("click", () => article.scroll({
             behavior: "smooth",

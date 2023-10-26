@@ -6,9 +6,9 @@ import "./nav.css";
 export declare class AppShell {
     private readonly fetcher;
     constructor(fetcher: IFetcher);
-    maximize(): Promise<import("@juniper-lib/fetcher/dist/IResponse").IResponse<void>>;
-    minimize(): Promise<import("@juniper-lib/fetcher/dist/IResponse").IResponse<void>>;
-    setMenuHidden(hidden: boolean): Promise<import("@juniper-lib/fetcher/dist/IResponse").IResponse<void>>;
+    maximize(): Promise<import("@juniper-lib/fetcher/src/IResponse").IResponse<void>>;
+    minimize(): Promise<import("@juniper-lib/fetcher/src/IResponse").IResponse<void>>;
+    setMenuHidden(hidden: boolean): Promise<import("@juniper-lib/fetcher/src/IResponse").IResponse<void>>;
     getCanGoBack(): Promise<boolean>;
     getCanGoForward(): Promise<boolean>;
     setMenuUI(mainNav: HTMLElement, button: HTMLButtonElement): void;
