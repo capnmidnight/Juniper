@@ -2,6 +2,8 @@ main > nav {
     position: relative;
     transition: width .2s;
     overflow-x: hidden;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
     main > nav.hidden {

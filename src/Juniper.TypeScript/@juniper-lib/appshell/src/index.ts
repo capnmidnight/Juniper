@@ -1,3 +1,4 @@
+import { debounce } from "@juniper-lib/events/dist/debounce";
 import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
 import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
 import "./header.css";
@@ -57,6 +58,8 @@ export class AppShell {
             scrollToBottom.classList.toggle("visible", scrollBottomVisible);
         }
 
+        const indScroll = debounce(indicateScroll);
+
         scrollToTop.addEventListener("click", () => article.scroll({
             behavior: "smooth",
             top: 0
@@ -67,7 +70,17 @@ export class AppShell {
             top: article.scrollHeight
         }));
 
-        article.addEventListener("scroll", indicateScroll);
+        article.addEventListener("scroll", indScroll);
+
+        const resizer = new ResizeObserver((evts) => {
+            for (const evt of evts) {
+                if (evt.target === document.body) {
+                    indScroll();
+                }
+            }
+        });
+
+        resizer.observe(document.body);
 
         indicateScroll();
     }

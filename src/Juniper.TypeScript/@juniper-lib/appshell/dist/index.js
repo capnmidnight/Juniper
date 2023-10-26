@@ -1,3 +1,4 @@
+import { debounce } from "@juniper-lib/events/dist/debounce";
 import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
 import "./header.css";
 import "./index.css";
@@ -46,6 +47,7 @@ export class AppShell {
             scrollToTop.classList.toggle("visible", scrollTopVisible);
             scrollToBottom.classList.toggle("visible", scrollBottomVisible);
         }
+        const indScroll = debounce(indicateScroll);
         scrollToTop.addEventListener("click", () => article.scroll({
             behavior: "smooth",
             top: 0
@@ -54,7 +56,15 @@ export class AppShell {
             behavior: "smooth",
             top: article.scrollHeight
         }));
-        article.addEventListener("scroll", indicateScroll);
+        article.addEventListener("scroll", indScroll);
+        const resizer = new ResizeObserver((evts) => {
+            for (const evt of evts) {
+                if (evt.target === document.body) {
+                    indScroll();
+                }
+            }
+        });
+        resizer.observe(document.body);
         indicateScroll();
     }
     setHistoryUI(backButton, fwdButton) {

@@ -4,6 +4,7 @@
     "./src/**/*.ts"
   ],
   "references": [
+    { "path": "../events" },
     { "path": "../fetcher" },
     { "path": "../tslib" }
   ],

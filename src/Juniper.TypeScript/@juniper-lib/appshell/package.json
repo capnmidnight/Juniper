@@ -16,6 +16,7 @@
     "juniper-build": "npm run build"
   },
   "dependencies": {
+    "@juniper-lib/events": "file:../events",
     "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/tslib": "file:../tslib"
   }

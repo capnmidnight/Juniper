@@ -7,10 +7,6 @@ main {
     align-items: stretch;
 }
 
-    main > nav {
-        flex-grow: 0;
-    }
-
 #content {
     flex-grow: 1;
     display: flex;
@@ -43,12 +39,12 @@ main {
 
     .scrollIndicator.top {
         top: 0;
-        margin-bottom: -48pt;
+        margin-bottom: -36pt;
     }
 
     .scrollIndicator.bottom {
         bottom: 0;
-        margin-top: -48pt;
+        margin-top: -36pt;
     }
 
     .scrollIndicator.visible {
