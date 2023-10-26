@@ -181,6 +181,7 @@ export class ForceDirectedGraph<T> {
 
         this.g.save();
         this.g.translate(size, size);
+        this.g.scale(devicePixelRatio, devicePixelRatio);
 
         for (const n1 of this.graph.values()) {
             const p1 = n1.position;
