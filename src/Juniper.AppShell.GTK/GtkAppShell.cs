@@ -3,19 +3,70 @@
 using Gtk;
 using WebKit;
 
-public class GtkAppShell : Window, IAppShell
+public class GtkAppShell : FixedWindow, IAppShell
 {
     private readonly WebView webView;
     private readonly TaskCompletionSource deletedTask = new();
-    private readonly TaskCompletionSource<WebView> createdTask = new();
+
+    private bool isCtrl = false;
+    private bool isR = false;
+
     public GtkAppShell()
     : base("Juniper AppShell")
     {
-        SetSizeRequest(800, 600);
-        webView = new WebView();
-        Add(webView);
+        AddEvents(
+            Gdk.EventMask.KeyReleaseMask
+            | Gdk.EventMask.KeyPressMask
+        );
 
-        DeleteEvent += delegate { deletedTask.SetResult(); };
+        webView = new WebView
+        {
+            Events = Events
+        };
+
+        Add(webView);
+        SetSizeRequest(800, 600);
+    }
+    protected override bool OnDeleteEvent(Gdk.Event evnt)
+    {
+        deletedTask.SetResult();
+        return base.OnDeleteEvent(evnt);
+    }
+
+    protected override bool OnKeyPressEvent(Gdk.EventKey evnt)
+    {
+        if (evnt.Key == Gdk.Key.Control_L
+           || evnt.Key == Gdk.Key.Control_R)
+        {
+            isCtrl = true;
+        }
+        else if (evnt.Key == Gdk.Key.r)
+        {
+            isR = true;
+        }
+        return base.OnKeyPressEvent(evnt);
+    }
+
+    protected override bool OnKeyReleaseEvent(Gdk.EventKey evnt)
+    {
+        var wasCtrl = isCtrl;
+        var wasR = isR;
+        var wasReload = wasCtrl && wasR;
+        if (evnt.Key == Gdk.Key.Control_L
+           || evnt.Key == Gdk.Key.Control_R)
+        {
+            isCtrl = false;
+        }
+        else if (evnt.Key == Gdk.Key.r)
+        {
+            isR = false;
+        }
+        var isReload = isCtrl && isR;
+        if (wasReload && !isReload)
+        {
+            webView.Reload();
+        }
+        return base.OnKeyReleaseEvent(evnt);
     }
 
     private static Task<T> Do<T>(Func<T> action)
@@ -26,6 +77,28 @@ public class GtkAppShell : Window, IAppShell
             completer.SetResult(action());
         });
         return completer.Task;
+    }
+
+    private static async Task<T> Do<T>(Func<Task<T>> action)
+    {
+        var completer = new TaskCompletionSource<Task<T>>();
+        Application.Invoke(delegate
+        {
+            completer.SetResult(action());
+        });
+        var task = await completer.Task;
+        return await task;
+    }
+
+    private static async Task Do(Func<Task> action)
+    {
+        var completer = new TaskCompletionSource<Task>();
+        Application.Invoke(delegate
+        {
+            completer.SetResult(action());
+        });
+        var task = await completer.Task;
+        await task;
     }
 
     private static Task Do(System.Action action)
@@ -66,11 +139,10 @@ public class GtkAppShell : Window, IAppShell
     public Task SetSizeAsync(int width, int height) =>
         Do(() => Resize(width, height));
 
-    public Task SetSourceAsync(Uri source)
-    {
-        var task = new TaskCompletionSource();
-        Application.Invoke(delegate
+    public Task SetSourceAsync(Uri source) =>
+        Do(() =>
         {
+            var task = new TaskCompletionSource();
             void cleanup()
             {
                 webView.LoadChanged -= onLoad;
@@ -96,9 +168,8 @@ public class GtkAppShell : Window, IAppShell
             webView.LoadFailed += onError;
 
             webView.LoadUri(source.ToString());
+            return task.Task;
         });
-        return task.Task;
-    }
 
     public Task SetTitleAsync(string title) =>
         Do(() => Title = title);
