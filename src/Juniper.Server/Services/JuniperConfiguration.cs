@@ -84,6 +84,13 @@ public static class JuniperConfiguration
             builder.Services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
         }
 
+        builder.Services
+            .AddSingleton<PortDiscoveryService>()
+            .AddSingleton<IPortDiscoveryService>(serviceProvider =>
+                serviceProvider.GetRequiredService<PortDiscoveryService>())
+            .AddHostedService(serviceProvider =>
+                serviceProvider.GetRequiredService<PortDiscoveryService>());
+
         builder.Services.Configure<KestrelServerOptions>(options =>
             options.AllowSynchronousIO = false);
 

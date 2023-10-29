@@ -24,6 +24,7 @@ namespace Juniper.AppShell
                 {
                     case "minimize": await appShell.MinimizeAsync(); return false;
                     case "maximize": return await appShell.ToggleExpandedAsync();
+                    case "close": await appShell.CloseAsync(); return false;
                 }
             }
 
@@ -32,7 +33,7 @@ namespace Juniper.AppShell
 
         private Task Do(Func<IAppShell, Task> func)
         {
-            if(appShell is null)
+            if (appShell is null)
             {
                 throw new Exception("AppShell is not available");
             }
@@ -81,10 +82,11 @@ namespace Juniper.AppShell
         public async Task<IActionResult> SetSizeAsync([FromBody] string sizeExpr)
         {
             var parts = sizeExpr.Split('x');
-            if(appShell is null
+            if (appShell is null
                 || parts.Length != 2
                 || !int.TryParse(parts[0], out var width)
-                || !int.TryParse(parts[1], out var height)) {
+                || !int.TryParse(parts[1], out var height))
+            {
                 return BadRequest();
             }
 
@@ -104,6 +106,7 @@ namespace Juniper.AppShell
         public Task<bool> ToggleExpandedAsync() =>
             Do(appShell => appShell.ToggleExpandedAsync());
 
+        [HttpPost("close")]
         public Task CloseAsync() =>
             Do(appShell => appShell.CloseAsync());
 

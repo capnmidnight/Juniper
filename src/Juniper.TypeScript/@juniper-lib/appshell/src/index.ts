@@ -11,6 +11,12 @@ export class AppShell {
 
     }
 
+    close() {
+        alert("closing");
+        return this.fetcher.post("/api/appshell/close")
+            .exec();
+    }
+
     maximize() {
         return this.fetcher.post("/api/appshell/maximize")
             .exec();
@@ -47,6 +53,13 @@ export class AppShell {
             localStorage.setItem("menuHidden", hidden ? "true" : "false");
             this.setMenuHidden(hidden);
         });
+    }
+
+    setCloseButton(button: HTMLButtonElement) {
+        console.log({button});
+        button.addEventListener("click", () =>
+            this.close()
+        );
     }
 
     setBodyUI(scrollToTop: HTMLButtonElement, scrollToBottom: HTMLButtonElement, article: HTMLElement) {

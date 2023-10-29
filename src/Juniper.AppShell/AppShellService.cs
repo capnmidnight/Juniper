@@ -1,7 +1,6 @@
-﻿using Juniper.TSBuild;
+﻿using Juniper.Services;
+using Juniper.TSBuild;
 
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -20,23 +19,21 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
     private readonly TaskCompletionSource appStarting = new();
     private readonly TaskCompletionSource appStopping = new();
     private readonly CancellationTokenSource serviceCanceller = new();
-    private readonly TaskCompletionSource<Uri> addressFetching = new();
     private readonly TaskCompletionSource<IAppShell> appShellCreating = new();
     private readonly IAppShellFactory factory;
-
-    private readonly IServiceProvider services;
     private readonly IOptions<AppShellOptions> options;
     private readonly ILogger logger;
     private readonly IHostApplicationLifetime lifetime;
+    private readonly IPortDiscoveryService portDiscovery;
     private readonly IBuildSystemService? buildSystem;
 
-    public AppShellService(IAppShellFactory factory, IServiceProvider services, IHostApplicationLifetime lifetime, IOptions<AppShellOptions> options, ILogger<AppShellService> logger)
+    public AppShellService(IAppShellFactory factory, IServiceProvider services, IHostApplicationLifetime lifetime, IOptions<AppShellOptions> options, ILogger<AppShellService> logger, IPortDiscoveryService portDiscovery)
     {
         this.factory = factory;
-        this.services = services;
         this.options = options;
         this.logger = logger;
         this.lifetime = lifetime;
+        this.portDiscovery = portDiscovery;
         buildSystem = services.GetService<IBuildSystemService>();
 
         lifetime.ApplicationStarted.Register(() =>
@@ -45,43 +42,6 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
         });
 
         StopOn(lifetime.ApplicationStopping);
-        _ = StartAppShellAsync();
-    }
-
-    protected override async Task ExecuteAsync(CancellationToken appCancelled)
-    {
-        try
-        {
-            StopOn(appCancelled);
-
-            await Task.WhenAny(
-                appStarting.Task,
-                appStopping.Task
-            );
-
-            if (serviceCanceller.IsCancellationRequested)
-            {
-                return;
-            }
-
-            var address = (services
-                .GetRequiredService<IServer>()
-                .Features
-                ?.Get<IServerAddressesFeature>()
-                ?.Addresses
-                ?.Select(a => new Uri(a))
-                ?.Where(a => a.Scheme.StartsWith("http"))
-                ?.OrderByDescending(v => v.Scheme)
-                ?.FirstOrDefault())
-                ?? throw new Exception("Couldn't get any HTTP addresses.");
-
-            addressFetching.TrySetResult(address);
-        }
-        catch (Exception exp)
-        {
-            logger.LogError(exp, "Couldn't get startup address");
-            addressFetching.TrySetException(exp);
-        }
     }
 
     private void StopOn(CancellationToken cancellationToken)
@@ -98,16 +58,11 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
 
         cancellationToken.Register(() =>
         {
-            addressFetching.TrySetCanceled();
-        });
-
-        cancellationToken.Register(() =>
-        {
             appShellCreating.TrySetCanceled();
         });
     }
 
-    private async Task StartAppShellAsync()
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
@@ -121,19 +76,14 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
                 ? new Uri(applicationURIString)
                 : null;
 
-            var address = await addressFetching.Task;
-
-            if (buildSystem is not null)
-            {
-                await buildSystem.Started;
-            }
+            var address = await portDiscovery.GettingAddress;
 
             logger.LogInformation("Opening AppShell");
             var appShell = await factory.StartAsync(serviceCanceller.Token);
             _ = appStopping.Task.ContinueWith((_) =>
             {
                 _ = appShell.CloseAsync();
-            });
+            }, stoppingToken);
 
             if (title is not null)
             {

@@ -73,7 +73,8 @@ namespace Juniper.Processes
 
             if (command is null)
             {
-                throw new ShellCommandNotFoundException($"Could not find command: {originalCommandName}");
+                var attemptedCommands = string.Join("\n\t", FindCommandPaths(command).ToArray());
+                throw new ShellCommandNotFoundException($"Could not find command: {originalCommandName}. Tried:\n\t{attemptedCommands}");
             }
 
             if (command.Length == 0)

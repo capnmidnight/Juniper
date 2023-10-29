@@ -8,7 +8,11 @@ namespace Juniper.AppShell;
 
 public static class AppShellConfiguration
 {
-    private static bool NoWebView => Environment.GetCommandLineArgs().Contains("--no-webview");
+#if NO_APP_SHELL
+    public static readonly bool NoAppShell = true;
+#else
+    public static bool NoAppShell => Environment.GetCommandLineArgs().Contains("--no-appshell");
+#endif
     /// <summary>
     /// Registers a service that opens a window constructed by the provided <typeparamref name="AppShellFactoryT"/> factory.
     /// </summary>
@@ -18,7 +22,7 @@ public static class AppShellConfiguration
     public static WebApplicationBuilder ConfigureJuniperAppShell<AppShellFactoryT>(this WebApplicationBuilder appBuilder, AppShellOptions? options = null)
         where AppShellFactoryT : class, IAppShellFactory, new()
     {
-        if (NoWebView)
+        if (NoAppShell)
         {
             return appBuilder;
         }
@@ -28,7 +32,7 @@ public static class AppShellConfiguration
         // would be no physical reference to it anywhere and would look like dead-code.
         appBuilder.Services.AddControllers().AddApplicationPart(typeof(AppShellController).Assembly);
 
-        
+
         // <Normalize the options>
         appBuilder.Services.Configure<AppShellOptions>(appBuilder.Configuration.GetSection(AppShellOptions.AppShell));
         if (options is not null)
@@ -37,7 +41,7 @@ public static class AppShellConfiguration
             {
                 oldOpts.SplashScreenPath = options.SplashScreenPath ?? oldOpts.SplashScreenPath;
                 oldOpts.ApplicationURI = options.ApplicationURI ?? oldOpts.ApplicationURI;
-                if(options.Window is not null)
+                if (options.Window is not null)
                 {
                     var oldWindow = oldOpts.Window;
                     oldOpts.Window = options.Window;
@@ -69,7 +73,7 @@ public static class AppShellConfiguration
         appBuilder.WebHost.UseUrls("http://127.0.0.1:0");
 
         appBuilder.Services
-            
+
             // Make the service provider instantiate the factory...
             .AddSingleton<AppShellFactoryT>()
             // ... so that it's available for DI in the AppShellService.
