@@ -1,5 +1,6 @@
 ﻿namespace Juniper.AppShell;
 
+using Gdk;
 using Gtk;
 using WebKit;
 
@@ -8,15 +9,24 @@ public class GtkAppShell : FixedWindow, IAppShell
     private readonly WebView webView;
     private readonly TaskCompletionSource deletedTask = new();
 
+    private bool isIconified = false;
+    private bool isFullscreen = false;
+
     private bool isCtrl = false;
     private bool isR = false;
 
     public GtkAppShell()
     : base("Juniper AppShell")
     {
+        WindowStateEvent += delegate (object? sender, WindowStateEventArgs e)
+        {
+            isIconified = (e.Event.NewWindowState & WindowState.Iconified) != 0;
+            isFullscreen = (e.Event.NewWindowState & WindowState.Fullscreen) != 0;
+        };
+
         AddEvents(
-            Gdk.EventMask.KeyReleaseMask
-            | Gdk.EventMask.KeyPressMask
+            EventMask.KeyReleaseMask
+            | EventMask.KeyPressMask
         );
 
         webView = new WebView
@@ -112,32 +122,22 @@ public class GtkAppShell : FixedWindow, IAppShell
         return completer.Task;
     }
 
+    /////////////////
+    //// CLOSING ////
+    /////////////////
+
     public Task CloseAsync() =>
         Do(Close);
 
     public Task WaitForCloseAsync() =>
         deletedTask.Task;
 
-    public Task<bool> GetCanGoBackAsync() =>
-        Do(webView.CanGoBack);
-
-    public Task<bool> GetCanGoForwardAsync() =>
-        Do(webView.CanGoForward);
+    ////////////////
+    //// SOURCE ////
+    ////////////////
 
     public Task<Uri> GetSourceAsync() =>
         Do(() => new Uri(webView.Uri));
-
-    public Task<string> GetTitleAsync() =>
-        Do(() => Title);
-
-    public Task MaximizeAsync() =>
-        Do(Maximize);
-
-    public Task MinimizeAsync() =>
-        Do(Iconify);
-
-    public Task SetSizeAsync(int width, int height) =>
-        Do(() => Resize(width, height));
 
     public Task SetSourceAsync(Uri source) =>
         Do(() =>
@@ -171,21 +171,116 @@ public class GtkAppShell : FixedWindow, IAppShell
             return task.Task;
         });
 
+    ///////////////
+    //// TITLE ////
+    ///////////////
+
+    public Task<string> GetTitleAsync() =>
+        Do(() => Title);
+
     public Task SetTitleAsync(string title) =>
         Do(() => Title = title);
 
-    public Task<bool> ToggleExpandedAsync() =>
+    /////////////////
+    //// HISTORY ////
+    /////////////////
+
+    public Task<bool> GetCanGoBackAsync() =>
+        Do(webView.CanGoBack);
+
+    public Task<bool> GetCanGoForwardAsync() =>
+        Do(webView.CanGoForward);
+
+    //////////////
+    //// SIZE ////
+    //////////////
+
+    public Task<Juniper.Size> GetSizeAsync() =>
         Do(() =>
         {
-            if (IsMaximized)
+            GetSize(out var width, out var height);
+            return new Juniper.Size(width, height);
+        });
+
+    public Task SetSizeAsync(int width, int height) =>
+        Do(() => Resize(width, height));
+
+    ////////////////////
+    //// Fullscreen ////
+    ////////////////////
+
+    public Task<bool> GetIsFullscreenAsync() =>
+        Do(() => isFullscreen);
+
+    public Task SetIsFullscreenAsync(bool isFullscreen) =>
+        Do(() =>
+        {
+            if (this.isFullscreen != isFullscreen)
             {
-                Deiconify();
-                return false;
+                if (isFullscreen)
+                {
+                    Fullscreen();
+                }
+                else
+                {
+                    Unfullscreen();
+                }
             }
-            else
+        });
+
+    ////////////////////
+    //// BORDERLESS ////
+    ////////////////////
+
+    public Task<bool> GetIsBorderlessAsync() =>
+        Do(() => Decorated);
+
+    public Task SetIsBorderlessAsync(bool isBorderless) =>
+        Do(() => Decorated = !isBorderless);
+
+    ///////////////////
+    //// MAXIMIZED ////
+    ///////////////////
+
+    public Task<bool> GetIsMaximizedAsync() =>
+        Do(() => IsMaximized);
+
+    public Task SetIsMaximizedAsync(bool isMaximized) =>
+        Do(() =>
+        {
+            if (IsMaximized != isMaximized)
             {
-                Maximize();
-                return true;
+                if (isMaximized)
+                {
+                    Maximize();
+                }
+                else
+                {
+                    Unmaximize();
+                }
+            }
+        });
+
+    ///////////////////
+    //// MINIMIZED ////
+    ///////////////////
+
+    public Task<bool> GetIsMinimizedAsync() =>
+        Do(() => isIconified);
+
+    public Task SetIsMinimizedAsync(bool isMinimized) =>
+        Do(() =>
+        {
+            if (isIconified != isMinimized)
+            {
+                if (isMinimized)
+                {
+                    Iconify();
+                }
+                else
+                {
+                    Deiconify();
+                }
             }
         });
 }

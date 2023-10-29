@@ -14,6 +14,8 @@ public class AppShellOptions
 public class AppShellWindowOptions
 {
     public string? Title { get; set; } = null;
+    public bool? Fullscreen { get; set; } = null;
+    public bool? Borderless { get; set; } = null;
     public bool? Maximized { get; set; } = null;
     public AppShellWindowSizeOption? Size { get; set; } = null;
 }

@@ -15,22 +15,6 @@ namespace Juniper.AppShell
             appShell = services.GetService<IAppShell>();
         }
 
-        [HttpPost("action")]
-        public async Task<bool> Act([FromBody] string actionName)
-        {
-            if (appShell is not null)
-            {
-                switch (actionName)
-                {
-                    case "minimize": await appShell.MinimizeAsync(); return false;
-                    case "maximize": return await appShell.ToggleExpandedAsync();
-                    case "close": await appShell.CloseAsync(); return false;
-                }
-            }
-
-            return false;
-        }
-
         private Task Do(Func<IAppShell, Task> func)
         {
             if (appShell is null)
@@ -51,13 +35,20 @@ namespace Juniper.AppShell
             return func(appShell);
         }
 
-        [HttpGet("title")]
-        public Task<string> GetTitleAsync() =>
-            Do(appShell => appShell.GetTitleAsync());
+        /////////////////
+        //// CLOSING ////
+        /////////////////
 
-        [HttpPost("title")]
-        public Task SetTitleAsync([FromBody] string title) =>
-            Do(appShell => appShell.SetTitleAsync(title));
+        [HttpPost("close")]
+        public Task CloseAsync() =>
+            Do(appShell => appShell.CloseAsync());
+
+        Task IAppShell.WaitForCloseAsync() =>
+            Do(appShell => appShell.WaitForCloseAsync());
+
+        ////////////////
+        //// SOURCE ////
+        ////////////////
 
         [HttpGet("source")]
         public Task<Uri> GetSourceAsync() =>
@@ -67,6 +58,22 @@ namespace Juniper.AppShell
         public Task SetSourceAsync([FromBody] Uri source) =>
             Do(appShell => appShell.SetSourceAsync(source));
 
+        ///////////////
+        //// TITLE ////
+        ///////////////
+
+        [HttpGet("title")]
+        public Task<string> GetTitleAsync() =>
+            Do(appShell => appShell.GetTitleAsync());
+
+        [HttpPost("title")]
+        public Task SetTitleAsync([FromBody] string title) =>
+            Do(appShell => appShell.SetTitleAsync(title));
+
+        /////////////////
+        //// HISTORY ////
+        /////////////////
+
         [HttpGet("cangoback")]
         public Task<bool> GetCanGoBackAsync() =>
             Do(appShell => appShell.GetCanGoBackAsync());
@@ -74,6 +81,21 @@ namespace Juniper.AppShell
         [HttpGet("cangoforward")]
         public Task<bool> GetCanGoForwardAsync() =>
             Do(appShell => appShell.GetCanGoForwardAsync());
+
+        //////////////
+        //// SIZE ////
+        //////////////
+
+        Task<Size> IAppShell.GetSizeAsync() =>
+            Do(appShell => appShell.GetSizeAsync());
+
+        [HttpGet("size")]
+        public Task<string> GetSizeAsync() =>
+            Do(async appShell =>
+            {
+                var size = await appShell.GetSizeAsync();
+                return $"{size.Width}x{size.Height}";
+            });
 
         Task IAppShell.SetSizeAsync(int width, int height) =>
             Do(appShell => appShell.SetSizeAsync(width, height));
@@ -94,24 +116,57 @@ namespace Juniper.AppShell
             return Ok();
         }
 
-        [HttpPost("maximize")]
-        public Task MaximizeAsync() =>
-            Do(appShell => appShell.MaximizeAsync());
+        ////////////////////
+        //// FULLSCREEN ////
+        ////////////////////
 
-        [HttpPost("minimize")]
-        public Task MinimizeAsync() =>
-            Do(appShell => appShell.MinimizeAsync());
+        [HttpGet("fullscreen")]
+        public Task<bool> GetIsFullscreenAsync() =>
+            Do(appShell => appShell.GetIsFullscreenAsync());
 
-        [HttpPost("toggleexpanded")]
-        public Task<bool> ToggleExpandedAsync() =>
-            Do(appShell => appShell.ToggleExpandedAsync());
+        [HttpPost("fullscreen")]
+        public Task SetIsFullscreenAsync([FromBody] bool isFullscreen) =>
+            Do(appShell => appShell.SetIsFullscreenAsync(isFullscreen));
 
-        [HttpPost("close")]
-        public Task CloseAsync() =>
-            Do(appShell => appShell.CloseAsync());
+        ////////////////////
+        //// BORDERLESS ////
+        ////////////////////
 
-        Task IAppShell.WaitForCloseAsync() =>
-            Do(appShell => appShell.WaitForCloseAsync());
+        [HttpGet("borderless")]
+        public Task<bool> GetIsBorderlessAsync() =>
+            Do(appShell => appShell.GetIsBorderlessAsync());
+
+        [HttpPost("borderless")]
+        public Task SetIsBorderlessAsync([FromBody] bool isBorderless) =>
+            Do(appShell => appShell.SetIsBorderlessAsync(isBorderless));
+
+        ///////////////////
+        //// MAXIMIZED ////
+        ///////////////////
+
+        [HttpGet("maximized")]
+        public Task<bool> GetIsMaximizedAsync() =>
+            Do(appShell => appShell.GetIsMaximizedAsync());
+
+        [HttpPost("maximized")]
+        public Task SetIsMaximizedAsync([FromBody] bool isMaximized) =>
+            Do(appShell => appShell.SetIsMaximizedAsync(isMaximized));
+
+        ///////////////////
+        //// MINIMIZED ////
+        ///////////////////
+
+        [HttpGet("minimized")]
+        public Task<bool> GetIsMinimizedAsync() =>
+            Do(appShell => appShell.GetIsMinimizedAsync());
+
+        [HttpPost("minimized")]
+        public Task SetIsMinimizedAsync([FromBody] bool isMinimized) =>
+            Do(appShell => appShell.SetIsMinimizedAsync(isMinimized));
+
+        ///////////////////
+        //// HIDE MENU ////
+        ///////////////////
 
         [HttpPost("hidemenu")]
         public void HideMenu([FromBody] string hidden)

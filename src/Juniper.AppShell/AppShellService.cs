@@ -67,7 +67,9 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
         try
         {
             var title = options.Value.Window?.Title;
-            var maximize = options.Value.Window?.Maximized;
+            var fullscreen = options.Value.Window?.Fullscreen;
+            var borderless = options.Value.Window?.Borderless;
+            var maximized = options.Value.Window?.Maximized;
             var width = options.Value.Window?.Size?.Width;
             var height = options.Value.Window?.Size?.Height;
             var splash = options.Value.SplashScreenPath;
@@ -91,6 +93,18 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
                 await appShell.SetTitleAsync(title);
             }
 
+            if (fullscreen is not null)
+            {
+                logger.LogInformation("Setting window fullscreen: \"{fullscreen}\"", fullscreen);
+                await appShell.SetIsFullscreenAsync(fullscreen.Value);
+            }
+
+            if (borderless is not null)
+            {
+                logger.LogInformation("Setting window borderless: \"{borderless}\"", borderless);
+                await appShell.SetIsBorderlessAsync(borderless.Value);
+            }
+
             if (splash is not null)
             {
                 var splashURI = new Uri(address, splash);
@@ -109,10 +123,10 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
             logger.LogInformation("Showing final page {URI}", finalURI);
             await appShell.SetSourceAsync(finalURI);
 
-            if (maximize is not null)
+            if (maximized is not null)
             {
                 logger.LogInformation("Maximizing window");
-                await appShell.MaximizeAsync();
+                await appShell.SetIsMaximizedAsync(maximized.Value);
             }
             else if (width is not null && height is not null)
             {
@@ -146,27 +160,9 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
     private async Task<T> Do<T>(Func<IAppShell, Task<T>> action) =>
         await action(await appShellCreating.Task);
 
-
-    public Task<Uri> GetSourceAsync() =>
-        Do(appShell => appShell.GetSourceAsync());
-
-    public Task SetSourceAsync(Uri value) =>
-        Do(appShell => appShell.SetSourceAsync(value));
-
-    public Task<string> GetTitleAsync() =>
-        Do(appShell => appShell.GetTitleAsync());
-
-    public Task SetTitleAsync(string title) =>
-        Do(appShell => appShell.SetTitleAsync(title));
-
-    public Task<bool> GetCanGoBackAsync() =>
-        Do(appShell => appShell.GetCanGoBackAsync());
-
-    public Task<bool> GetCanGoForwardAsync() =>
-        Do(appShell => appShell.GetCanGoForwardAsync());
-
-    public Task SetSizeAsync(int width, int height) =>
-        Do(appShell => appShell.SetSizeAsync(width, height));
+    /////////////////
+    //// CLOSING ////
+    /////////////////
 
     public Task CloseAsync() =>
         Do(appShell => appShell.CloseAsync());
@@ -174,12 +170,83 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
     public Task WaitForCloseAsync() =>
         Do(appShell => appShell.WaitForCloseAsync());
 
-    public Task MaximizeAsync() =>
-        Do(appShell => appShell.MaximizeAsync());
+    ////////////////
+    //// SOURCE ////
+    ////////////////
 
-    public Task MinimizeAsync() =>
-        Do(appShell => appShell.MinimizeAsync());
+    public Task<Uri> GetSourceAsync() =>
+        Do(appShell => appShell.GetSourceAsync());
 
-    public Task<bool> ToggleExpandedAsync() =>
-        Do(appShell => appShell.ToggleExpandedAsync());
+    public Task SetSourceAsync(Uri source) =>
+        Do(appShell => appShell.SetSourceAsync(source));
+
+    ///////////////
+    //// TITLE ////
+    ///////////////
+
+    public Task<string> GetTitleAsync() =>
+        Do(appShell => appShell.GetTitleAsync());
+
+    public Task SetTitleAsync(string title) =>
+        Do(appShell => appShell.SetTitleAsync(title));
+
+    /////////////////
+    //// HISTORY ////
+    /////////////////
+
+    public Task<bool> GetCanGoBackAsync() =>
+        Do(appShell => appShell.GetCanGoBackAsync());
+
+    public Task<bool> GetCanGoForwardAsync() =>
+        Do(appShell => appShell.GetCanGoForwardAsync());
+
+    //////////////
+    //// SIZE ////
+    //////////////
+
+    public Task<Size> GetSizeAsync() =>
+        Do(appShell => appShell.GetSizeAsync());
+
+    public Task SetSizeAsync(int width, int height) =>
+        Do(appShell => appShell.SetSizeAsync(width, height));
+
+    ////////////////////
+    //// FULLSCREEN ////
+    ////////////////////
+
+    public Task<bool> GetIsFullscreenAsync() =>
+        Do(appShell => appShell.GetIsFullscreenAsync());
+
+    public Task SetIsFullscreenAsync(bool isFullscreen) =>
+        Do(appShell => appShell.SetIsFullscreenAsync(isFullscreen));
+
+    ////////////////////
+    //// BORDERLESS ////
+    ////////////////////
+
+    public Task<bool> GetIsBorderlessAsync() =>
+        Do(appShell => appShell.GetIsBorderlessAsync());
+
+    public Task SetIsBorderlessAsync(bool isBorderless) =>
+        Do(appShell => appShell.SetIsBorderlessAsync(isBorderless));
+
+    ///////////////////
+    //// MAXIMIZED ////
+    ///////////////////
+
+    public Task<bool> GetIsMaximizedAsync() =>
+        Do(appShell => appShell.GetIsMaximizedAsync());
+
+    public Task SetIsMaximizedAsync(bool isMaximized) =>
+        Do(appShell => appShell.SetIsMaximizedAsync(isMaximized));
+
+    ///////////////////
+    //// MINIMIZED ////
+    ///////////////////
+
+    public Task<bool> GetIsMinimizedAsync() =>
+        Do(appShell => appShell.GetIsMinimizedAsync());
+
+    public Task SetIsMinimizedAsync(bool isMinimized) =>
+        Do(appShell => appShell.SetIsMinimizedAsync(isMinimized));
 }

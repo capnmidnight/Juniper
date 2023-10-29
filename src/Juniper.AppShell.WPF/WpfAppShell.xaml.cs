@@ -52,6 +52,39 @@ public partial class WpfAppShell : Window, IAppShell
         await Dispatcher.InvokeAsync(action).Task;
     }
 
+    /////////////////
+    //// CLOSING ////
+    /////////////////
+
+    private readonly TaskCompletionSource closing = new();
+
+    public Task CloseAsync()
+    {
+        try
+        {
+            Dispatcher.Invoke(Close);
+        }
+        catch (TaskCanceledException)
+        {
+            // do nothing
+        }
+        closing.TrySetResult();
+        return Task.CompletedTask;
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        base.OnClosing(e);
+        closing.TrySetResult();
+    }
+
+    public Task WaitForCloseAsync() =>
+        closing.Task;
+
+    ////////////////
+    //// SOURCE ////
+    ////////////////
+
     public Task<Uri> GetSourceAsync() =>
         Do(() => WebView.Source);
 
@@ -84,17 +117,32 @@ public partial class WpfAppShell : Window, IAppShell
         }
     }
 
+    ///////////////
+    //// TITLE ////
+    ///////////////
+
     public Task<string> GetTitleAsync() =>
         Do(() => Title);
 
     public Task SetTitleAsync(string title) =>
         Do(() => Title = title);
 
+    /////////////////
+    //// HISTORY ////
+    /////////////////
+
     public Task<bool> GetCanGoBackAsync() =>
         Do(() => WebView.CanGoBack);
 
     public Task<bool> GetCanGoForwardAsync() =>
         Do(() => WebView.CanGoForward);
+
+    //////////////
+    //// SIZE ////
+    //////////////
+
+    public Task<Size> GetSizeAsync() =>
+        Do(() => new Size((int)Width, (int)Height));
 
     public Task SetSizeAsync(int width, int height) =>
         Do(() =>
@@ -103,39 +151,49 @@ public partial class WpfAppShell : Window, IAppShell
             Height = height;
         });
 
-    public Task MaximizeAsync() =>
-        Do(() => WindowState = WindowState.Maximized);
+    ////////////////////
+    //// FULLSCREEN ////
+    ////////////////////
 
-    public Task MinimizeAsync() =>
-        Do(() => WindowState = WindowState.Minimized);
+    public Task<bool> GetIsFullscreenAsync() =>
+        Do(() => Topmost);
 
-    public Task<bool> ToggleExpandedAsync() =>
-        Do(() => (WindowState = WindowState == WindowState.Normal
-                ? WindowState.Maximized
-                : WindowState.Normal) == WindowState.Maximized);
+    public Task SetIsFullscreenAsync(bool isFullscreen) =>
+        Do(() => Topmost = isFullscreen);
 
-    public Task CloseAsync()
-    {
-        try
-        {
-            Dispatcher.Invoke(Close);
-        }
-        catch (TaskCanceledException)
-        {
-            // do nothing
-        }
-        closing.TrySetResult();
-        return Task.CompletedTask;
-    }
+    ////////////////////
+    //// BORDERLESS ////
+    ////////////////////
 
-    private readonly TaskCompletionSource closing = new();
+    public Task<bool> GetIsBorderlessAsync() =>
+        Do(() => WindowStyle == WindowStyle.None);
 
-    protected override void OnClosing(CancelEventArgs e)
-    {
-        base.OnClosing(e);
-        closing.TrySetResult();
-    }
+    public Task SetIsBorderlessAsync(bool isBorderless) =>
+        Do(() => WindowStyle = isBorderless
+            ? WindowStyle.None
+            : WindowStyle.SingleBorderWindow);
 
-    public Task WaitForCloseAsync() =>
-        closing.Task;
+    ///////////////////
+    //// MAXIMIZED ////
+    ///////////////////
+
+    public Task<bool> GetIsMaximizedAsync() =>
+        Do(() => WindowState == WindowState.Maximized);
+
+    public Task SetIsMaximizedAsync(bool isMaximized) =>
+        Do(() => WindowState = isMaximized
+            ? WindowState.Maximized
+            : WindowState.Normal);
+
+    ///////////////////
+    //// MINIMIZED ////
+    ///////////////////
+
+    public Task<bool> GetIsMinimizedAsync() =>
+        Do(() => WindowState == WindowState.Minimized);
+
+    public Task SetIsMinimizedAsync(bool isMinimized) =>
+        Do(() => WindowState = isMinimized
+            ? WindowState.Minimized
+            : WindowState.Normal);
 }
