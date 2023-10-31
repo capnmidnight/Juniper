@@ -1,82 +1,40 @@
 ﻿namespace Juniper.AppShell;
 
-using Gdk;
 using Gtk;
 using WebKit;
 
 public class GtkAppShell : FixedWindow, IAppShell
 {
-    private readonly WebView webView;
+    private readonly FixedWebView webView;
     private readonly TaskCompletionSource deletedTask = new();
-
-    private bool isIconified = false;
-    private bool isFullscreen = false;
-
-    private bool isCtrl = false;
-    private bool isR = false;
 
     public GtkAppShell()
     : base("Juniper AppShell")
     {
-        WindowStateEvent += delegate (object? sender, WindowStateEventArgs e)
+        webView = new FixedWebView
         {
-            isIconified = (e.Event.NewWindowState & WindowState.Iconified) != 0;
-            isFullscreen = (e.Event.NewWindowState & WindowState.Fullscreen) != 0;
-        };
-
-        AddEvents(
-            EventMask.KeyReleaseMask
-            | EventMask.KeyPressMask
-        );
-
-        webView = new WebView
-        {
-            Events = Events
+            Events = Events,
         };
 
         Add(webView);
         SetSizeRequest(800, 600);
+
+        KeyReleaseEvent += delegate
+        {
+            if (WasPressed(Gdk.Key.Control_L, Gdk.Key.r)
+                || WasPressed(Gdk.Key.Control_R, Gdk.Key.r))
+            {
+                webView.Reload();
+            }
+        };
     }
+
     protected override bool OnDeleteEvent(Gdk.Event evnt)
     {
+        Remove(webView);
+        webView.Dispose();
         deletedTask.SetResult();
         return base.OnDeleteEvent(evnt);
-    }
-
-    protected override bool OnKeyPressEvent(Gdk.EventKey evnt)
-    {
-        if (evnt.Key == Gdk.Key.Control_L
-           || evnt.Key == Gdk.Key.Control_R)
-        {
-            isCtrl = true;
-        }
-        else if (evnt.Key == Gdk.Key.r)
-        {
-            isR = true;
-        }
-        return base.OnKeyPressEvent(evnt);
-    }
-
-    protected override bool OnKeyReleaseEvent(Gdk.EventKey evnt)
-    {
-        var wasCtrl = isCtrl;
-        var wasR = isR;
-        var wasReload = wasCtrl && wasR;
-        if (evnt.Key == Gdk.Key.Control_L
-           || evnt.Key == Gdk.Key.Control_R)
-        {
-            isCtrl = false;
-        }
-        else if (evnt.Key == Gdk.Key.r)
-        {
-            isR = false;
-        }
-        var isReload = isCtrl && isR;
-        if (wasReload && !isReload)
-        {
-            webView.Reload();
-        }
-        return base.OnKeyReleaseEvent(evnt);
     }
 
     private static Task<T> Do<T>(Func<T> action)
@@ -140,36 +98,7 @@ public class GtkAppShell : FixedWindow, IAppShell
         Do(() => new Uri(webView.Uri));
 
     public Task SetSourceAsync(Uri source) =>
-        Do(() =>
-        {
-            var task = new TaskCompletionSource();
-            void cleanup()
-            {
-                webView.LoadChanged -= onLoad;
-                webView.LoadFailed -= onError;
-            }
-
-            void onLoad(object? sender, LoadChangedArgs e)
-            {
-                if (e.LoadEvent.HasFlag(LoadEvent.Finished))
-                {
-                    cleanup();
-                    task!.SetResult();
-                }
-            }
-
-            void onError(object? sender, LoadFailedArgs e)
-            {
-                cleanup();
-                task!.SetException(new Exception($"Load failed: {e.FailingUri}"));
-            }
-
-            webView.LoadChanged += onLoad;
-            webView.LoadFailed += onError;
-
-            webView.LoadUri(source.ToString());
-            return task.Task;
-        });
+        Do(() => webView.LoadUriAsync(source.ToString()));
 
     ///////////////
     //// TITLE ////
@@ -210,23 +139,10 @@ public class GtkAppShell : FixedWindow, IAppShell
     ////////////////////
 
     public Task<bool> GetIsFullscreenAsync() =>
-        Do(() => isFullscreen);
+        Do(() => IsFullscreen);
 
     public Task SetIsFullscreenAsync(bool isFullscreen) =>
-        Do(() =>
-        {
-            if (this.isFullscreen != isFullscreen)
-            {
-                if (isFullscreen)
-                {
-                    Fullscreen();
-                }
-                else
-                {
-                    Unfullscreen();
-                }
-            }
-        });
+        Do(() => IsFullscreen = isFullscreen);
 
     ////////////////////
     //// BORDERLESS ////
@@ -246,41 +162,15 @@ public class GtkAppShell : FixedWindow, IAppShell
         Do(() => IsMaximized);
 
     public Task SetIsMaximizedAsync(bool isMaximized) =>
-        Do(() =>
-        {
-            if (IsMaximized != isMaximized)
-            {
-                if (isMaximized)
-                {
-                    Maximize();
-                }
-                else
-                {
-                    Unmaximize();
-                }
-            }
-        });
+        Do(() => IsMaximized = isMaximized);
 
     ///////////////////
     //// MINIMIZED ////
     ///////////////////
 
     public Task<bool> GetIsMinimizedAsync() =>
-        Do(() => isIconified);
+        Do(() => IsIconified);
 
     public Task SetIsMinimizedAsync(bool isMinimized) =>
-        Do(() =>
-        {
-            if (isIconified != isMinimized)
-            {
-                if (isMinimized)
-                {
-                    Iconify();
-                }
-                else
-                {
-                    Deiconify();
-                }
-            }
-        });
+        Do(() => IsIconified = isMinimized);
 }

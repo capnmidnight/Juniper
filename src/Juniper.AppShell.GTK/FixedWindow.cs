@@ -1,13 +1,135 @@
+using Gdk;
+
 namespace Gtk;
 
 public class FixedWindow : Window
 {
-    public FixedWindow(nint raw) : base(raw) { }
-    public FixedWindow(string title) : base(title) { }
-    public FixedWindow(WindowType type) : base(type) { }
+    private readonly HashSet<Gdk.Key> isPressed = new();
+    private readonly HashSet<Gdk.Key> wasPressed = new();
 
-    public void AddEvents(Gdk.EventMask mask)
+    private bool isIconified = false;
+    private bool isFullscreen = false;
+
+    public FixedWindow(nint raw) : base(raw) { Init(); }
+    public FixedWindow(string title) : base(title) { Init(); }
+    public FixedWindow(WindowType type) : base(type) { Init(); }
+
+    private void Init()
     {
-        AddEvents((int)mask);
+        AddEvents(
+            EventMask.KeyReleaseMask
+            | EventMask.KeyPressMask
+        );
+
+        WindowStateEvent += delegate (object? sender, WindowStateEventArgs e)
+        {
+            isIconified = (e.Event.NewWindowState & WindowState.Iconified) != 0;
+            isFullscreen = (e.Event.NewWindowState & WindowState.Fullscreen) != 0;
+        };
+
+        KeyPressEvent += delegate (object? sender, KeyPressEventArgs e)
+        {
+            isPressed.Add(e.Event.Key);
+        };
+
+        KeyReleaseEvent += delegate (object? sender, KeyReleaseEventArgs e)
+        {
+            wasPressed.Clear();
+            foreach (var key in isPressed)
+            {
+                wasPressed.Add(key);
+            }
+
+            isPressed.Remove(e.Event.Key);
+        };
     }
+
+    private static bool KeyPressedCheck(HashSet<Gdk.Key> keyState, Gdk.Key[] keys)
+    {
+        foreach (var key in keys)
+        {
+            if (!keyState.Contains(key))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool IsPressed(params Gdk.Key[] keys) =>
+        KeyPressedCheck(isPressed, keys);
+
+    public bool WasPressed(params Gdk.Key[] keys) =>
+        KeyPressedCheck(wasPressed, keys);
+
+
+    public new bool IsMaximized
+    {
+        get
+        {
+            return base.IsMaximized;
+        }
+        set
+        {
+            if (IsMaximized != value)
+            {
+                if (value)
+                {
+                    Maximize();
+                }
+                else
+                {
+                    Unmaximize();
+                }
+            }
+        }
+    }
+
+    public bool IsFullscreen
+    {
+        get
+        {
+            return isFullscreen;
+        }
+        set
+        {
+            if (isFullscreen != value)
+            {
+                if (value)
+                {
+                    Fullscreen();
+                }
+                else
+                {
+                    Unfullscreen();
+                }
+            }
+        }
+    }
+
+    public bool IsIconified
+    {
+        get
+        {
+            return isIconified;
+        }
+        set
+        {
+            if (isIconified != value)
+            {
+                if (value)
+                {
+                    Iconify();
+                }
+                else
+                {
+                    Deiconify();
+                }
+            }
+        }
+    }
+
+    public void AddEvents(EventMask mask) =>
+        AddEvents((int)mask);
 }
