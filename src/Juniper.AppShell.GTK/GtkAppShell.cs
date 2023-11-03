@@ -8,46 +8,13 @@ public class GtkAppShell : FixedWindow, IAppShell
     private readonly FixedWebView webView;
     private readonly TaskCompletionSource deletedTask = new();
 
-    private bool showingInspector = false;
-
     public GtkAppShell()
     : base("Juniper AppShell")
     {
-        webView = new FixedWebView
-        {
-            Events = Events,
-        };
+        webView = new FixedWebView();
 
         Add(webView);
         SetSizeRequest(800, 600);
-
-        KeyReleaseEvent += delegate
-        {
-            if (WasPressed(Gdk.Key.Control_L, Gdk.Key.r)
-                || WasPressed(Gdk.Key.Control_R, Gdk.Key.r)
-                || WasPressed(Gdk.Key.F5))
-            {
-                webView.Reload();
-            }
-
-#if DEBUG
-            if (WasPressed(Gdk.Key.F12))
-            {
-                if (showingInspector)
-                {
-                    showingInspector = false;
-                    webView.Inspector.Detach();
-                    webView.Inspector.Close();
-                }
-                else
-                {
-                    webView.Inspector.Show();
-                    webView.Inspector.Attach();
-                    showingInspector = true;
-                }
-            }
-#endif
-        };
     }
 
     protected override bool OnDeleteEvent(Gdk.Event evnt)
@@ -120,6 +87,9 @@ public class GtkAppShell : FixedWindow, IAppShell
 
     public Task SetSourceAsync(Uri source) =>
         Do(() => webView.LoadUriAsync(source.ToString()));
+
+    public Task ReloadAsync() =>
+        Do(() => webView.Reload());
 
     ///////////////
     //// TITLE ////

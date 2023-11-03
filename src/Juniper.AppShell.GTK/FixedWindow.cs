@@ -4,8 +4,6 @@ namespace Gtk;
 
 public class FixedWindow : Window
 {
-    private readonly HashSet<Gdk.Key> isPressed = new();
-    private readonly HashSet<Gdk.Key> wasPressed = new();
 
     private bool isIconified = false;
     private bool isFullscreen = false;
@@ -16,55 +14,12 @@ public class FixedWindow : Window
 
     private void Init()
     {
-        AddEvents(
-            EventMask.KeyReleaseMask
-            | EventMask.KeyPressMask
-        );
-
         WindowStateEvent += delegate (object? sender, WindowStateEventArgs e)
         {
             isIconified = (e.Event.NewWindowState & WindowState.Iconified) != 0;
             isFullscreen = (e.Event.NewWindowState & WindowState.Fullscreen) != 0;
         };
     }
-
-    protected override bool OnKeyPressEvent(EventKey evnt)
-    {
-        isPressed.Add(evnt.Key);
-        return false;
-    }
-
-    protected override bool OnKeyReleaseEvent(EventKey evnt)
-    {
-        wasPressed.Clear();
-        foreach (var key in isPressed)
-        {
-            wasPressed.Add(key);
-        }
-
-        isPressed.Remove(evnt.Key);
-        return false;
-    }
-
-    private static bool KeyPressedCheck(HashSet<Gdk.Key> keyState, Gdk.Key[] keys)
-    {
-        foreach (var key in keys)
-        {
-            if (!keyState.Contains(key))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public bool IsPressed(params Gdk.Key[] keys) =>
-        KeyPressedCheck(isPressed, keys);
-
-    public bool WasPressed(params Gdk.Key[] keys) =>
-        KeyPressedCheck(wasPressed, keys);
-
 
     public new bool IsMaximized
     {
