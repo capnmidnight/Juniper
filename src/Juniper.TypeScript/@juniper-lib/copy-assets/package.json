@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "copy-assets",
+  "private": true,
+  "description": "Copy files of given types from one directory to another, maintaining directory structure along the way.",
+  "main": "./index.mjs",
+  "bin": {
+    "copy-assets": "./index.mjs"
+  },
+  "license": "MIT"
+}
