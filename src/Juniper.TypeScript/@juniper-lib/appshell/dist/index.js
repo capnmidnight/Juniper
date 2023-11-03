@@ -46,35 +46,46 @@ export class AppShell {
         });
     }
     setCloseButton(button) {
-        console.log({ button });
-        button.addEventListener("click", () => this.close());
+        if (button) {
+            button.addEventListener("click", () => this.close());
+        }
     }
     setBodyUI(scrollToTop, scrollToBottom, article) {
-        function indicateScroll() {
-            const scrollTopVisible = article.scrollTop > 25;
-            const scrollBottomVisible = (article.scrollTop + article.clientHeight) < article.scrollHeight - 25;
-            scrollToTop.classList.toggle("visible", scrollTopVisible);
-            scrollToBottom.classList.toggle("visible", scrollBottomVisible);
-        }
-        const indScroll = debounce(indicateScroll);
-        scrollToTop.addEventListener("click", () => article.scroll({
-            behavior: "smooth",
-            top: 0
-        }));
-        scrollToBottom.addEventListener("click", () => article.scroll({
-            behavior: "smooth",
-            top: article.scrollHeight
-        }));
-        article.addEventListener("scroll", indScroll);
-        const resizer = new ResizeObserver((evts) => {
-            for (const evt of evts) {
-                if (evt.target === document.body) {
-                    indScroll();
+        if (scrollToTop || scrollToBottom) {
+            function indicateScroll() {
+                const scrollTopVisible = article.scrollTop > 25;
+                const scrollBottomVisible = (article.scrollTop + article.clientHeight) < article.scrollHeight - 25;
+                if (scrollToTop) {
+                    scrollToTop.classList.toggle("visible", scrollTopVisible);
+                }
+                if (scrollToBottom) {
+                    scrollToBottom.classList.toggle("visible", scrollBottomVisible);
                 }
             }
-        });
-        resizer.observe(document.body);
-        indicateScroll();
+            const indScroll = debounce(indicateScroll);
+            if (scrollToTop) {
+                scrollToTop.addEventListener("click", () => article.scroll({
+                    behavior: "smooth",
+                    top: 0
+                }));
+            }
+            if (scrollToBottom) {
+                scrollToBottom.addEventListener("click", () => article.scroll({
+                    behavior: "smooth",
+                    top: article.scrollHeight
+                }));
+            }
+            article.addEventListener("scroll", indScroll);
+            const resizer = new ResizeObserver((evts) => {
+                for (const evt of evts) {
+                    if (evt.target === document.body) {
+                        indScroll();
+                    }
+                }
+            });
+            resizer.observe(document.body);
+            indicateScroll();
+        }
     }
     setHistoryUI(backButton, fwdButton) {
         if (backButton) {
