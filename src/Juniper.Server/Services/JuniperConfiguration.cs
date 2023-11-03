@@ -110,6 +110,8 @@ public static class JuniperConfiguration
         {
             razorPages.AddRazorRuntimeCompilation();
 
+            builder.Services.AddDirectoryBrowser();
+
             builder.Services.AddLogging(options =>
                 options.AddConsole()
                     .AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug)
@@ -255,6 +257,7 @@ public static class JuniperConfiguration
 
         if (env.IsDevelopment())
         {
+            app.UseDirectoryBrowser();
             app.UseHttpLogging();
         }
 
