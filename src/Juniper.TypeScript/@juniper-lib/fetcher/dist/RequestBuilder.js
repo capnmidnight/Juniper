@@ -211,6 +211,14 @@ export class RequestBuilder {
             assertNever(this.method);
         }
     }
+    async dataUri(acceptType) {
+        const response = await this.blob(acceptType);
+        const reader = new FileReader();
+        const task = new Promise((resolve) => reader.addEventListener("loadend", (evt) => resolve(evt.target.result)));
+        reader.readAsDataURL(response.content);
+        const value = await task;
+        return await translateResponse(response, () => value);
+    }
     text(acceptType) {
         this.accept(acceptType || Text_Plain);
         if (this.method === "POST"

@@ -251,6 +251,15 @@ export class RequestBuilder implements
         }
     }
 
+    async dataUri(acceptType?: string | MediaType): Promise<IResponse<string>> {
+        const response = await this.blob(acceptType);
+        const reader = new FileReader();
+        const task = new Promise<string>((resolve) => reader.addEventListener("loadend", (evt) => resolve(evt.target.result as string)));
+        reader.readAsDataURL(response.content);
+        const value = await task;
+        return await translateResponse(response, () => value);
+    }
+
     text(acceptType?: string | MediaType): Promise<IResponse<string>> {
         this.accept(acceptType || Text_Plain);
         if (this.method === "POST"

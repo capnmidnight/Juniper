@@ -28,6 +28,7 @@ export declare class RequestBuilder implements IFetcherSendProgressTimeoutCreden
     blob(acceptType?: string | MediaType): Promise<IResponse<Blob>>;
     buffer(acceptType?: string | MediaType): Promise<IResponse<ArrayBuffer>>;
     file(acceptType?: string | MediaType): Promise<IResponse<string>>;
+    dataUri(acceptType?: string | MediaType): Promise<IResponse<string>>;
     text(acceptType?: string | MediaType): Promise<IResponse<string>>;
     object<T>(acceptType?: string | MediaType): Promise<IResponse<T>>;
     xml(acceptType?: string | MediaType): Promise<IResponse<HTMLElement>>;
