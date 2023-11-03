@@ -79,13 +79,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         } while (!opts.Finished);
     }
 
-    protected enum Por
-    {
-        All,
-        Basic,
-        Minified
-    }
-
     private readonly DirectoryInfo[] cleanDirs;
     private readonly DirectoryInfo workingDir;
     private readonly FileInfo projectPackage;
