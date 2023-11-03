@@ -4,5 +4,6 @@
     {
         Task Started { get; }
         Task Ready { get; }
+        event EventHandler NewBuildCompleted;
     }
 }

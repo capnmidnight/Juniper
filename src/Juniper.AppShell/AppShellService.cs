@@ -117,6 +117,10 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
             if (buildSystem is not null)
             {
                 await buildSystem.Ready;
+                buildSystem.NewBuildCompleted += delegate
+                {
+                    appShell.ReloadAsync();
+                };
             }
 
             var finalURI = applicationURI ?? address;
@@ -179,6 +183,9 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
 
     public Task SetSourceAsync(Uri source) =>
         Do(appShell => appShell.SetSourceAsync(source));
+
+    public Task ReloadAsync() =>
+        Do(appShell => appShell.ReloadAsync());
 
     ///////////////
     //// TITLE ////

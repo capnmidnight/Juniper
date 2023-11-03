@@ -106,6 +106,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private readonly TaskCompletionSource starting = new();
     public Task Started => starting.Task;
+    public event EventHandler? NewBuildCompleted;
 
     private int bundleCountGuess = 1;
 
@@ -663,23 +664,33 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         var buildCount = 2 * bundleCountGuess;
 
-        void onInfo(object? sender, StringEventArgs e)
+        void checkBuilt(object? sender, StringEventArgs e)
         {
             if (e.Value.Contains("browser bundles built"))
             {
                 --buildCount;
                 if (buildCount == 0)
                 {
-                    Info -= onInfo;
+                    Info -= checkBuilt;
                     firstBuild.TrySetResult();
                 }
             }
+        }
+
+        void checkRebuilt(object? sender, StringEventArgs e)
+        {
+            if (e.Value.Contains("browser bundles rebuilt"))
+            {
+                NewBuildCompleted?.Invoke(this, EventArgs.Empty);
+            }
         };
 
-        Info += onInfo;
+        Info += checkBuilt;
+        Info += checkRebuilt;
         buildCancelled.Register(() =>
         {
-            Info -= onInfo;
+            Info -= checkBuilt;
+            Info -= checkRebuilt;
         });
 
         return Task.WhenAny(completeBuildTask, firstBuild.Task);

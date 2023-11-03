@@ -7,7 +7,7 @@ public class BuildSystemService<BuildConfigT> : IBuildSystemService
     where BuildConfigT : IBuildConfig, new()
 {
     private readonly CancellationTokenSource serviceCancelled = new();
-    private readonly BuildSystem<BuildConfigT> build;
+    private readonly BuildSystem<BuildConfigT> build = new();
     private readonly ILogger<BuildSystemService<BuildConfigT>> logger;
     public Task Started => build.Started;
 
@@ -16,9 +16,20 @@ public class BuildSystemService<BuildConfigT> : IBuildSystemService
     public BuildSystemService(IHostApplicationLifetime lifetime, ILogger<BuildSystemService<BuildConfigT>> logger)
     {
         this.logger = logger;
-        build = new BuildSystem<BuildConfigT>();
         Ready = RunBuildAsync();
         lifetime.ApplicationStopping.Register(Stop);
+    }
+
+    public event EventHandler NewBuildCompleted
+    {
+        add
+        {
+            build.NewBuildCompleted += value;
+        }
+        remove
+        {
+            build.NewBuildCompleted -= value;
+        }
     }
 
     public void Stop()

@@ -117,6 +117,9 @@ public partial class WpfAppShell : Window, IAppShell
         }
     }
 
+    public Task ReloadAsync() =>
+        Do(WebView.Reload);
+
     ///////////////
     //// TITLE ////
     ///////////////

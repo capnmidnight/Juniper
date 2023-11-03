@@ -58,6 +58,10 @@ namespace Juniper.AppShell
         public Task SetSourceAsync([FromBody] Uri source) =>
             Do(appShell => appShell.SetSourceAsync(source));
 
+        [HttpPost("reload")]
+        public Task ReloadAsync() =>
+            Do(appShell => appShell.ReloadAsync());
+
         ///////////////
         //// TITLE ////
         ///////////////
