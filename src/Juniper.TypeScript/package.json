@@ -7,6 +7,7 @@
   },
   "scripts": {
     "build": "tsc --build & npm run build --workspaces --if-present",
+    "copy-assets": "npm run copy-assets --workspaces --if-present",
     "watch": "tsc --build --watch & npm run watch --workspaces --if-present",
     "check": "tsc --noEmit & npm run check --workspaces --if-present"
   },

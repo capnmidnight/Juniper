@@ -5,7 +5,7 @@
   "description": "Copy files of given types from one directory to another, maintaining directory structure along the way.",
   "main": "./index.mjs",
   "bin": {
-    "copy-assets": "./index.mjs"
+    "copy-assets": "node ./index.mjs"
   },
   "license": "MIT"
 }
