@@ -26,22 +26,24 @@ public class FixedWindow : Window
             isIconified = (e.Event.NewWindowState & WindowState.Iconified) != 0;
             isFullscreen = (e.Event.NewWindowState & WindowState.Fullscreen) != 0;
         };
+    }
 
-        KeyPressEvent += delegate (object? sender, KeyPressEventArgs e)
+    protected override bool OnKeyPressEvent(EventKey evnt)
+    {
+        isPressed.Add(evnt.Key);
+        return false;
+    }
+
+    protected override bool OnKeyReleaseEvent(EventKey evnt)
+    {
+        wasPressed.Clear();
+        foreach (var key in isPressed)
         {
-            isPressed.Add(e.Event.Key);
-        };
+            wasPressed.Add(key);
+        }
 
-        KeyReleaseEvent += delegate (object? sender, KeyReleaseEventArgs e)
-        {
-            wasPressed.Clear();
-            foreach (var key in isPressed)
-            {
-                wasPressed.Add(key);
-            }
-
-            isPressed.Remove(e.Event.Key);
-        };
+        isPressed.Remove(evnt.Key);
+        return false;
     }
 
     private static bool KeyPressedCheck(HashSet<Gdk.Key> keyState, Gdk.Key[] keys)

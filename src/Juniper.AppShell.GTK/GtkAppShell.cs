@@ -8,6 +8,8 @@ public class GtkAppShell : FixedWindow, IAppShell
     private readonly FixedWebView webView;
     private readonly TaskCompletionSource deletedTask = new();
 
+    private bool showingInspector = false;
+
     public GtkAppShell()
     : base("Juniper AppShell")
     {
@@ -22,10 +24,29 @@ public class GtkAppShell : FixedWindow, IAppShell
         KeyReleaseEvent += delegate
         {
             if (WasPressed(Gdk.Key.Control_L, Gdk.Key.r)
-                || WasPressed(Gdk.Key.Control_R, Gdk.Key.r))
+                || WasPressed(Gdk.Key.Control_R, Gdk.Key.r)
+                || WasPressed(Gdk.Key.F5))
             {
                 webView.Reload();
             }
+
+#if DEBUG
+            if (WasPressed(Gdk.Key.F12))
+            {
+                if (showingInspector)
+                {
+                    showingInspector = false;
+                    webView.Inspector.Detach();
+                    webView.Inspector.Close();
+                }
+                else
+                {
+                    webView.Inspector.Show();
+                    webView.Inspector.Attach();
+                    showingInspector = true;
+                }
+            }
+#endif
         };
     }
 
