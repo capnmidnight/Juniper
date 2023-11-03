@@ -1,17 +1,27 @@
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
 import { debounce } from "@juniper-lib/events/dist/debounce";
 import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
 import "./header.css";
 import "./index.css";
 import "./main.css";
 import "./nav.css";
-export class AppShell {
+export class AppShellClosingEvent extends TypedEvent {
+    constructor() {
+        super("closing");
+    }
+}
+export class AppShell extends TypedEventTarget {
     constructor(fetcher) {
+        super();
         this.fetcher = fetcher;
     }
-    close() {
-        alert("closing");
-        return this.fetcher.post("/api/appshell/close")
-            .exec();
+    async close() {
+        const evt = new AppShellClosingEvent();
+        this.dispatchEvent(evt);
+        if (!evt.defaultPrevented) {
+            await this.fetcher.post("/api/appshell/close")
+                .exec();
+        }
     }
     maximize() {
         return this.fetcher.post("/api/appshell/maximize")
