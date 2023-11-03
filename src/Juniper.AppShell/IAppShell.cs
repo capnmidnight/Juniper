@@ -7,8 +7,9 @@ public interface IAppShell
     Task CloseAsync();
     Task WaitForCloseAsync();
 
-    Task<Uri> GetSourceAsync();
-    Task SetSourceAsync(Uri source);
+    Task<Uri> GetSourceUriAsync();
+    Task SetSourceUriAsync(Uri source);
+    Task SetSourceHTMLAsync(string html);
 
     Task ReloadAsync();
 

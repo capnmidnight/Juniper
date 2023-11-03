@@ -48,12 +48,16 @@ public class AppShellController : Controller, IAppShell
     ////////////////
 
     [HttpGet("source")]
-    public Task<Uri> GetSourceAsync() =>
-        Do(appShell => appShell.GetSourceAsync());
+    public Task<Uri> GetSourceUriAsync() =>
+        Do(appShell => appShell.GetSourceUriAsync());
 
     [HttpPost("source")]
-    public Task SetSourceAsync([FromBody] Uri source) =>
-        Do(appShell => appShell.SetSourceAsync(source));
+    public Task SetSourceUriAsync([FromBody] Uri source) =>
+        Do(appShell => appShell.SetSourceUriAsync(source));
+
+    [HttpPost("html")]
+    public Task SetSourceHTMLAsync([FromBody] string html) =>
+        Do(appShell => appShell.SetSourceHTMLAsync(html));
 
     [HttpPost("reload")]
     public Task ReloadAsync() =>

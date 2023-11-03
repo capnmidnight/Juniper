@@ -86,11 +86,13 @@ public class GtkAppShell : FixedWindow, IAppShell
     //// SOURCE ////
     ////////////////
 
-    public Task<Uri> GetSourceAsync() =>
+    public Task<Uri> GetSourceUriAsync() =>
         Do(() => new Uri(webView.Uri));
 
-    public Task SetSourceAsync(Uri source) =>
+    public Task SetSourceUriAsync(Uri source) =>
         Do(() => webView.LoadUriAsync(source.ToString()));
+    public Task SetSourceHTMLAsync(string html) =>
+        Do(() => webView.LoadHtmlAsync(html));
 
     public Task ReloadAsync() =>
         Do(() => webView.Reload());

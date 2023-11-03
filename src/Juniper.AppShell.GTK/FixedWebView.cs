@@ -79,7 +79,7 @@ public class FixedWebView : WebView
         return base.OnKeyReleaseEvent(evnt);
     }
 
-    public Task LoadUriAsync(string source)
+    private Task LoadAsync(Action<string> act, string source)
     {
         var task = new TaskCompletionSource();
         void cleanup()
@@ -113,7 +113,13 @@ public class FixedWebView : WebView
             Console.WriteLine(e);
         };
 
-        LoadUri(source);
+        act(source);
         return task.Task;
     }
+
+    public Task LoadUriAsync(string source) =>
+        LoadAsync(LoadUri, source);
+
+    public Task LoadHtmlAsync(string html) =>
+        LoadAsync(LoadHtml, html);
 }

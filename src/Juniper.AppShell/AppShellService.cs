@@ -1,4 +1,6 @@
-﻿using Juniper.Services;
+﻿using System.Net;
+
+using Juniper.Services;
 using Juniper.TSBuild;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -70,8 +72,6 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
                 ? new Uri(applicationURIString)
                 : null;
 
-            var address = await portDiscovery.GettingAddress;
-
             logger.LogInformation("Opening AppShell");
             var appShell = await factory.StartAsync(serviceCanceller.Token);
             _ = appStopping.Task.ContinueWith((_) =>
@@ -91,14 +91,14 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
                 await appShell.SetIsFullscreenAsync(fullscreen.Value);
             }
 
-            if (splash is not null)
+            if (splash is not null && File.Exists(splash))
             {
                 await appShell.SetIsBorderlessAsync(true);
                 borderless ??= false;
 
-                var splashURI = new Uri(address, splash);
-                logger.LogInformation("Showing splash page {URI}", splashURI);
-                await appShell.SetSourceAsync(splashURI);
+                var splashHTML = File.ReadAllText(splash);
+                logger.LogInformation("Showing splash page");
+                await appShell.SetSourceHTMLAsync(splashHTML);
             }
 
             appShellCreating.TrySetResult(appShell);
@@ -118,9 +118,9 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
                 await appShell.SetIsBorderlessAsync(borderless.Value);
             }
 
-            var finalURI = applicationURI ?? address;
+            var finalURI = applicationURI ?? await portDiscovery.GettingAddress;
             logger.LogInformation("Showing final page {URI}", finalURI);
-            await appShell.SetSourceAsync(finalURI);
+            await appShell.SetSourceUriAsync(finalURI);
 
             if (maximized is not null)
             {
@@ -179,11 +179,13 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
     //// SOURCE ////
     ////////////////
 
-    public Task<Uri> GetSourceAsync() =>
-        Do(appShell => appShell.GetSourceAsync());
+    public Task<Uri> GetSourceUriAsync() =>
+        Do(appShell => appShell.GetSourceUriAsync());
 
-    public Task SetSourceAsync(Uri source) =>
-        Do(appShell => appShell.SetSourceAsync(source));
+    public Task SetSourceUriAsync(Uri source) =>
+        Do(appShell => appShell.SetSourceUriAsync(source));
+    public Task SetSourceHTMLAsync(string html) =>
+        Do(appShell => appShell.SetSourceHTMLAsync(html));
 
     public Task ReloadAsync() =>
         Do(appShell => appShell.ReloadAsync());

@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
-
 namespace Juniper.AppShell;
 
 public partial class WpfAppShell : Window, IAppShell
@@ -91,25 +90,11 @@ public partial class WpfAppShell : Window, IAppShell
     //// SOURCE ////
     ////////////////
 
-    public Task<Uri> GetSourceAsync() =>
+    public Task<Uri> GetSourceUriAsync() =>
         Do(() => WebView.Source);
 
-    public Task SetSourceAsync(Uri value) =>
-        Do(async () =>
-        {
-            var completer = new TaskCompletionSource();
-            void CoreWebView2_DOMContentLoaded(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2DOMContentLoadedEventArgs e)
-            {
-                completer.SetResult();
-            }
-
-            WebView.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
-
-            SetSourceInternal(value);
-
-            await completer.Task;
-            WebView.CoreWebView2.DOMContentLoaded -= CoreWebView2_DOMContentLoaded;
-        });
+    public Task SetSourceUriAsync(Uri value) =>
+        Do(() => LoadAsync(SetSourceInternal, value));
 
     private void SetSourceInternal(Uri value)
     {
@@ -123,8 +108,27 @@ public partial class WpfAppShell : Window, IAppShell
         }
     }
 
+    public Task SetSourceHTMLAsync(string html) =>
+        Do(() => LoadAsync(WebView.NavigateToString, html));
+
+    private async Task LoadAsync<T>(Action<T> act, T value)
+    {
+        var completer = new TaskCompletionSource();
+        void CoreWebView2_DOMContentLoaded(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2DOMContentLoadedEventArgs e)
+        {
+            completer.SetResult();
+        }
+
+        WebView.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
+
+        act(value);
+
+        await completer.Task;
+        WebView.CoreWebView2.DOMContentLoaded -= CoreWebView2_DOMContentLoaded;
+    }
+
     public Task ReloadAsync() =>
-        Do(WebView.Reload);
+            Do(WebView.Reload);
 
     ///////////////
     //// TITLE ////
