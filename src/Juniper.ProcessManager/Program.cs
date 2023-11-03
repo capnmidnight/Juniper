@@ -1,8 +1,8 @@
+using System.Diagnostics;
+
 using Juniper;
 using Juniper.IO;
 using Juniper.Processes;
-
-using System.Diagnostics;
 
 using static System.Console;
 
