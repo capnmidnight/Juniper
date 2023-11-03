@@ -11,6 +11,7 @@ public partial class CommandProxier : ILoggingSource
     public DirectoryInfo Root { get; private set; }
     private readonly ShellCommand processManager;
     private readonly TaskCompletionSource processQuit = new();
+    private readonly TaskCompletionSource startup = new (TaskCreationOptions.RunContinuationsAsynchronously);
     private readonly JsonFactory<CommandProxyDescription> cmdFactory = new() { Formatting = Newtonsoft.Json.Formatting.None };
     private readonly Dictionary<int, ProxiedCommand> proxies = new();
     private int taskCounter = 0;
@@ -49,52 +50,61 @@ public partial class CommandProxier : ILoggingSource
 
     public async Task Start(CancellationToken cancellationToken)
     {
-        var startup = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         cancellationToken.Register(() => startup.TrySetCanceled());
-
-        void onInfo(object? _, StringEventArgs e)
-        {
-            if (cmdFactory.TryParse(e.Value, out var cmd))
-            {
-                if (proxies.ContainsKey(cmd.TaskID))
-                {
-                    var pcmd = proxies[cmd.TaskID];
-                    switch (cmd.Command)
-                    {
-                        case "info": pcmd.ProxyInfo(cmd.Args.Join(" ")); break;
-                        case "warn": pcmd.ProxyWarning(cmd.Args.Join(" ")); break;
-                        case "error": pcmd.ProxyError(new Exception(cmd.Args.Join(Environment.NewLine))); break;
-                        case "ended": EndTask(cmd.TaskID); break;
-                        default: Warning?.Invoke(this, e); break;
-                    }
-                }
-                else if (cmd.Command == "ready")
-                {
-                    if (!ready)
-                    {
-                        ready = true;
-                        startup.TrySetResult();
-                    }
-                }
-                else if (cmd.Command == "Shutting down")
-                {
-                    processQuit.TrySetResult();
-                }
-                else
-                {
-                    Warning?.Invoke(this, e);
-                }
-            }
-            else
-            {
-                Info?.Invoke(this, e);
-            }
-        }
-        processManager.Info += onInfo;
+        processManager.Info += OnInfo;
         _ = processManager.RunAsync(CancellationToken.None)
             .ContinueWith(task =>
                 processQuit.TrySetResult(), CancellationToken.None);
         await startup.Task;
+    }
+
+    private void OnInfo(object? _, StringEventArgs e)
+    {
+        if (cmdFactory.TryParse(e.Value, out var cmd))
+        {
+            if (proxies.ContainsKey(cmd.TaskID))
+            {
+                var pcmd = proxies[cmd.TaskID];
+                switch (cmd.Command)
+                {
+                    case "info": pcmd.ProxyInfo(cmd.Args.Join(" ")); break;
+                    case "warn": pcmd.ProxyWarning(cmd.Args.Join(" ")); break;
+                    case "error": pcmd.ProxyError(new Exception(cmd.Args.Join(Environment.NewLine))); break;
+                    case "ended": EndTask(cmd.TaskID); break;
+                    default: Warning?.Invoke(this, e); break;
+                }
+            }
+            else if (cmd.Command == "ready")
+            {
+                if (!ready)
+                {
+                    ready = true;
+                    startup.TrySetResult();
+                }
+            }
+            else if (cmd.Command == "Shutting down")
+            {
+                processQuit.TrySetResult();
+            }
+            else
+            {
+                Warning?.Invoke(this, e);
+            }
+        }
+        else
+        {
+            Info?.Invoke(this, e);
+        }
+    }
+
+    private void OnWarning(object? _, StringEventArgs e)
+    {
+        Warning?.Invoke(this, e);
+    }
+
+    private void OnError(object? sender, ErrorEventArgs e)
+    {
+        Err?.Invoke(this, e);
     }
 
     private void EndTask(int taskID)
@@ -104,11 +114,17 @@ public partial class CommandProxier : ILoggingSource
             var pcmd = proxies[taskID];
             proxies.Remove(taskID);
             pcmd.ProxyEnd();
+            pcmd.Err -= OnError;
+            pcmd.Warning -= OnWarning;
+            pcmd.Info -= OnInfo;
         }
     }
 
     internal void Exec(ProxiedCommand pcmd, DirectoryInfo? workingDir, params string[] args)
     {
+        pcmd.Info += OnInfo;
+        pcmd.Warning += OnWarning;
+        pcmd.Err += OnError;
         var taskID = ++taskCounter;
         proxies.Add(taskID, pcmd);
         var cmd = cmdFactory.ToString(new CommandProxyDescription(taskID, workingDir, "exec", args));

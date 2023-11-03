@@ -570,9 +570,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 buildCanceller.Cancel();
 
             var proxy = new CommandProxier(workingDir);
-            proxy.Info += Proxy_Info;
-            proxy.Warning += Proxy_Warning;
-            proxy.Err += Proxy_Err;
             await proxy.Start(buildCanceller.Token);
 
             buildCanceller.Token.Register(() =>
@@ -620,8 +617,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             }, buildCanceller.Token);
 
             await ValidateDependencies();
-            
-            await RunWatchAsync(continueAfterFirstBuild, bundles, buildCanceller.Token);
+
+            await RunWatchAsync(continueAfterFirstBuild, proxy, bundles, buildCanceller.Token);
             if (!continueAfterFirstBuild && !buildCanceller.IsCancellationRequested)
             {
                 await timer.DisposeAsync();
@@ -633,7 +630,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         }
     }
 
-    private Task RunWatchAsync(bool continueAfterFirstBuild, AbstractShellCommand[] bundles, CancellationToken buildCancelled)
+    private Task RunWatchAsync(bool continueAfterFirstBuild, CommandProxier proxy, AbstractShellCommand[] bundles, CancellationToken buildCancelled)
     {
         if (bundles.Length == 0)
         {
@@ -655,7 +652,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             firstBuild.TrySetCanceled();
         });
 
-        var buildCount = 2 * bundleCountGuess;
+        var buildCount = bundleCountGuess;
 
         void checkBuilt(object? sender, StringEventArgs e)
         {
@@ -664,7 +661,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 --buildCount;
                 if (buildCount == 0)
                 {
-                    Info -= checkBuilt;
+                    proxy.Info -= checkBuilt;
                     firstBuild.TrySetResult();
                 }
             }
@@ -678,12 +675,13 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             }
         };
 
-        Info += checkBuilt;
-        Info += checkRebuilt;
+        proxy.Info += checkBuilt;
+        proxy.Info += checkRebuilt;
+
         buildCancelled.Register(() =>
         {
-            Info -= checkBuilt;
-            Info -= checkRebuilt;
+            proxy.Info -= checkBuilt;
+            proxy.Info -= checkRebuilt;
         });
 
         return Task.WhenAny(completeBuildTask, firstBuild.Task);
@@ -712,64 +710,17 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         }
     }
 
-    private AbstractShellCommand MakeProxiedBuildCommand(CommandProxier proxy, FileInfo pkg)
-    {
-        var cmd = new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-build");
-        cmd.Info += Proxy_Info;
-        cmd.Err += Proxy_Err;
-        cmd.Warning += Proxy_Warning;
-        return cmd;
-    }
+    private static AbstractShellCommand MakeProxiedBuildCommand(CommandProxier proxy, FileInfo pkg) => 
+        new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-build");
 
-    private AbstractShellCommand MakeProxiedWatchCommand(CommandProxier proxy, FileInfo pkg)
-    {
-        var cmd = new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-watch");
-        cmd.Info += Proxy_Info;
-        cmd.Err += Proxy_Err;
-        cmd.Warning += Proxy_Warning;
-        return cmd;
-    }
+    private static AbstractShellCommand MakeProxiedWatchCommand(CommandProxier proxy, FileInfo pkg) => 
+        new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-watch");
 
     public event EventHandler<StringEventArgs>? Info;
     public event EventHandler<StringEventArgs>? Warning;
     public event EventHandler<ErrorEventArgs>? Err;
 
     private void OnInfo(string message) => Info?.Invoke(this, new StringEventArgs(message));
-    private void Proxy_Info(object? sender, StringEventArgs e)
-    {
-        if (sender is ICommand command)
-        {
-            OnInfo($"[{command.CommandName}]: {e.Value}");
-        }
-        else
-        {
-            OnInfo(e.Value);
-        }
-    }
-
     private void OnWarning(string message) => Warning?.Invoke(this, new StringEventArgs(message));
-    private void Proxy_Warning(object? sender, StringEventArgs e)
-    {
-        if (sender is ICommand command)
-        {
-            OnWarning($"[{command.CommandName}]: {e.Value}");
-        }
-        else
-        {
-            OnWarning(e.Value);
-        }
-    }
-
     private void OnError(Exception exp) => Err?.Invoke(this, new ErrorEventArgs(exp));
-    private void Proxy_Err(object? sender, ErrorEventArgs e)
-    {
-        if (sender is ICommand command)
-        {
-            OnError(new Exception($"[{command.CommandName}]:", e.Value));
-        }
-        else
-        {
-            OnError(e.Value);
-        }
-    }
 }
