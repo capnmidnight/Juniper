@@ -49,15 +49,7 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
         cancellationToken.Register(() =>
         {
             serviceCanceller.Cancel();
-        });
-
-        cancellationToken.Register(() =>
-        {
             appStopping.TrySetResult();
-        });
-
-        cancellationToken.Register(() =>
-        {
             appShellCreating.TrySetCanceled();
         });
     }
@@ -99,14 +91,11 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
                 await appShell.SetIsFullscreenAsync(fullscreen.Value);
             }
 
-            if (borderless is not null)
-            {
-                logger.LogInformation("Setting window borderless: \"{borderless}\"", borderless);
-                await appShell.SetIsBorderlessAsync(borderless.Value);
-            }
-
             if (splash is not null)
             {
+                await appShell.SetIsBorderlessAsync(true);
+                borderless ??= false;
+
                 var splashURI = new Uri(address, splash);
                 logger.LogInformation("Showing splash page {URI}", splashURI);
                 await appShell.SetSourceAsync(splashURI);
@@ -121,6 +110,12 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
                 {
                     appShell.ReloadAsync();
                 };
+            }
+
+            if (borderless is not null && borderless != await appShell.GetIsBorderlessAsync())
+            {
+                logger.LogInformation("Setting window borderless: \"{borderless}\"", borderless);
+                await appShell.SetIsBorderlessAsync(borderless.Value);
             }
 
             var finalURI = applicationURI ?? address;
@@ -167,6 +162,12 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
     /////////////////
     //// CLOSING ////
     /////////////////
+
+    public Task ShowAsync() =>
+        Do(appShell => appShell.ShowAsync());
+
+    public Task HideAsync() =>
+        Do(appShell => appShell.HideAsync());
 
     public Task CloseAsync() =>
         Do(appShell => appShell.CloseAsync());

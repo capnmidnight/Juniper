@@ -15,7 +15,7 @@ public partial class WpfAppShell : Window, IAppShell
         WebView.ZoomFactorChanged += delegate
         {
             // This event will fire whenever the user changes zoom factor (e.g.,
-            // by typing CTRL+PLUS/CTRL+MINUS, or doing CTRL-MOUSE_WHEEL).
+            // by typing CTRL+PLUS/CTRL+MINUS, or doing CTRL+MOUSE_WHEEL).
             // But WebView2 doesn't persist user-selected zoom factor between
             // page loads. So we read the current (user-selected) zoom factor
             // and set it to be (program-selected) zoom factor and now it will
@@ -55,6 +55,12 @@ public partial class WpfAppShell : Window, IAppShell
     /////////////////
     //// CLOSING ////
     /////////////////
+
+    public Task ShowAsync() =>
+        Do(Show);
+
+    public Task HideAsync() =>
+        Do(Hide);
 
     private readonly TaskCompletionSource closing = new();
 

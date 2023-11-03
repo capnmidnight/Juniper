@@ -24,6 +24,7 @@ main > nav {
     }
 
     main > nav li {
+        padding: 0.5rem 1rem;
         margin-top: 2px;
     }
 
@@ -37,7 +38,6 @@ main > nav {
 
     main > nav li > a,
     main > nav li > details > summary {
-        padding: 0.5rem 1rem;
         cursor: pointer;
     }
 

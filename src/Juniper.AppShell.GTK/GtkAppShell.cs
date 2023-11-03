@@ -11,10 +11,8 @@ public class GtkAppShell : FixedWindow, IAppShell
     public GtkAppShell()
     : base("Juniper AppShell")
     {
-        webView = new FixedWebView();
-
-        Add(webView);
         SetSizeRequest(800, 600);
+        Add(webView = new FixedWebView());
     }
 
     protected override bool OnDeleteEvent(Gdk.Event evnt)
@@ -72,6 +70,12 @@ public class GtkAppShell : FixedWindow, IAppShell
     //// CLOSING ////
     /////////////////
 
+    public Task ShowAsync() =>
+        Do(Show);
+
+    public Task HideAsync() =>
+        Do(Hide);
+
     public Task CloseAsync() =>
         Do(Close);
 
@@ -115,11 +119,11 @@ public class GtkAppShell : FixedWindow, IAppShell
     //// SIZE ////
     //////////////
 
-    public Task<Juniper.Size> GetSizeAsync() =>
+    public Task<Size> GetSizeAsync() =>
         Do(() =>
         {
             GetSize(out var width, out var height);
-            return new Juniper.Size(width, height);
+            return new Size(width, height);
         });
 
     public Task SetSizeAsync(int width, int height) =>

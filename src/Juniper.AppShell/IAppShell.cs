@@ -2,6 +2,8 @@
 
 public interface IAppShell
 {
+    Task ShowAsync();
+    Task HideAsync();
     Task CloseAsync();
     Task WaitForCloseAsync();
 
