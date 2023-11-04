@@ -8,6 +8,7 @@ public partial class ProxiedCommand : AbstractShellCommand
 {
     private readonly CommandProxier proxy;
     private readonly DirectoryInfo workingDir;
+    public DirectoryInfo WorkingDir => workingDir;
     private readonly string[] args;
     private readonly TaskCompletionSource completer = new(TaskCreationOptions.RunContinuationsAsynchronously);
 

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Juniper.Logging;
 using Juniper.Processes;
 
@@ -84,14 +85,12 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private readonly FileInfo projectPackage;
     private readonly FileInfo projectAppSettings;
 
-    private readonly Dictionary<FileInfo, (string, FileInfo, bool)> dependencies = new();
-    private readonly Dictionary<string, (string, string)> mapFileReplacements = new();
-
     private readonly List<FileInfo> NPMProjects = new();
     private readonly List<FileInfo> InstallProjects = new();
     private readonly List<FileInfo> BuildProjects = new();
     private readonly List<FileInfo> WatchProjects = new();
     private readonly List<FileInfo> CheckProjects = new();
+    private readonly List<CopyCommand> copyCommands = new();
 
     private readonly bool isInProjectProcess;
     private readonly bool skipPreBuild;
@@ -288,12 +287,13 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private BuildSystem<BuildConfigT> AddDependency(string name, FileInfo from, FileInfo to, bool warnIfNotExists)
     {
-        dependencies.Add(from, (name, to, warnIfNotExists));
-        var scriptFile = from.FullName;
         if (from.Name.EndsWith(".js.map"))
         {
-            scriptFile = scriptFile[..^4];
-            mapFileReplacements.Add(scriptFile, (from.Name, to.Name));
+            copyCommands.Add(new CopyCommand(name, from, to, warnIfNotExists, (from.Name, to.Name)));
+        }
+        else
+        {
+            copyCommands.Add(new CopyCommand(name, from, to, warnIfNotExists));
         }
 
         return this;
@@ -521,22 +521,12 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 file => new NPMRunCommand(file, "check")
             )), cancellationToken);
 
-    private CopyCommand[] GetDependecies() =>
-        dependencies
-            .Select(kv =>
-                mapFileReplacements.ContainsKey(kv.Key.FullName)
-                    ? new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2, kv.Value.Item3, mapFileReplacements[kv.Key.FullName])
-                    : new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2, kv.Value.Item3)
-            )
-            .ToArray();
 
     private Task BuildAsync(CancellationToken cancellationToken) =>
         WithCommandTree(GetBuildCommands, cancellationToken);
 
     private void GetBuildCommands(CommandTree commands)
     {
-        var copyCommands = GetDependecies();
-
         commands
             .AddMessage("Starting build")
             .AddCommands(GetCleanCommands())
@@ -579,15 +569,17 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 OnInfo("Build stopped");
             });
 
-            var copyCommands = GetDependecies();
             var timer = new Timer(new TimerCallback((_) =>
             {
-                foreach (var dep in copyCommands)
+                lock (copyCommands)
                 {
-                    if (dep.Recheck())
+                    foreach (var dep in copyCommands)
                     {
-                        OnInfo($"{dep.CommandName} copied".Colorize("watch", 36));
-                    };
+                        if (dep.Recheck())
+                        {
+                            OnInfo($"{dep.CommandName} copied".Colorize("watch", 36));
+                        };
+                    }
                 }
             }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
             buildCanceller.Token.Register(timer.Dispose);
@@ -710,11 +702,30 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         }
     }
 
-    private static AbstractShellCommand MakeProxiedBuildCommand(CommandProxier proxy, FileInfo pkg) => 
-        new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-build");
+    private AbstractShellCommand MakeProxiedBuildCommand(CommandProxier proxy, FileInfo pkg) =>
+        WithCopyDiscovery(new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-build"));
 
-    private static AbstractShellCommand MakeProxiedWatchCommand(CommandProxier proxy, FileInfo pkg) => 
-        new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-watch");
+    private AbstractShellCommand MakeProxiedWatchCommand(CommandProxier proxy, FileInfo pkg) =>
+        WithCopyDiscovery(new ProxiedCommand(proxy, pkg.Directory!, "npm", "run", "juniper-watch"));
+
+    private static readonly Regex COPY_PATTERN = new("COPY (.+) -> (.+)");
+    private ProxiedCommand WithCopyDiscovery(ProxiedCommand cmd)
+    {
+        cmd.Info += delegate (object? sender, StringEventArgs e)
+        {
+            var match = COPY_PATTERN.Match(e.Value);
+            if (match?.Success == true)
+            {
+                var inFile = cmd.WorkingDir.Touch(match.Groups[1].Value);
+                var outFile = cmd.WorkingDir.Touch(match.Groups[2].Value);
+                lock (copyCommands)
+                {
+                    copyCommands.Add(new CopyCommand(inFile.Name, inFile, outFile, true));
+                }
+            }
+        };
+        return cmd;
+    }
 
     public event EventHandler<StringEventArgs>? Info;
     public event EventHandler<StringEventArgs>? Warning;

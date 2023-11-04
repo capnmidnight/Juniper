@@ -9,7 +9,7 @@
   "scripts": {
     "check": "tsc --noEmit",
     "ts-build": "tsc -b",
-    "copy-assets": "npx copy-assets src dist .glsl .vert .frag .css",
+    "copy-assets": "node ../../node_modules/copy-assets/index.mjs src dist .glsl .vert .frag .css",
     "build": "npm run ts-build && npm run copy-assets",
     "juniper-build": "npm run build"
   },

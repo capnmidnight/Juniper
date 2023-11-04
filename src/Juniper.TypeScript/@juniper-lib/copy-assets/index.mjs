@@ -5,6 +5,7 @@ const args = process.argv.splice(2);
 
 if(args.length < 3) {
     console.error("Not enough arguments! Expected <src> <dest> <...types>");
+    process.exit();
 }
 
 const [src, dest, ...types] = args;
@@ -37,7 +38,7 @@ await Promise.all(Array.from(recurse(src)).map(async inDir => {
         await Promise.all(files.map(file => {
             const inFile = path.join(inDir, file);
             const outFile = path.join(outDir, file);
-            console.log(inFile, "->", outFile);
+            console.log("COPY", inFile, "->", outFile);
             return fs.promises.copyFile(inFile, outFile);
         }));
     }
