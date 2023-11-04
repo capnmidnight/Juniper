@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 
 using Juniper.Services;
 using Juniper.TSBuild;
@@ -23,7 +23,7 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
     private readonly CancellationTokenSource serviceCanceller = new();
     private readonly TaskCompletionSource<IAppShell> appShellCreating = new();
     private readonly IAppShellFactory factory;
-    private readonly IOptions<AppShellOptions> options;
+    private readonly AppShellOptions options;
     private readonly ILogger logger;
     private readonly IHostApplicationLifetime lifetime;
     private readonly IPortDiscoveryService portDiscovery;
@@ -32,7 +32,7 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
     public AppShellService(IAppShellFactory factory, IServiceProvider services, IHostApplicationLifetime lifetime, IOptions<AppShellOptions> options, ILogger<AppShellService> logger, IPortDiscoveryService portDiscovery)
     {
         this.factory = factory;
-        this.options = options;
+        this.options = options.Value;
         this.logger = logger;
         this.lifetime = lifetime;
         this.portDiscovery = portDiscovery;
@@ -60,24 +60,22 @@ public class AppShellService : BackgroundService, IAppShellService, IAppShell
     {
         try
         {
-            var title = options.Value.Window?.Title;
-            var fullscreen = options.Value.Window?.Fullscreen;
-            var borderless = options.Value.Window?.Borderless;
-            var maximized = options.Value.Window?.Maximized;
-            var width = options.Value.Window?.Size?.Width;
-            var height = options.Value.Window?.Size?.Height;
-            var splash = options.Value.SplashScreenPath;
-            var applicationURIString = options.Value.ApplicationURI;
+            var title = options.Window?.Title;
+            var fullscreen = options.Window?.Fullscreen;
+            var borderless = options.Window?.Borderless;
+            var maximized = options.Window?.Maximized;
+            var width = options.Window?.Size?.Width;
+            var height = options.Window?.Size?.Height;
+            var splash = options.SplashScreenPath;
+            var applicationURIString = options.ApplicationURI;
             var applicationURI = applicationURIString is not null
                 ? new Uri(applicationURIString)
                 : null;
 
             logger.LogInformation("Opening AppShell");
             var appShell = await factory.StartAsync(serviceCanceller.Token);
-            _ = appStopping.Task.ContinueWith((_) =>
-            {
-                _ = appShell.CloseAsync();
-            }, stoppingToken);
+
+            _ = appStopping.Task.ContinueWith(delegate { appShell.CloseAsync(); }, stoppingToken);
 
             if (title is not null)
             {
