@@ -8,7 +8,7 @@ namespace Juniper.Progress
         /// <summary>
         /// The message of the most recent progress report.
         /// </summary>
-        string Status { get; }
+        string? Status { get; }
 
         /// <summary>
         /// The value of the most recent progress report.
@@ -20,6 +20,6 @@ namespace Juniper.Progress
         /// </summary>
         /// <param name="progress"></param>
         /// <param name="status"></param>
-        void ReportWithStatus(float progress, string status);
+        void Report(float progress, string? status = null);
     }
 }

@@ -2,6 +2,6 @@ namespace Juniper.IO
 {
     public interface IDataSource
     {
-        Stream GetStream(string fileName);
+        Stream? GetStream(string fileName);
     }
 }

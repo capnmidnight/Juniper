@@ -5,9 +5,9 @@ namespace Juniper.HTTP
     [Serializable]
     public sealed class DataMessage : ISerializable
     {
-        public string Message { get; }
+        public string? Message { get; }
 
-        public System.Collections.Generic.IReadOnlyCollection<byte> Data { get; }
+        public IReadOnlyCollection<byte>? Data { get; }
 
         public DataMessage(string message, byte[] data)
         {

@@ -241,12 +241,12 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public readonly override bool Equals(object? obj)
         {
             return obj is Angle angle && Equals(angle);
         }
 
-        public bool Equals(Angle other)
+        public readonly bool Equals(Angle other)
         {
             var l = Repeat(degrees);
             var r = Repeat(other.degrees);

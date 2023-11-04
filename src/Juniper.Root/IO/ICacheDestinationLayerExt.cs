@@ -9,7 +9,7 @@ namespace Juniper.IO
             ContentReference fromRef,
             ICacheDestinationLayer toLayer,
             ContentReference toRef,
-            IProgress prog = null)
+            IProgress? prog = null)
         {
             if (fromLayer is null)
             {
@@ -36,10 +36,13 @@ namespace Juniper.IO
                 using var inStream = await fromLayer
                     .GetStreamAsync(fromRef, prog)
                     .ConfigureAwait(false);
-                using var outStream = toLayer.Create(toRef);
-                await inStream
-                    .CopyToAsync(outStream)
-                    .ConfigureAwait(false);
+                if (inStream is not null)
+                {
+                    using var outStream = toLayer.Create(toRef);
+                    await inStream
+                        .CopyToAsync(outStream)
+                        .ConfigureAwait(false);
+                }
             }
         }
 

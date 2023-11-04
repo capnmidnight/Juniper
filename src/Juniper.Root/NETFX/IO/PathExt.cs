@@ -61,11 +61,11 @@ namespace System.IO
             return FixPath(path).SplitX(Path.DirectorySeparatorChar);
         }
 
-        public static string Abs2Rel(this DirectoryInfo to, DirectoryInfo from) =>
-            Abs2Rel(to.FullName, from.FullName, false);
+        public static string? Abs2Rel(this DirectoryInfo to, DirectoryInfo? from) =>
+            Abs2Rel(to.FullName, from?.FullName, false);
 
-        public static string Abs2Rel(this FileInfo to, DirectoryInfo from) =>
-            Abs2Rel(to.FullName, from.FullName);
+        public static string? Abs2Rel(this FileInfo to, DirectoryInfo? from) =>
+            Abs2Rel(to.FullName, from?.FullName);
 
         /// <summary>
         /// Creates a file path that is relative to the currently-edited demo path.
@@ -76,7 +76,7 @@ namespace System.IO
         /// The directory from which to consider the relative path. If no value is provided (i.e.
         /// `null` or empty string), then the current working directory is used.
         /// </param>
-        public static string Abs2Rel(string to, string from, bool isFile = true)
+        public static string? Abs2Rel(string to, string? from, bool isFile = true)
         {
             if (!Path.IsPathRooted(to))
             {
@@ -124,7 +124,7 @@ namespace System.IO
             }
         }
 
-        public static string GetLongExtension(string path)
+        public static string? GetLongExtension(string path)
         {
             if (path is null)
             {
@@ -142,7 +142,7 @@ namespace System.IO
             }
         }
 
-        public static string GetShortExtension(string path)
+        public static string? GetShortExtension(string path)
         {
             if (path is null)
             {
@@ -160,7 +160,7 @@ namespace System.IO
             }
         }
 
-        private static string Remove(string name, string ext)
+        private static string Remove(string name, string? ext)
         {
             if (name is null)
             {
@@ -185,7 +185,7 @@ namespace System.IO
             return Remove(name, GetLongExtension(name));
         }
 
-        public static string Abs2Rel(string fullPath)
+        public static string? Abs2Rel(string fullPath)
         {
             return Abs2Rel(fullPath, null);
         }
@@ -199,7 +199,7 @@ namespace System.IO
         /// The directory from which to consider the relative path. If no value is provided (i.e.
         /// `null` or empty string), then the current working directory is used.
         /// </param>
-        public static string Rel2Abs(string relativePath, string directory)
+        public static string? Rel2Abs(string relativePath, string? directory)
         {
             if (Path.IsPathRooted(relativePath))
             {
@@ -245,12 +245,12 @@ namespace System.IO
             }
         }
 
-        public static string Rel2Abs(string relativePath)
+        public static string? Rel2Abs(string relativePath)
         {
             return Rel2Abs(relativePath, null);
         }
 
-        public static string ToUnixStyle(string path)
+        public static string? ToUnixStyle(string path)
         {
             if (path is null)
             {

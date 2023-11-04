@@ -73,7 +73,7 @@ namespace Juniper.Compression.Tar.GZip
                     {
                         using var stream = entry.Open();
                         using var streamReader = new StreamReader(stream);
-                        paths[guid] = streamReader.ReadLine();
+                        paths[guid] = streamReader.ReadLine() ?? string.Empty;
                     }
 
                     if (paths.ContainsKey(guid)
@@ -127,7 +127,7 @@ namespace Juniper.Compression.Tar.GZip
         /// <param name="tar">A zipfile stream</param>
         /// <param name="prog">A prog tracking object, defaults to null (i.e. no prog tracking).</param>
         /// <returns>A lazy collection of <typeparamref name="ZipArchiveEntry"/> objects.</returns>
-        public static IEnumerable<CompressedFileInfo> Entries(this TarArchive tar, IProgress prog = null)
+        public static IEnumerable<CompressedFileInfo> Entries(this TarArchive tar, IProgress? prog = null)
         {
             if (tar is null)
             {
@@ -137,14 +137,14 @@ namespace Juniper.Compression.Tar.GZip
             var i = 0;
             foreach (var entry in tar.Entries)
             {
-                prog.Report(i++, tar.Entries.Count);
+                prog?.Report(i++, tar.Entries.Count);
                 yield return new CompressedFileInfo(entry);
             }
 
-            prog.Report(i, tar.Entries.Count);
+            prog?.Report(i, tar.Entries.Count);
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(Stream stream, IProgress prog = null)
+        public static IEnumerable<CompressedFileInfo> Entries(Stream stream, IProgress? prog = null)
         {
             if (stream is GZipStream gzStream)
             {
@@ -159,7 +159,7 @@ namespace Juniper.Compression.Tar.GZip
             }
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(FileInfo file, IProgress prog = null)
+        public static IEnumerable<CompressedFileInfo> Entries(FileInfo file, IProgress? prog = null)
         {
             if (file is null)
             {
@@ -173,7 +173,7 @@ namespace Juniper.Compression.Tar.GZip
             }
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(string fileName, IProgress prog = null)
+        public static IEnumerable<CompressedFileInfo> Entries(string fileName, IProgress? prog = null)
         {
             if (fileName is null)
             {

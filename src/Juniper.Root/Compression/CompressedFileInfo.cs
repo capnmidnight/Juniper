@@ -11,19 +11,16 @@ namespace Juniper.Compression
         IComparable<CompressedFileInfo>,
         ISerializable
     {
-        public string Name { get; }
+        public string? Name { get; }
         public string FullName { get; }
         public bool IsFile { get; }
         public long Length { get; }
-        public string ParentPath { get; }
+        public string? ParentPath { get; }
 
         internal readonly string[] pathParts;
 
-        internal CompressedFileInfo()
-            : this(null, false, 0, Array.Empty<string>())
-        { }
 
-        private CompressedFileInfo(string name, bool isFile, long size, string[] pathParts)
+        private CompressedFileInfo(string? name, bool isFile, long size, string[] pathParts)
         {
             Name = name;
             FullName = pathParts.Join(Path.DirectorySeparatorChar);
@@ -70,7 +67,7 @@ namespace Juniper.Compression
             info.AddValue(nameof(Length), Length);
         }
 
-        public bool Contains(CompressedFileInfo other)
+        public bool Contains(CompressedFileInfo? other)
         {
             return !IsFile
                 && other is not null
@@ -78,7 +75,7 @@ namespace Juniper.Compression
                 && other.FullName == ParentPath;
         }
 
-        public bool Equals(CompressedFileInfo other)
+        public bool Equals(CompressedFileInfo? other)
         {
             return other is not null
                 && FullName == other.FullName
@@ -86,7 +83,7 @@ namespace Juniper.Compression
                 && Length == other.Length;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is CompressedFileInfo cfi
                 && Equals(cfi);
@@ -105,7 +102,7 @@ namespace Juniper.Compression
 
         public bool Matches(MediaType type)
         {
-            return type.GuessMatches(Name);
+            return Name is not null && type.GuessMatches(Name);
         }
 
         public override string ToString()
@@ -120,7 +117,7 @@ namespace Juniper.Compression
             }
         }
 
-        public int CompareTo(CompressedFileInfo other)
+        public int CompareTo(CompressedFileInfo? other)
         {
             var name = string.Compare(FullName, other?.FullName, StringComparison.Ordinal);
             if (name != 0)

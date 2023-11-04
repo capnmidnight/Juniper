@@ -33,7 +33,8 @@ var tasks = new Dictionary<int, Task>();
 
 stdInEventer.Line += (_, e) =>
 {
-    if (cmdFactory.TryParse(e.Value, out var desc))
+    if (cmdFactory.TryParse(e.Value, out var desc)
+        && desc is not null)
     {
         if (desc.Command == "shutdown")
         {
@@ -164,7 +165,8 @@ foreach (var proc in procs)
 
 static ShellCommand MakeCommand(CommandProxyDescription desc)
 {
-    if (desc.Args[0] == "npm")
+    if (desc.Args[0] == "npm"
+        && desc.WorkingDir is not null)
     {
         var pkg = desc.WorkingDir.Touch("package.json");
         if (pkg.Exists)

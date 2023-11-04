@@ -77,7 +77,7 @@ namespace Juniper.Imaging
             var from = fromFactory.Deserialize(inFile, progs[0]);
             var to = Translate(from, progs[1]);
             toFactory.Serialize(outFile, to);
-            progs[2].Report(1);
+            IProgressExt.Report(progs[2], 1);
         }
 
         public void Translate(FileInfo inFile, FileInfo outFile, IProgress prog)
@@ -86,7 +86,7 @@ namespace Juniper.Imaging
             var from = fromFactory.Deserialize(inFile, progs[0]);
             var to = Translate(from, progs[1]);
             toFactory.Serialize(outFile, to);
-            progs[2].Report(1);
+            IProgressExt.Report(progs[2], 1);
         }
     }
 

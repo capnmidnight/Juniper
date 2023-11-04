@@ -14,11 +14,6 @@ namespace Juniper.Logic
 
         public static implicit operator ItemT(ItemExpression<ItemT> expr)
         {
-            if (expr is null)
-            {
-                return default;
-            }
-
             return expr.Value;
         }
 
@@ -39,7 +34,7 @@ namespace Juniper.Logic
 
         public override string ToString()
         {
-            return Value.ToString();
+            return Value?.ToString() ?? string.Empty;
         }
     }
 }

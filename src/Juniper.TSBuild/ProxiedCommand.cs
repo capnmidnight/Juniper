@@ -1,8 +1,6 @@
 using System.Text.RegularExpressions;
 
-using Juniper.Processes;
-
-namespace Juniper.TSBuild;
+namespace Juniper.Processes;
 
 public partial class ProxiedCommand : AbstractShellCommand
 {

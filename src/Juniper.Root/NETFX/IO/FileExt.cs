@@ -56,7 +56,10 @@ namespace System.IO
         public static void Copy(string src, string dest, bool overwrite)
         {
             var destDir = Path.GetDirectoryName(dest);
-            DirectoryExt.CreateDirectory(destDir);
+            if (destDir is not null)
+            {
+                DirectoryExt.CreateDirectory(destDir);
+            }
             File.Copy(src, dest, overwrite);
         }
 
@@ -69,7 +72,10 @@ namespace System.IO
         public static void WriteAllText(string path, string text)
         {
             var dir = Path.GetDirectoryName(path);
-            DirectoryExt.CreateDirectory(dir);
+            if (dir is not null)
+            {
+                DirectoryExt.CreateDirectory(dir);
+            }
             File.WriteAllText(path, text);
         }
     }

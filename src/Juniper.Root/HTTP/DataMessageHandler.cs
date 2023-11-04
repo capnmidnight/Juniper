@@ -13,8 +13,8 @@ namespace Juniper.HTTP
         private readonly string message;
         private readonly FactoryT factory;
 
-        public event EventHandler<EventArgs<ResultT>> DataMessage;
-        public event EventHandler<ErrorEventArgs> Error;
+        public event EventHandler<EventArgs<ResultT>>? DataMessage;
+        public event EventHandler<ErrorEventArgs>? Error;
 
         public DataMessageHandler(WebSocketConnection<SocketT> socket, string message, FactoryT factory)
         {
@@ -46,20 +46,26 @@ namespace Juniper.HTTP
             return factory.SerializeAsync(socket, value);
         }
 
-        private void Socket_Closed(object sender, EventArgs e)
+        private void Socket_Closed(object? sender, EventArgs e)
         {
             socket.DataMessage -= Socket_DataMessage;
             socket.Closed -= Socket_Closed;
         }
 
-        private void Socket_DataMessage(object sender, DataMessageEventArgs e)
+        private void Socket_DataMessage(object? sender, DataMessageEventArgs e)
         {
             if (e.Value.Message == message)
             {
                 try
                 {
-                    var value = factory.Deserialize(e.Value.Data);
-                    OnDataMessage(value);
+                    if (e.Value.Data is not null)
+                    {
+                        var value = factory.Deserialize(e.Value.Data);
+                        if (value is not null)
+                        {
+                            OnDataMessage(value);
+                        }
+                    }
                 }
                 catch (Exception exp)
                 {

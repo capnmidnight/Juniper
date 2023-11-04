@@ -23,7 +23,10 @@ public static class HttpListenerResponseExt
             throw new ArgumentNullException(nameof(source));
         }
 
-        response.SetFileName(source.ContentType, source.FileName);
+        if (source.FileName is not null)
+        {
+            response.SetFileName(source.ContentType, source.FileName);
+        }
 
         using var stream = await source
             .GetStreamAsync()

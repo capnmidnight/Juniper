@@ -2,7 +2,7 @@ namespace System.Collections.Specialized
 {
     public static class NameValueCollectionExt
     {
-        public static string Find(this NameValueCollection collect, string findKey, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
+        public static string? Find(this NameValueCollection collect, string findKey, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
             if (collect is null)
             {

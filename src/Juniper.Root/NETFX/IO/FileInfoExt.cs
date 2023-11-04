@@ -50,7 +50,7 @@ namespace System.IO
         /// <param name="file">The file.</param>
         /// <param name="dir">The dir.</param>
         /// <returns></returns>
-        public static string RelativeTo(this FileInfo file, DirectoryInfo dir)
+        public static string? RelativeTo(this FileInfo file, DirectoryInfo dir)
         {
             if (file is null)
             {
@@ -65,12 +65,10 @@ namespace System.IO
             return PathExt.Abs2Rel(file.FullName, dir.FullName);
         }
 
-        public static string GetShortName(this FileInfo file)
-        {
-            return Path.Combine(file.Directory?.Name ?? "", file.Name);
-        }
+        public static string GetShortName(this FileInfo file) =>
+            Path.Combine(file.Directory?.Name ?? "", file.Name);
 
-        public static string QuotePath(this string path)
+        public static string? QuotePath(this string? path)
         {
             if (path is not null
                 && path.Contains(' '))

@@ -8,7 +8,7 @@ namespace Juniper.IO
 
     public static class IDeserializerExt
     {
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, FileInfo file, IProgress prog)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, FileInfo file, IProgress? prog = null)
             where M : MediaType
         {
             if (file is null)
@@ -20,7 +20,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream, file.Length, prog);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, long length, IProgress prog)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, long length, IProgress? prog = null)
             where M : MediaType
         {
             if (deserializer is null)
@@ -37,7 +37,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(progStream);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, IProgress prog)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, IProgress? prog = null)
             where M : MediaType
         {
             if (deserializer is null)
@@ -54,14 +54,14 @@ namespace Juniper.IO
             return deserializer.Deserialize(progStream);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, out ResultT value, long length, IProgress prog)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, out ResultT? value, long length, IProgress? prog = null)
             where M : MediaType
         {
             using var progStream = new ProgressStream(stream, length, prog, false);
             return deserializer.TryDeserialize(progStream, out value);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, out ResultT value, IProgress prog)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, out ResultT? value, IProgress? prog = null)
             where M : MediaType
         {
             if (stream is null)
@@ -73,7 +73,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(progStream, out value);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, out ResultT value)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, Stream stream, out ResultT? value)
             where M : MediaType
         {
             if (deserializer is null)
@@ -102,7 +102,7 @@ namespace Juniper.IO
             }
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, byte[] data, IProgress prog)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, byte[] data, IProgress? prog = null)
             where M : MediaType
         {
             if (data is null)
@@ -114,7 +114,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream, data.Length, prog);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, byte[] data)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, byte[] data)
             where M : MediaType
         {
             if (deserializer is null)
@@ -131,7 +131,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, byte[] data, out ResultT value, IProgress prog)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, byte[] data, out ResultT? value, IProgress? prog = null)
             where M : MediaType
         {
             if (data is null)
@@ -143,7 +143,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(stream, out value, data.Length, prog);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, byte[] data, out ResultT value)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, byte[] data, out ResultT? value)
             where M : MediaType
         {
             if (data is null)
@@ -155,7 +155,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(stream, out value);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, IReadOnlyCollection<byte> data, IProgress prog)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, IReadOnlyCollection<byte> data, IProgress? prog = null)
             where M : MediaType
         {
             if (data is null)
@@ -166,7 +166,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(data.ToArray(), prog);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, IReadOnlyCollection<byte> data)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, IReadOnlyCollection<byte> data)
             where M : MediaType
         {
             if (data is null)
@@ -177,7 +177,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(data.ToArray());
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, IReadOnlyCollection<byte> data, out ResultT value, IProgress prog)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, IReadOnlyCollection<byte> data, out ResultT? value, IProgress? prog = null)
             where M : MediaType
         {
             if (data is null)
@@ -188,7 +188,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(data.ToArray(), out value, prog);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, IReadOnlyCollection<byte> data, out ResultT value)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, IReadOnlyCollection<byte> data, out ResultT? value)
             where M : MediaType
         {
             if (data is null)
@@ -199,7 +199,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(data.ToArray(), out value);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpWebResponse response, IProgress prog)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpWebResponse response, IProgress? prog = null)
             where M : MediaType
         {
             if (deserializer is null)
@@ -216,7 +216,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream, response.ContentLength, prog);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpWebResponse response)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpWebResponse response)
             where M : MediaType
         {
             if (deserializer is null)
@@ -233,7 +233,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpWebResponse response, out ResultT value, IProgress prog)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpWebResponse response, out ResultT? value, IProgress? prog = null)
             where M : MediaType
         {
             if (deserializer is null)
@@ -250,7 +250,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(stream, out value, response.ContentLength, prog);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpWebResponse response, out ResultT value)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpWebResponse response, out ResultT? value)
             where M : MediaType
         {
             if (deserializer is null)
@@ -267,7 +267,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(stream, out value);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpListenerRequest request, IProgress prog)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpListenerRequest request, IProgress? prog = null)
             where M : MediaType
         {
             if (deserializer is null)
@@ -284,7 +284,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream, request.ContentLength64, prog);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpListenerRequest request)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpListenerRequest request)
             where M : MediaType
         {
             if (deserializer is null)
@@ -301,7 +301,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpListenerRequest request, out ResultT value, IProgress prog)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpListenerRequest request, out ResultT? value, IProgress? prog = null)
             where M : MediaType
         {
             if (deserializer is null)
@@ -318,7 +318,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(stream, out value, request.ContentLength64, prog);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpListenerRequest request, out ResultT value)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpListenerRequest request, out ResultT? value)
             where M : MediaType
         {
             if (deserializer is null)
@@ -335,7 +335,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(stream, out value);
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response, IProgress prog)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response, IProgress? prog = null)
             where M : MediaType
         {
             if (deserializer is null)
@@ -359,7 +359,7 @@ namespace Juniper.IO
             }
         }
 
-        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response)
+        public static ResultT? Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response)
             where M : MediaType
         {
             if (deserializer is null)
@@ -376,7 +376,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream);
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response, out ResultT value, IProgress prog)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response, out ResultT? value, IProgress? prog = null)
             where M : MediaType
         {
             if (deserializer is null)
@@ -400,7 +400,7 @@ namespace Juniper.IO
             }
         }
 
-        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response, out ResultT value)
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response, out ResultT? value)
             where M : MediaType
         {
             if (deserializer is null)
@@ -417,7 +417,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(stream, out value);
         }
 
-        public static ResultT Parse<ResultT, M>(this IDeserializer<ResultT, M> deserializer, string text, IProgress prog = null)
+        public static ResultT? Parse<ResultT, M>(this IDeserializer<ResultT, M> deserializer, string text, IProgress? prog = null)
             where M : MediaType
         {
             if (text is null)
@@ -429,7 +429,7 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream, stream.Length, prog);
         }
 
-        public static bool TryParse<ResultT, M>(this IDeserializer<ResultT, M> deserializer, string text, out ResultT value, IProgress prog = null)
+        public static bool TryParse<ResultT, M>(this IDeserializer<ResultT, M> deserializer, string text, out ResultT? value, IProgress? prog = null)
             where M : MediaType
         {
             if (text is null)

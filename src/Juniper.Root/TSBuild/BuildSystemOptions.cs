@@ -12,7 +12,7 @@ namespace Juniper.TSBuild
         /// A list of directories that will have their contents
         /// deleted before running the build.
         /// </summary>
-        public DirectoryInfo[] CleanDirs;
+        public DirectoryInfo[]? CleanDirs;
 
         /// <summary>
         /// The directory that houses the project, if the
@@ -22,7 +22,7 @@ namespace Juniper.TSBuild
         /// The Project option takes precedence over the InProject
         /// and OutProject options.
         /// </summary>
-        public DirectoryInfo Project;
+        public DirectoryInfo? Project;
 
         /// <summary>
         /// The directory that houses the input source files,
@@ -35,7 +35,7 @@ namespace Juniper.TSBuild
         /// If an OutProject is specified but an InProject is not,
         /// the OutProject will be used as the InProject option.
         /// </summary>
-        public DirectoryInfo InProject;
+        public DirectoryInfo? InProject;
 
         /// <summary>
         /// The directory that houses the output bundle files,
@@ -48,7 +48,7 @@ namespace Juniper.TSBuild
         /// If an InProject is specified but an OutProject is not,
         /// the InProject will be used as the OutProject option.
         /// </summary>
-        public DirectoryInfo OutProject;
+        public DirectoryInfo? OutProject;
 
         /// <summary>
         /// A flag to skip running "npm install" on projects and
@@ -68,7 +68,7 @@ namespace Juniper.TSBuild
         /// on library projects from within the context of a
         /// dependent project.
         /// </summary>
-        public DirectoryInfo[] AdditionalNPMProjects;
+        public DirectoryInfo[]? AdditionalNPMProjects;
 
         /// <summary>
         /// A flag to skip running "npm build" on dependency
@@ -87,14 +87,14 @@ namespace Juniper.TSBuild
         /// If the file does not exist in the expected location,
         /// a warning will be printed in the build output.
         /// </summary>
-        public IEnumerable<BuildSystemDependency> Dependencies;
+        public IEnumerable<BuildSystemDependency>? Dependencies;
 
         /// <summary>
         /// Files that should be copied as part of the build.
         /// If the file does not exist in the expected location,
         /// no warning will be printed in the build output.
         /// </summary>
-        public IEnumerable<BuildSystemDependency> OptionalDependencies;
+        public IEnumerable<BuildSystemDependency>? OptionalDependencies;
 
         /// <summary>
         /// A list of NPM packages that are known to not be compatible
@@ -102,12 +102,12 @@ namespace Juniper.TSBuild
         /// to reference the banned dependency, the build system will
         /// print a warning.
         /// </summary>
-        public (string Name, string Version, string Reason)[] BannedDependencies;
+        public (string Name, string Version, string Reason)[]? BannedDependencies;
 
         /// <summary>
         /// Unused. An incomplete feature for deploying projects
         /// to servers using SCP.
         /// </summary>
-        public DeploymentOptions Deployment;
+        public DeploymentOptions? Deployment;
     }
 }

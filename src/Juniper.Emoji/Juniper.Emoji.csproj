@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Juniper</RootNamespace>
     <Platforms>AnyCPU;x64</Platforms>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

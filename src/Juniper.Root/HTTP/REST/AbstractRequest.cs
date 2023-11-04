@@ -39,7 +39,7 @@ namespace Juniper.HTTP.REST
 
         public override MediaType ContentType => ResponseBodyMediaType;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is not null
                 && obj is AbstractRequest<MediaTypeT> req
@@ -90,11 +90,16 @@ namespace Juniper.HTTP.REST
             }
         }
 
-        private void SetQuery(string key, string value, bool allowMany)
+        private void SetQuery(string key, string? value, bool allowMany)
         {
-            if (value == default && !allowMany)
+            if (value is null && !allowMany)
             {
                 RemoveQuery(key);
+            }
+            
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
             }
             else
             {
@@ -118,7 +123,7 @@ namespace Juniper.HTTP.REST
 
         protected void SetQuery<U>(string key, U value)
         {
-            SetQuery(key, value.ToString());
+            SetQuery(key, value?.ToString() ?? throw new ArgumentException(nameof(value)));
         }
 
         protected void AddQuery(string key, string value)
@@ -128,7 +133,7 @@ namespace Juniper.HTTP.REST
 
         protected void AddQuery<U>(string key, U value)
         {
-            SetQuery(key, value.ToString());
+            SetQuery(key, value?.ToString() ?? throw new ArgumentException(nameof(value)));
         }
 
         protected void RemoveQuery(string key)
@@ -154,12 +159,12 @@ namespace Juniper.HTTP.REST
 
         protected bool RemoveQuery<U>(string key, U value)
         {
-            return RemoveQuery(key, value.ToString());
+            return RemoveQuery(key, value?.ToString() ?? throw new ArgumentException(nameof(value)));
         }
 
-        protected virtual void ModifyRequest(HttpRequestMessage request, IProgress prog = null) { }
+        protected virtual void ModifyRequest(HttpRequestMessage request, IProgress? prog = null) { }
 
-        public override async Task<Stream> GetStreamAsync(IProgress prog = null)
+        public override async Task<Stream> GetStreamAsync(IProgress? prog = null)
         {
             var request = new HttpRequestMessage(method, AuthenticatedURI);
 

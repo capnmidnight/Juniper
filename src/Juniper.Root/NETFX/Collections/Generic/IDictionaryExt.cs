@@ -13,8 +13,9 @@ public static class IDictionaryExt
     /// <param name="collection"></param>
     /// <param name="getKey"></param>
     /// <returns></returns>
-    public static IDictionary<TKey, ICollection<TValue>> ToGroupDictionary<TKey, TValue>(this ICollection<TValue> collection, Func<TValue, TKey> getKey) =>
-        collection
+    public static IDictionary<TKey, ICollection<TValue>> ToGroupDictionary<TKey, TValue>(this ICollection<TValue> collection, Func<TValue, TKey> getKey)
+        where TKey : notnull
+        => collection
             .GroupBy(getKey)
             .ToDictionary(
                 g => g.Key,
@@ -29,8 +30,9 @@ public static class IDictionaryExt
     /// <param name="collection"></param>
     /// <param name="getKey"></param>
     /// <returns></returns>
-    public static IDictionary<TKey, ICollection<TValue>> ToGroupDictionary<TItem, TKey, TValue>(this ICollection<TItem> collection, Func<TItem, TKey> getKey, Func<TItem, TValue> getValue) =>
-        collection
+    public static IDictionary<TKey, ICollection<TValue>> ToGroupDictionary<TItem, TKey, TValue>(this ICollection<TItem> collection, Func<TItem, TKey> getKey, Func<TItem, TValue> getValue)
+        where TKey : notnull
+        => collection
             .GroupBy(getKey)
             .ToDictionary(
                 g => g.Key,
@@ -112,61 +114,53 @@ public static class IDictionaryExt
     }
 
     public static string ToString<KeyType, ValueType>(this Dictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator)
-    {
-        return (from kv in dict
-                select $"{kv.Key}{kvSeperator}{kv.Value}")
+        where KeyType : notnull
+        => (from kv in dict
+            select $"{kv.Key}{kvSeperator}{kv.Value}")
             .ToString(entrySeperator);
-    }
 
-    public static string ToString<KeyType, ValueType>(this IDictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator)
-    {
-        return (from kv in dict
-                select $"{kv.Key}{kvSeperator}{kv.Value}")
+    public static string ToString<KeyType, ValueType>(this IDictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator) =>
+        (from kv in dict
+         select $"{kv.Key}{kvSeperator}{kv.Value}")
             .ToString(entrySeperator);
-    }
 
-    public static string ToString<KeyType, ValueType>(this IReadOnlyDictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator)
-    {
-        return (from kv in dict
-                select $"{kv.Key}{kvSeperator}{kv.Value}")
+    public static string ToString<KeyType, ValueType>(this IReadOnlyDictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator) =>
+        (from kv in dict
+         select $"{kv.Key}{kvSeperator}{kv.Value}")
             .ToString(entrySeperator);
-    }
 
     public static string ToString<KeyType, ElementType>(this Dictionary<KeyType, List<ElementType>> dict, string kvSeperator, string entrySeperator)
-    {
-        return (from kv in dict
-                select (from elem in kv.Value
-                        select $"{kv.Key}{kvSeperator}{elem}")
-                    .ToString(entrySeperator))
+        where KeyType : notnull
+        => (from kv in dict
+            select (from elem in kv.Value
+                    select $"{kv.Key}{kvSeperator}{elem}")
+                .ToString(entrySeperator))
                 .ToString(entrySeperator);
-    }
 
-    public static string ToString<KeyType, ElementType>(this IDictionary<KeyType, List<ElementType>> dict, string kvSeperator, string entrySeperator)
-    {
-        return (from kv in dict
-                select (from elem in kv.Value
-                        select $"{kv.Key}{kvSeperator}{elem}")
-                    .ToString(entrySeperator))
+    public static string ToString<KeyType, ElementType>(this IDictionary<KeyType, List<ElementType>> dict, string kvSeperator, string entrySeperator) =>
+        (from kv in dict
+         select (from elem in kv.Value
+                 select $"{kv.Key}{kvSeperator}{elem}")
+             .ToString(entrySeperator))
                 .ToString(entrySeperator);
-    }
 
-    public static string ToString<KeyType, ElementType>(this IReadOnlyDictionary<KeyType, List<ElementType>> dict, string kvSeperator, string entrySeperator)
-    {
-        return (from kv in dict
-                select (from elem in kv.Value
-                        select $"{kv.Key}{kvSeperator}{elem}")
-                    .ToString(entrySeperator))
+    public static string ToString<KeyType, ElementType>(this IReadOnlyDictionary<KeyType, List<ElementType>> dict, string kvSeperator, string entrySeperator) =>
+        (from kv in dict
+         select (from elem in kv.Value
+                 select $"{kv.Key}{kvSeperator}{elem}")
+             .ToString(entrySeperator))
                 .ToString(entrySeperator);
-    }
 
-    public static Dictionary<B, A> Invert<A, B>(this Dictionary<A, B> dict)
+    public static Dictionary<TypeB, TypeA> Invert<TypeA, TypeB>(this Dictionary<TypeA, TypeB> dict)
+        where TypeA : notnull
+        where TypeB : notnull
     {
         if (dict is null)
         {
             throw new ArgumentNullException(nameof(dict));
         }
 
-        var dict2 = new Dictionary<B, A>();
+        var dict2 = new Dictionary<TypeB, TypeA>();
         foreach (var kv in dict)
         {
             dict2[kv.Value] = kv.Key;
@@ -175,14 +169,16 @@ public static class IDictionaryExt
         return dict2;
     }
 
-    public static Dictionary<B, A> Invert<A, B>(this IDictionary<A, B> dict)
+    public static Dictionary<TypeB, TypeA> Invert<TypeA, TypeB>(this IDictionary<TypeA, TypeB> dict)
+        where TypeA : notnull
+        where TypeB : notnull
     {
         if (dict is null)
         {
             throw new ArgumentNullException(nameof(dict));
         }
 
-        var dict2 = new Dictionary<B, A>();
+        var dict2 = new Dictionary<TypeB, TypeA>();
         foreach (var kv in dict)
         {
             dict2[kv.Value] = kv.Key;
@@ -191,14 +187,16 @@ public static class IDictionaryExt
         return dict2;
     }
 
-    public static Dictionary<B, A> Invert<A, B>(this IReadOnlyDictionary<A, B> dict)
+    public static Dictionary<TypeB, TypeA> Invert<TypeA, TypeB>(this IReadOnlyDictionary<TypeA, TypeB> dict)
+        where TypeA : notnull
+        where TypeB : notnull
     {
         if (dict is null)
         {
             throw new ArgumentNullException(nameof(dict));
         }
 
-        var dict2 = new Dictionary<B, A>();
+        var dict2 = new Dictionary<TypeB, TypeA>();
         foreach (var kv in dict)
         {
             dict2[kv.Value] = kv.Key;

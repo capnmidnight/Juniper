@@ -3,7 +3,7 @@ namespace Juniper
     public partial class MediaType
     {
         public static readonly MediaType Any = new("*", "*");
-        private static MediaType[] _all;
+        private static MediaType[]? _all;
         public static IReadOnlyCollection<MediaType> All
         {
             get

@@ -106,16 +106,13 @@ namespace System
         }
 
         private const string DEFAULT_CHAR_SET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
-        public static char NextChar(this Random rand, string charSet)
+        public static char NextChar(this Random rand, string? charSet = null)
         {
-            if (charSet is null)
-            {
-                charSet = DEFAULT_CHAR_SET;
-            }
+            charSet ??= DEFAULT_CHAR_SET;
 
             if (charSet.Length == 0)
             {
-                throw new ArgumentException(nameof(charSet), "Character set for random selection must not be the empty string");
+                throw new ArgumentException("Character set for random selection must not be the empty string", nameof(charSet));
             }
 
             var idx = rand.Next(0, charSet.Length);
@@ -128,7 +125,7 @@ namespace System
         /// <param name="length"></param>
         /// <param name="charSet"></param>
         /// <returns></returns>
-        public static string NextString(this Random rand, uint length, string charSet = null)
+        public static string NextString(this Random rand, uint length, string? charSet = null)
         {
             var str = "";
             for (var i = 0; i < length; ++i)

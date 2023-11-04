@@ -109,7 +109,7 @@ namespace System
         /// If <paramref name="index"/> is in bounds for <paramref name="items"/>, returns the indexed item in the array.
         /// Otherwise, returns the default value of <typeparamref name="T"/>.
         /// </returns>
-        public static T MaybeGet<T>(this T[] items, int index)
+        public static T? MaybeGet<T>(this T[] items, int index)
         {
             if (items is null)
             {
@@ -132,11 +132,9 @@ namespace System
         /// <param name="args">The array of items to query.</param>
         /// <returns>A lazy collection of System.Type-s for each item in the array. If any particular item
         /// is null, returns null for that item.</returns>
-        public static IEnumerable<Type> Types(this object[] args)
-        {
-            return from arg in args
-                   select arg?.GetType();
-        }
+        public static IEnumerable<Type> Types(this object[] args) =>
+            from arg in args
+            select arg?.GetType();
 
         /// <summary>
         /// Perform the Linq IEnumerable Except function, but ignore null parameters.
@@ -188,13 +186,10 @@ namespace System
 
         public static IEnumerable<T[]> Partition<T>(this T[] deck, int handSize)
         {
-            List<T> partition = null;
+            List<T>? partition = null;
             foreach (var item in deck)
             {
-                if (partition is null)
-                {
-                    partition = new List<T>();
-                }
+                partition ??= new List<T>();
                 partition.Add(item);
                 if (partition.Count == handSize)
                 {
@@ -211,7 +206,7 @@ namespace System
 
         public static int IndexOf<T>(this T[] arr, T value)
         {
-            for(var i = 0; i < arr.Length; ++i)
+            for (var i = 0; i < arr.Length; ++i)
             {
                 if (ReferenceEquals(arr[i], value))
                 {

@@ -4,7 +4,7 @@ namespace Juniper
     {
         public partial class Font : MediaType
         {
-            private static List<Font> _allFont;
+            private static List<Font> ?_allFont;
             private static List<Font> AllFnt => _allFont ??= new();
             public static IReadOnlyCollection<Font> AllFont => AllFnt;
             public static readonly Font AnyFont = new("*");

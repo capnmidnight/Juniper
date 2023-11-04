@@ -11,12 +11,12 @@ namespace Juniper.HTTP
             Length = length;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is BodyInfo body && Equals(body);
         }
 
-        public bool Equals(BodyInfo other)
+        public bool Equals(BodyInfo? other)
         {
             return other is not null
                 && ContentType == other.ContentType

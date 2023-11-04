@@ -5,7 +5,9 @@ namespace Juniper.Collections
         public static Tree<ValueT> ToTree<KeyT, ValueT>(this IEnumerable<ValueT> items,
             Func<ValueT, KeyT> getKey,
             Func<ValueT, KeyT> getParentKey,
-            Func<ValueT, int> getOrder = null)
+            Func<ValueT, int>? getOrder = null)
+            where KeyT : notnull
+            where ValueT : notnull
         {
             return items.ToTree(getKey, getParentKey, Always.Identity, getOrder);
         }
@@ -14,9 +16,11 @@ namespace Juniper.Collections
             Func<NodeT, KeyT> getKey,
             Func<NodeT, KeyT> getParentKey,
             Func<NodeT, ValueT> getValue,
-            Func<NodeT, int> getOrder = null)
+            Func<NodeT, int>? getOrder = null)
+            where KeyT : notnull
+            where ValueT : notnull
         {
-            var rootNode = new Tree<ValueT>(default);
+            var rootNode = new Tree<ValueT>();
             var nodes = new Dictionary<KeyT, Tree<ValueT>>();
 
             foreach (var item in items)
@@ -32,23 +36,16 @@ namespace Juniper.Collections
                 var nodeID = getKey(item);
                 var node = nodes[nodeID];
                 var parentNodeID = getParentKey(item);
-                var isParentNodeDefined = parentNodeID != null;
-                var hasParentNode = isParentNodeDefined && nodes.ContainsKey(parentNodeID);
-                var parentNode = !isParentNodeDefined
-                    ? rootNode
-                    : hasParentNode
+                var parentNode = parentNodeID is not null
+                    && nodes.ContainsKey(parentNodeID)
                         ? nodes[parentNodeID]
-                        : null;
-
-                if (parentNode is not null)
+                        : rootNode;
+                var index = parentNode.Children.Count;
+                if (getOrder is not null)
                 {
-                    var index = parentNode.Children.Count;
-                    if (getOrder is not null)
-                    {
-                        index = getOrder(item);
-                    }
-                    parentNode.Connect(node, index);
+                    index = getOrder(item);
                 }
+                parentNode.Connect(node, index);
             }
 
             return rootNode;
@@ -60,12 +57,12 @@ namespace Juniper.Collections
     /// A node in an N-ary tree.
     /// </summary>
     /// <typeparam name="T">Any type of object</typeparam>
-    public partial class Tree<T>
+    public partial class Tree<T> where T : notnull
     {
         /// <summary>
         /// The value stored in this node.
         /// </summary>
-        public T Value { get; internal set; }
+        public T? Value { get; internal set; }
 
         protected List<Tree<T>> ChildNodes { get; } = new List<Tree<T>>();
 
@@ -77,7 +74,7 @@ namespace Juniper.Collections
         /// <summary>
         /// The next node above the current node.
         /// </summary>
-        public Tree<T> Parent { get; private set; }
+        public Tree<T>? Parent { get; private set; }
 
         public Tree()
         { }
@@ -176,7 +173,10 @@ namespace Juniper.Collections
         {
             foreach (var node in NodesDepthFirst())
             {
-                yield return node.Value;
+                if (node.Value is not null)
+                {
+                    yield return node.Value;
+                }
             }
         }
 
@@ -203,7 +203,10 @@ namespace Juniper.Collections
         {
             foreach (var node in NodesBreadthFirst())
             {
-                yield return node.Value;
+                if (node.Value is not null)
+                {
+                    yield return node.Value;
+                }
             }
         }
 
@@ -251,14 +254,15 @@ namespace Juniper.Collections
 
         public bool Contains(Tree<T> node)
         {
-            while (node is not null)
+            Tree<T>? here = node;
+            while (here is not null)
             {
-                if (node == this)
+                if (here == this)
                 {
                     return true;
                 }
 
-                node = node.Parent;
+                here = here.Parent;
             }
 
             return false;
@@ -275,27 +279,27 @@ namespace Juniper.Collections
 
         public void RemoveFromParent()
         {
-            if (Parent is not null)
-            {
-                Parent.Remove(this);
-            }
+            Parent?.Remove(this);
         }
 
-        public Tree<T> Find(T value)
+        public Tree<T>? Find(T value)
         {
             return FindByKey(value, Always.Identity);
         }
 
-        public Tree<T> FindByKey<K>(K key1, Func<T, K> getKey)
+        public Tree<T>? FindByKey<K>(K key1, Func<T, K> getKey) where K : notnull
         {
             var isClass = typeof(K).IsClass;
             foreach (var node in NodesBreadthFirst())
             {
-                var key2 = getKey(node.Value);
-                if (isClass && ReferenceEquals(key1, key2)
-                    || !isClass && key1.Equals(key2))
+                if (node.Value is not null)
                 {
-                    return node;
+                    var key2 = getKey(node.Value);
+                    if (isClass && ReferenceEquals(key1, key2)
+                        || !isClass && key1.Equals(key2))
+                    {
+                        return node;
+                    }
                 }
             }
 

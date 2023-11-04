@@ -15,7 +15,7 @@ namespace Juniper.Mathematics
             Height = height;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Rect rect && Equals(rect);
         }

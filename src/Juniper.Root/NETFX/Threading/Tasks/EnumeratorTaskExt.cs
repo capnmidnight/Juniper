@@ -22,7 +22,7 @@ namespace System.Threading.Tasks
             return new Task<IEnumerable<T>>(ToList<T>, iter);
         }
 
-        private static IEnumerable<T> ToList<T>(object state)
+        private static IEnumerable<T> ToList<T>(object? state)
         {
             var iter = (IEnumerator<T>)state;
             var output = new List<T>();

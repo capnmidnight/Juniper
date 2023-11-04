@@ -41,7 +41,7 @@ namespace Juniper.Mathematics
             info.AddQuaternion(nameof(Orientation), Orientation);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is PoseSerializable other
                 && Equals(other);

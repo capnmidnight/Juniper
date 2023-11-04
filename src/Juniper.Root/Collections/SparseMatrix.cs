@@ -6,7 +6,8 @@ namespace Juniper.Collections
 {
     [Serializable]
     public class SparseMatrix<KeyT, ValueT> : ISaveable<SparseMatrix<KeyT, ValueT>>
-
+        where KeyT : notnull
+        where ValueT : notnull
     {
         private readonly Dictionary<KeyT, Dictionary<KeyT, ValueT>> map;
 
@@ -19,14 +20,17 @@ namespace Juniper.Collections
             : this()
         {
             var entries = info.GetValue<(KeyT x, KeyT y, ValueT v)[]>(nameof(map));
-            foreach ((var x, var y, var v) in entries)
+            if (entries is not null)
             {
-                if (!ContainsColumn(x))
+                foreach ((var x, var y, var v) in entries)
                 {
-                    map.Add(x, new Dictionary<KeyT, ValueT>());
-                }
+                    if (!ContainsColumn(x))
+                    {
+                        map.Add(x, new Dictionary<KeyT, ValueT>());
+                    }
 
-                map[x].Add(y, v);
+                    map[x].Add(y, v);
+                }
             }
         }
 
@@ -43,24 +47,40 @@ namespace Juniper.Collections
             info.AddValue(nameof(map), entries.ToArray());
         }
 
-        public ValueT this[KeyT x, KeyT y]
+        public ValueT? this[KeyT x, KeyT y]
         {
 
             get => Contains(x, y) ? map[x][y] : default;
             set
             {
-                if (!map.ContainsKey(x))
+                if (value is not null)
                 {
-                    map.Add(x, new Dictionary<KeyT, ValueT>());
-                }
+                    if (!map.ContainsKey(x))
+                    {
+                        map.Add(x, new Dictionary<KeyT, ValueT>());
+                    }
 
-                map[x][y] = value;
+                    map[x][y] = value;
+                }
+                else
+                {
+                    if (map.ContainsKey(x))
+                    {
+                        var row = map[x];
+                        row.Remove(y);
+                        if (row.Count == 0)
+                        {
+                            map.Remove(x);
+                        }
+                    }
+                }
             }
         }
 
         public IEnumerable<ValueT> Values =>
             from col in map.Values
             from cell in col
+            where cell.Value is not null
             select cell.Value;
 
         public IEnumerable<(KeyT x, KeyT y, ValueT value)> Entries =>
@@ -69,9 +89,9 @@ namespace Juniper.Collections
             select (col.Key, cell.Key, cell.Value);
 
         public IEnumerable<KeyT> Columns => map.Keys;
-        
+
         public IEnumerable<KeyT> ColumnCells(KeyT x) => map[x].Keys;
-        
+
         public IEnumerable<KeyT> Rows =>
             (from x in Columns
              from cell in ColumnCells(x)
@@ -80,7 +100,7 @@ namespace Juniper.Collections
 
         public IEnumerable<KeyT> RowCells(KeyT y)
         {
-            foreach(var column in Columns)
+            foreach (var column in Columns)
             {
                 if (map[column].ContainsKey(y))
                 {
@@ -143,7 +163,7 @@ namespace Juniper.Collections
 
         public bool RemoveRow(KeyT y)
         {
-            bool removed = false;
+            var removed = false;
             var toRemove = new List<KeyT>();
             foreach (var (col, values) in map)
             {

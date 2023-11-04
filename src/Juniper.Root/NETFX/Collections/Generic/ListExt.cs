@@ -177,13 +177,10 @@ namespace System.Collections.Generic
             }
 
             var partitions = new List<List<T>>();
-            List<T> partition = null;
+            List<T>? partition = null;
             foreach (var item in items)
             {
-                if (partition is null)
-                {
-                    partition = new List<T>();
-                }
+                partition ??= new List<T>();
                 partition.Add(item);
                 if (partition.Count == partitionSize)
                 {
@@ -213,14 +210,14 @@ namespace System.Collections.Generic
             }
 
             var hands = new List<T>[numHands];
-            for (int i = 0; i < numHands; ++i)
+            for (var i = 0; i < numHands; ++i)
             {
                 hands[i] = new List<T>();
             }
 
-            for (int i = 0; i < deck.Count; ++i)
+            for (var i = 0; i < deck.Count; ++i)
             {
-                int hand = i % numHands;
+                var hand = i % numHands;
                 hands[hand].Add(deck[i]);
             }
 
@@ -246,14 +243,14 @@ namespace System.Collections.Generic
             }
 
             var hands = new List<T>[numHands];
-            for (int i = 0; i < numHands; ++i)
+            for (var i = 0; i < numHands; ++i)
             {
                 hands[i] = new List<T>(handSize);
             }
 
-            for (int i = 0; i < count; ++i)
+            for (var i = 0; i < count; ++i)
             {
-                int hand = i % numHands;
+                var hand = i % numHands;
                 hands[hand].Add(deck[i]);
             }
 

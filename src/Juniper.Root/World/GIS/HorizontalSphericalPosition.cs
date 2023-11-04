@@ -76,12 +76,12 @@ namespace Juniper.World.GIS
             return HashCode.Combine(AltitudeDegrees, AzimuthDegrees, RadiusAU);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is HorizontalSphericalPosition ho && Equals(ho);
         }
 
-        public bool Equals(HorizontalSphericalPosition other)
+        public bool Equals(HorizontalSphericalPosition? other)
         {
             return other is not null
                 && AltitudeDegrees == other.AltitudeDegrees

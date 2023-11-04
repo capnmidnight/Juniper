@@ -32,7 +32,7 @@ namespace System.Collections.Generic
         /// <param name="x">The left string.</param>
         /// <param name="y">The right string.</param>
         /// <returns>An integer representing the direction the in which to move the items.</returns>
-        public int Compare(string x, string y)
+        public int Compare(string? x, string? y)
         {
             if (x is null)
             {
@@ -92,7 +92,7 @@ namespace System.Collections.Generic
         /// <summary> Finish implementing the IComparer<T> interface. </summary> <returns>The
         /// collections. generic. IC omparer< system. string>. compare.</returns> <param name="x">The
         /// x coordinate.</param> <param name="y">The y coordinate.</param>
-        int IComparer<string>.Compare(string x, string y)
+        int IComparer<string>.Compare(string? x, string? y)
         {
             return Compare(x, y);
         }

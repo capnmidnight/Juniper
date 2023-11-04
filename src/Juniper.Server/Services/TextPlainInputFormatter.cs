@@ -6,7 +6,7 @@ public class TextPlainInputFormatter : InputFormatter
 {
     public TextPlainInputFormatter()
     {
-        SupportedMediaTypes.Add(MediaType.Text_Plain);
+        SupportedMediaTypes.Add(MediaType.Text_Plain.ToString()!);
     }
 
     public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context)
@@ -18,5 +18,5 @@ public class TextPlainInputFormatter : InputFormatter
     }
 
     public override bool CanRead(InputFormatterContext context) => 
-        context.HttpContext.Request.ContentType?.StartsWith(MediaType.Text_Plain) == true;
+        context.HttpContext.Request.ContentType?.StartsWith(MediaType.Text_Plain.ToString()!) == true;
 }

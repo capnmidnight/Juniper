@@ -203,11 +203,22 @@ namespace Juniper.Collections
         /// <summary> A default Comparer to use when a comparer is not defined. If the type
         /// implements the IComparable<T> or IComparable interface, then it will use the object's own
         /// CompareTo method. </summary>
-        private class PQComparer : IComparer<T>
+        internal class PQComparer : IComparer<T>
         {
-            public int Compare(T t1, T t2)
+            public int Compare(T? t1, T? t2)
             {
-                return t1.CompareTo(t2);
+                if (t1 is not null)
+                {
+                    return t1.CompareTo(t2);
+                }
+                else if (t2 is not null)
+                {
+                    return -t2.CompareTo(t1);
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
     }

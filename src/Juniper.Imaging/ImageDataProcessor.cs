@@ -32,7 +32,7 @@ namespace Juniper.Imaging
                 {
                     var tileI = (tileY * columns) + tileX;
                     var p = progs[tileI];
-                    p.Report(0);
+                    IProgressExt.Report(p, 0);
                     var tile = images[tileY, tileX];
                     var tileData = tile.GetData();
                     for (var y = 0; y < tileHeight; ++y)
@@ -42,7 +42,7 @@ namespace Juniper.Imaging
                         Array.Copy(tileData, tileBufferI, bufferData, bufferI, tileWidth);
                     }
 
-                    p.Report(1);
+                    IProgressExt.Report(p, 1);
                 }
             }
 

@@ -11,7 +11,7 @@ namespace Juniper.IO
             this.assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
         }
 
-        public Stream GetStream(string fileName)
+        public Stream? GetStream(string fileName)
         {
             if (fileName is null)
             {

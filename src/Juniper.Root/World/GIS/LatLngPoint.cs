@@ -80,19 +80,19 @@ namespace Juniper.World.GIS
                 {
                     case "lat":
                     case "latitude":
-                    Lat = info.GetSingle(pair.Name);
-                    break;
+                        Lat = info.GetSingle(pair.Name);
+                        break;
 
                     case "lon":
                     case "lng":
                     case "longitude":
-                    Lng = info.GetSingle(pair.Name);
-                    break;
+                        Lng = info.GetSingle(pair.Name);
+                        break;
 
                     case "alt":
                     case "altitude":
-                    Alt = info.GetSingle(pair.Name);
-                    break;
+                        Alt = info.GetSingle(pair.Name);
+                        break;
                 }
             }
         }
@@ -141,9 +141,14 @@ namespace Juniper.World.GIS
             return false;
         }
 
-        private static bool TryParseDMSPair(string value, out LatLngPoint point)
+        private static bool TryParseDMSPair(string? value, out LatLngPoint? point)
         {
             point = null;
+            if (value is null)
+            {
+                return false;
+            }
+
             var parts = value.SplitX(',');
             if (parts.Length == 2
                 && TryParseDMS(parts[0], out var lat)
@@ -155,15 +160,20 @@ namespace Juniper.World.GIS
             return point is not null;
         }
 
-        public static bool TryParse(string value, out LatLngPoint point)
+        public static bool TryParse(string? value, out LatLngPoint? point)
         {
             return TryParseDecimal(value, out point)
                 || TryParseDMSPair(value, out point);
         }
 
-        private static bool TryParseDecimal(string value, out LatLngPoint point)
+        private static bool TryParseDecimal(string? value, out LatLngPoint? point)
         {
             point = null;
+            if (value is null)
+            {
+                return false;
+            }
+
             var parts = value.SplitX(',');
             if (parts.Length == 2
                 && double.TryParse(parts[0].Trim(), out var lat)
@@ -179,7 +189,7 @@ namespace Juniper.World.GIS
         {
             if (TryParse(value, out var point))
             {
-                return point;
+                return point!;
             }
             else
             {
@@ -249,7 +259,7 @@ namespace Juniper.World.GIS
 
         public static explicit operator string(LatLngPoint value)
         {
-            return value?.ToString(CultureInfo.InvariantCulture);
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -282,12 +292,12 @@ namespace Juniper.World.GIS
         /// </summary>
         /// <param name="obj">The number of obj</param>
         /// <returns>Whether or not the two values represent the same point on earth.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is LatLngPoint p && Equals(p);
         }
 
-        public bool Equals(LatLngPoint other)
+        public bool Equals(LatLngPoint? other)
         {
             return other is not null
                 && Lat == other.Lat
@@ -315,7 +325,7 @@ namespace Juniper.World.GIS
             return HashCode.Combine(Lat, Lng, Alt);
         }
 
-        public int CompareTo(LatLngPoint other)
+        public int CompareTo(LatLngPoint? other)
         {
             if (other is null)
             {

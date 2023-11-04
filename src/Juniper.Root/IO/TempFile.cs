@@ -9,9 +9,9 @@ namespace Juniper.IO
 
         public FileInfo FileInfo { get; }
 
-        public MediaType MediaType { get; }
+        public MediaType? MediaType { get; }
 
-        public TempFile(MediaType mediaType = null)
+        public TempFile(MediaType? mediaType = null)
         {
             FilePath = Path.GetTempFileName();
             MediaType = mediaType;

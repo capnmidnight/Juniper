@@ -51,7 +51,7 @@ namespace System.Net.Http
                 throw new ArgumentNullException(nameof(value));
             }
 
-            string valueString;
+            string? valueString;
             if (value is bool b)
             {
                 valueString = b
@@ -63,7 +63,10 @@ namespace System.Net.Http
                 valueString = value.ToString();
             }
 
-            request.Headers.Add(name, valueString);
+            if (valueString is not null)
+            {
+                request.Headers.Add(name, valueString);
+            }
             return request;
         }
 
@@ -254,7 +257,7 @@ namespace System.Net.Http
             return request;
         }
 
-        public static HttpRequestMessage Cookie(this HttpRequestMessage request, string key, string value, string path = null, string domain = null, DateTime? expiration = null, bool secure = true, bool httpOnly = true)
+        public static HttpRequestMessage Cookie(this HttpRequestMessage request, string key, string value, string? path = null, string? domain = null, DateTime? expiration = null, bool secure = true, bool httpOnly = true)
         {
             if (request is null)
             {
@@ -373,7 +376,7 @@ namespace System.Net.Http
         /// <param name="contentType"></param>
         /// <param name="contentLength"></param>
         /// <returns></returns>
-        public static HttpRequestMessage Body(this HttpRequestMessage request, HttpContent content, MediaType contentType = null, long? contentLength = null)
+        public static HttpRequestMessage Body(this HttpRequestMessage request, HttpContent content, MediaType? contentType = null, long? contentLength = null)
         {
             if (request is null)
             {
@@ -409,13 +412,13 @@ namespace System.Net.Http
 
         public static HttpRequestMessage ContentType(this HttpRequestMessage request, MediaType contentType)
         {
-            request.Content.ContentType(contentType);
+            request.Content?.ContentType(contentType);
             return request;
         }
 
         public static HttpRequestMessage ContentLength(this HttpRequestMessage request, long contentLength)
         {
-            request.Content.ContentLength(contentLength);
+            request.Content?.ContentLength(contentLength);
             return request;
         }
 

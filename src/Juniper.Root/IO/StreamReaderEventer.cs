@@ -2,12 +2,12 @@ namespace Juniper.IO
 {
     public class StreamReaderEventer : IDisposable
     {
-        private StreamReader reader;
-        private Thread thread;
+        private StreamReader? reader;
+        private Thread? thread;
         private bool running;
         private bool disposedValue;
 
-        public event EventHandler<StringEventArgs> Line;
+        public event EventHandler<StringEventArgs>? Line;
 
         public StreamReaderEventer(Stream stream)
         {
@@ -17,6 +17,11 @@ namespace Juniper.IO
 
         private void Run()
         {
+            if (reader is null)
+            {
+                throw new ObjectDisposedException(nameof(reader));
+            }
+
             while (running)
             {
                 var line = reader.ReadLine();
@@ -33,6 +38,11 @@ namespace Juniper.IO
 
         public void Start()
         {
+            if (thread is null)
+            {
+                throw new ObjectDisposedException(nameof(thread));
+            }
+
             if (!running)
             {
                 running = true;
@@ -42,6 +52,11 @@ namespace Juniper.IO
 
         public void Stop()
         {
+            if (thread is null)
+            {
+                throw new ObjectDisposedException(nameof(thread));
+            }
+
             if (running)
             {
                 running = false;
@@ -58,7 +73,7 @@ namespace Juniper.IO
                     Stop();
                     thread = null;
 
-                    reader.Dispose();
+                    reader?.Dispose();
                     reader = null;
                 }
 

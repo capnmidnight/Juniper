@@ -4,7 +4,7 @@ namespace Juniper
     {
         public partial class XShader : MediaType
         {
-            private static List<XShader> _allXShad;
+            private static List<XShader>? _allXShad;
             private static List<XShader> AllXShad => _allXShad ??= new();
             public static IReadOnlyCollection<XShader> AllXShader => AllXShad;
             public static readonly XShader AnyXShader = new("*");

@@ -4,7 +4,7 @@ namespace Juniper
     {
         public partial class Image : MediaType
         {
-            private static List<Image> _allImage;
+            private static List<Image>? _allImage;
             private static List<Image> AllImg => _allImage ??= new();
             public static IReadOnlyCollection<Image> AllImage => AllImg;
             public static readonly Image AnyImage = new("*");

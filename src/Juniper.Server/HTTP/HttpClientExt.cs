@@ -121,7 +121,9 @@ public static class HttpClientExt
         }
 
         var responseStream = await responseMessage.Content.ReadAsStreamAsync();
-        return new FileStreamResult(responseStream, responseMessage.Content.Headers.ContentType?.MediaType ?? MediaType.Application_Octet_Stream)
+        var mediaType = responseMessage.Content.Headers.ContentType?.MediaType
+            ?? MediaType.Application_Octet_Stream;
+        return new FileStreamResult(responseStream, mediaType!)
         {
             EnableRangeProcessing = true,
         };

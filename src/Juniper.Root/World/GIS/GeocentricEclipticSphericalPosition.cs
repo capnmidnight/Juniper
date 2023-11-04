@@ -75,12 +75,12 @@ namespace Juniper.World.GIS
             return HashCode.Combine(LatitudeDegrees, LongitudeDegrees, RadiusAU);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is GeocentricEclipticSphericalPosition geo && Equals(geo);
         }
 
-        public bool Equals(GeocentricEclipticSphericalPosition other)
+        public bool Equals(GeocentricEclipticSphericalPosition? other)
         {
             return other is not null
                 && LatitudeDegrees == other.LatitudeDegrees

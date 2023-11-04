@@ -22,7 +22,7 @@ namespace Juniper.IO
         /// <summary>
         /// The parent progress tracker to which to forward progress reports.
         /// </summary>
-        private readonly IProgress parent;
+        private readonly IProgress? parent;
 
         /// <summary>
         /// Creates a progress tracker for a stream, using a set length for the tracking.
@@ -30,7 +30,7 @@ namespace Juniper.IO
         /// <param name="stream"></param>
         /// <param name="length"></param>
         /// <param name="parent"></param>
-        public ProgressStream(Stream stream, long length, IProgress parent, bool ownStream)
+        public ProgressStream(Stream stream, long length, IProgress? parent, bool ownStream)
         {
             BaseStream = stream;
             this.length = length;
@@ -78,14 +78,14 @@ namespace Juniper.IO
         /// </summary>
         /// <param name="progress"></param>
         /// <param name="status"></param>
-        public void ReportWithStatus(float progress, string status)
+        public void Report(float progress, string? status = null)
         {
             Status = status;
             Progress = progress;
-            parent.Report(Progress, Status);
+            parent?.Report(Progress, Status);
         }
 
-        public string Status { get; private set; }
+        public string? Status { get; private set; }
 
         /// <summary>
         /// How far we've gotten through the stream.

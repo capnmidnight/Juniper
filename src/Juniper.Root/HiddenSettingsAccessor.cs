@@ -19,12 +19,12 @@ namespace Juniper
         {
             var t = typeof(T);
             var p = t.GetProperty(name, HIDDEN_STATIC);
-            var isGood = p != null;
-            if (isGood)
+            if (p is not null)
             {
                 p.SetValue(null, value);
+                return true;
             }
-            return isGood;
+            return false;
         }
 
         /// <summary>
@@ -37,13 +37,13 @@ namespace Juniper
         /// <param name="name">The name of the property.</param>
         /// <typeparam name="T">The class in which the property is hidden.</typeparam>
         /// <typeparam name="U">The return type of the property.</typeparam>
-        public static U GetHiddenStaticProperty<T, U>(string name)
+        public static U? GetHiddenStaticProperty<T, U>(string name)
         {
             var t = typeof(T);
             var p = t.GetProperty(name, HIDDEN_STATIC);
             if (p != null)
             {
-                return (U)p.GetValue(null);
+                return (U?)p.GetValue(null);
             }
             else
             {

@@ -49,10 +49,11 @@ namespace Juniper.Mathematics
             }
 
             info.CheckForType(TYPE_NAME);
-            Values = info.GetValue<float[]>(VALUES_FIELD);
+            Values = info.GetValue<float[]>(VALUES_FIELD)
+                ?? new float[16];
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public readonly void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info is null)
             {
@@ -63,17 +64,17 @@ namespace Juniper.Mathematics
             info.AddValue(VALUES_FIELD, Values);
         }
 
-        public override bool Equals(object obj)
+        public readonly override bool Equals(object? obj)
         {
             return obj is Matrix4x4Serializable serializable && Equals(serializable);
         }
 
-        public bool Equals(Matrix4x4Serializable other)
+        public readonly bool Equals(Matrix4x4Serializable other)
         {
             return EqualityComparer<float[]>.Default.Equals(Values, other.Values);
         }
 
-        public override int GetHashCode()
+        public readonly override int GetHashCode()
         {
             var hash = new HashCode();
             foreach (var value in Values)
@@ -93,7 +94,7 @@ namespace Juniper.Mathematics
             return !(left == right);
         }
 
-        public System.Numerics.Matrix4x4 ToSystemMatrix4x4()
+        public readonly System.Numerics.Matrix4x4 ToSystemMatrix4x4()
         {
             return new System.Numerics.Matrix4x4(
                 Values[0x0], Values[0x1], Values[0x2], Values[0x3],

@@ -41,7 +41,8 @@ namespace Juniper.Processes
                 WorkingDir = new(workingDir);
             }
             Command = command;
-            Args = info.GetValue<string[]>(nameof(Args));
+            Args = info.GetValue<string[]>(nameof(Args))
+                ?? Array.Empty<string>();
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

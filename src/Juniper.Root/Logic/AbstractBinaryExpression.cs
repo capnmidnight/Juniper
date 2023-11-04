@@ -47,11 +47,11 @@ namespace Juniper.Logic
             }
             else if (Item1 is EmptyExpression<ItemT>)
             {
-                return Item2.ToString();
+                return Item2.ToString() ?? string.Empty;
             }
             else if (Item2 is EmptyExpression<ItemT>)
             {
-                return Item1.ToString();
+                return Item1.ToString() ?? string.Empty;
             }
             else if (HasNestedElements)
             {

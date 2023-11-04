@@ -9,7 +9,7 @@ public class ServerWebSocketConnection : WebSocketConnection<WebSocket>
 
     public string UserName { get; set; }
 
-    public string? Token => Socket.SubProtocol;
+    public string? Token => Socket?.SubProtocol;
 
     public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
         : base(rxBufferSize, dataBufferSize)

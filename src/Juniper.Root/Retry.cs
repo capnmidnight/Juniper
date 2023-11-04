@@ -6,7 +6,7 @@ namespace Juniper
         {
             var result = default(T);
             var errors = new List<Exception>();
-            for (int i = attempts; i > 0 && !validate(result); --i)
+            for (int i = attempts; i > 0 && (result is null || !validate(result)); --i)
             {
                 try
                 {
@@ -18,7 +18,7 @@ namespace Juniper
                 }
             }
 
-            if (!validate(result))
+            if (result is null || !validate(result))
             {
                 if (result != default(T))
                 {
@@ -37,7 +37,7 @@ namespace Juniper
         {
             var result = default(T);
             var errors = new List<Exception>();
-            for (int i = attempts; i > 0 && !validate(result); --i)
+            for (int i = attempts; i > 0 && (result is null || !validate(result)); --i)
             {
                 try
                 {
@@ -49,7 +49,7 @@ namespace Juniper
                 }
             }
 
-            if (!validate(result))
+            if (result is null || !validate(result))
             {
                 throw new AggregateException("Failed to retrieve a valide result", errors);
             }

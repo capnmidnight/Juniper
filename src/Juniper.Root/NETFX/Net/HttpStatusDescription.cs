@@ -2,14 +2,13 @@ namespace System.Net
 {
     public static class HttpStatusDescription
     {
-        public static string Get(HttpStatusCode code)
+        public static string? Get(HttpStatusCode code)
         {
             return Get((int)code);
         }
 
-        public static string Get(int code)
-        {
-            return code switch
+        public static string? Get(int code) =>
+            code switch
             {
                 100 => "Continue",
                 101 => "Switching Protocols",
@@ -65,6 +64,5 @@ namespace System.Net
 
                 _ => null
             };
-        }
     }
 }

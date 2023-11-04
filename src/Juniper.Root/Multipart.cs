@@ -4,7 +4,7 @@ namespace Juniper
     {
         public partial class Multipart : MediaType
         {
-            private static List<Multipart> _allMultipart;
+            private static List<Multipart>? _allMultipart;
             private static List<Multipart> AllMulti => _allMultipart ??= new();
             public static IReadOnlyCollection<Multipart> AllMultipart => AllMulti;
             public static readonly Multipart AnyMultipart = new("*");

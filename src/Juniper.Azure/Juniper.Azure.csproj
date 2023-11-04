@@ -7,12 +7,13 @@
     <TargetFramework>net7.0</TargetFramework>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
-      <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-      <FrameworkReference Include="Microsoft.AspNetCore.App" />
-      <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-      <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
-      <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.32.1" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.32.1" />
   </ItemGroup>
 </Project>

@@ -3,21 +3,26 @@ namespace Juniper.Puzzles
     public class TetrisGame : Puzzle
     {
         private static readonly Puzzle[] pieces =
-            {
+        {
+            new (new int[,] { {  1,  1, 1, 1 } }),
 
-            new Puzzle(new int[,] { {  1,  1, 1, 1 } }),
-            new Puzzle(new int[,] { {  2,  2 },
-                                    {  2,  2 } }),
-            new Puzzle(new int[,] { { -1,  3, -1 },
-                                    {  3,  3,  3 } }),
-            new Puzzle(new int[,] { {  4,  4, -1 },
-                                    { -1,  4,  4 } }),
-            new Puzzle(new int[,] { { -1,  5,  5 },
-                                    {  5,  5, -1 } }),
-            new Puzzle(new int[,] { {  6, -1, -1 },
-                                    {  6,  6,  6 } }),
-            new Puzzle(new int[,] { { -1, -1,  7 },
-                                    {  7,  7,  7 } })
+            new (new int[,] { {  2,  2 },
+                              {  2,  2 } }),
+
+            new (new int[,] { { -1,  3, -1 },
+                              {  3,  3,  3 } }),
+
+            new (new int[,] { {  4,  4, -1 },
+                              { -1,  4,  4 } }),
+
+            new (new int[,] { { -1,  5,  5 },
+                              {  5,  5, -1 } }),
+
+            new (new int[,] { {  6, -1, -1 },
+                              {  6,  6,  6 } }),
+
+            new (new int[,] { { -1, -1,  7 },
+                              {  7,  7,  7 } })
         };
 
         private static readonly Random rand = new();
@@ -40,9 +45,9 @@ namespace Juniper.Puzzles
         private double sinceLastDrop;
         private double sincePieceEntered;
 
-        public Puzzle Next { get; private set; }
+        public Puzzle Next { get; private set; } = Empty;
 
-        public Puzzle Current { get; private set; }
+        public Puzzle Current { get; private set; } = Empty;
 
         public int CursorX { get; private set; }
         public int CursorY { get; private set; }
@@ -50,6 +55,10 @@ namespace Juniper.Puzzles
         public int Score { get; private set; }
 
         public bool GameOver { get; private set; }
+
+        public event EventHandler? Thump;
+        public event EventHandler<IntegerEventArgs>? LineClear;
+        public event EventHandler? Flip;
 
         private static int[,] MakeEmptyGrid(int width, int height)
         {
@@ -86,13 +95,14 @@ namespace Juniper.Puzzles
 
             UpdateSpeed(0);
 
-            Current = pieces[rand.Next(pieces.Length)];
-            Next = pieces[rand.Next(pieces.Length)];
             CursorX = Width / 2;
             CursorY = 0;
             Score = 0;
             GameOver = false;
             sinceLastMove = sinceLastAdvance = sinceLastFlip = sinceLastDrop = sincePieceEntered = 0.0;
+
+            Current = pieces[rand.Next(pieces.Length)];
+            Next = pieces[rand.Next(pieces.Length)];
         }
 
         private void UpdateSpeed(double deltaLinesPerSecond)
@@ -276,10 +286,6 @@ namespace Juniper.Puzzles
                 ShiftRowsDown();
             }
         }
-
-        public event EventHandler Thump;
-        public event EventHandler<IntegerEventArgs> LineClear;
-        public event EventHandler Flip;
 
         private void PlayThump()
         {

@@ -75,12 +75,12 @@ namespace Juniper.World.GIS
             return HashCode.Combine(RightAscensionDegrees, DeclinationDegrees, RadiusAU);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is EquitorialSphericalPosition eq && Equals(eq);
         }
 
-        public bool Equals(EquitorialSphericalPosition other)
+        public bool Equals(EquitorialSphericalPosition? other)
         {
             return other is not null
                 && RightAscensionDegrees == other.RightAscensionDegrees

@@ -65,19 +65,20 @@ namespace Juniper.Collections
 
         public static Route<ValueT> operator ~(Route<ValueT> path)
         {
-            if (path is null)
-            {
-                return null;
-            }
-
             return new Route<ValueT>(true, path.nodes.Reverse(), path.Cost);
         }
 
-        public static bool operator ==(Route<ValueT> left, Route<ValueT> right)
+        public static bool operator ==(Route<ValueT>? left, Route<ValueT>? right)
         {
-            return (left is null && right is null)
-                || (left is not null && left.CompareTo(right) == 0)
-                || (right is not null && right.CompareTo(left) == 0);
+            if(left is not null){
+                return left.CompareTo(right) == 0;
+            }
+            else if(right is not null){
+                return right.CompareTo(left) == 0;
+            }
+            else {
+                return true;
+            }
         }
 
         public static bool operator !=(Route<ValueT> left, Route<ValueT> right)
@@ -147,7 +148,7 @@ namespace Juniper.Collections
 
         protected Route(SerializationInfo info, StreamingContext context)
             : this(false,
-                info?.GetValue<ValueT[]>(nameof(nodes)),
+                info?.GetValue<ValueT[]>(nameof(nodes)) ?? throw new ArgumentNullException(nameof(nodes)),
                 info?.GetSingle(nameof(Cost)) ?? throw new ArgumentNullException(nameof(info)))
         { }
 
@@ -180,27 +181,27 @@ namespace Juniper.Collections
 
         public bool IsPath => Count > 2;
 
-        public ValueT Start => nodes.FirstOrDefault();
+        public ValueT Start => nodes.First();
 
-        public ValueT End => nodes.LastOrDefault();
+        public ValueT End => nodes.Last();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Route<ValueT> other
                 && Equals(other);
         }
 
-        public bool Equals(Route<ValueT> other)
+        public bool Equals(Route<ValueT>? other)
         {
             return CompareTo(other) == 0;
         }
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
             return CompareTo(obj as Route<ValueT>);
         }
 
-        public int CompareTo(Route<ValueT> other)
+        public int CompareTo(Route<ValueT>? other)
         {
             if (other is null)
             {

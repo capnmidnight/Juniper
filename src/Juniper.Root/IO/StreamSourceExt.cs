@@ -5,25 +5,25 @@ namespace Juniper.IO
 
     public static class StreamSourceExt
     {
-        public static async Task<ResultT> DecodeAsync<ResultT, M>(this AbstractStreamSource source, IDeserializer<ResultT, M> deserializer, IProgress prog = null)
+        public static async Task<ResultT?> DecodeAsync<ResultT, M>(this AbstractStreamSource source, IDeserializer<ResultT, M> deserializer, IProgress? prog = null)
             where M : MediaType
         {
             if (source is null)
             {
-                throw new System.ArgumentNullException(nameof(source));
+                throw new ArgumentNullException(nameof(source));
             }
 
             if (deserializer is null)
             {
-                throw new System.ArgumentNullException(nameof(deserializer));
+                throw new ArgumentNullException(nameof(deserializer));
             }
 
-            prog.Report(0);
+            prog?.Report(0);
             using var stream = await source
                 .GetStreamAsync(prog)
                 .ConfigureAwait(false);
             var value = deserializer.Deserialize(stream);
-            prog.Report(1);
+            prog?.Report(1);
             return value;
         }
 
@@ -31,10 +31,10 @@ namespace Juniper.IO
         {
             if (source is null)
             {
-                throw new System.ArgumentNullException(nameof(source));
+                throw new ArgumentNullException(nameof(source));
             }
 
-            return source.GetStreamAsync(null);
+            return source.GetStreamAsync();
         }
     }
 }

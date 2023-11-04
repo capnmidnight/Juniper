@@ -29,7 +29,7 @@ public static class FileInfoExtensions
     public static BuildSystemDependency MakeDependency(this FileInfo from, FileInfo to) => 
         new ()
         {
-            Name = $"{to.Directory.Name}/{from.Name}",
+            Name = $"{to.Directory?.Name}/{from.Name}",
             From = from,
             To = to
         };

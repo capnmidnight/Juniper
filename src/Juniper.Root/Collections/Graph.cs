@@ -3,11 +3,15 @@
     public static class Graph
     {
         public static Graph<KeyT, ValueT> ToGraph<KeyT, ValueT>(this IEnumerable<ValueT> items, Func<ValueT, KeyT> getFromKey, Func<ValueT, KeyT> getToKey)
+            where KeyT : notnull
+            where ValueT : notnull
         {
             return items.ToGraph(getFromKey, getToKey, Always.Identity);
         }
 
         public static Graph<KeyT, ValueT> ToGraph<NodeT, KeyT, ValueT>(this IEnumerable<NodeT> items, Func<NodeT, KeyT> getFromKey, Func<NodeT, KeyT> getToKey, Func<NodeT, ValueT> getValue)
+            where KeyT : notnull
+            where ValueT : notnull
         {
             var graph = new Graph<KeyT, ValueT>();
             foreach (var item in items)
@@ -20,6 +24,8 @@
     }
 
     public class Graph<KeyT, ValueT>
+        where KeyT : notnull
+        where ValueT : notnull
     {
         private SparseMatrix<KeyT, List<Edge<KeyT, ValueT>>> matrix = new();
 
@@ -30,7 +36,7 @@
                 matrix.Add(edge.From, edge.To, new List<Edge<KeyT, ValueT>>());
             }
 
-            matrix[edge.From, edge.To].Add(edge);
+            matrix[edge.From, edge.To]!.Add(edge);
         }
 
         public IEnumerable<Edge<KeyT, ValueT>> Flood(KeyT from)
@@ -50,7 +56,7 @@
                     foreach (var cell in cells)
                     {
                         var edges = matrix[here, cell];
-                        foreach (var edge in edges)
+                        foreach (var edge in edges!)
                         {
                             yield return edge;
                         }
@@ -65,7 +71,7 @@
                     foreach (var cell in cells)
                     {
                         var edges = matrix[cell, here];
-                        foreach (var edge in edges)
+                        foreach (var edge in edges!)
                         {
                             yield return edge;
                         }

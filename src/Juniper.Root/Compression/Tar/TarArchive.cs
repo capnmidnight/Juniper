@@ -220,7 +220,7 @@ namespace Juniper.Compression.Tar
 
         public IReadOnlyCollection<TarArchiveEntry> Entries => entries;
 
-        public TarArchiveEntry GetEntry(string name)
+        public TarArchiveEntry? GetEntry(string name)
         {
             foreach (var entry in Entries)
             {
@@ -233,12 +233,12 @@ namespace Juniper.Compression.Tar
             return null;
         }
 
-        public void Decompress(DirectoryInfo outputDirectory, bool overwrite, IProgress prog = null)
+        public void Decompress(DirectoryInfo outputDirectory, bool overwrite, IProgress? prog = null)
         {
             Decompress(outputDirectory, overwrite, null, prog);
         }
 
-        public void Decompress(DirectoryInfo outputDirectory, bool overwrite = true, string entryPrefix = null, IProgress prog = null)
+        public void Decompress(DirectoryInfo outputDirectory, bool overwrite = true, string? entryPrefix = null, IProgress? prog = null)
         {
             if (outputDirectory is null)
             {
@@ -249,12 +249,12 @@ namespace Juniper.Compression.Tar
 
             for (var i = 0; i < entries.Count; ++i)
             {
-                prog.Report(i, entries.Count);
+                prog?.Report(i, entries.Count);
                 try
                 {
                     var entry = entries[i];
                     var fileName = entry.FullName;
-                    if (fileName.StartsWith(entryPrefix, StringComparison.InvariantCulture))
+                    if (entryPrefix is null || fileName.StartsWith(entryPrefix, StringComparison.InvariantCulture))
                     {
                         if (entryPrefix != null)
                         {
@@ -265,7 +265,7 @@ namespace Juniper.Compression.Tar
                         var outputFile = new FileInfo(outputPath);
                         var outputFileDirectory = outputFile.Directory;
 
-                        if (overwrite || !outputFile.Exists)
+                        if (outputFileDirectory is not null && (overwrite || !outputFile.Exists))
                         {
                             outputFileDirectory.Create();
                             using var outputStream = outputFile.Create();
@@ -275,7 +275,7 @@ namespace Juniper.Compression.Tar
                     }
                 }
                 catch { }
-                prog.Report(i + 1, entries.Count);
+                prog?.Report(i + 1, entries.Count);
             }
         }
 

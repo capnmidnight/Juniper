@@ -7,7 +7,7 @@ namespace Juniper.Processes
         private readonly Process proc;
 
         public List<string> StdErrorOutput { get; } = new();
-        public event EventHandler<StringEventArgs> StdError;
+        public event EventHandler<StringEventArgs>? StdError;
 
         public PipedProcessStream(string fileName, string args)
         {

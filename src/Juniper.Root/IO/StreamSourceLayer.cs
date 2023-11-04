@@ -16,7 +16,7 @@ namespace Juniper.IO
             return Array.Empty<ContentReference>();
         }
 
-        public async Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
+        public async Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog)
         {
             if (fileRef is null)
             {

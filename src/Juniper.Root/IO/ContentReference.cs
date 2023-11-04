@@ -17,26 +17,11 @@ namespace Juniper.IO
 
         public static explicit operator string(ContentReference fileRef)
         {
-            if (fileRef is null)
-            {
-                return null;
-            }
-
             return fileRef.ContentType.AddExtension(fileRef.CacheID);
         }
 
         public static FileInfo operator +(DirectoryInfo directory, ContentReference fileRef)
         {
-            if (directory is null)
-            {
-                return null;
-            }
-
-            if (fileRef is null)
-            {
-                return null;
-            }
-
             var fileName = (string)fileRef;
             return new FileInfo(Path.Combine(directory.FullName, fileName));
         }
@@ -57,7 +42,7 @@ namespace Juniper.IO
             CacheID = cacheID;
         }
 
-        public virtual string CacheID
+        public virtual string? CacheID
         {
             get;
         }
@@ -72,14 +57,14 @@ namespace Juniper.IO
             get;
         }
 
-        public bool Equals(ContentReference other)
+        public bool Equals(ContentReference? other)
         {
             return other is not null
                 && other.ContentType == ContentType
                 && other.CacheID == CacheID;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is ContentReference other
                 && Equals(other);
@@ -90,10 +75,15 @@ namespace Juniper.IO
             return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", CacheID, ContentType);
         }
 
-        public string FileName
+        public string? FileName
         {
             get
             {
+                if (CacheID is null)
+                {
+                    return null;
+                }
+
                 var nameStub = CacheID;
                 var fileStub = new FileInfo(nameStub);
                 nameStub = fileStub.Name;

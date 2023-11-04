@@ -4,9 +4,9 @@ namespace Juniper.Progress
 {
     public class ProgressEventer : IProgress
     {
-        public event EventHandler<EventArgs> ProgressUpdated;
+        public event EventHandler<EventArgs>? ProgressUpdated;
 
-        public string Status
+        public string? Status
         {
             get;
             private set;
@@ -19,7 +19,7 @@ namespace Juniper.Progress
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void ReportWithStatus(float progress, string status)
+        public void Report(float progress, string? status = null)
         {
             Status = status;
             Progress = progress;

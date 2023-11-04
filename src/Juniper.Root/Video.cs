@@ -4,7 +4,7 @@ namespace Juniper
     {
         public partial class Video : MediaType
         {
-            private static List<Video> _allVideo;
+            private static List<Video>? _allVideo;
             private static List<Video> AllVid => _allVideo ??= new();
             public static IReadOnlyCollection<Video> AllVideo => AllVid;
             public static readonly Video AnyVideo = new("*");

@@ -70,7 +70,7 @@ namespace Juniper.Mathematics
             info.AddValue(nameof(D), D);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is PlaneSerializable serializable && Equals(serializable);
         }

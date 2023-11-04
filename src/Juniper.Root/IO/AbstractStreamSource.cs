@@ -20,6 +20,6 @@ namespace Juniper.IO
 
         protected abstract string InternalCacheID { get; }
 
-        public abstract Task<Stream> GetStreamAsync(IProgress prog = null);
+        public abstract Task<Stream> GetStreamAsync(IProgress? prog = null);
     }
 }

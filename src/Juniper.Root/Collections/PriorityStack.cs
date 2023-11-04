@@ -9,28 +9,17 @@ namespace Juniper.Collections
     public class PriorityStack<T> : IEnumerable<T>
         where T : IComparable<T>
     {
-        /// <summary> A default Comparer to use when a comparer is not defined. If the type
-        /// implements the IComparable<T> or IComparable interface, then it will use the object's own
-        /// CompareTo method. </summary>
-        private class PQComparer : IComparer<T>
-        {
-            public int Compare(T t1, T t2)
-            {
-                return t1.CompareTo(t2);
-            }
-        }
-
         private readonly List<T> stack = new();
 
         /// <summary>
         /// Default constructor, uses natural ordering comparator for objects
         /// </summary>
         public PriorityStack()
-            : this(new PQComparer(), Array.Empty<T>())
+            : this(new PriorityQueue<T>.PQComparer(), Array.Empty<T>())
         { }
 
         public PriorityStack(IEnumerable<T> values)
-            : this(new PQComparer(), values)
+            : this(new PriorityQueue<T>.PQComparer(), values)
         { }
 
         /// <summary>

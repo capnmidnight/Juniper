@@ -4,7 +4,7 @@ namespace Juniper
     {
         public partial class Chemical : MediaType
         {
-            private static List<Chemical> _allChem;
+            private static List<Chemical>? _allChem;
             private static List<Chemical> AllChem => _allChem ??= new();
             public static IReadOnlyCollection<Chemical> AllChemical => AllChem;
             public static readonly Chemical AnyChemical = new("*");

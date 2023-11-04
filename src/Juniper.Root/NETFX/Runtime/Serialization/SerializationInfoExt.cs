@@ -4,14 +4,14 @@ namespace System.Runtime.Serialization
 {
     public static class SerializationInfoExt
     {
-        public static T GetValue<T>(this SerializationInfo info, string name)
+        public static T? GetValue<T>(this SerializationInfo info, string name)
         {
             if (info is null)
             {
                 throw new ArgumentNullException(nameof(info));
             }
 
-            return (T)info.GetValue(name, typeof(T));
+            return (T?)info.GetValue(name, typeof(T));
         }
 
         public static List<T> GetList<T>(this SerializationInfo info, string name)
@@ -22,7 +22,11 @@ namespace System.Runtime.Serialization
             }
 
             var list = new List<T>();
-            list.AddRange(info.GetValue<T[]>(name));
+            var arr = info.GetValue<T[]>(name);
+            if (arr is not null)
+            {
+                list.AddRange(arr);
+            }
             return list;
         }
 

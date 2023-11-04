@@ -13,16 +13,6 @@ namespace Juniper.Progress
         /// </summary>
         private const float ALPHA = 1e-3f;
 
-        public static void Report(this IProgress prog, float progress)
-        {
-            prog?.ReportWithStatus(progress, null);
-        }
-
-        public static void Report(this IProgress prog, float progress, string status)
-        {
-            prog?.ReportWithStatus(progress, status);
-        }
-
         /// <summary>
         /// Check to see <paramref name="prog"/>'s progress is within <see cref="ALPHA"/> of 1.
         /// </summary>
@@ -44,14 +34,9 @@ namespace Juniper.Progress
         /// <param name="length">The length of the output range.</param>
         /// <param name="prefix">A text prefix to include as part of the status update.</param>
         /// <returns></returns>
-        public static IProgress Subdivide(this IProgress parent, float start, float length, string prefix)
+        public static IProgress Subdivide(this IProgress parent, float start, float length, string? prefix = null)
         {
             return new ProgressSubdivision(parent, start, length, prefix);
-        }
-
-        public static IProgress Subdivide(this IProgress parent, float start, float length)
-        {
-            return parent.Subdivide(start, length, null);
         }
 
         /// <summary>
@@ -64,14 +49,9 @@ namespace Juniper.Progress
         /// <param name="count">The total number of subdivisions that this subdivision will be a part of.</param>
         /// <param name="prefix">A text prefix to include as part of the status update.</param>
         /// <returns></returns>
-        public static IProgress Subdivide(this IProgress parent, int index, int count, string prefix)
+        public static IProgress Subdivide(this IProgress parent, int index, int count, string? prefix = null)
         {
             return new ProgressSubdivision(parent, (float)index / count, 1f / count, prefix);
-        }
-
-        public static IProgress Subdivide(this IProgress parent, int index, int count)
-        {
-            return parent.Subdivide(index, count, null);
         }
 
         /// <summary>
@@ -81,7 +61,7 @@ namespace Juniper.Progress
         /// <param name="numParts"></param>
         /// <param name="prefix"></param>
         /// <returns></returns>
-        public static IReadOnlyList<IProgress> Split(this IProgress parent, long numParts)
+        public static IReadOnlyList<IProgress> Split(this IProgress? parent, long numParts)
         {
             return new ProgressAggregator(parent, numParts);
         }
@@ -92,19 +72,19 @@ namespace Juniper.Progress
         /// <param name="parent"></param>
         /// <param name="prefixes"></param>
         /// <returns></returns>
-        public static IReadOnlyList<IProgress> Split(this IProgress parent, params string[] prefixes)
+        public static IReadOnlyList<IProgress> Split(this IProgress? parent, params string[] prefixes)
         {
             return new ProgressAggregator(parent, prefixes);
         }
 
-        public static IEnumerable<(IProgress prog, T act)> Zip<T>(this IProgress parent, params T[] items)
+        public static IEnumerable<(IProgress prog, T act)> Zip<T>(this IProgress? parent, params T[] items)
         {
             return parent
                 .Split(items.Length)
                 .Select((p, i) => (p, items[i]));
         }
 
-        private static IEnumerable<(IProgress prog, T act)> Split<T>(this IProgress parent, params T[] actors)
+        private static IEnumerable<(IProgress prog, T act)> Split<T>(this IProgress? parent, params T[] actors)
             where T : INamedAction
         {
             return parent
@@ -114,7 +94,7 @@ namespace Juniper.Progress
                 .Select((p, i) => (p, actors[i]));
         }
 
-        private static IEnumerable<(IProgress prog, T act)> Split2<T>(this IProgress parent, params T[] actors)
+        private static IEnumerable<(IProgress prog, T act)> Split2<T>(this IProgress? parent, params T[] actors)
             where T : Delegate
         {
             return parent
@@ -213,7 +193,7 @@ namespace Juniper.Progress
         /// <param name="count"></param>
         /// <param name="length"></param>
         /// <param name="status"></param>
-        public static void Report(this IProgress prog, float count, float length, string status)
+        public static void Report(this IProgress prog, float count, float length, string? status = null)
         {
             if (length > 0)
             {
@@ -225,18 +205,13 @@ namespace Juniper.Progress
             }
         }
 
-        public static void Report(this IProgress prog, float count, float length)
-        {
-            prog.Report(count, length, null);
-        }
-
-        public static Task WaitOnAsync(this IProgress parent, IProgress child, string prefix)
+        public static Task WaitOnAsync(this IProgress parent, IProgress child, string? prefix = null)
         {
             return Task.Run(() =>
             {
                 while (child.Progress < 1)
                 {
-                    string message = null;
+                    string? message = null;
 
                     if (string.IsNullOrEmpty(child.Status))
                     {
@@ -255,11 +230,6 @@ namespace Juniper.Progress
                     Task.Yield();
                 }
             });
-        }
-
-        public static Task WaitOnAsync(this IProgress parent, IProgress child)
-        {
-            return parent.WaitOnAsync(child, null);
         }
     }
 }

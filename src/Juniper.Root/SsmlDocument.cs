@@ -4,11 +4,11 @@ namespace Juniper
 {
     public class SsmlDocument
     {
-        public string Text { get; set; }
-        public string VoiceName { get; set; }
+        public string? Text { get; set; }
+        public string? VoiceName { get; set; }
 
-        private string _style;
-        public string Style
+        private string? _style;
+        public string? Style
         {
             get => _style;
             set => _style = value
@@ -22,6 +22,12 @@ namespace Juniper
 
         public override string ToString()
         {
+            if (Text is null
+                || VoiceName is null)
+            {
+                return "";
+            }
+
             var xml = XNamespace.Xml;
             var xmlns = XNamespace.Xmlns;
             XNamespace ssml = "http://www.w3.org/2001/10/synthesis";
@@ -38,7 +44,9 @@ namespace Juniper
 
             speak.Add(voice);
 
-            if (HasStyle)
+            if (Style is not null
+                && Style.Length > 0
+                && Style != "none")
             {
                 var style = new XElement(
                     mstts + "express-as",
@@ -50,7 +58,7 @@ namespace Juniper
             {
                 voice.Add(new XText(Text));
             }
-            
+
             return speak.ToString();
         }
     }

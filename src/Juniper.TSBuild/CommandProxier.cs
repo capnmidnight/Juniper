@@ -2,9 +2,8 @@ using System.Text.RegularExpressions;
 
 using Juniper.IO;
 using Juniper.Logging;
-using Juniper.Processes;
 
-namespace Juniper.TSBuild;
+namespace Juniper.Processes;
 
 public partial class CommandProxier : ILoggingSource
 {
@@ -66,7 +65,8 @@ public partial class CommandProxier : ILoggingSource
     {
         if (e.Value.Length > 0
             && MAYBE_JSON.Contains(e.Value[0])
-            && cmdFactory.TryParse(e.Value, out var cmd))
+            && cmdFactory.TryParse(e.Value, out var cmd)
+            && cmd is not null)
         {
             if (proxies.ContainsKey(cmd.TaskID))
             {

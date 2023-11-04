@@ -39,9 +39,9 @@ namespace Juniper.IO
             }
         }
 
-        public Stream GetStream(string fileName)
+        public Stream? GetStream(string fileName)
         {
-            return zip.GetEntry(fileName).Open();
+            return zip.GetEntry(fileName)?.Open();
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Juniper.IO
 
         private static string GetCacheFileName(ContentReference fileRef)
         {
-            var baseName = fileRef.CacheID.Replace('\\', '/');
+            var baseName = fileRef.CacheID?.Replace('\\', '/');
             var cacheFileName = fileRef.ContentType.AddExtension(baseName);
             return cacheFileName;
         }
@@ -57,6 +57,11 @@ namespace Juniper.IO
             if (fileRef is null)
             {
                 throw new ArgumentNullException(nameof(fileRef));
+            }
+
+            if (fileRef.CacheID is null)
+            {
+                return false;
             }
 
             if (!filesExist.ContainsKey(fileRef.CacheID))
@@ -78,18 +83,18 @@ namespace Juniper.IO
                 && filesExist[fileRef.CacheID];
         }
 
-        public Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
+        public Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog = null)
         {
             if (fileRef is null)
             {
                 throw new ArgumentNullException(nameof(fileRef));
             }
 
-            Stream stream = null;
+            Stream? stream = null;
             if (IsCached(fileRef))
             {
                 var cacheFileName = GetCacheFileName(fileRef);
-                stream = Decompressor.GetFile(zipFile, cacheFileName);
+                stream = Decompressor.GetFile(zipFile, cacheFileName, prog);
             }
 
             return Task.FromResult(stream);

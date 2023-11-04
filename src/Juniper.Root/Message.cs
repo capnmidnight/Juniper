@@ -4,7 +4,7 @@ namespace Juniper
     {
         public partial class Message : MediaType
         {
-            private static List<Message> _allMessage;
+            private static List<Message>? _allMessage;
             private static List<Message> AllMsg => _allMessage ??= new();
             public static IReadOnlyCollection<Message> AllMessage => AllMsg;
             public static readonly Message AnyMessage = new("*");

@@ -34,7 +34,7 @@ namespace System.IO
             return dir.DirectoryOp(subs, false);
         }
 
-        public static DirectoryInfo GoUpUntil(this DirectoryInfo dir, Func<DirectoryInfo, bool> test)
+        public static DirectoryInfo? GoUpUntil(this DirectoryInfo dir, Func<DirectoryInfo, bool> test)
         {
             var here = dir;
             while (here is not null && !test(here))
@@ -50,10 +50,8 @@ namespace System.IO
         /// </summary>
         /// <param name="sub">The sub.</param>
         /// <returns></returns>
-        public static DirectoryInfo MkDir(this DirectoryInfo dir, params string[] subs)
-        {
-            return dir.DirectoryOp(subs, true);
-        }
+        public static DirectoryInfo MkDir(this DirectoryInfo dir, params string[] subs) => 
+            dir.DirectoryOp(subs, true);
 
         /// <summary>
         /// Makes a file info reference in a given directory.
@@ -71,7 +69,7 @@ namespace System.IO
             return file;
         }
 
-        public static string MaybeReadText(this FileInfo file)
+        public static string? MaybeReadText(this FileInfo file)
         {
             if (!file.Exists)
             {

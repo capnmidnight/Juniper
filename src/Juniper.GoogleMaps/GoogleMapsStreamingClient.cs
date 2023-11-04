@@ -18,8 +18,8 @@ namespace Juniper.World.GIS.Google;
 
 public class GoogleMapsStreamingClientOptions {
     public const string Google = "Google";
-    public string APIKey { get; set; }
-    public string SigningKey { get; set; }
+    public string? APIKey { get; set; }
+    public string? SigningKey { get; set; }
 }
 
 
@@ -42,7 +42,7 @@ public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
     protected string SigningKey { get; private set; }
     protected CachingStrategy Cache { get; private set; }
 
-    private Exception lastError;
+    private Exception? lastError;
 
     public GoogleMapsStreamingClient(HttpClient http, IOptions<GoogleMapsStreamingClientOptions> options)
     {
@@ -59,7 +59,7 @@ public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
         lastError = null;
     }
 
-    public Task<Stream> ReverseGeocodeStreamAsync(LatLngPoint latLng, IProgress prog = null)
+    public Task<Stream?> ReverseGeocodeStreamAsync(LatLngPoint latLng, IProgress? prog = null)
     {
         return Cache.GetStreamAsync(new ReverseGeocodingRequest(Http, ApiKey)
         {
@@ -67,7 +67,7 @@ public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
         }, prog);
     }
 
-    public Task<Stream> GetMetadataStreamAsync(string pano, int searchRadius = 50, IProgress prog = null)
+    public Task<Stream?> GetMetadataStreamAsync(string pano, int searchRadius = 50, IProgress? prog = null)
     {
         return Cache.GetStreamAsync(new MetadataRequest(Http, ApiKey, SigningKey)
         {
@@ -76,7 +76,7 @@ public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
         }, prog);
     }
 
-    public Task<Stream> SearchMetadataStreamAsync(string placeName, int searchRadius = 50, IProgress prog = null)
+    public Task<Stream?> SearchMetadataStreamAsync(string placeName, int searchRadius = 50, IProgress? prog = null)
     {
         return Cache.GetStreamAsync(new MetadataRequest(Http, ApiKey, SigningKey)
         {
@@ -85,7 +85,7 @@ public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
         }, prog);
     }
 
-    public Task<Stream> GetMetadataStreamAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
+    public Task<Stream?> GetMetadataStreamAsync(LatLngPoint latLng, int searchRadius = 50, IProgress? prog = null)
     {
         return Cache.GetStreamAsync(new MetadataRequest(Http, ApiKey, SigningKey)
         {
@@ -94,7 +94,7 @@ public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
         }, prog);
     }
 
-    public async Task<Stream> SearchMetadataStreamAsync(string searchLocation, string searchPano, LatLngPoint searchPoint, int searchRadius, IProgress prog = null)
+    public async Task<Stream?> SearchMetadataStreamAsync(string? searchLocation, string? searchPano, LatLngPoint? searchPoint, int searchRadius, IProgress? prog = null)
     {
         try
         {
@@ -121,11 +121,11 @@ public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
         }
         finally
         {
-            prog.Report(1);
+            prog?.Report(1);
         }
     }
 
-    public virtual Task<Stream> GetImageStreamAsync(string pano, int fovDegrees, int headingDegrees, int pitchDegrees, IProgress prog = null)
+    public virtual Task<Stream?> GetImageStreamAsync(string pano, int fovDegrees, int headingDegrees, int pitchDegrees, IProgress? prog = null)
     {
         return Cache.GetStreamAsync(new ImageRequest(Http, ApiKey, SigningKey, new Size(640, 640))
         {

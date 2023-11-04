@@ -65,11 +65,11 @@ namespace Juniper.IO
             }
 
             var file = Resolve(fileRef);
-            file.Directory.Create();
+            file.Directory?.Create();
             return file.Create();
         }
 
-        public Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
+        public Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog = null)
         {
             if (fileRef is null)
             {
@@ -84,7 +84,7 @@ namespace Juniper.IO
             var file = Resolve(fileRef);
             var stream = file.OpenRead();
             var progStream = new ProgressStream(stream, file.Length, prog, true);
-            return Task.FromResult((Stream)progStream);
+            return Task.FromResult((Stream?)progStream);
         }
 
         public IEnumerable<ContentReference> GetContentReferences(MediaType ofType)

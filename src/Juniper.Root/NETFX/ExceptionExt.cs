@@ -51,7 +51,7 @@ namespace System
                     {
                         q.AddRange(agg.InnerExceptions);
                     }
-                    else
+                    else if(here.InnerException is not null)
                     {
                         q.Enqueue(here.InnerException);
                     }

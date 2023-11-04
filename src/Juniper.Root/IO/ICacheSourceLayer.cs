@@ -6,7 +6,7 @@ namespace Juniper.IO
     {
         bool IsCached(ContentReference fileRef);
 
-        Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog);
+        Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog);
 
         IEnumerable<ContentReference> GetContentReferences(MediaType ofType);
     }

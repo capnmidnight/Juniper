@@ -7,11 +7,12 @@ namespace Juniper.Progress
         IReadOnlyList<IProgress>
     {
         private readonly ProgressSubdivision[] subProgs;
-        private readonly IProgress parent;
+        private readonly IProgress? parent;
 
-        private ProgressAggregator(IProgress parent)
+        private ProgressAggregator(IProgress? parent)
         {
             this.parent = parent;
+            subProgs = Array.Empty<ProgressSubdivision>();
         }
 
         /// <summary>
@@ -21,7 +22,7 @@ namespace Juniper.Progress
         /// <param name="numParts"></param>
         /// <param name="prefix"></param>
         /// <returns></returns>
-        public ProgressAggregator(IProgress parent, long numParts)
+        public ProgressAggregator(IProgress? parent, long numParts)
             : this(parent)
         {
             if (numParts <= 0)
@@ -42,7 +43,7 @@ namespace Juniper.Progress
         /// <param name="parent"></param>
         /// <param name="prefixes"></param>
         /// <returns></returns>
-        public ProgressAggregator(IProgress parent, params string[] prefixes)
+        public ProgressAggregator(IProgress? parent, params string[] prefixes)
             : this(parent)
         {
             if (prefixes.Length == 0)
@@ -55,7 +56,7 @@ namespace Juniper.Progress
                        .ToArray();
         }
 
-        public string Status { get; private set; }
+        public string? Status { get; private set; }
 
         public float Progress => subProgs.Sum(p => p.Progress) / subProgs.Length;
 
@@ -63,10 +64,10 @@ namespace Juniper.Progress
 
         public IProgress this[int index] => subProgs[index];
 
-        public void ReportWithStatus(float progress, string status)
+        public void Report(float progress, string? status = null)
         {
             Status = status;
-            parent?.ReportWithStatus(Progress, Status);
+            parent?.Report(Progress, Status);
         }
 
         public IEnumerator<IProgress> GetEnumerator()

@@ -17,7 +17,7 @@ namespace Juniper.Mathematics
             Orientation = rotation;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Pose pose && Equals(pose);
         }

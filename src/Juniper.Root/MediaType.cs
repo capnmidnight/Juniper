@@ -35,30 +35,25 @@ namespace Juniper
 
     public partial class MediaType :
         IEquatable<MediaType>,
-        IEquatable<string>
+        IEquatable<string?>
     {
-        private static Dictionary<string, List<MediaType>> _byExtensions;
+        private static Dictionary<string, List<MediaType>>? _byExtensions;
         private static Dictionary<string, List<MediaType>> ByExtensions => _byExtensions ??= new();
 
-        private static Dictionary<string, MediaType> _byValue;
+        private static Dictionary<string, MediaType>? _byValue;
         private static Dictionary<string, MediaType> ByValue => _byValue ??= new();
 
-        private static Regex _typePattern;
+        private static Regex? _typePattern;
         private static Regex TypePattern => _typePattern ??= new("([^\\/]+)\\/(.+)", RegexOptions.Compiled);
 
-        private static Regex _subTypePattern;
+        private static Regex? _subTypePattern;
         private static Regex SubTypePattern => _subTypePattern ??= new("(?:([^\\.]+)\\.)?([^\\+;]+)(\\+[^;]*)?((?:; *([^=]+)=([^;]+))*)", RegexOptions.Compiled);
 
         public static MediaType Parse(string value)
         {
-            if (value is null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
             if (TryParse(value, out var type))
             {
-                return type;
+                return type!;
             }
             else
             {
@@ -86,13 +81,13 @@ namespace Juniper
                 {
                     if (TryParse(typeStr, out var type))
                     {
-                        yield return type;
+                        yield return type!;
                     }
                 }
             }
         }
 
-        public static bool TryParse(string value, out MediaType type)
+        public static bool TryParse(string? value, out MediaType? type)
         {
             type = null;
 
@@ -113,13 +108,13 @@ namespace Juniper
             var parsedType = new MediaType(typeName, subTypeName);
             var weight = parsedType.Parameters.Get("q");
             var staticType = ByValue.Get(parsedType.Value);
-            var basicType =  staticType ?? parsedType;
+            var basicType = staticType ?? parsedType;
 
             type = weight is not null
                 ? basicType.WithParameter("q", weight)
                 : basicType;
 
-            return type != null;
+            return type is not null;
         }
 
         public static IReadOnlyList<MediaType> GuessByExtension(string ext)
@@ -180,38 +175,32 @@ namespace Juniper
             }
         }
 
-        public static ContentReference operator +(string cacheID, MediaType contentType)
-        {
-            return new ContentReference(cacheID, contentType);
-        }
+        public static ContentReference operator +(string cacheID, MediaType contentType) =>
+            new(cacheID, contentType);
 
-        public static implicit operator string(MediaType mediaType)
-        {
-            return mediaType?.ToString();
-        }
+        public static implicit operator string(MediaType mediaType) =>
+            mediaType.ToString();
 
-        public static implicit operator MediaTypeWithQualityHeaderValue(MediaType mediaType)
-        {
-            return new MediaTypeWithQualityHeaderValue(mediaType);
-        }
+        public static implicit operator MediaTypeWithQualityHeaderValue(MediaType mediaType) =>
+            new(mediaType.ToString());
 
         public string Type { get; }
         public string FullSubType { get; }
-        public string Tree { get; }
+
+        public string? Tree { get; }
         public string SubType { get; }
-        public string Suffix { get; }
+        public string? Suffix { get; }
+        public string Value { get; }
+        public string FullValue { get; }
+        public string? Comment { get; set; }
 
         private readonly Dictionary<string, string> _params = new();
         public IReadOnlyDictionary<string, string> Parameters => _params;
 
-        public string Value { get; }
-        public string FullValue { get; }
-        public string Comment { get; set; }
-
         private readonly string[] _extensions;
         public IReadOnlyCollection<string> Extensions => _extensions;
 
-        public string PrimaryExtension => _extensions.FirstOrDefault();
+        public string? PrimaryExtension => _extensions.FirstOrDefault();
 
         protected internal MediaType(string type, string fullSubType, params string[] extensions)
         {
@@ -220,38 +209,43 @@ namespace Juniper
             _extensions = extensions;
 
             var subTypeParts = SubTypePattern.Match(FullSubType);
-            if (subTypeParts.Success)
+            if (!subTypeParts.Success)
             {
-                Tree = subTypeParts.Groups[1].Value;
-                SubType = subTypeParts.Groups[2].Value;
-                Suffix = subTypeParts.Groups[3].Value;
-                var paramStr = subTypeParts.Groups[4].Value;
+                throw new ArgumentException("Couldn't parse subtype", nameof(fullSubType));
+            }
 
-                Value = FullValue = Type + "/";
+            Tree = subTypeParts.Groups[1].Value;
+            SubType = subTypeParts.Groups[2].Value;
+            Suffix = subTypeParts.Groups[3].Value;
+            var paramStr = subTypeParts.Groups[4].Value;
 
-                if (!string.IsNullOrEmpty(Tree))
+            Value = FullValue = Type + "/";
+
+            if (!string.IsNullOrEmpty(Tree))
+            {
+                Value = FullValue += Tree + ".";
+            }
+
+            Value = FullValue += SubType;
+
+            if (!string.IsNullOrEmpty(Suffix))
+            {
+                Value = FullValue += Suffix;
+                Suffix = Suffix[1..];
+            }
+
+            if (!string.IsNullOrEmpty(paramStr))
+            {
+                var pairs = paramStr.SplitX(';')
+                    .Select(p => p.Trim())
+                    .Where(p => p.Length > 0)
+                    .Select(p => p.SplitX('='));
+
+                foreach (var pair in pairs)
                 {
-                    Value = FullValue += Tree + ".";
-                }
-
-                Value = FullValue += SubType;
-
-                if (!string.IsNullOrEmpty(Suffix))
-                {
-                    Value = FullValue += Suffix;
-                    Suffix = Suffix[1..];
-                }
-
-                if (!string.IsNullOrEmpty(paramStr))
-                {
-                    var pairs = paramStr.SplitX(';')
-                        .Select(p => p.Trim())
-                        .Where(p => p.Length > 0)
-                        .Select(p => p.SplitX('='));
-
-                    foreach (var pair in pairs)
+                    var key = pair.FirstOrDefault();
+                    if (key is not null)
                     {
-                        var key = pair.FirstOrDefault();
                         var value = pair.Skip(1).ToArray().Join("=");
                         _params[key] = value;
                         var slug = $"; {key}={value}";
@@ -264,8 +258,11 @@ namespace Juniper
                 }
             }
 
-            if (Type != "*" && SubType != "*"
-                && Type != "unknown" && SubType != "unknown")
+            if (Type != "*"
+                && SubType != "*"
+                && Type != "unknown"
+                && SubType != "unknown"
+                && Value is not null)
             {
                 foreach (var ext in Extensions)
                 {
@@ -277,11 +274,7 @@ namespace Juniper
                     ByExtensions[ext].Add(this);
                 }
 
-                if (ByValue.ContainsKey(Value))
-                {
-
-                }
-                else
+                if (!ByValue.ContainsKey(Value))
                 {
                     ByValue.Add(Value, this);
                 }
@@ -294,9 +287,9 @@ namespace Juniper
             return new MediaType(Type, newSubType, _extensions);
         }
 
-        public bool Matches(string contentType)
+        public bool Matches(string? contentType)
         {
-            return Matches(Parse(contentType));
+            return contentType is not null && Matches(Parse(contentType));
         }
 
         public virtual bool Matches(MediaType value)
@@ -324,7 +317,7 @@ namespace Juniper
             return types.Contains(this);
         }
 
-        public string AddExtension(string fileName)
+        public string AddExtension(string? fileName)
         {
             if (fileName is null)
             {
@@ -349,19 +342,19 @@ namespace Juniper
             return fileName;
         }
 
-        public bool Equals(string other)
+        public bool Equals(string? other)
         {
             return TryParse(other, out var type)
                 && Equals(type);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return (obj is MediaType type && Equals(type))
                 || (obj is string str && Equals(str));
         }
 
-        public bool Equals(MediaType other)
+        public bool Equals(MediaType? other)
         {
             return other is not null
                 && (Tree == "*"

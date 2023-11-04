@@ -5,7 +5,7 @@ namespace Juniper
 
         public partial class Application : MediaType
         {
-            private static List<Application> _allApp;
+            private static List<Application>? _allApp;
             private static List<Application> AllApp => _allApp ??= new();
             public static IReadOnlyCollection<Application> AllApplication => AllApp;
             public static readonly Application AnyApplication = new("*");

@@ -54,11 +54,12 @@ namespace System.Collections.Generic
         /// arr.Random(); // --> 2
         /// arr.Random(); // --> 6
         /// ]]></code></example>
-        public static T RandomItem<T>(this IEnumerable<T> collection)
+        public static T? RandomItem<T>(this IEnumerable<T> collection)
         {
             var count = collection.Count();
             var skip = r.Next(0, count);
-            return collection.Skip(skip)
+            return collection
+                .Skip(skip)
                 .FirstOrDefault();
         }
 
@@ -98,16 +99,18 @@ namespace System.Collections.Generic
                 return false;
             }
 
-            using (var c = a.GetEnumerator())
-            using (var d = b.GetEnumerator())
+            using var c = a.GetEnumerator();
+            using var d = b.GetEnumerator();
+            while (c.MoveNext() && d.MoveNext())
             {
-                while (c.MoveNext() && d.MoveNext())
+                if ((c.Current is null) != (d.Current is null))
                 {
-                    if ((c.Current is null) != (d.Current is null)
-                        || !c.Current.Equals(d.Current))
-                    {
-                        return false;
-                    }
+                    return false;
+                }
+                else if (c.Current is not null && !c.Current.Equals(d.Current)
+                    || d.Current is not null && !d.Current.Equals(c.Current))
+                {
+                    return false;
                 }
             }
 
@@ -197,22 +200,20 @@ namespace System.Collections.Generic
                 return false;
             }
 
-            using (var c = a.GetEnumerator())
-            using (var d = b.GetEnumerator())
+            using var c = a.GetEnumerator();
+            using var d = b.GetEnumerator();
+            while (c.MoveNext() && d.MoveNext())
             {
-                while (c.MoveNext() && d.MoveNext())
-                {
 #if NETFX_CORE
                     var e = c.Current.GetTypeInfo();
                     var f = d.Current.GetTypeInfo();
 #else
-                    var e = c.Current;
-                    var f = d.Current;
+                var e = c.Current;
+                var f = d.Current;
 #endif
-                    if (!e.IsAssignableFrom(f))
-                    {
-                        return false;
-                    }
+                if (!e.IsAssignableFrom(f))
+                {
+                    return false;
                 }
             }
 
@@ -260,7 +261,7 @@ namespace System.Collections.Generic
                 if (e is not null)
                 {
                     anyExist = true;
-                    object value;
+                    object? value;
                     try
                     {
                         value = e.Current;
@@ -411,7 +412,7 @@ namespace System.Collections.Generic
             q.Push(value);
         }
 
-        public static string ToString(this IEnumerable<string> enumer, string sep)
+        public static string ToString(this IEnumerable<string?> enumer, string sep)
         {
             return string.Join(sep, enumer);
         }
@@ -421,9 +422,9 @@ namespace System.Collections.Generic
             return enumer.Select(ValueToString<T>).ToString(sep);
         }
 
-        private static string ValueToString<T>(T value)
+        private static string? ValueToString<T>(T value)
         {
-            return value.ToString();
+            return value?.ToString();
         }
 
         public static TimeSpan Sum(this IEnumerable<TimeSpan> values)
@@ -436,7 +437,7 @@ namespace System.Collections.Generic
             return values.Select(selector).Sum();
         }
 
-        public static TResult MaybeMax<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        public static TResult? MaybeMax<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
             if (source == null)
             {
@@ -448,8 +449,8 @@ namespace System.Collections.Generic
                 throw new ArgumentNullException(nameof(selector));
             }
 
-            TResult value = default;
-            using (IEnumerator<TSource> e = source.GetEnumerator())
+            TResult? value = default;
+            using (var e = source.GetEnumerator())
             {
                 if (value == null)
                 {
@@ -464,10 +465,10 @@ namespace System.Collections.Generic
                     }
                     while (value == null);
 
-                    Comparer<TResult> comparer = Comparer<TResult>.Default;
+                    var comparer = Comparer<TResult>.Default;
                     while (e.MoveNext())
                     {
-                        TResult x = selector(e.Current);
+                        var x = selector(e.Current);
                         if (x != null && comparer.Compare(x, value) > 0)
                         {
                             value = x;
@@ -484,8 +485,8 @@ namespace System.Collections.Generic
                     value = selector(e.Current);
                     while (e.MoveNext())
                     {
-                        TResult x = selector(e.Current);
-                        if (Comparer<TResult>.Default.Compare(x, value) > 0)
+                        var x = selector(e.Current);
+                        if (Comparer<TResult?>.Default.Compare(x, value) > 0)
                         {
                             value = x;
                         }
@@ -496,7 +497,7 @@ namespace System.Collections.Generic
             return value;
         }
 
-        public static TResult MaybeMin<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        public static TResult? MaybeMin<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
             if (source == null)
             {
@@ -508,8 +509,8 @@ namespace System.Collections.Generic
                 throw new ArgumentNullException(nameof(selector));
             }
 
-            TResult value = default;
-            using (IEnumerator<TSource> e = source.GetEnumerator())
+            TResult? value = default;
+            using (var e = source.GetEnumerator())
             {
                 if (value == null)
                 {
@@ -524,10 +525,10 @@ namespace System.Collections.Generic
                     }
                     while (value == null);
 
-                    Comparer<TResult> comparer = Comparer<TResult>.Default;
+                    var comparer = Comparer<TResult?>.Default;
                     while (e.MoveNext())
                     {
-                        TResult x = selector(e.Current);
+                        var x = selector(e.Current);
                         if (x != null && comparer.Compare(x, value) < 0)
                         {
                             value = x;
@@ -544,8 +545,8 @@ namespace System.Collections.Generic
                     value = selector(e.Current);
                     while (e.MoveNext())
                     {
-                        TResult x = selector(e.Current);
-                        if (Comparer<TResult>.Default.Compare(x, value) < 0)
+                        var x = selector(e.Current);
+                        if (Comparer<TResult?>.Default.Compare(x, value) < 0)
                         {
                             value = x;
                         }

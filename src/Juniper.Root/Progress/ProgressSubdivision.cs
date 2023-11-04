@@ -25,7 +25,7 @@ namespace Juniper.Progress
         /// <summary>
         /// A prefix to add to the status update message;
         /// </summary>
-        private readonly string prefix;
+        private readonly string? prefix;
 
         /// <summary>
         /// Creates a progress subdivision.
@@ -34,14 +34,14 @@ namespace Juniper.Progress
         /// <param name="start"></param>
         /// <param name="length"></param>
         /// <param name="prefix"></param>
-        public ProgressSubdivision(IProgress parent, float start, float length, string prefix = null)
+        public ProgressSubdivision(IProgress parent, float start, float length, string? prefix = null)
             : this(parent, prefix)
         {
             this.start = Math.Max(0, start);
             this.length = length;
         }
 
-        public ProgressSubdivision(IProgress parent, string prefix = null)
+        public ProgressSubdivision(IProgress parent, string? prefix = null)
         {
             this.parent = parent;
             this.prefix = prefix;
@@ -56,7 +56,7 @@ namespace Juniper.Progress
             private set;
         }
 
-        public string Status
+        public string? Status
         {
             get;
             private set;
@@ -67,7 +67,7 @@ namespace Juniper.Progress
         /// </summary>
         /// <param name="progress"></param>
         /// <param name="status"></param>
-        public void ReportWithStatus(float progress, string status)
+        public void Report(float progress, string? status = null)
         {
             Progress = progress;
             var prog = start + (progress * length);

@@ -61,7 +61,6 @@
         public DirectoryInfo Audios { get; }
         public DirectoryInfo Models { get; }
 
-        public DirectoryInfo NodeModules { get; }
         public DirectoryInfo StarTrekAudios { get; }
 
         public FileInfo PDFJSWorkerBundle { get; }

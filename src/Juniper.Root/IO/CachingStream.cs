@@ -166,7 +166,7 @@ namespace Juniper.IO
 
         private int lastRead;
 
-        public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
+        public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback? callback, object? state)
         {
             if (buffer is null)
             {
@@ -188,7 +188,7 @@ namespace Juniper.IO
             return lastRead;
         }
 
-        public override IAsyncResult BeginWrite(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
+        public override IAsyncResult BeginWrite(byte[] buffer, int offset, int count, AsyncCallback? callback, object? state)
         {
             throw new NotSupportedException();
         }

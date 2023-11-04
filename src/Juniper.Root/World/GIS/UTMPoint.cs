@@ -111,7 +111,7 @@ namespace Juniper.World.GIS
 
         public static explicit operator string(UTMPoint value)
         {
-            return value?.ToString(CultureInfo.CurrentCulture);
+            return value.ToString(CultureInfo.CurrentCulture);
         }
 
         public override int GetHashCode()
@@ -119,12 +119,12 @@ namespace Juniper.World.GIS
             return HashCode.Combine(Hemisphere, Easting, Northing, Altitude, Zone);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is UTMPoint p && Equals(p);
         }
 
-        public bool Equals(UTMPoint other)
+        public bool Equals(UTMPoint? other)
         {
             return other is not null
                 && Hemisphere == other.Hemisphere

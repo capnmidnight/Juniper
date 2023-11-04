@@ -264,10 +264,8 @@ namespace System
         /// <param name="numDigits">The number of significant digits to print.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
-        public static string SigFig(this float? value, int numDigits)
-        {
-            return value?.SigFig(numDigits);
-        }
+        public static string? SigFig(this float? value, int numDigits) =>
+            value?.SigFig(numDigits);
 
         /// <summary>
         /// Print a nullable number to a string with the proper number of significant digits (not just
@@ -278,10 +276,8 @@ namespace System
         /// <param name="numDigits">The number of significant digits to print.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
-        public static string SigFig(this Vector2? value, int numDigits)
-        {
-            return value?.SigFig(numDigits);
-        }
+        public static string? SigFig(this Vector2? value, int numDigits) =>
+            value?.SigFig(numDigits);
 
         /// <summary>
         /// Print a nullable number to a string with the proper number of significant digits (not just
@@ -292,10 +288,8 @@ namespace System
         /// <param name="numDigits">The number of significant digits to print.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
-        public static string SigFig(this Vector3? value, int numDigits)
-        {
-            return value?.SigFig(numDigits);
-        }
+        public static string? SigFig(this Vector3? value, int numDigits) =>
+            value?.SigFig(numDigits);
 
         /// <summary>
         /// Print a nullable number to a string with the proper number of significant digits (not just
@@ -306,10 +300,8 @@ namespace System
         /// <param name="numDigits">The number of significant digits to print.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
-        public static string SigFig(this Vector4? value, int numDigits)
-        {
-            return value?.SigFig(numDigits);
-        }
+        public static string? SigFig(this Vector4? value, int numDigits) =>
+            value?.SigFig(numDigits);
 
         /// <summary>
         /// Fit an integer value into an Enumeration range.
@@ -317,7 +309,7 @@ namespace System
         /// <typeparam name="T">The enumeration range to fit.</typeparam>
         /// <param name="value">The value to clamp</param>
         /// <returns>The integer cast to the enum type <typeparamref name="T"/>.</returns>
-        public static T ClampTo<T>(this int value) where T : struct
+        public static T? ClampTo<T>(this int value) where T : struct
         {
             var values = Enum.GetValues(typeof(T));
 
@@ -332,7 +324,11 @@ namespace System
             {
                 if (ints[i] == value)
                 {
-                    realValue = (T)values.GetValue(i);
+                    var v = values.GetValue(i);
+                    if (v is not null)
+                    {
+                        realValue = (T)v;
+                    }
                 }
             }
 

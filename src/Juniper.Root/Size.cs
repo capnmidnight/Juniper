@@ -11,7 +11,7 @@ namespace Juniper
         private static readonly string WIDTH_FIELD = nameof(Width).ToLowerInvariant();
         private static readonly string HEIGHT_FIELD = nameof(Height).ToLowerInvariant();
 
-        public static bool TryParse(string widthXHeight, out Size size)
+        public static bool TryParse(string widthXHeight, out Size? size)
         {
             var match = SizePattern.Match(widthXHeight);
             if (!match.Success)
@@ -34,7 +34,7 @@ namespace Juniper
         {
             if (TryParse(widthXHeight, out var size))
             {
-                return size;
+                return size!;
             }
             else
             {
@@ -73,25 +73,25 @@ namespace Juniper
             info.AddValue(HEIGHT_FIELD, Height);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Size size && Equals(size);
         }
 
-        public bool Equals(Size other)
+        public bool Equals(Size? other)
         {
             return other is not null
                 && Width == other.Width
                 && Height == other.Height;
         }
 
-        public static bool operator ==(Size left, Size right)
+        public static bool operator ==(Size? left, Size? right)
         {
             return ReferenceEquals(left, right)
                 || (left is not null && left.Equals(right));
         }
 
-        public static bool operator !=(Size left, Size right)
+        public static bool operator !=(Size? left, Size? right)
         {
             return !(left == right);
         }
@@ -103,19 +103,19 @@ namespace Juniper
                 + Height.ToString(formatter);
         }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Width, Height);
-        }
-
         public override string ToString()
         {
-            return $"{Width}x{Height}";
+            return ToString(CultureInfo.InvariantCulture);
         }
 
         public static explicit operator string(Size size)
         {
-            return size?.ToString(CultureInfo.InvariantCulture);
+            return size.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Width, Height);
         }
     }
 }

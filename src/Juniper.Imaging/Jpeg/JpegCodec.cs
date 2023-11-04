@@ -105,9 +105,9 @@ namespace Juniper.Imaging
                 copyProg.Report(y + 1, image.Info.Dimensions.Height);
             }
 
-            saveProg.Report(0);
+            IProgressExt.Report(saveProg, 0);
             var jpeg = new JpegImage(rows, Colorspace.RGB);
-            saveProg.Report(1);
+            IProgressExt.Report(saveProg, 1);
             return jpeg;
         }
     }

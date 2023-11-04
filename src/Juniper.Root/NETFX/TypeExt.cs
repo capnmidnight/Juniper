@@ -15,10 +15,8 @@ namespace System
                 .ToArray();
         }
 
-        public static T GetCustomAttribute<T>(this Type type, bool inherit)
-            where T : Attribute
-        {
-            return type.GetCustomAttributes<T>(inherit).FirstOrDefault();
-        }
+        public static T? GetCustomAttribute<T>(this Type type, bool inherit)
+            where T : Attribute =>
+            type.GetCustomAttributes<T>(inherit).FirstOrDefault();
     }
 }

@@ -71,7 +71,7 @@ namespace Juniper
             Space = space;
         }
 
-        public Vector3 ToVector3()
+        public readonly Vector3 ToVector3()
         {
             return new Vector3(X, Y, Z);
         }
@@ -81,7 +81,7 @@ namespace Juniper
             return color.ToVector3();
         }
 
-        public Color3 ConvertTo(ColorSpace toSpace)
+        public readonly Color3 ConvertTo(ColorSpace toSpace)
         {
             if (Space == toSpace)
             {
@@ -126,12 +126,12 @@ namespace Juniper
             return color;
         }
 
-        public override bool Equals(object obj)
+        public readonly override bool Equals(object? obj)
         {
             return obj is Color3 color && Equals(color);
         }
 
-        public bool Equals(Color3 other)
+        public readonly bool Equals(Color3 other)
         {
             return X == other.X &&
                    Y == other.Y &&
@@ -139,7 +139,7 @@ namespace Juniper
                    Space == other.Space;
         }
 
-        public override int GetHashCode()
+        public readonly override int GetHashCode()
         {
             return HashCode.Combine(X, Y, Z, Space);
         }

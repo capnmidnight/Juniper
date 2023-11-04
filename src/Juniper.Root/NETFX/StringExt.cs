@@ -41,7 +41,7 @@ namespace System
         /// </summary>
         /// <param name="value">The string to remove escape sequences from.</param>
         /// <returns>The unescaped string.</returns>
-        public static string Unescape(this string value)
+        public static string? Unescape(this string? value)
         {
             if (value is null)
             {
@@ -58,7 +58,7 @@ namespace System
         /// </summary>
         /// <param name="value">The string to add escape sequences from.</param>
         /// <returns>The escaped string.</returns>
-        public static string Escape(this string value)
+        public static string? Escape(this string? value)
         {
             if (value is null)
             {
@@ -116,10 +116,7 @@ namespace System
                 return string.Empty;
             }
 
-            if (separator is null)
-            {
-                separator = string.Empty;
-            }
+            separator ??= string.Empty;
 
             var sb = new Text.StringBuilder(parts[0]);
             for (var i = 1; i < parts.Length; ++i)

@@ -14,8 +14,8 @@ namespace Juniper.Terminal
         private readonly ConsoleColor startBack;
         private ConsoleColor lastBack;
         private ConsoleColor lastFore;
-        private Tile[,] tiles1;
-        private Tile[,] tiles2;
+        private Tile[,]? tiles1;
+        private Tile[,]? tiles2;
 
         public int AbsoluteLeft => 0;
         public int AbsoluteRight => Width - 1;
@@ -24,7 +24,7 @@ namespace Juniper.Terminal
         public int Width => tiles1?.GetWidth() ?? -1;
         public int Height => tiles1?.GetHeight() ?? -1;
 
-        public event EventHandler<SizeChangedEventArgs> SizeChanged;
+        public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
         public ConsoleBuffer()
         {
@@ -69,7 +69,7 @@ namespace Juniper.Terminal
         {
             if (IsInBounds(x, y))
             {
-                return tiles1[x, y].Back;
+                return tiles1![x, y].Back;
             }
             else
             {
@@ -103,9 +103,9 @@ namespace Juniper.Terminal
         {
             if (IsInBounds(x, y))
             {
-                tiles1[x, y].Back = b;
-                tiles1[x, y].Fore = f;
-                tiles1[x, y].Token = c;
+                tiles1![x, y].Back = b;
+                tiles1![x, y].Fore = f;
+                tiles1![x, y].Token = c;
             }
         }
 
@@ -115,9 +115,9 @@ namespace Juniper.Terminal
             {
                 for (var x = 0; x < Width; ++x)
                 {
-                    var t1 = tiles1[x, y];
+                    var t1 = tiles1![x, y];
 
-                    if (!t1.Equals(tiles2[x, y]))
+                    if (!t1.Equals(tiles2![x, y]))
                     {
                         CheckCursor(x, y);
 

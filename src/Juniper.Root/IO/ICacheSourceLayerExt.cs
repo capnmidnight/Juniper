@@ -5,7 +5,7 @@ namespace Juniper.IO
 
     public static class ICacheSourceLayerExt
     {
-        public static Task<Stream> OpenAsync(
+        public static Task<Stream?> OpenAsync(
             this ICacheSourceLayer layer,
             ContentReference fileRef)
         {
@@ -22,11 +22,11 @@ namespace Juniper.IO
             return layer.GetStreamAsync(fileRef, null);
         }
 
-        public static async Task<ResultT> LoadAsync<ResultT, M>(
+        public static async Task<ResultT?> LoadAsync<ResultT, M>(
             this ICacheSourceLayer layer,
             IDeserializer<ResultT, M> deserializer,
             ContentReference fileRef,
-            IProgress prog = null)
+            IProgress? prog = null)
             where M : MediaType
         {
             if (layer is null)
@@ -47,7 +47,9 @@ namespace Juniper.IO
             var progs = prog.Split("Read", "Decode");
             using var stream = await layer
                 .GetStreamAsync(fileRef, progs[0])
-                .ConfigureAwait(false);
+                .ConfigureAwait(false) 
+                ?? throw new FileNotFoundException(fileRef.FileName);
+
             using var progStream = new ProgressStream(stream, stream.Length, progs[1], false);
             return deserializer.Deserialize(progStream);
         }
@@ -56,8 +58,8 @@ namespace Juniper.IO
             this ICacheSourceLayer layer,
             IDeserializer<ResultT, M> deserializer,
             ContentReference fileRef,
-            out ResultT value,
-            IProgress prog = null)
+            out ResultT? value,
+            IProgress? prog = null)
             where M : MediaType
             where ResultT : class
         {
@@ -77,8 +79,8 @@ namespace Juniper.IO
         public static bool TryLoadJson<ResultT>(
             this ICacheSourceLayer layer,
             string name,
-            out ResultT value,
-            IProgress prog = null)
+            out ResultT? value,
+            IProgress? prog = null)
             where ResultT : class
         {
             var deserializer = new JsonFactory<ResultT>();
@@ -114,7 +116,8 @@ namespace Juniper.IO
 
             foreach (var contentRef in source.GetContentReferences(deserializer.OutputContentType))
             {
-                if (source.TryLoad(deserializer, contentRef, out var result))
+                if (source.TryLoad(deserializer, contentRef, out var result)
+                    && result is not null)
                 {
                     yield return (contentRef, result);
                 }
@@ -124,7 +127,7 @@ namespace Juniper.IO
         public static async Task<Dictionary<ContentReference, ResultT>> GetAsync<ResultT, MediaTypeT>(
             this ICacheSourceLayer source,
             IFactory<ResultT, MediaTypeT> deserializer,
-            IProgress prog = null)
+            IProgress? prog = null)
             where ResultT : class
             where MediaTypeT : MediaType
         {
@@ -147,7 +150,8 @@ namespace Juniper.IO
                     .ConfigureAwait(false);
 
                 if (stream is not null
-                    && deserializer.TryDeserialize(stream, out var value))
+                    && deserializer.TryDeserialize(stream, out var value)
+                    && value is not null)
                 {
                     items.Add(contentRef, value);
                 }

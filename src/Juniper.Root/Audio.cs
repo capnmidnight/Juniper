@@ -4,7 +4,7 @@ namespace Juniper
     {
         public partial class Audio : MediaType
         {
-            private static List<Audio> _allAudio;
+            private static List<Audio>? _allAudio;
             private static List<Audio> AllAud => _allAudio ??= new();
             public static IReadOnlyCollection<Audio> AllAudio => AllAud;
             public static readonly Audio AnyAudio = new("*");

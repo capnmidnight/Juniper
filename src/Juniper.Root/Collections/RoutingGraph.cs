@@ -9,7 +9,7 @@ namespace Juniper.Collections
         public static RoutingGraph<KeyT> ToRoutingGraph<NodeT, KeyT, ValueT>(this IEnumerable<NodeT> items,
             Func<NodeT, KeyT> getKey,
             Func<NodeT, KeyT> getParentKey,
-            Func<NodeT, float> getCost = null)
+            Func<NodeT, float>? getCost = null)
         where KeyT : IComparable<KeyT>
         {
             getCost ??= _ => 1;
@@ -24,7 +24,7 @@ namespace Juniper.Collections
             return graph;
         }
 
-        public static RoutingGraph<NodeT> Load<NodeT>(FileInfo file)
+        public static RoutingGraph<NodeT>? Load<NodeT>(FileInfo file)
             where NodeT : IComparable<NodeT>
         {
             if (file is null)
@@ -48,12 +48,12 @@ namespace Juniper.Collections
             }
         }
 
-        public static RoutingGraph<NodeT> LoadJSON<NodeT>(Stream stream) where NodeT : IComparable<NodeT>
+        public static RoutingGraph<NodeT>? LoadJSON<NodeT>(Stream stream) where NodeT : IComparable<NodeT>
         {
             return Load(new JsonFactory<RoutingGraph<NodeT>>(), stream);
         }
 
-        private static RoutingGraph<NodeT> Load<NodeT, M>(IDeserializer<RoutingGraph<NodeT>, M> deserializer, Stream stream)
+        private static RoutingGraph<NodeT>? Load<NodeT, M>(IDeserializer<RoutingGraph<NodeT>, M> deserializer, Stream stream)
             where M : MediaType
             where NodeT : IComparable<NodeT>
         {
@@ -70,7 +70,7 @@ namespace Juniper.Collections
             return deserializer.Deserialize(stream);
         }
 
-        public static RoutingGraph<NodeT> Load<NodeT>(string fileName)
+        public static RoutingGraph<NodeT>? Load<NodeT>(string fileName)
             where NodeT : IComparable<NodeT>
         {
             if (fileName is null)
@@ -91,11 +91,11 @@ namespace Juniper.Collections
     public class RoutingGraph<NodeT> : ISaveable<RoutingGraph<NodeT>>
         where NodeT : IComparable<NodeT>
     {
-        private readonly List<Route<NodeT>> connections;
-        private readonly SparseMatrix<NodeT, Route<NodeT>> network;
+        private readonly List<Route<NodeT>> connections = new();
+        private readonly SparseMatrix<NodeT, Route<NodeT>> network = new();
 
-        private readonly Dictionary<string, NodeT> namedNodes;
-        private readonly Dictionary<NodeT, string> nodeNames;
+        private readonly Dictionary<string, NodeT> namedNodes = new();
+        private readonly Dictionary<NodeT, string> nodeNames = new();
 
         private readonly bool directed;
 
@@ -105,10 +105,6 @@ namespace Juniper.Collections
         {
             this.directed = directed;
             dirty = false;
-            connections = new();
-            namedNodes = new();
-            nodeNames = new();
-            network = new();
         }
 
         public RoutingGraph<NodeT> Clone()
@@ -124,6 +120,7 @@ namespace Juniper.Collections
             {
                 graph.SetRoute(route);
             }
+
 
             foreach (var pair in namedNodes)
             {
@@ -144,7 +141,7 @@ namespace Juniper.Collections
             }
 
             directed = info.GetBoolean(nameof(directed));
-            network = info.GetValue<SparseMatrix<NodeT, Route<NodeT>>>(nameof(network));
+            network = info.GetValue<SparseMatrix<NodeT, Route<NodeT>>>(nameof(network)) ?? new SparseMatrix<NodeT, Route<NodeT>>();
             connections = new List<Route<NodeT>>();
 
             foreach (var route in network.Values)
@@ -167,9 +164,16 @@ namespace Juniper.Collections
             {
                 switch (pair.Name)
                 {
-                    case nameof(namedNodes):
+                    case nameof(this.namedNodes):
                     case "namedEndPoints":
-                    namedNodes = info.GetValue<Dictionary<string, NodeT>>(pair.Name);
+                    var namedNodes = info.GetValue<Dictionary<string, NodeT>>(pair.Name);
+                    if (namedNodes is not null)
+                    {
+                        foreach (var kv in namedNodes)
+                        {
+                            this.namedNodes.Add(kv.Key, kv.Value);
+                        }
+                    }
                     break;
                     case nameof(dirty):
                     dirty = info.GetBoolean(nameof(dirty));
@@ -370,12 +374,16 @@ namespace Juniper.Collections
             {
                 foreach (var y in network.ColumnCells(node))
                 {
-                    yield return network[node, y];
+                    var route = network[node, y];
+                    if (route is not null)
+                    {
+                        yield return route;
+                    }
                 }
             }
         }
 
-        public Route<NodeT> FindRoute(NodeT startPoint, NodeT endPoint)
+        public Route<NodeT>? FindRoute(NodeT startPoint, NodeT endPoint)
         {
             return Exists(startPoint, endPoint)
                 ? network[startPoint, endPoint]
@@ -395,12 +403,12 @@ namespace Juniper.Collections
 
         public IReadOnlyDictionary<NodeT, string> NodeNames => nodeNames;
 
-        public string FindNodeName(NodeT node)
+        public string? FindNodeName(NodeT node)
         {
             return nodeNames.Get(node);
         }
 
-        public NodeT FindNamedNode(string name)
+        public NodeT? FindNamedNode(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -457,7 +465,7 @@ namespace Juniper.Collections
                 {
                     var next = route.Join(extension, directed);
                     var cur = FindRoute(next.Start, next.End);
-                    if (next < cur)
+                    if (cur is null || next < cur)
                     {
                         SetRoute(next);
                         q.Add(next);

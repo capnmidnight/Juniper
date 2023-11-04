@@ -64,7 +64,7 @@ namespace Juniper.Mathematics
             return $"<{X.ToString(CultureInfo.CurrentCulture)}, {Y.ToString(CultureInfo.CurrentCulture)}>";
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Vector2Serializable serializable && Equals(serializable);
         }

@@ -94,7 +94,7 @@ namespace Juniper.IO
         /// <typeparam name="T"></typeparam>
         /// <param name="layer"></param>
         /// <returns></returns>
-        public bool GetSource<T>(out T layer)
+        public bool GetSource<T>(out T? layer)
             where T : ICacheSourceLayer
         {
             layer = default;
@@ -116,7 +116,7 @@ namespace Juniper.IO
         /// <typeparam name="T"></typeparam>
         /// <param name="layer"></param>
         /// <returns></returns>
-        public bool GetDestination<T>(out T layer)
+        public bool GetDestination<T>(out T? layer)
             where T : ICacheDestinationLayer
         {
             layer = default;
@@ -198,7 +198,7 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns>Null, if the file does not exist in the cache</returns>
-        public async Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
+        public async Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog)
         {
             if (fileRef is null)
             {

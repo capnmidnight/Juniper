@@ -17,10 +17,11 @@ namespace Juniper.IO
         {
             if (fileRef is null)
             {
-                throw new System.ArgumentNullException(nameof(fileRef));
+                throw new ArgumentNullException(nameof(fileRef));
             }
 
-            return store.ContainsKey(fileRef.ContentType)
+            return fileRef.CacheID is not null
+                && store.ContainsKey(fileRef.ContentType)
                 && store[fileRef.ContentType].ContainsKey(fileRef.CacheID);
         }
 
@@ -28,7 +29,7 @@ namespace Juniper.IO
         {
             if (fileRef is null)
             {
-                throw new System.ArgumentNullException(nameof(fileRef));
+                throw new ArgumentNullException(nameof(fileRef));
             }
 
             var subStore = store.Default(fileRef.ContentType);
@@ -36,11 +37,11 @@ namespace Juniper.IO
             return subStore[fileRef.CacheID] = mem;
         }
 
-        public Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
+        public Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog = null)
         {
             if (fileRef is null)
             {
-                throw new System.ArgumentNullException(nameof(fileRef));
+                throw new ArgumentNullException(nameof(fileRef));
             }
 
             if (!IsCached(fileRef))
@@ -48,10 +49,10 @@ namespace Juniper.IO
                 throw new FileNotFoundException("File not found in memory cache!", fileRef.ToString());
             }
 
-            var data = store[fileRef.ContentType][fileRef.CacheID].ToArray();
+            var data = store[fileRef.ContentType][fileRef.CacheID!].ToArray();
             var stream = new MemoryStream(data);
             var progStream = new ProgressStream(stream, data.Length, prog, true);
-            return Task.FromResult((Stream)progStream);
+            return Task.FromResult((Stream?)progStream);
         }
 
         public IEnumerable<ContentReference> GetContentReferences(MediaType ofType)

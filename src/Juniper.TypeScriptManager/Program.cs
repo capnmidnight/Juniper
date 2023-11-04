@@ -32,7 +32,7 @@ foreach (var p in projects)
         ?.Select(o => o.Key)
         ?.Where(k => k.StartsWith("@juniper-lib") && k != "@juniper-lib/esbuild")
         ?.Select(name => packageLookup[name])
-        ?.Select(file => file.Directory.Abs2Rel(p.CfgFile.Directory))
+        ?.Select(file => file.Directory?.Abs2Rel(p.CfgFile.Directory))
         ?.Select(path => new Dictionary<string, JsonNode?>{ ["path"] = path })
         ?.Select(dict => new JsonObject(dict))
         ?.ToArray();

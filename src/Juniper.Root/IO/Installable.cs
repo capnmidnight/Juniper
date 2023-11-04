@@ -16,7 +16,7 @@ namespace Juniper.IO
         /// <param name="reset"></param>
         /// <param name="prog">Progress tracker (non by default).</param>
         /// <returns>The number of objects that didn't install correctly.</returns>
-        public static List<KeyValuePair<IInstallable, Exception>> InstallAll(Func<List<IInstallable>> getInstallables, bool reset, IProgress prog = null)
+        public static List<KeyValuePair<IInstallable, Exception>> InstallAll(Func<List<IInstallable>> getInstallables, bool reset, IProgress? prog = null)
         {
             var errored = new List<KeyValuePair<IInstallable, Exception>>(10);
             var installed = new List<IInstallable>(10);
@@ -28,7 +28,7 @@ namespace Juniper.IO
                     keepFinding = false;
 
                     var installables = getInstallables();
-                    prog.Report(installed.Count, installables.Count);
+                    prog?.Report(installed.Count, installables.Count);
 
                     foreach (var installable in installables)
                     {
@@ -47,7 +47,7 @@ namespace Juniper.IO
 
                                 installable.Install(reset);
                                 installed.Add(installable);
-                                prog.Report(installed.Count, installables.Count);
+                                prog?.Report(installed.Count, installables.Count);
                             }
                             catch (Exception exp)
                             {

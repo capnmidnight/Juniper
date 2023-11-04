@@ -21,8 +21,8 @@ namespace Juniper.HTTP
         /// </summary>
         public const int DEFAULT_DATA_BUFFER_SIZE = 10000000;
 
-        private WebSocketT socket;
-        protected WebSocketT Socket
+        private WebSocketT? socket;
+        protected WebSocketT? Socket
         {
             get => socket;
             set
@@ -32,18 +32,18 @@ namespace Juniper.HTTP
             }
         }
 
-        public event EventHandler<StringEventArgs> Message;
-        public event EventHandler<BufferEventArgs> Data;
-        public event EventHandler<DataMessageEventArgs> DataMessage;
-        public event EventHandler<ErrorEventArgs> Error;
-        public event EventHandler Connecting;
-        public event EventHandler Connected;
-        public event EventHandler Closing;
-        public event EventHandler Closed;
-        public event EventHandler Aborted;
+        public event EventHandler<StringEventArgs>? Message;
+        public event EventHandler<BufferEventArgs>? Data;
+        public event EventHandler<DataMessageEventArgs>? DataMessage;
+        public event EventHandler<ErrorEventArgs>? Error;
+        public event EventHandler? Connecting;
+        public event EventHandler? Connected;
+        public event EventHandler? Closing;
+        public event EventHandler? Closed;
+        public event EventHandler? Aborted;
 
 #if DEBUG
-        public event EventHandler<StringEventArgs> Debug;
+        public event EventHandler<StringEventArgs>? Debug;
 #endif
 
         private readonly byte[] rxBuffer;
@@ -62,7 +62,7 @@ namespace Juniper.HTTP
             _ = Task.Run(UpdateAsync).ConfigureAwait(false);
         }
 
-        public WebSocketState State => Socket.State;
+        public WebSocketState? State => Socket?.State;
 
         private async Task UpdateAsync()
         {
@@ -122,6 +122,11 @@ namespace Juniper.HTTP
 
         private async Task ReceiveAsync()
         {
+            if (Socket is null)
+            {
+                return;
+            }
+
             var accum = new List<byte>();
             bool done;
             WebSocketMessageType msgType;
@@ -161,12 +166,13 @@ namespace Juniper.HTTP
             }
         }
 
-        private void WebSocketConnection_Data(object sender, BufferEventArgs e)
+        private void WebSocketConnection_Data(object? sender, BufferEventArgs e)
         {
             if (DataMessage is not null)
             {
                 var dataMessageDeserializer = new JsonFactory<DataMessageEventArgs>();
-                if (dataMessageDeserializer.TryDeserialize(e.Value.ToArray(), out var dataMsg))
+                if (dataMessageDeserializer.TryDeserialize(e.Value.ToArray(), out var dataMsg)
+                    && dataMsg is not null)
                 {
                     OnDataMessage(dataMsg);
                 }
@@ -226,6 +232,11 @@ namespace Juniper.HTTP
                 throw new ArgumentNullException(nameof(buffer));
             }
 
+            if (Socket is null)
+            {
+                throw new Exception("No socket!");
+            }
+
             var segment = new ArraySegment<byte>(buffer.ToArray());
             OnDebug($"Send: {buffer.Length.ToString(CultureInfo.CurrentCulture)} bytes. Type: {messageType}.");
             await Socket
@@ -235,6 +246,11 @@ namespace Juniper.HTTP
 
         public async Task CloseAsync(WebSocketCloseStatus closeState = WebSocketCloseStatus.NormalClosure)
         {
+            if (Socket is null)
+            {
+                throw new Exception("No socket!");
+            }
+
             OnDebug("Closing");
             OnClosing();
 
@@ -262,7 +278,7 @@ namespace Juniper.HTTP
             {
                 if (disposing)
                 {
-                    Socket.Dispose();
+                    Socket?.Dispose();
                 }
 
                 disposedValue = true;
@@ -281,6 +297,10 @@ namespace Juniper.HTTP
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnDebug(string msg)
         {
+
+            if(Socket is null){
+                throw new Exception("No socket!");
+            }
 #if DEBUG
             Debug?.Invoke(this, new StringEventArgs(msg));
 #endif

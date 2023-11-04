@@ -36,7 +36,7 @@ namespace Juniper.Imaging
             rows = r;
             columns = c;
 
-            prog.Report(0);
+            IProgressExt.Report(prog, 0);
 
             components = 0;
             tileWidth = 0;

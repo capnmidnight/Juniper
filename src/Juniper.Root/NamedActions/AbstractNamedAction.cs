@@ -12,11 +12,6 @@ namespace Juniper
     {
         public static implicit operator ActionT(AbstractNamedAction<ActionT> namedAction)
         {
-            if (namedAction is null)
-            {
-                return null;
-            }
-
             return namedAction.ToAction();
         }
 

@@ -20,7 +20,7 @@ namespace Juniper.IO
 
         public MediaTypeT OutputContentType => InputContentType;
 
-        public ResultT Deserialize(Stream stream)
+        public ResultT? Deserialize(Stream stream)
         {
             if (stream is null)
             {
