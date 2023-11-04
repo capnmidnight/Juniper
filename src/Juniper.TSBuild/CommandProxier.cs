@@ -8,6 +8,10 @@ namespace Juniper.TSBuild;
 
 public partial class CommandProxier : ILoggingSource
 {
+    private static readonly char[] MAYBE_JSON = {
+        '{', '[', '"', '\'', 't', 'f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+    };
+
     public DirectoryInfo Root { get; private set; }
     private readonly ShellCommand processManager;
     private readonly TaskCompletionSource processQuit = new();
@@ -60,7 +64,9 @@ public partial class CommandProxier : ILoggingSource
 
     private void OnInfo(object? _, StringEventArgs e)
     {
-        if (cmdFactory.TryParse(e.Value, out var cmd))
+        if (e.Value.Length > 0
+            && MAYBE_JSON.Contains(e.Value[0])
+            && cmdFactory.TryParse(e.Value, out var cmd))
         {
             if (proxies.ContainsKey(cmd.TaskID))
             {
