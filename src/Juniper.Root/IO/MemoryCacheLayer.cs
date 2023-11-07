@@ -27,7 +27,7 @@ namespace Juniper.IO
 
         public Stream Create(ContentReference fileRef)
         {
-            if (fileRef is null)
+            if (fileRef.CacheID is null)
             {
                 throw new ArgumentNullException(nameof(fileRef));
             }
@@ -73,7 +73,8 @@ namespace Juniper.IO
                 throw new System.ArgumentNullException(nameof(fileRef));
             }
 
-            if (IsCached(fileRef))
+            if (fileRef.CacheID is not null 
+                && IsCached(fileRef))
             {
                 return store[fileRef.ContentType]
                     .TryRemove(fileRef.CacheID, out _);
