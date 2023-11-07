@@ -115,7 +115,7 @@ namespace System.IO
 
         public static bool Contains(this DirectoryInfo dir, FileInfo file)
         {
-            if (file is null)
+            if (file?.Directory is null)
             {
                 return false;
             }

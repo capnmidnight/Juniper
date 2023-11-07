@@ -4,20 +4,9 @@ namespace Juniper.Collections
     {
         public static Tree<ValueT> ToTree<KeyT, ValueT>(this IEnumerable<ValueT> items,
             Func<ValueT, KeyT> getKey,
-            Func<ValueT, KeyT> getParentKey,
+            Func<ValueT, KeyT?> getParentKey,
             Func<ValueT, int>? getOrder = null)
-            where KeyT : notnull
-            where ValueT : notnull
-        {
-            return items.ToTree(getKey, getParentKey, Always.Identity, getOrder);
-        }
-
-        public static Tree<ValueT> ToTree<NodeT, KeyT, ValueT>(this IEnumerable<NodeT> items,
-            Func<NodeT, KeyT> getKey,
-            Func<NodeT, KeyT> getParentKey,
-            Func<NodeT, ValueT> getValue,
-            Func<NodeT, int>? getOrder = null)
-            where KeyT : notnull
+            where KeyT : class
             where ValueT : notnull
         {
             var rootNode = new Tree<ValueT>();
@@ -26,8 +15,7 @@ namespace Juniper.Collections
             foreach (var item in items)
             {
                 var nodeID = getKey(item);
-                var value = getValue(item);
-                var node = new Tree<ValueT>(value);
+                var node = new Tree<ValueT>(item);
                 nodes.Add(nodeID, node);
             }
 
@@ -39,6 +27,43 @@ namespace Juniper.Collections
                 var parentNode = parentNodeID is not null
                     && nodes.ContainsKey(parentNodeID)
                         ? nodes[parentNodeID]
+                        : rootNode;
+                var index = parentNode.Children.Count;
+                if (getOrder is not null)
+                {
+                    index = getOrder(item);
+                }
+                parentNode.Connect(node, index);
+            }
+
+            return rootNode;
+        }
+
+        public static Tree<ValueT> ToTree<KeyT, ValueT>(this IEnumerable<ValueT> items,
+            Func<ValueT, KeyT> getKey,
+            Func<ValueT, KeyT?> getParentKey,
+            Func<ValueT, int>? getOrder = null)
+            where KeyT : struct
+            where ValueT : notnull
+        {
+            var rootNode = new Tree<ValueT>();
+            var nodes = new Dictionary<KeyT, Tree<ValueT>>();
+
+            foreach (var item in items)
+            {
+                var nodeID = getKey(item);
+                var node = new Tree<ValueT>(item);
+                nodes.Add(nodeID, node);
+            }
+
+            foreach (var item in items)
+            {
+                var nodeID = getKey(item);
+                var node = nodes[nodeID];
+                var parentNodeID = getParentKey(item);
+                var parentNode = parentNodeID.HasValue
+                    && nodes.ContainsKey(parentNodeID.Value)
+                        ? nodes[parentNodeID.Value]
                         : rootNode;
                 var index = parentNode.Children.Count;
                 if (getOrder is not null)
@@ -254,7 +279,7 @@ namespace Juniper.Collections
 
         public bool Contains(Tree<T> node)
         {
-            Tree<T>? here = node;
+            var here = node;
             while (here is not null)
             {
                 if (here == this)
@@ -282,21 +307,66 @@ namespace Juniper.Collections
             Parent?.Remove(this);
         }
 
-        public Tree<T>? Find(T value)
+        public Tree<T>? Find(T? value)
         {
-            return FindByKey(value, Always.Identity);
+            foreach (var node in NodesBreadthFirst())
+            {
+                if (Equals(value, node.Value))
+                {
+                    return node;
+                }
+            }
+
+            return null;
         }
 
-        public Tree<T>? FindByKey<K>(K key1, Func<T, K> getKey) where K : notnull
+        public Tree<T>? FindByKey<K>(K? key1, Func<T, K?> getKey)
+            where K : class
         {
-            var isClass = typeof(K).IsClass;
+            if (key1 is null)
+            {
+                if(IsRoot && Value is null)
+                {
+                    return this;
+                }
+
+                return null;
+            }
+
             foreach (var node in NodesBreadthFirst())
             {
                 if (node.Value is not null)
                 {
                     var key2 = getKey(node.Value);
-                    if (isClass && ReferenceEquals(key1, key2)
-                        || !isClass && key1.Equals(key2))
+                    if (Equals(key1, key2))
+                    {
+                        return node;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public Tree<T>? FindByKey<K>(K? key1, Func<T, K?> getKey)
+            where K : struct
+        {
+            if (key1 is null)
+            {
+                if (IsRoot && Value is null)
+                {
+                    return this;
+                }
+
+                return null;
+            }
+
+            foreach (var node in NodesBreadthFirst())
+            {
+                if (node.Value is not null)
+                {
+                    var key2 = getKey(node.Value);
+                    if (Equals(key1, key2))
                     {
                         return node;
                     }
