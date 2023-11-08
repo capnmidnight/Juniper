@@ -205,21 +205,25 @@ namespace Juniper
         protected internal MediaType(string type, string fullSubType, params string[] extensions)
         {
             Type = type;
+            Value = FullValue = Type + "/";
+
             FullSubType = fullSubType;
             _extensions = extensions;
 
+            string? paramStr = null;
+
             var subTypeParts = SubTypePattern.Match(FullSubType);
-            if (!subTypeParts.Success)
+            if (subTypeParts.Success)
             {
-                throw new ArgumentException("Couldn't parse subtype", nameof(fullSubType));
+                Tree = subTypeParts.Groups[1].Value;
+                SubType = subTypeParts.Groups[2].Value;
+                Suffix = subTypeParts.Groups[3].Value;
+                paramStr = subTypeParts.Groups[4].Value;
             }
-
-            Tree = subTypeParts.Groups[1].Value;
-            SubType = subTypeParts.Groups[2].Value;
-            Suffix = subTypeParts.Groups[3].Value;
-            var paramStr = subTypeParts.Groups[4].Value;
-
-            Value = FullValue = Type + "/";
+            else
+            {
+                SubType = FullSubType;
+            }
 
             if (!string.IsNullOrEmpty(Tree))
             {
@@ -261,8 +265,7 @@ namespace Juniper
             if (Type != "*"
                 && SubType != "*"
                 && Type != "unknown"
-                && SubType != "unknown"
-                && Value is not null)
+                && SubType != "unknown")
             {
                 foreach (var ext in Extensions)
                 {

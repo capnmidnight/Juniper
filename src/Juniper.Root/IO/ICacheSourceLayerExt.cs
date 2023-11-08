@@ -68,7 +68,7 @@ namespace Juniper.IO
             var task = layer.LoadAsync(deserializer, fileRef, prog);
             Task.WhenAny(task).Wait();
 
-            if (task.IsSuccessful())
+            if (task.Status == TaskStatus.RanToCompletion)
             {
                 value = task.Result;
             }
