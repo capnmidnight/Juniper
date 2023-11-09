@@ -51,16 +51,6 @@ namespace Juniper.TSBuild
         public DirectoryInfo? OutProject;
 
         /// <summary>
-        /// A flag to skip running "npm install" on projects and
-        /// dependency projects. 
-        /// 
-        /// Usually this isn't necessary, as 
-        /// the  build system can mostly detect when the packages
-        /// don't need to be installed.
-        /// </summary>
-        public bool SkipNPMInstall;
-
-        /// <summary>
         /// Additional projects that should have their build
         /// process ran as part of this build process.
         /// 
@@ -69,18 +59,6 @@ namespace Juniper.TSBuild
         /// dependent project.
         /// </summary>
         public DirectoryInfo[]? AdditionalNPMProjects;
-
-        /// <summary>
-        /// A flag to skip running "npm build" on dependency
-        /// projects. Setting this to "true" can speed up the
-        /// time it takes to launch the project.
-        /// 
-        /// This is sometimes necessary the first time a
-        /// project is being ran after a git update, but often
-        /// doesn't need to happen if the dependency projects
-        /// haven't been updated.
-        /// </summary>
-        public bool SkipPreBuild;
 
         /// <summary>
         /// Files that need to be copied as part of the build.

@@ -94,7 +94,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private readonly List<CopyCommand> copyCommands = new();
 
     private readonly bool isInProjectProcess;
-    private readonly bool skipPreBuild;
     private readonly bool hasNPM;
 
     private readonly TaskCompletionSource starting = new();
@@ -134,8 +133,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             ?.ToArray()
             ?? Array.Empty<DirectoryInfo>();
 
-        skipPreBuild = options.SkipPreBuild;
-
         projectPackage = inProjectDir.Touch("package.json");
         projectAppSettings = outProjectDir.Touch("appsettings.json");
 
@@ -143,8 +140,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         if (hasNPM)
         {
-            if (!options.SkipNPMInstall)
-            {
                 var dirs = new List<DirectoryInfo>{
                     inProjectDir
                 };
@@ -160,8 +155,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 Task.WaitAll(bundleCountGuesses);
                 var counts = bundleCountGuesses.Select(v => v.Result).ToArray();
                 bundleCountGuess = Math.Max(1, counts.Sum());
-            }
-
+         
             if (options.Dependencies is not null)
             {
                 AddDependencies(options.Dependencies, true);
@@ -597,9 +591,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             var packagesInstalled = installCommands.Any(cmd => cmd.NeededInstall == true);
 
             var watchProjectPaths = WatchProjects.Select(pkg => pkg.FullName).ToHashSet();
-            var buildOnlyProjects = BuildProjects.Where(pkg =>
-                !watchProjectPaths.Contains(pkg.FullName) 
-                    && (packagesInstalled  || !skipPreBuild));
+            var buildOnlyProjects = BuildProjects.Where(pkg => !watchProjectPaths.Contains(pkg.FullName) && packagesInstalled);
 
             var preBuilds = TryMake(
                 buildOnlyProjects,
