@@ -39,6 +39,86 @@ namespace Juniper.Collections
             return rootNode;
         }
 
+        public static Tree<ValueT> ToTree<ItemT, KeyT, ValueT>(this IEnumerable<ItemT> items,
+            Func<ItemT, KeyT> getKey,
+            Func<ItemT, KeyT?> getParentKey,
+            Func<ItemT, ValueT> getValue,
+            Func<ItemT, int>? getOrder = null)
+            where ItemT : notnull
+            where KeyT : class
+            where ValueT : notnull
+        {
+            var rootNode = new Tree<ValueT>();
+            var nodes = new Dictionary<KeyT, Tree<ValueT>>();
+
+            foreach (var item in items)
+            {
+                var nodeID = getKey(item);
+                var value = getValue(item);
+                var node = new Tree<ValueT>(value);
+                nodes.Add(nodeID, node);
+            }
+
+            foreach (var item in items)
+            {
+                var nodeID = getKey(item);
+                var node = nodes[nodeID];
+                var parentNodeID = getParentKey(item);
+                var parentNode = parentNodeID is not null
+                    && nodes.ContainsKey(parentNodeID)
+                        ? nodes[parentNodeID]
+                        : rootNode;
+                var index = parentNode.Children.Count;
+                if (getOrder is not null)
+                {
+                    index = getOrder(item);
+                }
+                parentNode.Connect(node, index);
+            }
+
+            return rootNode;
+        }
+
+        public static Tree<ValueT> ToTree<ItemT, KeyT, ValueT>(this IEnumerable<ItemT> items,
+            Func<ItemT, KeyT> getKey,
+            Func<ItemT, KeyT?> getParentKey,
+            Func<ItemT, ValueT> getValue,
+            Func<ItemT, int>? getOrder = null)
+            where ItemT : notnull
+            where KeyT : struct
+            where ValueT: notnull
+        {
+            var rootNode = new Tree<ValueT>();
+            var nodes = new Dictionary<KeyT, Tree<ValueT>>();
+
+            foreach (var item in items)
+            {
+                var nodeID = getKey(item);
+                var value = getValue(item);
+                var node = new Tree<ValueT>(value);
+                nodes.Add(nodeID, node);
+            }
+
+            foreach (var item in items)
+            {
+                var nodeID = getKey(item);
+                var node = nodes[nodeID];
+                var parentNodeID = getParentKey(item);
+                var parentNode = parentNodeID.HasValue
+                    && nodes.ContainsKey(parentNodeID.Value)
+                        ? nodes[parentNodeID.Value]
+                        : rootNode;
+                var index = parentNode.Children.Count;
+                if (getOrder is not null)
+                {
+                    index = getOrder(item);
+                }
+                parentNode.Connect(node, index);
+            }
+
+            return rootNode;
+        }
+
         public static Tree<ValueT> ToTree<KeyT, ValueT>(this IEnumerable<ValueT> items,
             Func<ValueT, KeyT> getKey,
             Func<ValueT, KeyT?> getParentKey,
