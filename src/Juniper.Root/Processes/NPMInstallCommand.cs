@@ -7,6 +7,7 @@ namespace Juniper.Processes
     {
         private readonly FileInfo packageJson;
         private readonly DirectoryInfo nodeModulesDir;
+        public bool? NeededInstall { get; private set; } = null;
 
 
         public NPMInstallCommand(FileInfo packageJson, bool noPackageLock = true)
@@ -32,6 +33,15 @@ namespace Juniper.Processes
 
         public override async Task RunAsync(CancellationToken cancellationToken)
         {
+            NeededInstall = await NeedsInstall(cancellationToken);
+            if (NeededInstall.Value)
+            {
+                await base.RunAsync(cancellationToken);
+            }
+        }
+
+        private async Task<bool> NeedsInstall(CancellationToken? cancellationToken = null)
+        {
             var needsInstall = !nodeModulesDir.Exists;
             if (!needsInstall)
             {
@@ -44,7 +54,7 @@ namespace Juniper.Processes
                     {
                         checkedPackageJsons.Add(packageJson.FullName);
 
-                        var package = await NPMPackage.ReadAsync(packageJson, cancellationToken);
+                        var package = await NPMPackage.ReadAsync(packageJson, cancellationToken ?? CancellationToken.None);
                         if (package is not null)
                         {
                             var workspaces = package.workspaces ?? Array.Empty<string>();
@@ -56,7 +66,7 @@ namespace Juniper.Processes
                             var dependencies = package.dependencies.Merge(package?.devDependencies);
                             foreach (var (name, requiredVersionStr) in dependencies)
                             {
-                                var installReason = await NeedsInstall(here, name, requiredVersionStr, cancellationToken);
+                                var installReason = await NeedsInstall(here, name, requiredVersionStr, cancellationToken ?? CancellationToken.None);
                                 if (installReason is not null)
                                 {
                                     OnWarning(installReason);
@@ -69,15 +79,12 @@ namespace Juniper.Processes
                 }
             }
 
-            if (needsInstall)
-            {
-                await base.RunAsync(cancellationToken);
-            }
+            return needsInstall;
         }
 
         private static readonly Regex versionPattern = new(@"(>|<|>=|<=|~|\^|=)?(\d+\.\d+\.\d+)", RegexOptions.Compiled);
 
-        private async Task<string?> NeedsInstall(DirectoryInfo fromDir, string name, string requiredVersionStr, CancellationToken cancellationToken)
+        private static async Task<string?> NeedsInstall(DirectoryInfo fromDir, string name, string requiredVersionStr, CancellationToken cancellationToken)
         {
             if (requiredVersionStr.StartsWith("http")
                 || requiredVersionStr.StartsWith("git"))
@@ -149,7 +156,7 @@ namespace Juniper.Processes
             return null;
         }
 
-        private DirectoryInfo? ResolveNPMPackage(DirectoryInfo? fromDir, string name)
+        private static DirectoryInfo? ResolveNPMPackage(DirectoryInfo? fromDir, string name)
         {
             while(fromDir is not null)
             {
