@@ -29,10 +29,8 @@ namespace System.IO
             return dir;
         }
 
-        public static DirectoryInfo CD(this DirectoryInfo dir, params string[] subs)
-        {
-            return dir.DirectoryOp(subs, false);
-        }
+        public static DirectoryInfo CD(this DirectoryInfo dir, params string[] subs) =>
+            dir.DirectoryOp(subs, false);
 
         public static DirectoryInfo? GoUpUntil(this DirectoryInfo dir, Func<DirectoryInfo, bool> test)
         {
@@ -168,6 +166,22 @@ namespace System.IO
                     yield return here;
                 }
             }
+        }
+
+        public static bool TryDelete(this DirectoryInfo directory, bool recursive = false)
+        {
+            if (directory?.Exists == true)
+            {
+                try
+                {
+                    directory.Delete(recursive);
+                    return true;
+                }
+                catch
+                { }
+            }
+
+            return false;
         }
     }
 }

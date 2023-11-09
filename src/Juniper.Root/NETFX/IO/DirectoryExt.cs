@@ -30,22 +30,6 @@ namespace System.IO
             return false;
         }
 
-        public static bool TryDelete(this DirectoryInfo directory, bool recursive = false)
-        {
-            if (directory?.Exists == true)
-            {
-                try
-                {
-                    directory.Delete(recursive);
-                    return true;
-                }
-                catch
-                { }
-            }
-
-            return false;
-        }
-
         /// <summary>
         /// Creates a directory, if the directory is semi-valid.
         /// </summary>

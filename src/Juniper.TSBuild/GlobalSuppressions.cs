@@ -5,6 +5,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Style", "IDE0025:Use block body for properties", Justification = "<Pending>")]
-[assembly: SuppressMessage("Style", "IDE0027:Use block body for accessors", Justification = "<Pending>")]
+[assembly: SuppressMessage("Style", "IDE0025:Use block body for properties", Justification = "Prefered coding style")]
+[assembly: SuppressMessage("Style", "IDE0027:Use block body for accessors", Justification = "Prefered coding style")]
+[assembly: SuppressMessage("Style", "IDE0022:Use block body for method", Justification = "Prefered coding style")]
 [assembly: SuppressMessage("Style", "IDE0058:Expression value is never used", Justification = "<Pending>")]

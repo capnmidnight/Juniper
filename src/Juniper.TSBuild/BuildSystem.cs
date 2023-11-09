@@ -351,7 +351,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private void DeleteDir(DirectoryInfo dir, CancellationToken cancellationToken)
     {
-        for (int attempts = 2; attempts > 0 && !cancellationToken.IsCancellationRequested; attempts--)
+        for (var attempts = 2; attempts > 0 && !cancellationToken.IsCancellationRequested; attempts--)
         {
             try
             {
@@ -371,7 +371,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     private void DeleteFile(FileInfo lockFile, CancellationToken cancellationToken)
     {
-        for (int attempts = 2; attempts > 0 && !cancellationToken.IsCancellationRequested; attempts--)
+        for (var attempts = 2; attempts > 0 && !cancellationToken.IsCancellationRequested; attempts--)
         {
             try
             {
@@ -451,7 +451,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         while (q.Count > 0)
         {
             var here = q.Dequeue();
-            if (here.Name != "node_modules")
+            if (IsNotBinDir(here))
             {
                 q.AddRange(here.EnumerateDirectories());
                 var dir = here.CD(name);
