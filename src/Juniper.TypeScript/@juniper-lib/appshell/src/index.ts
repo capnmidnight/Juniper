@@ -61,9 +61,20 @@ export class AppShell extends TypedEventTarget<AppShellEventMap> {
 
     setMenuUI(mainNav: HTMLElement, button: HTMLButtonElement) {
         mainNav.classList.toggle("hidden", localStorage.getItem("menuHidden") == "true");
+
         button.addEventListener("click", () => {
-            mainNav.classList.toggle("hidden");
-            const hidden = mainNav.classList.contains("hidden");
+            if (!mainNav.classList.contains("hidden")) {
+                for (const child of mainNav.children) {
+                    if (child instanceof HTMLElement) {
+                        const style = getComputedStyle(child);
+                        const marginStart = parseFloat(style.marginInlineStart);
+                        const marginEnd = parseFloat(style.marginInlineEnd);
+                        child.style.width = (mainNav.clientWidth - marginStart - marginEnd) + "px";
+                    }
+                }
+            }
+
+            const hidden = mainNav.classList.toggle("hidden");
             localStorage.setItem("menuHidden", hidden ? "true" : "false");
             this.setMenuHidden(hidden);
         });
