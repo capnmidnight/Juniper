@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+
 using Juniper.Logging;
 using Juniper.Processes;
 
@@ -100,7 +101,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     public Task Started => starting.Task;
     public event EventHandler? NewBuildCompleted;
 
-    private int bundleCountGuess = 1;
+    private readonly int bundleCountGuess = 1;
 
     private static DirectoryInfo TestDir(string message, DirectoryInfo? dir)
     {
@@ -439,10 +440,12 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     }
 
     private static bool IsNotBinDir(DirectoryInfo d) =>
-        d.Name != "node_modules" && d.Name != "bin";
+        d.Name != "node_modules"
+            && d.Name.ToLower() != "bin"
+            && d.Name.ToLower() != "obj";
 
-    private static IEnumerable<DirectoryInfo> FindDirectories(string name, params FileInfo[] files)
-        => FindDirectories(name, files.Select(file => file.Directory!).ToArray());
+    private static IEnumerable<DirectoryInfo> FindDirectories(string name, params FileInfo[] files) =>
+        FindDirectories(name, files.Select(file => file.Directory!).ToArray());
 
     private static IEnumerable<DirectoryInfo> FindDirectories(string name, params DirectoryInfo[] dirs)
     {
@@ -583,9 +586,20 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             }), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
             buildCanceller.Token.Register(timer.Dispose);
 
+            var installCommands = GetInstallCommands();
+            await WithCommandTree(commands =>
+            {
+                commands
+                    .AddMessage("Installing NPM Packages")
+                    .AddCommands(installCommands);
+            }, buildCanceller.Token);
+
+            var packagesInstalled = installCommands.Any(cmd => cmd.NeededInstall == true);
+
             var watchProjectPaths = WatchProjects.Select(pkg => pkg.FullName).ToHashSet();
             var buildOnlyProjects = BuildProjects.Where(pkg =>
-                !skipPreBuild && !watchProjectPaths.Contains(pkg.FullName));
+                !watchProjectPaths.Contains(pkg.FullName) 
+                    && (packagesInstalled  || !skipPreBuild));
 
             var preBuilds = TryMake(
                 buildOnlyProjects,
@@ -602,7 +616,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 commands
                     .AddMessage("Starting watch")
                     .AddCommands(GetCleanCommands())
-                    .AddCommands(GetInstallCommands())
                     .AddCommands(preBuilds)
                     .AddCommands(copyCommands);
             }, buildCanceller.Token);

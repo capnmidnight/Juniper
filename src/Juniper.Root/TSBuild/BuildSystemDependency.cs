@@ -6,7 +6,7 @@ public struct BuildSystemDependency
     public FileInfo From { get; set; }
     public FileInfo To { get; set; }
     
-    public void Deconstruct(out string Name, out FileInfo From, out FileInfo To)
+    public readonly void Deconstruct(out string Name, out FileInfo From, out FileInfo To)
     {
         Name = this.Name;
         From = this.From;
