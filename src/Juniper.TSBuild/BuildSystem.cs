@@ -144,14 +144,13 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         {
             if (!options.SkipNPMInstall)
             {
-                var dirs = new[]{
-                    juniperTsDir,
+                var dirs = new List<DirectoryInfo>{
                     inProjectDir
                 };
 
                 if (options.AdditionalNPMProjects is not null)
                 {
-                    dirs = dirs.Union(options.AdditionalNPMProjects).ToArray();
+                    dirs.AddRange(options.AdditionalNPMProjects);
                 }
 
                 Task.WaitAll(dirs.Select(CheckNPMProjectAsync).ToArray());
