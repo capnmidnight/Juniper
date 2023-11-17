@@ -103,6 +103,11 @@ namespace Juniper
         public static readonly Text Text_X_Nfo = new("x-nfo", "nfo");
         public static readonly Text Text_X_Opml = new("x-opml", "opml");
         public static readonly Text Text_X_Pascal = new("x-pascal", "p", "pas");
+        public static readonly Text Text_X_Python = new("x-python", "py");
+        public static readonly Text Text_X_Processing = new("x-processing", "pde");
+        public static readonly Text Text_X_Sass = new("x-sass", "sass");
+        public static readonly Text Text_X_Scss = new("x-scss", "scss");
+        public static readonly Text Text_X_Script_Python = new("x.script-python", "py");
         public static readonly Text Text_X_Setext = new("x-setext", "etx");
         public static readonly Text Text_X_Sfv = new("x-sfv", "sfv");
         public static readonly Text Text_X_Uuencode = new("x-uuencode", "uu");
