@@ -1,4 +1,3 @@
-#nullable enable
 using System.Diagnostics;
 using System.Text;
 
@@ -100,7 +99,7 @@ namespace Juniper.Processes
         }
 
         private readonly string command;
-        private readonly string[] args;
+        protected readonly List<string> args = new();
         private readonly bool calledFromCurrentDirectory;
         protected readonly DirectoryInfo workingDir;
 
@@ -141,7 +140,7 @@ namespace Juniper.Processes
             calledFromCurrentDirectory = workingDir is null;
             this.workingDir = workingDir ?? new DirectoryInfo(Directory.GetCurrentDirectory());
             this.command = command;
-            this.args = args;
+            this.args.AddRange(args);
         }
 
         public override async Task RunAsync(CancellationToken cancellationToken)
