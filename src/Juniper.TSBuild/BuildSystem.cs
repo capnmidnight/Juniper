@@ -140,22 +140,22 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         if (hasNPM)
         {
-                var dirs = new List<DirectoryInfo>{
+            var dirs = new List<DirectoryInfo>{
                     inProjectDir
                 };
 
-                if (options.AdditionalNPMProjects is not null)
-                {
-                    dirs.AddRange(options.AdditionalNPMProjects);
-                }
+            if (options.AdditionalNPMProjects is not null)
+            {
+                dirs.AddRange(options.AdditionalNPMProjects);
+            }
 
-                Task.WaitAll(dirs.Select(CheckNPMProjectAsync).ToArray());
+            Task.WaitAll(dirs.Select(CheckNPMProjectAsync).ToArray());
 
-                var bundleCountGuesses = dirs.Select(GuessBundleCounts).ToArray();
-                Task.WaitAll(bundleCountGuesses);
-                var counts = bundleCountGuesses.Select(v => v.Result).ToArray();
-                bundleCountGuess = Math.Max(1, counts.Sum());
-         
+            var bundleCountGuesses = dirs.Select(GuessBundleCounts).ToArray();
+            Task.WaitAll(bundleCountGuesses);
+            var counts = bundleCountGuesses.Select(v => v.Result).ToArray();
+            bundleCountGuess = Math.Max(1, counts.Sum());
+
             if (options.Dependencies is not null)
             {
                 AddDependencies(options.Dependencies, true);
@@ -606,7 +606,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             await WithCommandTree(commands =>
             {
                 commands
-                    .AddMessage("Starting watch")
+                    .AddMessage("Starting build")
                     .AddCommands(GetCleanCommands())
                     .AddCommands(preBuilds)
                     .AddCommands(copyCommands);
@@ -634,8 +634,12 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             return Task.CompletedTask;
         }
 
-        var completeBuildTask = Task.WhenAll(bundles.Select(b =>
-            b.RunSafeAsync(buildCancelled)));
+        var completeBuildTask = WithCommandTree(commands =>
+        {
+            commands
+                .AddMessage("Starting watch")
+                .AddCommands(bundles);
+        }, buildCancelled);
 
         if (!continueAfterFirstBuild)
         {
