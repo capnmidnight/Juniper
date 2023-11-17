@@ -132,7 +132,14 @@ public static class JuniperConfiguration
             builder.Services.AddTransient<IEmailSender, EmailSender>();
         }
 
-        if (!string.IsNullOrEmpty(builder.Configuration.GetValue<string>("SignalRHub")))
+        var curAssembly = Assembly.GetEntryAssembly();
+        var types = curAssembly?.GetTypes();
+        var hubPathAttrs = types
+            ?.Select(t => t.GetCustomAttribute<HubPathAttribute>())
+            ?.Where(a => a is not null)
+            ?.ToArray();
+
+        if (hubPathAttrs?.Length > 0)
         {
             builder.Services.AddSignalR(options =>
             {
@@ -338,10 +345,12 @@ public static class JuniperConfiguration
     public static WebApplication ConfigureJuniperHub<HubT>(this WebApplication app)
         where HubT : Hub
     {
-        var hubPath = app.Configuration.GetValue<string?>("SignalRHub")
-            ?? throw new Exception("No SignalRHub path defined in configuration.");
+        var hubType = typeof(HubT);
+        var hubPathAttr = hubType.GetCustomAttribute<HubPathAttribute>();
+        var hubPath = hubPathAttr?.Path
+            ?? throw new Exception("No SignalRHub path was not defined with a HubPathAttribute.");
 
-        app.MapHub<HubT>(hubPath); ;
+        app.MapHub<HubT>(hubPath);
         return app;
     }
 
