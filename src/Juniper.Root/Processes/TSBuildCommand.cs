@@ -1,11 +1,9 @@
-﻿#nullable enable
-namespace Juniper.Processes
+﻿namespace Juniper.Processes;
+
+public class TSBuildCommand : ShellCommand
 {
-    public class TSBuildCommand : ShellCommand
+    public TSBuildCommand(DirectoryInfo? workingDir)
+        : base(workingDir, "npx", "tsc")
     {
-        public TSBuildCommand(DirectoryInfo? workingDir)
-            : base(workingDir, "npx", "tsc")
-        {
-        }
     }
 }

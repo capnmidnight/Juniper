@@ -1,5 +1,4 @@
-namespace Juniper.IO
-{
-    public interface IJsonDecoder<T> : IDeserializer<T, MediaType.Application>
-    { }
-}
+namespace Juniper.IO;
+
+public interface IJsonDecoder<T> : IDeserializer<T, MediaType.Application>
+{ }

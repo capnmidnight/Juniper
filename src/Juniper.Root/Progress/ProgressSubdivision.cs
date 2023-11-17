@@ -1,90 +1,89 @@
-namespace Juniper.Progress
+namespace Juniper.Progress;
+
+/// <summary>
+/// A small chunk of a progress meter, reporting its own progress
+/// up to a parent progress tracker.
+/// </summary>
+public class ProgressSubdivision : IProgress
 {
     /// <summary>
-    /// A small chunk of a progress meter, reporting its own progress
-    /// up to a parent progress tracker.
+    /// The parent progress tracker that is aggregating progress
+    /// from multiple ProgressSubdivisions.
     /// </summary>
-    public class ProgressSubdivision : IProgress
+    private readonly IProgress parent;
+
+    /// <summary>
+    /// The beginning of the mapped range of progress.
+    /// </summary>
+    private readonly float start;
+
+    /// <summary>
+    /// The length of hte mapped range of progress.
+    /// </summary>
+    private readonly float length;
+
+    /// <summary>
+    /// A prefix to add to the status update message;
+    /// </summary>
+    private readonly string? prefix;
+
+    /// <summary>
+    /// Creates a progress subdivision.
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="start"></param>
+    /// <param name="length"></param>
+    /// <param name="prefix"></param>
+    public ProgressSubdivision(IProgress parent, float start, float length, string? prefix = null)
+        : this(parent, prefix)
     {
-        /// <summary>
-        /// The parent progress tracker that is aggregating progress
-        /// from multiple ProgressSubdivisions.
-        /// </summary>
-        private readonly IProgress parent;
+        this.start = Math.Max(0, start);
+        this.length = length;
+    }
 
-        /// <summary>
-        /// The beginning of the mapped range of progress.
-        /// </summary>
-        private readonly float start;
+    public ProgressSubdivision(IProgress parent, string? prefix = null)
+    {
+        this.parent = parent;
+        this.prefix = prefix;
+    }
 
-        /// <summary>
-        /// The length of hte mapped range of progress.
-        /// </summary>
-        private readonly float length;
+    /// <summary>
+    /// Returns the current progress of the subdivision.
+    /// </summary>
+    public float Progress
+    {
+        get;
+        private set;
+    }
 
-        /// <summary>
-        /// A prefix to add to the status update message;
-        /// </summary>
-        private readonly string? prefix;
+    public string? Status
+    {
+        get;
+        private set;
+    }
 
-        /// <summary>
-        /// Creates a progress subdivision.
-        /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="prefix"></param>
-        public ProgressSubdivision(IProgress parent, float start, float length, string? prefix = null)
-            : this(parent, prefix)
+    /// <summary>
+    /// Receive a progress report.
+    /// </summary>
+    /// <param name="progress"></param>
+    /// <param name="status"></param>
+    public void Report(float progress, string? status = null)
+    {
+        Progress = progress;
+        var prog = start + (progress * length);
+        if (prefix is not null && status is not null)
         {
-            this.start = Math.Max(0, start);
-            this.length = length;
+            Status = prefix + " " + status;
+        }
+        else if (status is not null)
+        {
+            Status = status;
+        }
+        else
+        {
+            Status = prefix;
         }
 
-        public ProgressSubdivision(IProgress parent, string? prefix = null)
-        {
-            this.parent = parent;
-            this.prefix = prefix;
-        }
-
-        /// <summary>
-        /// Returns the current progress of the subdivision.
-        /// </summary>
-        public float Progress
-        {
-            get;
-            private set;
-        }
-
-        public string? Status
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Receive a progress report.
-        /// </summary>
-        /// <param name="progress"></param>
-        /// <param name="status"></param>
-        public void Report(float progress, string? status = null)
-        {
-            Progress = progress;
-            var prog = start + (progress * length);
-            if (prefix is not null && status is not null)
-            {
-                Status = prefix + " " + status;
-            }
-            else if (status is not null)
-            {
-                Status = status;
-            }
-            else
-            {
-                Status = prefix;
-            }
-
-            parent.Report(prog, Status);
-        }
+        parent.Report(prog, Status);
     }
 }

@@ -1,35 +1,34 @@
-namespace Juniper
+namespace Juniper;
+
+public interface INamedAction
 {
-    public interface INamedAction
+    string Name { get; }
+    Delegate Method { get; }
+}
+
+public abstract class AbstractNamedAction<ActionT> :
+    INamedAction
+    where ActionT : Delegate
+{
+    public static implicit operator ActionT(AbstractNamedAction<ActionT> namedAction)
     {
-        string Name { get; }
-        Delegate Method { get; }
+        return namedAction.ToAction();
     }
 
-    public abstract class AbstractNamedAction<ActionT> :
-        INamedAction
-        where ActionT : Delegate
+    public string Name { get; }
+
+    public Delegate Method => Action;
+
+    protected ActionT Action { get; }
+
+    protected AbstractNamedAction(string name, ActionT action)
     {
-        public static implicit operator ActionT(AbstractNamedAction<ActionT> namedAction)
-        {
-            return namedAction.ToAction();
-        }
+        Name = name;
+        Action = action;
+    }
 
-        public string Name { get; }
-
-        public Delegate Method => Action;
-
-        protected ActionT Action { get; }
-
-        protected AbstractNamedAction(string name, ActionT action)
-        {
-            Name = name;
-            Action = action;
-        }
-
-        public ActionT ToAction()
-        {
-            return Action;
-        }
+    public ActionT ToAction()
+    {
+        return Action;
     }
 }

@@ -1,21 +1,20 @@
-namespace System
+namespace System;
+
+public static class BoolExt
 {
-    public static class BoolExt
+    public static string ToYesNo(this bool value)
     {
-        public static string ToYesNo(this bool value)
+        return value ? "Yes" : "No";
+    }
+    public static string ToYesNo(this bool value, string label)
+    {
+        if (value)
         {
-            return value ? "Yes" : "No";
+            return label;
         }
-        public static string ToYesNo(this bool value, string label)
+        else
         {
-            if (value)
-            {
-                return label;
-            }
-            else
-            {
-                return "Not " + label;
-            }
+            return "Not " + label;
         }
     }
 }

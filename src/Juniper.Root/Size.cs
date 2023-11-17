@@ -2,120 +2,119 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
-namespace Juniper
+namespace Juniper;
+
+[Serializable]
+public sealed class Size : ISerializable, IEquatable<Size>
 {
-    [Serializable]
-    public sealed class Size : ISerializable, IEquatable<Size>
+    private static readonly Regex SizePattern = new("^(\\d+)x(\\d+)$", RegexOptions.Compiled);
+    private static readonly string WIDTH_FIELD = nameof(Width).ToLowerInvariant();
+    private static readonly string HEIGHT_FIELD = nameof(Height).ToLowerInvariant();
+
+    public static bool TryParse(string widthXHeight, out Size? size)
     {
-        private static readonly Regex SizePattern = new("^(\\d+)x(\\d+)$", RegexOptions.Compiled);
-        private static readonly string WIDTH_FIELD = nameof(Width).ToLowerInvariant();
-        private static readonly string HEIGHT_FIELD = nameof(Height).ToLowerInvariant();
-
-        public static bool TryParse(string widthXHeight, out Size? size)
+        var match = SizePattern.Match(widthXHeight);
+        if (!match.Success)
         {
-            var match = SizePattern.Match(widthXHeight);
-            if (!match.Success)
-            {
-                size = default;
-            }
-            else
-            {
-                var widthString = match.Captures[1].Value;
-                var heightString = match.Captures[2].Value;
-                var width = int.Parse(widthString, CultureInfo.InvariantCulture);
-                var height = int.Parse(heightString, CultureInfo.InvariantCulture);
-                size = new Size(width, height);
-            }
-
-            return match.Success;
+            size = default;
+        }
+        else
+        {
+            var widthString = match.Captures[1].Value;
+            var heightString = match.Captures[2].Value;
+            var width = int.Parse(widthString, CultureInfo.InvariantCulture);
+            var height = int.Parse(heightString, CultureInfo.InvariantCulture);
+            size = new Size(width, height);
         }
 
-        public static Size Parse(string widthXHeight)
+        return match.Success;
+    }
+
+    public static Size Parse(string widthXHeight)
+    {
+        if (TryParse(widthXHeight, out var size))
         {
-            if (TryParse(widthXHeight, out var size))
-            {
-                return size!;
-            }
-            else
-            {
-                throw new FormatException("Input string must be format \"[width]x[height]\", where width and height are positive integers");
-            }
+            return size!;
+        }
+        else
+        {
+            throw new FormatException("Input string must be format \"[width]x[height]\", where width and height are positive integers");
+        }
+    }
+
+    public int Width { get; }
+    public int Height { get; }
+
+    public Size(int width, int height)
+    {
+        Width = width;
+        Height = height;
+    }
+
+    private Size(SerializationInfo info, StreamingContext context)
+    {
+        if (info is null)
+        {
+            throw new ArgumentNullException(nameof(info));
         }
 
-        public int Width { get; }
-        public int Height { get; }
+        Width = info.GetInt32(WIDTH_FIELD);
+        Height = info.GetInt32(HEIGHT_FIELD);
+    }
 
-        public Size(int width, int height)
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        if (info is null)
         {
-            Width = width;
-            Height = height;
+            throw new ArgumentNullException(nameof(info));
         }
 
-        private Size(SerializationInfo info, StreamingContext context)
-        {
-            if (info is null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
+        info.AddValue(WIDTH_FIELD, Width);
+        info.AddValue(HEIGHT_FIELD, Height);
+    }
 
-            Width = info.GetInt32(WIDTH_FIELD);
-            Height = info.GetInt32(HEIGHT_FIELD);
-        }
+    public override bool Equals(object? obj)
+    {
+        return obj is Size size && Equals(size);
+    }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info is null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
+    public bool Equals(Size? other)
+    {
+        return other is not null
+            && Width == other.Width
+            && Height == other.Height;
+    }
 
-            info.AddValue(WIDTH_FIELD, Width);
-            info.AddValue(HEIGHT_FIELD, Height);
-        }
+    public static bool operator ==(Size? left, Size? right)
+    {
+        return ReferenceEquals(left, right)
+            || (left is not null && left.Equals(right));
+    }
 
-        public override bool Equals(object? obj)
-        {
-            return obj is Size size && Equals(size);
-        }
+    public static bool operator !=(Size? left, Size? right)
+    {
+        return !(left == right);
+    }
 
-        public bool Equals(Size? other)
-        {
-            return other is not null
-                && Width == other.Width
-                && Height == other.Height;
-        }
+    public string ToString(IFormatProvider formatter)
+    {
+        return Width.ToString(formatter)
+            + "x"
+            + Height.ToString(formatter);
+    }
 
-        public static bool operator ==(Size? left, Size? right)
-        {
-            return ReferenceEquals(left, right)
-                || (left is not null && left.Equals(right));
-        }
+    public override string ToString()
+    {
+        return ToString(CultureInfo.InvariantCulture);
+    }
 
-        public static bool operator !=(Size? left, Size? right)
-        {
-            return !(left == right);
-        }
+    public static explicit operator string(Size size)
+    {
+        return size.ToString(CultureInfo.InvariantCulture);
+    }
 
-        public string ToString(IFormatProvider formatter)
-        {
-            return Width.ToString(formatter)
-                + "x"
-                + Height.ToString(formatter);
-        }
-
-        public override string ToString()
-        {
-            return ToString(CultureInfo.InvariantCulture);
-        }
-
-        public static explicit operator string(Size size)
-        {
-            return size.ToString(CultureInfo.InvariantCulture);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Width, Height);
-        }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Width, Height);
     }
 }

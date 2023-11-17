@@ -1,36 +1,35 @@
-namespace System
+namespace System;
+
+/// <summary>
+/// Extension methods for <c>System.Nullable{T}</c>.
+/// </summary>
+public static class NullableExt
 {
     /// <summary>
-    /// Extension methods for <c>System.Nullable{T}</c>.
+    /// Sets a veriable value, if the Nullable{T} value has a value. Otherwise, ignores it.
     /// </summary>
-    public static class NullableExt
+    /// <typeparam name="T">Any value type.</typeparam>
+    /// <param name="item">The object to unpack.</param>
+    /// <param name="val">The variable in which to store the value, if it exists.</param>
+    public static void MaybeSet<T>(this T? item, ref T val) where T : struct
     {
-        /// <summary>
-        /// Sets a veriable value, if the Nullable{T} value has a value. Otherwise, ignores it.
-        /// </summary>
-        /// <typeparam name="T">Any value type.</typeparam>
-        /// <param name="item">The object to unpack.</param>
-        /// <param name="val">The variable in which to store the value, if it exists.</param>
-        public static void MaybeSet<T>(this T? item, ref T val) where T : struct
+        if (item is not null)
         {
-            if (item is not null)
-            {
-                val = item.Value;
-            }
+            val = item.Value;
         }
+    }
 
-        /// <summary>
-        /// Sets a variable value, if it has a value. Otherwise, ignores it.
-        /// </summary>
-        /// <typeparam name="T">Any value type.</typeparam>
-        /// <param name="item">The object to unpack.</param>
-        /// <param name="val">The variable in which to store the value, if it exists.</param>
-        public static void MaybeSet<T>(this T item, ref T val) where T : class
+    /// <summary>
+    /// Sets a variable value, if it has a value. Otherwise, ignores it.
+    /// </summary>
+    /// <typeparam name="T">Any value type.</typeparam>
+    /// <param name="item">The object to unpack.</param>
+    /// <param name="val">The variable in which to store the value, if it exists.</param>
+    public static void MaybeSet<T>(this T item, ref T val) where T : class
+    {
+        if (item is not null)
         {
-            if (item is not null)
-            {
-                val = item;
-            }
+            val = item;
         }
     }
 }

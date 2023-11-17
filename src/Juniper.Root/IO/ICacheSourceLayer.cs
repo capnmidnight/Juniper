@@ -1,13 +1,12 @@
 using Juniper.Progress;
 
-namespace Juniper.IO
+namespace Juniper.IO;
+
+public interface ICacheSourceLayer
 {
-    public interface ICacheSourceLayer
-    {
-        bool IsCached(ContentReference fileRef);
+    bool IsCached(ContentReference fileRef);
 
-        Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog);
+    Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog);
 
-        IEnumerable<ContentReference> GetContentReferences(MediaType ofType);
-    }
+    IEnumerable<ContentReference> GetContentReferences(MediaType ofType);
 }

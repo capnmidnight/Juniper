@@ -1,32 +1,31 @@
-namespace Juniper.XR
+namespace Juniper.XR;
+
+public static class StereoLayout
 {
-    public static class StereoLayout
+
+    public enum StereoLayoutKind
     {
+        None,
+        LeftRight,
+        RightLeft,
+        TopBottom,
+        BottomTop
+    }
 
-        public enum StereoLayoutKind
+    public static readonly IReadOnlyDictionary<StereoLayoutKind, string> StereoLayoutNames;
+    public static readonly IReadOnlyDictionary<string, StereoLayoutKind> NameStereoLayouts;
+
+    static StereoLayout()
+    {
+        StereoLayoutNames = new Dictionary<StereoLayoutKind, string>()
         {
-            None,
-            LeftRight,
-            RightLeft,
-            TopBottom,
-            BottomTop
-        }
+            { StereoLayoutKind.None, "mono" },
+            { StereoLayoutKind.LeftRight, "left-right" },
+            { StereoLayoutKind.RightLeft, "right-left" },
+            { StereoLayoutKind.TopBottom, "top-bottom" },
+            { StereoLayoutKind.BottomTop, "bottom-top" }
+        };
 
-        public static readonly IReadOnlyDictionary<StereoLayoutKind, string> StereoLayoutNames;
-        public static readonly IReadOnlyDictionary<string, StereoLayoutKind> NameStereoLayouts;
-
-        static StereoLayout()
-        {
-            StereoLayoutNames = new Dictionary<StereoLayoutKind, string>()
-            {
-                { StereoLayoutKind.None, "mono" },
-                { StereoLayoutKind.LeftRight, "left-right" },
-                { StereoLayoutKind.RightLeft, "right-left" },
-                { StereoLayoutKind.TopBottom, "top-bottom" },
-                { StereoLayoutKind.BottomTop, "bottom-top" }
-            };
-
-            NameStereoLayouts = StereoLayoutNames.Invert();
-        }
+        NameStereoLayouts = StereoLayoutNames.Invert();
     }
 }

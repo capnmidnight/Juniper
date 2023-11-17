@@ -1,12 +1,11 @@
-namespace Juniper
-{
-    public class EventArgs<T> : EventArgs
-    {
-        public T Value { get; }
+namespace Juniper;
 
-        public EventArgs(T value)
-        {
-            Value = value;
-        }
+public class EventArgs<T> : EventArgs
+{
+    public T Value { get; }
+
+    public EventArgs(T value)
+    {
+        Value = value;
     }
 }

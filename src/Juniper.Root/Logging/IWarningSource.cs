@@ -1,7 +1,6 @@
-namespace Juniper.Logging
+namespace Juniper.Logging;
+
+public interface IWarningSource
 {
-    public interface IWarningSource
-    {
-        event EventHandler<StringEventArgs> Warning;
-    }
+    event EventHandler<StringEventArgs> Warning;
 }

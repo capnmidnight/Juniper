@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text;
 
 namespace Juniper.Puzzles;
+
 /// <summary>
 /// A physical representation of a puzzle as a 2D array of tile pieces. The grid can be
 /// manipulated in various ways to help facilitate rapid puzzle creations.

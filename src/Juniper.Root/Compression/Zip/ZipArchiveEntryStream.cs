@@ -1,143 +1,142 @@
 using System.IO.Compression;
 
-namespace Juniper.Compression.Zip
+namespace Juniper.Compression.Zip;
+
+public class ZipArchiveEntryStream : Stream
 {
-    public class ZipArchiveEntryStream : Stream
+    private readonly ZipArchive zip;
+    private readonly Stream entryStream;
+
+    public ZipArchiveEntryStream(ZipArchive zip, ZipArchiveEntry entry)
     {
-        private readonly ZipArchive zip;
-        private readonly Stream entryStream;
-
-        public ZipArchiveEntryStream(ZipArchive zip, ZipArchiveEntry entry)
+        if (entry is null)
         {
-            if (entry is null)
-            {
-                throw new ArgumentNullException(nameof(entry));
-            }
-
-            this.zip = zip ?? throw new ArgumentNullException(nameof(zip));
-            entryStream = entry.Open();
+            throw new ArgumentNullException(nameof(entry));
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                entryStream?.Dispose();
-                zip?.Dispose();
-            }
+        this.zip = zip ?? throw new ArgumentNullException(nameof(zip));
+        entryStream = entry.Open();
+    }
 
-            base.Dispose(disposing);
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            entryStream?.Dispose();
+            zip?.Dispose();
         }
 
-        public override bool CanRead => entryStream.CanRead;
+        base.Dispose(disposing);
+    }
 
-        public override bool CanSeek => entryStream.CanSeek;
+    public override bool CanRead => entryStream.CanRead;
 
-        public override bool CanWrite => entryStream.CanWrite;
+    public override bool CanSeek => entryStream.CanSeek;
 
-        public override long Length => entryStream.Length;
+    public override bool CanWrite => entryStream.CanWrite;
 
-        public override long Position
-        {
-            get => entryStream.Position;
+    public override long Length => entryStream.Length;
 
-            set => entryStream.Position = value;
-        }
+    public override long Position
+    {
+        get => entryStream.Position;
 
-        public override void Flush()
-        {
-            entryStream.Flush();
-        }
+        set => entryStream.Position = value;
+    }
 
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            return entryStream.Read(buffer, offset, count);
-        }
+    public override void Flush()
+    {
+        entryStream.Flush();
+    }
 
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            return entryStream.Seek(offset, origin);
-        }
+    public override int Read(byte[] buffer, int offset, int count)
+    {
+        return entryStream.Read(buffer, offset, count);
+    }
 
-        public override void SetLength(long value)
-        {
-            entryStream.SetLength(value);
-        }
+    public override long Seek(long offset, SeekOrigin origin)
+    {
+        return entryStream.Seek(offset, origin);
+    }
 
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            entryStream.Write(buffer, offset, count);
-        }
+    public override void SetLength(long value)
+    {
+        entryStream.SetLength(value);
+    }
 
-        public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback? callback, object? state)
-        {
-            return entryStream.BeginRead(buffer, offset, count, callback, state);
-        }
+    public override void Write(byte[] buffer, int offset, int count)
+    {
+        entryStream.Write(buffer, offset, count);
+    }
 
-        public override IAsyncResult BeginWrite(byte[] buffer, int offset, int count, AsyncCallback? callback, object? state)
-        {
-            return entryStream.BeginWrite(buffer, offset, count, callback, state);
-        }
+    public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback? callback, object? state)
+    {
+        return entryStream.BeginRead(buffer, offset, count, callback, state);
+    }
 
-        public override bool CanTimeout => entryStream.CanTimeout;
+    public override IAsyncResult BeginWrite(byte[] buffer, int offset, int count, AsyncCallback? callback, object? state)
+    {
+        return entryStream.BeginWrite(buffer, offset, count, callback, state);
+    }
 
-        public override void Close()
-        {
-            entryStream.Close();
-        }
+    public override bool CanTimeout => entryStream.CanTimeout;
 
-        public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
-        {
-            return entryStream.CopyToAsync(destination, bufferSize, cancellationToken);
-        }
+    public override void Close()
+    {
+        entryStream.Close();
+    }
 
-        public override int EndRead(IAsyncResult asyncResult)
-        {
-            return entryStream.EndRead(asyncResult);
-        }
+    public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
+    {
+        return entryStream.CopyToAsync(destination, bufferSize, cancellationToken);
+    }
 
-        public override void EndWrite(IAsyncResult asyncResult)
-        {
-            entryStream.EndWrite(asyncResult);
-        }
+    public override int EndRead(IAsyncResult asyncResult)
+    {
+        return entryStream.EndRead(asyncResult);
+    }
 
-        public override Task FlushAsync(CancellationToken cancellationToken)
-        {
-            return entryStream.FlushAsync(cancellationToken);
-        }
+    public override void EndWrite(IAsyncResult asyncResult)
+    {
+        entryStream.EndWrite(asyncResult);
+    }
 
-        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            return entryStream.ReadAsync(buffer, offset, count, cancellationToken);
-        }
+    public override Task FlushAsync(CancellationToken cancellationToken)
+    {
+        return entryStream.FlushAsync(cancellationToken);
+    }
 
-        public override int ReadByte()
-        {
-            return entryStream.ReadByte();
-        }
+    public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+    {
+        return entryStream.ReadAsync(buffer, offset, count, cancellationToken);
+    }
 
-        public override int ReadTimeout
-        {
-            get => entryStream.ReadTimeout;
+    public override int ReadByte()
+    {
+        return entryStream.ReadByte();
+    }
 
-            set => entryStream.ReadTimeout = value;
-        }
+    public override int ReadTimeout
+    {
+        get => entryStream.ReadTimeout;
 
-        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            return entryStream.WriteAsync(buffer, offset, count, cancellationToken);
-        }
+        set => entryStream.ReadTimeout = value;
+    }
 
-        public override void WriteByte(byte value)
-        {
-            entryStream.WriteByte(value);
-        }
+    public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+    {
+        return entryStream.WriteAsync(buffer, offset, count, cancellationToken);
+    }
 
-        public override int WriteTimeout
-        {
-            get => entryStream.WriteTimeout;
+    public override void WriteByte(byte value)
+    {
+        entryStream.WriteByte(value);
+    }
 
-            set => entryStream.WriteTimeout = value;
-        }
+    public override int WriteTimeout
+    {
+        get => entryStream.WriteTimeout;
+
+        set => entryStream.WriteTimeout = value;
     }
 }

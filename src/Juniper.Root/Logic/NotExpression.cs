@@ -1,28 +1,27 @@
-namespace Juniper.Logic
+namespace Juniper.Logic;
+
+internal class NotExpression<ItemT> :
+    AbstractUnaryExpression<ItemT, IExpression<ItemT>>
 {
-    internal class NotExpression<ItemT> :
-        AbstractUnaryExpression<ItemT, IExpression<ItemT>>
+    public NotExpression(IExpression<ItemT> expr)
+        : base(expr)
+    { }
+
+    public override bool Evaluate(Func<ItemT, bool> evaluator)
     {
-        public NotExpression(IExpression<ItemT> expr)
-            : base(expr)
-        { }
+        return !Value.Evaluate(evaluator);
+    }
 
-        public override bool Evaluate(Func<ItemT, bool> evaluator)
+    public override IEnumerable<ItemT> GetItems()
+    {
+        foreach (var item in Value.GetItems())
         {
-            return !Value.Evaluate(evaluator);
+            yield return item;
         }
+    }
 
-        public override IEnumerable<ItemT> GetItems()
-        {
-            foreach (var item in Value.GetItems())
-            {
-                yield return item;
-            }
-        }
-
-        public override string ToString()
-        {
-            return $"NOT {Value}";
-        }
+    public override string ToString()
+    {
+        return $"NOT {Value}";
     }
 }

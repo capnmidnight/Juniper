@@ -125,8 +125,8 @@ public class Job : IDisposable
                 BasicLimitInformation = info
             };
 
-            int length = Marshal.SizeOf(typeof(JOBOBJECT_EXTENDED_LIMIT_INFORMATION));
-            IntPtr extendedInfoPtr = Marshal.AllocHGlobal(length);
+            var length = Marshal.SizeOf(typeof(JOBOBJECT_EXTENDED_LIMIT_INFORMATION));
+            var extendedInfoPtr = Marshal.AllocHGlobal(length);
             try
             {
                 Marshal.StructureToPtr(extendedInfo, extendedInfoPtr, false);
@@ -156,13 +156,13 @@ public class Job : IDisposable
 
     private void Dispose(bool disposing)
     {
-        if (m_disposed)
-            return;
+        if (!m_disposed)
+        {
+            if (disposing) { }
 
-        if (disposing) { }
-
-        Close();
-        m_disposed = true;
+            Close();
+            m_disposed = true;
+        }
     }
 
     public void Close()
@@ -183,7 +183,7 @@ public class Job : IDisposable
     {
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
         {
-            bool success = Kernel32.AssignProcessToJobObject(s_jobHandle, process.Handle);
+            var success = Kernel32.AssignProcessToJobObject(s_jobHandle, process.Handle);
             if (!success && !process.HasExited)
             {
                 throw new Exception("Could not add process to job");

@@ -1,28 +1,27 @@
-namespace Juniper.Processes
+namespace Juniper.Processes;
+
+public class DeleteFileCommand : AbstractCommand
 {
-    public class DeleteFileCommand : AbstractCommand
+    private readonly FileInfo file;
+
+    public DeleteFileCommand(FileInfo file)
+        : base("Delete")
     {
-        private readonly FileInfo file;
+        this.file = file;
+    }
 
-        public DeleteFileCommand(FileInfo file)
-            : base("Delete")
+    public override Task RunAsync(CancellationToken cancellationToken)
+    {
+        if (file.Exists)
         {
-            this.file = file;
+            file.Delete();
+            OnInfo($"Deleted! {file.FullName}");
+        }
+        else
+        {
+            OnInfo($"No file to delete: {file.FullName}");
         }
 
-        public override Task RunAsync(CancellationToken cancellationToken)
-        {
-            if (file.Exists)
-            {
-                file.Delete();
-                OnInfo($"Deleted! {file.FullName}");
-            }
-            else
-            {
-                OnInfo($"No file to delete: {file.FullName}");
-            }
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

@@ -1,48 +1,47 @@
 using Juniper.Progress;
 
-namespace Juniper.IO
+namespace Juniper.IO;
+
+public class StreamSourceLayer : ICacheSourceLayer
 {
-    public class StreamSourceLayer : ICacheSourceLayer
+    private readonly CachingStrategy parent;
+
+    public StreamSourceLayer(CachingStrategy parent)
     {
-        private readonly CachingStrategy parent;
+        this.parent = parent;
+    }
 
-        public StreamSourceLayer(CachingStrategy parent)
+    public IEnumerable<ContentReference> GetContentReferences(MediaType ofType)
+    {
+        return Array.Empty<ContentReference>();
+    }
+
+    public async Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog)
+    {
+        if (fileRef is null)
         {
-            this.parent = parent;
+            throw new ArgumentNullException(nameof(fileRef));
         }
 
-        public IEnumerable<ContentReference> GetContentReferences(MediaType ofType)
+        if (fileRef is not AbstractStreamSource streamSource)
         {
-            return Array.Empty<ContentReference>();
+            throw new InvalidOperationException("This layer can only retrieve data from stream sources.");
         }
 
-        public async Task<Stream?> GetStreamAsync(ContentReference fileRef, IProgress? prog)
+        var stream = await streamSource
+            .GetStreamAsync(prog)
+            .ConfigureAwait(false);
+
+        if (parent.CanCache(fileRef))
         {
-            if (fileRef is null)
-            {
-                throw new ArgumentNullException(nameof(fileRef));
-            }
-
-            if (fileRef is not AbstractStreamSource streamSource)
-            {
-                throw new InvalidOperationException("This layer can only retrieve data from stream sources.");
-            }
-
-            var stream = await streamSource
-                .GetStreamAsync(prog)
-                .ConfigureAwait(false);
-
-            if (parent.CanCache(fileRef))
-            {
-                return new CachingStream(stream, parent.Create(fileRef));
-            }
-
-            return stream;
+            return new CachingStream(stream, parent.Create(fileRef));
         }
 
-        public bool IsCached(ContentReference fileRef)
-        {
-            return fileRef is AbstractStreamSource;
-        }
+        return stream;
+    }
+
+    public bool IsCached(ContentReference fileRef)
+    {
+        return fileRef is AbstractStreamSource;
     }
 }

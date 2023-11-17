@@ -1,9 +1,8 @@
-﻿namespace Juniper.World.GIS
+﻿namespace Juniper.World.GIS;
+
+public class LatLngPointEventArgs : EventArgs<LatLngPoint>
 {
-    public class LatLngPointEventArgs : EventArgs<LatLngPoint>
-    {
-        public LatLngPointEventArgs(LatLngPoint value)
-            : base(value)
-        { }
-    }
+    public LatLngPointEventArgs(LatLngPoint value)
+        : base(value)
+    { }
 }

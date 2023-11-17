@@ -1,121 +1,120 @@
 using System.Globalization;
 using System.Runtime.Serialization;
 
-namespace Juniper.Mathematics
+namespace Juniper.Mathematics;
+
+[Serializable]
+public struct QuaternionSerializable : ISerializable, IEquatable<QuaternionSerializable>
 {
-    [Serializable]
-    public struct QuaternionSerializable : ISerializable, IEquatable<QuaternionSerializable>
+    private const string TYPE_NAME = "Quaternion";
+
+    public float X { get; }
+
+    public float Y { get; }
+
+    public float Z { get; }
+
+    public float W { get; }
+
+    public QuaternionSerializable(float[] values)
     {
-        private const string TYPE_NAME = "Quaternion";
-
-        public float X { get; }
-
-        public float Y { get; }
-
-        public float Z { get; }
-
-        public float W { get; }
-
-        public QuaternionSerializable(float[] values)
+        if (values is null)
         {
-            if (values is null)
-            {
-                throw new ArgumentNullException(nameof(values));
-            }
-
-            if (values.Length != 4)
-            {
-                throw new ArgumentOutOfRangeException(nameof(values), "Array initialization requires 4 values");
-            }
-
-            X = values[0];
-            Y = values[1];
-            Z = values[2];
-            W = values[3];
+            throw new ArgumentNullException(nameof(values));
         }
 
-        public QuaternionSerializable(float x, float y, float z, float w)
+        if (values.Length != 4)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            W = w;
+            throw new ArgumentOutOfRangeException(nameof(values), "Array initialization requires 4 values");
         }
 
-        private QuaternionSerializable(SerializationInfo info, StreamingContext context)
-        {
-            if (info is null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
+        X = values[0];
+        Y = values[1];
+        Z = values[2];
+        W = values[3];
+    }
 
-            info.CheckForType(TYPE_NAME);
-            X = info.GetSingle(nameof(X));
-            Y = info.GetSingle(nameof(Y));
-            Z = info.GetSingle(nameof(Z));
-            W = info.GetSingle(nameof(W));
+    public QuaternionSerializable(float x, float y, float z, float w)
+    {
+        X = x;
+        Y = y;
+        Z = z;
+        W = w;
+    }
+
+    private QuaternionSerializable(SerializationInfo info, StreamingContext context)
+    {
+        if (info is null)
+        {
+            throw new ArgumentNullException(nameof(info));
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info is null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
+        info.CheckForType(TYPE_NAME);
+        X = info.GetSingle(nameof(X));
+        Y = info.GetSingle(nameof(Y));
+        Z = info.GetSingle(nameof(Z));
+        W = info.GetSingle(nameof(W));
+    }
 
-            info.AddValue("Type", TYPE_NAME);
-            info.AddValue(nameof(X), X);
-            info.AddValue(nameof(Y), Y);
-            info.AddValue(nameof(Z), Z);
-            info.AddValue(nameof(W), W);
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        if (info is null)
+        {
+            throw new ArgumentNullException(nameof(info));
         }
 
-        public override string ToString()
-        {
-            return $"{{{X.ToString(CultureInfo.CurrentCulture)}, {Y.ToString(CultureInfo.CurrentCulture)}, {Z.ToString(CultureInfo.CurrentCulture)}, {W.ToString(CultureInfo.CurrentCulture)}}}";
-        }
+        info.AddValue("Type", TYPE_NAME);
+        info.AddValue(nameof(X), X);
+        info.AddValue(nameof(Y), Y);
+        info.AddValue(nameof(Z), Z);
+        info.AddValue(nameof(W), W);
+    }
 
-        public override bool Equals(object? obj)
-        {
-            return obj is QuaternionSerializable serializable && Equals(serializable);
-        }
+    public override string ToString()
+    {
+        return $"{{{X.ToString(CultureInfo.CurrentCulture)}, {Y.ToString(CultureInfo.CurrentCulture)}, {Z.ToString(CultureInfo.CurrentCulture)}, {W.ToString(CultureInfo.CurrentCulture)}}}";
+    }
 
-        public bool Equals(QuaternionSerializable other)
-        {
-            return X == other.X &&
-                   Y == other.Y &&
-                   Z == other.Z &&
-                   W == other.W;
-        }
+    public override bool Equals(object? obj)
+    {
+        return obj is QuaternionSerializable serializable && Equals(serializable);
+    }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(X, Y, Z, W);
-        }
+    public bool Equals(QuaternionSerializable other)
+    {
+        return X == other.X &&
+               Y == other.Y &&
+               Z == other.Z &&
+               W == other.W;
+    }
 
-        public static bool operator ==(QuaternionSerializable left, QuaternionSerializable right)
-        {
-            return left.Equals(right);
-        }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y, Z, W);
+    }
 
-        public static bool operator !=(QuaternionSerializable left, QuaternionSerializable right)
-        {
-            return !(left == right);
-        }
+    public static bool operator ==(QuaternionSerializable left, QuaternionSerializable right)
+    {
+        return left.Equals(right);
+    }
 
-        public System.Numerics.Quaternion ToSystemQuaternion()
-        {
-            return new System.Numerics.Quaternion(X, Y, Z, W);
-        }
+    public static bool operator !=(QuaternionSerializable left, QuaternionSerializable right)
+    {
+        return !(left == right);
+    }
 
-        public static implicit operator System.Numerics.Quaternion(QuaternionSerializable q)
-        {
-            return q.ToSystemQuaternion();
-        }
+    public System.Numerics.Quaternion ToSystemQuaternion()
+    {
+        return new System.Numerics.Quaternion(X, Y, Z, W);
+    }
 
-        public static implicit operator QuaternionSerializable(System.Numerics.Quaternion q)
-        {
-            return System.Numerics.MathExt.ToJuniperQuaternionSerializable(q);
-        }
+    public static implicit operator System.Numerics.Quaternion(QuaternionSerializable q)
+    {
+        return q.ToSystemQuaternion();
+    }
+
+    public static implicit operator QuaternionSerializable(System.Numerics.Quaternion q)
+    {
+        return System.Numerics.MathExt.ToJuniperQuaternionSerializable(q);
     }
 }

@@ -1,7 +1,6 @@
-namespace Juniper.IO
+namespace Juniper.IO;
+
+public interface IStreamWrapper
 {
-    public interface IStreamWrapper
-    {
-        Stream SourceStream { get; }
-    }
+    Stream SourceStream { get; }
 }

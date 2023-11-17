@@ -1,13 +1,12 @@
-namespace Juniper.Logic
+namespace Juniper.Logic;
+
+public interface IExpression<ItemT>
 {
-    public interface IExpression<ItemT>
-    {
-        bool HasNestedElements { get; }
+    bool HasNestedElements { get; }
 
-        bool Evaluate(Func<ItemT, bool> evaluator);
+    bool Evaluate(Func<ItemT, bool> evaluator);
 
-        IEnumerable<ItemT> GetItems();
+    IEnumerable<ItemT> GetItems();
 
-        IEnumerable<IExpression<ItemT>> GetExpressions();
-    }
+    IEnumerable<IExpression<ItemT>> GetExpressions();
 }

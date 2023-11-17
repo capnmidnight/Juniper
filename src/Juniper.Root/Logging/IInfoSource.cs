@@ -1,7 +1,6 @@
-namespace Juniper.Logging
+namespace Juniper.Logging;
+
+public interface IInfoSource
 {
-    public interface IInfoSource
-    {
-        event EventHandler<StringEventArgs> Info;
-    }
+    event EventHandler<StringEventArgs> Info;
 }

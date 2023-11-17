@@ -1,28 +1,27 @@
-namespace Juniper.Processes
+namespace Juniper.Processes;
+
+public class DeleteDirectoryCommand : AbstractCommand
 {
-    public class DeleteDirectoryCommand : AbstractCommand
+    private readonly DirectoryInfo dir;
+
+    public DeleteDirectoryCommand(DirectoryInfo dir)
+        : base("Delete")
     {
-        private readonly DirectoryInfo dir;
+        this.dir = dir;
+    }
 
-        public DeleteDirectoryCommand(DirectoryInfo dir)
-            : base("Delete")
+    public override Task RunAsync(CancellationToken cancellationToken)
+    {
+        if (dir.Exists)
         {
-            this.dir = dir;
+            dir.Delete(true);
+            OnInfo($"Deleted! {dir.FullName}");
+        }
+        else
+        {
+            OnInfo($"No directory to delete: {dir.FullName}");
         }
 
-        public override Task RunAsync(CancellationToken cancellationToken)
-        {
-            if (dir.Exists)
-            {
-                dir.Delete(true);
-                OnInfo($"Deleted! {dir.FullName}");
-            }
-            else
-            {
-                OnInfo($"No directory to delete: {dir.FullName}");
-            }
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

@@ -1,14 +1,13 @@
-namespace Juniper
-{
-    public class StringEventArgs : EventArgs<string>
-    {
-        public StringEventArgs(string value)
-            : base(value)
-        { }
+namespace Juniper;
 
-        public override string ToString()
-        {
-            return Value;
-        }
+public class StringEventArgs : EventArgs<string>
+{
+    public StringEventArgs(string value)
+        : base(value)
+    { }
+
+    public override string ToString()
+    {
+        return Value;
     }
 }

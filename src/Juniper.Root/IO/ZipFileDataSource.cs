@@ -1,47 +1,46 @@
 using System.IO.Compression;
 
-namespace Juniper.IO
+namespace Juniper.IO;
+
+public sealed class ZipFileDataSource : IDataSource, IDisposable
 {
-    public sealed class ZipFileDataSource : IDataSource, IDisposable
+    private readonly ZipArchive zip;
+    private readonly bool ownZip;
+
+    public ZipFileDataSource(ZipArchive zip)
     {
-        private readonly ZipArchive zip;
-        private readonly bool ownZip;
+        this.zip = zip ?? throw new ArgumentNullException(nameof(zip));
+        ownZip = false;
+    }
 
-        public ZipFileDataSource(ZipArchive zip)
+    public ZipFileDataSource(Stream stream)
+    {
+        if (stream is null)
         {
-            this.zip = zip ?? throw new ArgumentNullException(nameof(zip));
-            ownZip = false;
+            throw new ArgumentNullException(nameof(stream));
         }
 
-        public ZipFileDataSource(Stream stream)
-        {
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
+        zip = new ZipArchive(stream, ZipArchiveMode.Read, true);
+        ownZip = true;
+    }
 
-            zip = new ZipArchive(stream, ZipArchiveMode.Read, true);
-            ownZip = true;
-        }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        public void Dispose()
+    private void Dispose(bool disposing)
+    {
+        if (disposing
+            && ownZip)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            zip.Dispose();
         }
+    }
 
-        private void Dispose(bool disposing)
-        {
-            if (disposing
-                && ownZip)
-            {
-                zip.Dispose();
-            }
-        }
-
-        public Stream? GetStream(string fileName)
-        {
-            return zip.GetEntry(fileName)?.Open();
-        }
+    public Stream? GetStream(string fileName)
+    {
+        return zip.GetEntry(fileName)?.Open();
     }
 }

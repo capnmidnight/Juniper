@@ -1,11 +1,10 @@
 using Juniper.Logging;
 
-namespace Juniper.Processes
+namespace Juniper.Processes;
+
+public interface ICommand : ILoggingSource
 {
-    public interface ICommand : ILoggingSource
-    {
-        string CommandName { get; }
-        Task RunAsync(CancellationToken cancellationToken);
-        Task RunSafeAsync(CancellationToken cancellationToken);
-    }
+    string CommandName { get; }
+    Task RunAsync(CancellationToken cancellationToken);
+    Task RunSafeAsync(CancellationToken cancellationToken);
 }

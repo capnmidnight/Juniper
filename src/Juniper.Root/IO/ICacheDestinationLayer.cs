@@ -1,11 +1,10 @@
-namespace Juniper.IO
+namespace Juniper.IO;
+
+public interface ICacheDestinationLayer : ICacheSourceLayer
 {
-    public interface ICacheDestinationLayer : ICacheSourceLayer
-    {
-        bool CanCache(ContentReference fileRef);
+    bool CanCache(ContentReference fileRef);
 
-        Stream Create(ContentReference fileRef);
+    Stream Create(ContentReference fileRef);
 
-        bool Delete(ContentReference fileRef);
-    }
+    bool Delete(ContentReference fileRef);
 }

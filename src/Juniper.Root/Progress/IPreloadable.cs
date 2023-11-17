@@ -1,7 +1,6 @@
-namespace Juniper.Progress
+namespace Juniper.Progress;
+
+public interface IPreloadable
 {
-    public interface IPreloadable
-    {
-        void Preload(IProgress prog);
-    }
+    void Preload(IProgress prog);
 }

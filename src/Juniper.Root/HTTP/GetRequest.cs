@@ -1,14 +1,13 @@
 using Juniper.HTTP.REST;
 
-namespace Juniper.HTTP
-{
-    public class GetRequest : AbstractRequest<MediaType>
-    {
-        public GetRequest(HttpClient http, Uri url, MediaType contentType)
-            : base(http, HttpMethod.Get, url, contentType)
-        { }
+namespace Juniper.HTTP;
 
-        protected override string InternalCacheID =>
-            StandardRequestCacheID;
-    }
+public class GetRequest : AbstractRequest<MediaType>
+{
+    public GetRequest(HttpClient http, Uri url, MediaType contentType)
+        : base(http, HttpMethod.Get, url, contentType)
+    { }
+
+    protected override string InternalCacheID =>
+        StandardRequestCacheID;
 }

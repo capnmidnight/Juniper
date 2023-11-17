@@ -1,31 +1,30 @@
-namespace Juniper.Logic
+namespace Juniper.Logic;
+
+internal class EmptyExpression<ItemT> :
+    IExpression<ItemT>
 {
-    internal class EmptyExpression<ItemT> :
-        IExpression<ItemT>
+    public EmptyExpression()
+    { }
+
+    public bool Evaluate(Func<ItemT, bool> _)
     {
-        public EmptyExpression()
-        { }
+        return true;
+    }
 
-        public bool Evaluate(Func<ItemT, bool> _)
-        {
-            return true;
-        }
+    public bool HasNestedElements => false;
 
-        public bool HasNestedElements => false;
+    public IEnumerable<ItemT> GetItems()
+    {
+        return Array.Empty<ItemT>();
+    }
 
-        public IEnumerable<ItemT> GetItems()
-        {
-            return Array.Empty<ItemT>();
-        }
+    public IEnumerable<IExpression<ItemT>> GetExpressions()
+    {
+        return Array.Empty<IExpression<ItemT>>();
+    }
 
-        public IEnumerable<IExpression<ItemT>> GetExpressions()
-        {
-            return Array.Empty<IExpression<ItemT>>();
-        }
-
-        public override string ToString()
-        {
-            return "Empty";
-        }
+    public override string ToString()
+    {
+        return "Empty";
     }
 }

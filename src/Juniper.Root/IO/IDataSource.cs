@@ -1,7 +1,6 @@
-namespace Juniper.IO
+namespace Juniper.IO;
+
+public interface IDataSource
 {
-    public interface IDataSource
-    {
-        Stream? GetStream(string fileName);
-    }
+    Stream? GetStream(string fileName);
 }

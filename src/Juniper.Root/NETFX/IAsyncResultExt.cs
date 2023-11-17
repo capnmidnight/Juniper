@@ -1,20 +1,19 @@
-namespace System
+namespace System;
+
+public static class IAsyncResultExt
 {
-    public static class IAsyncResultExt
+    public static async Task<IAsyncResult> AsAsync(this IAsyncResult res)
     {
-        public static async Task<IAsyncResult> AsAsync(this IAsyncResult res)
+        if (res is null)
         {
-            if (res is null)
-            {
-                throw new ArgumentNullException(nameof(res));
-            }
-
-            while (!res.IsCompleted)
-            {
-                await Task.Yield();
-            }
-
-            return res;
+            throw new ArgumentNullException(nameof(res));
         }
+
+        while (!res.IsCompleted)
+        {
+            await Task.Yield();
+        }
+
+        return res;
     }
 }

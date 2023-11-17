@@ -1,9 +1,8 @@
-﻿namespace Juniper.TSBuild
+﻿namespace Juniper.TSBuild;
+
+public interface IBuildSystemService
 {
-    public interface IBuildSystemService
-    {
-        Task Started { get; }
-        Task Ready { get; }
-        event EventHandler NewBuildCompleted;
-    }
+    Task Started { get; }
+    Task Ready { get; }
+    event EventHandler NewBuildCompleted;
 }

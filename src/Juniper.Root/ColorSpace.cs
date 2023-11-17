@@ -1,14 +1,13 @@
-﻿namespace Juniper
+﻿namespace Juniper;
+
+public enum ColorSpace
 {
-    public enum ColorSpace
-    {
-        RGB,
-        HSI,
-        HSV,
-        HSL,
-        YCH_SDTV,
-        YCH_Adobe,
-        YCH_sRGB,
-        YCH_HDR
-    }
+    RGB,
+    HSI,
+    HSV,
+    HSL,
+    YCH_SDTV,
+    YCH_Adobe,
+    YCH_sRGB,
+    YCH_HDR
 }

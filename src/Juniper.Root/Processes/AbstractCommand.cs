@@ -1,46 +1,44 @@
-#nullable enable
-namespace Juniper.Processes
+namespace Juniper.Processes;
+
+public abstract class AbstractCommand : ICommand
 {
-    public abstract class AbstractCommand : ICommand
+    public string CommandName { get; protected set; }
+
+    public event EventHandler<StringEventArgs>? Info;
+    public event EventHandler<StringEventArgs>? Warning;
+    public event EventHandler<ErrorEventArgs>? Err;
+
+    protected AbstractCommand(string commandName)
     {
-        public string CommandName { get; protected set; }
+        CommandName = commandName;
+    }
 
-        public event EventHandler<StringEventArgs>? Info;
-        public event EventHandler<StringEventArgs>? Warning;
-        public event EventHandler<ErrorEventArgs>? Err;
+    public abstract Task RunAsync(CancellationToken cancellationToken);
 
-        protected AbstractCommand(string commandName)
+    public async Task RunSafeAsync(CancellationToken cancellationToken)
+    {
+        try
         {
-            CommandName = commandName;
+            await RunAsync(cancellationToken);
         }
-
-        public abstract Task RunAsync(CancellationToken cancellationToken);
-
-        public async Task RunSafeAsync(CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            try
-            {
-                await RunAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                OnError(ex);
-            }
+            OnError(ex);
         }
+    }
 
-        protected virtual void OnInfo(string message)
-        {
-            Info?.Invoke(this, new StringEventArgs(message));
-        }
+    protected virtual void OnInfo(string message)
+    {
+        Info?.Invoke(this, new StringEventArgs(message));
+    }
 
-        protected virtual void OnWarning(string message)
-        {
-            Warning?.Invoke(this, new StringEventArgs(message));
-        }
+    protected virtual void OnWarning(string message)
+    {
+        Warning?.Invoke(this, new StringEventArgs(message));
+    }
 
-        protected virtual void OnError(Exception exp)
-        {
-            Err?.Invoke(this, new ErrorEventArgs(exp));
-        }
+    protected virtual void OnError(Exception exp)
+    {
+        Err?.Invoke(this, new ErrorEventArgs(exp));
     }
 }

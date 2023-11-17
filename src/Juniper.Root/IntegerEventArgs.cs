@@ -1,9 +1,8 @@
-﻿namespace Juniper
+﻿namespace Juniper;
+
+public class IntegerEventArgs : EventArgs<int>
 {
-    public class IntegerEventArgs : EventArgs<int>
-    {
-        public IntegerEventArgs(int arg)
-            : base(arg)
-        { }
-    }
+    public IntegerEventArgs(int arg)
+        : base(arg)
+    { }
 }

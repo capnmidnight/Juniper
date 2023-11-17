@@ -1,91 +1,90 @@
-namespace Juniper.IO
+namespace Juniper.IO;
+
+public class StreamReaderEventer : IDisposable
 {
-    public class StreamReaderEventer : IDisposable
+    private StreamReader? reader;
+    private Thread? thread;
+    private bool running;
+    private bool disposedValue;
+
+    public event EventHandler<StringEventArgs>? Line;
+
+    public StreamReaderEventer(Stream stream)
     {
-        private StreamReader? reader;
-        private Thread? thread;
-        private bool running;
-        private bool disposedValue;
+        reader = new StreamReader(stream);
+        thread = new Thread(Run);
+    }
 
-        public event EventHandler<StringEventArgs>? Line;
-
-        public StreamReaderEventer(Stream stream)
+    private void Run()
+    {
+        if (reader is null)
         {
-            reader = new StreamReader(stream);
-            thread = new Thread(Run);
+            throw new ObjectDisposedException(nameof(reader));
         }
 
-        private void Run()
+        while (running)
         {
-            if (reader is null)
+            var line = reader.ReadLine();
+            if (line is not null)
             {
-                throw new ObjectDisposedException(nameof(reader));
+                Line?.Invoke(this, new StringEventArgs(line));
             }
-
-            while (running)
-            {
-                var line = reader.ReadLine();
-                if (line is not null)
-                {
-                    Line?.Invoke(this, new StringEventArgs(line));
-                }
-                else
-                {
-                    running = false;
-                }
-            }
-        }
-
-        public void Start()
-        {
-            if (thread is null)
-            {
-                throw new ObjectDisposedException(nameof(thread));
-            }
-
-            if (!running)
-            {
-                running = true;
-                thread.Start();
-            }
-        }
-
-        public void Stop()
-        {
-            if (thread is null)
-            {
-                throw new ObjectDisposedException(nameof(thread));
-            }
-
-            if (running)
+            else
             {
                 running = false;
-                thread.Join();
             }
         }
+    }
 
-        protected virtual void Dispose(bool disposing)
+    public void Start()
+    {
+        if (thread is null)
         {
-            if (!disposedValue)
+            throw new ObjectDisposedException(nameof(thread));
+        }
+
+        if (!running)
+        {
+            running = true;
+            thread.Start();
+        }
+    }
+
+    public void Stop()
+    {
+        if (thread is null)
+        {
+            throw new ObjectDisposedException(nameof(thread));
+        }
+
+        if (running)
+        {
+            running = false;
+            thread.Join();
+        }
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
             {
-                if (disposing)
-                {
-                    Stop();
-                    thread = null;
+                Stop();
+                thread = null;
 
-                    reader?.Dispose();
-                    reader = null;
-                }
-
-                disposedValue = true;
+                reader?.Dispose();
+                reader = null;
             }
-        }
 
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            disposedValue = true;
         }
+    }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

@@ -1,40 +1,39 @@
 using System.Runtime.Serialization;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP;
+
+[Serializable]
+public sealed class DataMessage : ISerializable
 {
-    [Serializable]
-    public sealed class DataMessage : ISerializable
+    public string? Message { get; }
+
+    public IReadOnlyCollection<byte>? Data { get; }
+
+    public DataMessage(string message, byte[] data)
     {
-        public string? Message { get; }
+        Message = message;
+        Data = data;
+    }
 
-        public IReadOnlyCollection<byte>? Data { get; }
-
-        public DataMessage(string message, byte[] data)
+    private DataMessage(SerializationInfo info, StreamingContext context)
+    {
+        if (info is null)
         {
-            Message = message;
-            Data = data;
+            throw new ArgumentNullException(nameof(info));
         }
 
-        private DataMessage(SerializationInfo info, StreamingContext context)
-        {
-            if (info is null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
+        Message = info.GetString(nameof(Message));
+        Data = info.GetValue<byte[]>(nameof(Data));
+    }
 
-            Message = info.GetString(nameof(Message));
-            Data = info.GetValue<byte[]>(nameof(Data));
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        if (info is null)
+        {
+            throw new ArgumentNullException(nameof(info));
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info is null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
-
-            info.AddValue(nameof(Message), Message);
-            info.AddValue(nameof(Data), Data);
-        }
+        info.AddValue(nameof(Message), Message);
+        info.AddValue(nameof(Data), Data);
     }
 }

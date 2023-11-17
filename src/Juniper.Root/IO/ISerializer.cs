@@ -1,8 +1,7 @@
-namespace Juniper.IO
+namespace Juniper.IO;
+
+public interface ISerializer<in T, out M> where M : MediaType
 {
-    public interface ISerializer<in T, out M> where M : MediaType
-    {
-        M OutputContentType { get; }
-        long Serialize(Stream stream, T value);
-    }
+    M OutputContentType { get; }
+    long Serialize(Stream stream, T value);
 }

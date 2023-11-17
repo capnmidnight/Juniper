@@ -1,9 +1,8 @@
-namespace Juniper
+namespace Juniper;
+
+public class BufferEventArgs : EventArgs<IReadOnlyCollection<byte>>
 {
-    public class BufferEventArgs : EventArgs<IReadOnlyCollection<byte>>
-    {
-        public BufferEventArgs(byte[] args)
-            : base(args)
-        { }
-    }
+    public BufferEventArgs(byte[] args)
+        : base(args)
+    { }
 }

@@ -1,137 +1,136 @@
-namespace Juniper.IO
+namespace Juniper.IO;
+
+public class ForkedOutputStream : Stream
 {
-    public class ForkedOutputStream : Stream
+    private readonly List<Stream> streams = new();
+
+    public ForkedOutputStream(params Stream[] streams)
     {
-        private readonly List<Stream> streams = new();
+        this.streams.AddRange(streams);
+    }
 
-        public ForkedOutputStream(params Stream[] streams)
+    public void AddStream(Stream stream)
+    {
+        streams.Add(stream);
+    }
+
+    public override bool CanRead => false;
+
+    public override bool CanSeek
+    {
+        get
         {
-            this.streams.AddRange(streams);
-        }
-
-        public void AddStream(Stream stream)
-        {
-            streams.Add(stream);
-        }
-
-        public override bool CanRead => false;
-
-        public override bool CanSeek
-        {
-            get
+            foreach (var stream in streams)
             {
-                foreach (var stream in streams)
+                if (!stream.CanSeek)
                 {
-                    if (!stream.CanSeek)
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-
-        public override bool CanWrite
-        {
-            get
-            {
-                foreach (var stream in streams)
-                {
-                    if (!stream.CanWrite)
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-
-        public override long Length => streams[0].Length;
-
-        public override long Position
-        {
-            get => streams[0].Position;
-
-            set
-            {
-                foreach (var stream in streams)
-                {
-                    stream.Position = value;
+                    return false;
                 }
             }
-        }
 
-        public override void Flush()
+            return true;
+        }
+    }
+
+    public override bool CanWrite
+    {
+        get
         {
             foreach (var stream in streams)
             {
-                stream.Flush();
-            }
-        }
-
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            long position = 0;
-            foreach (var stream in streams)
-            {
-                position = stream.Seek(offset, origin);
-            }
-
-            return position;
-        }
-
-        public override void SetLength(long value)
-        {
-            foreach (var stream in streams)
-            {
-                stream.SetLength(value);
-            }
-        }
-
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            foreach (var stream in streams)
-            {
-                stream.Write(buffer, offset, count);
-            }
-        }
-
-        public override void WriteByte(byte value)
-        {
-            foreach (var stream in streams)
-            {
-                stream.WriteByte(value);
-            }
-        }
-
-        public override void Close()
-        {
-            foreach (var stream in streams)
-            {
-                stream.Close();
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            if (disposing)
-            {
-                foreach (var stream in streams)
+                if (!stream.CanWrite)
                 {
-                    stream.Dispose();
+                    return false;
                 }
-
-                streams.Clear();
             }
+
+            return true;
+        }
+    }
+
+    public override long Length => streams[0].Length;
+
+    public override long Position
+    {
+        get => streams[0].Position;
+
+        set
+        {
+            foreach (var stream in streams)
+            {
+                stream.Position = value;
+            }
+        }
+    }
+
+    public override void Flush()
+    {
+        foreach (var stream in streams)
+        {
+            stream.Flush();
+        }
+    }
+
+    public override int Read(byte[] buffer, int offset, int count)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override long Seek(long offset, SeekOrigin origin)
+    {
+        long position = 0;
+        foreach (var stream in streams)
+        {
+            position = stream.Seek(offset, origin);
+        }
+
+        return position;
+    }
+
+    public override void SetLength(long value)
+    {
+        foreach (var stream in streams)
+        {
+            stream.SetLength(value);
+        }
+    }
+
+    public override void Write(byte[] buffer, int offset, int count)
+    {
+        foreach (var stream in streams)
+        {
+            stream.Write(buffer, offset, count);
+        }
+    }
+
+    public override void WriteByte(byte value)
+    {
+        foreach (var stream in streams)
+        {
+            stream.WriteByte(value);
+        }
+    }
+
+    public override void Close()
+    {
+        foreach (var stream in streams)
+        {
+            stream.Close();
+        }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        if (disposing)
+        {
+            foreach (var stream in streams)
+            {
+                stream.Dispose();
+            }
+
+            streams.Clear();
         }
     }
 }

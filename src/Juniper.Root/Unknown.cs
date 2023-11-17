@@ -1,12 +1,11 @@
-namespace Juniper
+namespace Juniper;
+
+public partial class MediaType
 {
-    public partial class MediaType
+    public class Unknown : MediaType
     {
-        public class Unknown : MediaType
-        {
-            internal Unknown(string value)
-                : base("unknown", value, value)
-            { }
-        }
+        internal Unknown(string value)
+            : base("unknown", value, value)
+        { }
     }
 }

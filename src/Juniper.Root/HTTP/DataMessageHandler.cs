@@ -3,87 +3,86 @@ using Juniper.IO;
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP;
+
+public class DataMessageHandler<ResultT, FactoryT, SocketT>
+    where FactoryT : class, IFactory<ResultT, MediaType.Application>
+    where SocketT : WebSocket
 {
-    public class DataMessageHandler<ResultT, FactoryT, SocketT>
-        where FactoryT : class, IFactory<ResultT, MediaType.Application>
-        where SocketT : WebSocket
+    private readonly WebSocketConnection<SocketT> socket;
+    private readonly string message;
+    private readonly FactoryT factory;
+
+    public event EventHandler<EventArgs<ResultT>>? DataMessage;
+    public event EventHandler<ErrorEventArgs>? Error;
+
+    public DataMessageHandler(WebSocketConnection<SocketT> socket, string message, FactoryT factory)
     {
-        private readonly WebSocketConnection<SocketT> socket;
-        private readonly string message;
-        private readonly FactoryT factory;
-
-        public event EventHandler<EventArgs<ResultT>>? DataMessage;
-        public event EventHandler<ErrorEventArgs>? Error;
-
-        public DataMessageHandler(WebSocketConnection<SocketT> socket, string message, FactoryT factory)
+        if (string.IsNullOrEmpty(message))
         {
-            if (string.IsNullOrEmpty(message))
-            {
-                throw new ArgumentNullException(nameof(message), $"{nameof(message)} parameter must not be null or empty.");
-            }
-
-            if (factory is null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            if (socket is null)
-            {
-                throw new ArgumentNullException(nameof(socket));
-            }
-
-            this.socket = socket;
-            this.message = message;
-            this.factory = factory;
-
-            socket.DataMessage += Socket_DataMessage;
-            socket.Closed += Socket_Closed;
+            throw new ArgumentNullException(nameof(message), $"{nameof(message)} parameter must not be null or empty.");
         }
 
-        public Task SendAsync(ResultT value)
+        if (factory is null)
         {
-            return factory.SerializeAsync(socket, value);
+            throw new ArgumentNullException(nameof(factory));
         }
 
-        private void Socket_Closed(object? sender, EventArgs e)
+        if (socket is null)
         {
-            socket.DataMessage -= Socket_DataMessage;
-            socket.Closed -= Socket_Closed;
+            throw new ArgumentNullException(nameof(socket));
         }
 
-        private void Socket_DataMessage(object? sender, DataMessageEventArgs e)
+        this.socket = socket;
+        this.message = message;
+        this.factory = factory;
+
+        socket.DataMessage += Socket_DataMessage;
+        socket.Closed += Socket_Closed;
+    }
+
+    public Task SendAsync(ResultT value)
+    {
+        return factory.SerializeAsync(socket, value);
+    }
+
+    private void Socket_Closed(object? sender, EventArgs e)
+    {
+        socket.DataMessage -= Socket_DataMessage;
+        socket.Closed -= Socket_Closed;
+    }
+
+    private void Socket_DataMessage(object? sender, DataMessageEventArgs e)
+    {
+        if (e.Value.Message == message)
         {
-            if (e.Value.Message == message)
+            try
             {
-                try
+                if (e.Value.Data is not null)
                 {
-                    if (e.Value.Data is not null)
+                    var value = factory.Deserialize(e.Value.Data);
+                    if (value is not null)
                     {
-                        var value = factory.Deserialize(e.Value.Data);
-                        if (value is not null)
-                        {
-                            OnDataMessage(value);
-                        }
+                        OnDataMessage(value);
                     }
                 }
-                catch (Exception exp)
-                {
-                    OnError(exp);
-                }
+            }
+            catch (Exception exp)
+            {
+                OnError(exp);
             }
         }
+    }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OnDataMessage(ResultT value)
-        {
-            DataMessage?.Invoke(this, new EventArgs<ResultT>(value));
-        }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void OnDataMessage(ResultT value)
+    {
+        DataMessage?.Invoke(this, new EventArgs<ResultT>(value));
+    }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OnError(Exception exp)
-        {
-            Error?.Invoke(this, new ErrorEventArgs(exp));
-        }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void OnError(Exception exp)
+    {
+        Error?.Invoke(this, new ErrorEventArgs(exp));
     }
 }

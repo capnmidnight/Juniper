@@ -1,8 +1,7 @@
-namespace Juniper.Collections
+namespace Juniper.Collections;
+
+public enum TreeTraversalOrder
 {
-    public enum TreeTraversalOrder
-    {
-        BreadthFirst,
-        DepthFirst
-    }
+    BreadthFirst,
+    DepthFirst
 }

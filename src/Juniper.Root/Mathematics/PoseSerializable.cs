@@ -1,71 +1,70 @@
 using System.Runtime.Serialization;
 
-namespace Juniper.Mathematics
+namespace Juniper.Mathematics;
+
+[Serializable]
+public struct PoseSerializable : ISerializable, IEquatable<PoseSerializable>
 {
-    [Serializable]
-    public struct PoseSerializable : ISerializable, IEquatable<PoseSerializable>
+    private const string TYPE_NAME = "Pose";
+
+    public static readonly PoseSerializable Identity = new(0, 0, 0, 0, 0, 0, 1);
+
+    public Vector3Serializable Position { get; }
+    public QuaternionSerializable Orientation { get; }
+
+    public PoseSerializable(Vector3Serializable position, QuaternionSerializable orientation)
     {
-        private const string TYPE_NAME = "Pose";
+        Position = position;
+        Orientation = orientation;
+    }
 
-        public static readonly PoseSerializable Identity = new(0, 0, 0, 0, 0, 0, 1);
+    public PoseSerializable(float px, float py, float pz, float ox, float oy, float oz, float ow)
+        : this(new Vector3Serializable(px, py, pz), new QuaternionSerializable(ox, oy, oz, ow))
+    { }
 
-        public Vector3Serializable Position { get; }
-        public QuaternionSerializable Orientation { get; }
+    private PoseSerializable(SerializationInfo info, StreamingContext context)
+        : this(info?.GetVector3(nameof(Position)) ?? throw new ArgumentNullException(nameof(info)),
+            info.GetQuaternion(nameof(Orientation)))
+    {
+        info.CheckForType(TYPE_NAME);
+    }
 
-        public PoseSerializable(Vector3Serializable position, QuaternionSerializable orientation)
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        if (info is null)
         {
-            Position = position;
-            Orientation = orientation;
+            throw new ArgumentNullException(nameof(info));
         }
 
-        public PoseSerializable(float px, float py, float pz, float ox, float oy, float oz, float ow)
-            : this(new Vector3Serializable(px, py, pz), new QuaternionSerializable(ox, oy, oz, ow))
-        { }
+        info.AddValue("Type", TYPE_NAME);
+        info.AddVector3(nameof(Position), Position);
+        info.AddQuaternion(nameof(Orientation), Orientation);
+    }
 
-        private PoseSerializable(SerializationInfo info, StreamingContext context)
-            : this(info?.GetVector3(nameof(Position)) ?? throw new ArgumentNullException(nameof(info)),
-                info.GetQuaternion(nameof(Orientation)))
-        {
-            info.CheckForType(TYPE_NAME);
-        }
+    public override bool Equals(object? obj)
+    {
+        return obj is PoseSerializable other
+            && Equals(other);
+    }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info is null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
+    public bool Equals(PoseSerializable other)
+    {
+        return Position.Equals(other.Position)
+            && Orientation.Equals(other.Orientation);
+    }
 
-            info.AddValue("Type", TYPE_NAME);
-            info.AddVector3(nameof(Position), Position);
-            info.AddQuaternion(nameof(Orientation), Orientation);
-        }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Position, Orientation);
+    }
 
-        public override bool Equals(object? obj)
-        {
-            return obj is PoseSerializable other
-                && Equals(other);
-        }
+    public static bool operator ==(PoseSerializable left, PoseSerializable right)
+    {
+        return left.Equals(right);
+    }
 
-        public bool Equals(PoseSerializable other)
-        {
-            return Position.Equals(other.Position)
-                && Orientation.Equals(other.Orientation);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Position, Orientation);
-        }
-
-        public static bool operator ==(PoseSerializable left, PoseSerializable right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(PoseSerializable left, PoseSerializable right)
-        {
-            return !(left == right);
-        }
+    public static bool operator !=(PoseSerializable left, PoseSerializable right)
+    {
+        return !(left == right);
     }
 }

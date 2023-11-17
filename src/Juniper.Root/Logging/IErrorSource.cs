@@ -1,7 +1,6 @@
-namespace Juniper.Logging
+namespace Juniper.Logging;
+
+public interface IErrorSource
 {
-    public interface IErrorSource
-    {
-        event EventHandler<ErrorEventArgs> Err;
-    }
+    event EventHandler<ErrorEventArgs> Err;
 }

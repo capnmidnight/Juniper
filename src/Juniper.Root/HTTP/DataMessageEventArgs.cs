@@ -1,9 +1,8 @@
-namespace Juniper.HTTP
+namespace Juniper.HTTP;
+
+public class DataMessageEventArgs : EventArgs<DataMessage>
 {
-    public class DataMessageEventArgs : EventArgs<DataMessage>
-    {
-        public DataMessageEventArgs(DataMessage value)
-            : base(value)
-        { }
-    }
+    public DataMessageEventArgs(DataMessage value)
+        : base(value)
+    { }
 }

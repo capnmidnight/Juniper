@@ -1,62 +1,61 @@
 using Newtonsoft.Json;
 
-namespace Juniper.IO
+namespace Juniper.IO;
+
+
+public class JsonFactory<ResultT, MediaTypeT> : IFactory<ResultT, MediaTypeT>
+    where MediaTypeT : MediaType
 {
+    public Formatting Formatting { get; set; } = Formatting.Indented;
 
-    public class JsonFactory<ResultT, MediaTypeT> : IFactory<ResultT, MediaTypeT>
-        where MediaTypeT : MediaType
+    public JsonFactory(MediaTypeT contentType)
     {
-        public Formatting Formatting { get; set; } = Formatting.Indented;
+        InputContentType = contentType;
+    }
 
-        public JsonFactory(MediaTypeT contentType)
+    public MediaTypeT InputContentType
+    {
+        get;
+    }
+
+    public MediaTypeT OutputContentType => InputContentType;
+
+    public ResultT? Deserialize(Stream stream)
+    {
+        if (stream is null)
         {
-            InputContentType = contentType;
+            throw new ArgumentNullException(nameof(stream));
         }
 
-        public MediaTypeT InputContentType
+        using var reader = new StreamReader(stream);
+        using var jsonReader = new JsonTextReader(reader);
+        var serializer = new JsonSerializer();
+        return serializer.Deserialize<ResultT>(jsonReader);
+    }
+
+    public long Serialize(Stream stream, ResultT value)
+    {
+        if (stream is null)
         {
-            get;
+            throw new ArgumentNullException(nameof(stream));
         }
 
-        public MediaTypeT OutputContentType => InputContentType;
-
-        public ResultT? Deserialize(Stream stream)
+        if (value is null)
         {
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            using var reader = new StreamReader(stream);
-            using var jsonReader = new JsonTextReader(reader);
-            var serializer = new JsonSerializer();
-            return serializer.Deserialize<ResultT>(jsonReader);
+            throw new ArgumentNullException(nameof(stream));
         }
 
-        public long Serialize(Stream stream, ResultT value)
+        using var writer = new StreamWriter(stream);
+        using var jsonWriter = new JsonTextWriter(writer)
         {
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
+            Formatting = Formatting
+        };
 
-            if (value is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            using var writer = new StreamWriter(stream);
-            using var jsonWriter = new JsonTextWriter(writer)
-            {
-                Formatting = Formatting
-            };
-
-            var serializer = new JsonSerializer();
-            serializer.Serialize(jsonWriter, value);
-            jsonWriter.Flush();
-            writer.Flush();
-            stream.Flush();
-            return stream.Length;
-        }
+        var serializer = new JsonSerializer();
+        serializer.Serialize(jsonWriter, value);
+        jsonWriter.Flush();
+        writer.Flush();
+        stream.Flush();
+        return stream.Length;
     }
 }
