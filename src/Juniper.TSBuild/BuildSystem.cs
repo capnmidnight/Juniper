@@ -93,6 +93,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private readonly List<FileInfo> CheckProjects = new();
     private readonly List<CopyCommand> copyCommands = new();
 
+    private readonly bool skipPreBuild;
     private readonly bool isInProjectProcess;
     private readonly bool hasNPM;
 
@@ -127,6 +128,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
         var juniperDir = FindJuniperDir(workingDir);
         var juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
+
+        skipPreBuild = options.SkipPreBuild == true;
 
         cleanDirs = options.CleanDirs
             ?.Where(dir => dir?.Exists == true)
@@ -588,29 +591,40 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                     .AddCommands(installCommands);
             }, buildCanceller.Token);
 
-            var packagesInstalled = installCommands.Any(cmd => cmd.NeededInstall == true);
-
             var watchProjectPaths = WatchProjects.Select(pkg => pkg.FullName).ToHashSet();
-            var buildOnlyProjects = BuildProjects.Where(pkg => !watchProjectPaths.Contains(pkg.FullName) && packagesInstalled);
-
-            var preBuilds = TryMake(
-                buildOnlyProjects,
-                file => MakeProxiedBuildCommand(proxy, file)
-            ).ToArray();
 
             var bundles = TryMake(
                 WatchProjects,
                 file => MakeProxiedWatchCommand(proxy, file)
             ).ToArray();
 
-            await WithCommandTree(commands =>
+            if (!skipPreBuild)
             {
-                commands
-                    .AddMessage("Starting build")
-                    .AddCommands(GetCleanCommands())
-                    .AddCommands(preBuilds)
-                    .AddCommands(copyCommands);
-            }, buildCanceller.Token);
+                var buildOnlyProjects = BuildProjects.Where(pkg => !watchProjectPaths.Contains(pkg.FullName));
+                var preBuilds = TryMake(
+                    buildOnlyProjects,
+                    file => MakeProxiedBuildCommand(proxy, file)
+                ).ToArray();
+
+                await WithCommandTree(commands =>
+                {
+                    commands
+                        .AddMessage("Starting build")
+                        .AddCommands(GetCleanCommands())
+                        .AddCommands(preBuilds)
+                        .AddCommands(copyCommands);
+                }, buildCanceller.Token);
+            }
+            else
+            {
+                await WithCommandTree(commands =>
+                {
+                    commands
+                        .AddMessage("Starting build")
+                        .AddCommands(GetCleanCommands())
+                        .AddCommands(copyCommands);
+                }, buildCanceller.Token);
+            }
 
             await ValidateDependencies();
 

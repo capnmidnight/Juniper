@@ -61,6 +61,12 @@ public class BuildSystemOptions
     public DirectoryInfo[]? AdditionalNPMProjects;
 
     /// <summary>
+    /// A flag to indicate that the build of AdditionalNPMProjects
+    /// should not be ran.
+    /// </summary>
+    public bool? SkipPreBuild;
+
+    /// <summary>
     /// Files that need to be copied as part of the build.
     /// If the file does not exist in the expected location,
     /// a warning will be printed in the build output.
