@@ -20,7 +20,6 @@ public static class IServiceProviderExtensions
 
     public static void AutoMigrate(this DatabaseFacade database, ILogger? logger = null)
     {
-        var connectionString = database.GetConnectionString();
         var pending = database.GetPendingMigrations();
         if (pending.Any())
         {
@@ -98,14 +97,14 @@ public static class IServiceProviderExtensions
             .GetMethod(nameof(CreateLogger), BindingFlags.Static | BindingFlags.NonPublic)
             ?? throw new Exception("Can't find createLoggerMethod");
 
-        var createLogger = (IDataImporter<DbContextT> importer) =>
+        ILogger createLogger(IDataImporter<DbContextT> importer)
         {
             var type = importer.GetType();
             var createLogger = createLoggerMethod.MakeGenericMethod(type);
             var logger = createLogger.Invoke(null, new[] { scope }) as ILogger
                 ?? throw new Exception("Couldn't create logger");
             return logger;
-        };
+        }
 
         return db.ImportDataAsync(args, importers, createLogger);
     }

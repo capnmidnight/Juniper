@@ -176,21 +176,19 @@ public class XmlSpreadsheet2003
 
         public string Key { get; }
 
-        private string value;
-
         public string Value
         {
             get
             {
                 Accessed = true;
-                return value;
+                return Peek;
             }
         }
 
         /// <summary>
         /// Get the value without modifying the Accessed flag
         /// </summary>
-        public string Peek => value;
+        public string Peek { get; private set; }
 
         /// <summary>
         /// A flag indicating that this cell's value has been accessed. Useful
@@ -203,14 +201,14 @@ public class XmlSpreadsheet2003
         {
             Row = row;
             Key = key;
-            this.value = value;
+            Peek = value;
         }
 
         public void ReplaceValue(string v1, string v2)
         {
-            if (value.Trim().ToLower() == v1.ToLower())
+            if (Peek.Trim().ToLower() == v1.ToLower())
             {
-                value = v2;
+                Peek = v2;
             }
         }
     }
