@@ -246,7 +246,7 @@ namespace Juniper
         public static readonly Emoji rocket = new(0x1F680, "Rocket");
         public static readonly EmojiGroup astronauts = Symbol(rocket, "Astronaut");
 
-        public static readonly Emoji airplane = new("\u2708" + emojiStyle, "Airplane");
+        public static readonly Emoji airplane = new("\u2708", "Airplane");
         public static readonly EmojiGroup pilots = Symbol(airplane, "Pilot");
 
         public static readonly Emoji artistPalette = new(0x1F3A8, "Artist Palette");
@@ -1289,6 +1289,8 @@ namespace Juniper
         public static readonly Emoji rightArrowCurvingLeft = new("\u21A9", "Right Arrow Curving Left");
         public static readonly Emoji leftArrowCurvingRight = new("\u21AA", "Left Arrow Curving Right");
         public static readonly Emoji rightArrow = new("\u27A1", "Right Arrow");
+        public static readonly Emoji leftwardsArrow = new ("\u2190", "Left­wards Arrow");
+        public static readonly Emoji rightwardsArrow = new ("\u2192", "Right­wards Arrow");
         public static readonly Emoji rightArrowCurvingUp = new("\u2934", "Right Arrow Curving Up");
         public static readonly Emoji rightArrowCurvingDown = new("\u2935", "Right Arrow Curving Down");
         public static readonly Emoji leftArrow = new("\u2B05", "Left Arrow");
@@ -1777,6 +1779,9 @@ namespace Juniper
             new(0x1FA72, "Briefs"),
             new(0x1FA73, "Shorts"));
 
+        public static readonly Emoji house = new(0x1F3E0, "House");
+        public static readonly Emoji officeBuilding = new(0x1F3E2, "Office Building");
+
         public static readonly EmojiGroup town = new(
             "Town", "Town",
             new(0x1F3D7 + emojiStyle, "Building Construction"),
@@ -1788,9 +1793,10 @@ namespace Juniper
             new(0x1F3DD + emojiStyle, "Desert Island"),
             new(0x1F3DE + emojiStyle, "National Park"),
             new(0x1F3DF + emojiStyle, "Stadium"),
-            new(0x1F3E0, "House"),
+            house,
             new(0x1F3E1, "House with Garden"),
-            new(0x1F3E2, "Office Building"),
+            factory,
+            officeBuilding,
             new(0x1F3E3, "Japanese Post Office"),
             new(0x1F3E4, "Post Office"),
             new(0x1F3E5, "Hospital"),
@@ -1966,7 +1972,7 @@ namespace Juniper
         public static readonly Emoji bookmark = new(0x1F516, "Bookmark");
         public static readonly Emoji link = new(0x1F517, "Link");
         public static readonly Emoji joystick = new(0x1F579 + emojiStyle, "Joystick");
-        public static readonly Emoji desktopComputer = new(0x1F5A5 + emojiStyle, "Desktop Computer");
+        public static readonly Emoji desktopComputer = new(0x1F5A5, "Desktop Computer");
         public static readonly Emoji printer = new(0x1F5A8 + emojiStyle, "Printer");
         public static readonly Emoji computerMouse = new(0x1F5B1 + emojiStyle, "Computer Mouse");
         public static readonly Emoji trackball = new(0x1F5B2 + emojiStyle, "Trackball");
@@ -2220,6 +2226,7 @@ namespace Juniper
             new("\u2734" + emojiStyle, "Eight-Pointed Star"),
             new(0x1F4FF, "Prayer Beads"));
 
+        public static readonly Emoji worldMap = new(0x1F5FA, "World Map");
         public static readonly Emoji door = new(0x1F6AA, "Door");
         public static readonly EmojiGroup household = new(
             "Household", "Household",
@@ -2234,7 +2241,7 @@ namespace Juniper
             new(0x1F5BC + emojiStyle, "Framed Picture"),
             oldKey,
             new(0x1F5DE + emojiStyle, "Rolled-Up Newspaper"),
-            new(0x1F5FA + emojiStyle, "World Map"),
+            worldMap,
             door,
             new(0x1F6BD, "Toilet"),
             new(0x1F6BF, "Shower"),
