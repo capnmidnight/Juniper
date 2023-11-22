@@ -2,7 +2,6 @@ import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEven
 import { debounce } from "@juniper-lib/events/dist/debounce";
 import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
 import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import "./header.css";
 import "./index.css";
 import "./main.css";
 import "./nav.css";
@@ -59,21 +58,10 @@ export class AppShell extends TypedEventTarget<AppShellEventMap> {
             .then(unwrapResponse)
     }
 
-    setMenuUI(mainNav: HTMLElement, button: HTMLButtonElement) {
+    setMenuUI(mainNav: HTMLElement, button: HTMLElement) {
         mainNav.classList.toggle("hidden", localStorage.getItem("menuHidden") == "true");
 
         button.addEventListener("click", () => {
-            if (!mainNav.classList.contains("hidden")) {
-                for (const child of mainNav.children) {
-                    if (child instanceof HTMLElement) {
-                        const style = getComputedStyle(child);
-                        const marginStart = parseFloat(style.marginInlineStart);
-                        const marginEnd = parseFloat(style.marginInlineEnd);
-                        child.style.width = (mainNav.clientWidth - marginStart - marginEnd) + "px";
-                    }
-                }
-            }
-
             const hidden = mainNav.classList.toggle("hidden");
             localStorage.setItem("menuHidden", hidden ? "true" : "false");
             this.setMenuHidden(hidden);
@@ -136,14 +124,21 @@ export class AppShell extends TypedEventTarget<AppShellEventMap> {
     }
 
     setHistoryUI(backButton: HTMLButtonElement, fwdButton: HTMLButtonElement) {
+        this.setHistoryUIBackButton(backButton);
+        this.setHistoryUIForwardButton(fwdButton);
+    }
+
+    private async setHistoryUIBackButton(backButton: HTMLButtonElement) {
         if (backButton) {
             backButton.addEventListener("click", () => history.back());
-            this.getCanGoBack().then(yes => backButton.disabled = !yes);
+            backButton.disabled = !(await this.getCanGoBack());
         }
+    }
 
+    private async setHistoryUIForwardButton(fwdButton: HTMLButtonElement) {
         if (fwdButton) {
             fwdButton.addEventListener("click", () => history.forward());
-            this.getCanGoForward().then(yes => fwdButton.disabled = !yes);
+            fwdButton.disabled = !(await this.getCanGoForward());
         }
     }
 }

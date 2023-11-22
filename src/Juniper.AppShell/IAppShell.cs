@@ -1,17 +1,10 @@
 ﻿namespace Juniper.AppShell;
 
-public interface IAppShell
+public interface IBaseAppShell
 {
     Task ShowAsync();
     Task HideAsync();
     Task CloseAsync();
-    Task WaitForCloseAsync();
-
-    Task<Uri> GetSourceUriAsync();
-    Task SetSourceUriAsync(Uri source);
-    Task SetSourceHTMLAsync(string html);
-
-    Task ReloadAsync();
 
     Task<string> GetTitleAsync();
     Task SetTitleAsync(string title);
@@ -33,6 +26,18 @@ public interface IAppShell
 
     Task<bool> GetIsMinimizedAsync();
     Task SetIsMinimizedAsync(bool isMinimized);
+
+}
+
+public interface IAppShell : IBaseAppShell
+{
+    Task WaitForCloseAsync();
+
+    Task<Uri> GetSourceUriAsync();
+    Task SetSourceUriAsync(Uri source);
+    Task SetSourceHTMLAsync(string html);
+
+    Task ReloadAsync();
 }
 
 public static class IAppShellExt

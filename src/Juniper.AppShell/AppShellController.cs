@@ -9,7 +9,7 @@ namespace Juniper.AppShell;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class AppShellController : Controller, IAppShell
+public class AppShellController : Controller, IBaseAppShell
 {
     private readonly IAppShell? appShell;
 
@@ -21,7 +21,7 @@ public class AppShellController : Controller, IAppShell
     private Task Do(Func<IAppShell, Task> func) =>
         func(appShell ?? throw new Exception("AppShell is not available"));
 
-    private Task<T> Do<T>(Func<IAppShell, Task<T>> func) => 
+    private Task<T> Do<T>(Func<IAppShell, Task<T>> func) =>
         func(appShell ?? throw new Exception("AppShell is not available"));
 
     /////////////////
@@ -39,29 +39,6 @@ public class AppShellController : Controller, IAppShell
     [HttpPost("close")]
     public Task CloseAsync() =>
         Do(appShell => appShell.CloseAsync());
-
-    Task IAppShell.WaitForCloseAsync() =>
-        Do(appShell => appShell.WaitForCloseAsync());
-
-    ////////////////
-    //// SOURCE ////
-    ////////////////
-
-    [HttpGet("source")]
-    public Task<Uri> GetSourceUriAsync() =>
-        Do(appShell => appShell.GetSourceUriAsync());
-
-    [HttpPost("source")]
-    public Task SetSourceUriAsync([FromBody] Uri source) =>
-        Do(appShell => appShell.SetSourceUriAsync(source));
-
-    [HttpPost("html")]
-    public Task SetSourceHTMLAsync([FromBody] string html) =>
-        Do(appShell => appShell.SetSourceHTMLAsync(html));
-
-    [HttpPost("reload")]
-    public Task ReloadAsync() =>
-        Do(appShell => appShell.ReloadAsync());
 
     ///////////////
     //// TITLE ////
@@ -91,7 +68,7 @@ public class AppShellController : Controller, IAppShell
     //// SIZE ////
     //////////////
 
-    Task<Size> IAppShell.GetSizeAsync() =>
+    Task<Size> IBaseAppShell.GetSizeAsync() =>
         Do(appShell => appShell.GetSizeAsync());
 
     [HttpGet("size")]
@@ -102,7 +79,7 @@ public class AppShellController : Controller, IAppShell
             return $"{size.Width}x{size.Height}";
         });
 
-    Task IAppShell.SetSizeAsync(int width, int height) =>
+    Task IBaseAppShell.SetSizeAsync(int width, int height) =>
         Do(appShell => appShell.SetSizeAsync(width, height));
 
     [HttpPost("size")]

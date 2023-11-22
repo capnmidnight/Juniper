@@ -25,7 +25,10 @@ public partial class WpfAppShell : Window, IAppShell
         init = WebView.EnsureCoreWebView2Async();
     }
 
+#pragma warning disable IDE0051 // Remove unused private members
+    // This might become useful later, in which case, remove the `#pragma`s
     private async Task<T> Do<T>(Func<Task<T>> action)
+#pragma warning restore IDE0051 // Remove unused private members
     {
         await init;
         var task = await Dispatcher.InvokeAsync(action).Task;
@@ -128,7 +131,7 @@ public partial class WpfAppShell : Window, IAppShell
     }
 
     public Task ReloadAsync() =>
-            Do(WebView.Reload);
+        Do(WebView.Reload);
 
     ///////////////
     //// TITLE ////

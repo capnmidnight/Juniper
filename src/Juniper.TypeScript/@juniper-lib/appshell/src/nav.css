@@ -14,7 +14,7 @@ main > nav {
         opacity: 1;
         transition: opacity .2s;
         padding: 0;
-        margin: 2rem;
+        margin: 0;
     }
 
     main > nav ul {
@@ -46,6 +46,14 @@ main > nav {
             margin-left: 2px;
             font-weight: bold;
         }
+
+        main > nav button:disabled {
+            opacity: 0.75;
+        }
+
+    main > nav hr {
+        display: none;
+    }
 
     main > nav summary {
         list-style: none;
