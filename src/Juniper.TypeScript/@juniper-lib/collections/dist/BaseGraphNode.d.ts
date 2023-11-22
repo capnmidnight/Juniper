@@ -10,7 +10,7 @@ export declare abstract class BaseGraphNode<ValueT> {
     disconnectFrom(child: this): void;
     isConnectedTo(node: this): boolean;
     flatten(): this[];
-    traverse(breadthFirst: boolean): Iterable<this>;
+    traverse(breadthFirst: boolean, reverse?: boolean): Iterable<this>;
     breadthFirst(): Iterable<this>;
     depthFirst(): Iterable<this>;
     search(predicate: (n: this) => boolean, breadthFirst?: boolean): this;

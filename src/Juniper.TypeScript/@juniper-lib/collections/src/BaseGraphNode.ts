@@ -68,7 +68,7 @@ export abstract class BaseGraphNode<ValueT> {
         return Array.from(visited);
     }
 
-    *traverse(breadthFirst: boolean): Iterable<this> {
+    *traverse(breadthFirst: boolean, reverse: boolean = false): Iterable<this> {
         const visited = new Set<this>();
         const queue = [this];
         const peek = breadthFirst
@@ -77,6 +77,7 @@ export abstract class BaseGraphNode<ValueT> {
         const remove = breadthFirst
             ? breadthFirstRemove
             : depthFirstRemove;
+
 
         while (queue.length > 0) {
             const here = peek(queue);
@@ -88,8 +89,11 @@ export abstract class BaseGraphNode<ValueT> {
                     yield here;
                 }
 
-                if (here._forward.length > 0) {
-                    queue.push(...here._forward);
+                const next = reverse
+                    ? here._reverse
+                    : here._forward;
+                if (next.length > 0) {
+                    queue.push(...next);
                 }
             }
             else if (!breadthFirst) {

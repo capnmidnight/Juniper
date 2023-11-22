@@ -55,7 +55,7 @@ export class BaseGraphNode {
         }
         return Array.from(visited);
     }
-    *traverse(breadthFirst) {
+    *traverse(breadthFirst, reverse = false) {
         const visited = new Set();
         const queue = [this];
         const peek = breadthFirst
@@ -72,8 +72,11 @@ export class BaseGraphNode {
                     remove(queue);
                     yield here;
                 }
-                if (here._forward.length > 0) {
-                    queue.push(...here._forward);
+                const next = reverse
+                    ? here._reverse
+                    : here._forward;
+                if (next.length > 0) {
+                    queue.push(...next);
                 }
             }
             else if (!breadthFirst) {

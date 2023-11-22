@@ -1,6 +1,7 @@
 import { BaseGraphNode } from "./BaseGraphNode";
 export declare class GraphNode<ValueT> extends BaseGraphNode<ValueT> {
     get connections(): this[];
+    get reverseConnections(): this[];
     get isEntryPoint(): boolean;
     get isExitPoint(): boolean;
 }

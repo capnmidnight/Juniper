@@ -5,6 +5,10 @@ export class GraphNode<ValueT> extends BaseGraphNode<ValueT>{
         return this._forward;
     }
 
+    get reverseConnections(): this[] {
+        return this._reverse;
+    }
+
     get isEntryPoint() {
         return this._isEntryPoint;
     }
