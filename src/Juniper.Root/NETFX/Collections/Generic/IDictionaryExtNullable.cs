@@ -25,7 +25,7 @@ public static class IDictionaryExtNullable
     /// dict.Get("c"); // --> 0
     /// dict.Get("d", 3); // --> 3
     /// ]]></code></example>
-    public static ValueT? Get<KeyT, ValueT>(this Dictionary<KeyT, ValueT>? dict, KeyT? key)
+    public static ValueT? Get<KeyT, ValueT>(this Dictionary<KeyT, ValueT?>? dict, KeyT? key)
         where ValueT : notnull
         where KeyT : notnull
     {
@@ -37,7 +37,7 @@ public static class IDictionaryExtNullable
         return dict[key];
     }
 
-    public static ValueT? Get<KeyT, ValueT>(this IDictionary<KeyT, ValueT>? dict, KeyT? key)
+    public static ValueT? Get<KeyT, ValueT>(this IDictionary<KeyT, ValueT?>? dict, KeyT? key)
         where ValueT : notnull
         where KeyT : notnull
     {
@@ -49,7 +49,7 @@ public static class IDictionaryExtNullable
         return dict[key];
     }
 
-    public static ValueT? Get<KeyT, ValueT>(this IReadOnlyDictionary<KeyT, ValueT>? dict, KeyT? key)
+    public static ValueT? Get<KeyT, ValueT>(this IReadOnlyDictionary<KeyT, ValueT?>? dict, KeyT? key)
         where ValueT : notnull
         where KeyT : notnull
     {

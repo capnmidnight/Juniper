@@ -159,15 +159,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             var counts = bundleCountGuesses.Select(v => v.Result).ToArray();
             bundleCountGuess = Math.Max(1, counts.Sum());
 
-            if (options.Dependencies is not null)
-            {
-                AddDependencies(options.Dependencies, true);
-            }
-
-            if (options.OptionalDependencies is not null)
-            {
-                AddDependencies(options.OptionalDependencies, false);
-            }
+            AddDependencies(options.Dependencies, true);
+            AddDependencies(options.OptionalDependencies, false);
 
             BannedDependencies = options.BannedDependencies;
         }
@@ -271,7 +264,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         throw new Exception("Couldn't find Juniper");
     }
 
-    private void AddDependencies(IEnumerable<BuildSystemDependency> deps, bool warnIfNotExists)
+    private void AddDependencies(IEnumerable<BuildSystemDependency>? deps, bool warnIfNotExists)
     {
         if (deps is not null)
         {
