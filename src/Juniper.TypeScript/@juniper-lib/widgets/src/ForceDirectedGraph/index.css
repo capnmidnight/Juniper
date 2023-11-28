@@ -3,7 +3,11 @@
     user-select: none;
 }
 
-    .force-directed-graph > canvas {
+    .force-directed-graph .content {
+        position: absolute;
+    }
+
+    .force-directed-graph canvas {
         position: absolute;
         width: 100%;
         height: 100%;
@@ -11,7 +15,19 @@
         z-index: 1;
     }
 
-    .force-directed-graph > .graph-node {
+    .force-directed-graph .graph-node {
         position: absolute;
         z-index: 2;
     }
+
+        .force-directed-graph .graph-node.selected {
+            z-index: 3;
+        }
+
+        .force-directed-graph .graph-node.top-most {
+            z-index: 4;
+        }
+
+        .force-directed-graph .graph-node.moving a {
+            pointer-events: none;
+        }

@@ -1,20 +1,34 @@
 import { GraphNode } from "@juniper-lib/collections/dist/GraphNode";
-const delta = [0, 0];
-function clamp(a, b) {
-    if (a < 0) {
-        return 0;
-    }
-    else if (a > b) {
-        return b;
-    }
-    else if (!Number.isFinite(a)) {
-        console.trace("To infinity... and beyond!");
-        return b;
+export function length(xOrVec, y) {
+    let x;
+    if (typeof xOrVec === "number") {
+        x = xOrVec;
     }
     else {
-        return a;
+        [x, y] = xOrVec;
     }
+    return Math.sqrt(x * x + y * y);
 }
+export function add(a, b, out) {
+    out[0] = a[0] + b[0];
+    out[1] = a[1] + b[1];
+}
+export function sub(a, b, out) {
+    out[0] = a[0] - b[0];
+    out[1] = a[1] - b[1];
+}
+export function zero(a) {
+    a[0] = a[1] = 0;
+}
+export function scale(a, b, out) {
+    out[0] = a * b[0];
+    out[1] = a * b[1];
+}
+export function copy(a, out) {
+    out[0] = a[0];
+    out[1] = a[1];
+}
+const delta = [0, 0];
 function elementComputeBounds(element, cache) {
     if (cache && cache.has(element)) {
         return cache.get(element);
@@ -100,8 +114,8 @@ function elementComputeBounds(element, cache) {
     }
     return bounds;
 }
-const unpinned = "\u{d83d}\u{dccc}";
-const pinned = "\u{d83d}\u{dccd}";
+const unpinned = "<i>\u{d83d}\u{dccc}</i>";
+const pinned = "<i>\u{d83d}\u{dccd}</i>";
 export class ForceDirectedNode extends GraphNode {
     get pinned() {
         return this._pinned;
@@ -110,13 +124,17 @@ export class ForceDirectedNode extends GraphNode {
         this._pinned = v;
         this.pinner.innerHTML = this.pinned ? pinned : unpinned;
     }
-    constructor(value, name, content) {
+    get moving() {
+        return this.element.classList.contains("moving");
+    }
+    set moving(v) {
+        this.element.classList.toggle("moving", v);
+    }
+    constructor(value, elementClass, content) {
         super(value);
-        this.name = name;
         this.mouseOffset = [0, 0];
         this.position = [0, 0];
         this.dynamicForce = [0, 0];
-        this.staticForce = [0, 0];
         this.hw = null;
         this.hh = null;
         this._pinned = false;
@@ -131,6 +149,9 @@ export class ForceDirectedNode extends GraphNode {
         this.content = document.createElement("div");
         this.element = document.createElement("div");
         this.element.classList.add("graph-node");
+        if (elementClass) {
+            this.element.classList.add(elementClass);
+        }
         this.element.append(this.pinner, this.content);
         this.setContent(content);
     }
@@ -139,8 +160,7 @@ export class ForceDirectedNode extends GraphNode {
         this.content.append(content);
     }
     setMouseOffset(mousePoint) {
-        this.mouseOffset[0] = mousePoint[0] - this.position[0];
-        this.mouseOffset[1] = mousePoint[1] - this.position[1];
+        sub(mousePoint, this.position, this.mouseOffset);
     }
     computeBounds(boundsCache) {
         this.bounds = elementComputeBounds(this.element, boundsCache);
@@ -154,78 +174,64 @@ export class ForceDirectedNode extends GraphNode {
             this.hh = null;
         }
     }
-    updatePosition(maxDepth) {
+    updatePosition(cx, cy, maxDepth) {
         const { position, element } = this;
         element.style.display = maxDepth < 0 || this.depth <= maxDepth ? "" : "none";
         if (this.canDrawArrow(maxDepth)) {
             element.style.display = "";
-            element.style.left = `${position[0] - this.hw}px`;
-            element.style.top = `${position[1] - this.hh}px`;
+            element.style.left = `${position[0] - this.hw + cx}px`;
+            element.style.top = `${position[1] - this.hh + cy}px`;
             element.style.opacity = maxDepth < 0 || this.depth < maxDepth
                 ? "1"
                 : ".5";
         }
     }
     moveTo(mousePoint) {
-        this.position[0] = mousePoint[0] - this.mouseOffset[0];
-        this.position[1] = mousePoint[1] - this.mouseOffset[1];
+        sub(mousePoint, this.mouseOffset, this.position);
     }
     resetForce() {
-        this.dynamicForce[0] = 0;
-        this.dynamicForce[1] = 0;
+        zero(this.dynamicForce);
     }
     canDrawArrow(maxDepth) {
         return this.bounds
             && (maxDepth < 0
                 || this.depth <= maxDepth);
     }
-    updateForce(w, h, wallForce) {
-        const f1 = this.dynamicForce;
-        const f0 = this.staticForce;
-        if (f0) {
-            f1[0] += f0[0];
-            f1[1] += f1[0];
-        }
-        delta[0] = 0.5 * w - this.position[0];
-        delta[1] = 0.5 * h - this.position[1];
-        const len = Math.sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
-        if (len > 0) {
-            delta[0] /= len;
-            delta[1] /= len;
-            let f = wallForce * len;
-            f = Math.sign(f) * Math.pow(Math.abs(f), 0.3);
-            f1[0] += delta[0] * f;
-            f1[1] += delta[1] * f;
+    gravitate(gravity) {
+        // Get displacement from center
+        scale(-1, this.position, delta);
+        const distance = length(delta);
+        if (distance > 0) {
+            scale(gravity, delta, delta);
+            add(this.dynamicForce, delta, this.dynamicForce);
         }
     }
-    applyForce(n2, attract, attractFunc, repel, repelFunc, getWeightMod) {
-        const p2 = n2.position;
-        delta[0] = p2[0] - this.position[0];
-        delta[1] = p2[1] - this.position[1];
-        const len = Math.sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
-        if (len > 0) {
-            delta[0] /= len;
-            delta[1] /= len;
+    attractRepel(n2, attract, attractFunc, repel, repelFunc, getWeightMod) {
+        // Displacement between this node and the other node
+        sub(n2.position, this.position, delta);
+        const distance = length(delta);
+        if (distance > 0) {
             const connected = n2.isConnectedTo(this);
-            const weight = getWeightMod(this.value, n2.value, connected);
-            const invWeight = 2 - weight;
-            const f = weight * attract * attractFunc(connected, len)
-                - invWeight * repel * repelFunc(connected, len);
-            this.dynamicForce[0] += delta[0] * f;
-            this.dynamicForce[1] += delta[1] * f;
+            const weight = getWeightMod(connected, distance, this.value, n2.value);
+            const invWeight = 1 - weight;
+            const f = weight * attract * attractFunc(connected, distance)
+                - invWeight * repel * repelFunc(connected, distance);
+            // Convert the displacement vector to the calculated force vector
+            // and accumulate forces.
+            scale(f / distance, delta, delta);
+            add(this.dynamicForce, delta, this.dynamicForce);
         }
     }
-    limit(t, w, h) {
-        const f1 = this.dynamicForce;
-        f1[1] *= h / w;
-        const len = Math.sqrt(f1[0] * f1[0] + f1[1] * f1[1]);
+    apply(t, w, h) {
+        // squarify the force
+        this.dynamicForce[1] *= h / w;
+        const len = length(this.dynamicForce);
         if (len > 0) {
+            // Restrict forces to a maximum magnitude
             const r = Math.min(t, len) / len;
-            f1[0] *= r;
-            f1[1] *= r;
-            const p1 = this.position;
-            p1[0] = clamp(p1[0] + f1[0], w);
-            p1[1] = clamp(p1[1] + f1[1], h);
+            scale(r, this.dynamicForce, this.dynamicForce);
+            // Apply the force
+            add(this.position, this.dynamicForce, this.position);
         }
     }
 }

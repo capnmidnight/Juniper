@@ -1,23 +1,46 @@
 ﻿import { GraphNode } from "@juniper-lib/collections/dist/GraphNode";
 
-const delta = [0, 0];
-
-function clamp(a: number, b: number) {
-    if (a < 0) {
-        return 0;
-    }
-    else if (a > b) {
-        return b;
-    }
-    else if (!Number.isFinite(a)) {
-        console.trace("To infinity... and beyond!");
-        return b;
+export type Vec2 = [number, number];
+export type Vec2WithLen = [number, number, number];
+export function length(vec: Vec2): number
+export function length(x: number, y: number): number;
+export function length(xOrVec: number | Vec2, y?: number): number {
+    let x: number;
+    if (typeof xOrVec === "number") {
+        x = xOrVec;
     }
     else {
-        return a;
+        [x, y] = xOrVec
     }
+
+    return Math.sqrt(x * x + y * y);
 }
 
+export function add(a: Vec2, b: Vec2, out: Vec2) {
+    out[0] = a[0] + b[0];
+    out[1] = a[1] + b[1];
+}
+
+export function sub(a: Vec2, b: Vec2, out: Vec2) {
+    out[0] = a[0] - b[0];
+    out[1] = a[1] - b[1];
+}
+
+export function zero(a: Vec2) {
+    a[0] = a[1] = 0;
+}
+
+export function scale(a: number, b: Vec2, out: Vec2) {
+    out[0] = a * b[0];
+    out[1] = a * b[1];
+}
+
+export function copy(a: Vec2, out: Vec2) {
+    out[0] = a[0];
+    out[1] = a[1];
+}
+
+const delta: Vec2 = [0, 0];
 interface IBounds {
     left: number;
     top: number;
@@ -133,18 +156,17 @@ function elementComputeBounds(element: Element, cache?: BoundsCache): IFullBound
     return bounds;
 }
 
-const unpinned = "\u{d83d}\u{dccc}";
-const pinned = "\u{d83d}\u{dccd}";
+const unpinned = "<i>\u{d83d}\u{dccc}</i>";
+const pinned = "<i>\u{d83d}\u{dccd}</i>";
 
 export class ForceDirectedNode<T> extends GraphNode<T> {
     private readonly content: HTMLElement;
-
     public readonly pinner: HTMLButtonElement;
     public readonly element: HTMLElement;
-    public readonly mouseOffset: [number, number] = [0, 0];
-    public readonly position: [number, number] = [0, 0];
-    public readonly dynamicForce: [number, number] = [0, 0];
-    public readonly staticForce: [number, number] = [0, 0];
+
+    public readonly mouseOffset: Vec2 = [0, 0];
+    public readonly position: Vec2 = [0, 0];
+    public readonly dynamicForce: Vec2 = [0, 0];
 
     private hw: number = null;
     private hh: number = null;
@@ -162,7 +184,15 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         this.pinner.innerHTML = this.pinned ? pinned : unpinned;
     }
 
-    constructor(value: T, public readonly name: string, content: string | HTMLElement) {
+    get moving() {
+        return this.element.classList.contains("moving");
+    }
+
+    set moving(v) {
+        this.element.classList.toggle("moving", v);
+    }
+
+    constructor(value: T, elementClass: string, content: string | HTMLElement) {
         super(value);
 
         this.pinner = document.createElement("button");
@@ -177,6 +207,9 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         this.content = document.createElement("div");
         this.element = document.createElement("div");
         this.element.classList.add("graph-node");
+        if (elementClass) {
+            this.element.classList.add(elementClass);
+        }
         this.element.append(this.pinner, this.content);
 
         this.setContent(content);
@@ -187,9 +220,8 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         this.content.append(content);
     }
 
-    setMouseOffset(mousePoint: [number, number]) {
-        this.mouseOffset[0] = mousePoint[0] - this.position[0];
-        this.mouseOffset[1] = mousePoint[1] - this.position[1];
+    setMouseOffset(mousePoint: Vec2) {
+        sub(mousePoint, this.position, this.mouseOffset);
     }
 
     computeBounds(boundsCache: BoundsCache) {
@@ -205,27 +237,25 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         }
     }
 
-    updatePosition(maxDepth: number) {
+    updatePosition(cx: number, cy: number, maxDepth: number) {
         const { position, element } = this;
         element.style.display = maxDepth < 0 || this.depth <= maxDepth ? "" : "none";
         if (this.canDrawArrow(maxDepth)) {
             element.style.display = "";
-            element.style.left = `${position[0] - this.hw}px`;
-            element.style.top = `${position[1] - this.hh}px`;
+            element.style.left = `${position[0] - this.hw + cx}px`;
+            element.style.top = `${position[1] - this.hh + cy}px`;
             element.style.opacity = maxDepth < 0 || this.depth < maxDepth
                 ? "1"
                 : ".5";
         }
     }
 
-    moveTo(mousePoint: number[]) {
-        this.position[0] = mousePoint[0] - this.mouseOffset[0];
-        this.position[1] = mousePoint[1] - this.mouseOffset[1];
+    moveTo(mousePoint: Vec2) {
+        sub(mousePoint, this.mouseOffset, this.position);
     }
 
     resetForce() {
-        this.dynamicForce[0] = 0;
-        this.dynamicForce[1] = 0;
+        zero(this.dynamicForce);
     }
 
     canDrawArrow(maxDepth: number): boolean {
@@ -234,63 +264,53 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
                 || this.depth <= maxDepth);
     }
 
-    updateForce(w: number, h: number, wallForce: number) {
-        const f1 = this.dynamicForce;
-        const f0 = this.staticForce;
-        if (f0) {
-            f1[0] += f0[0];
-            f1[1] += f1[0];
-        }
+    gravitate(gravity: number) {
+        // Get displacement from center
+        scale(-1, this.position, delta);
 
-        delta[0] = 0.5 * w - this.position[0];
-        delta[1] = 0.5 * h - this.position[1];
-
-        const len = Math.sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
-        if (len > 0) {
-            delta[0] /= len;
-            delta[1] /= len;
-            let f = wallForce * len;
-            f = Math.sign(f) * Math.pow(Math.abs(f), 0.3);
-            f1[0] += delta[0] * f;
-            f1[1] += delta[1] * f;
+        const distance = length(delta);
+        if (distance > 0) {
+            scale(gravity, delta, delta);
+            add(this.dynamicForce, delta, this.dynamicForce);
         }
     }
 
-    applyForce(
+    attractRepel(
         n2: ForceDirectedNode<T>,
         attract: number, attractFunc: (connected: boolean, len: number) => number,
         repel: number, repelFunc: (connected: boolean, len: number) => number,
-        getWeightMod: (a: T, b: T, connected: boolean) => number) {
-        const p2 = n2.position;
-        delta[0] = p2[0] - this.position[0];
-        delta[1] = p2[1] - this.position[1];
+        getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number) {
 
-        const len = Math.sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
-        if (len > 0) {
-            delta[0] /= len;
-            delta[1] /= len;
+        // Displacement between this node and the other node
+        sub(n2.position, this.position, delta);
+
+        const distance = length(delta);
+
+        if (distance > 0) {
             const connected = n2.isConnectedTo(this);
-            const weight = getWeightMod(this.value, n2.value, connected);
-            const invWeight = 2 - weight;
-            const f = weight * attract * attractFunc(connected, len)
-                - invWeight * repel * repelFunc(connected, len);
+            const weight = getWeightMod(connected, distance, this.value, n2.value);
+            const invWeight = 1 - weight;
+            const f = weight * attract * attractFunc(connected, distance)
+                - invWeight * repel * repelFunc(connected, distance);
 
-            this.dynamicForce[0] += delta[0] * f;
-            this.dynamicForce[1] += delta[1] * f;
+            // Convert the displacement vector to the calculated force vector
+            // and accumulate forces.
+            scale(f / distance, delta, delta);
+            add(this.dynamicForce, delta, this.dynamicForce);
         }
     }
 
-    limit(t: number, w: number, h: number) {
-        const f1 = this.dynamicForce;
-        f1[1] *= h / w;
-        const len = Math.sqrt(f1[0] * f1[0] + f1[1] * f1[1]);
+    apply(t: number, w: number, h: number) {
+        // squarify the force
+        this.dynamicForce[1] *= h / w;
+        const len = length(this.dynamicForce);
         if (len > 0) {
+            // Restrict forces to a maximum magnitude
             const r = Math.min(t, len) / len;
-            f1[0] *= r;
-            f1[1] *= r;
-            const p1 = this.position;
-            p1[0] = clamp(p1[0] + f1[0], w);
-            p1[1] = clamp(p1[1] + f1[1], h);
+            scale(r, this.dynamicForce, this.dynamicForce);
+
+            // Apply the force
+            add(this.position, this.dynamicForce, this.position);
         }
     }
 }
