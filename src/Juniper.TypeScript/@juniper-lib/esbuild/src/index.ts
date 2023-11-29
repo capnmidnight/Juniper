@@ -28,6 +28,7 @@ export class Build {
     private entryNames = "[dir]/[name]";
     private outbase = "src";
     private outDirName = "wwwroot/js/";
+    private enableSplitting = false;
 
     constructor(args: string[], private readonly buildWorkers: boolean) {
         this.isWatch = args.indexOf("--watch") !== -1;
@@ -83,6 +84,11 @@ export class Build {
                 defaultExport: false
             });
         }
+        return this;
+    }
+
+    splitting(enable: boolean) {
+        this.enableSplitting = enable;
         return this;
     }
 
@@ -192,6 +198,7 @@ export class Build {
             platform: "browser",
             plugins,
             sourcemap: !isRelease,
+            splitting: this.enableSplitting,
             treeShaking: true,
             tsconfigRaw: {
                 compilerOptions: {

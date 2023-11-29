@@ -18,6 +18,7 @@ export declare class Build {
     private entryNames;
     private outbase;
     private outDirName;
+    private enableSplitting;
     constructor(args: string[], buildWorkers: boolean);
     entryName(name: string): this;
     outDir(name: string): this;
@@ -27,6 +28,7 @@ export declare class Build {
     external(extern: string): this;
     globalExternal(packageName: string, info: ModuleInfo): this;
     addThreeJS(enabled: boolean): this;
+    splitting(enable: boolean): this;
     bundle(name: string): this;
     bundles(...names: string[]): this;
     find(...rootDirs: string[]): this;
