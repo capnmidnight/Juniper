@@ -9,15 +9,15 @@ using System.Linq;
 namespace Juniper.Collections
 {
     [TestFixture]
-    public class GraphTests
+    public class RoutingGraphTests
     {
-        private static void CheckGraphs(string label, Graph<string> graph1, Graph<string> graph2)
+        private static void CheckGraphs(string label, RoutingGraph<string> graph1, RoutingGraph<string> graph2)
         {
             CheckGraph(label + " A->B", graph1, graph2);
             CheckGraph(label + " B->A", graph2, graph1);
         }
 
-        private static void CheckGraph(string label, Graph<string> graph1, Graph<string> graph2)
+        private static void CheckGraph(string label, RoutingGraph<string> graph1, RoutingGraph<string> graph2)
         {
             foreach (var node in graph1.Nodes)
             {
@@ -33,7 +33,7 @@ namespace Juniper.Collections
         [Test]
         public void OneConnection()
         {
-            var graph = new Graph<string>();
+            var graph = new RoutingGraph<string>();
             graph.SetConnection("a", "b");
             graph.Solve();
 
@@ -52,7 +52,7 @@ namespace Juniper.Collections
         [Test]
         public void TwoConnection()
         {
-            var graph = new Graph<string>();
+            var graph = new RoutingGraph<string>();
             graph.SetConnections(
                 ("a", "b"),
                 ("b", "c"));
@@ -70,7 +70,7 @@ namespace Juniper.Collections
         [Test]
         public void ReversedTwoConnection()
         {
-            var graph = new Graph<string>();
+            var graph = new RoutingGraph<string>();
             graph.SetConnections(
                 ("b", "c"),
                 ("a", "b"));
@@ -88,7 +88,7 @@ namespace Juniper.Collections
         [Test]
         public void Reversed10Connection()
         {
-            var graph = new Graph<string>();
+            var graph = new RoutingGraph<string>();
             graph.SetConnections(
                 ("j", "k"),
                 ("i", "j"),
@@ -111,7 +111,7 @@ namespace Juniper.Collections
         [Test]
         public void Disconnected()
         {
-            var graph = new Graph<string>();
+            var graph = new RoutingGraph<string>();
             graph.SetConnections(
                 ("a", "b"),
                 ("c", "d"));
@@ -125,7 +125,7 @@ namespace Juniper.Collections
         [Test]
         public void MiddleConnection()
         {
-            var graph = new Graph<string>();
+            var graph = new RoutingGraph <string>();
             graph.SetConnections(
                 ("a", "b"),
                 ("b", "c"),
@@ -146,7 +146,7 @@ namespace Juniper.Collections
         [Test]
         public void Shortcut()
         {
-            var graph = new Graph<string>();
+            var graph = new RoutingGraph <string>();
             graph.SetConnections(
                 ("a", "b"),
                 ("b", "c"),
@@ -163,7 +163,7 @@ namespace Juniper.Collections
         [Test]
         public void RemoveShortcut()
         {
-            var graph = new Graph<string>();
+            var graph = new RoutingGraph <string>();
             graph.SetConnections(
                 ("a", "b"),
                 ("b", "c"),
@@ -185,7 +185,7 @@ namespace Juniper.Collections
         [Test]
         public void AddShortcut()
         {
-            var graph = new Graph<int>();
+            var graph = new RoutingGraph <int>();
             const int start = 7216;
             const int end = 5666;
             graph.SetConnections(
@@ -216,7 +216,7 @@ namespace Juniper.Collections
         [Test]
         public void AddTraffic()
         {
-            var graph = new Graph<int>();
+            var graph = new RoutingGraph <int>();
             const int start = 7216;
             const int end = 5666;
             graph.SetConnections(
@@ -247,7 +247,7 @@ namespace Juniper.Collections
         [Test]
         public void ClosedLoop()
         {
-            var graph = new Graph<int>();
+            var graph = new RoutingGraph <int>();
             graph.SetConnections(
                 (0, 1),
                 (1, 2),
@@ -270,7 +270,7 @@ namespace Juniper.Collections
         [Test]
         public void FindTrivialCycle()
         {
-            var graph = new Graph<int>(true);
+            var graph = new RoutingGraph <int>(true);
             graph.SetConnections(
                 (0, 1),
                 (1, 0));
@@ -295,7 +295,7 @@ namespace Juniper.Collections
         [Test]
         public void FindShortCycle()
         {
-            var graph = new Graph<int>(true);
+            var graph = new RoutingGraph <int>(true);
             graph.SetConnections(
                 (0, 1),
                 (1, 2),
@@ -314,7 +314,7 @@ namespace Juniper.Collections
         [Test]
         public void FindShortCycle2()
         {
-            var graph = new Graph<int>(true);
+            var graph = new RoutingGraph <int>(true);
             graph.SetConnections(
                 (0, 1),
                 (1, 2),
@@ -334,7 +334,7 @@ namespace Juniper.Collections
         [Test]
         public void DetourExpensiveRoute()
         {
-            var graph = new Graph<int>();
+            var graph = new RoutingGraph <int>();
             graph.SetConnections(
                 (0, 1, 100),
                 (0, 2, 1),
@@ -350,7 +350,7 @@ namespace Juniper.Collections
         [Test]
         public void Clone()
         {
-            var graph1 = new Graph<string>();
+            var graph1 = new RoutingGraph <string>();
             graph1.SetConnections(
                 ("a", "b"),
                 ("b", "c"),
@@ -366,8 +366,8 @@ namespace Juniper.Collections
         [Test]
         public void Serialization()
         {
-            var factory = new JsonFactory<Graph<int>>();
-            var graph = new Graph<int>();
+            var factory = new JsonFactory<RoutingGraph<int>>();
+            var graph = new RoutingGraph <int>();
             const int start = 7216;
             const int end = 5666;
             graph.SetConnections(

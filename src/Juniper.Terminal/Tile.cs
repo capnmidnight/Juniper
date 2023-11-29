@@ -1,4 +1,4 @@
-namespace Juniper.Puzzles;
+namespace Juniper.Terminal;
 
 public struct Tile : IEquatable<Tile?>
 {

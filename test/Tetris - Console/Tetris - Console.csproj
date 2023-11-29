@@ -11,6 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Puzzles\Juniper.Puzzles.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Terminal\Juniper.Terminal.csproj" />
     <ProjectReference Include="..\..\src\Juniper.Windows\Juniper.Windows.csproj" />
   </ItemGroup>
   

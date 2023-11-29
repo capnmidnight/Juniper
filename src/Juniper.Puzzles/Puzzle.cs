@@ -105,7 +105,11 @@ public class Puzzle : IComparable<Puzzle>
     /// </summary>
     public int[,] Grid
     {
-        get => grid;
+        get
+        {
+            return grid;
+        }
+
         set
         {
             if (value.GetWidth() != 0 && value.GetHeight() != 0)

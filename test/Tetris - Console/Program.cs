@@ -8,7 +8,7 @@ using Juniper.Puzzles;
 using Juniper.Terminal;
 
 using static System.Windows.Forms.Keys;
-using static Juniper.Unicode.BoxDrawingSet;
+using static Juniper.BoxDrawingSet;
 
 namespace Juniper
 {

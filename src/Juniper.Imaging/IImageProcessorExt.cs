@@ -36,7 +36,7 @@ namespace Juniper.Imaging
             rows = r;
             columns = c;
 
-            IProgressExt.Report(prog, 0);
+            prog.Report(0);
 
             components = 0;
             tileWidth = 0;
@@ -76,7 +76,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public static Task<T> ConcatenateAsync<T>(this IImageProcessor<T> factory, T[,] images, IProgress prog = null)
+        public static Task<T> ConcatenateAsync<T>(this IImageProcessor<T> factory, T[,] images, IProgress? prog = null)
         {
             if (factory is null)
             {

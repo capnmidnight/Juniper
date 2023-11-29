@@ -1816,7 +1816,7 @@ namespace Juniper.Puzzles
                 }
             }
 
-            Random a = new Random(5), b = new Random(5);
+            Random a = new (5), b = new (5);
             puz.Fill(a);
             for (var y = 0; y < 5; ++y)
             {

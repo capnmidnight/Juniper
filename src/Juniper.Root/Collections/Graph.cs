@@ -80,3 +80,9 @@ public class Graph<KeyT, ValueT>
         }
     }
 }
+
+public class Graph<ValueT> : Graph<ValueT, ValueT>
+    where ValueT : notnull
+{
+
+}

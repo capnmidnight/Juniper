@@ -19,7 +19,7 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public ImageData Translate(JpegImage value, IProgress prog = null)
+        public ImageData Translate(JpegImage value, IProgress? prog = null)
         {
             if (value is null)
             {
@@ -38,7 +38,7 @@ namespace Juniper.Imaging
 
             for (var y = 0; y < height; ++y)
             {
-                prog.Report(y, height);
+                prog?.Report(y, height);
                 var row = value.GetRow(y);
                 var inputData = row.ToBytes();
                 if (inputStride == outputStride)
@@ -59,7 +59,7 @@ namespace Juniper.Imaging
                         outputData[outputIndex + inputComponents] = byte.MaxValue;
                     }
                 }
-                prog.Report(y + 1, height);
+                prog?.Report(y + 1, height);
             }
 
             return new ImageData(
@@ -73,7 +73,7 @@ namespace Juniper.Imaging
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        public JpegImage Translate(ImageData image, IProgress prog = null)
+        public JpegImage Translate(ImageData image, IProgress? prog = null)
         {
             if (image is null)
             {
@@ -105,9 +105,9 @@ namespace Juniper.Imaging
                 copyProg.Report(y + 1, image.Info.Dimensions.Height);
             }
 
-            IProgressExt.Report(saveProg, 0);
+            saveProg.Report(0);
             var jpeg = new JpegImage(rows, Colorspace.RGB);
-            IProgressExt.Report(saveProg, 1);
+            saveProg.Report(1);
             return jpeg;
         }
     }

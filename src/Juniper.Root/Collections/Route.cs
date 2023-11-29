@@ -142,8 +142,8 @@ public class Route<ValueT> :
         Cost = cost;
     }
 
-    public Route(Edge<ValueT, float> edge, params ValueT[] nodes)
-        : this(true, nodes.Prepend(edge.From).Prepend(edge.To), edge.Value)
+    public Route(float weight, ValueT firstValue, ValueT secondValue, params ValueT[] nodes)
+        : this(true, nodes.Prepend(secondValue).Prepend(firstValue), weight)
     { }
 
     protected Route(SerializationInfo info, StreamingContext context)

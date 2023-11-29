@@ -49,7 +49,7 @@ namespace Juniper.Imaging
 
         public MediaType.Image OutputContentType => toFactory.OutputContentType;
 
-        public FromImageT Deserialize(Stream stream)
+        public FromImageT? Deserialize(Stream stream)
         {
             return fromFactory.Deserialize(stream);
         }
@@ -75,18 +75,24 @@ namespace Juniper.Imaging
         {
             var progs = prog.Split(3);
             var from = fromFactory.Deserialize(inFile, progs[0]);
-            var to = Translate(from, progs[1]);
-            toFactory.Serialize(outFile, to);
-            IProgressExt.Report(progs[2], 1);
+            if (from is not null)
+            {
+                var to = Translate(from, progs[1]);
+                toFactory.Serialize(outFile, to);
+                progs[2].Report(1);
+            }
         }
 
         public void Translate(FileInfo inFile, FileInfo outFile, IProgress prog)
         {
             var progs = prog.Split(3);
             var from = fromFactory.Deserialize(inFile, progs[0]);
-            var to = Translate(from, progs[1]);
-            toFactory.Serialize(outFile, to);
-            IProgressExt.Report(progs[2], 1);
+            if (from is not null)
+            {
+                var to = Translate(from, progs[1]);
+                toFactory.Serialize(outFile, to);
+                progs[2].Report(1);
+            }
         }
     }
 
@@ -117,7 +123,7 @@ namespace Juniper.Imaging
 
         public MediaType.Image OutputContentType => MediaType.Image_Raw;
 
-        public ToImageT Deserialize(Stream stream)
+        public ToImageT? Deserialize(Stream stream)
         {
             if (stream is null)
             {
@@ -125,6 +131,11 @@ namespace Juniper.Imaging
             }
 
             var img = factory.Deserialize(stream);
+            if(img is null)
+            {
+                return default;
+            }
+
             return codec.Translate(img);
         }
 

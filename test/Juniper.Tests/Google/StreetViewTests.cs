@@ -34,16 +34,10 @@ namespace Juniper.World.GIS.Google.StreetView
             http = null;
         }
 
-        private const string UnityProjectDir = @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\src\Yarrow - AndroidOculus";
-        private const string ProjectName = "Yarrow";
-        private static readonly string UnityProjectStreamingAssetsDir = Path.Combine(UnityProjectDir, "Assets", "StreamingAssets");
-        private static readonly string GmapsStreamingAssetsDir = Path.Combine(UnityProjectStreamingAssetsDir, ProjectName, "Google", "StreetView");
-
         private IImageFactory<ImageData> jpegDecoder;
         private IImageFactory<ImageData> pngDecoder;
 
         private JsonFactory<MetadataResponse> metadataDecoder;
-        private JsonFactory<GeocodingResponse> geocodingDecoder;
 
         [SetUp]
         public override void Init()
@@ -54,7 +48,6 @@ namespace Juniper.World.GIS.Google.StreetView
             pngDecoder = new PngFactory().Pipe(new PngCodec());
 
             metadataDecoder = new JsonFactory<MetadataResponse>();
-            geocodingDecoder = new JsonFactory<GeocodingResponse>();
         }
 
         [Test]
@@ -135,36 +128,6 @@ namespace Juniper.World.GIS.Google.StreetView
                 .ConfigureAwait(false);
             Assert.AreEqual(640, image.Info.Dimensions.Width);
             Assert.AreEqual(640, image.Info.Dimensions.Height);
-        }
-
-        [Test]
-        public void GetAllMetadata()
-        {
-            var cache = new CachingStrategy
-            {
-                new FileCacheLayer(GmapsStreamingAssetsDir)
-            };
-
-            var gmaps = new GoogleMapsClient(http, apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
-            var files = gmaps.CachedMetadata.ToArray();
-            Assert.AreNotEqual(0, files.Length);
-        }
-
-        [Test]
-        public async Task GetMetadataByFileRefAsync()
-        {
-            var cache = new CachingStrategy
-            {
-                new FileCacheLayer(GmapsStreamingAssetsDir)
-            };
-
-            var gmaps = new GoogleMapsClient(http, apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
-            var metadata = gmaps.CachedMetadata.FirstOrDefault();
-            var pano = metadata.Pano_id;
-            var fileRef = new ContentReference(pano, MediaType.Application_Json);
-            var metadata2 = await cache.LoadAsync(metadataDecoder, fileRef)
-                .ConfigureAwait(false);
-            Assert.AreEqual(metadata.Pano_id, metadata2.Pano_id);
         }
     }
 }

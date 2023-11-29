@@ -45,10 +45,17 @@ public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
     private Exception? lastError;
 
     public GoogleMapsStreamingClient(HttpClient http, IOptions<GoogleMapsStreamingClientOptions> options)
+        : this(http,
+              options.Value.APIKey ?? throw new ArgumentNullException(nameof(GoogleMapsStreamingClientOptions.APIKey)),
+              options.Value.SigningKey ?? throw new ArgumentNullException(nameof(GoogleMapsStreamingClientOptions.SigningKey)))
+    {
+    }
+
+    public GoogleMapsStreamingClient(HttpClient http, string apiKey, string signingKey)
     {
         Http = http;
-        ApiKey = options.Value.APIKey ?? throw new ArgumentNullException(nameof(GoogleMapsStreamingClientOptions.APIKey));
-        SigningKey = options.Value.SigningKey ?? throw new ArgumentNullException(nameof(GoogleMapsStreamingClientOptions.SigningKey));
+        ApiKey = apiKey;
+        SigningKey = signingKey;
         Cache = CachingStrategy.GetNoCache();
     }
 
@@ -105,7 +112,7 @@ public class GoogleMapsStreamingClient : IGoogleMapsStreamingClient
                     .ConfigureAwait(false);
             }
 
-            if (searchPoint != null)
+            if (searchPoint is not null)
             {
                 return await GetMetadataStreamAsync(searchPoint, searchRadius, metaSubProgs[1])
                     .ConfigureAwait(false);

@@ -1,4 +1,4 @@
-namespace Juniper;
+namespace Juniper.Terminal;
 
 public static class AnsiColor
 {

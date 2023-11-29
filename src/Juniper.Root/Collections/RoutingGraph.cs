@@ -241,7 +241,7 @@ public class RoutingGraph<NodeT> : ISaveable<RoutingGraph<NodeT>>
             && (!directed
                 || connect.Ordered(edge.From, edge.To)));
 
-        connections.Add(new Route<NodeT>(edge));
+        connections.Add(new Route<NodeT>(edge.Value, edge.From, edge.To));
     }
 
     public void SetConnection(RoutingEdge<NodeT> edge)
@@ -254,11 +254,37 @@ public class RoutingGraph<NodeT> : ISaveable<RoutingGraph<NodeT>>
         }
     }
 
+    public void SetConnection((NodeT, NodeT) edge) =>
+        SetConnection(new RoutingEdge<NodeT>(edge.Item1, edge.Item2));
+
+    public void SetConnection(NodeT from, NodeT to, float weight = 1) =>
+        SetConnection(new RoutingEdge<NodeT>(from, to, weight));
+
     public void SetConnections(params RoutingEdge<NodeT>[] connections)
     {
         foreach (var edge in connections)
         {
             AddConnection(edge);
+        }
+
+        ResetNetwork();
+    }
+
+    public void SetConnections(params (NodeT, NodeT)[] connections)
+    {
+        foreach (var edge in connections)
+        {
+            AddConnection(new RoutingEdge<NodeT>(edge.Item1, edge.Item2));
+        }
+
+        ResetNetwork();
+    }
+
+    public void SetConnections(params (NodeT, NodeT, float)[] connections)
+    {
+        foreach (var edge in connections)
+        {
+            AddConnection(new RoutingEdge<NodeT>(edge.Item1, edge.Item2, edge.Item3));
         }
 
         ResetNetwork();

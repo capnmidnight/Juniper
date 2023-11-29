@@ -30,9 +30,7 @@ namespace Juniper.Examples
                 {
                     jsOutput
                 },
-                InProjectName = ProjectName,
-                OutProjectName = ProjectName,
-                OptionalDependencies = new()
+                Project = projectOutDir
             };
         }
 

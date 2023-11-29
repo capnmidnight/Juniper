@@ -24,4 +24,4 @@ commandTree.Info += (_, e) => WriteLine("Command Tree Info: " + e.Value);
 commandTree.Warning += (_, e) => WriteLine("Command Tree Warning: " + e.Value);
 commandTree.Err += (_, e) => Error.WriteLine("Command Tree Error: " + e.Value.Unroll());
 
-await commandTree.ExecuteAsync();
+await commandTree.ExecuteAsync(CancellationToken.None);

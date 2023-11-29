@@ -46,7 +46,7 @@ namespace Juniper
 
             foreach (var url in urls)
             {
-                var obj = await YouTubeDLP.GetJSON(http, url);
+                _ = await YouTubeDLP.GetJSON(http, url);
             }
         }
     }

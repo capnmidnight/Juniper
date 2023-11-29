@@ -6,7 +6,7 @@ namespace Juniper.Imaging
 {
     public class ImageDataProcessor : IImageProcessor<ImageData>
     {
-        public ImageData Concatenate(ImageData[,] images, IProgress prog)
+        public ImageData Concatenate(ImageData[,] images, IProgress? prog = null)
         {
             if (images is null)
             {
@@ -32,7 +32,7 @@ namespace Juniper.Imaging
                 {
                     var tileI = (tileY * columns) + tileX;
                     var p = progs[tileI];
-                    IProgressExt.Report(p, 0);
+                    p.Report(0);
                     var tile = images[tileY, tileX];
                     var tileData = tile.GetData();
                     for (var y = 0; y < tileHeight; ++y)
@@ -42,7 +42,7 @@ namespace Juniper.Imaging
                         Array.Copy(tileData, tileBufferI, bufferData, bufferI, tileWidth);
                     }
 
-                    IProgressExt.Report(p, 1);
+                    p.Report(1);
                 }
             }
 

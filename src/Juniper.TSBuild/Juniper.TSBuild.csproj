@@ -3,6 +3,7 @@
     <PropertyGroup>
         <AssemblyName>Juniper.TSBuild</AssemblyName>
         <RootNamespace>Juniper</RootNamespace>
+        <PackageId>SeanMcBeth.Juniper.TSBuild</PackageId>
         <OutputType>Library</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -14,7 +15,6 @@
         <PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
         <PackageIcon>logo_juniper.min.png</PackageIcon>
         <RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
-        <PackageId>SeanMcBeth.Juniper.TSBuild</PackageId>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <Version>1.0.2</Version>
         <Platforms>AnyCPU;x64</Platforms>
@@ -30,6 +30,7 @@
 
     <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
         <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     </ItemGroup>
 

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Juniper.Terminal
 {
-    public static class ConsoleBufferExt
+    public static partial class ConsoleBufferExt
     {
         public static void SetFontSize(this ConsoleBuffer buffer, int size)
         {
@@ -30,21 +30,22 @@ namespace Juniper.Terminal
             }
         }
 
-        internal static class NativeMethods
+        internal static partial class NativeMethods
         {
 
-            [DllImport("kernel32", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
-            internal static extern IntPtr GetStdHandle(int nStdHandle);
+            [LibraryImport("kernel32", SetLastError = true)]
+            internal static partial IntPtr GetStdHandle(int nStdHandle);
 
-            [DllImport("kernel32", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
-            internal static extern bool SetCurrentConsoleFontEx(
+            [LibraryImport("kernel32", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            internal static partial bool SetCurrentConsoleFontEx(
                 IntPtr consoleOutput,
-                bool maximumWindow,
+                [MarshalAs(UnmanagedType.Bool)] bool maximumWindow,
                 CONSOLE_FONT_INFO_EX consoleCurrentFontEx);
 
             internal const int STD_OUTPUT_HANDLE = -11;
             internal const int LF_FACESIZE = 32;
-            internal static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+            internal static readonly IntPtr INVALID_HANDLE_VALUE = new (-1);
 
             [StructLayout(LayoutKind.Sequential)]
             internal struct COORD

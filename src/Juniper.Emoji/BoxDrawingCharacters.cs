@@ -1,4 +1,4 @@
-namespace Juniper.Unicode;
+namespace Juniper;
 
 public static class BoxDrawingCharacters
 {
