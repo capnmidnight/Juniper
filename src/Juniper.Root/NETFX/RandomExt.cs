@@ -4,32 +4,6 @@ namespace System;
 
 public static class RandomExt
 {
-    public static Vector3 NextVector3(this Random rand)
-    {
-        if (rand is null)
-        {
-            throw new ArgumentNullException(nameof(rand));
-        }
-
-        return new Vector3(
-            (float)rand.NextDouble() * 2 - 1,
-            (float)rand.NextDouble() * 2 - 1,
-            (float)rand.NextDouble() * 2 - 1);
-    }
-
-    public static Quaternion NextQuaternion(this Random rand)
-    {
-        if (rand is null)
-        {
-            throw new ArgumentNullException(nameof(rand));
-        }
-
-        return Quaternion.CreateFromYawPitchRoll(
-            (float)rand.NextDouble() * 2 - 1,
-            (float)rand.NextDouble() * 2 - 1,
-            (float)rand.NextDouble() * 2 - 1);
-    }
-
     public static double Number(this Random rand, float min, float max, float power)
     {
         if (rand is null)
@@ -80,19 +54,6 @@ public static class RandomExt
         }
 
         return arr[rand.Next(0, arr.Length)];
-    }
-
-    public static int Color(this Random rand)
-    {
-        if (rand is null)
-        {
-            throw new ArgumentNullException(nameof(rand));
-        }
-
-        var r = rand.Next(0, 256);
-        var g = rand.Next(0, 256);
-        var b = rand.Next(0, 256);
-        return (r << (2 * Juniper.Units.Bits.PER_BYTE)) | (g << Juniper.Units.Bits.PER_BYTE) | b;
     }
 
     public static bool Coin(this Random rand, double weight = 0.5)

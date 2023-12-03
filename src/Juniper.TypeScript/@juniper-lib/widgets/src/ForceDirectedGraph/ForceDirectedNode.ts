@@ -60,7 +60,7 @@ export interface IFullBounds {
 
 type BoundsCache = Map<Element, IFullBounds>;
 
-function elementComputeBounds(element: Element, cache?: BoundsCache): IFullBounds {
+function elementComputeBounds(scale: number, element: Element, cache?: BoundsCache): IFullBounds {
     if (cache && cache.has(element)) {
         return cache.get(element);
     }
@@ -71,23 +71,23 @@ function elementComputeBounds(element: Element, cache?: BoundsCache): IFullBound
         return null;
     }
 
-    const sMarginTop = parseFloat(styles.marginTop);
-    const sMarginRight = parseFloat(styles.marginRight);
-    const sMarginBottom = parseFloat(styles.marginBottom);
-    const sMarginLeft = parseFloat(styles.marginLeft);
-    const sPaddingTop = parseFloat(styles.paddingTop);
-    const sPaddingRight = parseFloat(styles.paddingRight);
-    const sPaddingBottom = parseFloat(styles.paddingBottom);
-    const sPaddingLeft = parseFloat(styles.paddingLeft);
-    const sBorderTop = parseFloat(styles.borderTopWidth);
-    const sBorderRight = parseFloat(styles.borderRightWidth);
-    const sBorderBottom = parseFloat(styles.borderBottomWidth);
-    const sBorderLeft = parseFloat(styles.borderLeftWidth);
+    const sMarginTop = parseFloat(styles.marginTop) * scale;
+    const sMarginRight = parseFloat(styles.marginRight) * scale;
+    const sMarginBottom = parseFloat(styles.marginBottom) * scale;
+    const sMarginLeft = parseFloat(styles.marginLeft) * scale;
+    const sPaddingTop = parseFloat(styles.paddingTop) * scale;
+    const sPaddingRight = parseFloat(styles.paddingRight) * scale;
+    const sPaddingBottom = parseFloat(styles.paddingBottom) * scale;
+    const sPaddingLeft = parseFloat(styles.paddingLeft) * scale;
+    const sBorderTop = parseFloat(styles.borderTopWidth) * scale;
+    const sBorderRight = parseFloat(styles.borderRightWidth) * scale;
+    const sBorderBottom = parseFloat(styles.borderBottomWidth) * scale;
+    const sBorderLeft = parseFloat(styles.borderLeftWidth) * scale;
 
-    const borderLeft = boundingRect.x;
-    const borderTop = boundingRect.y;
-    const borderWidth = boundingRect.width;
-    const borderHeight = boundingRect.height;
+    const borderLeft = boundingRect.x * scale;
+    const borderTop = boundingRect.y * scale;
+    const borderWidth = boundingRect.width * scale;
+    const borderHeight = boundingRect.height * scale;
 
     const borderRight = borderLeft + borderWidth;
     const borderBottom = borderTop + borderHeight;
@@ -174,6 +174,7 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
 
     public bounds: IFullBounds = null;
     public depth = -1;
+    public hidden = false;
 
     get pinned() {
         return this._pinned;
@@ -224,8 +225,8 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         sub(mousePoint, this.position, this.mouseOffset);
     }
 
-    computeBounds(boundsCache: BoundsCache) {
-        this.bounds = elementComputeBounds(this.element, boundsCache);
+    computeBounds(scale: number, boundsCache: BoundsCache) {
+        this.bounds = elementComputeBounds(scale, this.element, boundsCache);
         if (this.bounds) {
             const b = this.bounds.padding;
             this.hw = b.width / 2;
@@ -239,9 +240,8 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
 
     updatePosition(cx: number, cy: number, maxDepth: number) {
         const { position, element } = this;
-        element.style.display = maxDepth < 0 || this.depth <= maxDepth ? "" : "none";
+        element.style.display = this.isVisible(maxDepth) ? "" : "none";
         if (this.canDrawArrow(maxDepth)) {
-            element.style.display = "";
             element.style.left = `${position[0] - this.hw + cx}px`;
             element.style.top = `${position[1] - this.hh + cy}px`;
             element.style.opacity = maxDepth < 0 || this.depth < maxDepth
@@ -258,10 +258,15 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         zero(this.dynamicForce);
     }
 
-    canDrawArrow(maxDepth: number): boolean {
-        return this.bounds
+    private isVisible(maxDepth: number) {
+        return !this.hidden
             && (maxDepth < 0
                 || this.depth <= maxDepth);
+    }
+
+    canDrawArrow(maxDepth: number): boolean {
+        return this.bounds
+            && this.isVisible(maxDepth);
     }
 
     gravitate(gravity: number) {

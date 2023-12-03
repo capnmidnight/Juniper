@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Server\Juniper.Server.csproj" />
+    <ProjectReference Include="..\Juniper.TSBuild.Core\Juniper.TSBuild.Core.csproj" />
   </ItemGroup>
 
 </Project>

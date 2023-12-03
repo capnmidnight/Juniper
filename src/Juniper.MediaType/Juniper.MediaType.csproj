@@ -1,0 +1,119 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>Juniper.MediaType</AssemblyName>
+		<RootNamespace>Juniper</RootNamespace>
+		<PackageId>SeanMcBeth.Juniper.MediaType</PackageId>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<Authors>Sean T. McBeth</Authors>
+		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>General purpose code</Description>
+		<PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
+		<PackageIcon>logo_juniper.min.png</PackageIcon>
+		<RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>AnyCPU;x64</Platforms>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Application.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Application.Values.cs">
+			<DependentUpon>Application.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Audio.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Audio.Values.cs">
+			<DependentUpon>Audio.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Chemical.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Chemical.Values.cs">
+			<DependentUpon>Chemical.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Font.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Font.Values.cs">
+			<DependentUpon>Font.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Image.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Image.Values.cs">
+			<DependentUpon>Image.cs</DependentUpon>
+		</Compile>
+		<Compile Update="MediaType.Values.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Message.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Message.Values.cs">
+			<DependentUpon>Message.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Model.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Model.Values.cs">
+			<DependentUpon>Model.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Multipart.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Multipart.Values.cs">
+			<DependentUpon>Multipart.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Text.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Text.Values.cs">
+			<DependentUpon>Text.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Unknown.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Video.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Video.Values.cs">
+			<DependentUpon>Video.cs</DependentUpon>
+		</Compile>
+		<Compile Update="XShader.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="XShader.Values.cs">
+			<DependentUpon>XShader.cs</DependentUpon>
+		</Compile>
+		<Compile Update="XConference.cs">
+			<DependentUpon>MediaType.cs</DependentUpon>
+		</Compile>
+		<Compile Update="XConference.Values.cs">
+			<DependentUpon>XConference.cs</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+</Project>

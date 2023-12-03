@@ -31,7 +31,7 @@
     <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
-        <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+        <ProjectReference Include="..\Juniper.TSBuild.Core\Juniper.TSBuild.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)'=='Debug'">

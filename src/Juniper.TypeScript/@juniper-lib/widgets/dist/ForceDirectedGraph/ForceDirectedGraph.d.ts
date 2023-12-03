@@ -1,3 +1,4 @@
+type GraphMode = "directed" | "reverse-directed" | "undirected";
 export declare class ForceDirectedGraph<T> {
     private readonly container;
     private readonly getWeightMod;
@@ -32,12 +33,14 @@ export declare class ForceDirectedGraph<T> {
     get h(): number;
     get scale(): number;
     set scale(v: number);
+    private mid;
     constructor(container: HTMLElement, getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number, makeElementClass: (value: T) => string, makeContent: (value: T) => string | HTMLElement);
     start(): void;
     stop(): void;
+    showCycles(show: boolean, strict: boolean): void;
     get values(): T[];
     set values(v: T[]);
-    connect(connections: [T, T][]): void;
+    connect(connections: [T, T][], mode?: GraphMode): void;
     reset(): void;
     private _render;
     private setMouse;
@@ -51,4 +54,5 @@ export declare class ForceDirectedGraph<T> {
     private applyForces;
     fr91(): void;
 }
+export {};
 //# sourceMappingURL=ForceDirectedGraph.d.ts.map

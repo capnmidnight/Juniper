@@ -32,7 +32,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+	  <ProjectReference Include="..\Juniper.IO\Juniper.IO.csproj" />
+	  <ProjectReference Include="..\Juniper.Logging\Juniper.Logging.csproj" />
+	  <ProjectReference Include="..\Juniper.MediaType\Juniper.MediaType.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -36,6 +36,7 @@ export declare class ForceDirectedNode<T> extends GraphNode<T> {
     private _pinned;
     bounds: IFullBounds;
     depth: number;
+    hidden: boolean;
     get pinned(): boolean;
     set pinned(v: boolean);
     get moving(): boolean;
@@ -43,10 +44,11 @@ export declare class ForceDirectedNode<T> extends GraphNode<T> {
     constructor(value: T, elementClass: string, content: string | HTMLElement);
     setContent(content: string | HTMLElement): void;
     setMouseOffset(mousePoint: Vec2): void;
-    computeBounds(boundsCache: BoundsCache): void;
+    computeBounds(scale: number, boundsCache: BoundsCache): void;
     updatePosition(cx: number, cy: number, maxDepth: number): void;
     moveTo(mousePoint: Vec2): void;
     resetForce(): void;
+    private isVisible;
     canDrawArrow(maxDepth: number): boolean;
     gravitate(gravity: number): void;
     attractRepel(n2: ForceDirectedNode<T>, attract: number, attractFunc: (connected: boolean, len: number) => number, repel: number, repelFunc: (connected: boolean, len: number) => number, getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number): void;

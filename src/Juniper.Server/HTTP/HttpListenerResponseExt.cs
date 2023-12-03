@@ -1,5 +1,4 @@
-using Juniper.IO;
-
+using Juniper.Caching;
 using System.Globalization;
 using System.Net;
 using System.Text;

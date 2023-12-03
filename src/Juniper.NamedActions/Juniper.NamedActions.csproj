@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>Juniper.NamedActions</AssemblyName>
+		<RootNamespace>Juniper.NamedActions</RootNamespace>
+		<PackageId>SeanMcBeth.Juniper.NamedActions</PackageId>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<Authors>Sean T. McBeth</Authors>
+		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>General purpose code</Description>
+		<PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
+		<PackageIcon>logo_juniper.min.png</PackageIcon>
+		<RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>AnyCPU;x64</Platforms>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj" />
+	</ItemGroup>
+</Project>

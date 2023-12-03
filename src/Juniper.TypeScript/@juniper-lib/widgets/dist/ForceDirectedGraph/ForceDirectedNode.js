@@ -29,7 +29,7 @@ export function copy(a, out) {
     out[1] = a[1];
 }
 const delta = [0, 0];
-function elementComputeBounds(element, cache) {
+function elementComputeBounds(scale, element, cache) {
     if (cache && cache.has(element)) {
         return cache.get(element);
     }
@@ -38,22 +38,22 @@ function elementComputeBounds(element, cache) {
     if (boundingRect.width * boundingRect.height === 0 || styles.display === "none") {
         return null;
     }
-    const sMarginTop = parseFloat(styles.marginTop);
-    const sMarginRight = parseFloat(styles.marginRight);
-    const sMarginBottom = parseFloat(styles.marginBottom);
-    const sMarginLeft = parseFloat(styles.marginLeft);
-    const sPaddingTop = parseFloat(styles.paddingTop);
-    const sPaddingRight = parseFloat(styles.paddingRight);
-    const sPaddingBottom = parseFloat(styles.paddingBottom);
-    const sPaddingLeft = parseFloat(styles.paddingLeft);
-    const sBorderTop = parseFloat(styles.borderTopWidth);
-    const sBorderRight = parseFloat(styles.borderRightWidth);
-    const sBorderBottom = parseFloat(styles.borderBottomWidth);
-    const sBorderLeft = parseFloat(styles.borderLeftWidth);
-    const borderLeft = boundingRect.x;
-    const borderTop = boundingRect.y;
-    const borderWidth = boundingRect.width;
-    const borderHeight = boundingRect.height;
+    const sMarginTop = parseFloat(styles.marginTop) * scale;
+    const sMarginRight = parseFloat(styles.marginRight) * scale;
+    const sMarginBottom = parseFloat(styles.marginBottom) * scale;
+    const sMarginLeft = parseFloat(styles.marginLeft) * scale;
+    const sPaddingTop = parseFloat(styles.paddingTop) * scale;
+    const sPaddingRight = parseFloat(styles.paddingRight) * scale;
+    const sPaddingBottom = parseFloat(styles.paddingBottom) * scale;
+    const sPaddingLeft = parseFloat(styles.paddingLeft) * scale;
+    const sBorderTop = parseFloat(styles.borderTopWidth) * scale;
+    const sBorderRight = parseFloat(styles.borderRightWidth) * scale;
+    const sBorderBottom = parseFloat(styles.borderBottomWidth) * scale;
+    const sBorderLeft = parseFloat(styles.borderLeftWidth) * scale;
+    const borderLeft = boundingRect.x * scale;
+    const borderTop = boundingRect.y * scale;
+    const borderWidth = boundingRect.width * scale;
+    const borderHeight = boundingRect.height * scale;
     const borderRight = borderLeft + borderWidth;
     const borderBottom = borderTop + borderHeight;
     const marginLeft = borderLeft - sMarginLeft;
@@ -140,6 +140,7 @@ export class ForceDirectedNode extends GraphNode {
         this._pinned = false;
         this.bounds = null;
         this.depth = -1;
+        this.hidden = false;
         this.pinner = document.createElement("button");
         this.pinner.type = "button";
         this.pinner.innerHTML = unpinned;
@@ -162,8 +163,8 @@ export class ForceDirectedNode extends GraphNode {
     setMouseOffset(mousePoint) {
         sub(mousePoint, this.position, this.mouseOffset);
     }
-    computeBounds(boundsCache) {
-        this.bounds = elementComputeBounds(this.element, boundsCache);
+    computeBounds(scale, boundsCache) {
+        this.bounds = elementComputeBounds(scale, this.element, boundsCache);
         if (this.bounds) {
             const b = this.bounds.padding;
             this.hw = b.width / 2;
@@ -176,9 +177,8 @@ export class ForceDirectedNode extends GraphNode {
     }
     updatePosition(cx, cy, maxDepth) {
         const { position, element } = this;
-        element.style.display = maxDepth < 0 || this.depth <= maxDepth ? "" : "none";
+        element.style.display = this.isVisible(maxDepth) ? "" : "none";
         if (this.canDrawArrow(maxDepth)) {
-            element.style.display = "";
             element.style.left = `${position[0] - this.hw + cx}px`;
             element.style.top = `${position[1] - this.hh + cy}px`;
             element.style.opacity = maxDepth < 0 || this.depth < maxDepth
@@ -192,10 +192,14 @@ export class ForceDirectedNode extends GraphNode {
     resetForce() {
         zero(this.dynamicForce);
     }
-    canDrawArrow(maxDepth) {
-        return this.bounds
+    isVisible(maxDepth) {
+        return !this.hidden
             && (maxDepth < 0
                 || this.depth <= maxDepth);
+    }
+    canDrawArrow(maxDepth) {
+        return this.bounds
+            && this.isVisible(maxDepth);
     }
     gravitate(gravity) {
         // Get displacement from center

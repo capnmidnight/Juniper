@@ -1,7 +1,7 @@
 import { arrayRandom, arrayRemove, compareBy } from "@juniper-lib/collections/src/arrays";
 import { debounce } from "@juniper-lib/events/src/debounce";
 import { Tau } from "@juniper-lib/tslib/dist/math";
-import { ForceDirectedNode, IFullBounds, Vec2, Vec2WithLen, copy, length, scale, sub, zero } from "./ForceDirectedNode";
+import { ForceDirectedNode, IFullBounds, Vec2, Vec2WithLen, add, copy, length, scale, sub, zero } from "./ForceDirectedNode";
 
 
 function distinct<T>(arr: T[]) {
@@ -9,6 +9,8 @@ function distinct<T>(arr: T[]) {
 }
 
 const delta: Vec2 = [0, 0];
+
+type GraphMode = "directed" | "reverse-directed" | "undirected";
 
 function findIntersection(sx: number, sy: number, ex: number, ey: number, bounds: IFullBounds): Vec2WithLen {
     const dx = ex - sx;
@@ -133,6 +135,8 @@ export class ForceDirectedGraph<T> {
         this.resize();
     }
 
+    private mid: Vec2 = [0, 0];
+
     constructor(
         private readonly container: HTMLElement,
         private readonly getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number,
@@ -143,7 +147,24 @@ export class ForceDirectedGraph<T> {
         this.container.classList.add("force-directed-graph");
 
         this.container.addEventListener("wheel", evt => {
+            this.setMouse(evt);
+            copy(this.mousePoint, delta);
+            sub(delta, this.displayCenter, delta);
+            scale(this.scale, delta, delta);
+            const start = Array.from(delta) as Vec2;
+
             this.scale -= 0.001 * evt.deltaY;
+
+            this.setMouse(evt);
+            copy(this.mousePoint, delta);
+            sub(delta, this.displayCenter, delta);
+            scale(this.scale, delta, delta);
+            const end = Array.from(delta) as Vec2;
+
+            sub(end, start, delta);
+            scale(1 / this.scale, delta, delta);
+
+            add(this.displayCenter, delta, this.displayCenter);
         });
 
         this.container.addEventListener("mousedown", evt => {
@@ -220,6 +241,9 @@ export class ForceDirectedGraph<T> {
             this.content.style.transform = `scale(${this.scale})`;
             this.connectorsCanvas.width = this.w * devicePixelRatio * this.scale;
             this.connectorsCanvas.height = this.h * devicePixelRatio * this.scale;
+            this.mid[0] = this.w;
+            this.mid[1] = this.h;
+            scale(0.5, this.mid, this.mid);
         });
 
         const resizer = new ResizeObserver((evts) => {
@@ -252,6 +276,63 @@ export class ForceDirectedGraph<T> {
         }
     }
 
+    showCycles(show: boolean, strict: boolean) {
+        if (show) {
+            const wasVisitedBy = new Map<ForceDirectedNode<T>, Set<ForceDirectedNode<T>>>();
+            for (const node of this.graph.values()) {
+                wasVisitedBy.set(node, new Set());
+            }
+
+            for (const node of this.graph.values()) {
+                const visited = new Set<ForceDirectedNode<T>>();;
+                const notVisited = (node: ForceDirectedNode<T>) => !visited.has(node);
+                const queue = [...node.connections];
+                if (!strict && node.reverseConnections.length > 0) {
+                    queue.push(...node.reverseConnections);
+                }
+                while (queue.length > 0) {
+                    const here = queue.shift();
+                    if (!visited.has(here)) {
+                        visited.add(here);
+                        wasVisitedBy.get(here).add(node);
+                        const next = here.connections.filter(notVisited);
+                        if (!strict) {
+                            const reverse = here.reverseConnections.filter(notVisited);
+                            if (reverse.length > 0) {
+                                next.push(...reverse);
+                            }
+                        }
+
+                        if (next.length > 0) {
+                            queue.push(...next);
+                        }
+                    }
+                }
+            }
+
+            for (const node of this.graph.values()) {
+                const visitors = wasVisitedBy.get(node);
+                if (visitors.has(node)) {
+                    for (const n of visitors) {
+                        n.element.classList.add("cycled");
+                    }
+                }
+            }
+
+            for (const node of this.graph.values()) {
+                if (!node.element.classList.contains("cycled")) {
+                    node.hidden = true;
+                }
+            }
+        }
+        else {
+            for (const node of this.graph.values()) {
+                node.element.classList.remove("cycled");
+                node.hidden = false;
+            }
+        }
+    }
+
     get values() {
         return this.data;
     }
@@ -279,7 +360,7 @@ export class ForceDirectedGraph<T> {
                         this.graph.set(value, node);
                         this.elementToNode.set(node.element, node);
                         this.content.append(node.element);
-                        node.computeBounds(this.boundsCache);
+                        node.computeBounds(1 / this.scale, this.boundsCache);
                     }
                 }
 
@@ -288,11 +369,18 @@ export class ForceDirectedGraph<T> {
         }
     }
 
-    connect(connections: [T, T][]) {
+    connect(connections: [T, T][], mode: GraphMode = "directed") {
         for (const [fromValue, toValue] of connections) {
             const fromNode = this.graph.get(fromValue);
             const toNode = this.graph.get(toValue);
-            fromNode.connectTo(toNode);
+
+            if (mode === "directed" || mode === "undirected") {
+                fromNode.connectTo(toNode);
+            }
+
+            if (mode === "reverse-directed" || mode === "undirected") {
+                toNode.connectTo(fromNode);
+            }
         }
 
 
@@ -521,10 +609,10 @@ export class ForceDirectedGraph<T> {
         const c5 = 2;
         const k = c0 * Math.sqrt(c1 * area / this.displayCount);
         // Running this twice prevents oscillations from becoming visible.
-        for (let i = 0; i < 2; ++i) {
-            this.applyForces(
-                (connected, len) => connected ? c2 * Math.pow(len, c3) / k : 0,
-                (_, len) => c4 * Math.pow(k, c5) / len);
-        }
+        //for (let i = 0; i < 2; ++i) {
+        this.applyForces(
+            (connected, len) => connected ? c2 * Math.pow(len, c3) / k : 0,
+            (_, len) => c4 * Math.pow(k, c5) / len);
+        //}
     }
 }
