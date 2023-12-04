@@ -1,6 +1,4 @@
-﻿using Juniper.Logic;
-
-namespace Juniper.Collections;
+﻿namespace Juniper.Collections;
 
 public static class Graph
 {
@@ -8,7 +6,7 @@ public static class Graph
         where KeyT : notnull
         where ValueT : notnull
     {
-        return items.ToGraph(getFromKey, getToKey, Always.Identity);
+        return items.ToGraph(getFromKey, getToKey, v => v);
     }
 
     public static Graph<KeyT, ValueT> ToGraph<NodeT, KeyT, ValueT>(this IEnumerable<NodeT> items, Func<NodeT, KeyT> getFromKey, Func<NodeT, KeyT> getToKey, Func<NodeT, ValueT> getValue)

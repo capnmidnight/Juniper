@@ -1,6 +1,4 @@
-using Juniper.HTTP.REST;
-
-namespace Juniper.HTTP;
+namespace Juniper.HTTP.REST;
 
 public class GetRequest : AbstractRequest<MediaType>
 {

@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<AssemblyName>Juniper.Collections</AssemblyName>
-		<RootNamespace>Juniper.Collections</RootNamespace>
-		<PackageId>SeanMcBeth.Juniper.Collections</PackageId>
+		<AssemblyName>Juniper.HTTP.REST</AssemblyName>
+		<RootNamespace>Juniper.HTTP.REST</RootNamespace>
+		<PackageId>SeanMcBeth.Juniper.HTTP.REST</PackageId>
 		<OutputType>Library</OutputType>
 		<TargetFramework>net7.0</TargetFramework>
 		<Authors>Sean T. McBeth</Authors>
@@ -32,7 +32,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Juniper.IO\Juniper.IO.csproj" />
+	  <ProjectReference Include="..\Juniper.Caching\Juniper.Caching.csproj" />
+	  <ProjectReference Include="..\Juniper.HTTP\Juniper.HTTP.csproj" />
 	</ItemGroup>
 
 </Project>
