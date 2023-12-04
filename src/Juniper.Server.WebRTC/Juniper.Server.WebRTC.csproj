@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<AssemblyName>Juniper.Server</AssemblyName>
-		<RootNamespace>Juniper</RootNamespace>
-		<PackageId>SeanMcBeth.Juniper.Server</PackageId>
+		<AssemblyName>Juniper.Server.WebRTC</AssemblyName>
+		<RootNamespace>Juniper.Server.WebRTC</RootNamespace>
+		<PackageId>SeanMcBeth.Juniper.Server.Server.WebRTC</PackageId>
 		<OutputType>Library</OutputType>
 		<TargetFramework>net7.0</TargetFramework>
 		<Authors>Sean T. McBeth</Authors>
@@ -37,8 +37,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Juniper.Data\Juniper.Data.csproj" />
-	  <ProjectReference Include="..\Juniper.HTTP\Juniper.HTTP.csproj" />
+	  <ProjectReference Include="..\Juniper.WebRTC\Juniper.WebRTC.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Juniper.WebRTC;
+﻿namespace Juniper.Server.WebRTC;
 
 public interface IWebRTCHubClient
 {

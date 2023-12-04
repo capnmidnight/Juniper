@@ -5,7 +5,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Juniper.WebRTC;
+using Juniper.WebRTC;
+
+namespace Juniper.Server.WebRTC;
 
 public abstract class AbstractWebRTCHub<ClientT> : Hub<ClientT>, IWebRTCHubServer
     where ClientT : class, IWebRTCHubClient
