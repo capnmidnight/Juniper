@@ -34,6 +34,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Juniper.IO\Juniper.IO.csproj" />
 	  <ProjectReference Include="..\Juniper.MediaType\Juniper.MediaType.csproj" />
+	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
 	</ItemGroup>
 
 </Project>

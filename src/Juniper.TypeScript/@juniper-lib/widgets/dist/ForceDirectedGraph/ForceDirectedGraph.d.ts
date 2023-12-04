@@ -16,6 +16,7 @@ export declare class ForceDirectedGraph<T> {
     private readonly resize;
     private _running;
     private _scale;
+    private _showArrows;
     private displayCount;
     private selectedNode;
     private data;
@@ -33,6 +34,8 @@ export declare class ForceDirectedGraph<T> {
     get h(): number;
     get scale(): number;
     set scale(v: number);
+    get showArrows(): boolean;
+    set showArrows(v: boolean);
     private mid;
     constructor(container: HTMLElement, getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number, makeElementClass: (value: T) => string, makeContent: (value: T) => string | HTMLElement);
     start(): void;

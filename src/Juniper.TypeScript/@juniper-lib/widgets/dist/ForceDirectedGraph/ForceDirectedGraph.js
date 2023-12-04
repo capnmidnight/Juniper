@@ -82,6 +82,17 @@ export class ForceDirectedGraph {
         this._scale = Math.max(.1, Math.min(10, v));
         this.resize();
     }
+    get showArrows() {
+        return this._showArrows;
+    }
+    set showArrows(v) {
+        if (v !== this._showArrows) {
+            this._showArrows = v;
+            if (!this._showArrows) {
+                this.g.clearRect(0, 0, this.g.canvas.width, this.g.canvas.height);
+            }
+        }
+    }
     constructor(container, getWeightMod, makeElementClass, makeContent) {
         this.container = container;
         this.getWeightMod = getWeightMod;
@@ -94,6 +105,7 @@ export class ForceDirectedGraph {
         this.displayCenter = [0, 0];
         this._running = false;
         this._scale = 1;
+        this._showArrows = true;
         this.displayCount = 0;
         this.selectedNode = null;
         this.data = null;
@@ -340,47 +352,49 @@ export class ForceDirectedGraph {
     draw() {
         const cx = .5 * this.w + this.displayCenter[0];
         const cy = .5 * this.h + this.displayCenter[1];
-        this.g.clearRect(0, 0, this.connectorsCanvas.width, this.connectorsCanvas.height);
-        this.g.fillStyle = "black";
-        this.g.strokeStyle = "black";
-        this.g.lineWidth = 2;
-        this.g.save();
-        this.g.scale(devicePixelRatio, devicePixelRatio);
-        this.g.scale(this.scale, this.scale);
-        this.g.translate(cx, cy);
-        for (const n1 of this.graph.values()) {
-            if (n1.canDrawArrow(this.displayDepth)) {
-                const [p1x, p1y] = n1.position;
-                this.g.save();
-                this.g.translate(p1x, p1y);
-                for (const n2 of n1.connections) {
-                    if (n2.canDrawArrow(this.displayDepth)) {
-                        const [p2x, p2y] = n2.position;
-                        const inter = findIntersection(p1x, p1y, p2x, p2y, n2.bounds);
-                        if (inter) {
-                            let [dx, dy, len] = inter;
-                            if (len > 0) {
-                                const angleRad = Math.atan2(dy, dx);
-                                this.g.save();
-                                this.g.rotate(angleRad);
-                                this.g.beginPath();
-                                this.g.moveTo(len - 5, 0);
-                                this.g.lineTo(len - 15, -6);
-                                this.g.lineTo(len - 12.5, 0);
-                                this.g.lineTo(len - 15, 6);
-                                this.g.lineTo(len - 5, 0);
-                                this.g.fill();
-                                this.g.lineTo(0, 0);
-                                this.g.stroke();
-                                this.g.restore();
+        if (this.showArrows) {
+            this.g.clearRect(0, 0, this.g.canvas.width, this.g.canvas.height);
+            this.g.fillStyle = "black";
+            this.g.strokeStyle = "black";
+            this.g.lineWidth = 2;
+            this.g.save();
+            this.g.scale(devicePixelRatio, devicePixelRatio);
+            this.g.scale(this.scale, this.scale);
+            this.g.translate(cx, cy);
+            for (const n1 of this.graph.values()) {
+                if (n1.canDrawArrow(this.displayDepth)) {
+                    const [p1x, p1y] = n1.position;
+                    this.g.save();
+                    this.g.translate(p1x, p1y);
+                    for (const n2 of n1.connections) {
+                        if (n2.canDrawArrow(this.displayDepth)) {
+                            const [p2x, p2y] = n2.position;
+                            const inter = findIntersection(p1x, p1y, p2x, p2y, n2.bounds);
+                            if (inter) {
+                                let [dx, dy, len] = inter;
+                                if (len > 0) {
+                                    const angleRad = Math.atan2(dy, dx);
+                                    this.g.save();
+                                    this.g.rotate(angleRad);
+                                    this.g.beginPath();
+                                    this.g.moveTo(len - 5, 0);
+                                    this.g.lineTo(len - 15, -6);
+                                    this.g.lineTo(len - 12.5, 0);
+                                    this.g.lineTo(len - 15, 6);
+                                    this.g.lineTo(len - 5, 0);
+                                    this.g.fill();
+                                    this.g.lineTo(0, 0);
+                                    this.g.stroke();
+                                    this.g.restore();
+                                }
                             }
                         }
                     }
+                    this.g.restore();
                 }
-                this.g.restore();
             }
+            this.g.restore();
         }
-        this.g.restore();
         for (const node of this.graph.values()) {
             node.updatePosition(cx, cy, this.displayDepth);
         }

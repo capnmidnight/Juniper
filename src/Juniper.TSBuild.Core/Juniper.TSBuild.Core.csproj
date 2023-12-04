@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+	  <ProjectReference Include="..\Juniper.IO\Juniper.IO.csproj" />
 	</ItemGroup>
 
 </Project>

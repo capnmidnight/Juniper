@@ -32,10 +32,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Compile Update="Application.cs">
 			<DependentUpon>MediaType.cs</DependentUpon>
 		</Compile>

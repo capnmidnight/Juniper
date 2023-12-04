@@ -104,12 +104,12 @@ namespace Juniper
             var typeName = match.Groups[1].Value;
             var subTypeName = match.Groups[2].Value;
             var parsedType = new MediaType(typeName, subTypeName);
-            var weight = parsedType.Parameters.Get("q");
-            var staticType = ByValue.Get(parsedType.Value);
+            var gotWeight = parsedType.Parameters.TryGetValue("q", out var weight);
+            ByValue.TryGetValue(parsedType.Value, out var staticType);
             var basicType = staticType ?? parsedType;
 
-            type = weight is not null
-                ? basicType.WithParameter("q", weight)
+            type = gotWeight && weight is not null
+                ? basicType.WithParameter("q", weight!)
                 : basicType;
 
             return type is not null;
@@ -150,7 +150,7 @@ namespace Juniper
         public static MediaType Lookup(string value)
         {
             // Trim off the weight, if one exists
-            var parts = value.SplitX(';');
+            var parts = value.Split(';');
             if (parts.Length > 0)
             {
                 value = parts[0];
@@ -235,17 +235,17 @@ namespace Juniper
 
             if (!string.IsNullOrEmpty(paramStr))
             {
-                var pairs = paramStr.SplitX(';')
+                var pairs = paramStr.Split(';')
                     .Select(p => p.Trim())
                     .Where(p => p.Length > 0)
-                    .Select(p => p.SplitX('='));
+                    .Select(p => p.Split('='));
 
                 foreach (var pair in pairs)
                 {
                     var key = pair.FirstOrDefault();
                     if (key is not null)
                     {
-                        var value = pair.Skip(1).ToArray().Join("=");
+                        var value = string.Join("=", pair.Skip(1));
                         _params[key] = value;
                         var slug = $"; {key}={value}";
                         FullValue += slug;
