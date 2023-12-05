@@ -1,8 +1,9 @@
+using System.IO;
+
+using Juniper.Caching;
 using Juniper.IO;
 
 using NUnit.Framework;
-
-using System.IO;
 
 namespace Juniper.World.GIS.Google
 {

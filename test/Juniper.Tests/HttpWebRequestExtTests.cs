@@ -1,3 +1,4 @@
+using Juniper.Caching;
 using Juniper.HTTP.REST;
 using Juniper.Imaging;
 using Juniper.IO;

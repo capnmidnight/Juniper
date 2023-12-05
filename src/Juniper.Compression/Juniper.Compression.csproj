@@ -36,6 +36,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Juniper.Caching\Juniper.Caching.csproj" />
+	  <ProjectReference Include="..\Juniper.Collections\Juniper.Collections.csproj" />
+	  <ProjectReference Include="..\Juniper.IO\Juniper.IO.csproj" />
+	  <ProjectReference Include="..\Juniper.MediaType\Juniper.MediaType.csproj" />
+	  <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj" />
 	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+	  <ProjectReference Include="..\Juniper.Units\Juniper.Units.csproj" />
 	</ItemGroup>
 </Project>

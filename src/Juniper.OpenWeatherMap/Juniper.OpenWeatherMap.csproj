@@ -10,8 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.HTTP\Juniper.HTTP.csproj" />
     <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
+    <ProjectReference Include="..\Juniper.IO\Juniper.IO.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.World\Juniper.World.csproj" />
   </ItemGroup>
 
 </Project>

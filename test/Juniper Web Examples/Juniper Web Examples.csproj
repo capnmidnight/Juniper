@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\..\src\Juniper.Server\Juniper.Server.csproj" />
     <ProjectReference Include="..\..\src\Juniper.TSBuild\Juniper.TSBuild.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Units\Juniper.Units.csproj" />
     <ProjectReference Include="..\Juniper Build Config Example\Juniper Build Config Example.csproj" />
   </ItemGroup>
 

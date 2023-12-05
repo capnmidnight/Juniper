@@ -1,12 +1,12 @@
-using Juniper.Imaging;
-using Juniper.IO;
-
-using NUnit.Framework;
-
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+
+using Juniper.Caching;
+using Juniper.Imaging;
+
+using NUnit.Framework;
 
 namespace Juniper.World.GIS.Google.MapTiles
 {

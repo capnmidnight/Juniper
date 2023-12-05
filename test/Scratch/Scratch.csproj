@@ -9,8 +9,11 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.IO\Juniper.IO.csproj" />
     <ProjectReference Include="..\..\src\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Mathematics\Juniper.Mathematics.csproj" />
     <ProjectReference Include="..\..\src\Juniper.Oculus.VR\Juniper.Oculus.VR.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Units\Juniper.Units.csproj" />
     <ProjectReference Include="..\..\src\Juniper.Valve.VR\Juniper.Valve.VR.csproj" />
     <ProjectReference Include="..\..\src\Juniper.Azure\Juniper.Azure.csproj" />
     <ProjectReference Include="..\..\src\Juniper.Client\Juniper.Client.csproj" />

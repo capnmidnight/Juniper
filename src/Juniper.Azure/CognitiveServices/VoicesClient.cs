@@ -1,3 +1,4 @@
+using Juniper.Caching;
 using Juniper.IO;
 
 using System;

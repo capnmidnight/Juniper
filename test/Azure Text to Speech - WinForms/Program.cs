@@ -1,7 +1,3 @@
-using Juniper.IO;
-using Juniper.Sound;
-using Juniper.Speech.Azure.CognitiveServices;
-
 using System;
 using System.IO;
 using System.Media;
@@ -9,6 +5,11 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using Juniper.Caching;
+using Juniper.IO;
+using Juniper.Sound;
+using Juniper.Speech.Azure.CognitiveServices;
 
 namespace Juniper
 {

@@ -2,6 +2,7 @@
 
 using Juniper.IO;
 using Juniper.Sound;
+using Juniper.Xml;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

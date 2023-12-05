@@ -12,8 +12,12 @@
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Juniper.Caching\Juniper.Caching.csproj" />
+    <ProjectReference Include="..\Juniper.HTTP .REST\Juniper.HTTP.REST.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
+    <ProjectReference Include="..\Juniper.Units\Juniper.Units.csproj" />
+    <ProjectReference Include="..\Juniper.Xml\Juniper.Xml.csproj" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.33.0" />
   </ItemGroup>
 </Project>

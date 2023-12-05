@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Juniper.Caching;
 using Juniper.IO;
 using Juniper.Sound;
 using Juniper.Speech.Azure.CognitiveServices;

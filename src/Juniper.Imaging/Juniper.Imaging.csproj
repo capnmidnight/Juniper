@@ -13,9 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.IO\Juniper.IO.csproj" />
+    <ProjectReference Include="..\Juniper.MediaType\Juniper.MediaType.csproj" />
+    <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
     <ProjectReference Include="..\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
+    <ProjectReference Include="..\Juniper.Units\Juniper.Units.csproj" />
   </ItemGroup>
 
 </Project>

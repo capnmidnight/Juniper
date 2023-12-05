@@ -1,11 +1,12 @@
-using Juniper.IO;
-
-using NUnit.Framework;
-
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+
+using Juniper.Caching;
+using Juniper.IO;
+
+using NUnit.Framework;
 
 namespace Juniper.World.GIS.Google.Geocoding
 {

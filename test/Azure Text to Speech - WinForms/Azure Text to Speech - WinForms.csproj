@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Caching\Juniper.Caching.csproj" />
     <ProjectReference Include="..\..\src\Juniper.Sound\Juniper.Sound.csproj" />
     <ProjectReference Include="..\..\src\Juniper.Azure\Juniper.Azure.csproj" />
   </ItemGroup>

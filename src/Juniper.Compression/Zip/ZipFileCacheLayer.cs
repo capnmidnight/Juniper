@@ -1,3 +1,4 @@
+using Juniper.Caching;
 using Juniper.Compression;
 using Juniper.Compression.Zip;
 using Juniper.Progress;
@@ -112,7 +113,7 @@ public class ZipFileCacheLayer : ICacheSourceLayer
             if (file.Matches(ofType))
             {
                 var cacheID = PathExt.RemoveShortExtension(file.FullName);
-                yield return cacheID + ofType;
+                yield return new ContentReference(cacheID , ofType);
             }
         }
     }

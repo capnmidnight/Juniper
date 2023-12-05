@@ -1,8 +1,10 @@
-using NUnit.Framework;
-
 using System;
 using System.IO;
 using System.Linq;
+
+using Juniper.Caching;
+
+using NUnit.Framework;
 
 namespace Juniper.IO
 {

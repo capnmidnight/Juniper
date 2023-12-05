@@ -13,7 +13,10 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Juniper.HTTP .REST\Juniper.HTTP.REST.csproj" />
+    <ProjectReference Include="..\Juniper.MediaType\Juniper.MediaType.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.World\Juniper.World.csproj" />
   </ItemGroup>
 
 </Project>

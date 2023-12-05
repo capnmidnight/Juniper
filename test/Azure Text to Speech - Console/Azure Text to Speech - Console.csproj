@@ -17,6 +17,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Juniper.Azure\Juniper.Azure.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Caching\Juniper.Caching.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.IO\Juniper.IO.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Units\Juniper.Units.csproj" />
   </ItemGroup>
   
 </Project>
