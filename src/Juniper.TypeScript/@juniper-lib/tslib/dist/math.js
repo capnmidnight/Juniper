@@ -1,8 +1,8 @@
-import { vec2, vec3 } from "gl-matrix";
+import { Vec3 } from "gl-matrix/dist/esm";
 import { isDefined, isGoodNumber, isNumber } from "./typeChecks";
-export const RIGHT = /*@__PURE__*/ vec3.fromValues(1, 0, 0);
-export const UP = /*@__PURE__*/ vec3.fromValues(0, 1, 0);
-export const FWD = /*@__PURE__*/ vec3.fromValues(0, 0, -1);
+export const RIGHT = /*@__PURE__*/ new Vec3(1, 0, 0);
+export const UP = /*@__PURE__*/ new Vec3(0, 1, 0);
+export const FWD = /*@__PURE__*/ new Vec3(0, 0, -1);
 export const Pi = /*@__PURE__*/ Math.PI;
 export const HalfPi = /*@__PURE__*/ 0.5 * Pi;
 export const Tau = /*@__PURE__*/ 2 * Pi;
@@ -73,14 +73,13 @@ export function xy2i(x, y, width, components = 1) {
     return components * (x + width * y);
 }
 export function vec22i(vec, width, components = 1) {
-    return xy2i(vec[0], vec[1], width, components);
+    return xy2i(vec.x, vec.y, width, components);
 }
 export function i2vec2(vec, i, width, components = 1) {
     const stride = width * components;
     const p = i % stride;
-    const x = Math.floor(p / components);
-    const y = Math.floor(i / stride);
-    vec2.set(vec, x, y);
+    vec.x = Math.floor(p / components);
+    vec.y = Math.floor(i / stride);
 }
 export function radiansClamp(radians) {
     return ((radians % Tau) + Tau) % Tau;
@@ -355,7 +354,7 @@ export function warnOnNaN(val, msg) {
         type = "Value is";
         isBad = !isGoodNumber(val);
     }
-    else if ("length" in val) {
+    else if (val instanceof Array) {
         type = "Array contains";
         for (let i = 0; i < val.length; ++i) {
             if (!isGoodNumber(val[i])) {

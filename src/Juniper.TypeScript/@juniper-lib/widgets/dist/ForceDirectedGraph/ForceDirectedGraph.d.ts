@@ -14,6 +14,7 @@ export declare class ForceDirectedGraph<T> {
     private readonly g;
     private readonly render;
     private readonly resize;
+    private readonly size;
     private _running;
     private _scale;
     private _showArrows;
@@ -30,13 +31,11 @@ export declare class ForceDirectedGraph<T> {
     repel: number;
     centeringGravity: number;
     get running(): boolean;
-    get w(): number;
-    get h(): number;
     get scale(): number;
     set scale(v: number);
     get showArrows(): boolean;
     set showArrows(v: boolean);
-    private mid;
+    private readonly halfSize;
     constructor(container: HTMLElement, getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number, makeElementClass: (value: T) => string, makeContent: (value: T) => string | HTMLElement);
     start(): void;
     stop(): void;
@@ -47,7 +46,6 @@ export declare class ForceDirectedGraph<T> {
     reset(): void;
     private _render;
     private setMouse;
-    private readonly boundsCache;
     private draw;
     getElement(value: T): HTMLElement;
     private setElementClass;

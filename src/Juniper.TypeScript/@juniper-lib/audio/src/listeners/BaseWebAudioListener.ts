@@ -1,9 +1,9 @@
-import { vec3 } from "gl-matrix";
+import { Vec3 } from "gl-matrix/dist/esm";
 import { Pose } from "../Pose";
 import { BaseListener } from "./BaseListener";
 
-const f = vec3.create();
-const u = vec3.create();
+const f = new Vec3();
+const u = new Vec3();
 
 export abstract class BaseWebAudioListener extends BaseListener {
     protected get listener(): AudioListener {
@@ -15,10 +15,14 @@ export abstract class BaseWebAudioListener extends BaseListener {
      */
     readPose(loc: Pose): void {
         const { p, q } = loc;
-        vec3.set(f, 0, 0, -1);
-        vec3.transformQuat(f, f, q);
-        vec3.set(u, 0, 1, 0);
-        vec3.transformQuat(u, u, q);
+        f.x = 0;
+        f.y = 0;
+        f.z = -1;
+        Vec3.transformQuat(f, f, q);
+        u.x = 0;
+        u.y = 1;
+        u.z = 0;
+        Vec3.transformQuat(u, u, q);
         this.setPosition(p[0], p[1], p[2]);
         this.setOrientation(f[0], f[1], f[2], u[0], u[1], u[2]);
     }

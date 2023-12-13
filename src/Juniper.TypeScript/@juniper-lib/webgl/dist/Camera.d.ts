@@ -1,4 +1,4 @@
-import { mat4, vec3 } from "gl-matrix";
+import { Mat4, Vec3 } from "gl-matrix/dist/esm";
 import type { Context3D } from "./Context3D";
 interface CameraInit {
     near: number;
@@ -22,10 +22,10 @@ export declare class Camera {
     private _pos;
     gamma: number;
     constructor(ctx: Context3D, init?: Partial<CameraInit>);
-    get view(): mat4;
-    set view(v: mat4);
-    get projection(): mat4;
-    set projection(v: mat4);
+    get view(): Mat4;
+    set view(v: Mat4);
+    get projection(): Mat4;
+    set projection(v: Mat4);
     get fov(): number;
     set fov(v: number);
     get sensorSize(): number;
@@ -40,8 +40,8 @@ export declare class Camera {
     setProjection(fov?: number, near?: number, far?: number): void;
     private refreshProjection;
     rotateTo(headingDegrees: number, pitchDegrees: number): void;
-    moveTo(pos: vec3): void;
-    rotateAndMoveTo(headingDegrees: number, pitchDegrees: number, pos: vec3): void;
+    moveTo(pos: Vec3): void;
+    rotateAndMoveTo(headingDegrees: number, pitchDegrees: number, pos: Vec3): void;
     private _rotateTo;
     private _moveTo;
     private refreshView;

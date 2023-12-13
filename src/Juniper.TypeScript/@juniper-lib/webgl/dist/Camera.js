@@ -1,6 +1,6 @@
 import { deg2rad, rad2deg } from "@juniper-lib/tslib/dist/math";
 import { isNumber } from "@juniper-lib/tslib/dist/typeChecks";
-import { glMatrix, mat4, quat, vec3 } from "gl-matrix";
+import { Mat4, Quat, Vec3 } from "gl-matrix/dist/esm";
 function fovAndSensor2Focal(fov, sensor) {
     const halfVert = sensor / 3;
     return halfVert / Math.tan(deg2rad(fov));
@@ -17,13 +17,13 @@ const DEFAULT_CAMERA_SETTINGS = {
 };
 export class Camera {
     constructor(ctx, init) {
-        this._proj = mat4.create();
-        this._view = mat4.create();
+        this._proj = new Mat4();
+        this._view = new Mat4();
         this._headingDegrees = 0;
         this._pitchDegrees = 0;
         this._sensorSize = 0.035;
-        this._rot = quat.create();
-        this._pos = vec3.create();
+        this._rot = new Quat();
+        this._pos = new Vec3();
         this.gamma = 1;
         ctx.addEventListener("resize", (evt) => {
             this._aspect = evt.width / evt.height;
@@ -49,13 +49,13 @@ export class Camera {
         return this._view;
     }
     set view(v) {
-        mat4.copy(this._view, v);
+        this._view.copy(v);
     }
     get projection() {
         return this._proj;
     }
     set projection(v) {
-        mat4.copy(this._proj, v);
+        this._proj.copy(v);
     }
     get fov() {
         return this._fov;
@@ -109,7 +109,7 @@ export class Camera {
         this.refreshProjection();
     }
     refreshProjection() {
-        mat4.perspective(this._proj, glMatrix.toRadian(this._fov), this._aspect, this._near, this._far);
+        this._proj.perspectiveNO(deg2rad(this._fov), this._aspect, this._near, this._far);
     }
     rotateTo(headingDegrees, pitchDegrees) {
         this._rotateTo(headingDegrees, pitchDegrees);
@@ -133,17 +133,17 @@ export class Camera {
                 this._pitchDegrees = -90;
             while (this._pitchDegrees > 90)
                 this._pitchDegrees = 90;
-            quat.identity(this._rot);
-            quat.rotateY(this._rot, this._rot, deg2rad(this._headingDegrees));
-            quat.rotateX(this._rot, this._rot, deg2rad(this._pitchDegrees));
+            this._rot.identity()
+                .rotateY(deg2rad(this._headingDegrees))
+                .rotateX(deg2rad(this._pitchDegrees));
         }
     }
     _moveTo(pos) {
-        vec3.copy(this._pos, pos);
+        this._pos.copy(pos);
     }
     refreshView() {
-        mat4.fromRotationTranslation(this.view, this._rot, this._pos);
-        mat4.invert(this.view, this.view);
+        Mat4.fromRotationTranslation(this.view, this._rot, this._pos);
+        this.view.invert();
     }
 }
 //# sourceMappingURL=Camera.js.map

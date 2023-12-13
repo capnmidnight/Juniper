@@ -1,7 +1,7 @@
 import { rad2deg } from "@juniper-lib/tslib/dist/math";
 import { isNullOrUndefined, isObject } from "@juniper-lib/tslib/dist/typeChecks";
 import { ICloneable } from "@juniper-lib/tslib/dist/using";
-import { vec2, vec3 } from "gl-matrix";
+import { Vec2, Vec3 } from "gl-matrix/dist/esm";
 import { DatumWGS_84 } from "./Datum";
 import { IUTMPoint, UTMPoint } from "./UTMPoint";
 
@@ -18,8 +18,9 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
 
     static centroid(points: LatLngPoint[]): LatLngPoint {
         const scale = 1 / points.length;
-        const vec = points.map((p) => p.toVec3())
-            .reduce((a, b) => vec3.scaleAndAdd(a, a, b, scale), vec3.create());
+        const vec = points
+            .map((p) => p.toVec3())
+            .reduce((a, b) => a.scaleAndAdd(b, scale), new Vec3());
         return new LatLngPoint().fromVec3(vec);
     }
 
@@ -328,29 +329,25 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
         return new UTMPoint().fromLatLng(this);
     }
 
-    toVec2(): vec2 {
-        const v = vec2.create();
-        vec2.set(v, this.lng, this.lat);
-        return v;
+    toVec2(): Vec2 {
+        return new Vec2(this.lng, this.lat);
     }
 
-    fromVec2(v: vec2) {
-        this._lng = v[0];
-        this._lat = v[1];
+    fromVec2(v: Vec2) {
+        this._lng = v.x;
+        this._lat = v.y;
         this._alt = undefined;
         return this;
     }
 
-    toVec3(): vec3 {
-        const v = vec3.create();
-        vec3.set(v, this.lng, this.alt, this.lat);
-        return v;
+    toVec3(): Vec3 {
+        return new Vec3(this.lng, this.alt, this.lat);
     }
 
-    fromVec3(v: vec3) {
-        this._lng = v[0];
-        this._alt = v[1];
-        this._lat = v[2];
+    fromVec3(v: Vec3) {
+        this._lng = v.x;
+        this._alt = v.y;
+        this._lat = v.z;
         return this;
     }
 
@@ -359,7 +356,10 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
     }
 
     fromArray(arr: [number, number, number]) {
-        return this.fromVec3(arr);
+        this._lng = arr[0];
+        this._alt = arr[1];
+        this._lat = arr[2];
+        return this;
     }
 
     copy(other: ILatLngPoint): LatLngPoint {

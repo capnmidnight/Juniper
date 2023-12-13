@@ -1,8 +1,8 @@
 import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { mat4, quat } from "gl-matrix";
+import { Mat4, Quat } from "gl-matrix/dist/esm";
 const origin = { x: 0, y: 0, z: 0, w: 1 };
 const direction = { x: 0, y: 0, z: 0, w: 0 };
-const dir = quat.create();
+const dir = new Quat();
 export class Mesh {
     constructor(gl, geom, texture, material) {
         this.gl = gl;
@@ -10,7 +10,7 @@ export class Mesh {
         this.texture = texture;
         this.material = material;
         this.visible = true;
-        this.model = mat4.identity(mat4.create());
+        this.model = new Mat4().identity();
     }
     render(cam, frame, baseRefSpace) {
         if (this.visible) {
@@ -22,7 +22,7 @@ export class Mesh {
                 origin.x = cam.view[12];
                 origin.y = cam.view[13];
                 origin.z = cam.view[14];
-                mat4.getRotation(dir, cam.view);
+                Mat4.getRotation(dir, cam.view);
                 direction.x = dir[0];
                 direction.y = dir[1];
                 direction.z = dir[2];

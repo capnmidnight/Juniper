@@ -17,7 +17,7 @@
     "@juniper-lib/events": "file:../events",
     "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/tslib": "file:../tslib",
-    "gl-matrix": "3.4.3",
+    "gl-matrix": "4.0.0-beta.1",
     "microsoft-cognitiveservices-speech-sdk": "1.31.0"
   },
   "devDependencies": {

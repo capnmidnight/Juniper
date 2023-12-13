@@ -13,7 +13,7 @@
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/events": "file:../events",
     "@juniper-lib/tslib": "file:../tslib",
-    "gl-matrix": "3.4.3"
+    "gl-matrix": "4.0.0-beta.1"
   },
   "devDependencies": {
     "@types/offscreencanvas": "2019.7.0"

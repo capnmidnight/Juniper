@@ -13,7 +13,7 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
-    "gl-matrix": "3.4.3",
+    "gl-matrix": "4.0.0-beta.1",
     "@juniper-lib/tslib": "file:../tslib"
   },
   "devDependencies": {

@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git\u002Bhttps://github.com/capnmidnight/Juniper.git"
+    "url": "https://github.com/capnmidnight/Juniper.git"
   },
   "author": "Sean T. McBeth \u003Csean.mcbeth@gmail.com\u003E",
   "license": "MIT",

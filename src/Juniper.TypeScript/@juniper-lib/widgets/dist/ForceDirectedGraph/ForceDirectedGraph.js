@@ -1,27 +1,28 @@
-import { arrayRandom, arrayRemove, compareBy } from "@juniper-lib/collections/src/arrays";
+import { compareBy } from "@juniper-lib/collections/src/arrays";
 import { debounce } from "@juniper-lib/events/src/debounce";
-import { Tau } from "@juniper-lib/tslib/dist/math";
-import { ForceDirectedNode, add, copy, length, scale, sub, zero } from "./ForceDirectedNode";
+import { Vec2, Vec3 } from "gl-matrix/dist/esm";
+import { ForceDirectedNode } from "./ForceDirectedNode";
 function distinct(arr) {
     return Array.from(new Set(arr));
 }
-const delta = [0, 0];
-function findIntersection(sx, sy, ex, ey, bounds) {
+const delta = new Vec2();
+function findIntersection(sx, sy, ex, ey, size) {
     const dx = ex - sx;
     const dy = ey - sy;
-    const len = length(dx, dy);
-    const box = bounds.padding;
-    const hw = box.width / 2;
-    const hh = box.height / 2;
+    delta.x = dx;
+    delta.y = dy;
+    const len = delta.magnitude;
+    const hw = size.x / 2;
+    const hh = size.y / 2;
     const lx = dx - hw;
     const rx = dx + hw;
     const ty = dy - hh;
     const by = dy + hh;
     const points = [
-        intersect(dx, dy, len, lx, ty, rx, ty, box.width),
-        intersect(dx, dy, len, lx, by, rx, by, box.width),
-        intersect(dx, dy, len, lx, ty, lx, by, box.height),
-        intersect(dx, dy, len, rx, ty, rx, by, box.height)
+        intersect(dx, dy, len, lx, ty, rx, ty, size.x),
+        intersect(dx, dy, len, lx, by, rx, by, size.x),
+        intersect(dx, dy, len, lx, ty, lx, by, size.y),
+        intersect(dx, dy, len, rx, ty, rx, by, size.y)
     ].filter(v => v);
     if (points.length === 0) {
         return null;
@@ -54,8 +55,10 @@ function intersect(d1x, d1y, len1, v1x, v1y, v2x, v2y, len2) {
             return null;
         }
     }
-    const len = length(d1x, d1y);
-    return [d1x, d1y, len];
+    delta.x = d1x;
+    delta.y = d1y;
+    const len = delta.magnitude;
+    return new Vec3(d1x, d1y, len);
 }
 const style = document.createElement("style");
 document.head.append(style);
@@ -69,12 +72,6 @@ function setNodeScale(scale) {
 setNodeScale(1);
 export class ForceDirectedGraph {
     get running() { return this._running; }
-    get w() {
-        return this.content.clientWidth;
-    }
-    get h() {
-        return this.content.clientHeight;
-    }
     get scale() {
         return this._scale;
     }
@@ -101,8 +98,9 @@ export class ForceDirectedGraph {
         this.graph = new Map();
         this.elementToNode = new Map();
         this.mouseDown = false;
-        this.mousePoint = [0, 0];
-        this.displayCenter = [0, 0];
+        this.mousePoint = new Vec2();
+        this.displayCenter = new Vec2();
+        this.size = new Vec2();
         this._running = false;
         this._scale = 1;
         this._showArrows = true;
@@ -113,30 +111,29 @@ export class ForceDirectedGraph {
         this.timer = null;
         this.performLayout = true;
         this.displayDepth = -1;
-        this.limit = 5;
+        this.limit = 10;
         this.cooling = false;
         this.attract = 1;
         this.repel = 1;
         this.centeringGravity = .1;
-        this.mid = [0, 0];
-        this.boundsCache = new Map();
+        this.halfSize = new Vec2();
         this.render = this._render.bind(this);
         this.container.classList.add("force-directed-graph");
         this.container.addEventListener("wheel", evt => {
             this.setMouse(evt);
-            copy(this.mousePoint, delta);
-            sub(delta, this.displayCenter, delta);
-            scale(this.scale, delta, delta);
-            const start = Array.from(delta);
+            delta.copy(this.mousePoint)
+                .sub(this.displayCenter)
+                .scale(this.scale);
+            const start = new Vec2(delta);
             this.scale -= 0.001 * evt.deltaY;
             this.setMouse(evt);
-            copy(this.mousePoint, delta);
-            sub(delta, this.displayCenter, delta);
-            scale(this.scale, delta, delta);
-            const end = Array.from(delta);
-            sub(end, start, delta);
-            scale(1 / this.scale, delta, delta);
-            add(this.displayCenter, delta, this.displayCenter);
+            delta.copy(this.mousePoint)
+                .sub(this.displayCenter)
+                .scale(this.scale);
+            delta.sub(start)
+                .scale(1 / this.scale)
+                .add(this.displayCenter);
+            this.displayCenter.copy(delta);
         });
         this.container.addEventListener("mousedown", evt => {
             this.setMouse(evt);
@@ -172,10 +169,10 @@ export class ForceDirectedGraph {
                 this.grabbed.moving = true;
             }
             else if (this.mouseDown) {
-                copy(this.mousePoint, delta);
+                delta.copy(this.mousePoint);
                 this.setMouse(evt);
-                sub(delta, this.mousePoint, delta);
-                sub(this.displayCenter, delta, this.displayCenter);
+                delta.sub(this.mousePoint);
+                this.displayCenter.sub(delta);
             }
         });
         this.container.addEventListener("mouseup", (evt) => {
@@ -200,11 +197,11 @@ export class ForceDirectedGraph {
             this.content.style.left = offset + "%";
             this.content.style.top = offset + "%";
             this.content.style.transform = `scale(${this.scale})`;
-            this.connectorsCanvas.width = this.w * devicePixelRatio * this.scale;
-            this.connectorsCanvas.height = this.h * devicePixelRatio * this.scale;
-            this.mid[0] = this.w;
-            this.mid[1] = this.h;
-            scale(0.5, this.mid, this.mid);
+            this.size.x = this.connectorsCanvas.clientWidth;
+            this.size.y = this.connectorsCanvas.clientHeight;
+            this.halfSize.copy(this.size).scale(0.5);
+            this.connectorsCanvas.width = this.size.x * devicePixelRatio * this.scale;
+            this.connectorsCanvas.height = this.size.y * devicePixelRatio * this.scale;
         });
         const resizer = new ResizeObserver((evts) => {
             for (const evt of evts) {
@@ -231,6 +228,10 @@ export class ForceDirectedGraph {
         }
     }
     showCycles(show, strict) {
+        for (const node of this.graph.values()) {
+            node.element.classList.remove("cycled", "not-cycled");
+            node.hidden = false;
+        }
         if (show) {
             const wasVisitedBy = new Map();
             for (const node of this.graph.values()) {
@@ -264,22 +265,21 @@ export class ForceDirectedGraph {
             }
             for (const node of this.graph.values()) {
                 const visitors = wasVisitedBy.get(node);
-                if (visitors.has(node)) {
-                    for (const n of visitors) {
-                        n.element.classList.add("cycled");
-                    }
-                }
+                const visitedSelf = visitors.has(node);
+                node.element.classList.add(visitedSelf
+                    ? "cycled"
+                    : "not-cycled");
             }
             for (const node of this.graph.values()) {
-                if (!node.element.classList.contains("cycled")) {
-                    node.hidden = true;
+                if (node.element.classList.contains("not-cycled")) {
+                    const connections = [
+                        ...node.connections,
+                        ...node.reverseConnections
+                    ];
+                    node.hidden = connections
+                        .filter(c => !c.element.classList.contains("cycled"))
+                        .length == 0;
                 }
-            }
-        }
-        else {
-            for (const node of this.graph.values()) {
-                node.element.classList.remove("cycled");
-                node.hidden = false;
             }
         }
     }
@@ -302,7 +302,7 @@ export class ForceDirectedGraph {
                         this.graph.set(value, node);
                         this.elementToNode.set(node.element, node);
                         this.content.append(node.element);
-                        node.computeBounds(1 / this.scale, this.boundsCache);
+                        node.computeBounds(1 / this.scale);
                     }
                 }
                 this.reset();
@@ -323,18 +323,14 @@ export class ForceDirectedGraph {
         this.updateDepths();
     }
     reset() {
-        const R = Math.min(this.w, this.h) / 2;
-        const nodes = Array.from(this.graph.values());
-        while (nodes.length > 0) {
-            const node = arrayRandom(nodes);
-            arrayRemove(nodes, node);
-            const i = nodes.length;
+        const R = Math.min(...this.size) / 2;
+        for (const node of this.graph.values()) {
             if (!node.pinned) {
-                const a = Tau * i / this.graph.size;
-                const r = R;
-                node.position[0] = Math.cos(a);
-                node.position[1] = Math.sin(a);
-                scale(r, node.position, node.position);
+                do {
+                    node.position.x = Math.random() * 2 - 1;
+                    node.position.y = Math.random() * 2 - 1;
+                } while (node.position.magnitude > 1);
+                node.position.scale(R);
             }
         }
     }
@@ -346,12 +342,12 @@ export class ForceDirectedGraph {
         }
     }
     setMouse(evt) {
-        this.mousePoint[0] = (evt.pageX - this.container.offsetLeft) / this.scale;
-        this.mousePoint[1] = (evt.pageY - this.container.offsetTop) / this.scale;
+        this.mousePoint.x = (evt.pageX - this.container.offsetLeft) / this.scale;
+        this.mousePoint.y = (evt.pageY - this.container.offsetTop) / this.scale;
     }
     draw() {
-        const cx = .5 * this.w + this.displayCenter[0];
-        const cy = .5 * this.h + this.displayCenter[1];
+        delta.copy(this.halfSize)
+            .add(this.displayCenter);
         if (this.showArrows) {
             this.g.clearRect(0, 0, this.g.canvas.width, this.g.canvas.height);
             this.g.fillStyle = "black";
@@ -360,7 +356,7 @@ export class ForceDirectedGraph {
             this.g.save();
             this.g.scale(devicePixelRatio, devicePixelRatio);
             this.g.scale(this.scale, this.scale);
-            this.g.translate(cx, cy);
+            this.g.translate(delta.x, delta.y);
             for (const n1 of this.graph.values()) {
                 if (n1.canDrawArrow(this.displayDepth)) {
                     const [p1x, p1y] = n1.position;
@@ -369,7 +365,7 @@ export class ForceDirectedGraph {
                     for (const n2 of n1.connections) {
                         if (n2.canDrawArrow(this.displayDepth)) {
                             const [p2x, p2y] = n2.position;
-                            const inter = findIntersection(p1x, p1y, p2x, p2y, n2.bounds);
+                            const inter = findIntersection(p1x, p1y, p2x, p2y, n2.size);
                             if (inter) {
                                 let [dx, dy, len] = inter;
                                 if (len > 0) {
@@ -395,8 +391,10 @@ export class ForceDirectedGraph {
             }
             this.g.restore();
         }
+        delta.copy(this.halfSize)
+            .add(this.displayCenter);
         for (const node of this.graph.values()) {
-            node.updatePosition(cx, cy, this.displayDepth);
+            node.updatePosition(delta, this.displayDepth);
         }
     }
     getElement(value) {
@@ -424,7 +422,8 @@ export class ForceDirectedGraph {
         this.selectedNode = this.setElementClass(value, "selected");
         if (this.selectedNode) {
             this.selectedNode.pinned = true;
-            zero(this.selectedNode.position);
+            this.selectedNode.position.x = 0;
+            this.selectedNode.position.y = 0;
         }
         this.updateDepths();
     }
@@ -497,7 +496,7 @@ export class ForceDirectedGraph {
             }
         }
         for (const n1 of this.graph.values()) {
-            n1.apply(this.limit, this.w, this.h);
+            n1.apply(this.limit);
         }
         if (this.cooling) {
             this.limit *= 0.975;
@@ -512,10 +511,7 @@ export class ForceDirectedGraph {
         const c4 = 0.2;
         const c5 = 2;
         const k = c0 * Math.sqrt(c1 * area / this.displayCount);
-        // Running this twice prevents oscillations from becoming visible.
-        //for (let i = 0; i < 2; ++i) {
         this.applyForces((connected, len) => connected ? c2 * Math.pow(len, c3) / k : 0, (_, len) => c4 * Math.pow(k, c5) / len);
-        //}
     }
 }
 //# sourceMappingURL=ForceDirectedGraph.js.map

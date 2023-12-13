@@ -1,12 +1,12 @@
 import { deg2rad } from "@juniper-lib/tslib/dist/math";
-import { quat, vec3 } from "gl-matrix";
+import { Quat, Vec3 } from "gl-matrix/dist/esm";
 
 export class Avatar {
-    private motion = vec3.create();
-    private direction = quat.create();
-    private velocity = vec3.create();
+    private motion = new Vec3();
+    private direction = new Quat();
+    private velocity = new Vec3();
     speed = 10;
-    position = vec3.create();
+    position = new Vec3();
 
     private dHeadingDegrees = 0;
     private dPitchDegrees = 0;
@@ -40,14 +40,16 @@ export class Avatar {
     }
 
     setMotion(left: boolean, right: boolean, fwd: boolean, back: boolean): void {
-        const dx = (left ? -1 : 0) + (right ? 1 : 0);
-        const dz = (fwd ? -1 : 0) + (back ? 1 : 0);
-        vec3.set(this.motion, dx, 0, dz);
-        vec3.normalize(this.motion, this.motion);
-        quat.identity(this.direction);
-        quat.rotateY(this.direction, this.direction, deg2rad(this.headingDegrees));
-        vec3.transformQuat(this.velocity, this.motion, this.direction);
-        vec3.scale(this.velocity, this.velocity, this.speed);
+        this.motion.x = (left ? -1 : 0) + (right ? 1 : 0);
+        this.motion.y = 0;
+        this.motion.z = (fwd ? -1 : 0) + (back ? 1 : 0);
+        this.motion.normalize();
+        this.direction
+            .identity()
+            .rotateY(deg2rad(this.headingDegrees));
+
+        Vec3.transformQuat(this.velocity, this.motion, this.direction);
+        this.velocity.scale(this.speed);
     }
 
     addMotion(left: boolean, right: boolean, fwd: boolean, back: boolean): void {
@@ -83,7 +85,7 @@ export class Avatar {
     }
 
     update(dt: number): void {
-        vec3.scaleAndAdd(this.position, this.position, this.velocity, dt);
+        this.position.scaleAndAdd(this.velocity, dt);
 
         this.headingDegrees += this.dHeadingDegrees * dt;
         this.pitchDegrees += this.dPitchDegrees * dt;
@@ -99,6 +101,7 @@ export class Avatar {
     reset() {
         this.headingDegrees = 0;
         this.pitchDegrees = 0;
-        vec3.zero(this.position);
+        this.position.x = 0;
+        this.position.y = 0;
     }
 }

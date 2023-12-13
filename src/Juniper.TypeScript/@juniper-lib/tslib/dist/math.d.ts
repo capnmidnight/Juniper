@@ -1,7 +1,7 @@
-import { vec2, vec3 } from "gl-matrix";
-export declare const RIGHT: vec3;
-export declare const UP: vec3;
-export declare const FWD: vec3;
+import { Vec2, Vec3, Vec4 } from "gl-matrix/dist/esm";
+export declare const RIGHT: Vec3;
+export declare const UP: Vec3;
+export declare const FWD: Vec3;
 export declare const Pi: number;
 export declare const HalfPi: number;
 export declare const Tau: number;
@@ -35,8 +35,8 @@ export declare function calculateVariance(arr: readonly number[]): number;
  **/
 export declare function calculateStandardDeviation(arr: readonly number[]): number;
 export declare function xy2i(x: number, y: number, width: number, components?: number): number;
-export declare function vec22i(vec: vec2, width: number, components?: number): number;
-export declare function i2vec2(vec: vec2, i: number, width: number, components?: number): void;
+export declare function vec22i(vec: Vec2, width: number, components?: number): number;
+export declare function i2vec2(vec: Vec2, i: number, width: number, components?: number): void;
 export declare function radiansClamp(radians: number): number;
 export declare function degreesClamp(radians: number): number;
 /**
@@ -152,17 +152,7 @@ export declare function nextPowerOf2(v: number): number;
 export declare function prevPowerOf2(v: number): number;
 export declare function closestPowerOf2(v: number): number;
 export declare function truncate(v: number): number;
-interface Vec2 {
-    x: number;
-    y: number;
-}
-interface Vec3 extends Vec2 {
-    z: number;
-}
-interface Vec4 extends Vec3 {
-    w: number;
-}
-type Vec = Vec2 | Vec3 | Vec4 | ArrayLike<number>;
-export declare function warnOnNaN(val: number | Vec, msg?: string): void;
+type Vec = Vec2 | Vec3 | Vec4;
+export declare function warnOnNaN(val: number | number[] | Vec, msg?: string): void;
 export {};
 //# sourceMappingURL=math.d.ts.map

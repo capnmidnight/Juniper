@@ -1,11 +1,11 @@
-import { quat, vec3 } from "gl-matrix";
+import { Quat, Vec3 } from "gl-matrix/dist/esm";
 
 /**
  * A position and orientation, at a given time.
  **/
 export class Pose {
-    readonly p = vec3.create();
-    readonly q = quat.create();
+    readonly p = new Vec3();
+    readonly q = new Quat();
 
     /**
      * Creates a new position and orientation, at a given time.
@@ -23,18 +23,23 @@ export class Pose {
     }
 
     setPosition(px: number, py: number, pz: number): void {
-        vec3.set(this.p, px, py, pz);
+        this.p.x = px;
+        this.p.y = py;
+        this.p.z = pz;
     }
 
     setOrientation(qx: number, qy: number, qz: number, qw: number): void {
-        quat.set(this.q, qx, qy, qz, qw);
+        this.q.x = qx;
+        this.q.y = qy;
+        this.q.z = qz;
+        this.q.w = qw;
     }
 
     /**
      * Copies the components of another pose into this pose.
      */
     copy(other: Pose): void {
-        vec3.copy(this.p, other.p);
-        quat.copy(this.q, other.q);
+        this.p.copy(other.p);
+        this.q.copy(other.q);
     }
 }

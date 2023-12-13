@@ -1,5 +1,5 @@
 import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { mat4, quat } from "gl-matrix";
+import { Mat4, Quat } from "gl-matrix/dist/esm";
 import type { Camera } from "./Camera";
 import type { Geometry } from "./Geometry";
 import type { BaseTexture } from "./managed/resource/Texture";
@@ -7,10 +7,10 @@ import type { Material } from "./Material";
 
 const origin = { x: 0, y: 0, z: 0, w: 1 };
 const direction = { x: 0, y: 0, z: 0, w: 0 };
-const dir = quat.create();
+const dir = new Quat();
 
 export class Mesh {
-    public model: mat4;
+    public model: Mat4;
 
     public visible = true;
 
@@ -18,7 +18,7 @@ export class Mesh {
         private geom: Geometry,
         private texture: BaseTexture,
         public readonly material: Material) {
-        this.model = mat4.identity(mat4.create());
+        this.model = new Mat4().identity();
     }
 
     render(cam: Camera, frame?: XRFrame, baseRefSpace?: XRReferenceSpace) {
@@ -34,7 +34,7 @@ export class Mesh {
                 origin.y = cam.view[13];
                 origin.z = cam.view[14];
 
-                mat4.getRotation(dir, cam.view);
+                Mat4.getRotation(dir, cam.view);
                 direction.x = dir[0];
                 direction.y = dir[1];
                 direction.z = dir[2];

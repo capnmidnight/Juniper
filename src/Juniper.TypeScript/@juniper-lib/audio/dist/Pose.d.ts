@@ -1,10 +1,10 @@
-import { quat, vec3 } from "gl-matrix";
+import { Quat, Vec3 } from "gl-matrix/dist/esm";
 /**
  * A position and orientation, at a given time.
  **/
 export declare class Pose {
-    readonly p: vec3;
-    readonly q: quat;
+    readonly p: Vec3;
+    readonly q: Quat;
     /**
      * Creates a new position and orientation, at a given time.
      **/

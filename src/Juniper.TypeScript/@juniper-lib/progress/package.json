@@ -15,7 +15,7 @@
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",
     "@juniper-lib/events": "file:../events",
-    "gl-matrix": "3.4.3"
+    "gl-matrix": "4.0.0-beta.1"
   },
   "devDependencies": {
     "@juniper-types/extra-types": "file:../../@juniper-types/extra-types"

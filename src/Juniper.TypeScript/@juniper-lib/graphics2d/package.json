@@ -19,7 +19,7 @@
     "@juniper-lib/timers": "file:../timers",
     "@juniper-lib/tslib": "file:../tslib",
     "@types/offscreencanvas": "2019.7.0",
-    "gl-matrix": "3.4.3",
+    "gl-matrix": "4.0.0-beta.1",
     "pdfjs-dist": "2.16.105"
   },
   "devDependencies": {

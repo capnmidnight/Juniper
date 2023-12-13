@@ -1,5 +1,5 @@
 import { ICloneable } from "@juniper-lib/tslib/dist/using";
-import { vec2, vec3 } from "gl-matrix";
+import { Vec2, Vec3 } from "gl-matrix/dist/esm";
 import { IUTMPoint, UTMPoint } from "./UTMPoint";
 export interface ILatLngPoint {
     lat: number;
@@ -104,10 +104,10 @@ export declare class LatLngPoint implements ILatLngPoint, ICloneable {
      * @see http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm
      **/
     toUTM(): UTMPoint;
-    toVec2(): vec2;
-    fromVec2(v: vec2): this;
-    toVec3(): vec3;
-    fromVec3(v: vec3): this;
+    toVec2(): Vec2;
+    fromVec2(v: Vec2): this;
+    toVec3(): Vec3;
+    fromVec3(v: Vec3): this;
     toArray(): number[];
     fromArray(arr: [number, number, number]): this;
     copy(other: ILatLngPoint): LatLngPoint;

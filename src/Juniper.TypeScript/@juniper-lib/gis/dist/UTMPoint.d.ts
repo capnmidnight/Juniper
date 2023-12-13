@@ -1,5 +1,5 @@
 import { ICloneable } from "@juniper-lib/tslib/dist/using";
-import { vec2, vec3 } from "gl-matrix";
+import { Vec2, Vec3 } from "gl-matrix/dist/esm";
 import { ILatLngPoint, LatLngPoint } from "./LatLngPoint";
 /**
  * The globe hemispheres in which the UTM point could sit.
@@ -87,10 +87,10 @@ export declare class UTMPoint implements IUTMPoint, ICloneable {
      * reference: http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm
      **/
     toLatLng(): LatLngPoint;
-    toVec2(): vec2;
-    fromVec2(arr: vec2, zone: number): UTMPoint;
-    toVec3(): vec3;
-    fromVec3(arr: vec3, zone: number): UTMPoint;
+    toVec2(): Vec2;
+    fromVec2(arr: Vec2, zone: number): UTMPoint;
+    toVec3(): Vec3;
+    fromVec3(arr: Vec3, zone: number): UTMPoint;
     copy(other: IUTMPoint): UTMPoint;
     clone(): UTMPoint;
 }

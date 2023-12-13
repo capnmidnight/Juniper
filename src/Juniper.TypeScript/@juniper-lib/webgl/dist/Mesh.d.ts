@@ -1,5 +1,5 @@
 /// <reference types="webxr" />
-import { mat4 } from "gl-matrix";
+import { Mat4 } from "gl-matrix/dist/esm";
 import type { Camera } from "./Camera";
 import type { Geometry } from "./Geometry";
 import type { BaseTexture } from "./managed/resource/Texture";
@@ -9,7 +9,7 @@ export declare class Mesh {
     private geom;
     private texture;
     readonly material: Material;
-    model: mat4;
+    model: Mat4;
     visible: boolean;
     constructor(gl: WebGL2RenderingContext, geom: Geometry, texture: BaseTexture, material: Material);
     render(cam: Camera, frame?: XRFrame, baseRefSpace?: XRReferenceSpace): void;

@@ -7,10 +7,10 @@ import { RequestAnimationFrameTimer } from "@juniper-lib/timers/dist/RequestAnim
 import { Tau } from "@juniper-lib/tslib/dist/math";
 import { stringRandom } from "@juniper-lib/tslib/dist/strings/stringRandom";
 import { DialogBox } from "@juniper-lib/widgets/dist/DialogBox";
-import { vec2 } from "gl-matrix";
+import { Vec2 } from "gl-matrix/dist/esm";
 const size = 20;
 const mid = size / 2;
-const delta = vec2.create();
+const delta = new Vec2();
 function clamp(a, b) {
     if (a < 0) {
         return 0;
@@ -42,7 +42,7 @@ export class BaseGraphDialog extends DialogBox {
         this.positions = new Map();
         this.forces = new Map();
         this.wasGrabbed = new Set();
-        this.mousePoint = vec2.create();
+        this.mousePoint = new Vec2();
         this.grabbed = null;
         this.graph = null;
         this.cancelButton.style.display = "none";
@@ -60,15 +60,16 @@ export class BaseGraphDialog extends DialogBox {
             resizeContext(this.g);
         });
         resizer.observe(this.canvas);
-        const delta = vec2.create();
+        const delta = new Vec2();
         this.canvas.addEventListener("mousedown", (evt) => {
             this.setMouse(evt);
             this.grabbed = null;
             let dist = 0.7071067811865475 * size;
             for (const node of this.graph) {
                 const point = this.positions.get(node);
-                vec2.sub(delta, point, this.mousePoint);
-                const d = vec2.length(delta);
+                delta.copy(point)
+                    .sub(this.mousePoint);
+                const d = delta.magnitude;
                 if (d < dist) {
                     this.grabbed = node;
                     if (this.wasGrabbed.has(node)) {
@@ -89,9 +90,8 @@ export class BaseGraphDialog extends DialogBox {
         });
     }
     setMouse(evt) {
-        const x = evt.offsetX * this.canvas.width / this.canvas.clientWidth - size;
-        const y = evt.offsetY * this.canvas.height / this.canvas.clientHeight - size;
-        vec2.set(this.mousePoint, x, y);
+        this.mousePoint.x = evt.offsetX * this.canvas.width / this.canvas.clientWidth - size;
+        this.mousePoint.y = evt.offsetY * this.canvas.height / this.canvas.clientHeight - size;
     }
     draw() {
         this.g.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -104,8 +104,8 @@ export class BaseGraphDialog extends DialogBox {
             for (const node2 of n1.connections) {
                 const p2 = this.positions.get(node2);
                 this.g.beginPath();
-                this.g.moveTo(p1[0], p1[1]);
-                this.g.lineTo(p2[0], p2[1]);
+                this.g.moveTo(p1.x, p1.y);
+                this.g.lineTo(p2.x, p2.y);
                 this.g.stroke();
             }
         }
@@ -117,51 +117,53 @@ export class BaseGraphDialog extends DialogBox {
                 this.g.fillStyle = rgb(243, 243, 243);
                 const p1 = this.positions.get(n1);
                 this.g.fillStyle = this.getNodeColor(n1.value);
-                this.g.fillRect(p1[0], p1[1], size, size);
-                this.g.strokeRect(p1[0], p1[1], size, size);
+                this.g.fillRect(p1.x, p1.y, size, size);
+                this.g.strokeRect(p1.x, p1.y, size, size);
                 this.g.fillStyle = "black";
-                this.g.fillText(this.getNodeName(n1.value), p1[0] + mid, p1[1] + mid);
+                this.g.fillText(this.getNodeName(n1.value), p1.x + mid, p1.y + mid);
             }
         }
         this.g.restore();
         this.g.restore();
     }
     applyForces(attract, repel) {
-        const forces = mapBuild(this.graph, () => vec2.create());
+        const forces = mapBuild(this.graph, () => new Vec2());
         // calculate forces
         for (const n1 of this.graph) {
             const p1 = this.positions.get(n1);
             if (n1 === this.grabbed) {
-                vec2.copy(p1, this.mousePoint);
+                p1.copy(this.mousePoint);
             }
             else if (!this.wasGrabbed.has(n1)) {
                 const f1 = forces.get(n1);
                 const f0 = this.forces.get(n1);
                 if (f0) {
-                    vec2.add(f1, f1, f0);
+                    f1.add(f0);
                 }
-                vec2.set(delta, this.w, this.h);
-                vec2.scaleAndAdd(delta, p1, delta, -0.5);
-                const len = vec2.length(delta);
+                delta.x = this.w;
+                delta.y = this.h;
+                delta.scale(-0.5)
+                    .add(p1);
+                const len = delta.magnitude;
                 if (len > 0) {
-                    vec2.normalize(delta, delta);
+                    delta.normalize();
                     let f = -10000 * len;
                     f = Math.sign(f) * Math.pow(Math.abs(f), 0.2);
-                    vec2.scaleAndAdd(f1, f1, delta, f);
+                    f1.scaleAndAdd(delta, f);
                 }
                 for (const n2 of this.graph) {
                     if (n1 !== n2) {
                         const p2 = this.positions.get(n2);
-                        vec2.sub(delta, p2, p1);
-                        const len = vec2.length(delta);
+                        delta.copy(p2).sub(p1);
+                        const len = delta.magnitude;
                         if (len > 0) {
-                            vec2.normalize(delta, delta);
+                            delta.normalize();
                             const connected = n1.isConnectedTo(n2);
                             const weight = this.getWeightMod(n1.value, n2.value, connected);
                             const invWeight = 2 - weight;
                             const f = weight * this.attract.valueAsNumber * attract(connected, len)
                                 - invWeight * this.repel.valueAsNumber * repel(connected, len);
-                            vec2.scaleAndAdd(f1, f1, delta, f);
+                            f1.scaleAndAdd(delta, f);
                         }
                     }
                 }
@@ -170,14 +172,14 @@ export class BaseGraphDialog extends DialogBox {
         // limit
         for (const n1 of this.graph) {
             const f1 = forces.get(n1);
-            f1[1] *= this.h / this.w;
-            const len = vec2.length(f1);
+            f1.y *= this.h / this.w;
+            const len = f1.magnitude;
             if (len > 0) {
-                vec2.scale(f1, f1, Math.min(this.t.valueAsNumber, len) / len);
+                f1.scale(Math.min(this.t.valueAsNumber, len) / len);
                 const p1 = this.positions.get(n1);
-                vec2.add(p1, p1, f1);
-                p1[0] = clamp(p1[0], this.w);
-                p1[1] = clamp(p1[1], this.h);
+                p1.add(f1);
+                p1.x = clamp(p1.x, this.w);
+                p1.y = clamp(p1.y, this.h);
             }
         }
         if (this.cooling.checked) {
@@ -214,7 +216,7 @@ export class BaseGraphDialog extends DialogBox {
             const r = R;
             const x = r * Math.cos(a) + this.w / 2;
             const y = r * Math.sin(a) + this.h / 2;
-            this.positions.set(node, vec2.fromValues(x, y));
+            this.positions.set(node, new Vec2(x, y));
         }
     }
     setGraph(graph) {

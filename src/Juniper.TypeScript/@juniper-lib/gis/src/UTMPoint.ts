@@ -1,7 +1,7 @@
 import { deg2rad } from "@juniper-lib/tslib/dist/math";
 import { isDefined, isObject } from "@juniper-lib/tslib/dist/typeChecks";
 import { ICloneable } from "@juniper-lib/tslib/dist/using";
-import { vec2, vec3 } from "gl-matrix";
+import { Vec2, Vec3 } from "gl-matrix/dist/esm";
 import { DatumWGS_84 } from "./Datum";
 import { ILatLngPoint, LatLngPoint } from "./LatLngPoint";
 
@@ -49,7 +49,7 @@ export class UTMPoint implements IUTMPoint, ICloneable {
                 .rezone(maxZone)
                 .toVec3())
             .reduce((a, b) =>
-                vec3.scaleAndAdd(a, a, b, scale), vec3.create());
+                a.scaleAndAdd(b, scale), new Vec3());
 
         return new UTMPoint()
             .fromVec3(vec, maxZone)
@@ -300,30 +300,26 @@ export class UTMPoint implements IUTMPoint, ICloneable {
         return new LatLngPoint().fromUTM(this);
     }
 
-    toVec2(): vec2 {
-        const v = vec2.create();
-        vec2.set(v, this.easting, -this.northing);
-        return v;
+    toVec2(): Vec2 {
+        return new Vec2(this.easting, -this.northing);
     }
 
-    fromVec2(arr: vec2, zone: number): UTMPoint {
-        this._easting = arr[0];
-        this._northing = -arr[1];
+    fromVec2(arr: Vec2, zone: number): UTMPoint {
+        this._easting = arr.x;
+        this._northing = -arr.y;
         this._altitude = 0;
         this._zone = zone;
         return this;
     }
 
-    toVec3(): vec3 {
-        const v = vec3.create();
-        vec3.set(v, this.easting, this.altitude, -this.northing);
-        return v;
+    toVec3(): Vec3 {
+        return new Vec3(this.easting, this.altitude, -this.northing);
     }
 
-    fromVec3(arr: vec3, zone: number): UTMPoint {
-        this._easting = arr[0];
-        this._altitude = arr[1];
-        this._northing = -arr[2];
+    fromVec3(arr: Vec3, zone: number): UTMPoint {
+        this._easting = arr.x;
+        this._altitude = arr.y;
+        this._northing = -arr.z;
         this._zone = zone;
         return this;
     }

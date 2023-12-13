@@ -1,6 +1,6 @@
 import { deg2rad, rad2deg } from "@juniper-lib/tslib/dist/math";
 import { isNumber } from "@juniper-lib/tslib/dist/typeChecks";
-import { glMatrix, mat4, quat, vec3 } from "gl-matrix";
+import { Mat4, Quat, Vec3 } from "gl-matrix/dist/esm";
 import type { Context3D, ResizeEvent } from "./Context3D";
 
 
@@ -30,8 +30,8 @@ const DEFAULT_CAMERA_SETTINGS = {
 };
 
 export class Camera {
-    private _proj = mat4.create();
-    private _view = mat4.create();
+    private _proj = new Mat4();
+    private _view = new Mat4();
 
     private _headingDegrees = 0;
     private _pitchDegrees = 0;
@@ -43,8 +43,8 @@ export class Camera {
     private _near: number;
     private _far: number;
 
-    private _rot: quat = quat.create();
-    private _pos: vec3 = vec3.create();
+    private _rot = new Quat();
+    private _pos = new Vec3();
 
     public gamma = 1;
 
@@ -74,20 +74,20 @@ export class Camera {
         this.refreshView();
     }
 
-    get view(): mat4 {
+    get view(): Mat4 {
         return this._view;
     }
 
-    set view(v: mat4) {
-        mat4.copy(this._view, v);
+    set view(v: Mat4) {
+        this._view.copy(v);
     }
 
-    get projection(): mat4 {
+    get projection(): Mat4 {
         return this._proj;
     }
 
-    set projection(v: mat4) {
-        mat4.copy(this._proj, v);
+    set projection(v: Mat4) {
+        this._proj.copy(v);
     }
 
     get fov(): number {
@@ -154,9 +154,8 @@ export class Camera {
     }
 
     private refreshProjection() {
-        mat4.perspective(
-            this._proj,
-            glMatrix.toRadian(this._fov),
+        this._proj.perspectiveNO(
+            deg2rad(this._fov),
             this._aspect,
             this._near,
             this._far
@@ -168,12 +167,12 @@ export class Camera {
         this.refreshView();
     }
 
-    public moveTo(pos: vec3) {
+    public moveTo(pos: Vec3) {
         this._moveTo(pos);
         this.refreshView();
     }
 
-    public rotateAndMoveTo(headingDegrees: number, pitchDegrees: number, pos: vec3) {
+    public rotateAndMoveTo(headingDegrees: number, pitchDegrees: number, pos: Vec3) {
         this._rotateTo(headingDegrees, pitchDegrees);
         this._moveTo(pos);
         this.refreshView();
@@ -188,18 +187,18 @@ export class Camera {
                 this._pitchDegrees = -90;
             while (this._pitchDegrees > 90)
                 this._pitchDegrees = 90;
-            quat.identity(this._rot);
-            quat.rotateY(this._rot, this._rot, deg2rad(this._headingDegrees));
-            quat.rotateX(this._rot, this._rot, deg2rad(this._pitchDegrees));
+            this._rot.identity()
+                .rotateY(deg2rad(this._headingDegrees))
+                .rotateX(deg2rad(this._pitchDegrees));
         }
     }
 
-    private _moveTo(pos: vec3) {
-        vec3.copy(this._pos, pos);
+    private _moveTo(pos: Vec3) {
+        this._pos.copy(pos);
     }
 
     private refreshView() {
-        mat4.fromRotationTranslation(this.view, this._rot, this._pos);
-        mat4.invert(this.view, this.view);
+        Mat4.fromRotationTranslation(this.view, this._rot, this._pos);
+        this.view.invert();
     }
 }

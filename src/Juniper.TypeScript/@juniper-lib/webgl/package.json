@@ -20,7 +20,7 @@
     "@juniper-lib/graphics2d": "file:../graphics2d",
     "@juniper-lib/progress": "file:../progress",
     "@juniper-lib/tslib": "file:../tslib",
-    "gl-matrix": "3.4.3"
+    "gl-matrix": "4.0.0-beta.1"
   },
   "devDependencies": {
     "@types/offscreencanvas": "2019.7.0",

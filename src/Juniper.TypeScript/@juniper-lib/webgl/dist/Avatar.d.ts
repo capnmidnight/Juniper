@@ -1,10 +1,10 @@
-import { vec3 } from "gl-matrix";
+import { Vec3 } from "gl-matrix/dist/esm";
 export declare class Avatar {
     private motion;
     private direction;
     private velocity;
     speed: number;
-    position: vec3;
+    position: Vec3;
     private dHeadingDegrees;
     private dPitchDegrees;
     headingDegrees: number;

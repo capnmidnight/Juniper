@@ -5,7 +5,7 @@ import { onClick, onDragEnd, onDragOver, onDragStart } from "@juniper-lib/dom/di
 import { ButtonSmall, Div, H3, HtmlRender, elementGetCustomData, elementInsertBefore, elementIsDisplayed, elementSetText, elementSwap, elementToggleDisplay } from "@juniper-lib/dom/dist/tags";
 import { blackMediumDownPointingTriangleCentered as closeIcon, blackMediumRightPointingTriangleCentered as openIcon } from "@juniper-lib/emoji";
 import { isBoolean, isDate, isDefined, isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { vec2 } from "gl-matrix";
+import { Vec2 } from "gl-matrix/dist/esm";
 import "./styles.css";
 const SIZE_KEY = "proportion";
 const INDEX_KEY = "index";
@@ -99,16 +99,17 @@ export function DockPanel(name, ...rest) {
         }
         return obj;
     }
-    const mouseStart = vec2.create();
-    const mouseEnd = vec2.create();
-    const mouseMove = vec2.create();
+    const mouseStart = new Vec2();
+    const mouseEnd = new Vec2();
+    const mouseMove = new Vec2();
     function setDraggedObject(obj, startMouseX, startMouseY) {
         dragged = obj;
         draggedParent = dragged.parentElement;
         dragType = getDockType(dragged);
         dragged.classList.add("dragging");
         if (isSep(dragged)) {
-            vec2.set(mouseStart, startMouseX, startMouseY);
+            mouseStart.x = startMouseX;
+            mouseStart.y = startMouseY;
         }
     }
     function setDropTarget(obj) {
@@ -134,12 +135,13 @@ export function DockPanel(name, ...rest) {
         }
     }
     function resizeGroup(group, sep, mouseX, mouseY) {
-        vec2.set(mouseEnd, mouseX, mouseY);
-        vec2.sub(mouseMove, mouseEnd, mouseStart);
+        mouseEnd.x = mouseX;
+        mouseEnd.y = mouseY;
+        mouseMove.copy(mouseEnd).sub(mouseStart);
         const r = isRow(group);
         const dist = mouseMove[r ? 0 : 1];
         if (dist !== 0) {
-            vec2.copy(mouseStart, mouseEnd);
+            mouseStart.copy(mouseEnd);
             const dim = r ? "clientWidth" : "clientHeight";
             let size = 0;
             let count = 0;

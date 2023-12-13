@@ -1,5 +1,5 @@
 import { assertNever } from "@juniper-lib/tslib/dist/typeChecks";
-import type { mat4 } from "gl-matrix";
+import type { Mat4, Mat4Like } from "gl-matrix/dist/esm";
 import { BaseProgram } from "./BaseProgram";
 import type { Geometry } from "./Geometry";
 import type { Uniform } from "./managed/object/Uniform";
@@ -20,7 +20,7 @@ export abstract class BaseMaterial extends BaseProgram {
         this.uGamma.set1f(gamma);
     }
 
-    setModel(model: mat4) {
+    setModel(model: Mat4) {
         this.uModel.setMatrix4fv(model);
     }
 
@@ -51,11 +51,11 @@ export abstract class Material extends BaseMaterial {
         }
     }
 
-    setProjection(proj: mat4) {
+    setProjection(proj: Mat4Like) {
         this.uProjection.setMatrix4fv(proj);
     }
 
-    setView(view: mat4) {
+    setView(view: Mat4Like) {
         this.uView.setMatrix4fv(view);
     }
 }
