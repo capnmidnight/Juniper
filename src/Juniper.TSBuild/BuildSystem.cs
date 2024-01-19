@@ -521,8 +521,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     {
         commands
             .AddMessage("Starting build")
-            .AddCommands(GetCleanCommands())
             .AddCommands(GetInstallCommands())
+            .AddCommands(GetCleanCommands())
             .AddCommands(copyCommands);
 
         if (BuildProjects.Count > 0)
@@ -581,6 +581,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             {
                 commands
                     .AddMessage("Installing NPM Packages")
+                    .AddCommands(GetCleanCommands())
                     .AddCommands(installCommands);
             }, buildCanceller.Token);
 
@@ -603,7 +604,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 {
                     commands
                         .AddMessage("Starting build")
-                        .AddCommands(GetCleanCommands())
                         .AddCommands(preBuilds)
                         .AddCommands(copyCommands);
                 }, buildCanceller.Token);
@@ -614,7 +614,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
                 {
                     commands
                         .AddMessage("Starting build")
-                        .AddCommands(GetCleanCommands())
                         .AddCommands(copyCommands);
                 }, buildCanceller.Token);
             }
