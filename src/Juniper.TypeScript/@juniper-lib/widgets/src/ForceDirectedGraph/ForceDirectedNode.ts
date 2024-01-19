@@ -47,18 +47,24 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
     public readonly halfSize = new Vec2();
     public readonly dynamicForce = new Vec2();
 
-    private _pinned = false;
-
     public depth = -1;
     public hidden = false;
 
     get pinned() {
-        return this._pinned;
+        return this.element.classList.contains("pinned");
     }
 
     set pinned(v) {
-        this._pinned = v;
-        this.pinner.innerHTML = this.pinned ? pinned : unpinned;
+        this.element.classList.toggle("pinned", v);
+        this.pinner.innerHTML = v ? pinned : unpinned;
+    }
+
+    get grabbed() {
+        return this.element.classList.contains("top-most");
+    }
+
+    set grabbed(v) {
+        this.element.classList.toggle("top-most", v);
     }
 
     get moving() {
@@ -74,7 +80,6 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
 
         this.pinner = document.createElement("button");
         this.pinner.type = "button";
-        this.pinner.innerHTML = unpinned;
         this.pinner.style.float = "right";
         this.pinner.style.backgroundColor = "transparent";
         this.pinner.addEventListener("click", () =>
@@ -90,6 +95,10 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         this.element.append(this.pinner, this.content);
 
         this.setContent(content);
+
+        this.pinned = false;
+        this.grabbed = false;
+        this.moving = false;
     }
 
     setContent(content: string | HTMLElement) {
@@ -111,6 +120,40 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         }
     }
 
+    applyForces(nodes: Iterable<ForceDirectedNode<T>>,
+        running: boolean,
+        performLayout: boolean,
+        displayDepth: number,
+        centeringGravity: number,
+        mousePoint: Vec2,
+        attract: number,
+        repel: number,
+        attractFunc: (connected: boolean, len: number) => number,
+        repelFunc: (connected: boolean, len: number) => number,
+        getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number) {
+        this.dynamicForce.x = 0;
+        this.dynamicForce.y = 0;
+
+        if (displayDepth < 0 || this.depth <= displayDepth) {
+            if (this.grabbed) {
+                this.moveTo(mousePoint);
+            }
+            else if (!this.pinned
+                && running
+                && performLayout) {
+
+                this.dynamicForce.scaleAndAdd(this.position, -centeringGravity);
+
+                for (const n2 of nodes) {
+                    if (this !== n2
+                        && (displayDepth < 0 || n2.depth <= displayDepth)) {
+                        this.attractRepel(n2, attract, attractFunc, repel, repelFunc, getWeightMod);
+                    }
+                }
+            }
+        }
+    }
+
     updatePosition(center: Vec2, maxDepth: number) {
         const { position, element } = this;
         element.style.display = this.isVisible(maxDepth) ? "" : "none";
@@ -129,11 +172,6 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
             .sub(this.mouseOffset);
     }
 
-    resetForce() {
-        this.dynamicForce.x = 0;
-        this.dynamicForce.y = 0;
-    }
-
     private isVisible(maxDepth: number) {
         return !this.hidden
             && (maxDepth < 0
@@ -143,10 +181,6 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
     canDrawArrow(maxDepth: number): boolean {
         return this.isVisible(maxDepth)
             && !this.element.classList.contains("not-cycled");
-    }
-
-    gravitate(gravity: number) {
-        this.dynamicForce.scaleAndAdd(this.position, -gravity);
     }
 
     attractRepel(

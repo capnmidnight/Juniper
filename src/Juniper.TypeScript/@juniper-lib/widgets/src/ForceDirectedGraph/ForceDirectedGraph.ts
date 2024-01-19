@@ -193,11 +193,11 @@ export class ForceDirectedGraph<T> {
 
                 if (nextGrabbed !== lastGrabbed) {
                     if (lastGrabbed) {
-                        lastGrabbed.element.classList.remove("top-most");
+                        lastGrabbed.grabbed = false;
                     }
 
                     if (nextGrabbed) {
-                        nextGrabbed.element.classList.add("top-most");
+                        nextGrabbed.grabbed = true;
                         nextGrabbed.pinned = true;
                     }
                 }
@@ -258,7 +258,7 @@ export class ForceDirectedGraph<T> {
 
         const resizer = new ResizeObserver((evts) => {
             for (const evt of evts) {
-                if (evt.target == this.connectorsCanvas) {
+                if (evt.target === this.connectorsCanvas) {
                     this.resize();
                 }
             }
@@ -579,30 +579,14 @@ export class ForceDirectedGraph<T> {
         attractFunc: (connected: boolean, len: number) => number,
         repelFunc: (connected: boolean, len: number) => number) {
 
-        for (const node of this.graph.values()) {
-            node.resetForce();
-        }
-
         // calculate forces
         for (const n1 of this.graph.values()) {
-            if (this.displayDepth < 0 || n1.depth <= this.displayDepth) {
-                if (n1 === this.grabbed) {
-                    n1.moveTo(this.mousePoint);
-                }
-                else if (!n1.pinned
-                    && this.running
-                    && this.performLayout) {
-
-                    n1.gravitate(this.centeringGravity);
-
-                    for (const n2 of this.graph.values()) {
-                        if (n1 !== n2
-                            && (this.displayDepth < 0 || n2.depth <= this.displayDepth)) {
-                            n1.attractRepel(n2, this.attract, attractFunc, this.repel, repelFunc, this.getWeightMod);
-                        }
-                    }
-                }
-            }
+            n1.applyForces(
+                this.graph.values(), 
+                this.running, this.performLayout, this.displayDepth, this.centeringGravity, 
+                this.mousePoint, 
+                this.attract, this.repel, attractFunc, repelFunc,
+                this.getWeightMod);
         }
 
         for (const n1 of this.graph.values()) {
