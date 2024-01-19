@@ -21,7 +21,6 @@ export declare class ForceDirectedGraph<T> {
     private displayCount;
     private selectedNode;
     private data;
-    private grabbed;
     private timer;
     performLayout: boolean;
     displayDepth: number;

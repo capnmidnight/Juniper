@@ -107,7 +107,6 @@ export class ForceDirectedGraph {
         this.displayCount = 0;
         this.selectedNode = null;
         this.data = null;
-        this.grabbed = null;
         this.timer = null;
         this.performLayout = true;
         this.displayDepth = -1;
@@ -139,34 +138,40 @@ export class ForceDirectedGraph {
             this.setMouse(evt);
             this.mouseDown = true;
             if (evt.target instanceof HTMLElement) {
-                const lastGrabbedElement = container.querySelector(".top-most");
-                const lastGrabbed = lastGrabbedElement && this.elementToNode.get(lastGrabbedElement);
                 let nextGrabbed;
                 let here = evt.target;
                 while (!nextGrabbed && here) {
                     nextGrabbed = this.elementToNode.get(here);
                     here = here.parentElement;
                 }
-                if (nextGrabbed !== lastGrabbed) {
-                    if (lastGrabbed) {
-                        lastGrabbed.element.classList.remove("top-most");
+                if (nextGrabbed && nextGrabbed.pinner.contains(evt.target)) {
+                    nextGrabbed.pinned = !nextGrabbed.pinned;
+                }
+                else {
+                    const lastGrabbedElement = container.querySelector(".top-most");
+                    const lastGrabbed = lastGrabbedElement && this.elementToNode.get(lastGrabbedElement);
+                    if (nextGrabbed !== lastGrabbed) {
+                        if (lastGrabbed) {
+                            lastGrabbed.grabbed = false;
+                        }
+                        if (nextGrabbed) {
+                            nextGrabbed.grabbed = true;
+                            nextGrabbed.pinned = true;
+                        }
                     }
                     if (nextGrabbed) {
-                        nextGrabbed.element.classList.add("top-most");
-                        nextGrabbed.pinned = true;
+                        nextGrabbed.setMouseOffset(this.mousePoint);
                     }
-                }
-                this.grabbed = nextGrabbed;
-                if (this.grabbed) {
-                    this.grabbed.setMouseOffset(this.mousePoint);
                 }
             }
         });
         this.container.addEventListener("mousemove", evt => {
-            if (this.grabbed) {
+            const lastGrabbedElement = container.querySelector(".top-most");
+            const lastGrabbed = lastGrabbedElement && this.elementToNode.get(lastGrabbedElement);
+            if (lastGrabbed) {
                 this.setMouse(evt);
                 evt.preventDefault();
-                this.grabbed.moving = true;
+                lastGrabbed.moving = true;
             }
             else if (this.mouseDown) {
                 delta.copy(this.mousePoint);
@@ -177,10 +182,12 @@ export class ForceDirectedGraph {
         });
         this.container.addEventListener("mouseup", (evt) => {
             this.mouseDown = false;
-            if (this.grabbed) {
+            const lastGrabbedElement = container.querySelector(".top-most");
+            const lastGrabbed = lastGrabbedElement && this.elementToNode.get(lastGrabbedElement);
+            if (lastGrabbed) {
                 evt.preventDefault();
-                this.grabbed.moving = false;
-                this.grabbed = null;
+                lastGrabbed.moving = false;
+                lastGrabbed.grabbed = false;
             }
         });
         this.content = document.createElement("div");
@@ -205,7 +212,7 @@ export class ForceDirectedGraph {
         });
         const resizer = new ResizeObserver((evts) => {
             for (const evt of evts) {
-                if (evt.target == this.connectorsCanvas) {
+                if (evt.target === this.connectorsCanvas) {
                     this.resize();
                 }
             }
@@ -292,7 +299,6 @@ export class ForceDirectedGraph {
             this.graph.clear();
             this.elementToNode.clear();
             this.selectedNode = null;
-            this.grabbed = null;
             this.data = v;
             if (this.data) {
                 this.content.append(this.connectorsCanvas);
@@ -473,27 +479,9 @@ export class ForceDirectedGraph {
         }
     }
     applyForces(attractFunc, repelFunc) {
-        for (const node of this.graph.values()) {
-            node.resetForce();
-        }
         // calculate forces
         for (const n1 of this.graph.values()) {
-            if (this.displayDepth < 0 || n1.depth <= this.displayDepth) {
-                if (n1 === this.grabbed) {
-                    n1.moveTo(this.mousePoint);
-                }
-                else if (!n1.pinned
-                    && this.running
-                    && this.performLayout) {
-                    n1.gravitate(this.centeringGravity);
-                    for (const n2 of this.graph.values()) {
-                        if (n1 !== n2
-                            && (this.displayDepth < 0 || n2.depth <= this.displayDepth)) {
-                            n1.attractRepel(n2, this.attract, attractFunc, this.repel, repelFunc, this.getWeightMod);
-                        }
-                    }
-                }
-            }
+            n1.applyForces(this.graph.values(), this.running, this.performLayout, this.displayDepth, this.centeringGravity, this.mousePoint, this.attract, this.repel, attractFunc, repelFunc, this.getWeightMod);
         }
         for (const n1 of this.graph.values()) {
             n1.apply(this.limit);

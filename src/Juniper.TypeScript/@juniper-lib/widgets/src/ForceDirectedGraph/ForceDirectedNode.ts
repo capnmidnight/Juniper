@@ -50,28 +50,34 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
     public depth = -1;
     public hidden = false;
 
+    #pinned = false;
     get pinned() {
-        return this.element.classList.contains("pinned");
+        return this.#pinned;
     }
 
     set pinned(v) {
+        this.#pinned = v;
         this.element.classList.toggle("pinned", v);
         this.pinner.innerHTML = v ? pinned : unpinned;
     }
 
+    #grabbed = false;
     get grabbed() {
-        return this.element.classList.contains("top-most");
+        return this.#grabbed;
     }
 
     set grabbed(v) {
+        this.#grabbed = v;
         this.element.classList.toggle("top-most", v);
     }
 
+    #moving = false;
     get moving() {
-        return this.element.classList.contains("moving");
+        return this.#moving;
     }
 
     set moving(v) {
+        this.#moving = v;
         this.element.classList.toggle("moving", v);
     }
 
@@ -82,8 +88,6 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         this.pinner.type = "button";
         this.pinner.style.float = "right";
         this.pinner.style.backgroundColor = "transparent";
-        this.pinner.addEventListener("click", () =>
-            this.pinned = !this.pinned);
 
 
         this.content = document.createElement("div");

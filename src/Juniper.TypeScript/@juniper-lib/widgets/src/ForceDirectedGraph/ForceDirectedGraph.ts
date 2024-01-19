@@ -110,7 +110,6 @@ export class ForceDirectedGraph<T> {
     private displayCount = 0;
     private selectedNode: ForceDirectedNode<T> = null;
     private data: T[] = null;
-    private grabbed: ForceDirectedNode<T> = null;
     private timer: number = null;
 
     public performLayout = true;
@@ -181,9 +180,6 @@ export class ForceDirectedGraph<T> {
             this.setMouse(evt);
             this.mouseDown = true;
             if (evt.target instanceof HTMLElement) {
-                const lastGrabbedElement = container.querySelector<HTMLElement>(".top-most");
-                const lastGrabbed = lastGrabbedElement && this.elementToNode.get(lastGrabbedElement);
-
                 let nextGrabbed: ForceDirectedNode<T>;
                 let here = evt.target;
                 while (!nextGrabbed && here) {
@@ -191,30 +187,38 @@ export class ForceDirectedGraph<T> {
                     here = here.parentElement;
                 }
 
-                if (nextGrabbed !== lastGrabbed) {
-                    if (lastGrabbed) {
-                        lastGrabbed.grabbed = false;
+                if (nextGrabbed && nextGrabbed.pinner.contains(evt.target)) {
+                    nextGrabbed.pinned = !nextGrabbed.pinned;
+                }
+                else {
+                    const lastGrabbedElement = container.querySelector<HTMLElement>(".top-most");
+                    const lastGrabbed = lastGrabbedElement && this.elementToNode.get(lastGrabbedElement);
+
+                    if (nextGrabbed !== lastGrabbed) {
+                        if (lastGrabbed) {
+                            lastGrabbed.grabbed = false;
+                        }
+
+                        if (nextGrabbed) {
+                            nextGrabbed.grabbed = true;
+                            nextGrabbed.pinned = true;
+                        }
                     }
 
                     if (nextGrabbed) {
-                        nextGrabbed.grabbed = true;
-                        nextGrabbed.pinned = true;
+                        nextGrabbed.setMouseOffset(this.mousePoint);
                     }
-                }
-
-                this.grabbed = nextGrabbed;
-
-                if (this.grabbed) {
-                    this.grabbed.setMouseOffset(this.mousePoint);
                 }
             }
         });
 
         this.container.addEventListener("mousemove", evt => {
-            if (this.grabbed) {
+            const lastGrabbedElement = container.querySelector<HTMLElement>(".top-most");
+            const lastGrabbed = lastGrabbedElement && this.elementToNode.get(lastGrabbedElement);
+            if (lastGrabbed) {
                 this.setMouse(evt);
                 evt.preventDefault();
-                this.grabbed.moving = true;
+                lastGrabbed.moving = true;
             }
             else if (this.mouseDown) {
                 delta.copy(this.mousePoint);
@@ -226,10 +230,12 @@ export class ForceDirectedGraph<T> {
 
         this.container.addEventListener("mouseup", (evt) => {
             this.mouseDown = false;
-            if (this.grabbed) {
+            const lastGrabbedElement = container.querySelector<HTMLElement>(".top-most");
+            const lastGrabbed = lastGrabbedElement && this.elementToNode.get(lastGrabbedElement);
+            if (lastGrabbed) {
                 evt.preventDefault();
-                this.grabbed.moving = false;
-                this.grabbed = null;
+                lastGrabbed.moving = false;
+                lastGrabbed.grabbed = false;
             }
         });
 
@@ -358,7 +364,6 @@ export class ForceDirectedGraph<T> {
             this.graph.clear();
             this.elementToNode.clear();
             this.selectedNode = null;
-            this.grabbed = null;
 
             this.data = v;
 
@@ -582,9 +587,9 @@ export class ForceDirectedGraph<T> {
         // calculate forces
         for (const n1 of this.graph.values()) {
             n1.applyForces(
-                this.graph.values(), 
-                this.running, this.performLayout, this.displayDepth, this.centeringGravity, 
-                this.mousePoint, 
+                this.graph.values(),
+                this.running, this.performLayout, this.displayDepth, this.centeringGravity,
+                this.mousePoint,
                 this.attract, this.repel, attractFunc, repelFunc,
                 this.getWeightMod);
         }

@@ -27,17 +27,29 @@ function elementComputeSize(scale, element, size) {
 const unpinned = "<i>\u{d83d}\u{dccc}</i>";
 const pinned = "<i>\u{d83d}\u{dccd}</i>";
 export class ForceDirectedNode extends GraphNode {
+    #pinned;
     get pinned() {
-        return this._pinned;
+        return this.#pinned;
     }
     set pinned(v) {
-        this._pinned = v;
-        this.pinner.innerHTML = this.pinned ? pinned : unpinned;
+        this.#pinned = v;
+        this.element.classList.toggle("pinned", v);
+        this.pinner.innerHTML = v ? pinned : unpinned;
     }
+    #grabbed;
+    get grabbed() {
+        return this.#grabbed;
+    }
+    set grabbed(v) {
+        this.#grabbed = v;
+        this.element.classList.toggle("top-most", v);
+    }
+    #moving;
     get moving() {
-        return this.element.classList.contains("moving");
+        return this.#moving;
     }
     set moving(v) {
+        this.#moving = v;
         this.element.classList.toggle("moving", v);
     }
     constructor(value, elementClass, content) {
@@ -47,15 +59,15 @@ export class ForceDirectedNode extends GraphNode {
         this.size = new Vec2();
         this.halfSize = new Vec2();
         this.dynamicForce = new Vec2();
-        this._pinned = false;
         this.depth = -1;
         this.hidden = false;
+        this.#pinned = false;
+        this.#grabbed = false;
+        this.#moving = false;
         this.pinner = document.createElement("button");
         this.pinner.type = "button";
-        this.pinner.innerHTML = unpinned;
         this.pinner.style.float = "right";
         this.pinner.style.backgroundColor = "transparent";
-        this.pinner.addEventListener("click", () => this.pinned = !this.pinned);
         this.content = document.createElement("div");
         this.element = document.createElement("div");
         this.element.classList.add("graph-node");
@@ -64,6 +76,9 @@ export class ForceDirectedNode extends GraphNode {
         }
         this.element.append(this.pinner, this.content);
         this.setContent(content);
+        this.pinned = false;
+        this.grabbed = false;
+        this.moving = false;
     }
     setContent(content) {
         this.content.innerHTML = "";
@@ -79,6 +94,26 @@ export class ForceDirectedNode extends GraphNode {
             elementComputeSize(sz, this.element, this.size);
             this.halfSize.copy(this.size)
                 .scale(0.5);
+        }
+    }
+    applyForces(nodes, running, performLayout, displayDepth, centeringGravity, mousePoint, attract, repel, attractFunc, repelFunc, getWeightMod) {
+        this.dynamicForce.x = 0;
+        this.dynamicForce.y = 0;
+        if (displayDepth < 0 || this.depth <= displayDepth) {
+            if (this.grabbed) {
+                this.moveTo(mousePoint);
+            }
+            else if (!this.pinned
+                && running
+                && performLayout) {
+                this.dynamicForce.scaleAndAdd(this.position, -centeringGravity);
+                for (const n2 of nodes) {
+                    if (this !== n2
+                        && (displayDepth < 0 || n2.depth <= displayDepth)) {
+                        this.attractRepel(n2, attract, attractFunc, repel, repelFunc, getWeightMod);
+                    }
+                }
+            }
         }
     }
     updatePosition(center, maxDepth) {
@@ -97,10 +132,6 @@ export class ForceDirectedNode extends GraphNode {
         this.position.copy(mousePoint)
             .sub(this.mouseOffset);
     }
-    resetForce() {
-        this.dynamicForce.x = 0;
-        this.dynamicForce.y = 0;
-    }
     isVisible(maxDepth) {
         return !this.hidden
             && (maxDepth < 0
@@ -109,9 +140,6 @@ export class ForceDirectedNode extends GraphNode {
     canDrawArrow(maxDepth) {
         return this.isVisible(maxDepth)
             && !this.element.classList.contains("not-cycled");
-    }
-    gravitate(gravity) {
-        this.dynamicForce.scaleAndAdd(this.position, -gravity);
     }
     attractRepel(n2, attract, attractFunc, repel, repelFunc, getWeightMod) {
         // Displacement between this node and the other node
