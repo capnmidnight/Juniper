@@ -87,10 +87,4 @@ public class BuildSystemOptions
     /// print a warning.
     /// </summary>
     public (string Name, string Version, string Reason)[]? BannedDependencies;
-
-    /// <summary>
-    /// Unused. An incomplete feature for deploying projects
-    /// to servers using SCP.
-    /// </summary>
-    public DeploymentOptions? Deployment;
 }

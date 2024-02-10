@@ -4,6 +4,7 @@ type Define = [string, string];
 type DefineFactory = (minify: boolean) => Define;
 type OptionAlterer = (opts: BuildOptions) => void;
 type PluginFactory = (minify: boolean) => Plugin;
+type Callback = () => void;
 export declare class Build {
     private readonly buildWorkers;
     private readonly browserEntries;
@@ -33,8 +34,9 @@ export declare class Build {
     bundles(...names: string[]): this;
     find(...rootDirs: string[]): this;
     manually(thunk: OptionAlterer): this;
-    run(): Promise<void>;
+    getTasks(onStart: Callback, onEnd: Callback): Promise<void>[];
     private makeBundle;
 }
+export declare function runBuilds(...builds: Build[]): Promise<void>;
 export {};
 //# sourceMappingURL=index.d.ts.map

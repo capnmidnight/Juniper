@@ -188,7 +188,7 @@ public static class JuniperConfiguration
 
         app.Use(async (context, next) =>
         {
-            context.Response.Headers.Add(HeaderNames.XContentTypeOptions, "nosniff");
+            context.Response.Headers.Append(HeaderNames.XContentTypeOptions, "nosniff");
             await next();
         });
 

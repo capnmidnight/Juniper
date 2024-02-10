@@ -9,6 +9,7 @@ type DefineFactory = (minify: boolean) => Define;
 type DefMap = { [key: string]: string };
 type OptionAlterer = (opts: BuildOptions) => void;
 type PluginFactory = (minify: boolean) => Plugin;
+type Callback = () => void;
 
 export class Build {
     private readonly browserEntries = new Array<string>();
@@ -133,22 +134,14 @@ export class Build {
         return this;
     }
 
-    async run() {
-        const start = Date.now();
-
-        const tasks = [
-            this.makeBundle(this.browserEntries, "browser bundles", false),
-            this.makeBundle(this.minBrowserEntries, "minified browser bundles", true)
+    getTasks(onStart: Callback, onEnd: Callback) {
+        return [
+            this.makeBundle(this.browserEntries, "browser bundles", false, onStart, onEnd),
+            this.makeBundle(this.minBrowserEntries, "minified browser bundles", true, onStart, onEnd)
         ];
-
-        await Promise.all(tasks).then(() => {
-            const end = Date.now();
-            const delta = (end - start) / 1000;
-            console.log(`done in ${delta}s`);
-        });
     }
 
-    private async makeBundle(entryPoints: string[], name: string, isRelease: boolean) {
+    private async makeBundle(entryPoints: string[], name: string, isRelease: boolean, onStart: Callback, onEnd: Callback) {
         const JS_EXT = isRelease ? ".min" : "";
         const entryNames = this.entryNames + JS_EXT;
         const define: DefMap = {
@@ -173,10 +166,12 @@ export class Build {
                 let count = 0;
                 build.onStart(() => {
                     console.log("Building", name, ...entryPoints);
+                    onStart();
                 });
                 build.onEnd((result) => {
                     const type = count++ > 0 ? "rebuilt" : "built";
                     console.log(name, type, ...Object.keys(result.metafile.outputs).filter(v => v.endsWith(".js")));
+                    onEnd();
                 });
             },
         });
@@ -224,4 +219,30 @@ export class Build {
             await ctx.dispose();
         }
     }
+}
+
+export async function runBuilds(...builds: Build[]) {
+    const running = new Set<Build>();
+    const onStart = (build: Build) => {
+        if (running.size === 0) {
+            console.log("Build started");
+        }
+        running.add(build);
+    };
+
+    const onEnd = (build: Build) => {
+        running.delete(build);
+        if (running.size === 0) {
+            console.log("Build complete, waiting for changes...");
+        }
+    };
+
+    const tasks = builds.flatMap(build =>
+        build.getTasks(
+            () => onStart(build),
+            () => onEnd(build)
+        )
+    );
+
+    await Promise.all(tasks);
 }

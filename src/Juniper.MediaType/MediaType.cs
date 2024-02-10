@@ -272,10 +272,7 @@ namespace Juniper
                     ByExtensions[ext].Add(this);
                 }
 
-                if (!ByValue.ContainsKey(Value))
-                {
-                    ByValue.Add(Value, this);
-                }
+                ByValue[Value] = this;
             }
         }
 

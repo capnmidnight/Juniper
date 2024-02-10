@@ -10,7 +10,7 @@ public class NPMInstallCommand : ShellCommand
 
 
     public NPMInstallCommand(FileInfo packageJson, bool noPackageLock = true)
-        : base(packageJson.Directory, "npm", $"install --no-fund --prefer-offline{(noPackageLock ? " --no-package-lock" : "")}")
+        : base(packageJson.Directory, "npm", $"install")
     {
         if (!packageJson.Exists)
         {

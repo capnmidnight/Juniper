@@ -5,7 +5,7 @@
 		<RootNamespace>Juniper.Server.WebRTC</RootNamespace>
 		<PackageId>SeanMcBeth.Juniper.Server.Server.WebRTC</PackageId>
 		<OutputType>Library</OutputType>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Authors>Sean T. McBeth</Authors>
 		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -30,10 +30,6 @@
 
 	<ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.14" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.14" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

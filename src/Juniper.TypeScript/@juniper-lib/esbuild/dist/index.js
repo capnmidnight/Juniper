@@ -104,19 +104,13 @@ export class Build {
         this.manualOptionsChanges.push(thunk);
         return this;
     }
-    async run() {
-        const start = Date.now();
-        const tasks = [
-            this.makeBundle(this.browserEntries, "browser bundles", false),
-            this.makeBundle(this.minBrowserEntries, "minified browser bundles", true)
+    getTasks(onStart, onEnd) {
+        return [
+            this.makeBundle(this.browserEntries, "browser bundles", false, onStart, onEnd),
+            this.makeBundle(this.minBrowserEntries, "minified browser bundles", true, onStart, onEnd)
         ];
-        await Promise.all(tasks).then(() => {
-            const end = Date.now();
-            const delta = (end - start) / 1000;
-            console.log(`done in ${delta}s`);
-        });
     }
-    async makeBundle(entryPoints, name, isRelease) {
+    async makeBundle(entryPoints, name, isRelease, onStart, onEnd) {
         const JS_EXT = isRelease ? ".min" : "";
         const entryNames = this.entryNames + JS_EXT;
         const define = {
@@ -137,10 +131,12 @@ export class Build {
                 let count = 0;
                 build.onStart(() => {
                     console.log("Building", name, ...entryPoints);
+                    onStart();
                 });
                 build.onEnd((result) => {
                     const type = count++ > 0 ? "rebuilt" : "built";
                     console.log(name, type, ...Object.keys(result.metafile.outputs).filter(v => v.endsWith(".js")));
+                    onEnd();
                 });
             },
         });
@@ -184,5 +180,22 @@ export class Build {
             await ctx.dispose();
         }
     }
+}
+export async function runBuilds(...builds) {
+    const running = new Set();
+    const onStart = (build) => {
+        if (running.size === 0) {
+            console.log("Build started");
+        }
+        running.add(build);
+    };
+    const onEnd = (build) => {
+        running.delete(build);
+        if (running.size === 0) {
+            console.log("Build complete, waiting for changes...");
+        }
+    };
+    const tasks = builds.flatMap(build => build.getTasks(() => onStart(build), () => onEnd(build)));
+    await Promise.all(tasks);
 }
 //# sourceMappingURL=index.js.map

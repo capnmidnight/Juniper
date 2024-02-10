@@ -5,7 +5,7 @@
 		<RootNamespace>Juniper.Xml</RootNamespace>
 		<PackageId>SeanMcBeth.Juniper.Xml</PackageId>
 		<OutputType>Library</OutputType>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Authors>Sean T. McBeth</Authors>
 		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>

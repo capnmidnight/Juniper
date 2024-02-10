@@ -101,8 +101,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     public Task Started => starting.Task;
     public event EventHandler? NewBuildCompleted;
 
-    private readonly int bundleCountGuess = 1;
-
     private static DirectoryInfo TestDir(string message, DirectoryInfo? dir)
     {
         if (dir?.Exists != true)
@@ -154,11 +152,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
             Task.WaitAll(dirs.Select(CheckNPMProjectAsync).ToArray());
 
-            var bundleCountGuesses = dirs.Select(GuessBundleCounts).ToArray();
-            Task.WaitAll(bundleCountGuesses);
-            var counts = bundleCountGuesses.Select(v => v.Result).ToArray();
-            bundleCountGuess = Math.Max(1, counts.Sum());
-
             AddDependencies(options.Dependencies, true);
             AddDependencies(options.OptionalDependencies, false);
 
@@ -168,18 +161,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         Info += (sender, e) => WriteInfo(e.Value);
         Warning += (sender, e) => WriteWarning(e.Value);
         Err += (sender, e) => WriteError(e.Value.Unroll());
-    }
-
-    private async Task<int> GuessBundleCounts(DirectoryInfo project)
-    {
-        var esBuildConfig = project.Touch("esbuild.config.mjs");
-        if (!esBuildConfig.Exists)
-        {
-            return 0;
-        }
-
-        var text = await File.ReadAllTextAsync(esBuildConfig.FullName);
-        return text.Split("findBundles").Length - 2;
     }
 
     private async Task CheckNPMProjectAsync(DirectoryInfo project)
@@ -658,36 +639,23 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             firstBuild.TrySetCanceled();
         });
 
-        var buildCount = bundleCountGuess;
-
         void checkBuilt(object? sender, StringEventArgs e)
         {
-            if (e.Value.Contains("browser bundles built"))
+            if (e.Value.Contains("Build complete, waiting for changes..."))
             {
-                --buildCount;
-                if (buildCount == 0)
+                if (!firstBuild.Task.IsCompleted)
                 {
-                    proxy.Info -= checkBuilt;
                     firstBuild.TrySetResult();
                 }
-            }
-        }
-
-        void checkRebuilt(object? sender, StringEventArgs e)
-        {
-            if (e.Value.Contains("browser bundles rebuilt"))
-            {
                 NewBuildCompleted?.Invoke(this, EventArgs.Empty);
             }
         };
 
         proxy.Info += checkBuilt;
-        proxy.Info += checkRebuilt;
 
         buildCancelled.Register(() =>
         {
             proxy.Info -= checkBuilt;
-            proxy.Info -= checkRebuilt;
         });
 
         return Task.WhenAny(completeBuildTask, firstBuild.Task);

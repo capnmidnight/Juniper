@@ -10,6 +10,7 @@
     { "path": "@juniper-lib/dom" },
     { "path": "@juniper-lib/emoji" },
     { "path": "@juniper-lib/events" },
+    { "path": "@juniper-lib/esbuild" },
     { "path": "@juniper-lib/fetcher" },
     { "path": "@juniper-lib/gis" },
     { "path": "@juniper-lib/google-maps" },

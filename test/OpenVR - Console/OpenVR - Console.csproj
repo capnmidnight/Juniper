@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Juniper.Testing.OpenVR.Console</AssemblyName>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>Juniper.OpenVR</RootNamespace>
   </PropertyGroup>
   
