@@ -14,10 +14,8 @@ export const TIME_MAX = 8640000000000000;
 export const TIME_MIN = -TIME_MAX;
 /**
  * Find the median of an array of numbers.
- * Returns null on an empty array.
  * Assumes the array is sorted.
- * Returns the value of the middle element in an odd-length array.
- * Returns the midpoint between the middle-most two values of an even-length array.
+ * @returns null on an empty array, value of the middle element in an odd-length array, or the midpoint between the middle-most two values of an even-length array.
  **/
 export function calculateMedian(arr) {
     if (arr.length === 0) {
@@ -32,7 +30,7 @@ export function calculateMedian(arr) {
 }
 /**
  * Calculates the arithmetic mean of an array of numbers.
- * Returns null on an empty array.
+ * @returns null on an empty array.
  **/
 export function calculateMean(arr) {
     if (arr.length === 0) {
@@ -348,7 +346,7 @@ export function truncate(v) {
     return 0;
 }
 export function warnOnNaN(val, msg) {
-    let type = null;
+    let type;
     let isBad = false;
     if (isNumber(val)) {
         type = "Value is";

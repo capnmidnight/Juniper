@@ -28,6 +28,9 @@ export function withRetry(retryCount, action) {
                 lastError = error;
             }
         }
+        // If we got this far, it's because an error occured
+        // in one of the retry attempts, so lastError should
+        // not be null by now.
         throw lastError;
     };
 }

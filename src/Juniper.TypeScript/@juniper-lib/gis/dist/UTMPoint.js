@@ -248,6 +248,13 @@ export class UTMPoint {
         this._zone = zone;
         return this;
     }
+    fromArr3(arr, zone) {
+        this._easting = arr[0];
+        this._altitude = arr[1];
+        this._northing = -arr[2];
+        this._zone = zone;
+        return this;
+    }
     copy(other) {
         this._easting = other.easting;
         this._northing = other.northing;

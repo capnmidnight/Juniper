@@ -1,19 +1,7 @@
 type ProtocolType = `${string}:`;
 export declare class URLBuilder {
-    private _url;
-    private _base;
-    private _protocol;
-    private _host;
-    private _hostName;
-    private _userName;
-    private _password;
-    private _port;
-    private _pathName;
-    private _hash;
-    private readonly _query;
+    #private;
     constructor(url?: string | URL, base?: string | URL);
-    private rehydrate;
-    private refresh;
     base(base: string | URL): this;
     protocol(protocol: ProtocolType): this;
     host(host: string): this;
@@ -26,9 +14,9 @@ export declare class URLBuilder {
     pathPush(part: string): this;
     query(name: string, value: string): this;
     hash(hash: string): this;
-    toURL(): URL;
-    toString(): string;
-    [Symbol.toStringTag](): string;
+    toURL(): URL | null;
+    toString(): string | undefined;
+    [Symbol.toStringTag](): string | undefined;
 }
 export {};
 //# sourceMappingURL=URLBuilder.d.ts.map

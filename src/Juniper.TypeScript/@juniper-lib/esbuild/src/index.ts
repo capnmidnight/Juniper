@@ -74,16 +74,18 @@ export class Build {
         if (enabled) {
             const threeJS = fs.readFileSync("node_modules/three/build/three.module.js", { encoding: "utf8" });
             const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
-            const namedExports = match[1]
-                .replace(/\b\w+\s+as\s+/g, "")
-                .split(",")
-                .map(v => v.trim());
+            if (match) {
+                const namedExports = match[1]
+                    .replace(/\b\w+\s+as\s+/g, "")
+                    .split(",")
+                    .map(v => v.trim());
 
-            this.globalExternal("three", {
-                varName: "THREE",
-                namedExports,
-                defaultExport: false
-            });
+                this.globalExternal("three", {
+                    varName: "THREE",
+                    namedExports,
+                    defaultExport: false
+                });
+            }
         }
         return this;
     }
@@ -112,19 +114,22 @@ export class Build {
         function* recurse(dirs: string[]) {
             while (dirs.length > 0) {
                 const dir = dirs.shift();
-                const subDirs = fs.readdirSync(dir, { withFileTypes: true })
-                    .filter(e => e.isDirectory()
-                        && e.name !== "node_modules"
-                        && e.name !== "bin"
-                        && e.name !== "obj")
-                    .map(e => path.join(dir, e.name));
-                dirs.push(...subDirs);
-                yield dir;
+                if (dir) {
+                    const subDirs = fs.readdirSync(dir, { withFileTypes: true })
+                        .filter(e => e
+                            && e.isDirectory()
+                            && e.name !== "node_modules"
+                            && e.name !== "bin"
+                            && e.name !== "obj")
+                        .map(e => path.join(dir, e.name));
+                    dirs.push(...subDirs);
+                    yield dir;
+                }
             }
         }
 
         const entryPoints = Array.from(recurse(rootDirs))
-            .filter(x => fs.existsSync(path.join(x, "index.ts")));
+            .filter(x => x && fs.existsSync(path.join(x, "index.ts")));
 
         return this.bundles(...entryPoints);
     }
@@ -170,7 +175,7 @@ export class Build {
                 });
                 build.onEnd((result) => {
                     const type = count++ > 0 ? "rebuilt" : "built";
-                    console.log(name, type, ...Object.keys(result.metafile.outputs).filter(v => v.endsWith(".js")));
+                    console.log(name, type, ...Object.keys(result.metafile?.outputs || []).filter(v => v.endsWith(".js")));
                     onEnd();
                 });
             },

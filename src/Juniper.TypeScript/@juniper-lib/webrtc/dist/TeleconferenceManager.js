@@ -9,6 +9,7 @@ import { ConnectionState, settleConnected, whenDisconnected } from "./Connection
 import { GainDecayer } from "./GainDecayer";
 import { RemoteUser } from "./RemoteUser";
 import { DEFAULT_LOCAL_USER_ID } from "./constants";
+import { makeErrorMessage } from "../../tslib/src/makeErrorMessage";
 const sockets = singleton("Juniper:Sockets", () => new Array());
 function fakeSocket(...args) {
     const socket = new WebSocket(...args);
@@ -127,8 +128,8 @@ export class TeleconferenceManager extends TypedEventTarget {
             this.disposed = true;
         }
     }
-    err(source, ...msg) {
-        console.warn(source, ...msg);
+    err(source, messageOrError, maybeError) {
+        console.warn(source, makeErrorMessage(messageOrError, maybeError));
     }
     async toServer(method, ...rest) {
         return await this.hub.invoke(method, ...rest);
@@ -258,7 +259,7 @@ export class TeleconferenceManager extends TypedEventTarget {
         return await this.toServer("getRTCConfiguration", this.localUserID);
     }
     onIceError(evt) {
-        this.err("icecandidateerror", this.localUserName, evt.user.userName, `${evt.url} [${evt.errorCode}]: ${evt.errorText}`);
+        this.err("icecandidateerror", `${this.localUserName} ${evt.user.userName} ${evt.url} [${evt.errorCode}]: ${evt.errorText}`);
     }
     async onIceCandidate(evt) {
         await this.sendIce(evt.user.userID, evt.candidate);
@@ -272,7 +273,7 @@ export class TeleconferenceManager extends TypedEventTarget {
             }
         }
         catch (exp) {
-            this.err("iceReceived", `${exp.message} [${evt.fromUserID}] (${evt.candidateJSON})`);
+            this.err("iceReceived", `$1 [${evt.fromUserID}] (${evt.candidateJSON})`, exp);
         }
     }
     async onOfferCreated(evt) {
@@ -287,7 +288,7 @@ export class TeleconferenceManager extends TypedEventTarget {
             }
         }
         catch (exp) {
-            this.err("offerReceived", exp.message);
+            this.err("offerReceived", exp);
         }
     }
     async onAnswerCreated(evt) {
@@ -302,7 +303,7 @@ export class TeleconferenceManager extends TypedEventTarget {
             }
         }
         catch (exp) {
-            this.err("answerReceived", exp.message);
+            this.err("answerReceived", exp);
         }
     }
     onStreamNeeded(evt) {

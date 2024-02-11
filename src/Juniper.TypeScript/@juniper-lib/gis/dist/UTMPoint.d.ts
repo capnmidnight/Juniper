@@ -91,6 +91,7 @@ export declare class UTMPoint implements IUTMPoint, ICloneable {
     fromVec2(arr: Vec2, zone: number): UTMPoint;
     toVec3(): Vec3;
     fromVec3(arr: Vec3, zone: number): UTMPoint;
+    fromArr3(arr: [number, number, number] | Float32Array, zone: number): UTMPoint;
     copy(other: IUTMPoint): UTMPoint;
     clone(): UTMPoint;
 }

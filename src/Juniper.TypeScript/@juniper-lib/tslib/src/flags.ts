@@ -18,8 +18,8 @@ export function isIOS() {
     return /iP(ad|hone|od)/.test(navigator.platform)
         || /Macintosh(.*?) FxiOS(.*?)\//.test(navigator.platform)
         || isMacOS()
-            && "maxTouchPoints" in navigator
-            && (navigator as any).maxTouchPoints > 2;
+        && "maxTouchPoints" in navigator
+        && (navigator as any).maxTouchPoints > 2;
 }
 
 export function isApple() {
@@ -61,11 +61,13 @@ export function isDesktop() {
 const oculusBrowserPattern = /*@__PURE__*/ /OculusBrowser\/(\d+)\.(\d+)\.(\d+)/i;
 const oculusMatch = /*@__PURE__*/ navigator.userAgent.match(oculusBrowserPattern);
 export const isOculusBrowser = /*@__PURE__*/ !!oculusMatch;
-export const oculusBrowserVersion: { major: number, minor: number, patch: number } = /*@__PURE__*/ isOculusBrowser && {
+export const oculusBrowserVersion: { major: number, minor: number, patch: number } | null = /*@__PURE__*/ isOculusBrowser
+    && oculusMatch
+    && {
     major: parseFloat(oculusMatch[1]),
     minor: parseFloat(oculusMatch[2]),
     patch: parseFloat(oculusMatch[3])
-};
+} || null;
 
 export const isOculusGo = /*@__PURE__*/ isOculusBrowser && /pacific/i.test(navigator.userAgent);
 export const isOculusQuest = /*@__PURE__*/ isOculusBrowser && /quest/i.test(navigator.userAgent);

@@ -4,6 +4,7 @@ import { isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeCheck
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestRunnerResultsEvent } from "./TestRunnerResultsEvent";
 import { TestScore } from "./TestScore";
+import { makeErrorMessage } from "../../../tslib/src/makeErrorMessage";
 function testNames(TestClass) {
     const names = Object.getOwnPropertyNames(TestClass);
     names.sort();
@@ -88,7 +89,7 @@ export class TestRunner extends TypedEventTarget {
         catch (exp) {
             console.error(`Test case failed [${className}::${funcName}]`, exp);
             message = exp;
-            onFailure(new TestCaseFailEvent(exp));
+            onFailure(new TestCaseFailEvent(makeErrorMessage(exp)));
         }
         score.finish(message);
         onUpdate();

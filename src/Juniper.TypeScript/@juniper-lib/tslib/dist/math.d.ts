@@ -13,27 +13,25 @@ export declare const TIME_MAX = 8640000000000000;
 export declare const TIME_MIN: number;
 /**
  * Find the median of an array of numbers.
- * Returns null on an empty array.
  * Assumes the array is sorted.
- * Returns the value of the middle element in an odd-length array.
- * Returns the midpoint between the middle-most two values of an even-length array.
+ * @returns null on an empty array, value of the middle element in an odd-length array, or the midpoint between the middle-most two values of an even-length array.
  **/
-export declare function calculateMedian(arr: readonly number[]): number;
+export declare function calculateMedian(arr: readonly [number, ...number[]]): number | null;
 /**
  * Calculates the arithmetic mean of an array of numbers.
- * Returns null on an empty array.
+ * @returns null on an empty array.
  **/
-export declare function calculateMean(arr: readonly number[]): number;
+export declare function calculateMean(arr: readonly [number, ...number[]]): number | null;
 /**
  * Calculates the statistical variance of an array of numbers.
  * Returns null for arrays smaller than 2 elements.
  **/
-export declare function calculateVariance(arr: readonly number[]): number;
+export declare function calculateVariance(arr: readonly [number, number, ...number[]]): number | null;
 /**
  * Calculates the standard deviation of an array of numbers.
  * Returns null for arrays smaller than 2 elements.
  **/
-export declare function calculateStandardDeviation(arr: readonly number[]): number;
+export declare function calculateStandardDeviation(arr: readonly [number, number, ...number[]]): number | null;
 export declare function xy2i(x: number, y: number, width: number, components?: number): number;
 export declare function vec22i(vec: Vec2, width: number, components?: number): number;
 export declare function i2vec2(vec: Vec2, i: number, width: number, components?: number): void;
@@ -73,9 +71,9 @@ export declare function project(v: number, min: number, max: number): number;
  */
 export declare function unproject(v: number, min: number, max: number): number;
 export declare function formatNumber(value: number, digits?: number): string;
-export declare function parseNumber(value: string): number;
+export declare function parseNumber(value: string): number | null;
 export declare function formatVolume(value: number): string;
-export declare function parseVolume(value: string): number;
+export declare function parseVolume(value: string): number | null;
 /**
  * Pick a value that is proportionally between two values.
  */
@@ -144,7 +142,7 @@ export declare class Rectangle implements IRectangle {
     set(x: number, y: number, width: number, height: number): void;
     copy(r: IRectangle): void;
     clone(): Rectangle;
-    overlap(r: IRectangle): Rectangle;
+    overlap(r: IRectangle): Rectangle | null;
     toString(): string;
 }
 export declare function isPowerOf2(v: number): boolean;

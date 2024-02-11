@@ -24,7 +24,9 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "allowJs": true,
+    "checkJs": false,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "strictNullChecks": false
   }
 }

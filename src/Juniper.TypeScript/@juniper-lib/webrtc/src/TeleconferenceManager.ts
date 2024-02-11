@@ -42,6 +42,7 @@ import {
     RemoteUserTrackRemovedEvent
 } from "./RemoteUser";
 import { DEFAULT_LOCAL_USER_ID } from "./constants";
+import { makeErrorMessage } from "../../tslib/src/makeErrorMessage";
 
 const sockets = singleton("Juniper:Sockets", () => new Array<WebSocket>());
 function fakeSocket(...args: any[]): WebSocket {
@@ -206,8 +207,11 @@ export class TeleconferenceManager
         }
     }
 
-    private err(source: string, ...msg: any[]): void {
-        console.warn(source, ...msg);
+    private err(source: string, message: string): void;
+    private err(source: string, error: unknown): void;
+    private err(source: string, message: string, error: unknown): void;
+    private err(source: string, messageOrError: string | unknown, maybeError?: unknown): void {
+        console.warn(source, makeErrorMessage(messageOrError, maybeError));
     }
 
     private async toServer<T>(method: string, ...rest: any[]): Promise<T> {
@@ -371,7 +375,7 @@ export class TeleconferenceManager
     }
 
     private onIceError(evt: RemoteUserIceErrorEvent) {
-        this.err("icecandidateerror", this.localUserName, evt.user.userName, `${evt.url} [${evt.errorCode}]: ${evt.errorText}`);
+        this.err("icecandidateerror", `${this.localUserName} ${evt.user.userName} ${evt.url} [${evt.errorCode}]: ${evt.errorText}`);
     }
 
     private async onIceCandidate(evt: RemoteUserIceCandidateEvent) {
@@ -387,7 +391,7 @@ export class TeleconferenceManager
             }
         }
         catch (exp) {
-            this.err("iceReceived", `${exp.message} [${evt.fromUserID}] (${evt.candidateJSON})`);
+            this.err("iceReceived", `$1 [${evt.fromUserID}] (${evt.candidateJSON})`, exp);
         }
     }
 
@@ -404,7 +408,7 @@ export class TeleconferenceManager
             }
         }
         catch (exp) {
-            this.err("offerReceived", exp.message);
+            this.err("offerReceived", exp);
         }
     }
 
@@ -421,7 +425,7 @@ export class TeleconferenceManager
             }
         }
         catch (exp) {
-            this.err("answerReceived", exp.message);
+            this.err("answerReceived", exp);
         }
     }
 

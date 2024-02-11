@@ -324,6 +324,14 @@ export class UTMPoint implements IUTMPoint, ICloneable {
         return this;
     }
 
+    fromArr3(arr: [number, number, number] | Float32Array, zone: number): UTMPoint {
+        this._easting = arr[0];
+        this._altitude = arr[1];
+        this._northing = -arr[2];
+        this._zone = zone;
+        return this;
+    }
+
     copy(other: IUTMPoint): UTMPoint {
         this._easting = other.easting;
         this._northing = other.northing;

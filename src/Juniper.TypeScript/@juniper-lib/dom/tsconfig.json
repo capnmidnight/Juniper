@@ -13,6 +13,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
+    "strictNullChecks": false,
     "typeRoots": [
       "../../node_modules/@types",
       "../../node_modules/@juniper-types",

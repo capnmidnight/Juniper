@@ -49,11 +49,13 @@ export function isDesktop() {
 const oculusBrowserPattern = /*@__PURE__*/ /OculusBrowser\/(\d+)\.(\d+)\.(\d+)/i;
 const oculusMatch = /*@__PURE__*/ navigator.userAgent.match(oculusBrowserPattern);
 export const isOculusBrowser = /*@__PURE__*/ !!oculusMatch;
-export const oculusBrowserVersion = /*@__PURE__*/ isOculusBrowser && {
-    major: parseFloat(oculusMatch[1]),
-    minor: parseFloat(oculusMatch[2]),
-    patch: parseFloat(oculusMatch[3])
-};
+export const oculusBrowserVersion = /*@__PURE__*/ isOculusBrowser
+    && oculusMatch
+    && {
+        major: parseFloat(oculusMatch[1]),
+        minor: parseFloat(oculusMatch[2]),
+        patch: parseFloat(oculusMatch[3])
+    } || null;
 export const isOculusGo = /*@__PURE__*/ isOculusBrowser && /pacific/i.test(navigator.userAgent);
 export const isOculusQuest = /*@__PURE__*/ isOculusBrowser && /quest/i.test(navigator.userAgent);
 export const isOculusQuest2 = /*@__PURE__*/ isOculusBrowser && /quest 2/i.test(navigator.userAgent);

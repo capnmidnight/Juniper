@@ -6,6 +6,7 @@ import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";
 import { TestResults, TestRunnerResultsEvent } from "./TestRunnerResultsEvent";
 import { TestScore } from "./TestScore";
+import { makeErrorMessage } from "../../../tslib/src/makeErrorMessage";
 
 function testNames(TestClass: TestCase): (keyof TestCase)[] {
     const names = Object.getOwnPropertyNames(TestClass);
@@ -116,7 +117,7 @@ export class TestRunner extends TypedEventTarget<TestRunnerEvents> {
         catch (exp) {
             console.error(`Test case failed [${className}::${funcName}]`, exp);
             message = exp;
-            onFailure(new TestCaseFailEvent(exp));
+            onFailure(new TestCaseFailEvent(makeErrorMessage(exp)));
         }
         score.finish(message);
         onUpdate();

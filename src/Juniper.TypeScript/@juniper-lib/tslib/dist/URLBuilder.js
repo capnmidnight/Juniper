@@ -6,177 +6,184 @@ function parsePort(portString) {
     return null;
 }
 export class URLBuilder {
+    #url = null;
+    #base = undefined;
+    #protocol = null;
+    #host = null;
+    #hostName = null;
+    #userName = null;
+    #password = null;
+    #port = null;
+    #pathName = null;
+    #hash = null;
+    #query = new Map();
     constructor(url, base) {
-        this._url = null;
-        this._base = undefined;
-        this._protocol = null;
-        this._host = null;
-        this._hostName = null;
-        this._userName = null;
-        this._password = null;
-        this._port = null;
-        this._pathName = null;
-        this._hash = null;
-        this._query = new Map();
         if (url !== undefined) {
-            this._url = new URL(url, base);
-            this.rehydrate();
+            this.#url = new URL(url, base);
+            this.#rehydrate();
         }
     }
-    rehydrate() {
-        if (isDefined(this._protocol) && this._protocol !== this._url.protocol) {
-            this._url.protocol = this._protocol;
+    #rehydrate() {
+        if (isDefined(this.#url)) {
+            if (isDefined(this.#protocol) && this.#protocol !== this.#url.protocol) {
+                this.#url.protocol = this.#protocol;
+            }
+            if (isDefined(this.#host) && this.#host !== this.#url.host) {
+                this.#url.host = this.#host;
+            }
+            if (isDefined(this.#hostName) && this.#hostName !== this.#url.hostname) {
+                this.#url.hostname = this.#hostName;
+            }
+            if (isDefined(this.#userName) && this.#userName !== this.#url.username) {
+                this.#url.username = this.#userName;
+            }
+            if (isDefined(this.#password) && this.#password !== this.#url.password) {
+                this.#url.password = this.#password;
+            }
+            if (isDefined(this.#port) && this.#port.toFixed(0) !== this.#url.port) {
+                this.#url.port = this.#port.toFixed(0);
+            }
+            if (isDefined(this.#pathName) && this.#pathName !== this.#url.pathname) {
+                this.#url.pathname = this.#pathName;
+            }
+            if (isDefined(this.#hash) && this.#hash !== this.#url.hash) {
+                this.#url.hash = this.#hash;
+            }
+            for (const [k, v] of this.#query) {
+                this.#url.searchParams.set(k, v);
+            }
+            this.#protocol = this.#url.protocol;
+            this.#host = this.#url.host;
+            this.#hostName = this.#url.hostname;
+            this.#userName = this.#url.username;
+            this.#password = this.#url.password;
+            this.#port = parsePort(this.#url.port);
+            this.#pathName = this.#url.pathname;
+            this.#hash = this.#url.hash;
+            this.#url.searchParams.forEach((v, k) => this.#query.set(k, v));
         }
-        if (isDefined(this._host) && this._host !== this._url.host) {
-            this._url.host = this._host;
-        }
-        if (isDefined(this._hostName) && this._hostName !== this._url.hostname) {
-            this._url.hostname = this._hostName;
-        }
-        if (isDefined(this._userName) && this._userName !== this._url.username) {
-            this._url.username = this._userName;
-        }
-        if (isDefined(this._password) && this._password !== this._url.password) {
-            this._url.password = this._password;
-        }
-        if (isDefined(this._port) && this._port.toFixed(0) !== this._url.port) {
-            this._url.port = this._port.toFixed(0);
-        }
-        if (isDefined(this._pathName) && this._pathName !== this._url.pathname) {
-            this._url.pathname = this._pathName;
-        }
-        if (isDefined(this._hash) && this._hash !== this._url.hash) {
-            this._url.hash = this._hash;
-        }
-        for (const [k, v] of this._query) {
-            this._url.searchParams.set(k, v);
-        }
-        this._protocol = this._url.protocol;
-        this._host = this._url.host;
-        this._hostName = this._url.hostname;
-        this._userName = this._url.username;
-        this._password = this._url.password;
-        this._port = parsePort(this._url.port);
-        this._pathName = this._url.pathname;
-        this._hash = this._url.hash;
-        this._url.searchParams.forEach((v, k) => this._query.set(k, v));
     }
-    refresh() {
-        if (this._url === null) {
-            if (isDefined(this._protocol)
-                && (isDefined(this._host) || isDefined(this._hostName))) {
-                if (isDefined(this._host)) {
-                    this._url = new URL(`${this._protocol}//${this._host}`, this._base);
-                    this._port = parsePort(this._url.port);
-                    this.rehydrate();
+    #refresh() {
+        if (this.#url === null) {
+            if (isDefined(this.#protocol)
+                && (isDefined(this.#host) || isDefined(this.#hostName))) {
+                if (isDefined(this.#host)) {
+                    this.#url = new URL(`${this.#protocol}//${this.#host}`, this.#base);
+                    this.#port = parsePort(this.#url.port);
+                    this.#rehydrate();
                     return false;
                 }
-                else if (isDefined(this._hostName)) {
-                    this._url = new URL(`${this._protocol}//${this._hostName}`, this._base);
-                    this.rehydrate();
+                else if (isDefined(this.#hostName)) {
+                    this.#url = new URL(`${this.#protocol}//${this.#hostName}`, this.#base);
+                    this.#rehydrate();
                     return false;
                 }
             }
-            else if (isDefined(this._pathName) && isDefined(this._base)) {
-                this._url = new URL(this._pathName, this._base);
-                this.rehydrate();
+            else if (isDefined(this.#pathName) && isDefined(this.#base)) {
+                this.#url = new URL(this.#pathName, this.#base);
+                this.#rehydrate();
                 return false;
             }
         }
-        return isDefined(this._url);
+        return isDefined(this.#url);
     }
     base(base) {
-        if (this._url !== null) {
+        if (this.#url !== null) {
             throw new Error("Cannot redefine base after defining the protocol and domain");
         }
-        this._base = base;
-        this.refresh();
+        this.#base = base;
+        this.#refresh();
         return this;
     }
     protocol(protocol) {
-        this._protocol = protocol;
-        if (this.refresh()) {
-            this._url.protocol = protocol;
+        this.#protocol = protocol;
+        if (this.#refresh()) {
+            this.#url.protocol = protocol;
         }
         return this;
     }
     host(host) {
-        this._host = host;
-        if (this.refresh()) {
-            this._url.host = host;
-            this._hostName = this._url.hostname;
-            this._port = parsePort(this._url.port);
+        this.#host = host;
+        if (this.#refresh()) {
+            this.#url.host = host;
+            this.#hostName = this.#url.hostname;
+            this.#port = parsePort(this.#url.port);
         }
         return this;
     }
     hostName(hostName) {
-        this._hostName = hostName;
-        if (this.refresh()) {
-            this._url.hostname = hostName;
-            this._host = `${this._url.hostname}:${this._url.port}`;
+        this.#hostName = hostName;
+        if (this.#refresh()) {
+            this.#url.hostname = hostName;
+            this.#host = `${this.#url.hostname}:${this.#url.port}`;
         }
         return this;
     }
     port(port) {
-        this._port = port;
-        if (this.refresh()) {
-            this._url.port = port.toFixed(0);
-            this._host = `${this._url.hostname}:${this._url.port}`;
+        this.#port = port;
+        if (this.#refresh()) {
+            this.#url.port = port.toFixed(0);
+            this.#host = `${this.#url.hostname}:${this.#url.port}`;
         }
         return this;
     }
     userName(userName) {
-        this._userName = userName;
-        if (this.refresh()) {
-            this._url.username = userName;
+        this.#userName = userName;
+        if (this.#refresh()) {
+            this.#url.username = userName;
         }
         return this;
     }
     password(password) {
-        this._password = password;
-        if (this.refresh()) {
-            this._url.password = password;
+        this.#password = password;
+        if (this.#refresh()) {
+            this.#url.password = password;
         }
         return this;
     }
     path(path) {
-        this._pathName = path;
-        if (this.refresh()) {
-            this._url.pathname = path;
+        this.#pathName = path;
+        if (this.#refresh()) {
+            this.#url.pathname = path;
         }
         return this;
     }
     pathPop(pattern) {
-        pattern = pattern || /\/[^/]+\/?$/;
-        return this.path(this._pathName.replace(pattern, ""));
+        if (isDefined(this.#pathName)) {
+            pattern = pattern || /\/[^/]+\/?$/;
+            this.path(this.#pathName.replace(pattern, ""));
+        }
+        return this;
     }
     pathPush(part) {
-        let path = this._pathName;
+        let path = this.#pathName ?? part;
         if (!path.endsWith("/")) {
             path += "/";
         }
-        path += part;
+        if (isDefined(this.#pathName)) {
+            path += part;
+        }
         return this.path(path);
     }
     query(name, value) {
-        this._query.set(name, value);
-        if (this.refresh()) {
-            this._url.searchParams.set(name, value);
+        this.#query.set(name, value);
+        if (this.#refresh()) {
+            this.#url.searchParams.set(name, value);
         }
         return this;
     }
     hash(hash) {
-        this._hash = hash;
-        if (this.refresh()) {
-            this._url.hash = hash;
+        this.#hash = hash;
+        if (this.#refresh()) {
+            this.#url.hash = hash;
         }
         return this;
     }
     toURL() {
-        return this._url;
+        return this.#url;
     }
     toString() {
-        return this._url.href;
+        return this.#url?.href;
     }
     [Symbol.toStringTag]() {
         return this.toString();

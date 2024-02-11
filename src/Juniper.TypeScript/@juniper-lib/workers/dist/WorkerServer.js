@@ -1,5 +1,6 @@
 import { BaseProgress } from "@juniper-lib/progress/dist/BaseProgress";
 import { isArray, isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { makeErrorMessage } from "../../tslib/src/makeErrorMessage";
 class WorkerServerProgress extends BaseProgress {
     constructor(server, taskID) {
         super();
@@ -62,23 +63,18 @@ export class WorkerServer {
                 }
             }
             catch (exp) {
-                this.onError(data.taskID, `method invocation error: ${data.methodName}(${exp.message || exp})`);
+                this.onError(data.taskID, `method invocation error: ${data.methodName}($1)`, exp);
             }
         }
         else {
             this.onError(data.taskID, `method not found: ${data.methodName}`);
         }
     }
-    /**
-     * Report an error back to the calling thread.
-     * @param taskID - the invocation ID of the method that errored.
-     * @param errorMessage - what happened?
-     */
-    onError(taskID, errorMessage) {
+    onError(taskID, errorMessageOrError, maybeError) {
         const message = {
             type: "error",
             taskID,
-            errorMessage
+            errorMessage: makeErrorMessage(errorMessageOrError, maybeError)
         };
         this.postMessage(message);
     }
@@ -125,7 +121,7 @@ export class WorkerServer {
             }
             catch (exp) {
                 console.error(exp);
-                this.onError(taskID, exp.message || exp);
+                this.onError(taskID, exp);
             }
         });
     }

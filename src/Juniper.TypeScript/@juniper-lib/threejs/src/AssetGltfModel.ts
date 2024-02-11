@@ -8,7 +8,7 @@ import { isDefined, isFunction } from "@juniper-lib/tslib/dist/typeChecks";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { GLTF } from "./examples/loaders/GLTFLoader";
 
-export class AssetGltfModel<ErrorT = unknown> extends BaseFetchedAsset<GLTF, ErrorT> {
+export class AssetGltfModel extends BaseFetchedAsset<GLTF> {
 
     constructor(private readonly env: BaseEnvironment, path: string, type: string | MediaType, useCache?: boolean) {
         if (!Model_Gltf_Binary.matches(type)

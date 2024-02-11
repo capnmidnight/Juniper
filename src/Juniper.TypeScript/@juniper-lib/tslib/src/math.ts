@@ -16,12 +16,10 @@ export const TIME_MIN = -TIME_MAX;
 
 /**
  * Find the median of an array of numbers.
- * Returns null on an empty array.
  * Assumes the array is sorted.
- * Returns the value of the middle element in an odd-length array.
- * Returns the midpoint between the middle-most two values of an even-length array.
+ * @returns null on an empty array, value of the middle element in an odd-length array, or the midpoint between the middle-most two values of an even-length array.
  **/
-export function calculateMedian(arr: readonly number[]): number {
+export function calculateMedian(arr: readonly [number, ...number[]]): number | null {
     if (arr.length === 0) {
         return null;
     }
@@ -37,9 +35,9 @@ export function calculateMedian(arr: readonly number[]): number {
 
 /**
  * Calculates the arithmetic mean of an array of numbers.
- * Returns null on an empty array.
+ * @returns null on an empty array.
  **/
-export function calculateMean(arr: readonly number[]): number {
+export function calculateMean(arr: readonly [number, ...number[]]): number | null {
     if (arr.length === 0) {
         return null;
     }
@@ -56,12 +54,12 @@ export function calculateMean(arr: readonly number[]): number {
  * Calculates the statistical variance of an array of numbers.
  * Returns null for arrays smaller than 2 elements.
  **/
-export function calculateVariance(arr: readonly number[]): number {
+export function calculateVariance(arr: readonly [number, number, ...number[]]): number | null {
     if (arr.length < 2) {
         return null;
     }
 
-    const mean = calculateMean(arr);
+    const mean = calculateMean(arr)!;
 
     const squaredDiffs = arr
         .map((x) => (x - mean) ** 2)
@@ -74,12 +72,12 @@ export function calculateVariance(arr: readonly number[]): number {
  * Calculates the standard deviation of an array of numbers.
  * Returns null for arrays smaller than 2 elements.
  **/
-export function calculateStandardDeviation(arr: readonly number[]): number {
+export function calculateStandardDeviation(arr: readonly [number, number, ...number[]]): number | null {
     if (arr.length < 2) {
         return null;
     }
 
-    const variance = calculateVariance(arr);
+    const variance = calculateVariance(arr)!;
     return Math.sqrt(variance);
 }
 
@@ -192,7 +190,7 @@ export function formatNumber(value: number, digits = 0): string {
     }
 }
 
-export function parseNumber(value: string): number {
+export function parseNumber(value: string): number | null {
     if (/\d+/.test(value)) {
         return parseFloat(value);
     }
@@ -210,7 +208,7 @@ export function formatVolume(value: number): string {
     }
 }
 
-export function parseVolume(value: string): number {
+export function parseVolume(value: string): number | null {
     if (/\d+/.test(value)) {
         return clamp(project(parseInt(value, 10), 0, 100), 0, 1);
     }
@@ -445,7 +443,7 @@ export function truncate(v: number): number {
 type Vec = Vec2 | Vec3 | Vec4;
 
 export function warnOnNaN(val: number | number[] | Vec, msg?: string): void {
-    let type: string = null;
+    let type: string;
     let isBad = false;
 
     if (isNumber(val)) {

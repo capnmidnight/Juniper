@@ -1,11 +1,20 @@
 import { assertNever } from "../typeChecks";
-function mapInvert(map) {
-    const mapOut = new Map();
-    for (const [key, value] of map) {
-        mapOut.set(value, key);
-    }
-    return mapOut;
-}
+const base2Labels = [
+    "B",
+    "KiB",
+    "MiB",
+    "GiB",
+    "TiB",
+    "PiB"
+];
+const base10Labels = [
+    "B",
+    "KB",
+    "MB",
+    "GB",
+    "TB",
+    "PB"
+];
 function isBase2Units(label) {
     return label !== "B"
         && label[1] === "i";
@@ -14,25 +23,14 @@ function isBase10Units(label) {
     return label !== "B"
         && !isBase10Units(label);
 }
-const base2Labels = new Map([
-    [1, "KiB"],
-    [2, "MiB"],
-    [3, "GiB"],
-    [4, "TiB"]
-]);
-const base10Labels = new Map([
-    [1, "KB"],
-    [2, "MB"],
-    [3, "GB"],
-    [4, "TB"]
-]);
-const base2Sizes = /*@__PURE__*/ mapInvert(base2Labels);
-const base10Sizes = /*@__PURE__*/ mapInvert(base10Labels);
 const labels = /*@__PURE__*/ new Map([
     [2, base2Labels],
     [10, base10Labels]
 ]);
 export function formatBytes(value, base = 10) {
+    if (base !== 2 && base !== 10) {
+        assertNever(base);
+    }
     const isNegative = value < 0;
     value = Math.abs(value);
     const systemBase = base === 2 ? 1024 : 1000;
@@ -42,39 +40,42 @@ export function formatBytes(value, base = 10) {
         size++;
         divisor *= systemBase;
     }
-    let label;
-    if (size === 0) {
-        label = "B";
+    const levels = labels.get(base);
+    while (size >= levels.length) {
+        --size;
     }
-    else {
-        const levels = labels.get(base);
-        label = levels.get(size);
-        value /= divisor;
-    }
+    const label = levels[size];
+    value /= divisor;
     const isExact = (value % 1) === 0;
     const str = `${isNegative ? "-" : ""}${value.toFixed(isExact ? 0 : 2)} ${label}`;
     return str;
 }
-export function toBytes(value, units) {
+function getScale(units) {
     if (units === "B") {
-        return value;
+        return 1;
+    }
+    let systemBase;
+    let size;
+    if (isBase2Units(units)) {
+        systemBase = 1024;
+        size = base2Labels.indexOf(units);
+    }
+    else if (isBase10Units(units)) {
+        systemBase = 1000;
+        size = base10Labels.indexOf(units);
     }
     else {
-        let systemBase;
-        let size;
-        if (isBase2Units(units)) {
-            systemBase = 1024;
-            size = base2Sizes.get(units);
-        }
-        else if (isBase10Units(units)) {
-            systemBase = 1000;
-            size = base10Sizes.get(units);
-        }
-        else {
-            assertNever(units);
-        }
-        const multiplier = Math.pow(systemBase, size);
-        return value * multiplier;
+        assertNever(units);
     }
+    const multiplier = Math.pow(systemBase, size);
+    return multiplier;
+}
+export function fromBytes(value, units) {
+    const multiplier = getScale(units);
+    return value / multiplier;
+}
+export function toBytes(value, units) {
+    const multiplier = getScale(units);
+    return value * multiplier;
 }
 //# sourceMappingURL=fileSize.js.map

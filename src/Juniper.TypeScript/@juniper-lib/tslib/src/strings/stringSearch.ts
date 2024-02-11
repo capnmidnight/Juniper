@@ -40,12 +40,7 @@ export function stringSearch(search: string, pattern: string) {
             const charA = patternChars[i];
             const charB = strChars[start + i];
             if (charA !== charB) {
-                if (offsets.has(charB)) {
-                    start += offsets.get(charB);
-                }
-                else {
-                    start += patternChars.length;
-                }
+                start += offsets.get(charB) ?? patternChars.length;
                 break;
             }
             else if (i === 0) {

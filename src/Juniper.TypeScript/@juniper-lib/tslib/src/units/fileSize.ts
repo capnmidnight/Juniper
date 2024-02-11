@@ -1,26 +1,42 @@
 import { assertNever } from "../typeChecks";
 
-function mapInvert<T, U>(map: Map<T, U>): Map<U, T> {
-    const mapOut = new Map<U, T>();
-    for (const [key, value] of map) {
-        mapOut.set(value, key);
-    }
-    return mapOut;
-}
-
 type Base = 2 | 10;
 
-type Base2Units = "KiB"
+type Base2Units =
+    | "B"
+    | "KiB"
     | "MiB"
     | "GiB"
-    | "TiB";
+    | "TiB"
+    | "PiB";
 
-type Base10Units = "KB"
+const base2Labels: Base2Units[] = [
+    "B",
+    "KiB",
+    "MiB",
+    "GiB",
+    "TiB",
+    "PiB"
+];
+
+type Base10Units =
+    | "B"
+    | "KB"
     | "MB"
     | "GB"
-    | "TB";
+    | "TB"
+    | "PB";
 
-type Units = "B"
+const base10Labels: Base10Units[] = [
+    "B",
+    "KB",
+    "MB",
+    "GB",
+    "TB",
+    "PB"
+];
+
+type Units =
     | Base2Units
     | Base10Units;
 
@@ -34,29 +50,16 @@ function isBase10Units(label: Units): label is Base10Units {
         && !isBase10Units(label);
 }
 
-const base2Labels = new Map<number, Base2Units>([
-    [1, "KiB"],
-    [2, "MiB"],
-    [3, "GiB"],
-    [4, "TiB"]
-]);
-
-const base10Labels = new Map<number, Base10Units>([
-    [1, "KB"],
-    [2, "MB"],
-    [3, "GB"],
-    [4, "TB"]
-]);
-
-const base2Sizes = /*@__PURE__*/ mapInvert(base2Labels);
-const base10Sizes = /*@__PURE__*/ mapInvert(base10Labels);
-
-const labels = /*@__PURE__*/ new Map<Base, Map<number, Units>>([
+const labels = /*@__PURE__*/ new Map<Base, Units[]>([
     [2, base2Labels],
     [10, base10Labels]
 ]);
 
 export function formatBytes(value: number, base: 2 | 10 = 10) {
+    if (base !== 2 && base !== 10) {
+        assertNever(base);
+    }
+
     const isNegative = value < 0;
     value = Math.abs(value);
 
@@ -68,15 +71,13 @@ export function formatBytes(value: number, base: 2 | 10 = 10) {
         divisor *= systemBase;
     }
 
-    let label: string;
-    if (size === 0) {
-        label = "B";
+    const levels = labels.get(base)!;
+    while (size >= levels.length) {
+        --size;
     }
-    else {
-        const levels = labels.get(base);
-        label = levels.get(size);
-        value /= divisor;
-    }
+
+    const label = levels[size];
+    value /= divisor;
 
     const isExact = (value % 1) === 0;
     const str = `${isNegative ? "-" : ""}${value.toFixed(isExact ? 0 : 2)} ${label}`;
@@ -84,26 +85,35 @@ export function formatBytes(value: number, base: 2 | 10 = 10) {
     return str;
 }
 
-export function toBytes(value: number, units: Units): number {
+function getScale(units: Units): number {
     if (units === "B") {
-        return value;
+        return 1;
+    }
+
+    let systemBase: number;
+    let size: number;
+    if (isBase2Units(units)) {
+        systemBase = 1024;
+        size = base2Labels.indexOf(units)!;
+    }
+    else if (isBase10Units(units)) {
+        systemBase = 1000;
+        size = base10Labels.indexOf(units)!;
     }
     else {
-        let systemBase: number;
-        let size: number;
-        if (isBase2Units(units)) {
-            systemBase = 1024;
-            size = base2Sizes.get(units);
-        }
-        else if (isBase10Units(units)) {
-            systemBase = 1000;
-            size = base10Sizes.get(units);
-        }
-        else {
-            assertNever(units);
-        }
-
-        const multiplier = Math.pow(systemBase, size);
-        return value * multiplier;
+        assertNever(units);
     }
+
+    const multiplier = Math.pow(systemBase, size);
+    return multiplier;
+}
+
+export function fromBytes(value: number, units: Units): number {
+    const multiplier = getScale(units);
+    return value / multiplier;
+}
+
+export function toBytes(value: number, units: Units): number {
+    const multiplier = getScale(units);
+    return value * multiplier;
 }

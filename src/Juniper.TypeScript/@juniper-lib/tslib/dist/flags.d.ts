@@ -15,7 +15,7 @@ export declare const oculusBrowserVersion: {
     major: number;
     minor: number;
     patch: number;
-};
+} | null;
 export declare const isOculusGo: boolean;
 export declare const isOculusQuest: boolean;
 export declare const isOculusQuest2: boolean;

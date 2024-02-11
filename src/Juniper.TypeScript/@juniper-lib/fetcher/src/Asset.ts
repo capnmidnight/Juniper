@@ -14,12 +14,12 @@ export function isAsset(obj: any): obj is BaseAsset {
         && isFunction(obj.getSize);
 }
 
-export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Promise<ResultT> {
+export abstract class BaseAsset<ResultT = any> implements Promise<ResultT> {
 
     private readonly promise: Promise<ResultT>;
 
     private _result: ResultT = null;
-    private _error: ErrorT = null;
+    private _error: unknown = null;
     private _started = false;
     private _finished = false;
 
@@ -31,7 +31,7 @@ export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Prom
         return this._result;
     }
 
-    get error(): ErrorT {
+    get error(): unknown {
         return this._error;
     }
 
@@ -44,7 +44,7 @@ export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Prom
     }
 
     private resolve: (value: ResultT) => void = null;
-    private reject: (reason: ErrorT) => void = null;
+    private reject: (reason: unknown) => void = null;
 
     constructor(public readonly path: string, public readonly type: string | MediaType) {
         this.promise = new Promise((resolve, reject) => {
@@ -54,7 +54,7 @@ export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Prom
                 resolve(value);
             };
 
-            this.reject = (reason: ErrorT) => {
+            this.reject = (reason: unknown) => {
                 this._error = reason;
                 this._finished = true;
                 reject(reason);
@@ -105,7 +105,7 @@ export abstract class BaseAsset<ResultT = any, ErrorT = unknown> implements Prom
     }
 }
 
-export class AssetWorker<ErrorT = unknown> extends BaseAsset<Worker, ErrorT> {
+export class AssetWorker extends BaseAsset<Worker> {
 
     constructor(path: string, private readonly workerType: WorkerType = "module") {
         super(path, Application_Javascript);
@@ -120,7 +120,7 @@ export class AssetWorker<ErrorT = unknown> extends BaseAsset<Worker, ErrorT> {
     }
 }
 
-export class AssetCustom<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, ErrorT> {
+export class AssetCustom<ResultT> extends BaseAsset<ResultT> {
     constructor(path: string, type: string | MediaType, private readonly getter: (fetcher: IFetcher, path: string, type: string | MediaType, prog?: IProgress) => Promise<ResultT>) {
         super(path, type);
     }
@@ -130,7 +130,7 @@ export class AssetCustom<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, E
     }
 }
 
-export abstract class BaseFetchedAsset<ResultT, ErrorT = unknown> extends BaseAsset<ResultT, ErrorT> {
+export abstract class BaseFetchedAsset<ResultT> extends BaseAsset<ResultT> {
 
     private readonly useCache: boolean;
 
@@ -167,7 +167,7 @@ export abstract class BaseFetchedAsset<ResultT, ErrorT = unknown> extends BaseAs
     protected abstract getResponse(request: IFetcherBodiedResult): Promise<IResponse<ResultT>>;
 }
 
-export class AssetAudioBuffer<ErrorT = unknown> extends BaseFetchedAsset<AudioBuffer, ErrorT> {
+export class AssetAudioBuffer extends BaseFetchedAsset<AudioBuffer> {
 
     private readonly context: BaseAudioContext;
 
@@ -191,19 +191,19 @@ export class AssetAudioBuffer<ErrorT = unknown> extends BaseFetchedAsset<AudioBu
     }
 }
 
-export class AssetFile<ErrorT = unknown> extends BaseFetchedAsset<string, ErrorT> {
+export class AssetFile extends BaseFetchedAsset<string> {
     protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<string>> {
         return request.file(this.type);
     }
 }
 
-export class AssetImage<ErrorT = unknown> extends BaseFetchedAsset<HTMLImageElement, ErrorT> {
+export class AssetImage extends BaseFetchedAsset<HTMLImageElement> {
     protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<HTMLImageElement>> {
         return request.image(this.type);
     }
 }
 
-export class AssetObject<T, ErrorT = unknown> extends BaseFetchedAsset<T, ErrorT> {
+export class AssetObject<T> extends BaseFetchedAsset<T> {
     constructor(path: string) {
         super(path, Application_Json);
     }
@@ -213,13 +213,13 @@ export class AssetObject<T, ErrorT = unknown> extends BaseFetchedAsset<T, ErrorT
     }
 }
 
-export class AssetText<ErrorT = unknown> extends BaseFetchedAsset<string, ErrorT> {
+export class AssetText extends BaseFetchedAsset<string> {
     protected getResponse(request: IFetcherBodiedResult): Promise<IResponse<string>> {
         return request.text(this.type);
     }
 }
 
-export class AssetStyleSheet<ErrorT = unknown> extends BaseFetchedAsset<void, ErrorT> {
+export class AssetStyleSheet extends BaseFetchedAsset<void> {
     constructor(path: string, useCache?: boolean) {
         super(path, Text_Css, useCache);
     }
@@ -229,7 +229,7 @@ export class AssetStyleSheet<ErrorT = unknown> extends BaseFetchedAsset<void, Er
     }
 }
 
-export class AssetScript<ErrorT = unknown> extends BaseFetchedAsset<void, ErrorT> {
+export class AssetScript extends BaseFetchedAsset<void> {
     private readonly test: () => boolean = null;
     constructor(path: string);
     constructor(path: string, useCache?: boolean);

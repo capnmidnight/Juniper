@@ -10,6 +10,7 @@
   ],
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "strictNullChecks": false
   }
 }

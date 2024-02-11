@@ -1,8 +1,5 @@
 export declare class BufferReaderWriter {
-    private readonly littleEndian;
-    private dataView;
-    private i;
-    private _length;
+    #private;
     constructor(littleEndian?: boolean);
     get length(): number;
     set length(v: number);

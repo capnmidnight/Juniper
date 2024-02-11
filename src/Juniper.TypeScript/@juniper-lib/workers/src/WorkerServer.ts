@@ -1,6 +1,7 @@
 import { TypedEventMap, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
 import { BaseProgress } from "@juniper-lib/progress/dist/BaseProgress";
 import { isArray, isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { makeErrorMessage } from "../../tslib/src/makeErrorMessage";
 import { WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEventMessage, WorkerServerMessages, WorkerServerProgressMessage, WorkerServerReturnMessage } from "./WorkerMessages";
 
 type workerServerMethod = (taskID: number, ...params: any[]) => Promise<void>;
@@ -76,7 +77,7 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
                 }
             }
             catch (exp) {
-                this.onError(data.taskID, `method invocation error: ${data.methodName}(${exp.message || exp})`);
+                this.onError(data.taskID, `method invocation error: ${data.methodName}($1)`, exp);
             }
         }
         else {
@@ -89,12 +90,16 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
      * @param taskID - the invocation ID of the method that errored.
      * @param errorMessage - what happened?
      */
-    private onError(taskID: number, errorMessage: string): void {
+    private onError(taskID: number, error: unknown): void;
+    private onError(taskID: number, errorMessage: string): void;
+    private onError(taskID: number, errorMessage: string, error: unknown): void;
+    private onError(taskID: number, errorMessageOrError: string | unknown, maybeError?: unknown): void {
         const message: WorkerServerErrorMessage = {
             type: "error",
             taskID,
-            errorMessage
+            errorMessage: makeErrorMessage(errorMessageOrError, maybeError)
         };
+
         this.postMessage(message);
     }
 
@@ -145,7 +150,7 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
             }
             catch (exp) {
                 console.error(exp);
-                this.onError(taskID, exp.message || exp);
+                this.onError(taskID, exp);
             }
         });
     }

@@ -10,6 +10,7 @@ import { ScreenMode } from "./ScreenMode";
 import type { ScreenUI } from "./ScreenUI";
 import { AnaglyphEffect } from "./examples/effects/AnaglyphEffect";
 import type { ScreenModeToggleButton } from "./widgets/ScreenModeToggleButton";
+import { makeErrorMessage } from "@juniper-lib/tslib/src/makeErrorMessage";
 
 if (!navigator.xr) {
     console.info("Polyfilling WebXR API");
@@ -337,7 +338,7 @@ export class ScreenControl
                     this.renderer.xr.setSession(session as any);
                 }
                 catch (exp) {
-                    console.error(`Couldn't start session type '${xrMode.sessionMode}'. Reason: ${exp && exp.message || exp || "UNKNOWN"}`);
+                    console.error(makeErrorMessage(`Couldn't start session type '${xrMode.sessionMode}'. Reason: $1`, exp));
                 }
             }
         }

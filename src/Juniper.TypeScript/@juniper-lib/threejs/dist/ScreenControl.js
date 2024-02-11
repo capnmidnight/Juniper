@@ -7,6 +7,7 @@ import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
 import WebXRPolyfill from "webxr-polyfill/src/WebXRPolyfill";
 import { ScreenMode } from "./ScreenMode";
 import { AnaglyphEffect } from "./examples/effects/AnaglyphEffect";
+import { makeErrorMessage } from "@juniper-lib/tslib/src/makeErrorMessage";
 if (!navigator.xr) {
     console.info("Polyfilling WebXR API");
     new WebXRPolyfill();
@@ -276,7 +277,7 @@ export class ScreenControl extends TypedEventTarget {
                     this.renderer.xr.setSession(session);
                 }
                 catch (exp) {
-                    console.error(`Couldn't start session type '${xrMode.sessionMode}'. Reason: ${exp && exp.message || exp || "UNKNOWN"}`);
+                    console.error(makeErrorMessage(`Couldn't start session type '${xrMode.sessionMode}'. Reason: $1`, exp));
                 }
             }
         }
