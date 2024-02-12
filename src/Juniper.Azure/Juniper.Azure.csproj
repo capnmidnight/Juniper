@@ -9,6 +9,7 @@
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
     <Platforms>AnyCPU;x64</Platforms>
     <Nullable>enable</Nullable>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

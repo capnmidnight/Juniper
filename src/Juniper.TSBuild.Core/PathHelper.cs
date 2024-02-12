@@ -46,7 +46,7 @@ public class PathHelper
         var newDeps = new List<BuildSystemDependency>();
         foreach (var file in Textures.CD("UI").EnumerateFiles())
         {
-            newDeps.Add(file.MakeDependency(uiImgOUtput));
+            newDeps.Add(file.CopyTo(uiImgOUtput));
         }
 
         options.Dependencies = options.Dependencies is null

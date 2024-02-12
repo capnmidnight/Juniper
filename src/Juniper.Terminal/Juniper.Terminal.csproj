@@ -17,6 +17,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Platforms>AnyCPU;x64</Platforms>
 		<Nullable>enable</Nullable>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -28,12 +29,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\..\..\.editorconfig" Link=".editorconfig" />
+		<None Include="..\..\..\.editorconfig" Link=".editorconfig" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Juniper.Emoji\Juniper.Emoji.csproj" />
-	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+		<ProjectReference Include="..\Juniper.Emoji\Juniper.Emoji.csproj" />
+		<ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
 	</ItemGroup>
 
 </Project>

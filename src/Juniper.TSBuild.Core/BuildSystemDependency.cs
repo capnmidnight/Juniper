@@ -21,12 +21,12 @@ public static class FileInfoExtensions
 
     public static IEnumerable<BuildSystemDependency> CopyFiles(this DirectoryInfo src, DirectoryInfo dest) =>
         src.GetFiles()
-            .Select(f => f.MakeDependency(dest));
+            .Select(f => f.CopyTo(dest));
 
-    public static BuildSystemDependency MakeDependency(this FileInfo from, DirectoryInfo to) =>
-        from.MakeDependency(from.TouchCopy(to));
+    public static BuildSystemDependency CopyTo(this FileInfo from, DirectoryInfo to) =>
+        from.CopyAs(from.TouchCopy(to));
 
-    public static BuildSystemDependency MakeDependency(this FileInfo from, FileInfo to) => 
+    public static BuildSystemDependency CopyAs(this FileInfo from, FileInfo to) => 
         new ()
         {
             Name = $"{to.Directory?.Name}/{from.Name}",

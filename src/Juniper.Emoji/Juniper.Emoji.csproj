@@ -5,6 +5,7 @@
     <RootNamespace>Juniper</RootNamespace>
     <Platforms>AnyCPU;x64</Platforms>
     <Nullable>enable</Nullable>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>

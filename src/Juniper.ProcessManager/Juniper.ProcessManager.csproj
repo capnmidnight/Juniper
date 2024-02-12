@@ -12,6 +12,7 @@
 		<IsPublishable>False</IsPublishable>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Platforms>AnyCPU;x64</Platforms>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
