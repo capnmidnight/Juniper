@@ -16,7 +16,7 @@
         <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <Prefer32Bit>false</Prefer32Bit>
-		<IsTrimmable>true</IsTrimmable>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     </PropertyGroup>
 
 	<ItemGroup>
