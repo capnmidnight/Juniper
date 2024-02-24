@@ -382,4 +382,10 @@ export function warnOnNaN(val, msg) {
         console.warn(`${msg}${type} not-a-number`);
     }
 }
+export function randomRange(min, max) {
+    return min + Math.random() * (max - min);
+}
+export function randomInt(min, max) {
+    return Math.floor(randomRange(min, max));
+}
 //# sourceMappingURL=math.js.map

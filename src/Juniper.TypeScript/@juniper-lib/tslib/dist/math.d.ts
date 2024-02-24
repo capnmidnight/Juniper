@@ -152,5 +152,7 @@ export declare function closestPowerOf2(v: number): number;
 export declare function truncate(v: number): number;
 type Vec = Vec2 | Vec3 | Vec4;
 export declare function warnOnNaN(val: number | number[] | Vec, msg?: string): void;
+export declare function randomRange(min: number, max: number): number;
+export declare function randomInt(min: number, max: number): number;
 export {};
 //# sourceMappingURL=math.d.ts.map

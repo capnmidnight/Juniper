@@ -485,3 +485,13 @@ export function warnOnNaN(val: number | number[] | Vec, msg?: string): void {
         console.warn(`${msg}${type} not-a-number`);
     }
 }
+
+
+
+export function randomRange(min: number, max: number): number {
+    return min + Math.random() * (max - min);
+}
+
+export function randomInt(min: number, max: number): number {
+    return Math.floor(randomRange(min, max));
+}
