@@ -1,11 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
     <RootNamespace>Juniper</RootNamespace>
-    <Platforms>AnyCPU;x64</Platforms>
-    <Nullable>enable</Nullable>
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>

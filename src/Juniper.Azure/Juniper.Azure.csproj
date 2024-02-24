@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <AssemblyName>Juniper.Azure</AssemblyName>
     <RootNamespace>Juniper.Speech.Azure</RootNamespace>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
-    <Platforms>AnyCPU;x64</Platforms>
-    <Nullable>enable</Nullable>
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

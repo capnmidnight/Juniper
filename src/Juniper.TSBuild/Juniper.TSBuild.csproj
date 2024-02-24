@@ -1,13 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <OutputType>Library</OutputType>
         <AssemblyName>Juniper.TSBuild</AssemblyName>
         <RootNamespace>Juniper</RootNamespace>
         <PackageId>SeanMcBeth.Juniper.TSBuild</PackageId>
-        <OutputType>Library</OutputType>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
         <Authors>Sean T. McBeth</Authors>
         <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
         <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -17,21 +14,11 @@
         <RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <Version>1.0.2</Version>
-        <Platforms>AnyCPU;x64</Platforms>
-        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-        <DebugType>portable</DebugType>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)'=='Release'">
-        <DebugType>none</DebugType>
     </PropertyGroup>
 
     <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
         <ProjectReference Include="..\Juniper.TSBuild.Core\Juniper.TSBuild.Core.csproj" />
     </ItemGroup>
 

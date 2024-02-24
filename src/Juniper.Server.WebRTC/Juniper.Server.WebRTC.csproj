@@ -1,15 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<OutputType>Library</OutputType>
 		<AssemblyName>Juniper.Server.WebRTC</AssemblyName>
 		<RootNamespace>Juniper.Server.WebRTC</RootNamespace>
 		<PackageId>SeanMcBeth.Juniper.Server.Server.WebRTC</PackageId>
-		<OutputType>Library</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
 		<Authors>Sean T. McBeth</Authors>
 		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Description>General purpose server code</Description>
 		<PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
@@ -17,24 +14,13 @@
 		<RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<IsPackable>True</IsPackable>
-		<Platforms>AnyCPU;x64</Platforms>
-		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<DebugType>portable</DebugType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)'=='Release'">
-		<DebugType>none</DebugType>
-	</PropertyGroup>
-
 	<ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Juniper.WebRTC\Juniper.WebRTC.csproj" />
+		<ProjectReference Include="..\Juniper.WebRTC\Juniper.WebRTC.csproj" />
 	</ItemGroup>
 
 </Project>

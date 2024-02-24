@@ -1,14 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <AssemblyName>Juniper.HjgPngcs</AssemblyName>
     <RootNamespace>Hjg.Pngcs</RootNamespace>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <Authors>Sean T. McBeth</Authors>
-    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
-    <Platforms>AnyCPU;x64</Platforms>
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,11 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Platforms>AnyCPU;x64</Platforms>
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <AssemblyName>Juniper.OpenAI</AssemblyName>
+    <RootNamespace>Juniper.OpenAI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

@@ -2,12 +2,9 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <TargetFramework>net8.0-windows</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Juniper.AppShell</RootNamespace>
         <UseWPF>true</UseWPF>
-        <Platforms>AnyCPU;x64</Platforms>
-        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <ItemGroup>

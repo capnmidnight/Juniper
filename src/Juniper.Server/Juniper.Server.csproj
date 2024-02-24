@@ -1,15 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<OutputType>Library</OutputType>
 		<AssemblyName>Juniper.Server</AssemblyName>
 		<RootNamespace>Juniper</RootNamespace>
 		<PackageId>SeanMcBeth.Juniper.Server</PackageId>
-		<OutputType>Library</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
 		<Authors>Sean T. McBeth</Authors>
 		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Description>General purpose server code</Description>
 		<PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
@@ -17,29 +14,21 @@
 		<RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<IsPackable>True</IsPackable>
-		<Platforms>AnyCPU;x64</Platforms>
-		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<DebugType>portable</DebugType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)'=='Release'">
-		<DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"
+			Version="8.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+			Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Juniper.Data\Juniper.Data.csproj" />
-	  <ProjectReference Include="..\Juniper.HTTP\Juniper.HTTP.csproj" />
+		<ProjectReference Include="..\Juniper.Data\Juniper.Data.csproj" />
+		<ProjectReference Include="..\Juniper.HTTP\Juniper.HTTP.csproj" />
 	</ItemGroup>
 
 </Project>

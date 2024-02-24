@@ -3,11 +3,6 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <RootNamespace>Juniper.Data</RootNamespace>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Platforms>AnyCPU;x64</Platforms>
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>

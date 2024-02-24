@@ -1,30 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<AssemblyName>Juniper.ProcessManager</AssemblyName>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+		<AssemblyName>Juniper.ProcessManager</AssemblyName>
 		<RootNamespace>Juniper.Processes</RootNamespace>
 		<Authors>Sean T. McBeth</Authors>
 		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
 		<IsPublishable>False</IsPublishable>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-		<Platforms>AnyCPU;x64</Platforms>
-		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<DebugType>portable</DebugType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)'=='Release'">
-		<DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
+		<ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
 	</ItemGroup>
 
 </Project>

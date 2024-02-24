@@ -1,15 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <AssemblyName>Juniper.GoogleMaps</AssemblyName>
     <RootNamespace>Juniper.World.GIS.Google</RootNamespace>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
-    <Platforms>AnyCPU;x64</Platforms>
-    <Nullable>enable</Nullable>
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
