@@ -1,4 +1,3 @@
-import { ModuleInfo } from "@fal-works/esbuild-plugin-global-externals";
 import { Plugin, BuildOptions } from "esbuild";
 type Define = [string, string];
 type DefineFactory = (minify: boolean) => Define;
@@ -13,7 +12,6 @@ export declare class Build {
     private readonly defines;
     private readonly externals;
     private readonly manualOptionsChanges;
-    private readonly globalExternals;
     private readonly isWatch;
     get buildType(): "watch" | "build";
     private entryNames;
@@ -26,9 +24,7 @@ export declare class Build {
     outBase(name: string): this;
     plugin(pgn: PluginFactory): this;
     define(def: DefineFactory): this;
-    external(extern: string): this;
-    globalExternal(packageName: string, info: ModuleInfo): this;
-    addThreeJS(enabled: boolean): this;
+    external(extern: string, enabled: boolean): this;
     splitting(enable: boolean): this;
     bundle(name: string): this;
     bundles(...names: string[]): this;

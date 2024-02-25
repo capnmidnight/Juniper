@@ -1,4 +1,3 @@
-import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
 import { build, context } from "esbuild";
 import * as fs from "fs";
 import * as path from "path";
@@ -14,7 +13,6 @@ export class Build {
         this.defines = new Array();
         this.externals = new Array();
         this.manualOptionsChanges = new Array();
-        this.globalExternals = {};
         this.entryNames = "[dir]/[name]";
         this.outbase = "src";
         this.outDirName = "wwwroot/js/";
@@ -41,29 +39,9 @@ export class Build {
         this.defines.push(def);
         return this;
     }
-    external(extern) {
-        this.externals.push(extern);
-        return this;
-    }
-    globalExternal(packageName, info) {
-        this.globalExternals[packageName] = info;
-        return this;
-    }
-    addThreeJS(enabled) {
+    external(extern, enabled) {
         if (enabled) {
-            const threeJS = fs.readFileSync("node_modules/three/build/three.module.js", { encoding: "utf8" });
-            const match = /^export\s*\{\s*(((\w+\s+as\s+)?\w+,\s*)*((\w+\s+as\s+)?\w+))\s*}/gmi.exec(threeJS);
-            if (match) {
-                const namedExports = match[1]
-                    .replace(/\b\w+\s+as\s+/g, "")
-                    .split(",")
-                    .map(v => v.trim());
-                this.globalExternal("three", {
-                    varName: "THREE",
-                    namedExports,
-                    defaultExport: false
-                });
-            }
+            this.externals.push(extern);
         }
         return this;
     }
@@ -85,25 +63,19 @@ export class Build {
         return this;
     }
     find(...rootDirs) {
-        function* recurse(dirs) {
-            while (dirs.length > 0) {
-                const dir = dirs.shift();
-                if (dir) {
-                    const subDirs = fs.readdirSync(dir, { withFileTypes: true })
-                        .filter(e => e
-                        && e.isDirectory()
-                        && e.name !== "node_modules"
-                        && e.name !== "bin"
-                        && e.name !== "obj")
-                        .map(e => path.join(dir, e.name));
-                    dirs.push(...subDirs);
-                    yield dir;
-                }
-            }
-        }
-        const entryPoints = Array.from(recurse(rootDirs))
+        const files = rootDirs
+            .flatMap(dir => fs.readdirSync(dir, { withFileTypes: true })
+            .filter(e => e
+            && e.isDirectory()
+            && e.name !== "node_modules"
+            && e.name !== "bin"
+            && e.name !== "obj")
+            .map(e => path.join(dir, e.name)))
             .filter(x => x && fs.existsSync(path.join(x, "index.ts")));
-        return this.bundles(...entryPoints);
+        if (files.length > 0) {
+            this.bundles(...files);
+        }
+        return this;
     }
     manually(thunk) {
         this.manualOptionsChanges.push(thunk);
@@ -127,9 +99,6 @@ export class Build {
             define[key] = value;
         }
         const plugins = this.plugins.map((p) => p(isRelease));
-        if (Object.keys(this.globalExternals).length > 0) {
-            plugins.unshift(globalExternals(this.globalExternals));
-        }
         plugins.push({
             name: "my-plugin",
             setup(build) {
