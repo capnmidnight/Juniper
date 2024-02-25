@@ -1,22 +1,20 @@
 using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 
 namespace Juniper.Processes;
 
-public class ShellCommandNotFoundException : Exception
+public class ShellCommandNotFoundException(string message) : Exception(message)
 {
-    public ShellCommandNotFoundException(string message)
-        : base(message)
-    {
-    }
 }
 
 public class ShellCommand : AbstractShellCommand
 {
-    private static readonly Dictionary<PlatformID, string[]> exts = new()
+    private static readonly Dictionary<PlatformID, string[]> Extensions = new()
     {
-        { PlatformID.Unix, new[] { "", ".app" } },
+        { PlatformID.MacOSX, new[] { "", ".app" } },
         { PlatformID.Win32NT, new[] { ".exe", ".cmd" } },
+        { PlatformID.Unix, new[] { "" } },
         { PlatformID.Other, new[] { "" } }
     };
 
@@ -32,14 +30,16 @@ public class ShellCommand : AbstractShellCommand
             return null;
         }
 
-        return FindCommandPaths(command).FirstOrDefault();
+        return FindCommandPaths(command)
+            .Where(File.Exists)
+            .FirstOrDefault();
     }
 
     public static IEnumerable<string> FindCommandPaths(string? command)
     {
         if (command is null)
         {
-            return Array.Empty<string>();
+            return [];
         }
 
         var PATH = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
@@ -55,24 +55,31 @@ public class ShellCommand : AbstractShellCommand
             }
         }
 
+
+        directories = directories
+            .Prepend(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!)
+            .Append("./")
+            .Distinct()
+            .Where(d => !string.IsNullOrEmpty(d))
+            .ToArray();
+
         var platform = Environment.OSVersion.Platform;
-        return from dir in directories.Distinct()
-               where !string.IsNullOrEmpty(dir)
-                    && Directory.Exists(dir)
-               from ext in exts[Environment.OSVersion.Platform]
-               let exe = Path.Combine(dir, command + ext)
-               where File.Exists(exe)
-               select exe;
+        var exts = Extensions.Get(platform) ?? Extensions[PlatformID.Other];
+        return (from dir in directories
+                from ext in exts
+                select Path.Combine(dir, command + ext)
+                ).Union(from ext in exts
+                        select command + ext);
     }
 
     private static string MakeCommandName(DirectoryInfo? workingDir, ref string? command, ref string[] args)
     {
         var originalCommandName = command;
-        command = FindCommandPath(command);
+        command = FindCommandPath(originalCommandName);
 
         if (command is null)
         {
-            var attemptedCommands = string.Join("\n\t", FindCommandPaths(command).ToArray());
+            var attemptedCommands = string.Join("\n\t", FindCommandPaths(originalCommandName).ToArray());
             throw new ShellCommandNotFoundException($"Could not find command: {originalCommandName}. Tried:\n\t{attemptedCommands}");
         }
 
@@ -88,7 +95,7 @@ public class ShellCommand : AbstractShellCommand
         if (workingDir is not null)
         {
             var dirName = workingDir.Name;
-            if(workingDir.Parent is not null)
+            if (workingDir.Parent is not null)
             {
                 dirName = Path.Combine(workingDir.Parent.Name, dirName);
             }

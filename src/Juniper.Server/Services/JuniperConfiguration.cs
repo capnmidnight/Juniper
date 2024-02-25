@@ -152,7 +152,7 @@ public static class JuniperConfiguration
         {
             builder.Services.AddHttpLogging(opts =>
             {
-                opts.LoggingFields = HttpLoggingFields.All;
+                opts.LoggingFields = HttpLoggingFields.All & ~HttpLoggingFields.RequestBody;
                 opts.RequestHeaders.Add("host");
                 opts.RequestHeaders.Add("user-agent");
             });
