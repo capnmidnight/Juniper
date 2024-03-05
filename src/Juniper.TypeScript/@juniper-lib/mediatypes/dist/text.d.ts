@@ -91,6 +91,7 @@ export declare const Text_Vendor_WapSl: import("./util").MediaType;
 export declare const Text_Vendor_WapWml: import("./util").MediaType;
 export declare const Text_Vendor_WapWmlscript: import("./util").MediaType;
 export declare const Text_Vtt: import("./util").MediaType;
+export declare const Text_Wgsl: import("./util").MediaType;
 export declare const Text_X_Asm: import("./util").MediaType;
 export declare const Text_X_C: import("./util").MediaType;
 export declare const Text_X_Fortran: import("./util").MediaType;

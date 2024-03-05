@@ -95,6 +95,7 @@ export const Text_Vendor_WapSl = /*@__PURE__*/ text("vnd.wap.sl");
 export const Text_Vendor_WapWml = /*@__PURE__*/ text("vnd.wap.wml", "wml");
 export const Text_Vendor_WapWmlscript = /*@__PURE__*/ text("vnd.wap.wmlscript", "wmls");
 export const Text_Vtt = /*@__PURE__*/ text("vtt");
+export const Text_Wgsl = /*@__PURE__*/ text("wgsl", "wgsl");
 export const Text_X_Asm = /*@__PURE__*/ text("x-asm", "s", "asm");
 export const Text_X_C = /*@__PURE__*/ text("x-c", "c", "cc", "cxx", "cpp", "h", "hh", "dic");
 export const Text_X_Fortran = /*@__PURE__*/ text("x-fortran", "f", "for", "f77", "f90");

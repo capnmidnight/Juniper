@@ -96,6 +96,7 @@ namespace Juniper
         public static readonly Text Text_VendorWapWml = new("vnd.wap.wml", "wml");
         public static readonly Text Text_VendorWapWmlscript = new("vnd.wap.wmlscript", "wmls");
         public static readonly Text Text_Vtt = new("vtt");
+        public static readonly Text Text_Wgsl = new("wgsl", "wgsl");
         public static readonly Text Text_X_Asm = new("x-asm", "s", "asm");
         public static readonly Text Text_X_C = new("x-c", "c", "cc", "cxx", "cpp", "h", "hh", "dic");
         public static readonly Text Text_X_Fortran = new("x-fortran", "f", "for", "f77", "f90");
