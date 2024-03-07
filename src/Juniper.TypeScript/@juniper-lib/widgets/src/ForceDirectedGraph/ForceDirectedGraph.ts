@@ -611,9 +611,11 @@ export class ForceDirectedGraph<T> {
         const c3 = 1.25;
         const c4 = 0.2;
         const c5 = 2;
-        const k = c0 * Math.sqrt(c1 * area / this.displayCount);
+        const k0 = c0 * Math.sqrt(c1 * area / this.displayCount);
+        const k1 = c2 / k0;
+        const k2 = c4 * Math.pow(k0, c5);
         this.applyForces(
-            (connected, len) => connected ? c2 * Math.pow(len, c3) / k : 0,
-            (_, len) => c4 * Math.pow(k, c5) / len);
+            (connected, len) => connected ? k1 * Math.pow(len, c3) : 0,
+            (_, len) => k2 / len);
     }
 }
