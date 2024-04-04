@@ -25,6 +25,6 @@
   "devDependencies": {
     "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
     "@juniper-types/indexdb": "file:../../@juniper-types/indexdb",
-    "@types/offscreencanvas": "2019.7.0"
+    "@types/offscreencanvas": "2019.7.3"
   }
 }

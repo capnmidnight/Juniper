@@ -1,6 +1,6 @@
+import type { Camera } from "@juniper-lib/three-dee/dist/Camera";
 import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
 import { Mat4, Quat } from "gl-matrix/dist/esm";
-import type { Camera } from "./Camera";
 import type { Geometry } from "./Geometry";
 import type { BaseTexture } from "./managed/resource/Texture";
 import type { Material } from "./Material";

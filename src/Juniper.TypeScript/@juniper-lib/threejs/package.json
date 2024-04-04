@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
-    "@types/offscreencanvas": "2019.7.0",
+    "@types/offscreencanvas": "2019.7.3",
     "@types/three": "0.150.2",
     "@types/webxr": "0.5.4",
     "copy-assets": "file:../copy-assets"

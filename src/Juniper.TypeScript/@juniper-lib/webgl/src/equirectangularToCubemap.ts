@@ -1,9 +1,9 @@
 import { canvasToBlob, CanvasTypes, createUtilityCanvas, snapshot } from "@juniper-lib/dom/dist/canvas";
 import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/dist/CubeMapFaceIndex";
 import type { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { Camera } from "@juniper-lib/three-dee/dist/Camera";
 import { usingAsync } from "@juniper-lib/tslib/dist/using";
-import { Camera } from "./Camera";
-import { Context3D } from "./Context3D";
+import { Context3DWebGL } from "./Context3DWebGL";
 import { Geometry } from "./Geometry";
 import { invCube } from "./geometry/cubes";
 import { TextureImageArray, TextureImageStereo } from "./managed/resource/Texture";
@@ -26,7 +26,7 @@ const captureParams = new Map<CubeMapFaceIndex, CaptureOrientation>([
 ]);
 
 async function equirectangularToCubemap<T>(image: TexImageSource, isStereo: boolean, size: number, saveImage: (canvas: CanvasTypes) => Promise<T>, prog?: IProgress): Promise<T[]> {
-    const ctx3d = new Context3D(createUtilityCanvas(size, size), {
+    const ctx3d = new Context3DWebGL(createUtilityCanvas(size, size), {
         alpha: true,
         antialias: false,
         powerPreference: "low-power"
@@ -35,9 +35,12 @@ async function equirectangularToCubemap<T>(image: TexImageSource, isStereo: bool
     const { gl } = ctx3d;
     const fbManager = new RenderTargetManager(gl);
 
-    const cam = new Camera(ctx3d, {
+    const cam = new Camera({
         fov: 90
     });
+
+    ctx3d.addEventListener("resize", (evt) =>
+        cam.refreshProjection(evt));
 
     return await usingAsync(isStereo ? new TextureImageStereo(gl, image) : new TextureImageArray(gl, image, 1), async (texture) =>
         await usingAsync(new MaterialEquirectangular(gl), async (material) =>

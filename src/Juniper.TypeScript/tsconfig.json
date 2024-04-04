@@ -23,10 +23,12 @@
     { "path": "@juniper-lib/testing" },
     { "path": "@juniper-lib/tests" },
     { "path": "@juniper-lib/threejs" },
+    { "path": "@juniper-lib/three-dee" },
     { "path": "@juniper-lib/timers" },
     { "path": "@juniper-lib/tslib" },
     { "path": "@juniper-lib/video" },
     { "path": "@juniper-lib/webgl" },
+    { "path": "@juniper-lib/webgpu" },
     { "path": "@juniper-lib/webrtc" },
     { "path": "@juniper-lib/widgets" },
     { "path": "@juniper-lib/workers" }

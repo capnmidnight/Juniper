@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig_base.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.wgsl"
+  ],
+  
+  "references": [
+    { "path": "../collections" },
+    { "path": "../dom" },
+    { "path": "../events" },
+    { "path": "../graphics2d" },
+    { "path": "../progress" },
+    { "path": "../three-dee" },
+    { "path": "../tslib" }
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strictNullChecks": false,
+
+    "typeRoots": [
+        "../../node_modules/@types",
+        "../../node_modules/@webgpu/types"
+    ]
+  }
+}

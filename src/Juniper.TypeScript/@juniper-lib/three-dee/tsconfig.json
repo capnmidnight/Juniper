@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig_base.json",
+  "include": [
+    "src/**/*.ts"
+  ],
+  "references": [
+    { "path": "../collections" },
+    { "path": "../dom" },
+    { "path": "../events" },
+    { "path": "../graphics2d" },
+    { "path": "../progress" },
+    { "path": "../tslib" }
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strictNullChecks": false
+  }
+}

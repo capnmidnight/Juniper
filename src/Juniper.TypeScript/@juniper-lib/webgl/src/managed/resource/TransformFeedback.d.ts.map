@@ -1,1 +1,0 @@
-{"version":3,"file":"TransformFeedback.d.ts","sourceRoot":"","sources":["TransformFeedback.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,oBAAoB,EAAE,MAAM,wBAAwB,CAAC;AAE9D,qBAAa,iBAAkB,SAAQ,oBAAoB,CAAC,sBAAsB,CAAC;IACvC,OAAO,CAAC,MAAM;gBAA1C,EAAE,EAAE,sBAAsB,EAAU,MAAM,EAAE,MAAM;IAI9D,IAAI;IAIJ,SAAS,CAAC,WAAW,IAAI,IAAI;CAGhC"}
