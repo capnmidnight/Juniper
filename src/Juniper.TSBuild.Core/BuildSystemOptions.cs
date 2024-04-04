@@ -7,6 +7,8 @@ public interface IBuildConfig
 
 public class BuildSystemOptions
 {
+    public required DirectoryInfo WorkingDir;
+
     /// <summary>
     /// USE WITH CAUTION!
     /// A list of directories that will have their contents

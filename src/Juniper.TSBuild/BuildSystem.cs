@@ -32,7 +32,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
     private readonly List<CopyCommand> copyCommands = new();
 
     private readonly bool skipPreBuild;
-    private readonly bool isInProjectProcess;
     private readonly bool hasNPM;
 
     private readonly TaskCompletionSource starting = new();
@@ -49,14 +48,11 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         return dir;
     }
 
-    public BuildSystem(DirectoryInfo? startDir = null)
+    public BuildSystem()
     {
-        isInProjectProcess = startDir is null;
-        startDir ??= new DirectoryInfo(Environment.CurrentDirectory);
-
-        workingDir = TestDir($"Couldn't find project root from {startDir.FullName}", startDir);
-
         var options = new BuildConfigT().Options;
+
+        workingDir = TestDir($"Couldn't find project root from {options.WorkingDir.FullName}", options.WorkingDir);
 
         var inProjectDir = TestDir("You must specify at least one of InProject or OutProject in your BuildConfig.", options.Project ?? options.InProject ?? options.OutProject);
 
@@ -80,8 +76,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         if (hasNPM)
         {
             var dirs = new List<DirectoryInfo>{
-                    inProjectDir
-                };
+                inProjectDir
+            };
 
             if (options.AdditionalNPMProjects is not null)
             {
@@ -130,14 +126,14 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
             if (package.scripts is not null)
             {
-                if (isInProjectProcess && package.scripts.ContainsKey("juniper-build")
-                    || !isInProjectProcess && !isWorkSpaceSubProject && package.scripts.ContainsKey("build"))
+                if (isWorkSpaceSubProject && package.scripts.ContainsKey("juniper-build")
+                    ||  !isWorkSpaceSubProject && package.scripts.ContainsKey("build"))
                 {
                     BuildProjects.Add(pkgFile);
                 }
 
-                if (isInProjectProcess && package.scripts.ContainsKey("juniper-watch")
-                    || !isInProjectProcess && !isWorkSpaceSubProject && package.scripts.ContainsKey("watch"))
+                if (isWorkSpaceSubProject && package.scripts.ContainsKey("juniper-watch")
+                    || !isWorkSpaceSubProject && package.scripts.ContainsKey("watch"))
                 {
                     WatchProjects.Add(pkgFile);
                 }
