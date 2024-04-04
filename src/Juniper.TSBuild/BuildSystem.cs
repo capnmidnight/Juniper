@@ -1,7 +1,7 @@
-using System.Text.RegularExpressions;
-
 using Juniper.Logging;
 using Juniper.Processes;
+
+using System.Text.RegularExpressions;
 
 namespace Juniper.TSBuild;
 
@@ -18,68 +18,6 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
 
     static void WriteWarning(string format, params object[] values) =>
         Console.WriteLine(format.Interpolate(values).Colorize("warn", 33));
-
-    public static async Task Run(string[] args)
-    {
-        var canceller = new CancellationTokenSource();
-        AppDomain.CurrentDomain.ProcessExit += (sender, e) => canceller.Cancel();
-
-        var opts = new BuildRunOptions(args);
-
-        var build = new BuildSystem<BuildConfigT>(opts.workingDir);
-
-        do
-        {
-            try
-            {
-                if (opts.Interactive)
-                {
-                    opts.REPL();
-                }
-
-                if (opts.DeleteNodeModuleDirs)
-                {
-                    build.DeleteNodeModuleDirs(canceller.Token);
-                }
-                else if (opts.DeletePackageLockJsons)
-                {
-                    build.DeletePackageLockJsons(canceller.Token);
-                }
-                else if (opts.DeleteTSBuildInfos)
-                {
-                    build.DeleteTSBuildInfos(canceller.Token);
-                }
-                else if (opts.NPMInstalls)
-                {
-                    await build.NPMInstallsAsync(canceller.Token);
-                }
-                else if (opts.OpenPackageJsons)
-                {
-                    await build.OpenPackageJsonsAsync(canceller.Token);
-                }
-                else if (opts.OpenTSConfigJsons)
-                {
-                    await build.OpenTSConfigJsonsAsync(canceller.Token);
-                }
-                else if (opts.TypeCheck)
-                {
-                    await build.TypeCheckAsync(canceller.Token);
-                }
-                else if (opts.Watch)
-                {
-                    await build.WatchAsync(false, canceller.Token);
-                }
-                else if (!opts.Finished || opts.Build)
-                {
-                    await build.BuildAsync(canceller.Token);
-                }
-            }
-            catch (Exception exp)
-            {
-                WriteError("{0}\r\n{1}", exp.Message, exp.Unroll());
-            }
-        } while (!opts.Finished);
-    }
 
     private readonly DirectoryInfo[] cleanDirs;
     private readonly DirectoryInfo workingDir;
@@ -321,73 +259,8 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
         OnInfo($"Build finished in {delta.TotalSeconds:0.00}s");
     }
 
-    private void DeleteDir(DirectoryInfo dir, CancellationToken cancellationToken)
-    {
-        for (var attempts = 2; attempts > 0 && !cancellationToken.IsCancellationRequested; attempts--)
-        {
-            try
-            {
-                dir.Delete(true);
-                OnInfo($"{dir.FullName} deleted");
-                break;
-            }
-            catch (Exception ex)
-            {
-                if (attempts == 1)
-                {
-                    OnWarning($"Could not delete {dir.FullName}. Reason: {ex.Message}.");
-                }
-            }
-        }
-    }
-
-    private void DeleteFile(FileInfo lockFile, CancellationToken cancellationToken)
-    {
-        for (var attempts = 2; attempts > 0 && !cancellationToken.IsCancellationRequested; attempts--)
-        {
-            try
-            {
-                lockFile.Delete();
-                OnInfo($"{lockFile.FullName} deleted");
-                break;
-            }
-            catch (Exception ex)
-            {
-                if (attempts == 1)
-                {
-                    OnWarning($"Could not delete {lockFile.FullName}. Reason: {ex.Message}.");
-                }
-            }
-        }
-    }
-
-    private void DeleteFiles(IEnumerable<FileInfo> files, CancellationToken cancellationToken)
-    {
-        foreach (var file in files.Where(f => f.Exists))
-        {
-            DeleteFile(file, cancellationToken);
-        }
-    }
-
-    private void DeleteDirectories(IEnumerable<DirectoryInfo> dirs, CancellationToken cancellationToken)
-    {
-        foreach (var dir in dirs.Where(d => d.Exists))
-        {
-            DeleteDir(dir, cancellationToken);
-        }
-    }
-
-    private void DeleteNodeModuleDirs(CancellationToken cancellationToken) =>
-        DeleteDirectories(FindAllNodeModulesDirs(), cancellationToken);
-
     private IEnumerable<DirectoryInfo> FindAllNodeModulesDirs() =>
         FindDirectories("node_modules", InstallProjects.ToArray());
-
-    private void DeletePackageLockJsons(CancellationToken cancellationToken) =>
-        DeleteFiles(FindFiles("package-lock.json"), cancellationToken);
-
-    private void DeleteTSBuildInfos(CancellationToken cancellationToken) =>
-        DeleteFiles(FindFiles("tsconfig.tsbuildinfo"), cancellationToken);
 
     private IEnumerable<FileInfo> FindFiles(string name) =>
         FindFiles(name, NPMProjects.ToArray());
@@ -469,33 +342,7 @@ public class BuildSystem<BuildConfigT> : ILoggingSource
             dir => new NPMInstallCommand(dir)
         );
 
-    private Task NPMInstallsAsync(CancellationToken cancellationToken) =>
-        WithCommandTree(commands =>
-            commands.AddCommands(GetInstallCommands()), cancellationToken);
-
-    private Task OpenPackageJsonsAsync(CancellationToken cancellationToken) =>
-        WithCommandTree(commands =>
-            commands.AddCommands(TryMake(
-                FindFiles("package.json"),
-                f => new ShellCommand(f.Directory, "explorer", f.Name)
-            )), cancellationToken);
-
-    private Task OpenTSConfigJsonsAsync(CancellationToken cancellationToken) =>
-        WithCommandTree(commands =>
-            commands.AddCommands(TryMake(
-                FindFiles("tsconfig.json"),
-                f => new ShellCommand(f.Directory, "explorer", f.Name)
-            )), cancellationToken);
-
-    private Task TypeCheckAsync(CancellationToken cancellationToken) =>
-        WithCommandTree(commands =>
-            commands.AddCommands(TryMake(
-                CheckProjects,
-                file => new NPMRunCommand(file, "check")
-            )), cancellationToken);
-
-
-    private Task BuildAsync(CancellationToken cancellationToken) =>
+    public Task BuildAsync(CancellationToken cancellationToken) =>
         WithCommandTree(GetBuildCommands, cancellationToken);
 
     private void GetBuildCommands(CommandTree commands)
