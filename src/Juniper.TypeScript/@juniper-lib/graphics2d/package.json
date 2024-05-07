@@ -20,7 +20,7 @@
     "@juniper-lib/tslib": "file:../tslib",
     "@types/offscreencanvas": "2019.7.3",
     "gl-matrix": "4.0.0-beta.1",
-    "pdfjs-dist": "2.16.105"
+    "pdfjs-dist": "4.2.67"
   },
   "devDependencies": {
     "@juniper-types/dom-types": "file:../../@juniper-types/dom-types"
