@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Cedrus</AssemblyName>
+    <RootNamespace>Juniper.Cedrus</RootNamespace>
+    <PackageId>STM.Juniper.Cedrus</PackageId>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Description>An time series, key-value store database with relational mapping.</Description>
+    <PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Juniper.Data.csproj" />
+    <ProjectReference Include="..\Server\Juniper.Server.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Units\Juniper.Units.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.18">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.18" />
+  </ItemGroup>
+
+</Project>
