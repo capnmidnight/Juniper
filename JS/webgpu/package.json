@@ -1,0 +1,36 @@
+{
+  "name": "@juniper-lib/webgpu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Utility functions for working with WebGPU",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "@juniper-lib/util": "file:../util",
+    "@juniper-lib/fetcher": "file:../fetcher",
+    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "gl-matrix": "4.0.0-beta.1"
+  },
+  "devDependencies": {
+    "@webgpu/types": "0.1.40",
+    "typescript": "5.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/SharePoint/README.md"
+}

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">  
+  <PropertyGroup>    
+    <OutputType>Library</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>x64;AnyCPU</Platforms>
+    <Description>A container project for Juniper's TypeScript code.</Description>
+    <PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="NETCore\**" />
+    <Compile Remove="node_modules\**" />
+    <EmbeddedResource Remove="NETCore\**" />
+    <EmbeddedResource Remove="node_modules\**" />
+    <None Remove="NETCore\**" />
+    <None Remove="node_modules\**" />
+  </ItemGroup>
+</Project>

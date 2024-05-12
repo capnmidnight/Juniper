@@ -1,0 +1,36 @@
+{
+  "name": "@juniper-lib/fetcher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A wrapper around XMLHttpRequest that enables caching, progress tracking, and response translation",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "@juniper-lib/util": "file:../util",
+    "@juniper-lib/collections": "file:../collections",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/indexdb": "file:../indexdb",
+    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/progress": "file:../progress",
+    "@juniper-lib/workers": "file:../workers"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/dom/README.md"
+}

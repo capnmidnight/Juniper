@@ -1,0 +1,20 @@
+import { specialize } from "./util";
+
+const multipart = /*@__PURE__*/ (function() { return specialize("multipart"); })();
+export const MultipartAlternative = /*@__PURE__*/ (function() { return multipart("alternative"); })();
+export const MultipartAppledouble = /*@__PURE__*/ (function() { return multipart("appledouble"); })();
+export const MultipartByteranges = /*@__PURE__*/ (function() { return multipart("byteranges"); })();
+export const MultipartDigest = /*@__PURE__*/ (function() { return multipart("digest"); })();
+export const MultipartEncrypted = /*@__PURE__*/ (function() { return multipart("encrypted"); })();
+export const MultipartExample = /*@__PURE__*/ (function() { return multipart("example"); })();
+export const MultipartForm_Data = /*@__PURE__*/ (function() { return multipart("form-data"); })();
+export const MultipartHeader_Set = /*@__PURE__*/ (function() { return multipart("header-set"); })();
+export const MultipartMixed = /*@__PURE__*/ (function() { return multipart("mixed"); })();
+export const MultipartMultilingual = /*@__PURE__*/ (function() { return multipart("multilingual"); })();
+export const MultipartParallel = /*@__PURE__*/ (function() { return multipart("parallel"); })();
+export const MultipartRelated = /*@__PURE__*/ (function() { return multipart("related"); })();
+export const MultipartReport = /*@__PURE__*/ (function() { return multipart("report"); })();
+export const MultipartSigned = /*@__PURE__*/ (function() { return multipart("signed"); })();
+export const MultipartVendorBintMed_Plus = /*@__PURE__*/ (function() { return multipart("vnd.bint.med-plus"); })();
+export const MultipartVoice_Message = /*@__PURE__*/ (function() { return multipart("voice-message"); })();
+export const MultipartX_Mixed_Replace = /*@__PURE__*/ (function() { return multipart("x-mixed-replace"); })();

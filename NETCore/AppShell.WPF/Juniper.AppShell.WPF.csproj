@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <AssemblyName>Juniper.AppShell.WPF</AssemblyName>
+    <RootNamespace>Juniper.AppShell</RootNamespace>
+    <PackageId>STM.Juniper.AppShell.WPF</PackageId>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Description>A Windows Presentation Foundation implementation of AppShell.</Description>
+    <PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2420.47" />
+    <ProjectReference Include="..\AppShell\Juniper.AppShell.csproj" />
+  </ItemGroup>
+</Project>
