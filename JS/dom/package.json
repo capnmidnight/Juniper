@@ -12,13 +12,13 @@
     "README.md"
   ],
   "dependencies": {
-    "@juniper-lib/util": "file:../util",
     "@juniper-lib/events": "file:../events",
+    "@juniper-lib/mediatypes": "file:../mediatypes",
     "@juniper-lib/progress": "file:../progress",
-    "@juniper-lib/mediatypes": "file:../mediatypes"
+    "@juniper-lib/util": "file:../util"
   },
   "devDependencies": {
-    "@types/wicg-file-system-access": "2023.10.4"
+    "@types/wicg-file-system-access": "2023.10.5"
   },
   "repository": {
     "type": "git",

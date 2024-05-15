@@ -1,3 +1,5 @@
+// Ignore Spelling: admin
+
 using System.Globalization;
 using System.Security.Claims;
 using System.Text;
@@ -45,11 +47,8 @@ public static class UserManagerExtensions
                 .ToLocalTime()
                 .ToString(CultureInfo.CurrentCulture);
 
-            var callbackUrl = Url.Page("/Account/ResetPassword", new { area = "Identity", code, email = user.Email });
-            if (callbackUrl is null)
-            {
-                throw new ArgumentNullException(nameof(callbackUrl));
-            }
+            var callbackUrl = Url.Page("/Account/ResetPassword", new { area = "Identity", code, email = user.Email })
+                ?? throw new FileNotFoundException("/Account/ResetPassword");
 
             var userName = user.UserName ?? user.Email;
 

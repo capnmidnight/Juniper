@@ -12,9 +12,9 @@
     "README.md"
   ],
   "dependencies": {
-    "@juniper-lib/util": "file:../util",
     "@juniper-lib/fetcher": "file:../fetcher",
-    "@juniper-lib/mediatypes": "file:../mediatypes"
+    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/util": "file:../util"
   },
   "repository": {
     "type": "git",

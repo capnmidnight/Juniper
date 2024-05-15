@@ -10,8 +10,8 @@
     "dist/*"
   ],
   "dependencies": {
-    "gl-matrix": "4.0.0-beta.1",
-    "@juniper-lib/util": "file:../util"
+    "@juniper-lib/util": "file:../util",
+    "gl-matrix": "4.0.0-beta.1"
   },
   "repository": {
     "type": "git",

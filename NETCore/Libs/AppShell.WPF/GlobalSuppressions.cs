@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE0022:Use block body for method", Justification = "Prefered coding style")]
+[assembly: SuppressMessage("Style", "IDE0027:Use block body for accessor", Justification = "Prefered coding style")]

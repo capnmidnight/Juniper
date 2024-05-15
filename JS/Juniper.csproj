@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Platforms>AnyCPU</Platforms>
+        <Description>A container project for Juniper's TypeScript code.</Description>
+        <IsPublishable>False</IsPublishable>
+    </PropertyGroup>
+    <ItemGroup>
+      <Content Include="..\package.json" Link="package.json" />
+      <Content Include="..\tsconfig.json" Link="tsconfig.json" />
+      <Content Include="..\tsconfig_base.json" Link="tsconfig_base.json" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="..\README.md" Link="README.md" />
+    </ItemGroup>
+</Project>

@@ -1,9 +1,15 @@
-﻿using System.ComponentModel;
+﻿// Ignore Spelling: Fullscreen Borderless
+
+using System.ComponentModel;
+#if WINDOWS
 using System.IO;
 using System.Windows;
 using System.Windows.Threading;
+#endif
 
 namespace Juniper.AppShell;
+
+
 
 public partial class WpfAppShell : Window, IAppShell
 {
@@ -31,16 +37,6 @@ public partial class WpfAppShell : Window, IAppShell
         };
 
         init = WebView.EnsureCoreWebView2Async();
-    }
-
-#pragma warning disable IDE0051 // Remove unused private members
-    // This might become useful later, in which case, remove the `#pragma`s
-    private async Task<T> Do<T>(Func<Task<T>> action)
-#pragma warning restore IDE0051 // Remove unused private members
-    {
-        await init;
-        var task = await Dispatcher.InvokeAsync(action).Task;
-        return await task;
     }
 
     private async Task Do(Func<Task> action)
@@ -124,6 +120,7 @@ public partial class WpfAppShell : Window, IAppShell
 
     private async Task LoadAsync<T>(Action<T> act, T value)
     {
+#if WINDOWS
         var completer = new TaskCompletionSource();
         void CoreWebView2_DOMContentLoaded(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2DOMContentLoadedEventArgs e)
         {
@@ -136,6 +133,9 @@ public partial class WpfAppShell : Window, IAppShell
 
         await completer.Task;
         WebView.CoreWebView2.DOMContentLoaded -= CoreWebView2_DOMContentLoaded;
+#else
+        await HIT(this);
+#endif
     }
 
     public Task ReloadAsync() =>

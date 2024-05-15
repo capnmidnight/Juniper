@@ -12,18 +12,18 @@
     "README.md"
   ],
   "dependencies": {
-    "@juniper-lib/util": "file:../util",
     "@juniper-lib/collections": "file:../collections",
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/emoji": "file:../emoji",
+    "@juniper-lib/util": "file:../util",
     "excellentexport": "3.9.6",
-    "xlsx": "file:../../etc/Assets/JS/xlsx-0.20.1.tgz"
+    "xlsx": "file:../../etc/Assets/JS/xlsx-0.20.2.tgz"
   },
   "overrides": {
-    "xlsx": "file:../../etc/Assets/JS/xlsx-0.20.1.tgz"
+    "xlsx": "file:../../etc/Assets/JS/xlsx-0.20.2.tgz"
   },
   "devDependencies": {
-    "@types/wicg-file-system-access": "2023.10.4"
+    "@types/wicg-file-system-access": "2023.10.5"
   },
   "repository": {
     "type": "git",

@@ -12,13 +12,13 @@
     "README.md"
   ],
   "dependencies": {
-    "@juniper-lib/util": "file:../util",
     "@juniper-lib/collections": "file:../collections",
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/events": "file:../events",
     "@juniper-lib/indexdb": "file:../indexdb",
     "@juniper-lib/mediatypes": "file:../mediatypes",
     "@juniper-lib/progress": "file:../progress",
+    "@juniper-lib/util": "file:../util",
     "@juniper-lib/workers": "file:../workers"
   },
   "repository": {

@@ -12,14 +12,14 @@
     "README.md"
   ],
   "dependencies": {
-    "@juniper-lib/util": "file:../util",
     "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/util": "file:../util",
     "gl-matrix": "4.0.0-beta.1"
   },
   "devDependencies": {
     "@webgpu/types": "0.1.40",
-    "typescript": "5.3.3"
+    "typescript": "5.4.5"
   },
   "repository": {
     "type": "git",
