@@ -17,6 +17,10 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+    <ItemGroup>
+        <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Data\Juniper.Data.csproj" />
     <ProjectReference Include="..\Server\Juniper.Server.csproj" />

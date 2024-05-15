@@ -13,6 +13,10 @@
     <PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
+    <ItemGroup>
+        <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Data\Juniper.Data.csproj" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5" />

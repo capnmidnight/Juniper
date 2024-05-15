@@ -13,6 +13,10 @@
     <PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
+    <ItemGroup>
+        <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    </ItemGroup>
+
   <ItemGroup>
     <Compile Update="Emoji.Values.cs">
       <DependentUpon>Emoji.cs</DependentUpon>

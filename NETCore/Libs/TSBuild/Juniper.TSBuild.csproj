@@ -23,6 +23,10 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
 
+    <ItemGroup>
+        <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    </ItemGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\Processes\Juniper.Processes.csproj" />

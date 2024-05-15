@@ -1,4 +1,4 @@
-// Ignore Spelling: env Configurator
+// Ignore Spelling: env Configurator Systemd mvc
 
 using System.Net.NetworkInformation;
 using System.Reflection;
@@ -218,7 +218,7 @@ public static class JuniperConfiguration
 
         app.Use(async (context, next) =>
         {
-            context.Response.Headers.Add(HeaderNames.XContentTypeOptions, "nosniff");
+            context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff";
             await next();
         });
 

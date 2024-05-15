@@ -1,4 +1,6 @@
-﻿using Juniper.Cedrus.Controllers.V1;
+﻿// Ignore Spelling: Cedrus CUI
+
+using Juniper.Cedrus.Controllers.V1;
 using Juniper.Cedrus.Entities;
 
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,7 @@ public partial class CedrusContextSecure
             .AsEnumerable()
             .SingleOrDefault(c => c.Id == user.ClassificationId);
 
-        var classes = classification?.GetChain() ?? Enumerable.Empty<Classification>();
+        var classes = classification?.GetChain() ?? [];
 
         var levels = (from c in classes
                       select c.LevelId)
