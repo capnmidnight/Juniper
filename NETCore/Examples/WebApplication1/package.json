@@ -1,0 +1,25 @@
+{
+    "name": "webapp1",
+    "version": "0.0.1",
+    "private": true,
+    "description": "My First Juniper Project",
+    "type": "module",
+    "scripts": {
+        "build": "node esbuild.config.mjs",
+        "watch": "node esbuild.config.mjs --watch",
+        "juniper-build": "npm run build",
+        "juniper-watch": "npm run watch"
+    },
+    "dependencies": {
+        "@juniper-lib/util": "file:../../libs/juniper/JS/util",
+        "@juniper-lib/appshell": "file:../../libs/juniper/JS/appshell",
+        "@juniper-lib/collections": "file:../../libs/juniper/JS/collections",
+        "@juniper-lib/dom": "file:../../libs/juniper/JS/dom",
+        "@juniper-lib/fetcher": "file:../../libs/juniper/JS/fetcher",
+        "@juniper-lib/mediatypes": "file:../../libs/juniper/JS/mediatypes"
+    },
+    "devDependencies": {
+        "@types/wicg-file-system-access": "2023.10.5",
+        "typescript": "5.4.5"
+    }
+}

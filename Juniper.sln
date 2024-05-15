@@ -53,6 +53,51 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{1C20B6A5-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{BF1EC60C-330A-4BFA-82D9-BE02CD2E207E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6DFCEB40-DA22-4A8A-8A8E-E5560D04256C}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "NETCore\Examples\WebApplication1\WebApplication1.csproj", "{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{58F46C84-E78E-40C9-A0D0-75FF423FFF85}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebFonts", "WebFonts", "{8ED70911-0932-46BE-8BDC-41F89F78F92C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Noto", "Noto", "{16E136F1-EBA7-4298-9B3B-284688474D4F}"
+	ProjectSection(SolutionItems) = preProject
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.0.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.0.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.1.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.1.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.10.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.10.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.2.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.2.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.3.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.3.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.4.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.4.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.5.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.5.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.6.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.6.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.7.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.7.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.8.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.8.woff2
+		etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.9.woff2 = etc\Assets\WebFonts\Noto\bMrymSyK7YY-MEu6aWjPFMHQUnEOtg_Uy9ZzkQ.9.woff2
+		etc\Assets\WebFonts\Noto\NotoColorEmoji-Regular.ttf = etc\Assets\WebFonts\Noto\NotoColorEmoji-Regular.ttf
+		etc\Assets\WebFonts\Noto\index.css = etc\Assets\WebFonts\Noto\index.css
+		etc\Assets\WebFonts\Noto\NotoEmoji-Bold.ttf = etc\Assets\WebFonts\Noto\NotoEmoji-Bold.ttf
+		etc\Assets\WebFonts\Noto\NotoEmoji-Light.ttf = etc\Assets\WebFonts\Noto\NotoEmoji-Light.ttf
+		etc\Assets\WebFonts\Noto\NotoEmoji-Medium.ttf = etc\Assets\WebFonts\Noto\NotoEmoji-Medium.ttf
+		etc\Assets\WebFonts\Noto\NotoEmoji-Regular.ttf = etc\Assets\WebFonts\Noto\NotoEmoji-Regular.ttf
+		etc\Assets\WebFonts\Noto\NotoEmoji-SemiBold.ttf = etc\Assets\WebFonts\Noto\NotoEmoji-SemiBold.ttf
+		etc\Assets\WebFonts\Noto\NotoEmoji-VariableFont_wght.ttf = etc\Assets\WebFonts\Noto\NotoEmoji-VariableFont_wght.ttf
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.0.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.0.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.1.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.1.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.10.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.10.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.2.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.2.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.3.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.3.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.4.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.4.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.5.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.5.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.6.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.6.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.7.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.7.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.8.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.8.woff2
+		etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.9.woff2 = etc\Assets\WebFonts\Noto\Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabsE4tq3luCC7p-aXxcn.9.woff2
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +106,14 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Debug|x64.Build.0 = Debug|Any CPU
+		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Release|x64.ActiveCfg = Release|Any CPU
+		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Release|x64.Build.0 = Release|Any CPU
 		{0EE1EBB6-D05F-43FA-A554-245170009969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0EE1EBB6-D05F-43FA-A554-245170009969}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EE1EBB6-D05F-43FA-A554-245170009969}.Debug|x64.ActiveCfg = Debug|x64
@@ -229,19 +282,20 @@ Global
 		{B89632D7-6261-4B61-AD43-5BE62AA6B740}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B89632D7-6261-4B61-AD43-5BE62AA6B740}.Release|x64.ActiveCfg = Release|Any CPU
 		{B89632D7-6261-4B61-AD43-5BE62AA6B740}.Release|x64.Build.0 = Release|Any CPU
-		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Debug|x64.Build.0 = Debug|Any CPU
-		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Release|x64.ActiveCfg = Release|Any CPU
-		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB}.Release|x64.Build.0 = Release|Any CPU
+		{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95}.Debug|x64.Build.0 = Debug|Any CPU
+		{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95}.Release|x64.ActiveCfg = Release|Any CPU
+		{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB} = {1C20B6A5-5D52-482A-9BA6-683C5EAC15A9}
 		{0EE1EBB6-D05F-43FA-A554-245170009969} = {1C20B6A5-5D52-482A-9BA6-683C5EAC15A9}
 		{C593B373-22A7-4DD1-8FE7-A617703D8195} = {1C20B6A5-5D52-482A-9BA6-683C5EAC15A9}
 		{2C0BA0DF-0526-48F0-B37C-E5EF125BA344} = {1C20B6A5-5D52-482A-9BA6-683C5EAC15A9}
@@ -263,7 +317,9 @@ Global
 		{8A0B3CE7-C28D-4702-BEF6-C47E97D59D8D} = {1C20B6A5-5D52-482A-9BA6-683C5EAC15A9}
 		{56F1B495-2751-4634-B1C6-23CB66912B7B} = {1C20B6A5-5D52-482A-9BA6-683C5EAC15A9}
 		{B89632D7-6261-4B61-AD43-5BE62AA6B740} = {64CB52FE-E626-4B8E-A5E2-C184C2F794D8}
-		{71EEF8E0-7E66-49D1-92C7-A45405CDE5BB} = {1C20B6A5-5D52-482A-9BA6-683C5EAC15A9}
+		{C1D436FC-8B8B-442C-BD22-AA9C9D4CCC95} = {BF1EC60C-330A-4BFA-82D9-BE02CD2E207E}
+		{8ED70911-0932-46BE-8BDC-41F89F78F92C} = {58F46C84-E78E-40C9-A0D0-75FF423FFF85}
+		{16E136F1-EBA7-4298-9B3B-284688474D4F} = {8ED70911-0932-46BE-8BDC-41F89F78F92C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E5523629-994E-4EAF-8989-5D3C0FBD39D5}

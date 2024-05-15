@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libs\AppShell.WPF\Juniper.AppShell.WPF.csproj" />
+    <ProjectReference Include="..\..\Libs\Cedrus\Juniper.Cedrus.csproj" />
+    <ProjectReference Include="..\..\Libs\Data.Sqlite\Juniper.Data.Sqlite.csproj" />
+    <ProjectReference Include="..\..\Libs\TSBuild\Juniper.TSBuild.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Sqlite\" />
+  </ItemGroup>
+
+</Project>
