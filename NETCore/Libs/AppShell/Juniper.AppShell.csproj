@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.AppShell</AssemblyName>
+    <RootNamespace>Juniper.AppShell</RootNamespace>
+    <PackageId>STM.Juniper.AppShell</PackageId>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Description>An API for creating desktop hybrid Web applications, i.e. a desktop front-end to a locally ran Web application.</Description>
+    <PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Server\Juniper.Server.csproj" />
+  </ItemGroup>
+
+</Project>

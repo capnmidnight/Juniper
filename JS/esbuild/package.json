@@ -1,0 +1,40 @@
+{
+  "name": "@juniper-lib/esbuild",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A shortcut system for using ESBuild in my projects",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "juniper-build": "npm run build",
+    "juniper-watch": "npm run watch"
+  },
+  "dependencies": {
+    "@fal-works/esbuild-plugin-global-externals": "2.1.2",
+    "esbuild": "0.21.2"
+  },
+  "devDependencies": {
+    "@types/node": "18.6.1",
+    "typescript": "5.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/dom/README.md"
+}

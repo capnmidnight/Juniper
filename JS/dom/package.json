@@ -1,0 +1,35 @@
+{
+  "name": "@juniper-lib/dom",
+  "version": "1.0.0",
+  "description": "A minimal DOM manipulation framework",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/progress": "file:../progress",
+    "@juniper-lib/util": "file:../util"
+  },
+  "devDependencies": {
+    "@types/wicg-file-system-access": "2023.10.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/dom/README.md"
+}

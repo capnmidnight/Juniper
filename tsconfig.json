@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig_base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./JS/appshell" },
+    { "path": "./JS/cedrus" },
+    { "path": "./JS/collections" },
+    { "path": "./JS/dom" },
+    { "path": "./JS/emoji" },
+    { "path": "./JS/events" },
+    { "path": "./JS/fetcher" },
+    { "path": "./JS/geo" },
+    { "path": "./JS/indexdb" },
+    { "path": "./JS/mediatypes" },
+    { "path": "./JS/progress" },
+    { "path": "./JS/testing" },
+    { "path": "./JS/tests" },
+    { "path": "./JS/timers" },
+    { "path": "./JS/units" },
+    { "path": "./JS/util" },
+    { "path": "./JS/webgpu" },
+    { "path": "./JS/widgets" },
+    { "path": "./JS/workers" },
+    { "path": "./JS/zip" }
+  ]
+}

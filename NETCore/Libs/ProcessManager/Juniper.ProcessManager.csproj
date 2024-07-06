@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>Juniper.ProcessManager</AssemblyName>
+		<RootNamespace>Juniper.Processes</RootNamespace>
+    <PackageId>STM.Juniper.ProcessManager</PackageId>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>AnyCPU;x64</Platforms>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>An process execution intermediary, so that child processes of the intermediary can be killed when the intermediary's parent dies.</Description>
+		<PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
+		<IsPublishable>False</IsPublishable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    </ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Processes\Juniper.Processes.csproj" />
+	</ItemGroup>
+
+</Project>

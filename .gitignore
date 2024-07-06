@@ -5,10 +5,17 @@
 [Bb]uilds/
 [Ll]ibrary/
 [Ll]ogs/
-node_modules/
 
+node_modules/
 .vs/
 
 *.blend1
 *.tsbuildinfo
 *.user
+
+**/*.bundle.js
+**/*.bundle.js.map
+
+tsconfig.tsbuildinfo
+
+dist/

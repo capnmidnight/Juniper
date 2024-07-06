@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Emoji</AssemblyName>
+    <RootNamespace>Juniper</RootNamespace>
+    <PackageId>STM.Juniper.Emoji</PackageId>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    
+    <Platforms>AnyCPU;x64</Platforms>
+    <Description>A collection of Unicode pictograms.</Description>
+    <PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Emoji.Values.cs">
+      <DependentUpon>Emoji.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,28 @@
+{
+  "name": "@juniper-lib/collections",
+  "version": "1.2.1",
+  "private": true,
+  "description": "Graph and tree data structures",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*"
+  ],
+  "dependencies": {
+    "@juniper-lib/util": "file:../util",
+    "gl-matrix": "4.0.0-beta.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/dom/README.md"
+}

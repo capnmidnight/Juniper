@@ -1,0 +1,29 @@
+{
+  "name": "@juniper-lib/timers",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Unified API for dealing with different timer functions like setTimeout or requestAnimationFrame.",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*"
+  ],
+  "dependencies": {
+    "@juniper-lib/collections": "file:../collections",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/util": "file:../util"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/dom/README.md"
+}

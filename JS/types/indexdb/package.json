@@ -1,0 +1,22 @@
+{
+  "name": "@juniper-lib/indexdb-types",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Convenient type stuff for working with IndexDB",
+  "types": "./index.d.ts",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/dom/README.md"
+}

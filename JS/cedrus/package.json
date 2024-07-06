@@ -1,0 +1,31 @@
+{
+  "name": "@juniper-lib/cedrus",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An API wrapper for the Juniper.Cedrus timeseries database",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "@juniper-lib/fetcher": "file:../fetcher",
+    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/util": "file:../util"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/cedrus/README.md"
+}

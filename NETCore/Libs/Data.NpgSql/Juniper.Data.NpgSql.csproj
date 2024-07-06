@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Data.NpgSql</AssemblyName>
+    <RootNamespace>Juniper.Data</RootNamespace>
+    <PackageId>STM.Juniper.Data.NpgSql</PackageId>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Juniper.Data.csproj" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+  </ItemGroup>
+
+</Project>

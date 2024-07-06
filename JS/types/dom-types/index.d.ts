@@ -1,0 +1,9 @@
+import "./audio-encoder";
+import "./battery";
+import "./css";
+import "./gamepad";
+import "./html-attributes";
+import "./html-media-element";
+import "./speech-recognizer";
+import "./webxr";
+import "./webxr-polyfill";

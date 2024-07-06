@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Collections</AssemblyName>
+    <RootNamespace>Juniper.Collections</RootNamespace>
+    <PackageId>STM.Juniper.Collections</PackageId>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>Some more advance collection types, such as Trees and Graphs.</Description>
+    <PackageLicenseFile>..\..\LICENSE.md</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\..\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IO\Juniper.IO.csproj" />
+  </ItemGroup>
+
+</Project>

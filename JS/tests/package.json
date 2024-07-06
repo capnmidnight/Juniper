@@ -1,0 +1,37 @@
+{
+  "name": "@juniper-lib/tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tests of modules",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "node esbuild.config.mjs",
+    "watch": "node esbuild.config.mjs --watch"
+  },
+  "dependencies": {
+    "@juniper-lib/util": "file:../util",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/testing": "file:../testing",
+    "@juniper-lib/widgets": "file:../widgets",
+    "typescript": "5.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/testing/README.md"
+}

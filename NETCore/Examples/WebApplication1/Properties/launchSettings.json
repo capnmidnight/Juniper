@@ -1,0 +1,24 @@
+{
+    "profiles": {
+        "WebApplication1 (Browser)": {
+            "commandName": "Project",
+            "commandLineArgs": "--no-appshell",
+            "launchBrowser": true,
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+            },
+            "dotnetRunMessages": true,
+            "applicationUrl": "http://localhost:5001"
+        },
+        "WebApplication1 (AppShell)": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+            },
+            "dotnetRunMessages": true,
+            "externalUrlConfiguration": true
+        }
+    }
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=0, initial-scale=1.0">
+    <title>DataTable</title>
+    <link rel="stylesheet" href="../../../../etc/Assets/CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../etc/Assets/CSS/fontawesome.min.css">
+    <link rel="stylesheet" href="index.css">
+    <script type="module" src="index.bundle.js"></script>
+    <style>
+        .error,
+        .warning,
+        .good {
+            width: 5em;
+            height: 5em;
+        }
+
+        .error {
+            background-color: red !important;
+        }
+
+        .warning {
+            background-color: yellow !important;
+        }
+
+        .good {
+            background-color: green !important;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>&lt;data-table&gt; Visual Tests</h1>
+
+    <tab-panel>
+
+        <div data-tab-name="Text" style="grid-template-rows: auto 1fr">
+            <input type="search" id="search" placeholder="Search...">
+            <data-table class="table table-striped border table-borderless border-dark table-hover">
+                <data-column type="button" icon="add" event="add"></data-column>
+                <data-column type="button" icon="edit" event="edit"></data-column>
+                <data-column type="button" icon="arrows-up-down-left-right" event="move"></data-column>
+                <data-column type="button" icon="trash" event="delete"></data-column>
+                <data-column field="name" header="name" type="string"></data-column>
+                <data-column field="A" header="Organization A" type="string"></data-column>
+                <data-column field="B" header="Organization B" type="string"></data-column>
+                <data-column field="C" header="Organization C" type="string"></data-column>
+            </data-table>
+        </div>
+
+        <div data-tab-name="Graphical">
+            <data-table class="table table-striped border table-borderless border-dark table-hover">
+                <data-column field="name" type="none"></data-column>
+                <data-column field="A" stylefield="A" header="A" title="Ranking A" type="string" styles="Rankings"></data-column>
+                <data-column field="B" stylefield="B" header="B" title="Ranking B" type="string" styles="Rankings"></data-column>
+                <data-column field="C" stylefield="C" header="C" title="Ranking C" type="string" styles="Rankings"></data-column>
+            </data-table>
+        </div>
+
+        <div data-tab-name="Auto Paginated">
+            <data-table class="table table-striped border table-borderless border-dark table-hover" paginated="auto">
+                <data-column field="name" type="none"></data-column>
+                <data-column field="A" header="A" title="Color A" type="color"></data-column>
+                <data-column field="B" header="B" title="Color B" type="color"></data-column>
+                <data-column field="C" header="C" title="Color C" type="color"></data-column>
+            </data-table>
+        </div>
+
+        <div data-tab-name="No Pagination">
+            <data-table class="table table-striped border table-borderless border-dark table-hover" paginated="off">
+                <data-column field="name" type="none"></data-column>
+                <data-column field="A" header="A" title="Color A" type="color" filter="off" sort="off"></data-column>
+                <data-column field="B" header="B" title="Color B" type="color" filter="off" sort="off"></data-column>
+                <data-column field="C" header="C" title="Color C" type="color" filter="off" sort="off"></data-column>
+            </data-table>
+        </div>
+
+        <div data-tab-name="Small">
+            <data-table class="table table-striped border table-borderless border-dark table-hover">
+                <data-column field="name" type="none"></data-column>
+                <data-column field="A" header="A" title="Color A" type="color" filter="off" sort="off"></data-column>
+                <data-column field="B" header="B" title="Color B" type="color" filter="off" sort="off"></data-column>
+                <data-column field="C" header="C" title="Color C" type="color" filter="off" sort="off"></data-column>
+            </data-table>
+        </div>
+
+    </tab-panel>
+</body>
+
+</html>

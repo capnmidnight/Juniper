@@ -1,0 +1,21 @@
+{
+  "name": "@juniper-lib/extra-types",
+  "private": true,
+  "version": "1.2.0",
+  "description": "TypeScript definitions for extensions available in pages and workers",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth+gh@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/tree/J2/dom/README.md"
+}

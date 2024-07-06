@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "ritwickdey.liveserver",
+        "aaron-bond.better-comments",
+        "ecmel.vscode-html-css",
+        "zainchen.json",
+        "yzhang.markdown-all-in-one",
+        "ms-edgedevtools.vscode-edge-devtools",
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense",
+        "prateekmahendrakar.prettyxml",
+        "randomfractalsinc.geo-data-viewer",
+        "ms-vscode.vscode-typescript-next"
+    ]
+}
