@@ -1,4 +1,4 @@
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEventMap } from "@juniper-lib/events";
 import { BaseNodeCluster } from "../BaseNodeCluster";
 import { IAudioNode } from "../IAudioNode";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";

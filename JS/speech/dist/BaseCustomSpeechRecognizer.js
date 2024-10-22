@@ -1,4 +1,4 @@
-import { once } from "@juniper-lib/events/dist/once";
+import { once } from "@juniper-lib/util";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 import { SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent } from "./ISpeechRecognizer";
 var RecognitionState;

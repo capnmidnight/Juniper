@@ -1,6 +1,5 @@
-import { AudioRecordingNode } from "@juniper-lib/audio/dist/AudioRecordingNode";
-import { IResponse } from "@juniper-lib/fetcher/dist/IResponse";
-import { once } from "@juniper-lib/events/dist/once";
+import { IResponse, once } from "@juniper-lib/util";
+import { AudioRecordingNode } from "@juniper-lib/audio";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 import { SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent } from "./ISpeechRecognizer";
 

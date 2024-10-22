@@ -1,5 +1,5 @@
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayClear } from "@juniper-lib/util";
+import { isDefined } from "@juniper-lib/util";
 /**
  * A Task represents a Promise that exposes its resolve/reject functions
  * as methods, rather than requiring a callback being passed to its constructor.
@@ -7,6 +7,13 @@ import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
  * boilerplate of nested function blocks.
  **/
 export class Task {
+    #onThens = new Array();
+    #onCatches = new Array();
+    #autoStart;
+    #result = undefined;
+    #error = undefined;
+    #executionState = "waiting";
+    #resultState = "none";
     /**
      * Create a new Task
      *
@@ -14,53 +21,47 @@ export class Task {
      * for reusable tasks that run on timers.
      */
     constructor(autoStart = true) {
-        this.autoStart = autoStart;
-        this.onThens = new Array();
-        this.onCatches = new Array();
-        this._result = undefined;
-        this._error = undefined;
-        this._executionState = "waiting";
-        this._resultState = "none";
+        this.#autoStart = autoStart;
         // It's very likely that we will want to use resolve/reject
         // as values to pass to another function/method, so we create
         // them not as methods, but as bound lambda expressions stored
         // in public fields.
         this.resolve = (value) => {
             if (this.running) {
-                this._result = value;
-                this._resultState = "resolved";
-                for (const thenner of this.onThens) {
+                this.#result = value;
+                this.#resultState = "resolved";
+                for (const thenner of this.#onThens) {
                     thenner(value);
                 }
-                this.clear();
-                this._executionState = "finished";
+                this.#clear();
+                this.#executionState = "finished";
             }
         };
         this.reject = (reason) => {
             if (this.running) {
-                this._error = reason;
-                this._resultState = "errored";
-                for (const catcher of this.onCatches) {
+                this.#error = reason;
+                this.#resultState = "errored";
+                for (const catcher of this.#onCatches) {
                     catcher(reason);
                 }
-                this.clear();
-                this._executionState = "finished";
+                this.#clear();
+                this.#executionState = "finished";
             }
         };
-        if (this.autoStart) {
+        if (this.#autoStart) {
             this.start();
         }
     }
-    clear() {
-        arrayClear(this.onThens);
-        arrayClear(this.onCatches);
+    #clear() {
+        arrayClear(this.#onThens);
+        arrayClear(this.#onCatches);
     }
     /**
      * If the task was not auto-started, signal that the task is now ready to recieve
      * resolutions or rejections.
      **/
     start() {
-        this._executionState = "running";
+        this.#executionState = "running";
     }
     /**
      * Creates a resolving callback for a static value.
@@ -84,19 +85,19 @@ export class Task {
         if (isDefined(this.error)) {
             throw this.error;
         }
-        return this._result;
+        return this.#result;
     }
     /**
      * Get the last error that the task had been rejected by, if any.
      **/
     get error() {
-        return this._error;
+        return this.#error;
     }
     /**
      * Get the current state of the task.
      **/
     get executionState() {
-        return this._executionState;
+        return this.#executionState;
     }
     /**
      * Returns true when the Task is hasn't started yet.
@@ -123,7 +124,7 @@ export class Task {
         return this.executionState === "finished";
     }
     get resultState() {
-        return this._resultState;
+        return this.#resultState;
     }
     /**
      * Returns true if the Task had been resolved successfully.
@@ -145,11 +146,11 @@ export class Task {
      * Calling Task.then(), Task.catch(), or Task.finally() creates a new Promise.
      * This method creates that promise and links it with the task.
      **/
-    project() {
+    #project() {
         return new Promise((resolve, reject) => {
             if (!this.finished) {
-                this.onThens.push(resolve);
-                this.onCatches.push(reject);
+                this.#onThens.push(resolve);
+                this.#onCatches.push(reject);
             }
             else if (this.errored) {
                 reject(this.error);
@@ -166,7 +167,7 @@ export class Task {
      * @param onrejected
      */
     then(onfulfilled, onrejected) {
-        return this.project().then(onfulfilled, onrejected);
+        return this.#project().then(onfulfilled, onrejected);
     }
     /**
      * Attach a handler that fires when the Task is rejected.
@@ -174,7 +175,7 @@ export class Task {
      * @param onrejected
      */
     catch(onrejected) {
-        return this.project().catch(onrejected);
+        return this.#project().catch(onrejected);
     }
     /**
      * Attach a handler that fires regardless of whether the Task is resolved
@@ -183,27 +184,27 @@ export class Task {
      * @param onfinally
      */
     finally(onfinally) {
-        return this.project().finally(onfinally);
+        return this.#project().finally(onfinally);
     }
     /**
      * Resets the Task to an unsignalled state, which is useful for
      * reducing GC pressure when working with lots of tasks.
      **/
     reset() {
-        this._reset(this.autoStart);
+        this.#reset(this.#autoStart);
     }
     restart() {
-        this._reset(true);
+        this.#reset(true);
     }
-    _reset(start) {
+    #reset(start) {
         if (this.running) {
             this.reject("Resetting previous invocation");
         }
-        this.clear();
-        this._result = undefined;
-        this._error = undefined;
-        this._executionState = "waiting";
-        this._resultState = "none";
+        this.#clear();
+        this.#result = undefined;
+        this.#error = undefined;
+        this.#executionState = "waiting";
+        this.#resultState = "none";
         if (start) {
             this.start();
         }

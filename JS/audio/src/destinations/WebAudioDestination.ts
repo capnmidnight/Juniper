@@ -1,10 +1,5 @@
-import { AutoPlay, Controls, ID, SrcObject } from "@juniper-lib/dom/dist/attrs";
-import { display } from "@juniper-lib/dom/dist/css";
-import { onPlay } from "@juniper-lib/dom/dist/evts";
-import { onUserGesture } from "@juniper-lib/dom/dist/onUserGesture";
-import { Audio } from "@juniper-lib/dom/dist/tags";
-import { IReadyable } from "@juniper-lib/events/dist/IReadyable";
-import { Task } from "@juniper-lib/events/dist/Task";
+import { Audio, AutoPlay, Controls, display, ID, onUserGesture, SrcObject, OnPlay } from "@juniper-lib/dom";
+import { IReadyable, Task } from "@juniper-lib/events";
 import { BaseNodeCluster } from "../BaseNodeCluster";
 import { IPoseable } from "../IPoseable";
 import { Pose } from "../Pose";
@@ -60,7 +55,7 @@ export class WebAudioDestination
             AutoPlay(true),
             Controls(true),
             SrcObject(destination.stream),
-            onPlay(() => ready.resolve())
+            OnPlay(() => ready.resolve())
         );
 
         onUserGesture(() => element.play());

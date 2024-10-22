@@ -1,29 +1,19 @@
 {
   "name": "@juniper-lib/events",
-  "private": false,
   "version": "1.2.1",
+  "private": true,
+  "description": "Event management functions",
   "type": "module",
   "files": [
     "dist/*"
   ],
-  "description": "A kitchen sink of features useful in TypeScript projects",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",
-    "@juniper-lib/tslib": "file:../tslib",
-    "gl-matrix": "4.0.0-beta.1"
+    "@juniper-lib/util": "file:../util"
   },
-  "devDependencies": {
-    "@juniper-types/extra-types": "file:../../@juniper-types/extra-types"
-  },
-  "repository": {
-    "type": "git",
-    "url": "github.com/capnmidnight/Juniper"
-  },
-  "author": "Sean T. McBeth \u003Csean.mcbeth@gmail.com\u003E",
-  "license": "MIT"
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

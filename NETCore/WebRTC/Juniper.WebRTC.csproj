@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<AssemblyName>Juniper.WebRTC</AssemblyName>
+		<RootNamespace>Juniper.WebRTC</RootNamespace>
+		<PackageId>SeanMcBeth.Juniper.WebRTC</PackageId>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>General purpose code</Description>
+		<PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
+		<PackageIcon>logo_juniper.min.png</PackageIcon>
+	</PropertyGroup>
+</Project>

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Juniper.HTTP</AssemblyName>
+    <RootNamespace>Juniper.HTTP</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.HTTP</PackageId>
+    <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>Utilities for working with HTTP requests/responses for both client- and server-code.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IO\Juniper.IO.csproj" />
+    <ProjectReference Include="..\Caching\Juniper.Caching.csproj" />
+  </ItemGroup>
+</Project>

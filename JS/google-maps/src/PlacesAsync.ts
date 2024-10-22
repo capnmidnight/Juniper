@@ -1,4 +1,4 @@
-import { Promisifier } from "@juniper-lib/events/dist/Promisifier";
+import { Promisifier } from "@juniper-lib/events";
 
 const statusTest = (_: google.maps.places.PlaceResult[], status: google.maps.places.PlacesServiceStatus) => status === google.maps.places.PlacesServiceStatus.OK;
 const getResults = (results: google.maps.places.PlaceResult[], _: google.maps.places.PlacesServiceStatus) => results;

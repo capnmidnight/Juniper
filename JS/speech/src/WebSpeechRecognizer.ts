@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 import { SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent } from "./ISpeechRecognizer";
 

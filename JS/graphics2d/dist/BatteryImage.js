@@ -1,4 +1,4 @@
-import { makeFont } from "@juniper-lib/dom/dist/fonts";
+import { makeFont } from "@juniper-lib/dom";
 import { CanvasImage } from "./CanvasImage";
 function isBatteryNavigator(nav) {
     return "getBattery" in nav;

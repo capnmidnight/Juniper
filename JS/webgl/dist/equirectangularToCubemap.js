@@ -1,7 +1,7 @@
-import { canvasToBlob, createUtilityCanvas, snapshot } from "@juniper-lib/dom/dist/canvas";
-import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/dist/CubeMapFaceIndex";
-import { Camera } from "@juniper-lib/three-dee/dist/Camera";
-import { usingAsync } from "@juniper-lib/tslib/dist/using";
+import { usingAsync } from "@juniper-lib/util";
+import { canvasToBlob, createUtilityCanvas, snapshot } from "@juniper-lib/dom";
+import { CubeMapFaceIndex } from "@juniper-lib/graphics2d";
+import { Camera } from "@juniper-lib/three-dee";
 import { Context3DWebGL } from "./Context3DWebGL";
 import { Geometry } from "./Geometry";
 import { invCube } from "./geometry/cubes";

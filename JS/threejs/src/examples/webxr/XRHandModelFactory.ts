@@ -1,4 +1,4 @@
-import { isString } from "@juniper-lib/tslib/dist/typeChecks";
+import { isString } from "@juniper-lib/util";
 import { Color, Matrix4, Object3D, XRHandSpace } from "three";
 import { cleanup } from "../../cleanup";
 import { XRHandMeshModel } from "./XRHandMeshModel";

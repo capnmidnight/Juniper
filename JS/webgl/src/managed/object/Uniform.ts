@@ -1,5 +1,6 @@
-import { ManagedWebGLObject } from "./ManagedWebGLObject";
+import { Mat4Like } from "gl-matrix";
 import type { BaseTexture } from "../resource/Texture";
+import { ManagedWebGLObject } from "./ManagedWebGLObject";
 
 export class Uniform extends ManagedWebGLObject<WebGLUniformLocation> {
     readonly name: string;
@@ -25,7 +26,7 @@ export class Uniform extends ManagedWebGLObject<WebGLUniformLocation> {
         this.gl.uniform2f(this.handle, x, y);
     }
 
-    setMatrix4fv(data: Float32List) {
+    setMatrix4fv(data: Mat4Like) {
         this.gl.uniformMatrix4fv(this.handle, false, data);
     }
 

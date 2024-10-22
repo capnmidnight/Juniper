@@ -1,5 +1,5 @@
-import { GraphNode } from "@juniper-lib/collections/dist/GraphNode";
-import { IReadyable } from "@juniper-lib/events/dist/IReadyable";
+import { GraphNode } from "@juniper-lib/collections";
+import { IReadyable } from "@juniper-lib/events";
 import { IAudioNode, IAudioParam } from "../IAudioNode";
 import { JuniperAnalyserNode } from "./JuniperAnalyserNode";
 import { JuniperAudioBufferSourceNode } from "./JuniperAudioBufferSourceNode";

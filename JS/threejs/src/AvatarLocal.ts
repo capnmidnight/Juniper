@@ -1,11 +1,6 @@
-import { isModifierless } from "@juniper-lib/dom/dist/evts";
-import { onUserGesture } from "@juniper-lib/dom/dist/onUserGesture";
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { isMobile, isMobileVR, isSafari } from "@juniper-lib/tslib/dist/flags";
-import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/dist/math";
-import { assertNever, isFunction, isGoodNumber } from "@juniper-lib/tslib/dist/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { arrayClear, assertNever, clamp, deg2rad, HalfPi, IDisposable, isFunction, isGoodNumber, Pi, radiansClamp, truncate } from "@juniper-lib/util";
+import { isMobile, isMobileVR, isModifierless, isSafari, onUserGesture } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { Euler, Matrix4, Object3D, Quaternion, Vector2, Vector3 } from "three";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeadingRadians, getLookPitchRadians } from "./animation/lookAngles";
@@ -161,7 +156,7 @@ export class AvatarLocal
         return this.head.position.y;
     }
 
-    get object() {
+    get content3d() {
         return this.head;
     }
 
@@ -337,11 +332,11 @@ export class AvatarLocal
     }
 
     get name(): string {
-        return this.object.name;
+        return this.content3d.name;
     }
 
     set name(v: string) {
-        this.object.name = v;
+        this.content3d.name = v;
     }
 
     get headingRadians() {

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Juniper.TSBuild</AssemblyName>
+    <RootNamespace>Juniper.TSBuild</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.TSBuild</PackageId>
+    <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>A TypeScript build management tool for ASP.NET Core projects that let's the server know when the build is complete.</Description>
+    <Version>1.0.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Processes\Juniper.Processes.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+    <ProjectReference Include="..\ProcessManager\Juniper.ProcessManager.csproj">
+      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

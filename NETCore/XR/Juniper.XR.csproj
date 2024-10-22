@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Juniper.XR</AssemblyName>
+    <RootNamespace>Juniper.XR</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.XR</PackageId>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>General purpose code</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+  </ItemGroup>
+
+</Project>

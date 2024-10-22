@@ -1,5 +1,4 @@
-import { isNumber } from "@juniper-lib/tslib/dist/typeChecks";
-import { URLBuilder } from "@juniper-lib/tslib/dist/URLBuilder";
+import { isNumber, URLBuilder } from "@juniper-lib/util";
 import { getUserNumber } from "./userNumber";
 
 const windows: Window[] = [];
@@ -38,7 +37,7 @@ export function openWindow(url: string | URL, xOrWidth?: number, yOrHeight?: num
         opts = `width=${xOrWidth},height=${yOrHeight}`;
     }
 
-    const w = window.open(url, "_blank", opts);
+    const w = globalThis.open(url, "_blank", opts);
 
     if (w) {
         windows.push(w);
@@ -58,8 +57,8 @@ export function openSideTest() {
         .toString();
     openWindow(
         loc,
-        window.screenLeft + window.outerWidth,
+        globalThis.screenLeft + globalThis.outerWidth,
         0,
-        window.innerWidth,
-        window.innerHeight);
+        globalThis.innerWidth,
+        globalThis.innerHeight);
 }

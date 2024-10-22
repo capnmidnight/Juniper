@@ -6,13 +6,9 @@ export declare class DwellEvent extends TypedEvent<"dwell"> {
 export declare class DwellEventer extends TypedEventTarget<{
     dwell: DwellEvent;
 }> {
-    private readonly minTimeSeconds;
-    private readonly graceTimeSeconds;
-    private startTime;
-    private graceTimer;
+    #private;
     constructor(minTimeSeconds?: number, graceTimeSeconds?: number);
     start(): void;
-    private stopGrace;
     stop(): void;
 }
 //# sourceMappingURL=DwellEventer.d.ts.map

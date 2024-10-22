@@ -1,7 +1,6 @@
-import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { PriorityList } from "@juniper-lib/collections/dist/PriorityList";
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
+import { isNullOrUndefined, isDefined, isString, arrayScan } from "@juniper-lib/util";
+import { PriorityList } from "@juniper-lib/collections";
+import { unwrapResponse } from "@juniper-lib/fetcher";
 export function isYouTube(url) {
     return url.hostname === "www.youtube.com"
         || url.hostname === "youtube.com"

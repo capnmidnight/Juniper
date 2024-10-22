@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Scratch</RootNamespace>
+    <AssemblyName>Scratch</AssemblyName>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\NETCore\Imaging.Png\Juniper.Imaging.Png.csproj" />
+    <ProjectReference Include="..\..\NETCore\IO\Juniper.IO.csproj" />
+    <ProjectReference Include="..\..\NETCore\Imaging.Jpeg\Juniper.Imaging.Jpeg.csproj" />
+    <ProjectReference Include="..\..\NETCore\Mathematics\Juniper.Mathematics.csproj" />
+    <ProjectReference Include="..\..\NETCore\Units\Juniper.Units.csproj" />
+    <ProjectReference Include="..\..\NETCore\Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\..\NETCore\Imaging\Juniper.Imaging.csproj" />
+    <ProjectReference Include="..\..\NETCore\Root\Juniper.Root.csproj" />
+  </ItemGroup>
+</Project>

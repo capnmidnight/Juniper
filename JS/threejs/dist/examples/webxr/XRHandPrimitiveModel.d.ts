@@ -1,4 +1,3 @@
-/// <reference types="webxr" />
 import { BufferGeometry, Color, InstancedMesh, MeshPhongMaterial, XRHandSpace } from "three";
 import { XRHandModelPrimitiveProfileType } from "./XRHandModelFactory";
 export declare class XRHandPrimitiveModel extends InstancedMesh<BufferGeometry, MeshPhongMaterial> {

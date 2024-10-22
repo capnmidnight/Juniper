@@ -1,6 +1,5 @@
 export declare class PriorityList<KeyT, ValueT> {
-    private readonly items;
-    private readonly defaultItems;
+    #private;
     constructor(init?: [KeyT, ValueT][]);
     add(key: KeyT, ...values: ValueT[]): this;
     entries(): IterableIterator<[KeyT, ValueT[]]>;

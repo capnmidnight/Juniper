@@ -1,5 +1,4 @@
-﻿import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+﻿import { dispose, isDefined } from "@juniper-lib/util";
 import { IAudioNode } from "../IAudioNode";
 import { JuniperAudioBufferSourceNode } from "../context/JuniperAudioBufferSourceNode";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";

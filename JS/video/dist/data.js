@@ -1,4 +1,4 @@
-import { isString } from "@juniper-lib/tslib/dist/typeChecks";
+import { isString } from "@juniper-lib/util";
 export function isVideoRecord(obj) {
     return isString(obj.vcodec);
 }

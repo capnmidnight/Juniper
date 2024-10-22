@@ -1,9 +1,4 @@
-import { ClassList } from "@juniper-lib/dom/dist/attrs";
-import { backgroundColor, rule } from "@juniper-lib/dom/dist/css";
-import { Div, Style } from "@juniper-lib/dom/dist/tags";
-import { singleton } from "@juniper-lib/tslib/dist/singleton";
-
-import "./style.css";
+import { backgroundColor, borderRadius, bottom, ClassList, color, CssColorValue, display, Div, em, filter, fontWeight, height, left, margin, padding, perc, position, px, right, rule, SingletonStyleBlob, top, transform, translateX, translateY, width } from "@juniper-lib/dom";
 
 export class ScreenUI {
 
@@ -24,9 +19,64 @@ export class ScreenUI {
     readonly cells: Array<Array<HTMLElement>>;
 
     constructor(buttonFillColor: CssColorValue) {
-        singleton("Juniper.ThreeJS.ScreenUI.ButtonFillColor", () =>
-            Style(
-                rule("#appContainer > .row > .cell > .btn",
+        SingletonStyleBlob("Juniper.ThreeJS.ScreenUI.ButtonFillColor", () =>
+            rule("#appContainer",
+                rule(">.cell",
+                    position("absolute"),
+                    display("flex"),
+                    margin(px(10), px(5)),
+
+                    rule(".top",
+                        top(0)
+                    ),
+
+                    rule(".middle",
+                        top(perc(50)),
+                        transform(translateY(perc(-50)))
+                    ),
+
+                    rule(".bottom",
+                        bottom(0)
+                    ),
+
+                    rule(".right",
+                        right(0)
+                    ),
+
+                    rule(".center",
+                        left(perc(50)),
+                        transform(translateX(perc(-50)))
+                    ),
+
+                    
+                    rule(".left", 
+                        left(0)
+                    ),
+
+                    rule(" .btn",
+                        borderRadius(0),
+                        height(px(58)).important(true),
+                        width(px(58)),
+                        padding(em(.25)),
+                        margin(0, px(5)),
+                        color("white"),
+                        fontWeight("bold"),
+
+                        rule(" img",
+                            height("calc(100% - 0.5em)")
+                        )
+                    ),
+
+                    rule(" canvas",
+                        height(px(58))
+                    )
+                ),
+
+                rule(" button:disabled img",
+                    filter("invert(.5)")
+                ),
+
+                rule(">.row>.cell>.btn",
                     backgroundColor(buttonFillColor)
                 )
             )

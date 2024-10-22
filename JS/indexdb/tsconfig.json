@@ -3,14 +3,11 @@
   "include": [
     "./src/**/*.ts"
   ],
-  "references": [
-    { "path": "../collections" },
-    { "path": "../events" },
-    { "path": "../tslib" }
-  ],
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
-    "strictNullChecks": false
-  }
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../util" }
+  ]
 }

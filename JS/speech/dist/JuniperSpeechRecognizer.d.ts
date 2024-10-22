@@ -1,6 +1,6 @@
-import { AudioRecordingNode } from "@juniper-lib/audio/dist/AudioRecordingNode";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { IResponse } from "@juniper-lib/fetcher/dist/IResponse";
+import { IResponse } from "@juniper-lib/util";
+import { AudioRecordingNode } from "@juniper-lib/audio";
+import { IFetcher } from "@juniper-lib/fetcher";
 import { BaseCustomSpeechRecognizer, RecognitionResult } from "./BaseCustomSpeechRecognizer";
 export declare class JuniperSpeechRecognizer extends BaseCustomSpeechRecognizer {
     private readonly fetcher;

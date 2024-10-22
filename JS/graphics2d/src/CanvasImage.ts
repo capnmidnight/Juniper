@@ -1,7 +1,6 @@
-import type { CanvasTypes, Context2D } from "@juniper-lib/dom/dist/canvas";
-import { createUICanvas } from "@juniper-lib/dom/dist/canvas";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
+import { CanvasTypes, Context2D, createUICanvas } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 
 type CanvasImageEvents = {
     redrawn: TypedEvent<"redrawn">;

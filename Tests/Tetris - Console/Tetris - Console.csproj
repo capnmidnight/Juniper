@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>tetris</AssemblyName>
+    <RootNamespace>Juniper</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <StartupObject>Juniper.Program</StartupObject>
+    <Authors>Sean T. McBeth</Authors>
+    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\NETCore\Puzzles\Juniper.Puzzles.csproj" />
+    <ProjectReference Include="..\..\NETCore\Terminal\Juniper.Terminal.csproj" />
+    <ProjectReference Include="..\..\NETCore\Windows\Juniper.Windows.csproj" />
+  </ItemGroup>
+  
+</Project>

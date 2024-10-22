@@ -1,26 +1,22 @@
-import { ClassList } from "@juniper-lib/dom/dist/attrs";
-import { fr, gridTemplateColumns } from "@juniper-lib/dom/dist/css";
-import { Div, ElementChild, ErsatzElement, isElements } from "@juniper-lib/dom/dist/tags";
 
-import "./style.css";
+import { ClassList, display, Div, ElementChild, fr, gridTemplateColumns, rule, SingletonStyleBlob } from "@juniper-lib/dom";
 
-export class GroupPanel
-implements ErsatzElement {
+export function GroupPanel(...rest: ElementChild[]) {
+    SingletonStyleBlob("Juniper::Widgets::GroupPanel", () =>
+        rule(".group-panel",
+            display("grid")
+        )
+    );
 
-    readonly element: HTMLElement;
+    const elems = rest.filter(e => e instanceof Element);
 
-    constructor(...rest: ElementChild[]) {
+    const colExpr = elems.map((_, i) => i === 0 ? fr(1) : "auto");
 
-        const elems = rest.filter(isElements);
+    const element = Div(
+        ClassList("group-panel"),
+        gridTemplateColumns(...colExpr),
+        ...rest
+    );
 
-        const colExpr = elems.map((_, i) => i === 0 ? fr(1) : "auto");
-
-        this.element = Div(
-            ClassList("group-panel"),
-            gridTemplateColumns(...colExpr),
-            ...rest
-        );
-
-        Object.seal(this);
-    }
+    return element;
 }

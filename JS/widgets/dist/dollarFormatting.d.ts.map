@@ -1,0 +1,1 @@
+{"version":3,"file":"dollarFormatting.d.ts","sourceRoot":"","sources":["../src/dollarFormatting.ts"],"names":[],"mappings":"AAAA,OAAO,EAAiB,eAAe,EAAE,MAAM,kBAAkB,CAAC;AAclE,wBAAgB,WAAW,CAAC,OAAO,EAAE,MAAM,UAE1C;AAED,wBAAgB,oBAAoB,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,UAW5D;AAED,wBAAgB,uBAAuB,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,GAAG,eAAe,CAWjF;AAED,wBAAgB,UAAU,CAAC,GAAG,EAAE,MAAM,UAOrC"}

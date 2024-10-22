@@ -1,4 +1,4 @@
-import { BaseProgress } from "@juniper-lib/progress/dist/BaseProgress";
+import { BaseProgress } from "@juniper-lib/progress";
 import { Cube } from "./Cube";
 import { deepSetLayer, PURGATORY } from "./layers";
 import { litGrey, litWhite } from "./materials";
@@ -14,7 +14,7 @@ export class LoadingBar extends BaseProgress {
         super();
         this.value = 0;
         this.targetValue = 0;
-        this.object = obj("LoadingBar");
+        this.content3d = obj("LoadingBar");
         this._enabled = true;
         this.valueBar = new Cube(0, 1, 1, litGrey);
         this.valueBar.scale.set(0, 1, 1);
@@ -37,7 +37,7 @@ export class LoadingBar extends BaseProgress {
         this.targetValue = this.p;
     }
     update(dt) {
-        if (this.object.parent.visible) {
+        if (this.content3d.parent.visible) {
             this.value = Math.min(this.targetValue, this.value + velocity * dt);
             this.valueBar.scale.set(this.value, 1, 1);
             this.valueBar.position.x = this.value / 2 - 0.5;

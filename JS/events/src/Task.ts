@@ -1,5 +1,5 @@
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayClear } from "@juniper-lib/util";
+import { isDefined } from "@juniper-lib/util";
 import { TypedEventTarget, TypedEventMap } from "./TypedEventTarget";
 
 export type TaskExecutionState =
@@ -19,27 +19,28 @@ export type TaskResultState =
  * boilerplate of nested function blocks.
  **/
 export class Task<ResultsT = void> implements Promise<ResultsT> {
-    private readonly onThens = new Array<(v: ResultsT) => any>();
-    private readonly onCatches = new Array<(reason?: any) => void>();
+    readonly #onThens = new Array<(v: ResultsT) => any>();
+    readonly #onCatches = new Array<(reason?: any) => void>();
+    readonly #autoStart: boolean;
 
-    private _result: ResultsT = undefined;
-    private _error: any = undefined;
-    private _executionState: TaskExecutionState = "waiting";
-    private _resultState: TaskResultState = "none";
+    #result: ResultsT = undefined;
+    #error: any = undefined;
+    #executionState: TaskExecutionState = "waiting";
+    #resultState: TaskResultState = "none";
 
     /**
      * Signal success for the Task
      *
      * @param value - the value to store with the resolved Task.
      **/
-    public readonly resolve: (value: ResultsT) => void;
+    readonly resolve: (value: ResultsT) => void;
 
     /**
      * Signal failrue for the Task
      *
      * @param value - the error to store with the rejected Task.
      **/
-    public readonly reject: (reason: any) => void;
+    readonly reject: (reason: any) => void;
 
 
     /**
@@ -48,47 +49,49 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * @param autoStart - set to false to require manually starting the Task. Useful
      * for reusable tasks that run on timers.
      */
-    constructor(private readonly autoStart = true) {
+    constructor(autoStart = true) {
+        this.#autoStart = autoStart;
+
         // It's very likely that we will want to use resolve/reject
         // as values to pass to another function/method, so we create
         // them not as methods, but as bound lambda expressions stored
         // in public fields.
         this.resolve = (value) => {
             if (this.running) {
-                this._result = value;
-                this._resultState = "resolved";
+                this.#result = value;
+                this.#resultState = "resolved";
 
-                for (const thenner of this.onThens) {
+                for (const thenner of this.#onThens) {
                     thenner(value);
                 }
 
-                this.clear();
-                this._executionState = "finished";
+                this.#clear();
+                this.#executionState = "finished";
             }
         };
 
         this.reject = (reason) => {
             if (this.running) {
-                this._error = reason;
-                this._resultState = "errored";
+                this.#error = reason;
+                this.#resultState = "errored";
 
-                for (const catcher of this.onCatches) {
+                for (const catcher of this.#onCatches) {
                     catcher(reason);
                 }
 
-                this.clear();
-                this._executionState = "finished";
+                this.#clear();
+                this.#executionState = "finished";
             }
         };
 
-        if (this.autoStart) {
+        if (this.#autoStart) {
             this.start();
         }
     }
 
-    private clear() {
-        arrayClear(this.onThens);
-        arrayClear(this.onCatches);
+    #clear() {
+        arrayClear(this.#onThens);
+        arrayClear(this.#onCatches);
     }
 
     /**
@@ -96,7 +99,7 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * resolutions or rejections.
      **/
     start() {
-        this._executionState = "running";
+        this.#executionState = "running";
     }
 
     /**
@@ -128,21 +131,21 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
             throw this.error;
         }
 
-        return this._result;
+        return this.#result;
     }
 
     /**
      * Get the last error that the task had been rejected by, if any.
      **/
     get error(): any {
-        return this._error;
+        return this.#error;
     }
 
     /**
      * Get the current state of the task.
      **/
     get executionState() {
-        return this._executionState;
+        return this.#executionState;
     }
 
     /**
@@ -174,7 +177,7 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
     }
 
     get resultState() {
-        return this._resultState;
+        return this.#resultState;
     }
 
     /**
@@ -200,11 +203,11 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * Calling Task.then(), Task.catch(), or Task.finally() creates a new Promise.
      * This method creates that promise and links it with the task.
      **/
-    private project(): Promise<ResultsT> {
+    #project(): Promise<ResultsT> {
         return new Promise<ResultsT>((resolve, reject) => {
             if (!this.finished) {
-                this.onThens.push(resolve);
-                this.onCatches.push(reject);
+                this.#onThens.push(resolve);
+                this.#onCatches.push(reject);
             }
             else if (this.errored) {
                 reject(this.error);
@@ -222,7 +225,7 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * @param onrejected
      */
     then<TResult1 = ResultsT, TResult2 = never>(onfulfilled?: (value: ResultsT) => TResult1 | PromiseLike<TResult1>, onrejected?: (reason: any) => TResult2 | PromiseLike<TResult2>): Promise<TResult1 | TResult2> {
-        return this.project().then(onfulfilled, onrejected);
+        return this.#project().then(onfulfilled, onrejected);
     }
 
     /**
@@ -231,7 +234,7 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * @param onrejected
      */
     catch<TResult = never>(onrejected?: (reason: any) => TResult | PromiseLike<TResult>): Promise<ResultsT | TResult> {
-        return this.project().catch(onrejected);
+        return this.#project().catch(onrejected);
     }
 
     /**
@@ -241,7 +244,7 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * @param onfinally
      */
     finally(onfinally?: () => void): Promise<ResultsT> {
-        return this.project().finally(onfinally);
+        return this.#project().finally(onfinally);
     }
 
     /**
@@ -249,23 +252,23 @@ export class Task<ResultsT = void> implements Promise<ResultsT> {
      * reducing GC pressure when working with lots of tasks.
      **/
     reset() {
-        this._reset(this.autoStart);
+        this.#reset(this.#autoStart);
     }
 
     restart() {
-        this._reset(true);
+        this.#reset(true);
     }
 
-    private _reset(start: boolean) {
+    #reset(start: boolean) {
         if (this.running) {
             this.reject("Resetting previous invocation");
         }
 
-        this.clear();
-        this._result = undefined;
-        this._error = undefined;
-        this._executionState = "waiting";
-        this._resultState = "none";
+        this.#clear();
+        this.#result = undefined;
+        this.#error = undefined;
+        this.#executionState = "waiting";
+        this.#resultState = "none";
 
         if (start) {
             this.start();

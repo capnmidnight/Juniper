@@ -1,4 +1,4 @@
-import { IDisposable, dispose } from "@juniper-lib/tslib/dist/using";
+import { dispose, IDisposable } from "@juniper-lib/util";
 import type { GeometryDescription, VertexComponent, VertexComponentDesc } from "./geometry/GeometryDescription";
 import { Attrib } from "./managed/object/Attrib";
 import { BufferArray, BufferElementArray } from "./managed/resource/Buffer";

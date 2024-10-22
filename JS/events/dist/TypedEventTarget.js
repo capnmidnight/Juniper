@@ -6,6 +6,9 @@ export class TypedEvent extends Event {
     constructor(type, eventInitDict) {
         super(type, eventInitDict);
     }
+    get target() {
+        return super.target;
+    }
 }
 export class TypedEventTarget extends CustomEventTarget {
     addBubbler(bubbler) {

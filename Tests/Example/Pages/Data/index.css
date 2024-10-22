@@ -1,0 +1,53 @@
+﻿.tab-panel-controls {
+    overflow-x: auto;
+}
+
+tab-panel > div[data-tab-name], 
+data-browser > data-browser-pane {
+    padding: .5em;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    grid-gap: 1em;
+}
+
+    tab-panel > div[data-tab-name] > data-table, 
+    data-browser > data-browser-pane > data-table {
+        flex-grow: 1;
+        align-self: stretch;
+    }
+
+#data {
+    display: none;
+}
+
+data-table {
+    width: 100%;
+}
+
+    data-table table {
+        width: 100%;
+    }
+
+    data-table:only-child {
+        flex-grow: 1;
+    }
+
+
+.entity .entity {
+    padding-left: 1em;
+}
+
+.entity table {
+    border-collapse: separate;
+    border-spacing: 1em .25em;
+    border: solid 1px #ccc;
+}
+
+    .entity table td {
+        padding: .25em;
+    }
+
+        .entity table td:nth-child(2n) {
+            background-color: #eee;
+        }

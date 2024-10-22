@@ -1,8 +1,6 @@
-import { IReadyable } from "@juniper-lib/events/dist/IReadyable";
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { AssetFile } from "@juniper-lib/fetcher/dist/Asset";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { IReadyable, TypedEvent } from "@juniper-lib/events";
+import { AssetFile, IFetcher } from "@juniper-lib/fetcher";
+import { IProgress } from "@juniper-lib/progress";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { SpeakerManager } from "./SpeakerManager";
 import { WebAudioDestination } from "./destinations/WebAudioDestination";
@@ -13,7 +11,7 @@ import { NoSpatializer } from "./spatializers/NoSpatializer";
 type AudioManagerEvents = {
     useheadphonestoggled: TypedEvent<"useheadphonestoggled">;
 };
-export declare const RELEASE_EVT: TypedEvent<"released">;
+export declare const RELEASE_EVT: TypedEvent<"released", EventTarget>;
 /**
  * A manager of audio sources, destinations, and their spatialization.
  **/

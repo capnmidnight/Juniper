@@ -1,9 +1,7 @@
-import { Fetcher } from "@juniper-lib/fetcher/dist/Fetcher";
-import { FetchingService } from "@juniper-lib/fetcher/dist/FetchingService";
-import { FetchingServiceImplXHR as FetchingServiceImpl } from "@juniper-lib/fetcher/dist/FetchingServiceImplXHR";
+import { blobToObjectURL } from "@juniper-lib/util";
+import { Fetcher, FetchingService, FetchingServiceImpl } from "@juniper-lib/fetcher";
 import { Text_Plain } from "@juniper-lib/mediatypes";
-import { TestCase } from "@juniper-lib/testing/dist/tdd/TestCase";
-import { blobToObjectURL } from "@juniper-lib/tslib/dist/blobToObjectURL";
+import { TestCase } from "@juniper-lib/testing";
 
 export class FetcherTests extends TestCase {
 

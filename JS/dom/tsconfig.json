@@ -3,21 +3,19 @@
   "include": [
     "./src/**/*.ts"
   ],
-  "references": [
-    { "path": "../collections" },
-    { "path": "../events" },
-    { "path": "../mediatypes" },
-    { "path": "../progress" },
-    { "path": "../tslib" }
-  ],
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "strictNullChecks": false,
     "typeRoots": [
       "../../node_modules/@types",
-      "../../node_modules/@juniper-types",
-      "./src/types"
+      "node_modules/@types",
+      "../types"
     ]
-  }
+  },
+  "references": [
+    { "path": "../util" },
+    { "path": "../events" },
+    { "path": "../progress" },
+    { "path": "../mediatypes" }
+  ]
 }

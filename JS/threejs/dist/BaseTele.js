@@ -1,11 +1,6 @@
-import { arrayRemove, compareBy, insertSorted } from "@juniper-lib/collections/dist/arrays";
-import { all } from "@juniper-lib/events/dist/all";
-import { AssetFile } from "@juniper-lib/fetcher/dist/Asset";
+import { arrayRemove, compareBy, dispose, identity, insertSorted, isDefined, Tau } from "@juniper-lib/util";
+import { AssetFile } from "@juniper-lib/fetcher";
 import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { identity } from "@juniper-lib/tslib/dist/identity";
-import { Tau } from "@juniper-lib/tslib/dist/math";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
 import { AssetGltfModel } from "./AssetGltfModel";
 import { AvatarRemote } from "./AvatarRemote";
 import { BufferReaderWriter } from "./BufferReaderWriter";
@@ -130,7 +125,7 @@ export class BaseTele extends Application {
         this.conference.addScopedEventListener(this, "userLeft", (evt) => {
             const user = this.avatars.get(evt.user.userID);
             if (user) {
-                user.object.removeFromParent();
+                user.content3d.removeFromParent();
                 this.avatars.delete(evt.user.userID);
                 arrayRemove(this.sortedUserIDs, evt.user.userID);
                 cleanup(user);
@@ -149,7 +144,10 @@ export class BaseTele extends Application {
     }
     async load(prog) {
         await this.env.fetcher.assets(prog, ...this.assets);
-        await all(this.env.audio.createBasicClip("join", this.doorOpenSound, 0.25), this.env.audio.createBasicClip("leave", this.doorCloseSound, 0.25));
+        await Promise.all([
+            this.env.audio.createBasicClip("join", this.doorOpenSound, 0.25),
+            this.env.audio.createBasicClip("leave", this.doorCloseSound, 0.25)
+        ]);
         this.avatarModel = this.avatarModelAsset.result.scene.children[0];
         convertMaterials(this.avatarModel, materialStandardToPhong);
     }

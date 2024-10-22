@@ -1,9 +1,6 @@
-import { BaseTimer } from "./BaseTimer";
+import { BaseManagedTimer } from "./BaseManagedTimer";
 
-export class RequestAnimationFrameTimer extends BaseTimer<number> {
-    constructor() {
-        super();
-    }
+export class RequestAnimationFrameTimer extends BaseManagedTimer<number> {
 
     start() {
         if (!this.isRunning) {

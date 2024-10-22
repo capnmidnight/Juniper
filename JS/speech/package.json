@@ -8,20 +8,17 @@
   ],
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
     "@juniper-lib/audio": "file:../audio",
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/events": "file:../events",
     "@juniper-lib/fetcher": "file:../fetcher",
-    "@juniper-lib/tslib": "file:../tslib",
-    "gl-matrix": "4.0.0-beta.1",
-    "microsoft-cognitiveservices-speech-sdk": "1.31.0"
+    "@juniper-lib/util": "file:../util",
+    "gl-matrix": "4.0.0-beta.2",
+    "microsoft-cognitiveservices-speech-sdk": "1.40.0"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
-    "@types/dom-mediacapture-record": "1.0.16"
+    "@juniper-lib/dom-types": "file:../types/dom-types",
+    "@types/dom-mediacapture-record": "1.0.20"
   }
 }

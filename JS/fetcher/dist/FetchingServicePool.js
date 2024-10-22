@@ -1,20 +1,21 @@
-import { WorkerPool } from "@juniper-lib/workers";
+import { WorkerPool } from "@juniper-lib/dom";
 import { FetchingServiceClient } from "./FetchingServiceClient";
 export class FetchingServicePool extends WorkerPool {
+    #fetcher;
     constructor(options, fetcher) {
         super(options, FetchingServiceClient);
-        this.fetcher = fetcher;
+        this.#fetcher = fetcher;
     }
-    getFetcher(obj) {
+    #getFetcher(obj) {
         if (obj instanceof FormData) {
-            return this.fetcher;
+            return this.#fetcher;
         }
         else {
             return this.nextWorker();
         }
     }
     setRequestVerificationToken(value) {
-        this.fetcher.setRequestVerificationToken(value);
+        this.#fetcher.setRequestVerificationToken(value);
         for (const worker of this.workers) {
             worker.setRequestVerificationToken(value);
         }
@@ -53,28 +54,28 @@ export class FetchingServicePool extends WorkerPool {
         return this.nextWorker().drawImageToCanvas(request, canvas, progress);
     }
     sendObjectGetBlob(request, progress) {
-        return this.getFetcher(request.body).sendObjectGetBlob(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetBlob(request, progress);
     }
     sendObjectGetBuffer(request, progress) {
-        return this.getFetcher(request.body).sendObjectGetBuffer(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetBuffer(request, progress);
     }
     sendObjectGetFile(request, progress) {
-        return this.getFetcher(request.body).sendObjectGetFile(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetFile(request, progress);
     }
     sendObjectGetText(request, progress) {
-        return this.getFetcher(request.body).sendObjectGetText(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetText(request, progress);
     }
     sendObjectGetNothing(request, progress) {
-        return this.getFetcher(request.body).sendObjectGetNothing(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetNothing(request, progress);
     }
     sendObjectGetObject(request, progress) {
-        return this.getFetcher(request.body).sendObjectGetObject(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetObject(request, progress);
     }
     sendObjectGetXml(request, progress) {
-        return this.getFetcher(request.body).sendObjectGetXml(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetXml(request, progress);
     }
     sendObjectGetImageBitmap(request, progress) {
-        return this.getFetcher(request.body).sendObjectGetImageBitmap(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetImageBitmap(request, progress);
     }
 }
 //# sourceMappingURL=FetchingServicePool.js.map

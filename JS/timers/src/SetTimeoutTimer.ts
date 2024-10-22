@@ -1,11 +1,7 @@
-import { BaseTimer } from "./BaseTimer";
+import { BaseVariableTimer } from "./BaseVariableTimer";
 
-export class SetTimeoutTimer extends BaseTimer<number> {
-
-    constructor(targetFrameRate: number) {
-        super(targetFrameRate);
-    }
-
+export class SetTimeoutTimer extends BaseVariableTimer<number> {
+    
     start() {
         const updater = () => {
             this.timer = setTimeout(updater, this.targetFrameTime) as unknown as number;

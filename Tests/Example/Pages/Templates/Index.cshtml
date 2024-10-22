@@ -1,0 +1,100 @@
+﻿@page "{entityTypeId:int?}"
+@model Juniper.Cedrus.Example.Pages.Templates.IndexModel
+@using Juniper.Collections;
+
+@{
+    ViewData["Title"] = "Cedrus - Entity Template Editor";
+
+
+    void MakeMenu(ICollection<EntityType> entityTypes, EntityType? parentEntityType = null)
+    {
+        <label>
+            @(parentEntityType?.Name ?? "Entity Types")
+        </label>
+        
+        @if (parentEntityType is null)
+        {
+            <button type="button" slot="controls" class="borderless" title="Add new entity type..."><i>+</i></button>
+        }
+        else
+        {
+            <button type="button" slot="controls" class="borderless" title="Add new entity type derived from @(parentEntityType.Name)..."><i>+</i></button>
+        }
+
+        foreach (var entityType in entityTypes
+                .OrderBy(et => et.Children.Count == 0)
+                .ThenBy(et => et.Name))
+        {
+            MakeFolder(entityType);
+        }
+    }
+
+
+    void MakeFolder(EntityType entityType)
+    {
+        <nav-tree-item type="entityType" value="@entityType.Id" label="@entityType.Name" selectable open>
+            @{ MakeMenu(entityType.Children, entityType); }
+        </nav-tree-item>
+    }
+}
+
+@section Scripts {
+    <bundle-css name="Pages/Templates" versioned></bundle-css>
+    <bundle-js name="Pages/Templates" versioned></bundle-js>
+}
+
+@section Submenu {
+    <nav-tree>
+        @if (Model.EntityTypes is not null)
+        {
+            MakeMenu(Model.EntityTypes);
+        }
+    </nav-tree>
+}
+
+<h1>Edit Entity Templates</h1>
+
+<div id="controls">
+    <button type="button" id="saveEntityType" title="Save entity type..." disabled><i>@Juniper.Emoji.computerDisk</i> Save</button>
+    <button type="button" id="deleteEntityType" title="Delete entity type..." disabled><i>@Juniper.Emoji.wastebasket</i> Delete</button>
+</div>
+
+<h2>Entity Type - <span id="entityTypeName"></span></h2>
+<property-list>
+    <label for="entityTypeIsPrimary">Is Primary</label>
+    <input type="checkbox" id="entityTypeIsPrimary" />
+
+    <label for="entityTypeParent">Parent</label>
+    <select is="typed-select" id="entityTypeParent" placeholder="Select..." nullable></select>
+</property-list>
+
+<tab-panel>
+
+    <div id="properties" data-tab-name="Properties">
+        <data-table id="propertyTemplatesList" paginated="off">
+            <data-column text="text" field="entityType.name" title="From Entity Type" filter="off" sort="off"></data-column>
+            <data-column text="text" field="name" title="Name" filter="off" sort="off"></data-column>
+            <data-column type="button" icon="trash" event="delete" header="" title="Delete"></data-column>
+        </data-table>
+        <data-table id="propertiesList" class="border border-dark" paginated="off">
+            <data-column type="text" field="name" title="Name" filter="off" sort="off"></data-column>
+            <data-column type="text" field="type" title="Type" filter="off" sort="off"></data-column>
+            <data-column type="text" field="storage" title="Storage" filter="off" sort="off"></data-column>
+            <data-column type="text" field="unitsCategory" title="Units" filter="off" sort="off"></data-column>
+            <data-column type="text" field="description" title="Description" filter="off" sort="off"></data-column>
+            <data-column type="button" icon="trash" event="delete" header="" title="Delete"></data-column>
+        </data-table>
+    </div>
+
+    <div id="relationships" data-tab-name="Relationships">
+        <data-table id="relationshipTemplatesList" paginated="off">
+            <data-column text="text" field="entityType.name" title="From Entity Type" filter="off" sort="off"></data-column>
+            <data-column text="text" field="name" title="Name" filter="off" sort="off"></data-column>
+            <data-column type="button" icon="trash" event="delete" header="" title="Delete"></data-column>
+        </data-table>
+        <data-table id="relationshipsList" class="border border-dark" paginated="off">
+            <data-column type="text" field="name" title="Allowed Entity Type" filter="off" sort="off"></data-column>
+            <data-column type="button" icon="trash" event="delete" header="" title="Delete"></data-column>
+        </data-table>
+    </div>
+</tab-panel>

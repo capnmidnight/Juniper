@@ -1,6 +1,5 @@
-import { deg2rad, rad2deg } from "@juniper-lib/tslib/dist/math";
-import { isNumber } from "@juniper-lib/tslib/dist/typeChecks";
-import { Mat4, Quat, Vec3 } from "gl-matrix/dist/esm";
+import { deg2rad, isNumber, rad2deg } from "@juniper-lib/util";
+import { Mat4, Quat, Vec3 } from "gl-matrix";
 function fovAndSensor2Focal(fov, sensor) {
     const halfVert = sensor / 3;
     return halfVert / Math.tan(deg2rad(fov));

@@ -1,4 +1,4 @@
-import { CanvasImageTypes, createCanvasFromOffscreenCanvas, isOffscreenCanvas } from "@juniper-lib/dom/dist/canvas";
+import { CanvasImageTypes, createCanvasFromOffscreenCanvas, isOffscreenCanvas } from "@juniper-lib/dom";
 import { CanvasTexture, CubeTexture } from "three";
 
 export function canvases2CubeTexture(canvs: CanvasImageTypes[]) {

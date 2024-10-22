@@ -1,8 +1,5 @@
-import { arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { IReadyable } from "@juniper-lib/events/dist/IReadyable";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayScan, isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/util";
+import { IReadyable, Task, TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { deviceComparer } from "./DeviceManager";
 import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 

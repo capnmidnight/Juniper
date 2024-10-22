@@ -1,16 +1,13 @@
-import { TreeNode } from "@juniper-lib/collections/dist/TreeNode";
-import { HtmlAttr } from "@juniper-lib/dom/dist/attrs";
-import { CssElementStyleProp } from "@juniper-lib/dom/dist/css";
-import { ErsatzElement } from "@juniper-lib/dom/dist/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { TreeViewNodeEvents } from "./TreeViewNodeElement";
-import { PropertyDef } from "../PropertyList";
-import "./styles.css";
+import { ComparisonResult } from "@juniper-lib/util";
+import { TreeNode } from "@juniper-lib/collections";
+import { CssElementStyleProp, ElementChild, HtmlAttr, TypedHTMLElement } from "@juniper-lib/dom";
+import { TypedEvent } from "@juniper-lib/events";
+import { TreeViewNodeEvents } from './TreeViewNodeElement';
 export interface TreeViewOptions<ValueT, FilterTypeT extends string = never> {
     defaultLabel?: string;
     getLabel: (value: ValueT) => string;
     getParent: (value: ValueT) => ValueT;
-    getOrder?: (value: ValueT) => number;
+    getOrder?: (value: ValueT) => ComparisonResult;
     getDescription: (value: ValueT) => string;
     showNameFilter?: boolean;
     typeFilters?: {
@@ -23,7 +20,7 @@ export interface TreeViewOptions<ValueT, FilterTypeT extends string = never> {
     canHaveChildren: (node: TreeNode<ValueT>) => boolean;
     canParent?: (parent: TreeNode<ValueT>, child: TreeNode<ValueT>) => boolean;
     replaceElement?: HTMLElement;
-    additionalProperties?: PropertyDef[];
+    additionalProperties?: ElementChild[];
 }
 declare class TreeViewNodeEvent<EventT extends string, DataT> extends TypedEvent<EventT> {
     readonly node: TreeNode<DataT>;
@@ -45,14 +42,14 @@ type TreeViewEvents<T> = {
     reparented: TreeViewNodeReparentedEvent<T>;
     delete: TreeViewNodeDeleteEvent<T>;
 };
-export declare class TreeView<ValueT, FilterTypeT extends string = never> extends TypedEventTarget<TreeViewNodeEvents<ValueT> & TreeViewEvents<ValueT>> implements ErsatzElement {
+export declare class TreeViewElement<ValueT, FilterTypeT extends string = never> extends TypedHTMLElement<TreeViewNodeEvents<ValueT> & TreeViewEvents<ValueT>> {
     readonly element: HTMLElement;
     private readonly expandButton;
     private readonly collapseButton;
     private readonly filters;
     private readonly filterTypeInput;
     private readonly filterNameInput;
-    private readonly children;
+    private readonly treeViewNodes;
     private readonly options;
     private readonly _canChangeOrder;
     private readonly elements;
@@ -100,6 +97,8 @@ export declare class TreeView<ValueT, FilterTypeT extends string = never> extend
     removeNode(node: TreeNode<ValueT>): void;
     collapseAll(): void;
     expandAll(maxDepth?: number): void;
+    static install(): import("@juniper-lib/dom").ElementFactory<TreeViewElement<unknown, never>>;
 }
+export declare function TreeView<T, FilterTypeT extends string = never>(...rest: ElementChild[]): TreeViewElement<T, FilterTypeT>;
 export {};
 //# sourceMappingURL=index.d.ts.map

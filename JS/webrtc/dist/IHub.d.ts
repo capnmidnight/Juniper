@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { ConnectionState } from "./ConnectionState";
 export declare class HubCloseEvent extends TypedEvent<"close"> {
     constructor();

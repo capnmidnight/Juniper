@@ -9,7 +9,7 @@ import { BasePointer } from "./BasePointer";
 export declare class PointerRemote extends BasePointer implements ErsatzObject {
     private readonly avatar;
     private readonly remoteID;
-    readonly object: Object3D;
+    readonly content3d: Object3D;
     private readonly laser;
     private readonly D;
     private readonly P;

@@ -1,4 +1,4 @@
-import { isBadNumber, isGoodNumber } from "@juniper-lib/tslib/dist/typeChecks";
+import { isBadNumber, isGoodNumber } from "@juniper-lib/util";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { BaseWebAudioPanner } from "./BaseWebAudioPanner";
 

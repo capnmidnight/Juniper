@@ -1,6 +1,5 @@
-/// <reference types="webxr" />
-import type { Camera } from "@juniper-lib/three-dee/dist/Camera";
-import { Mat4 } from "gl-matrix/dist/esm";
+import { Camera } from "@juniper-lib/three-dee";
+import { Mat4 } from "gl-matrix";
 import type { Geometry } from "./Geometry";
 import type { BaseTexture } from "./managed/resource/Texture";
 import type { Material } from "./Material";

@@ -1,5 +1,5 @@
-import { assertNever } from "@juniper-lib/tslib/dist/typeChecks";
-import type { Mat4, Mat4Like } from "gl-matrix/dist/esm";
+import { assertNever } from "@juniper-lib/util";
+import type { Mat4, Mat4Like } from "gl-matrix";
 import { BaseProgram } from "./BaseProgram";
 import type { Geometry } from "./Geometry";
 import type { Uniform } from "./managed/object/Uniform";

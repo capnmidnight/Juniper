@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Cedrus.Server</AssemblyName>
+    <RootNamespace>Juniper.Cedrus</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Cedrus.Server</PackageId>
+    <OutputType>Library</OutputType>
+    <Description>ASP.NET Core support for Cedrus.</Description>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cedrus\Juniper.Cedrus.csproj" />
+    <ProjectReference Include="..\Server\Juniper.Server.csproj" />
+  </ItemGroup>
+
+</Project>

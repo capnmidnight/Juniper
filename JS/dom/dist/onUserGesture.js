@@ -18,14 +18,14 @@ export function onUserGesture(callback, perpetual = false) {
         if (evt.isTrusted) {
             if (!perpetual) {
                 for (const gesture of USER_GESTURE_EVENTS) {
-                    window.removeEventListener(gesture, check);
+                    globalThis.removeEventListener(gesture, check);
                 }
             }
             callback();
         }
     };
     for (const gesture of USER_GESTURE_EVENTS) {
-        window.addEventListener(gesture, check);
+        globalThis.addEventListener(gesture, check);
     }
 }
 //# sourceMappingURL=onUserGesture.js.map

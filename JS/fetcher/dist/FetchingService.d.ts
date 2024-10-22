@@ -1,10 +1,10 @@
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { IResponse } from "@juniper-lib/util";
+import { IProgress } from "@juniper-lib/progress";
 import { IFetchingService } from "./IFetchingService";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
 export declare class FetchingService implements IFetchingService {
-    private readonly impl;
+    #private;
     constructor(impl: IFetchingServiceImpl);
     protected readonly defaultPostHeaders: Map<string, string>;
     setRequestVerificationToken(value: string): void;

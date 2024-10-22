@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<AssemblyName>Juniper.Caching</AssemblyName>
+		<RootNamespace>Juniper.Caching</RootNamespace>
+		<PackageId>SeanMcBeth.Juniper.Caching</PackageId>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>General purpose code</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\IO\Juniper.IO.csproj" />
+	  <ProjectReference Include="..\MediaType\Juniper.MediaType.csproj" />
+	  <ProjectReference Include="..\Progress\Juniper.Progress.csproj" />
+	</ItemGroup>
+
+</Project>

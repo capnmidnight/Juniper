@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Collections</AssemblyName>
+    <RootNamespace>Juniper.Collections</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Collections</PackageId>
+    <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>Some more advance collection types, such as Trees and Graphs.</Description>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IO\Juniper.IO.csproj" />
+  </ItemGroup>
+
+</Project>

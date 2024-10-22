@@ -1,8 +1,7 @@
-import { GraphNode } from "@juniper-lib/collections/dist/GraphNode";
-import { Vec2 } from "gl-matrix/dist/esm";
+import { GraphNode } from "@juniper-lib/collections";
+import { Vec2 } from "gl-matrix";
 export declare class ForceDirectedNode<T> extends GraphNode<T> {
     #private;
-    private readonly content;
     readonly pinner: HTMLButtonElement;
     readonly element: HTMLElement;
     readonly mouseOffset: Vec2;
@@ -22,12 +21,12 @@ export declare class ForceDirectedNode<T> extends GraphNode<T> {
     setContent(content: string | HTMLElement): void;
     setMouseOffset(mousePoint: Vec2): void;
     computeBounds(sz: number): void;
-    applyForces(nodes: Iterable<ForceDirectedNode<T>>, running: boolean, performLayout: boolean, displayDepth: number, centeringGravity: number, mousePoint: Vec2, attract: number, repel: number, attractFunc: (connected: boolean, len: number) => number, repelFunc: (connected: boolean, len: number) => number, getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number): void;
+    applyForces(nodes: Iterable<ForceDirectedNode<T>>, running: boolean, performLayout: boolean, displayDepth: number, centeringGravity: number, mousePoint: Vec2, attract: number, repel: number, attractFunc: (connected: boolean, len: number) => number, repelFunc: (connected: boolean, len: number) => number): void;
     updatePosition(center: Vec2, maxDepth: number): void;
     moveTo(mousePoint: Vec2): void;
-    private isVisible;
     canDrawArrow(maxDepth: number): boolean;
-    attractRepel(n2: ForceDirectedNode<T>, attract: number, attractFunc: (connected: boolean, len: number) => number, repel: number, repelFunc: (connected: boolean, len: number) => number, getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number): void;
+    updateWeights(getWeightMod: (connected: boolean, a: T, b: T) => number, nodes: Iterable<this>): void;
+    attractRepel(n2: ForceDirectedNode<T>, attract: number, attractFunc: (connected: boolean, len: number) => number, repel: number, repelFunc: (connected: boolean, len: number) => number): void;
     apply(t: number): void;
 }
 //# sourceMappingURL=ForceDirectedNode.d.ts.map

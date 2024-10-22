@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Juniper.Interactions</AssemblyName>
+    <RootNamespace>Juniper</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HTTP\Juniper.HTTP.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+  </ItemGroup>
+
+</Project>

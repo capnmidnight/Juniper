@@ -1,6 +1,5 @@
-/// <reference types="webxr" />
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { TeleconferenceManager } from "@juniper-lib/webrtc/dist/TeleconferenceManager";
+import { IProgress } from "@juniper-lib/progress";
+import { TeleconferenceManager } from "@juniper-lib/webrtc";
 import { Object3D, Vector3 } from "three";
 import { AvatarRemote } from "./AvatarRemote";
 import { Application } from "./environment/Application";

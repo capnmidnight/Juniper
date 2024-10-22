@@ -3,6 +3,10 @@
   "include": [
     "./src/**/*.ts"
   ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
   "references": [
     { "path": "../audio" },
     { "path": "../collections" },
@@ -11,11 +15,6 @@
     { "path": "../fetcher" },
     { "path": "../mediatypes" },
     { "path": "../progress" },
-    { "path": "../tslib" }
-  ],
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strictNullChecks": false
-  }
+    { "path": "../util" }
+  ]
 }

@@ -1,6 +1,9 @@
-import { GraphNode } from "@juniper-lib/collections/dist/GraphNode";
-import { Vec2 } from "gl-matrix/dist/esm";
-const delta = new Vec2();
+import { GraphNode } from "@juniper-lib/collections";
+import { Button, ClassList, Div, StyleAttr } from "@juniper-lib/dom";
+import { Vec2 } from "gl-matrix";
+const delta = /*@__PURE__*/ (() => new Vec2())();
+const unpinned = /*@__PURE__*/ (() => "<i>\u{d83d}\u{dccc}</i>")();
+const pinned = /*@__PURE__*/ (() => "<i>\u{d83d}\u{dccd}</i>")();
 function elementComputeSize(scale, element, size) {
     const boundingRect = element.getBoundingClientRect();
     const styles = getComputedStyle(element);
@@ -24,9 +27,8 @@ function elementComputeSize(scale, element, size) {
     size.x = paddingRight - paddingLeft;
     size.y = paddingBottom - paddingTop;
 }
-const unpinned = "<i>\u{d83d}\u{dccc}</i>";
-const pinned = "<i>\u{d83d}\u{dccd}</i>";
 export class ForceDirectedNode extends GraphNode {
+    #content;
     #pinned;
     get pinned() {
         return this.#pinned;
@@ -64,25 +66,19 @@ export class ForceDirectedNode extends GraphNode {
         this.#pinned = false;
         this.#grabbed = false;
         this.#moving = false;
-        this.pinner = document.createElement("button");
-        this.pinner.type = "button";
-        this.pinner.style.float = "right";
-        this.pinner.style.backgroundColor = "transparent";
-        this.content = document.createElement("div");
-        this.element = document.createElement("div");
-        this.element.classList.add("graph-node");
-        if (elementClass) {
-            this.element.classList.add(elementClass);
-        }
-        this.element.append(this.pinner, this.content);
+        this.#weights = new Map();
+        this.element = Div(ClassList("graph-node", elementClass), this.pinner = Button(StyleAttr({
+            "float": "right",
+            "background-color": "transparent"
+        })), this.#content = Div());
         this.setContent(content);
         this.pinned = false;
         this.grabbed = false;
         this.moving = false;
     }
     setContent(content) {
-        this.content.innerHTML = "";
-        this.content.append(content);
+        this.#content.innerHTML = "";
+        this.#content.append(content);
     }
     setMouseOffset(mousePoint) {
         this.mouseOffset
@@ -96,7 +92,7 @@ export class ForceDirectedNode extends GraphNode {
                 .scale(0.5);
         }
     }
-    applyForces(nodes, running, performLayout, displayDepth, centeringGravity, mousePoint, attract, repel, attractFunc, repelFunc, getWeightMod) {
+    applyForces(nodes, running, performLayout, displayDepth, centeringGravity, mousePoint, attract, repel, attractFunc, repelFunc) {
         this.dynamicForce.x = 0;
         this.dynamicForce.y = 0;
         if (displayDepth < 0 || this.depth <= displayDepth) {
@@ -110,7 +106,7 @@ export class ForceDirectedNode extends GraphNode {
                 for (const n2 of nodes) {
                     if (this !== n2
                         && (displayDepth < 0 || n2.depth <= displayDepth)) {
-                        this.attractRepel(n2, attract, attractFunc, repel, repelFunc, getWeightMod);
+                        this.attractRepel(n2, attract, attractFunc, repel, repelFunc);
                     }
                 }
             }
@@ -118,37 +114,46 @@ export class ForceDirectedNode extends GraphNode {
     }
     updatePosition(center, maxDepth) {
         const { position, element } = this;
-        element.style.display = this.isVisible(maxDepth) ? "" : "none";
-        if (this.isVisible(maxDepth)) {
+        element.style.display = this.#isVisible(maxDepth) ? "" : "none";
+        if (this.#isVisible(maxDepth)) {
             delta.copy(position)
                 .add(center)
                 .sub(this.halfSize);
             element.style.left = `${delta.x}px`;
             element.style.top = `${delta.y}px`;
-            element.classList.toggle("deemphasized", maxDepth >= 0 && this.depth >= maxDepth);
+            element.classList.toggle("deemphasized", this.depth > maxDepth);
         }
     }
     moveTo(mousePoint) {
         this.position.copy(mousePoint)
             .sub(this.mouseOffset);
     }
-    isVisible(maxDepth) {
+    #isVisible(maxDepth) {
         return !this.hidden
-            && (maxDepth < 0
-                || this.depth <= maxDepth);
+            && this.depth <= maxDepth;
     }
     canDrawArrow(maxDepth) {
-        return this.isVisible(maxDepth)
+        return this.#isVisible(maxDepth)
             && !this.element.classList.contains("not-cycled");
     }
-    attractRepel(n2, attract, attractFunc, repel, repelFunc, getWeightMod) {
+    #weights;
+    updateWeights(getWeightMod, nodes) {
+        this.#weights.clear();
+        for (const node of nodes) {
+            if (node !== this) {
+                const connected = this.isConnectedTo(node);
+                this.#weights.set(node, getWeightMod(connected, this.value, node.value));
+            }
+        }
+    }
+    attractRepel(n2, attract, attractFunc, repel, repelFunc) {
         // Displacement between this node and the other node
         delta.copy(n2.position)
             .sub(this.position);
         const distance = delta.magnitude;
         if (distance > 0) {
             const connected = n2.isConnectedTo(this);
-            const weight = getWeightMod(connected, distance, this.value, n2.value);
+            const weight = this.#weights.get(n2);
             const invWeight = 1 - weight;
             const f = weight * attract * attractFunc(connected, distance)
                 - invWeight * repel * repelFunc(connected, distance);

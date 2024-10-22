@@ -1,6 +1,6 @@
-import { bump } from "@juniper-lib/graphics2d/dist/animation/tween";
-import { singleton } from "@juniper-lib/tslib/dist/singleton";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { bump } from "@juniper-lib/graphics2d";
+import { singleton } from "@juniper-lib/util";
+import { dispose } from "@juniper-lib/util";
 import { objectResolve } from "../objects";
 import { isMesh } from "../typeChecks";
 /**

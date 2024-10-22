@@ -1,4 +1,4 @@
-export class RingBuffer<T> {
+﻿export class RingBuffer<T> {
 
     readonly #elements: T[];
 
@@ -13,12 +13,12 @@ export class RingBuffer<T> {
         this.#elements = new Array(size);
     }
 
-    push(item: T){ 
+    push(item: T) {
         this.#elements[this.#end % this.#size] = item;
         ++this.#end;
-        if(this.length > this.#size) {
-            ++ this.#start;
-            if(this.#start >= this.#size) {
+        if (this.length > this.#size) {
+            ++this.#start;
+            if (this.#start >= this.#size) {
                 this.#start -= this.#size;
                 this.#end -= this.#size;
             }
@@ -26,13 +26,13 @@ export class RingBuffer<T> {
     }
 
     *[Symbol.iterator]() {
-        for(let i = this.#start; i < this.#end; ++i) {
+        for (let i = this.#start; i < this.#end; ++i) {
             yield this.#elements[i % this.#size];
         }
     }
 
     reduce<V>(callback: (accum: V, next: T) => V, start: V): V {
-        for(const next of this) {
+        for (const next of this) {
             start = callback(start, next);
         }
 

@@ -1,11 +1,11 @@
-import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { progressPopper } from "@juniper-lib/progress/dist/progressPopper";
-import { progressSplitWeighted } from "@juniper-lib/progress/dist/progressSplit";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { URLBuilder } from "@juniper-lib/tslib/dist/URLBuilder";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { unwrapResponse } from "@juniper-lib/fetcher";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
+import { Task } from "@juniper-lib/events";
+import { progressPopper } from "@juniper-lib/progress";
+import { progressSplitWeighted } from "@juniper-lib/progress";
+import { isDefined } from "@juniper-lib/util";
+import { URLBuilder } from "@juniper-lib/util";
+import { dispose } from "@juniper-lib/util";
 class ApplicationLoaderEvent extends TypedEvent {
     constructor(type, appName) {
         super(type);

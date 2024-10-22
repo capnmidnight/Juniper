@@ -1,5 +1,4 @@
-import { ElementChild, IElementAppliable } from "@juniper-lib/dom/dist/tags";
-import "./styles.css";
+import { ElementChild } from "@juniper-lib/dom";
 type DockPanelAttrTypes = "resizable" | "rearrangeable";
 declare class DockPanelAttr<T extends DockPanelAttrTypes = DockPanelAttrTypes> {
     readonly type: T;
@@ -15,6 +14,6 @@ export declare function DockPanel(name: string, resizable: DockPanelAttr<"resiza
 export declare function DockPanel(name: string, ...rest: ElementChild[]): HTMLElement;
 export declare function DockGroupColumn(...rest: ElementChild[]): HTMLDivElement;
 export declare function DockGroupRow(...rest: ElementChild[]): HTMLDivElement;
-export declare function DockCell(header: Exclude<ElementChild, IElementAppliable>, ...rest: ElementChild[]): HTMLDivElement;
+export declare function DockCell(header: string | Date | number | ParentNode, ...rest: ElementChild[]): HTMLDivElement;
 export {};
 //# sourceMappingURL=index.d.ts.map

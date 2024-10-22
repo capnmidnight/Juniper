@@ -3,13 +3,13 @@
   "include": [
     "./src/**/*.ts"
   ],
-  "references": [
-    { "path": "../events" },
-    { "path": "../fetcher" },
-    { "path": "../tslib" }
-  ],
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src"
-  }
+  },
+  "references": [
+    { "path": "../events" },
+    { "path": "../fetcher" },
+    { "path": "../util" }
+  ]
 }

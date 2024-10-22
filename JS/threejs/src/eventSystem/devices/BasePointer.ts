@@ -1,4 +1,4 @@
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEventTarget } from "@juniper-lib/events";
 import { Intersection, Vector3 } from "three";
 import { BufferReaderWriter } from "../../BufferReaderWriter";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
@@ -27,20 +27,19 @@ export abstract class BasePointer
     mayTeleport = false;
 
     protected buttons = 0;
-    protected _isActive = false;
     protected moveDistance = 0;
 
     private readonly pointerEvents = new Map<string, Pointer3DEvent>();
 
-    private lastButtons = 0;
-    private canClick = false;
-    private dragDistance = 0;
-    private _enabled = false;
-    private _cursor: BaseCursor3D = null;
-    private _curHit: Intersection = null;
-    private _curTarget: RayTarget = null;
-    private _hoveredHit: Intersection = null;
-    private _hoveredTarget: RayTarget = null;
+    #lastButtons = 0;
+    #canClick = false;
+    #dragDistance = 0;
+    #enabled = false;
+    #cursor: BaseCursor3D = null;
+    #curHit: Intersection = null;
+    #curTarget: RayTarget = null;
+    #hoveredHit: Intersection = null;
+    #hoveredTarget: RayTarget = null;
 
     constructor(
         public readonly type: PointerType,
@@ -49,7 +48,7 @@ export abstract class BasePointer
         cursor: BaseCursor3D) {
         super();
 
-        this._cursor = cursor;
+        this.#cursor = cursor;
         if (this.cursor) {
             this.cursor.visible = false;
         }
@@ -58,32 +57,23 @@ export abstract class BasePointer
     abstract vibrate(): void;
     protected abstract updatePointerOrientation(): void;
 
-    get isActive() {
-        return this._isActive;
-    }
+    protected _isActive = false;
+    get isActive() { return this._isActive; }
 
     get canSend() {
         return this.enabled
             && this.isActive;
     }
 
-    private get curHit() {
-        return this._curHit;
-    }
-
-    private get curTarget() {
-        return this._curTarget;
-    }
-
     private get hoveredHit() {
-        return this._hoveredHit;
+        return this.#hoveredHit;
     }
 
     private set hoveredHit(v) {
         if (v !== this.hoveredHit) {
-            const t = getRayTarget(v);
-            this._hoveredHit = v;
-            this._hoveredTarget = t;
+            const t = getRayTarget(v?.object);
+            this.#hoveredHit = v;
+            this.#hoveredTarget = t;
         }
     }
 
@@ -92,24 +82,24 @@ export abstract class BasePointer
     }
 
     get rayTarget() {
-        return this._hoveredTarget;
+        return this.#hoveredTarget;
     }
 
     get cursor() {
-        return this._cursor;
+        return this.#cursor;
     }
 
     set cursor(newCursor) {
         if (newCursor !== this.cursor) {
             const oldCursor = this.cursor;
-            const oldName = this.cursor && this.cursor.object && this.cursor.object.name || "cursor";
-            const oldParent = oldCursor && oldCursor.object && oldCursor.object.parent;
+            const oldName = this.cursor && this.cursor.content3d && this.cursor.content3d.name || "cursor";
+            const oldParent = oldCursor && oldCursor.content3d && oldCursor.content3d.parent;
             if (oldParent) {
-                oldCursor.object.removeFromParent();
+                oldCursor.content3d.removeFromParent();
             }
 
             if (newCursor) {
-                newCursor.object.name = oldName;
+                newCursor.content3d.name = oldName;
 
                 if (oldCursor instanceof CursorXRMouse) {
                     oldCursor.cursor = newCursor;
@@ -118,7 +108,7 @@ export abstract class BasePointer
                     }
                 }
                 else {
-                    this._cursor = newCursor;
+                    this.#cursor = newCursor;
                     if (oldCursor) {
                         if (oldParent) {
                             objGraph(oldParent, newCursor);
@@ -137,18 +127,18 @@ export abstract class BasePointer
     }
 
     get enabled() {
-        return this._enabled;
+        return this.#enabled;
     }
 
     set enabled(v) {
-        this._enabled = v;
+        this.#enabled = v;
         if (this.cursor) {
             this.cursor.visible = v;
         }
     }
 
     protected setButton(button: VirtualButton, pressed: boolean) {
-        this.lastButtons = this.buttons;
+        this.#lastButtons = this.buttons;
 
         const mask = 1 << button;
         if (pressed) {
@@ -159,15 +149,15 @@ export abstract class BasePointer
         }
 
         if (pressed) {
-            this.canClick = true;
-            this.dragDistance = 0;
+            this.#canClick = true;
+            this.#dragDistance = 0;
             this.env.avatar.setMode(this);
             this.setEventState("down");
         }
         else {
-            if (this.canClick) {
+            if (this.#canClick) {
                 const curButtons = this.buttons;
-                this.buttons = this.lastButtons;
+                this.buttons = this.#lastButtons;
                 this.setEventState("click");
                 this.buttons = curButtons;
             }
@@ -183,16 +173,16 @@ export abstract class BasePointer
 
     wasPressed(button: VirtualButton): boolean {
         const mask = 1 << button;
-        return (this.lastButtons & mask) !== 0;
+        return (this.#lastButtons & mask) !== 0;
     }
 
     protected fireRay(origin: Vector3, direction: Vector3): void {
         const minHit = this.env.eventSys.fireRay(origin, direction);
 
-        if (minHit !== this.curHit) {
-            const t = getRayTarget(minHit);
-            this._curHit = minHit;
-            this._curTarget = t;
+        if (minHit !== this.#curHit) {
+            const t = getRayTarget(minHit?.object);
+            this.#curHit = minHit;
+            this.#curTarget = t;
         }
     }
 
@@ -206,15 +196,15 @@ export abstract class BasePointer
         if (this.hoveredHit) {
             evt.set(this.hoveredHit, this.rayTarget);
         }
-        else if (this.curHit) {
-            evt.set(this.curHit, this.curTarget);
+        else if (this.#curHit) {
+            evt.set(this.#curHit, this.#curTarget);
         }
         else {
             evt.set(null, null);
         }
 
         if (evt.hit) {
-            const lastHit = this.curHit || this.hoveredHit;
+            const lastHit = this.#curHit || this.hoveredHit;
             if (lastHit && evt.hit !== lastHit) {
                 evt.hit.uv = lastHit.uv;
             }
@@ -236,9 +226,9 @@ export abstract class BasePointer
 
         if (this.moveDistance > 0 || primaryPressed) {
             if (primaryPressed) {
-                this.dragDistance += this.moveDistance;
-                if (this.dragDistance > MAX_DRAG_DISTANCE) {
-                    this.canClick = false;
+                this.#dragDistance += this.moveDistance;
+                if (this.#dragDistance > MAX_DRAG_DISTANCE) {
+                    this.#canClick = false;
                 }
             }
 
@@ -252,8 +242,8 @@ export abstract class BasePointer
 
         this.fireRay(this.origin, this.direction);
 
-        if (this.curTarget === this.rayTarget) {
-            this.hoveredHit = this.curHit;
+        if (this.#curTarget === this.rayTarget) {
+            this.hoveredHit = this.#curHit;
         }
         else {
             const isPressed = this.isPressed(VirtualButton.Primary);
@@ -273,7 +263,7 @@ export abstract class BasePointer
                     this.rayTarget.dispatchEvent(exitEvt);
                 }
 
-                this.hoveredHit = this.curHit;
+                this.hoveredHit = this.#curHit;
 
                 if (this.rayTarget) {
                     const enterEvt = this.getEvent("enter");
@@ -323,8 +313,8 @@ export abstract class BasePointer
             this.cursor.update(
                 avatarHeadPos,
                 comfortOffset,
-                this.hoveredHit || this.curHit,
-                this.rayTarget || this.curTarget,
+                this.hoveredHit || this.#curHit,
+                this.rayTarget || this.#curTarget,
                 defaultDistance,
                 isLocal,
                 this.canDragView,

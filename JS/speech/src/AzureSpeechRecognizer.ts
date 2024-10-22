@@ -1,11 +1,10 @@
-import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
-import { AudioRecordingNode, BlobAvailableEvent } from "@juniper-lib/audio/dist/AudioRecordingNode";
-import { LocalUserMicrophone } from "@juniper-lib/audio/dist/LocalUserMicrophone";
-import { identity } from "@juniper-lib/tslib/dist/identity";
-import { IDisposable, dispose } from "@juniper-lib/tslib/dist/using";
+import { IDisposable, dispose, identity } from "@juniper-lib/util";
+import { ActivityDetector, AudioRecordingNode, BlobAvailableEvent, LocalUserMicrophone } from "@juniper-lib/audio";
 import { AudioConfig, AutoDetectSourceLanguageConfig, ProfanityOption, RecognitionEventArgs, Recognizer, ResultReason, SessionEventArgs, SpeechConfig, SpeechRecognitionCanceledEventArgs, SpeechRecognitionEventArgs, SpeechRecognitionResult, SpeechRecognizer } from "microsoft-cognitiveservices-speech-sdk";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 import { SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent } from "./ISpeechRecognizer";
+
+SpeechRecognizer.enableTelemetry(false);
 
 type EventHandler<T> = (sender: Recognizer, evt: T) => void;
 

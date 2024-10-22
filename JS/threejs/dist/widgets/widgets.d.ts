@@ -1,26 +1,23 @@
-import { ElementChild, ErsatzElement } from "@juniper-lib/dom/dist/tags";
+import { CssDisplayValue, CssGlobalValue, ElementChild, ErsatzNode, HtmlProp, InlineStylableElement } from "@juniper-lib/dom";
 import { Object3D } from "three";
 import { ErsatzObject, Objects } from "../objects";
-export interface IWidget<T extends HTMLElement = HTMLElement> extends ErsatzElement<T>, ErsatzObject {
+export interface IWidget<DOMT extends Node = Node, THREET extends Object3D = Object3D> extends ErsatzNode<DOMT>, ErsatzObject<THREET> {
     name: string;
     visible: boolean;
 }
-export declare function isWidget(obj: any): obj is IWidget;
+export declare function isWidget<DOMT extends Node = Node, THREET extends Object3D = Object3D>(obj: any): obj is IWidget<DOMT, THREET>;
 export type WidgetChild = IWidget | ElementChild | Objects;
-export declare function widgetSetEnabled(obj: IWidget, enabled: boolean): void;
-export declare function widgetApply(obj: IWidget, ...children: WidgetChild[]): void;
-export declare function widgetRemoveFromParent(obj: IWidget): void;
-export declare function widgetClearChildren(obj: IWidget): void;
-export declare class Widget<T extends HTMLElement = HTMLElement> implements IWidget<T>, EventTarget {
-    readonly element: T;
-    readonly object: Object3D;
-    private readonly displayType;
-    constructor(element: T, object: Object3D, displayType: CssGlobalValue | CssDisplayValue);
+export declare function widgetSetEnabled(widget: IWidget, enabled: boolean): void;
+export declare function widgetApply<DOMT extends ParentNode>(obj: IWidget<DOMT>, ...children: WidgetChild[]): void;
+export declare function widgetRemoveFromParent<DOMT extends ChildNode>(obj: IWidget<DOMT>): void;
+export declare function widgetClearChildren<DOMT extends Element>(obj: IWidget<DOMT>): void;
+export declare function ObjectAttr(object: Object3D): HtmlProp<"object", Object3D<import("three").Event>, Node & Record<"object", Object3D<import("three").Event>>>;
+export declare class Widget<DOMT extends InlineStylableElement = InlineStylableElement, THREET extends Object3D = Object3D> implements IWidget<DOMT, THREET> {
+    #private;
+    constructor(content: DOMT, content3d: THREET, displayType: CssGlobalValue | CssDisplayValue);
+    get content(): DOMT;
+    get content3d(): THREET;
     get name(): string;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    dispatchEvent(event: Event): boolean;
-    removeEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    click(): void;
     get visible(): boolean;
     set visible(visible: boolean);
 }

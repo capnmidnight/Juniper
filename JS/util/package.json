@@ -1,0 +1,20 @@
+{
+  "name": "@juniper-lib/util",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Utility code for JavaScript projects",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "gl-matrix": "4.0.0-beta.2"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
+}

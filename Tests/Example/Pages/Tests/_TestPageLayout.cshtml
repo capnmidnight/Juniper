@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@section Submenu {
+    <ul>
+        <li><a href="/tests/deliberateerror">Deliberate Error</a></li>
+        <li><a href="/tests/arrayfileeditor">Array File Editor</a></li>
+        <li><a href="/tests/orgchart">Org Chart</a></li>
+        <li><a href="/tests/propertyeditors">Property Editors</a></li>
+        <li><a href="/tests/selectentity">Search Entity</a></li>
+        <li><a href="/tests/templates">Templates</a></li>
+    </ul>
+}
+
+@if (IsSectionDefined("Scripts"))
+{
+    @section Scripts {
+        @RenderSection("Scripts")
+    }
+}
+
+@RenderBody()

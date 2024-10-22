@@ -1,0 +1,29 @@
+{
+  "profiles": {
+    "Cedrus Example": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+        "LD_DEBUG": ""
+      }
+    },
+    "Cedrus Example (No AppShell)": {
+      "commandLineArgs": "--no-appshell",
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+        "LD_DEBUG": ""
+      }
+    },
+    "Seed Cedrus Example Data": {
+      "commandLineArgs": "--import=seed",
+      "commandName": "Project",
+      "dotnetRunMessages": true
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { dispose, isDefined } from "@juniper-lib/util";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperBiquadFilterNode } from "./context/JuniperBiquadFilterNode";
 import { JuniperDynamicsCompressorNode } from "./context/JuniperDynamicsCompressorNode";
@@ -6,7 +6,6 @@ import { JuniperMediaStreamAudioDestinationNode } from "./context/JuniperMediaSt
 import { JuniperMediaStreamAudioSourceNode } from "./context/JuniperMediaStreamAudioSourceNode";
 import { DeviceSettingsChangedEvent } from "./DeviceManager";
 import { StreamChangedEvent } from "./StreamChangedEvent";
-import { dispose } from "@juniper-lib/tslib/dist/using";
 const PREFERRED_AUDIO_INPUT_ID_KEY = "calla:preferredAudioInputID";
 export class LocalUserMicrophone extends BaseNodeCluster {
     constructor(context) {

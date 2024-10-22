@@ -1,0 +1,5 @@
+import { DataType, DataTypeMap, InputDataTypeMap, PropertyModel } from "../../models";
+import { ElementType } from "./BasePropertyEditorElement";
+import { IPropertyEditorFactory } from "./IPropertyEditorFactory";
+export declare function makeSingleInputElement<DataTypeT extends DataType, ElementT extends ElementType>(dataType: DataTypeT, makeInput: () => ElementT, getPreviewElement: (property: PropertyModel<DataTypeT, "Single">) => Node | string, inputToOutput: (input: InputDataTypeMap[DataTypeT]["Single"]) => Promise<DataTypeMap[DataTypeT]["Single"]> | DataTypeMap[DataTypeT]["Single"], getValue: (input: ElementT) => InputDataTypeMap[DataTypeT]["Single"], setValue?: (input: ElementT, value: InputDataTypeMap[DataTypeT]["Single"]) => void, setOptions?: (input: ElementT, values: DataTypeMap[DataTypeT]["Single"][]) => void): IPropertyEditorFactory<DataTypeT, "Single">;
+//# sourceMappingURL=makeSingleInputElement.d.ts.map

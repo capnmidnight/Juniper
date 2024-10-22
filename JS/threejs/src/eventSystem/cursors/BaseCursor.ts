@@ -1,3 +1,5 @@
+import { CssCursorValue } from "@juniper-lib/dom";
+
 export abstract class BaseCursor {
     private _visible = true;
     private _style: CssCursorValue = "default";

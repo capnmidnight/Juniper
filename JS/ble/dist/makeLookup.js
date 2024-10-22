@@ -1,4 +1,4 @@
-import { isString } from "@juniper-lib/tslib/dist/typeChecks";
+import { isString } from "@juniper-lib/util";
 export function makeLookup(descriptions) {
     const idLookup = {}, descLookup = {}, all = Object.keys(descriptions)
         .map((id) => {

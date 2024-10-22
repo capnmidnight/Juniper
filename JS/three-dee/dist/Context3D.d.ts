@@ -1,5 +1,5 @@
-import type { CanvasTypes } from "@juniper-lib/dom/dist/canvas";
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { CanvasTypes } from "@juniper-lib/dom";
+import { TypedEventTarget } from "@juniper-lib/events";
 export declare class ResizeEvent extends Event {
     width: number;
     height: number;

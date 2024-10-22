@@ -24,8 +24,9 @@ import {
 } from ".";
 
 
-export const science = /*@__PURE__*/ G(
-    "Science", "Science", {
+export const science = /*@__PURE__*/ (function () {
+    return G(
+        "Science", "Science", {
         droplet,
         dropOfBlood,
         adhesiveBandage,
@@ -47,3 +48,4 @@ export const science = /*@__PURE__*/ G(
         magnifyingGlassTiltedLeft,
         magnifyingGlassTiltedRight,
     });
+})();

@@ -1,10 +1,6 @@
-import { Src } from "@juniper-lib/dom/dist/attrs";
-import { cursor, display, opacity } from "@juniper-lib/dom/dist/css";
-import { Div, Img, HtmlRender, elementSetDisplay } from "@juniper-lib/dom/dist/tags";
-import { all } from "@juniper-lib/events/dist/all";
-import { once, success } from "@juniper-lib/events/dist/once";
-import { progressSplitWeighted } from "@juniper-lib/progress/dist/progressSplit";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined, once, success } from "@juniper-lib/util";
+import { cursor, display, Div, elementSetDisplay, Img, OnClick } from "@juniper-lib/dom";
+import { progressSplitWeighted } from "@juniper-lib/progress";
 import { BaseVideoPlayer } from "./BaseVideoPlayer";
 const loadingCursor = "wait";
 const loadedCursor = "pointer";
@@ -12,12 +8,11 @@ const errorCursor = "not-allowed";
 export class VideoPlayer extends BaseVideoPlayer {
     constructor(context, spatializer) {
         super("video-player", context, spatializer);
-        this.element = Div(display("inline-block"), this.thumbnail = Img(cursor(loadingCursor)), this.video, this.audio);
-        this.thumbnail.addEventListener("click", () => {
+        this.element = Div(display("inline-block"), this.thumbnail = Img(cursor(loadingCursor), OnClick(() => {
             if (this.loaded) {
                 this.play();
             }
-        });
+        })), this.video, this.audio);
         this.addEventListener("played", () => this.showVideo(true));
         this.addEventListener("stopped", () => this.showVideo(false));
         this.showVideo(false);
@@ -34,15 +29,20 @@ export class VideoPlayer extends BaseVideoPlayer {
     }
     async load(data, prog) {
         try {
-            HtmlRender(this.thumbnail, opacity(0.5), cursor(loadingCursor));
+            this.thumbnail.style.opacity = "0.5";
+            this.thumbnail.style.cursor = loadingCursor;
             const progs = progressSplitWeighted(prog, [1, 10]);
-            await all(super.load(data, progs.shift()), this.loadThumbnail(data, progs.shift()));
+            await Promise.all([
+                super.load(data, progs.shift()),
+                this.loadThumbnail(data, progs.shift())
+            ]);
             return this;
         }
         finally {
-            HtmlRender(this.thumbnail, opacity(1), cursor(this.loaded
+            this.thumbnail.style.opacity = "1";
+            this.thumbnail.style.cursor = this.loaded
                 ? loadedCursor
-                : errorCursor));
+                : errorCursor;
         }
     }
     clear() {
@@ -54,13 +54,14 @@ export class VideoPlayer extends BaseVideoPlayer {
         this.thumbnail.title = v;
     }
     async loadThumbnail(data, prog) {
-        prog.start();
+        prog?.start();
         if (isDefined(data)) {
-            HtmlRender(this.thumbnail, Src(data.thumbnail.url), opacity(0.5));
+            this.thumbnail.src = data.thumbnail.url;
+            this.thumbnail.style.opacity = "0.5";
             const loading = once(this.thumbnail, "load", "error");
             await success(loading);
         }
-        prog.end();
+        prog?.end();
     }
 }
 //# sourceMappingURL=VideoPlayer.js.map

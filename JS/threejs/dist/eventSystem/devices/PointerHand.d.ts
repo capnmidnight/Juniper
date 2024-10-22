@@ -1,5 +1,4 @@
-/// <reference types="webxr" />
-import { EventedGamepad } from "@juniper-lib/widgets/dist/EventedGamepad";
+import { EventedGamepad } from "@juniper-lib/widgets";
 import { Object3D, XRGripSpace, XRHandSpace, XRTargetRaySpace } from "three";
 import { BufferReaderWriter } from "../../BufferReaderWriter";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
@@ -16,7 +15,7 @@ export declare enum OculusQuestButton {
 }
 export declare class PointerHand extends BasePointer implements ErsatzObject {
     private readonly laser;
-    readonly object: Object3D;
+    readonly content3d: Object3D;
     private _isHand;
     private inputSource;
     private readonly _gamepad;
@@ -36,8 +35,8 @@ export declare class PointerHand extends BasePointer implements ErsatzObject {
     get gamepad(): EventedGamepad;
     get handedness(): XRHandedness;
     get isHand(): boolean;
-    get cursor(): import("../cursors/BaseCursor3D").BaseCursor3D;
-    set cursor(v: import("../cursors/BaseCursor3D").BaseCursor3D);
+    get cursor(): import("..").BaseCursor3D;
+    set cursor(v: import("..").BaseCursor3D);
     private updateCursorSide;
     protected updatePointerOrientation(): void;
     protected onUpdate(): void;

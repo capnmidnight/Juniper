@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Juniper.WebRTC.Server</AssemblyName>
+    <RootNamespace>Juniper.WebRTC</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.WebRTC.Server</PackageId>
+    <Description>General purpose server code</Description>
+
+    <PackageIcon>logo_juniper.min.png</PackageIcon>
+    <IsPackable>True</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\WebRTC\Juniper.WebRTC.csproj" />
+  </ItemGroup>
+
+</Project>

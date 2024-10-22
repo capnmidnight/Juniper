@@ -1,7 +1,5 @@
-import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
-import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
-import { JuniperGainNode } from "@juniper-lib/audio/dist/context/JuniperGainNode";
-import { unproject } from "@juniper-lib/tslib/dist/math";
+import { unproject } from "@juniper-lib/util";
+import { ActivityDetector, JuniperAudioContext, JuniperGainNode } from "@juniper-lib/audio";
 
 export class GainDecayer extends ActivityDetector {
     private curLength = 0;

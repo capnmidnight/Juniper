@@ -1,275 +1,191 @@
-import { isArray, isDefined, isNumber, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { IElementAppliable } from "./tags";
+import { isArray, isDefined, isNumber, isString, toString } from "@juniper-lib/util";
+import { AbstractAppliable } from "./AbstractAppliable";
 
-function asInt(v: number | string): string {
-    return isNumber(v) ? v.toFixed(0) : v;
-}
 
-export function perc(value: number): CssPercentage {
-    return `${value}%`;
-}
+/**********************************
+ * CASCADING STYLE SHEETS
+ *********************************/
 
-export function deg(value: number): CssAngle {
-    return `${value}deg`;
-}
+export function cssVar(name: string): string { return `$var(--${name})`; }
+export function perc(value: number): CssPercentage { return `${value}%`; }
+export function deg(value: number): CssAngle { return `${value}deg`; }
+export function rad(value: number): CssAngle { return `${value}rad`; }
+export function grad(value: number): CssAngle { return `${value}grad`; }
+export function turn(value: number): CssAngle { return `${value}turn`; }
+export function cap(value: number): CssFontRelativeLength { return `${value}cap`; }
+export function ch(value: number): CssFontRelativeLength { return `${value}ch`; }
+export function em(value: number): CssFontRelativeLength { return `${value}em`; }
+export function ex(value: number): CssFontRelativeLength { return `${value}ex`; }
+export function ic(value: number): CssFontRelativeLength { return `${value}ic`; }
+export function lh(value: number): CssFontRelativeLength { return `${value}lh`; }
+export function rem(value: number): CssFontRelativeLength { return `${value}rem`; }
+export function rlh(value: number): CssFontRelativeLength { return `${value}rlh`; }
+export function vh(value: number): CssViewportPercentageLength { return `${value}vh`; }
+export function vw(value: number): CssViewportPercentageLength { return `${value}vw`; }
+export function vi(value: number): CssViewportPercentageLength { return `${value}vi`; }
+export function vb(value: number): CssViewportPercentageLength { return `${value}vb`; }
+export function vmin(value: number): CssViewportPercentageLength { return `${value}vmin`; }
+export function vmax(value: number): CssViewportPercentageLength { return `${value}vmax`; }
+export function px(value: number): CssAbsoluteLength { return `${value}px`; }
+export function cm(value: number): CssAbsoluteLength { return `${value}cm`; }
+export function mm(value: number): CssAbsoluteLength { return `${value}mm`; }
+export function q(value: number): CssAbsoluteLength { return `${value}Q`; }
+export function inch(value: number): CssAbsoluteLength { return `${value}in`; }
+export function pc(value: number): CssAbsoluteLength { return `${value}pc`; }
+export function pt(value: number): CssAbsoluteLength { return `${value}pt`; }
+export function fr(value: number): CssGridFlexValue { return `${value}fr`; }
 
-export function rad(value: number): CssAngle {
-    return `${value}rad`;
-}
-
-export function grad(value: number): CssAngle {
-    return `${value}grad`;
-}
-
-export function turn(value: number): CssAngle {
-    return `${value}turn`;
-}
-
-export function cap(value: number): CssFontRelativeLength {
-    return `${value}cap`;
-}
-
-export function ch(value: number): CssFontRelativeLength {
-    return `${value}ch`;
-}
-
-export function em(value: number): CssFontRelativeLength {
-    return `${value}em`;
-}
-
-export function ex(value: number): CssFontRelativeLength {
-    return `${value}ex`;
-}
-
-export function ic(value: number): CssFontRelativeLength {
-    return `${value}ic`;
-}
-
-export function lh(value: number): CssFontRelativeLength {
-    return `${value}lh`;
-}
-
-export function rem(value: number): CssFontRelativeLength {
-    return `${value}rem`;
-}
-
-export function rlh(value: number): CssFontRelativeLength {
-    return `${value}rlh`;
-}
-
-export function vh(value: number): CssViewportPercentageLength {
-    return `${value}vh`;
-}
-
-export function vw(value: number): CssViewportPercentageLength {
-    return `${value}vw`;
-}
-
-export function vi(value: number): CssViewportPercentageLength {
-    return `${value}vi`;
-}
-
-export function vb(value: number): CssViewportPercentageLength {
-    return `${value}vb`;
-}
-
-export function vmin(value: number): CssViewportPercentageLength {
-    return `${value}vmin`;
-}
-
-export function vmax(value: number): CssViewportPercentageLength {
-    return `${value}vmax`;
-}
-
-export function px(value: number): CssAbsoluteLength {
-    return `${value}px`;
-}
-
-export function cm(value: number): CssAbsoluteLength {
-    return `${value}cm`;
-}
-
-export function mm(value: number): CssAbsoluteLength {
-    return `${value}mm`;
-}
-
-export function Q(value: number): CssAbsoluteLength {
-    return `${value}Q`;
-}
-
-export function inch(value: number): CssAbsoluteLength {
-    return `${value}in`;
-}
-
-export function pc(value: number): CssAbsoluteLength {
-    return `${value}pc`;
-}
-
-export function pt(value: number): CssAbsoluteLength {
-    return `${value}pt`;
-}
-
-export function fr(value: number): CssGridFlexValue {
-    return `${value}fr`;
-}
-
-export function hash(r: HexDigit, g: HexDigit, b: HexDigit, a?: HexDigit): CssColorHashValue;
-export function hash(r: HexNumber, g: HexNumber, b: HexNumber, a?: HexNumber): CssColorHashValue;
-export function hash(r: string, g: string, b: string, a?: string): CssColorHashValue {
-    if (isDefined(a)) {
-        return `#${r}${g}${b}${a}`;
-    }
-    else {
-        return `#${r}${g}${b}`;
-    }
-}
-
-export function rgb(red: number, green: number, blue: number, alpha?: number): CssColorRGBValue;
-export function rgb(...v: number[]): CssColorRGBValue {
-    return `rgb(${v.join(", ")})`;
-}
-
-export function rgba(red: number, green: number, blue: number, alpha: number): CssColorRGBValue;
-export function rgba(...v: number[]): CssColorRGBValue {
-    return `rgba(${v.join(", ")})`;
-}
-
-export function hsl(hue: CssAngle, saturation: CssPercentage, lightness: CssPercentage, alpha?: CssAlpha): CssColorHSLValue;
-export function hsl(...v: (string | number)[]): CssColorHSLValue {
-    return `hsl(${v.join(", ")})`;
-}
-
-export function hsla(hue: CssAngle, saturation: CssPercentage, lightness: CssPercentage, alpha: CssAlpha): CssColorHSLValue;
-export function hsla(...v: (string | number)[]): CssColorHSLValue {
-    return `hsla(${v.join(", ")})`;
-}
-
-export function hwb(hue: CssAngle, whiteness: CssPercentage, blackness: CssPercentage, alpha?: CssAlpha): CssColorHWBValue {
-    if (isDefined(alpha)) {
-        return `hwb(${hue} ${whiteness} ${blackness} / ${alpha})`;
-    }
-    else {
-        return `hwb(${hue} ${whiteness} ${blackness})`;
-    }
-}
-
-export function lch(lightness: CssPercentage, chroma: number, hue: CssAngle, alpha?: CssAlpha): CssColorLCHValue {
-    if (isDefined(alpha)) {
-        return `lch(${lightness} ${chroma} ${hue} / ${alpha})`;
-    }
-    else {
-        return `lch(${lightness} ${chroma} ${hue})`;
-    }
-}
-
-export function lab(lightness: CssPercentage, a: number, b: number, alpha?: CssAlpha): CssColorLabValue {
-    if (isDefined(alpha)) {
-        return `lab(${lightness} ${a} ${b} / ${alpha})`;
-    }
-    else {
-        return `lab(${lightness} ${a} ${b})`;
-    }
-}
-
-export function matrix(a: number, b: number, c: number, d: number, tx: number, ty: number): CssTransformMatrixValue {
-    return `matrix(${a}, ${b}, ${c}, ${d}, ${tx}, ${ty})`
+export function matrix(a: number, b: number, c: number, d: number, tx: number, ty: number) {
+    return `matrix(${a}, ${b}, ${c}, ${d}, ${tx}, ${ty})`;
 }
 
 export function matrix3d(
     a1: number, b1: number, c1: number, d1: number,
     a2: number, b2: number, c2: number, d2: number,
     a3: number, b3: number, c3: number, d3: number,
-    a4: number, b4: number, c4: number, d4: number): CssTransformMatrix3DValue {
+    a4: number, b4: number, c4: number, d4: number) {
     return `matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`;
 }
 
-export function perspectiv(v: CssLength | "none"): CssTransformPerspectiveValue {
+export function perspectiveValue(v: 0 | string) {
     return `perspective(${v})`;
 }
 
-export function rotate(a: CssAngle): CssTransformRotate {
+export function rotate(a: 0 | string) {
     return `rotate(${a})`;
 }
 
-export function rotate3d(x: number, y: number, z: number, a: CssAngle): CSSTransformRotate3D {
+export function rotate3d(x: number, y: number, z: number, a: 0 | string) {
     return `rotate3d(${x}, ${y}, ${z}, ${a})`;
 }
 
-export function rotateX(a: CssAngle): CssTransformRotateX {
+export function rotateX(a: 0 | string) {
     return `rotateX(${a})`;
 }
 
-export function rotateY(a: CssAngle): CssTransformRotateY {
+export function rotateY(a: 0 | string) {
     return `rotateY(${a})`;
 }
 
-export function rotateZ(a: CssAngle): CssTransformRotateZ {
+export function rotateZ(a: 0 | string) {
     return `rotateZ(${a})`;
 }
 
-export function translate(x: CssLengthPercentage, y: CssLengthPercentage): CssTransformTranslate {
+export function translateFunc(x: 0 | string, y: 0 | string) {
     return `translate(${x}, ${y})`;
 }
 
-export function translate3d(x: CssLengthPercentage, y: CssLengthPercentage, z: CssLengthPercentage): CSSTransformTranslate3D {
+export function translate3d(x: 0 | string, y: 0 | string, z: 0 | string) {
     return `translate3d(${x}, ${y}, ${z})`;
 }
 
-export function translateX(x: CssLengthPercentage): CssTransformTranslateX {
+export function translateX(x: 0 | string) {
     return `translateX(${x})`;
 }
 
-export function translateY(y: CssLengthPercentage): CssTransformTranslateY {
+export function translateY(y: 0 | string) {
     return `translateY(${y})`;
 }
 
-export function translateZ(z: CssLengthPercentage): CssTransformTranslateZ {
+export function translateZ(z: 0 | string) {
     return `translateZ(${z})`;
 }
 
-export function scale(x: number, y: number): CssTransformScale {
+export function scale(x: 0 | string, y: 0 | string) {
     return `scale(${x}, ${y})`;
 }
 
-export function scale3d(x: number, y: number, z: number): CSSTransformScale3D {
+export function scale3d(x: 0 | string, y: 0 | string, z: 0 | string) {
     return `scale3d(${x}, ${y}, ${z})`;
 }
 
-export function scaleX(x: number): CssTransformScaleX {
+export function scaleX(x: 0 | string) {
     return `scaleX(${x})`;
 }
 
-export function scaleY(y: number): CssTransformScaleY {
+export function scaleY(y: 0 | string) {
     return `scaleY(${y})`;
 }
 
-export function scaleZ(z: number): CssTransformScaleZ {
+export function scaleZ(z: 0 | string) {
     return `scaleZ(${z})`;
 }
 
-export function skew(x: CssAngle, y: CssAngle): CssTransformSkew {
+export function skew(x: 0 | string, y: 0 | string) {
     return `skew(${x}, ${y})`;
 }
 
-export function skewX(x: CssAngle): CssTransformSkewX {
+export function skewX(x: 0 | string) {
     return `skewX(${x})`;
 }
 
-export function skewY(y: CssAngle): CssTransformSkewY {
+export function skewY(y: 0 | string) {
     return `skewY(${y})`;
 }
 
-export function repeat(count: number | "auto-fill" | "auto-fit", expr: string): CssGridTemplateTrackRepeatValue {
-    return `repeat(${count}, ${expr})`;
+export function repeat(count: number | "auto-fill" | "auto-fit", expr: string) {
+    return `repeat(${count}, ${expr})` as CssGridTemplateTrackRepeatValue;
 }
 
-export function fitContent(len: CssLengthPercentage): CssGridTemplateTrackFitContentValue {
+export function fitContent(len: string) {
     return `fit-content(${len})`;
 }
 
-export function minMax(min: CssGridTemplateTrackSize, max: CssGridTemplateTrackSize): CssGridTemplateTrackMinMaxValue {
+export function minMax(min: string, max: string) {
     return `minmax(${min}, ${max})`;
 }
+
+export function hash(r: number | string, g: number | string, b: number | string, a?: number | string) {
+    return "#" + [r, g, b, a].filter(isDefined).join("") as CssColorHashValue;
+}
+
+function cssList(name: string, ...args: (number | string)[]) {
+    return `${name}(${args.filter(isDefined).join(", ")})`;
+}
+
+export function rgb(red: number, green: number, blue: number, alpha?: number) {
+    return cssList("rgb", red, green, blue, alpha) as CssColorRGBValue;
+}
+
+export function rgba(red: number, green: number, blue: number, alpha: number) {
+    return cssList("rgba", red, green, blue, alpha) as CssColorRGBValue;
+}
+
+export function hsl(hue: string, saturation: string, lightness: string, alpha?: number | string) {
+    return cssList("hsl", hue, saturation, lightness, alpha) as CssColorHSLValue;
+}
+
+export function hsla(hue: string, saturation: string, lightness: string, alpha: number | string) {
+    return cssList("hsla", hue, saturation, lightness, alpha) as CssColorHSLValue;
+}
+
+export function hwb(hue: string, whiteness: string, blackness: string, alpha?: number | string) {
+    if (isDefined(alpha)) {
+        return `hwb(${hue} ${whiteness} ${blackness} / ${alpha})` as CssColorHWBValue;
+    }
+    else {
+        return `hwb(${hue} ${whiteness} ${blackness})` as CssColorHWBValue;
+    }
+}
+
+export function lch(lightness: string, chroma: number, hue: string, alpha?: number | string) {
+    if (isDefined(alpha)) {
+        return `lch(${lightness} ${chroma} ${hue} / ${alpha})` as CssColorLCHValue;
+    }
+    else {
+        return `lch(${lightness} ${chroma} ${hue})` as CssColorLCHValue;
+    }
+}
+
+export function lab(lightness: string, a: number, b: number, alpha?: number | string) {
+    if (isDefined(alpha)) {
+        return `lab(${lightness} ${a} ${b} / ${alpha})` as CssColorLabValue;
+    }
+    else {
+        return `lab(${lightness} ${a} ${b})` as CssColorLabValue;;
+    }
+}
+
 /**
  * A selection of fonts for preferred monospace rendering.
  **/
@@ -288,7 +204,7 @@ export function getMonospaceFamily() {
  * A selection of fonts that should match whatever the user's operating system normally uses.
  **/
 export function getSystemFonts() {
-    return "system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans' 'Droid Sans', sans-serif";
+    return "system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans', 'Droid Sans', sans-serif";
 }
 
 /**
@@ -309,126 +225,157 @@ export function getSerifFamily() {
     return fontFamily(getSerifFonts());
 }
 
-export type CssPropName = Exclude<keyof CSSStyleDeclaration,
-    "length"
-    | "parentRule"
-    | "getPropertyPriority"
-    | "getPropertyValue"
-    | "item"
-    | "removeProperty"
-    | "setProperty"> & string;
-
-export class Prop {
-    constructor(private readonly _value: string) {
-
-    }
-
-    get value() {
-        return this._value;
-    }
-
-    toString() {
-        return this.value;
-    }
+export interface ICssProp {
+    value: string;
+    toString(): string;
 }
 
-export class PropSet<T extends Prop = Prop> {
-    constructor(
-        private readonly pre: string,
-        private readonly props: (T | PropSet<T>)[],
-        private readonly post: string) {
+export class Prop implements ICssProp {
+    #value: string;
 
+    constructor(value: string) {
+        this.#value = value;
+    }
+
+    get value(): string { return this.#value; }
+
+    toString(): string { return this.value; }
+}
+
+export class PropSet implements ICssProp {
+    #selector: string;
+    #pre;
+    #props;
+    #post;
+
+    constructor(selector: string, pre: string, props: ICssProp[], post: string) {
+        this.#selector = selector;
+        this.#pre = pre;
+        this.#props = props;
+        this.#post = post;
     }
 
     get value(): string {
-        return this.pre
-            + this.props.map(p => p.toString()).join("\n")
-            + this.post;
+        return this.selector
+            + this.#pre
+            + this.#props.map(toString).join("\n    ")
+            + this.#post;
     }
 
-    toString() {
-        return this.value;
-    }
+    get selector(): string { return this.#selector; }
 
-    applyToSheet(sheet: CSSStyleSheet) {
-        sheet.insertRule(this.toString(), sheet.cssRules.length);
-    }
+    get _subProps(): ICssProp[] { return this.#props; }
+
+    toString(): string { return this.value; }
 }
 
 class KeyValueProp extends Prop {
-    constructor(
-        private readonly _name: string,
-        private readonly sep: string,
-        value: string) {
+    #name;
+    #sep;
+
+    constructor(name: string, sep: string, value: string) {
         super(value);
+
+        this.#name = name;
+        this.#sep = sep;
     }
 
-    get name() {
-        return this._name;
-    }
+    get name() { return this.#name; }
 
     override toString() {
         return this.name
-            + this.sep
+            + this.#sep
             + this.value
             + ";";
     }
 }
 
-class SelectorPropSet<T extends Prop = Prop> extends PropSet<T> {
-    constructor(selector: string, props: (T | PropSet<T>)[]) {
-        super(selector + " {\n", props, "\n}\n");
+class SelectorPropSet extends PropSet {
+    #parent: SelectorPropSet = null;
+
+    constructor(selector: string, props: ICssProp[]) {
+        super(selector, " {\n    ", props, "\n}\n");
+        for (const prop of props) {
+            if (prop instanceof SelectorPropSet) {
+                prop.nestUnder(this);
+            }
+        }
+    }
+
+    override get selector(): string {
+        const superSelector = this.#parent?.selector ?? "";
+        if (superSelector.length === 0) {
+            return super.selector;
+        }
+
+        const superSelectorParts = superSelector.split(",");
+        const selectorParts = super.selector.split(",");
+        const nestedSelector = selectorParts
+            .map(b => superSelectorParts
+                .map(a => a + b)
+                .join(","))
+            .join(",");
+        return nestedSelector;
+    }
+
+    nestUnder(parent: SelectorPropSet) {
+        this.#parent = parent;
     }
 }
 
-class CssDeclareProp
-    extends KeyValueProp {
+class CssDeclareProp extends KeyValueProp {
     constructor(key: string, value: string) {
         super(key, ": ", value);
     }
 }
 
-export class CssElementStyleProp<K extends CssPropName = CssPropName>
-    extends CssDeclareProp
-    implements IElementAppliable {
-    private priority = "";
+interface ExtendedCSSStyleDeclaration extends CSSStyleDeclaration {
+    textWrap: string;
+    "aspect-ratio": string;
+}
 
-    constructor(
-        public readonly key: K,
-        value: string | number) {
-        super(key.replace(/[A-Z]/g, (m) => `-${m.toLocaleLowerCase()}`), value.toString());
+export class CssElementStyleProp extends AbstractAppliable<Node> implements ICssProp {
+    #name;
+    get name() { return this.#name; }
+
+    #key;
+    get key() { return this.#key; }
+
+    #value: string;
+    get value() { return this.#value + this.#priority; }
+
+    #priority = "";
+    important(v: boolean) {
+        this.#priority = v ? " !important" : "";
+        return this;
+    }
+
+    constructor(key: keyof ExtendedCSSStyleDeclaration & string, value: string | number) {
+        super();
+        this.#name = key.replace(/[A-Z]/g, (m) => `-${m.toLocaleLowerCase()}`);
+        this.#key = key;
+        this.#value = value.toString();
     }
 
     /**
      * Set the attribute value on an HTMLElement
      * @param elem - the element on which to set the attribute.
      */
-    applyToElement(elem: HTMLElement) {
-        (elem.style as any)[this.key] = this.value + this.priority;
+    apply(elem: Node) {
+        if (elem instanceof HTMLElement) {
+            (elem.style as any)[this.key] = this.value + this.#priority;
+        }
     }
 
-    important(): this {
-        this.priority = " !important";
-        return this;
-    }
-
-    override get value(): string {
-        return super.value + this.priority;
-    }
+    override toString() { return `${this.name}:${this.value};`; }
 }
 
-export function isCssElementStyleProp(obj: any): obj is CssElementStyleProp {
-    return obj instanceof CssElementStyleProp;
+export function rule(selector: string, ...props: (CssElementStyleProp | SelectorPropSet)[]) {
+    return new SelectorPropSet(selector, props);
 }
 
-class CssElementStylePropSet extends SelectorPropSet<CssElementStyleProp> {
-    constructor(selector: string, props: CssElementStyleProp[]) {
-        super(selector, props);
-    }
-}
-
-export function rule(selector: string, ...props: CssElementStyleProp[]) {
-    return new CssElementStylePropSet(selector, props);
+function asInt(v: number | string): string {
+    return isNumber(v) ? v.toFixed(0) : v;
 }
 
 export function alignItems(v: CssGlobalValue | CssJustifyAlignValue) { return new CssElementStyleProp("alignItems", v); }
@@ -479,6 +426,8 @@ export function animation(...v: (string | number)[]): CssElementStyleProp { retu
 
 export function appearance(v: CssGlobalValue | CssAppearanceValue) { return new CssElementStyleProp("appearance", v); }
 
+export function aspectRatio(v: CssGlobalValue | number | `${number}/${number}`) { return new CssElementStyleProp("aspect-ratio", v.toString()); }
+
 export function backdropFilter(v: "none" | CssGlobalValue): CssElementStyleProp;
 export function backdropFilter(...v: CssFilterFunction[]): CssElementStyleProp;
 export function backdropFilter(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("backdropFilter" as any, v.join(" ")); }
@@ -493,7 +442,7 @@ export function backgroundBlendMode(...v: string[]): CssElementStyleProp { retur
 
 export function backgroundClip(v: CssGlobalValue | CssClipValue): CssElementStyleProp { return new CssElementStyleProp("backgroundClip", v); }
 
-export function backgroundColor(v: CssGlobalValue | CssColorValue) { return new CssElementStyleProp("backgroundColor", v); }
+export function backgroundColor(v: string) { return new CssElementStyleProp("backgroundColor", v); }
 
 export function backgroundImage(v: CssGlobalValue): CssElementStyleProp;
 export function backgroundImage(...v: CssImage[]): CssElementStyleProp;
@@ -728,8 +677,6 @@ export function clipPath(v: string) { return new CssElementStyleProp("clipPath",
 
 export function clipRule(v: string) { return new CssElementStyleProp("clipRule", v); }
 
-export function color(v: CssGlobalValue): CssElementStyleProp;
-export function color(v: CssColorValue): CssElementStyleProp;
 export function color(v: string): CssElementStyleProp { return new CssElementStyleProp("color", v); }
 
 export function colorInterpolation(v: string) { return new CssElementStyleProp("colorInterpolation", v); }
@@ -753,7 +700,7 @@ export function columnRuleStyle(v: string) { return new CssElementStyleProp("col
 
 export function columnRuleWidth(v: CssGlobalValue | CssLength | CssWidthKeyword) { return new CssElementStyleProp("columnRuleWidth", v); }
 
-export function columnSpan(v: string) { return new CssElementStyleProp("columnSpan", v); }
+export function columnSpan(v: number) { return new CssElementStyleProp("columnSpan", v); }
 
 export function columnWidth(v: CssGlobalValue | CssLength | "auto") { return new CssElementStyleProp("columnWidth", v); }
 
@@ -761,9 +708,13 @@ export function columns(v: string) { return new CssElementStyleProp("columns", v
 
 export function contain(v: string) { return new CssElementStyleProp("contain", v); }
 
+export function content(v: string) { return new CssElementStyleProp("content", v); }
+
 export function counterIncrement(v: string) { return new CssElementStyleProp("counterIncrement", v); }
 
 export function counterReset(v: string) { return new CssElementStyleProp("counterReset", v); }
+
+export function cssVarDecl(name: string, value: string) { return new CssElementStyleProp("--" + name as any, value); }
 
 export function cursor(v: CssGlobalValue | CssCursorValue) { return new CssElementStyleProp("cursor", v); }
 
@@ -920,6 +871,18 @@ export function imageOrientation(v: string) { return new CssElementStyleProp("im
 export function imageRendering(v: string) { return new CssElementStyleProp("imageRendering", v); }
 
 export function inlineSize(v: string) { return new CssElementStyleProp("inlineSize", v); }
+
+export function inset(v: CssGlobalValue | CssLengthPercentage): CssElementStyleProp;
+export function inset(vert: CssLengthPercentage, horiz: CssLengthPercentage): CssElementStyleProp;
+export function inset(top: CssLengthPercentage, horiz: CssLengthPercentage, bot: CssLengthPercentage): CssElementStyleProp;
+export function inset(top: CssLengthPercentage, right: CssLengthPercentage, bot: CssLengthPercentage, left: CssLengthPercentage): CssElementStyleProp;
+export function inset(...v: (CssGlobalValue | CssLengthPercentage)[]) { return new CssElementStyleProp("inset", v.join(" ")); }
+export function insetBlock(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("insetBlock", v); }
+export function insetBlockEnd(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("insetBlockEnd", v); }
+export function insetBlockStart(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("insetBlockStart", v); }
+export function insetInline(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("insetInline", v); }
+export function insetInlineEnd(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("insetInlineEnd", v); }
+export function insetInlineStart(v: CssGlobalValue | CssLengthPercentage) { return new CssElementStyleProp("insetInlineStart", v); }
 
 export function isolation(v: string) { return new CssElementStyleProp("isolation", v); }
 
@@ -1220,13 +1183,12 @@ export function textTransform(v: string) { return new CssElementStyleProp("textT
 
 export function textUnderlinePosition(v: string) { return new CssElementStyleProp("textUnderlinePosition", v); }
 
+export function textWrap(v: string) { return new CssElementStyleProp("textWrap", v); }
+
 export function top(v: CssElementPositionValue) { return new CssElementStyleProp("top", v); }
 
 export function touchAction(v: CssGlobalValue | CssTouchActionValue) { return new CssElementStyleProp("touchAction", v); }
 
-export function transform(v: CssGlobalValue): CssElementStyleProp;
-export function transform(perspective: CssTransformPerspectiveValue, ...rest: CssTransformValue[]): CssElementStyleProp;
-export function transform(...v: CssTransformValue[]): CssElementStyleProp;
 export function transform(...v: string[]): CssElementStyleProp { return new CssElementStyleProp("transform", v.join(" ")); }
 
 export function transformBox(v: CssGlobalValue | CssTransformBoxValue) { return new CssElementStyleProp("transformBox", v); }
@@ -1248,6 +1210,13 @@ export function transitionDuration(v: string | 0) { return new CssElementStylePr
 export function transitionProperty(v: string) { return new CssElementStyleProp("transitionProperty", v); }
 
 export function transitionTimingFunction(v: string) { return new CssElementStyleProp("transitionTimingFunction", v); }
+
+export function translate(v: CssGlobalValue): CssElementStyleProp;
+export function translate(v: CssLengthPercentage): CssElementStyleProp;
+export function translate(x: CssLengthPercentage, y: CssLengthPercentage): CssElementStyleProp;
+export function translate(x: CssLengthPercentage, y: CssLengthPercentage, z: CssLength): CssElementStyleProp;
+export function translate(...v: (string | number)[]): CssElementStyleProp { return new CssElementStyleProp("translate", v.join(" ")); }
+
 
 export function unicodeBidi(v: string) { return new CssElementStyleProp("unicodeBidi", v); }
 
@@ -1275,9 +1244,9 @@ export function writingMode(v: CssGlobalValue | CssWritingModeValue) { return ne
 
 export function zIndex(v: number) { return new CssElementStyleProp("zIndex", asInt(v)); }
 
-class CssRegularAtRuleSet<T extends CssAtRuleRegular = CssAtRuleRegular> extends PropSet<Prop> {
+class CssRegularAtRuleSet<T extends CssAtRuleRegular = CssAtRuleRegular> extends PropSet {
     constructor(selector: T, value: string) {
-        super("@" + selector + " ", [new Prop(value)], ";");
+        super("@" + selector, " ", [new Prop(value)], ";");
     }
 }
 
@@ -1384,3 +1353,908 @@ export function media(query: string, ...props: PropSet[]) {
 
 //TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@page
 //TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
+
+export type CssGlobalValue =
+    | ""
+    | "inherit"
+    | "initial"
+    | "revert"
+    | "revert-layer"
+    | "unset";
+
+export type CssFunction<F extends string, T extends string | number> = `${F}(${T})`;
+
+export type CssUrl = CssFunction<"url", string>;
+
+export type CssPercentage = `${number}%`;
+
+export type CssAlpha =
+    | number
+    | CssPercentage;
+
+export type CssAngle =
+    | number
+    | `${number}deg`
+    | `${number}rad`
+    | `${number}grad`
+    | `${number}turn`;
+
+export type CssFontRelativeLength =
+    | `${number}cap`
+    | `${number}ch`
+    | `${number}em`
+    | `${number}ex`
+    | `${number}ic`
+    | `${number}lh`
+    | `${number}rem`
+    | `${number}rlh`;
+
+export type CssViewportPercentageLength =
+    | `${number}vh`
+    | `${number}vw`
+    | `${number}vi`
+    | `${number}vb`
+    | `${number}vmin`
+    | `${number}vmax`;
+
+export type CssAbsoluteLength =
+    | `${number}px`
+    | `${number}cm`
+    | `${number}mm`
+    | `${number}Q`
+    | `${number}in`
+    | `${number}pc`
+    | `${number}pt`;
+
+export type CssWidthKeyword =
+    | "thin"
+    | "medium"
+    | "thick";
+
+export type CssLength =
+    | CssFontRelativeLength
+    | CssViewportPercentageLength
+    | CssAbsoluteLength;
+
+export type CssLengthPercentage =
+    | CssLength
+    | CssPercentage
+    | 0
+    | "0";
+
+export type CssAtRuleRegular =
+    | "charset"
+    | "import"
+    | "namespace"
+    | "layer";
+
+export type CssBorderCollapseValue =
+    | "collapse"
+    | "separate";
+
+export type CssBorderRepeatValue =
+    | "stretch"
+    | "repeat"
+    | "round"
+    | "space";
+
+export type CssBorderStyleValue =
+    | "none"
+    | "hidden"
+    | "dotted"
+    | "dashed"
+    | "solid"
+    | "double"
+    | "groove"
+    | "ridge"
+    | "inset"
+    | "outset";
+
+export type CssCalcStatement = CssFunction<"calc", string>;
+
+export type CssColorKeywordValue =
+    | "transparent"
+    | "currentcolor"
+    | "ActiveText"
+    | "ButtonBorder"
+    | "ButtonFace"
+    | "ButtonText"
+    | "Canvas"
+    | "CanvasText"
+    | "Field"
+    | "FieldText"
+    | "GrayText"
+    | "Highlight"
+    | "HighlightText"
+    | "LinkText"
+    | "Mark"
+    | "MarkText"
+    | "VisitedText"
+    | "aqua"
+    | "black"
+    | "blue"
+    | "fuchsia"
+    | "gray"
+    | "grey"
+    | "green"
+    | "lime"
+    | "maroon"
+    | "navy"
+    | "olive"
+    | "purple"
+    | "red"
+    | "silver"
+    | "teal"
+    | "white"
+    | "yellow"
+    | "aliceblue"
+    | "antiquewhite"
+    | "aqua"
+    | "aquamarine"
+    | "azure"
+    | "beige"
+    | "bisque"
+    | "black"
+    | "blanchedalmond"
+    | "blue"
+    | "blueviolet"
+    | "brown"
+    | "burlywood"
+    | "cadetblue"
+    | "chartreuse"
+    | "chocolate"
+    | "coral"
+    | "cornflowerblue"
+    | "cornsilk"
+    | "crimson"
+    | "cyan"
+    | "darkblue"
+    | "darkcyan"
+    | "darkgoldenrod"
+    | "darkgray"
+    | "darkgreen"
+    | "darkkhaki"
+    | "darkmagenta"
+    | "darkolivegreen"
+    | "darkorange"
+    | "darkorchid"
+    | "darkred"
+    | "darksalmon"
+    | "darkseagreen"
+    | "darkslateblue"
+    | "darkslategray"
+    | "darkturquoise"
+    | "darkviolet"
+    | "deeppink"
+    | "deepskyblue"
+    | "dimgray"
+    | "dodgerblue"
+    | "firebrick"
+    | "floralwhite"
+    | "forestgreen"
+    | "fuchsia"
+    | "gainsboro"
+    | "ghostwhite"
+    | "gold"
+    | "goldenrod"
+    | "gray"
+    | "green"
+    | "greenyellow"
+    | "honeydew"
+    | "hotpink"
+    | "indianred"
+    | "indigo"
+    | "ivory"
+    | "khaki"
+    | "lavender"
+    | "lavenderblush"
+    | "lawngreen"
+    | "lemonchiffon"
+    | "lightblue"
+    | "lightcoral"
+    | "lightcyan"
+    | "lightgoldenrodyellow"
+    | "lightgreen"
+    | "lightgrey"
+    | "lightpink"
+    | "lightsalmon"
+    | "lightseagreen"
+    | "lightskyblue"
+    | "lightslategray"
+    | "lightsteelblue"
+    | "lightyellow"
+    | "lime"
+    | "limegreen"
+    | "linen"
+    | "magenta"
+    | "maroon"
+    | "mediumaquamarine"
+    | "mediumblue"
+    | "mediumorchid"
+    | "mediumpurple"
+    | "mediumseagreen"
+    | "mediumslateblue"
+    | "mediumspringgreen"
+    | "mediumturquoise"
+    | "mediumvioletred"
+    | "midnightblue"
+    | "mintcream"
+    | "mistyrose"
+    | "moccasin"
+    | "navajowhite"
+    | "navy"
+    | "navyblue"
+    | "oldlace"
+    | "olive"
+    | "olivedrab"
+    | "orange"
+    | "orangered"
+    | "orchid"
+    | "palegoldenrod"
+    | "palegreen"
+    | "paleturquoise"
+    | "palevioletred"
+    | "papayawhip"
+    | "peachpuff"
+    | "peru"
+    | "pink"
+    | "plum"
+    | "powderblue"
+    | "purple"
+    | "red"
+    | "rosybrown"
+    | "royalblue"
+    | "saddlebrown"
+    | "salmon"
+    | "sandybrown"
+    | "seagreen"
+    | "seashell"
+    | "sienna"
+    | "silver"
+    | "skyblue"
+    | "slateblue"
+    | "slategray"
+    | "snow"
+    | "springgreen"
+    | "steelblue"
+    | "tan"
+    | "teal"
+    | "thistle"
+    | "tomato"
+    | "turquoise"
+    | "violet"
+    | "wheat"
+    | "white"
+    | "whitesmoke"
+    | "yellow"
+    | "yellowgreen";
+
+export type HexDigit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "a" | "b" | "c" | "d" | "e" | "f" | "A" | "B" | "C" | "D" | "E" | "F";
+export type HexNumber = `${HexDigit}${HexDigit}`
+export type CssColorHashValue = `#${string}`;
+
+export type CssColorRGBValue = CssFunction<"rgb" | "rgba", string>;
+export type CssColorHSLValue = CssFunction<"hsl" | "hsla", string>;
+export type CssColorHWBValue = CssFunction<"hwb", string>;
+export type CssColorLCHValue = CssFunction<"lch", string>;
+export type CssColorLabValue = CssFunction<"lab", string>;
+
+export type CssColorSpaceName =
+    | "srgb"
+    | "srgb-linear"
+    | "display-p3"
+    | "a98-rgb"
+    | "prophoto-rgb"
+    | "rec2020"
+    | "xyz"
+    | "xyz-d50"
+    | "xyz-d65";
+
+export type CssColorFunctionValue = CssFunction<"color", `${CssColorSpaceName} ${string}`>;
+
+export type CssColorValue =
+    | CssColorKeywordValue
+    | CssColorHashValue
+    | CssColorRGBValue
+    | CssColorHSLValue
+    | CssColorHWBValue
+    | CssColorLCHValue
+    | CssColorLabValue
+    | CssColorFunctionValue;
+
+export type CssColorProfilePropName =
+    | "src"
+    | "rendering-intent"
+    | "components";
+
+export type CssCounterStylePropName =
+    | "system"
+    | "negative"
+    | "prefix"
+    | "suffix"
+    | "range"
+    | "pad"
+    | "fallback"
+    | "symbols"
+    | "additive-symbols"
+    | "speak-as";
+
+export type CssCounterStyleSystemValue =
+    | "cyclic"
+    | "numeric"
+    | "alphabetic"
+    | "symbolic"
+    | "additive"
+    | "fixed"
+    | `fixed ${number}`
+    | `extends ${string}`;
+
+export type CssCounterStyleRangeValue =
+    | `${number} ${number}`
+    | `${number} infinite`
+    | `infinite ${number}`
+    | "infinite infinite";
+
+export type CssSizePropertyValue =
+    | 0
+    | "0"
+    | CssLengthPercentage
+    | "auto"
+    | "max-content"
+    | "min-content"
+    | "fit-content"
+    | CssCalcStatement;
+
+export type CssAlignmentBaselineValue =
+    | "auto"
+    | "baseline"
+    | "before-edge"
+    | "text-before-edge"
+    | "middle"
+    | "central"
+    | "after-edge"
+    | "text-after-edge"
+    | "ideographic"
+    | "alphabetic"
+    | "hanging"
+    | "mathematical"
+    | "top"
+    | "bottom";
+
+export type CssTimeSecondsValue = `${number}s`;
+export type CssTimeMillisecondsValue = `${number}ms`;
+export type CssTimeValue = CssTimeSecondsValue | CssTimeMillisecondsValue;
+
+export type CssAnimationDirectionValue =
+    | "normal"
+    | "reverse"
+    | "alternate"
+    | "alternate-reverse";
+
+export type CssAnimationFillModeValue =
+    | "none"
+    | "forwards"
+    | "backwards"
+    | "both";
+
+export type CssAnimationIterationCountValue =
+    | number
+    | "infinite";
+
+export type CssAnimationPlayStateValue =
+    | "running"
+    | "paused";
+
+export type CssAnimationTimingFunctionNamed =
+    | "ease"
+    | "ease-in"
+    | "ease-out"
+    | "ease-in-out"
+    | "linear"
+    | "step-start"
+    | "step-end";
+export type CssAnimationTimingFunctionCubicBezier = `cubic-bezier(${number}, ${number}, ${number}, ${number})`;
+export type CssAnimationTimingFunctionSteps = `steps(${number}, ${CssAnimationTimingFunctionNamed})`;
+export type CssAnimationTimingFunctionValue =
+    | CssAnimationTimingFunctionNamed
+    | CssAnimationTimingFunctionCubicBezier
+    | CssAnimationTimingFunctionSteps;
+
+export type CssAppearanceValue =
+    | "none"
+    | "auto"
+    | "menulist-button"
+    | "textfield"
+    | "button"
+    | "checkbox"
+    | "listbox"
+    | "menulist"
+    | "meter"
+    | "progress-bar"
+    | "push-button"
+    | "radio"
+    | "searchfield"
+    | "slider-horizontal"
+    | "square-button"
+    | "textarea";
+
+export type CssDropShadowParams =
+    | `${CssLength} ${CssLength}`
+    | `${CssLength} ${CssLength} ${string}`
+    | `${CssLength} ${CssLength} ${CssLength} ${string}`;
+
+
+export type CssFilterFunction = CssFunction<"blur", CssLength>
+    | CssFunction<"brightness", CssAlpha>
+    | CssFunction<"contrast", CssAlpha>
+    | CssFunction<"drop-shadow", CssDropShadowParams>
+    | CssFunction<"grayscale", CssAlpha>
+    | CssFunction<"hue-rotate", CssAngle>
+    | CssFunction<"invert", CssAlpha>
+    | CssFunction<"opacity", CssAlpha>
+    | CssFunction<"saturate", CssAlpha>
+    | CssFunction<"sepia", CssAlpha>
+    | CssUrl;
+
+export type CssBackfaceVisibilityValue =
+    | "visible"
+    | "hiden";
+
+export type CssBackgroundAttachmentValue =
+    | "scroll"
+    | "fixed"
+    | "local";
+
+export type CssBlendModeValue = "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "saturation"
+    | "color"
+    | "luminosity";
+
+export type CssBoxType =
+    | "border-box"
+    | "padding-box"
+    | "content-box";
+
+export type CssClipValue =
+    | CssBoxType
+    | "text";
+
+export type CssGradient =
+    | CssFunction<"linear-gradient", string>
+    | CssFunction<"radial-gradient", string>
+    | CssFunction<"repeating-linear-gradient", string>
+    | CssFunction<"repeating-radial-gradient", string>
+    | CssFunction<"conic-gradient", string>;
+
+export type CssImage = CssUrl
+    | CssGradient
+    | CssFunction<"element", string>
+    | CssFunction<"cross-fade", string>
+    | CssFunction<"image-set", string>;
+
+export type CssBackgroundPositionHorizontalKeyword =
+    | "left"
+    | "center"
+    | "right";
+export type CssBackgroundPositionVerticalKeyword =
+    | "top"
+    | "center"
+    | "bottom";
+export type CssBackgroundPositionKeyword =
+    | CssBackgroundPositionHorizontalKeyword
+    | CssBackgroundPositionVerticalKeyword;
+export type CssBackgroundPositionHorizontalValue =
+    | CssBackgroundPositionKeyword
+    | CssLengthPercentage;
+export type CssBackgroundPositionVerticalValue =
+    | CssBackgroundPositionKeyword
+    | CssLengthPercentage;
+export type CssBackgroundPositionValue =
+    | CssBackgroundPositionKeyword
+    | CssLengthPercentage;
+
+export type CssBackgroundRepeat =
+    | "repeat"
+    | "space"
+    | "round"
+    | "no-repeat";
+
+export type CssBackgroundRepeatValue =
+    | "repeat-x"
+    | "repeat-y"
+    | CssBackgroundRepeat;
+
+export type CssBackgroundSizeValue =
+    | "auto"
+    | CssLengthPercentage;
+export type CssBackgroundSizeSingleValue =
+    | "contain"
+    | "cover"
+    | CssBackgroundSizeValue;
+
+export type CssElementPositionValue =
+    | "auto"
+    | CssLengthPercentage
+    | `anchor(${CssBackgroundPositionKeyword})`;
+
+export type CssCursorValue =
+    | "auto"
+    | "default"
+    | "none"
+    | "context-menu"
+    | "help"
+    | "pointer"
+    | "progress"
+    | "wait"
+    | "cell"
+    | "crosshair"
+    | "text"
+    | "vertical-text"
+    | "alias"
+    | "copy"
+    | "move"
+    | "no-drop"
+    | "not-allowed"
+    | "grab"
+    | "grabbing"
+    | "all-scroll"
+    | "col-resize"
+    | "row-resize"
+    | "n-resize"
+    | "e-resize"
+    | "s-resize"
+    | "w-resize"
+    | "ne-resize"
+    | "nw-resize"
+    | "se-resize"
+    | "sw-resize"
+    | "ew-resize"
+    | "ns-resize"
+    | "nesw-resize"
+    | "nwse-resize"
+    | "zoom-in"
+    | "zoom-out";
+
+export type CssDashedName = `--${string}`;
+
+export type CssDirectionValue =
+    | "ltr"
+    | "rtl";
+
+export type CssDisplayValue =
+    | "none"
+    | "contents"
+    | "block"
+    | "inline"
+    | "inline-block"
+    | "flex"
+    | "inline-flex"
+    | "inline flex"
+    | "block flex"
+    | "grid"
+    | "inline-grid"
+    | "inline grid"
+    | "block grid"
+    | "flow-root"
+    | "inline flow-root"
+    | "block flow-root"
+    | "block flow"
+    | "inline flow"
+    | "table"
+    | "table-row"
+    | "table-row-group"
+    | "list-item";
+
+export type CssFlexBasisValue =
+    | CssLengthPercentage
+    | "auto"
+    | "max-content"
+    | "min-content"
+    | "fit-content"
+
+export type CssFlexDirectionValue =
+    | "row"
+    | "row-reverse"
+    | "column"
+    | "column-reverse";
+
+export type CssFlexWrapValue =
+    | "nowrap"
+    | "wrap"
+    | "wrap-reverse";
+
+export type CssFlexFlowValue =
+    | CssFlexDirectionValue
+    | CssFlexWrapValue;
+
+export type CssFloatValue =
+    | "left"
+    | "right"
+    | "none"
+    | "inline-start"
+    | "inline-end";
+
+export type CssGridAutoFlowValue =
+    | "row"
+    | "column"
+    | "dense"
+    | "row dense"
+    | "column dense";
+
+export type CssGridLineName = `[${string}]`;
+
+export type CssGridFlexValue = `${number}fr`;
+
+export type CssGridTemplateTrackSize =
+    | CssLengthPercentage
+    | CssGridFlexValue
+    | "max-content"
+    | "min-content"
+    | "auto";
+
+export type CssGridTemplateTrackMinMaxValue = CssFunction<"minmax", `${CssGridTemplateTrackSize}, ${CssGridTemplateTrackSize}`>;
+export type CssGridTemplateTrackFitContentValue = CssFunction<"fit-content", CssLengthPercentage>;
+export type CssGridTemplateTrackRepeatValue = CssFunction<"repeat", `${number | "auto-fill" | "auto-fit"}, ${string}`>;
+
+export type CssGridTemplateTrackValue =
+    | "none"
+    | CssGridLineName
+    | CssGridTemplateTrackSize
+    | CssGridTemplateTrackMinMaxValue
+    | CssGridTemplateTrackFitContentValue
+    | CssGridTemplateTrackRepeatValue
+    | "subgrid";
+
+export type CssJustifyAlignValue =
+    | "center"
+    | "start"
+    | "end"
+    | "flex-start"
+    | "flex-end"
+    | "left"
+    | "right"
+    | "normal"
+    | "stretch"
+    | "safe center"
+    | "unsafe center";
+
+export type CssJustifyAlignContentValue =
+    | CssJustifyAlignValue
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+
+export type CssJustifyAlignItemsContentValue =
+    | CssJustifyAlignValue
+    | "self-start"
+    | "self-end"
+    | "baseline"
+    | "first baseline"
+    | "last baseline";
+
+export type CssJustifyItemsValue =
+    | CssJustifyAlignItemsContentValue
+    | "legacy right"
+    | "legacy left"
+    | "legacy center";
+
+export type CssJustifyAlignSelfValue =
+    | CssJustifyAlignItemsContentValue
+    | "auto"
+    | "anchor-center";
+
+export type CssMediaQueryTypeValue =
+    | "all"
+    | "print"
+    | "screen";
+
+export type CssMediaQueryFeatureValue =
+    | "any-hover"
+    | "any-pointer"
+    | "aspect-ratio"
+    | "color"
+    | "color-gamut"
+    | "color-index"
+    | "display-mode"
+    | "dynamic-range"
+    | "forced-colors"
+    | "grid"
+    | "height"
+    | "hover"
+    | "inverted-colors"
+    | "monochrome"
+    | "orientation"
+    | "overflow-block"
+    | "overflow-inline"
+    | "pointer"
+    | "prefers-color-scheme"
+    | "prefers-contrast"
+    | "prefers-reduced-motion"
+    | "resolution"
+    | "script"
+    | "update"
+    | "video-dynamic-range"
+    | "width";
+
+export type CssMediaQueryOperatorValue =
+    | "and"
+    | "not"
+    | "only"
+    | ","
+    | "<"
+    | "<="
+    | ">"
+    | ">=";
+
+export type CssOverflowValue =
+    | "visible"
+    | "hidden"
+    | "clip"
+    | "scroll"
+    | "auto";
+
+export type CssPointerEventsValue =
+    | "auto"
+    | "none";
+
+export type CssPositionValue =
+    | "static"
+    | "absolute"
+    | "fixed"
+    | "relative"
+    | "sticky";
+
+export type CssRenderingIntentValue =
+    | "relative-colorimetric"
+    | "absolute-colorimetric"
+    | "perceptual"
+    | "saturation";
+
+export type CssTextAlignLastValue =
+    | "auto"
+    | "start"
+    | "end"
+    | "left"
+    | "right"
+    | "center"
+    | "justify"
+    | "match-parent";
+
+export type CssTextAlignValue =
+    | CssTextAlignLastValue
+    | "justify-all";
+
+export type CssTextOverflowValue =
+    | "clip"
+    | "ellipsis";
+
+export type CssTouchActionValue =
+    | "auto"
+    | "none"
+    | "pan-x"
+    | "pan-left"
+    | "pan-right"
+    | "pan-y"
+    | "pan-up"
+    | "pan-down"
+    | "pinch-zoom"
+    | "manipulation";
+
+
+export type CssTransformMatrixValue = `matrix(${number}, ${number}, ${number}, ${number}, ${number}, ${number})`;
+export type CssTransformMatrix3DValue = `matrix3d(${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number}, ${number})`;
+export type CssTransformPerspectiveValue = `perspective(${CssLength | "none"})`;
+export type CssTransformRotate = `rotate(${CssAngle})`;
+export type CSSTransformRotate3D = `rotate3d(${number}, ${number}, ${number}, ${CssAngle})`;
+export type CssTransformRotateX = `rotateX(${CssAngle})`;
+export type CssTransformRotateY = `rotateY(${CssAngle})`;
+export type CssTransformRotateZ = `rotateZ(${CssAngle})`;
+export type CssTransformTranslate = `translate(${CssLengthPercentage}, ${CssLengthPercentage})`;
+export type CSSTransformTranslate3D = `translate3d(${CssLengthPercentage}, ${CssLengthPercentage}, ${CssLengthPercentage})`;
+export type CssTransformTranslateX = `translateX(${CssLengthPercentage})`;
+export type CssTransformTranslateY = `translateY(${CssLengthPercentage})`;
+export type CssTransformTranslateZ = `translateZ(${CssLengthPercentage})`;
+export type CssTransformScale = `scale(${number}, ${number})`;
+export type CSSTransformScale3D = `scale3d(${number}, ${number}, ${number})`;
+export type CssTransformScaleX = `scaleX(${number})`;
+export type CssTransformScaleY = `scaleY(${number})`;
+export type CssTransformScaleZ = `scaleZ(${number})`;
+export type CssTransformSkew = `skew(${CssAngle}, ${CssAngle})`;
+export type CssTransformSkewX = `skewX(${CssAngle})`;
+export type CssTransformSkewY = `skewY(${CssAngle})`;
+
+export type CssTransformValue =
+    | CssTransformMatrixValue
+    | CssTransformMatrix3DValue
+    | CssTransformRotate
+    | CSSTransformRotate3D
+    | CssTransformRotateX
+    | CssTransformRotateY
+    | CssTransformRotateZ
+    | CssTransformTranslate
+    | CSSTransformTranslate3D
+    | CssTransformTranslateX
+    | CssTransformTranslateY
+    | CssTransformTranslateZ
+    | CssTransformScale
+    | CSSTransformScale3D
+    | CssTransformScaleX
+    | CssTransformScaleY
+    | CssTransformScaleZ
+    | CssTransformSkew
+    | CssTransformSkewX
+    | CssTransformSkewY;
+
+export type CssTransformBoxValue =
+    | "content-box"
+    | "border-box"
+    | "fill-box"
+    | "stroke-box"
+    | "view-box";
+
+export type CssTransformStyleValue =
+    | "flat"
+    | "preserve-3d";
+
+export type CssVerticalAlignValue =
+    | CssLengthPercentage
+    | "baseline"
+    | "sub"
+    | "super"
+    | "text-top"
+    | "text-bottom"
+    | "middle"
+    | "top"
+    | "bottom";
+
+export type CssVisiblityValue =
+    | "visible"
+    | "hidden"
+    | "collapse";
+
+export type CssWhiteSpaceValue =
+    | "normal"
+    | "nowrap"
+    | "pre"
+    | "pre-wrap"
+    | "pre-line"
+    | "break-spaces";
+
+export type CssWordWrapValue =
+    | "normal"
+    | "break-word"
+    | "anywhere";
+
+export type CssWritingModeValue =
+    | "horizontal-tb"
+    | "vertical-rl"
+    | "vertical-lr"
+    | "sideways-rl"
+    | "sideways-lr";
+
+export const externalLinkIconSVG_DataURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KCTx0aXRsZT4KCQlleHRlcm5hbCBsaW5rCgk8L3RpdGxlPgoJPHBhdGggZmlsbD0iIzM2YyIgZD0iTTYgMWg1djVMOC44NiAzLjg1IDQuNyA4IDQgNy4zbDQuMTUtNC4xNnpNMiAzaDJ2MUgydjZoNlY4aDF2MmExIDEgMCAwIDEtMSAxSDJhMSAxIDAgMCAxLTEtMVY0YTEgMSAwIDAgMSAxLTEiLz4KPC9zdmc+";
+
+export function externalLinkRule(...props: (CssElementStyleProp | SelectorPropSet)[]) {
+    return rule("a[href][target='_blank']::after",
+        display("inline-block"),
+        content(`' '`),
+        marginLeft("0.33em"),
+        width("1em"),
+        height("1em"),
+        backgroundImage(`url(${externalLinkIconSVG_DataURI})`),
+        backgroundRepeat("no-repeat"),
+        ...props
+    );
+}

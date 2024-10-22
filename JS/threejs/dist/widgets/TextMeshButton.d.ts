@@ -1,5 +1,5 @@
-import type { TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
-import { TextImage } from "@juniper-lib/graphics2d/dist/TextImage";
+import type { TextImageOptions } from "@juniper-lib/graphics2d";
+import { TextImage } from "@juniper-lib/graphics2d";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { RayTarget } from "../eventSystem/RayTarget";
 import { TextMesh } from "./TextMesh";

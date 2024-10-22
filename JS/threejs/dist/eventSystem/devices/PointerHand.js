@@ -1,7 +1,7 @@
-import { isChrome, isDesktop, isOculusBrowser } from "@juniper-lib/tslib/dist/flags";
-import { Pi } from "@juniper-lib/tslib/dist/math";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { EventedGamepad } from "@juniper-lib/widgets/dist/EventedGamepad";
+import { isChrome, isDesktop, isOculusBrowser } from "@juniper-lib/dom";
+import { Pi } from "@juniper-lib/util";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/util";
+import { EventedGamepad } from "@juniper-lib/widgets";
 import { Matrix4, Quaternion, Vector3 } from "three";
 import { HANDEDNESSES } from "../../BaseTele";
 import { XRControllerModelFactory } from "../../examples/webxr/XRControllerModelFactory";
@@ -47,7 +47,7 @@ export class PointerHand extends BasePointer {
         this.newQuat = new Quaternion();
         this.useHaptics = true;
         this.mayTeleport = true;
-        this.object = obj("PointerHand" + index);
+        this.content3d = obj("PointerHand" + index);
         this.quaternion.identity();
         objGraph(this, objGraph(this.controller = this.env.renderer.xr.getController(index), this.laser), objGraph(this.grip = this.env.renderer.xr.getControllerGrip(index), this.gripModel = mcModelFactory.createControllerModel(this.controller)), objGraph(this.hand = this.env.renderer.xr.getHand(index), this.handModel = this.env.handModelFactory.createHandModel(this.hand)));
         // isDesktop and isOculus can both be true if the user

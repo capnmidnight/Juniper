@@ -1,4 +1,4 @@
-import { TypedEventTarget, TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEventMap, TypedEventTarget } from "@juniper-lib/events";
 import { IAudioNode, IAudioParam, isEndpoint, isIAudioNode } from "./IAudioNode";
 import type { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
 

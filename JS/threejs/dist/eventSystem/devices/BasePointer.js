@@ -1,4 +1,4 @@
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEventTarget } from "@juniper-lib/events";
 import { Vector3 } from "three";
 import { objGraph } from "../../objects";
 import { CursorXRMouse } from "../cursors/CursorXRMouse";
@@ -9,6 +9,15 @@ import { VirtualButton } from "./VirtualButton";
 const MAX_DRAG_DISTANCE = 5;
 const ZERO = new Vector3();
 export class BasePointer extends TypedEventTarget {
+    #lastButtons;
+    #canClick;
+    #dragDistance;
+    #enabled;
+    #cursor;
+    #curHit;
+    #curTarget;
+    #hoveredHit;
+    #hoveredTarget;
     constructor(type, id, env, cursor) {
         super();
         this.type = type;
@@ -20,65 +29,57 @@ export class BasePointer extends TypedEventTarget {
         this.canMoveView = false;
         this.mayTeleport = false;
         this.buttons = 0;
-        this._isActive = false;
         this.moveDistance = 0;
         this.pointerEvents = new Map();
-        this.lastButtons = 0;
-        this.canClick = false;
-        this.dragDistance = 0;
-        this._enabled = false;
-        this._cursor = null;
-        this._curHit = null;
-        this._curTarget = null;
-        this._hoveredHit = null;
-        this._hoveredTarget = null;
-        this._cursor = cursor;
+        this.#lastButtons = 0;
+        this.#canClick = false;
+        this.#dragDistance = 0;
+        this.#enabled = false;
+        this.#cursor = null;
+        this.#curHit = null;
+        this.#curTarget = null;
+        this.#hoveredHit = null;
+        this.#hoveredTarget = null;
+        this._isActive = false;
+        this.#cursor = cursor;
         if (this.cursor) {
             this.cursor.visible = false;
         }
     }
-    get isActive() {
-        return this._isActive;
-    }
+    get isActive() { return this._isActive; }
     get canSend() {
         return this.enabled
             && this.isActive;
     }
-    get curHit() {
-        return this._curHit;
-    }
-    get curTarget() {
-        return this._curTarget;
-    }
     get hoveredHit() {
-        return this._hoveredHit;
+        return this.#hoveredHit;
     }
     set hoveredHit(v) {
         if (v !== this.hoveredHit) {
-            const t = getRayTarget(v);
-            this._hoveredHit = v;
-            this._hoveredTarget = t;
+            const t = getRayTarget(v?.object);
+            this.#hoveredHit = v;
+            this.#hoveredTarget = t;
         }
     }
     get name() {
         return PointerID[this.id];
     }
     get rayTarget() {
-        return this._hoveredTarget;
+        return this.#hoveredTarget;
     }
     get cursor() {
-        return this._cursor;
+        return this.#cursor;
     }
     set cursor(newCursor) {
         if (newCursor !== this.cursor) {
             const oldCursor = this.cursor;
-            const oldName = this.cursor && this.cursor.object && this.cursor.object.name || "cursor";
-            const oldParent = oldCursor && oldCursor.object && oldCursor.object.parent;
+            const oldName = this.cursor && this.cursor.content3d && this.cursor.content3d.name || "cursor";
+            const oldParent = oldCursor && oldCursor.content3d && oldCursor.content3d.parent;
             if (oldParent) {
-                oldCursor.object.removeFromParent();
+                oldCursor.content3d.removeFromParent();
             }
             if (newCursor) {
-                newCursor.object.name = oldName;
+                newCursor.content3d.name = oldName;
                 if (oldCursor instanceof CursorXRMouse) {
                     oldCursor.cursor = newCursor;
                     if (oldParent) {
@@ -86,7 +87,7 @@ export class BasePointer extends TypedEventTarget {
                     }
                 }
                 else {
-                    this._cursor = newCursor;
+                    this.#cursor = newCursor;
                     if (oldCursor) {
                         if (oldParent) {
                             objGraph(oldParent, newCursor);
@@ -103,16 +104,16 @@ export class BasePointer extends TypedEventTarget {
             && this._isActive;
     }
     get enabled() {
-        return this._enabled;
+        return this.#enabled;
     }
     set enabled(v) {
-        this._enabled = v;
+        this.#enabled = v;
         if (this.cursor) {
             this.cursor.visible = v;
         }
     }
     setButton(button, pressed) {
-        this.lastButtons = this.buttons;
+        this.#lastButtons = this.buttons;
         const mask = 1 << button;
         if (pressed) {
             this.buttons |= mask;
@@ -121,15 +122,15 @@ export class BasePointer extends TypedEventTarget {
             this.buttons &= ~mask;
         }
         if (pressed) {
-            this.canClick = true;
-            this.dragDistance = 0;
+            this.#canClick = true;
+            this.#dragDistance = 0;
             this.env.avatar.setMode(this);
             this.setEventState("down");
         }
         else {
-            if (this.canClick) {
+            if (this.#canClick) {
                 const curButtons = this.buttons;
-                this.buttons = this.lastButtons;
+                this.buttons = this.#lastButtons;
                 this.setEventState("click");
                 this.buttons = curButtons;
             }
@@ -142,14 +143,14 @@ export class BasePointer extends TypedEventTarget {
     }
     wasPressed(button) {
         const mask = 1 << button;
-        return (this.lastButtons & mask) !== 0;
+        return (this.#lastButtons & mask) !== 0;
     }
     fireRay(origin, direction) {
         const minHit = this.env.eventSys.fireRay(origin, direction);
-        if (minHit !== this.curHit) {
-            const t = getRayTarget(minHit);
-            this._curHit = minHit;
-            this._curTarget = t;
+        if (minHit !== this.#curHit) {
+            const t = getRayTarget(minHit?.object);
+            this.#curHit = minHit;
+            this.#curTarget = t;
         }
     }
     getEvent(type) {
@@ -160,14 +161,14 @@ export class BasePointer extends TypedEventTarget {
         if (this.hoveredHit) {
             evt.set(this.hoveredHit, this.rayTarget);
         }
-        else if (this.curHit) {
-            evt.set(this.curHit, this.curTarget);
+        else if (this.#curHit) {
+            evt.set(this.#curHit, this.#curTarget);
         }
         else {
             evt.set(null, null);
         }
         if (evt.hit) {
-            const lastHit = this.curHit || this.hoveredHit;
+            const lastHit = this.#curHit || this.hoveredHit;
             if (lastHit && evt.hit !== lastHit) {
                 evt.hit.uv = lastHit.uv;
             }
@@ -184,9 +185,9 @@ export class BasePointer extends TypedEventTarget {
         const primaryPressed = this.isPressed(VirtualButton.Primary);
         if (this.moveDistance > 0 || primaryPressed) {
             if (primaryPressed) {
-                this.dragDistance += this.moveDistance;
-                if (this.dragDistance > MAX_DRAG_DISTANCE) {
-                    this.canClick = false;
+                this.#dragDistance += this.moveDistance;
+                if (this.#dragDistance > MAX_DRAG_DISTANCE) {
+                    this.#canClick = false;
                 }
             }
             this.setEventState("move");
@@ -195,8 +196,8 @@ export class BasePointer extends TypedEventTarget {
     }
     setEventState(eventType) {
         this.fireRay(this.origin, this.direction);
-        if (this.curTarget === this.rayTarget) {
-            this.hoveredHit = this.curHit;
+        if (this.#curTarget === this.rayTarget) {
+            this.hoveredHit = this.#curHit;
         }
         else {
             const isPressed = this.isPressed(VirtualButton.Primary);
@@ -214,7 +215,7 @@ export class BasePointer extends TypedEventTarget {
                     this.dispatchEvent(exitEvt);
                     this.rayTarget.dispatchEvent(exitEvt);
                 }
-                this.hoveredHit = this.curHit;
+                this.hoveredHit = this.#curHit;
                 if (this.rayTarget) {
                     const enterEvt = this.getEvent("enter");
                     this.dispatchEvent(enterEvt);
@@ -252,7 +253,7 @@ export class BasePointer extends TypedEventTarget {
     }
     updateCursor(avatarHeadPos, comfortOffset, isLocal, defaultDistance) {
         if (this.cursor) {
-            this.cursor.update(avatarHeadPos, comfortOffset, this.hoveredHit || this.curHit, this.rayTarget || this.curTarget, defaultDistance, isLocal, this.canDragView, this.canTeleport, this.origin, this.direction, this.isPressed(VirtualButton.Primary));
+            this.cursor.update(avatarHeadPos, comfortOffset, this.hoveredHit || this.#curHit, this.rayTarget || this.#curTarget, defaultDistance, isLocal, this.canDragView, this.canTeleport, this.origin, this.direction, this.isPressed(VirtualButton.Primary));
         }
     }
     get bufferSize() {

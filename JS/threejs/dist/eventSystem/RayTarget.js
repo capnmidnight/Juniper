@@ -1,17 +1,17 @@
-import { arrayRemove } from "@juniper-lib/collections/dist/arrays";
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { arrayRemove } from "@juniper-lib/util";
+import { TypedEventTarget } from "@juniper-lib/events";
 import { objectIsFullyVisible, objectResolve } from "../objects";
 const RAY_TARGET_KEY = "Juniper:ThreeJS:EventSystem:RayTarget";
 export class RayTarget extends TypedEventTarget {
-    constructor(object) {
+    constructor(content3d) {
         super();
-        this.object = object;
+        this.content3d = content3d;
         this.meshes = new Array();
         this._disabled = false;
         this._clickable = false;
         this._draggable = false;
         this._navigable = false;
-        this.object.userData[RAY_TARGET_KEY] = this;
+        this.content3d.userData[RAY_TARGET_KEY] = this;
     }
     addMesh(mesh) {
         mesh.userData[RAY_TARGET_KEY] = this;

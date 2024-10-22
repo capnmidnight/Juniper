@@ -1,12 +1,8 @@
-import { FullAudioRecord } from "@juniper-lib/audio/dist/data";
-import { IPlayer, MediaPlayerEvents } from "@juniper-lib/audio/dist/sources/IPlayer";
-import { keycapDigits } from "@juniper-lib/emoji/dist/numbers";
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { all } from "@juniper-lib/events/dist/all";
-import { BaseProgress } from "@juniper-lib/progress/dist/BaseProgress";
-import { AsyncCallback } from "@juniper-lib/tslib/dist/identity";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { asyncCallback, IDisposable, isDefined } from "@juniper-lib/util";
+import { FullAudioRecord, IPlayer, MediaPlayerEvents } from "@juniper-lib/audio";
+import { keycapDigits } from "@juniper-lib/emoji";
+import { TypedEvent } from "@juniper-lib/events";
+import { BaseProgress } from "@juniper-lib/progress";
 import { Object3D } from "three";
 import { Cube } from "../Cube";
 import { cleanup } from "../cleanup";
@@ -27,14 +23,14 @@ type PlaybackButtonEvents = {
 }
 
 const translations = new Map(
-    keycapDigits.alts.map((m, i) => [m.value, i.toString()])
+    keycapDigits.map((m, i) => [m.value, i.toString()])
 );
 
 export class PlaybackButton<T extends FullAudioRecord>
     extends BaseProgress<PlaybackButtonEvents>
     implements ErsatzObject, IDisposable {
 
-    readonly object: Object3D;
+    readonly content3d: Object3D;
 
     private readonly textLabel: TextMesh;
     private readonly progressBar: Object3D;
@@ -43,7 +39,7 @@ export class PlaybackButton<T extends FullAudioRecord>
     private stopButton: MeshButton = null;
     private replayButton: MeshButton = null;
 
-    readonly clickPlay: AsyncCallback = null;
+    readonly clickPlay: asyncCallback = null;
 
     constructor(
         env: BaseEnvironment,
@@ -52,12 +48,12 @@ export class PlaybackButton<T extends FullAudioRecord>
         name: string,
         label: string,
         public volume: number,
-        private readonly player: IPlayer) {
+        private readonly player: IPlayer<T>) {
         super();
 
         label = translations.get(label) || label || "";
 
-        this.object = obj(`playback-${name}`);
+        this.content3d = obj(`playback-${name}`);
 
         this.textLabel = new TextMesh(env, `playback-${name}-label`, "none", {
             minHeight: size,
@@ -92,7 +88,7 @@ export class PlaybackButton<T extends FullAudioRecord>
             if (this.data === this.player.data) {
                 this.player.clear();
             }
-            cleanup(this.object);
+            cleanup(this.content3d);
             this.disposed = true;
         }
     }
@@ -101,18 +97,18 @@ export class PlaybackButton<T extends FullAudioRecord>
         this.textLabel.position.y = -(size + this.textLabel.objectHeight) / 2;
     }
 
-    private async load(buttonFactory: ButtonFactory, player: IPlayer) {
+    private async load(buttonFactory: ButtonFactory, player: IPlayer<T>) {
         const [
             play,
             pause,
             stop,
             replay
-        ] = await all(
+        ] = await Promise.all([
             buttonFactory.getMeshButton("media", "play", size),
             buttonFactory.getMeshButton("media", "pause", size),
             buttonFactory.getMeshButton("media", "stop", size),
             buttonFactory.getMeshButton("media", "replay", size)
-        );
+        ]);
 
         objGraph(
             this,
@@ -124,10 +120,10 @@ export class PlaybackButton<T extends FullAudioRecord>
             this.textLabel
         );
 
-        this.playButton.object.position.x = -1.5 * size;
-        this.pauseButton.object.position.x = -0.5 * size;
-        this.stopButton.object.position.x = 0.5 * size;
-        this.replayButton.object.position.x = 1.5 * size;
+        this.playButton.content3d.position.x = -1.5 * size;
+        this.pauseButton.content3d.position.x = -0.5 * size;
+        this.stopButton.content3d.position.x = 0.5 * size;
+        this.replayButton.content3d.position.x = 1.5 * size;
 
         this.progressBar.position.y = -size / 2;
         this.progressBar.position.z = 0.01;
@@ -161,7 +157,7 @@ export class PlaybackButton<T extends FullAudioRecord>
 
         refresh();
 
-        const local = <T extends MediaPlayerEvents[keyof MediaPlayerEvents]>(callback: (evt: T) => void) => (evt: T) => {
+        const local = <V extends MediaPlayerEvents<T>[keyof MediaPlayerEvents<T>]>(callback: (evt: V) => void) => (evt: V) => {
             if (evt.source.data === this.data) {
                 callback(evt);
             }

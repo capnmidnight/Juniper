@@ -3,6 +3,15 @@
   "include": [
     "./src/**/*"
   ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "strictNullChecks": false
+  },
   "references": [
     { "path": "../graphics2d" },
     { "path": "../audio" },
@@ -15,18 +24,10 @@
     { "path": "../progress" },
     { "path": "../speech" },
     { "path": "../timers" },
-    { "path": "../tslib" },
+    { "path": "../units" },
+    { "path": "../util" },
     { "path": "../video" },
     { "path": "../webrtc" },
     { "path": "../widgets" }
-  ],
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "allowJs": true,
-    "checkJs": false,
-    "declaration": true,
-    "declarationMap": true,
-    "strictNullChecks": false
-  }
+  ]
 }

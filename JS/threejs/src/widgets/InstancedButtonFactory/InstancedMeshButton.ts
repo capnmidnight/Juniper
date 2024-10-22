@@ -1,4 +1,4 @@
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
 import { Color, Intersection } from "three";
 import { InstancedButtonFactory } from ".";
 import { scaleOnHover } from "../../animation/scaleOnHover";
@@ -44,10 +44,10 @@ export class InstancedMeshButton extends RayTarget
     }
 
     get size(): number {
-        return this.object.scale.x;
+        return this.content3d.scale.x;
     }
 
     set size(v: number) {
-        this.object.scale.setScalar(v);
+        this.content3d.scale.setScalar(v);
     }
 }

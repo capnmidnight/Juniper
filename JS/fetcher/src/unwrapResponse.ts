@@ -1,4 +1,4 @@
-import { IResponse } from "./IResponse";
+import { IResponse } from "@juniper-lib/util";
 import { assertSuccess } from "./assertSuccess";
 
 export function unwrapResponse<T>(response: IResponse<T>): T {

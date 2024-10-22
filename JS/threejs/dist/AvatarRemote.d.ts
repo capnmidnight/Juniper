@@ -1,7 +1,7 @@
-import { AudioStreamSource } from "@juniper-lib/audio/dist/sources/AudioStreamSource";
-import { TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
-import type { RemoteUser } from "@juniper-lib/webrtc/dist/RemoteUser";
+import { IDisposable } from "@juniper-lib/util";
+import { AudioStreamSource } from "@juniper-lib/audio";
+import { TextImageOptions } from "@juniper-lib/graphics2d";
+import type { RemoteUser } from "@juniper-lib/webrtc";
 import { Object3D, Quaternion, Vector3 } from "three";
 import type { Environment } from "./environment/Environment";
 import { ErsatzObject } from "./objects";
@@ -9,7 +9,7 @@ export declare class AvatarRemote implements ErsatzObject, IDisposable {
     private readonly env;
     readonly avatar: Object3D;
     private defaultAvatarHeight;
-    get object(): Object3D<import("three").Event>;
+    get content3d(): Object3D<import("three").Event>;
     private _isInstructor;
     private readonly pointers;
     private height;

@@ -1,13 +1,14 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
 import { BaseProgress } from "./BaseProgress";
 class CombinedProgressCallback extends BaseProgress {
+    #onProgs;
     constructor(onProgs) {
         super();
-        this.onProgs = onProgs;
+        this.#onProgs = onProgs;
     }
     report(soFar, total, message, est) {
         super.report(soFar, total, message, est);
-        for (const onProg of this.onProgs) {
+        for (const onProg of this.#onProgs) {
             onProg.report(soFar, total, message);
         }
     }

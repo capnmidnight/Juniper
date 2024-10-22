@@ -1,7 +1,5 @@
-import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
-import { AudioRecordingNode } from "@juniper-lib/audio/dist/AudioRecordingNode";
-import { LocalUserMicrophone } from "@juniper-lib/audio/dist/LocalUserMicrophone";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
+import { ActivityDetector, AudioRecordingNode, LocalUserMicrophone } from "@juniper-lib/audio";
+import { IFetcher } from "@juniper-lib/fetcher";
 import { ISpeechRecognizer } from "./ISpeechRecognizer";
 import { JuniperSpeechRecognizer } from "./JuniperSpeechRecognizer";
 import { WebSpeechRecognizer } from "./WebSpeechRecognizer";

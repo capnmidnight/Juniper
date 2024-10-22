@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
 
 export interface IDebugLogger {
     log(id: string, ...values: any[]): void;

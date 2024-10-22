@@ -1,1 +1,1 @@
-{"version":3,"file":"progressLogger.d.ts","sourceRoot":"","sources":["../src/progressLogger.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,SAAS,EAAE,MAAM,aAAa,CAAC;AAiBxC,wBAAgB,cAAc,CAAC,IAAI,EAAE,MAAM,EAAE,IAAI,CAAC,EAAE,SAAS,GAAG,SAAS,CAExE"}
+{"version":3,"file":"progressLogger.d.ts","sourceRoot":"","sources":["../src/progressLogger.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,SAAS,EAAE,MAAM,aAAa,CAAC;AAuBxC,wBAAgB,cAAc,CAAC,IAAI,EAAE,MAAM,EAAE,IAAI,CAAC,EAAE,SAAS,GAAG,SAAS,CAExE"}

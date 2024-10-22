@@ -1,7 +1,10 @@
-﻿import { GraphNode } from "@juniper-lib/collections/dist/GraphNode";
-import { Vec2 } from "gl-matrix/dist/esm";
+﻿import { GraphNode } from "@juniper-lib/collections";
+import { Button, ClassList, Div, StyleAttr } from "@juniper-lib/dom";
+import { Vec2 } from "gl-matrix";
 
-const delta = new Vec2();
+const delta = /*@__PURE__*/(() => new Vec2())();
+const unpinned = /*@__PURE__*/(() => "<i>\u{d83d}\u{dccc}</i>")();
+const pinned = /*@__PURE__*/(() => "<i>\u{d83d}\u{dccd}</i>")();
 
 function elementComputeSize(scale: number, element: Element, size: Vec2): void {
     const boundingRect = element.getBoundingClientRect();
@@ -33,11 +36,9 @@ function elementComputeSize(scale: number, element: Element, size: Vec2): void {
     size.y = paddingBottom - paddingTop;
 }
 
-const unpinned = "<i>\u{d83d}\u{dccc}</i>";
-const pinned = "<i>\u{d83d}\u{dccd}</i>";
-
 export class ForceDirectedNode<T> extends GraphNode<T> {
-    private readonly content: HTMLElement;
+    readonly #content: HTMLElement;
+
     public readonly pinner: HTMLButtonElement;
     public readonly element: HTMLElement;
 
@@ -84,19 +85,18 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
     constructor(value: T, elementClass: string, content: string | HTMLElement) {
         super(value);
 
-        this.pinner = document.createElement("button");
-        this.pinner.type = "button";
-        this.pinner.style.float = "right";
-        this.pinner.style.backgroundColor = "transparent";
+        this.element = Div(
+            ClassList("graph-node", elementClass),
 
+            this.pinner = Button(
+                StyleAttr({
+                    "float": "right",
+                    "background-color": "transparent"
+                })
+            ),
 
-        this.content = document.createElement("div");
-        this.element = document.createElement("div");
-        this.element.classList.add("graph-node");
-        if (elementClass) {
-            this.element.classList.add(elementClass);
-        }
-        this.element.append(this.pinner, this.content);
+            this.#content = Div()
+        );
 
         this.setContent(content);
 
@@ -106,8 +106,8 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
     }
 
     setContent(content: string | HTMLElement) {
-        this.content.innerHTML = "";
-        this.content.append(content);
+        this.#content.innerHTML = "";
+        this.#content.append(content);
     }
 
     setMouseOffset(mousePoint: Vec2) {
@@ -133,8 +133,7 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
         attract: number,
         repel: number,
         attractFunc: (connected: boolean, len: number) => number,
-        repelFunc: (connected: boolean, len: number) => number,
-        getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number) {
+        repelFunc: (connected: boolean, len: number) => number) {
         this.dynamicForce.x = 0;
         this.dynamicForce.y = 0;
 
@@ -151,7 +150,7 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
                 for (const n2 of nodes) {
                     if (this !== n2
                         && (displayDepth < 0 || n2.depth <= displayDepth)) {
-                        this.attractRepel(n2, attract, attractFunc, repel, repelFunc, getWeightMod);
+                        this.attractRepel(n2, attract, attractFunc, repel, repelFunc);
                     }
                 }
             }
@@ -160,14 +159,14 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
 
     updatePosition(center: Vec2, maxDepth: number) {
         const { position, element } = this;
-        element.style.display = this.isVisible(maxDepth) ? "" : "none";
-        if (this.isVisible(maxDepth)) {
+        element.style.display = this.#isVisible(maxDepth) ? "" : "none";
+        if (this.#isVisible(maxDepth)) {
             delta.copy(position)
                 .add(center)
                 .sub(this.halfSize);
             element.style.left = `${delta.x}px`;
             element.style.top = `${delta.y}px`;
-            element.classList.toggle("deemphasized", maxDepth >= 0 && this.depth >= maxDepth);
+            element.classList.toggle("deemphasized", this.depth > maxDepth);
         }
     }
 
@@ -176,22 +175,31 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
             .sub(this.mouseOffset);
     }
 
-    private isVisible(maxDepth: number) {
+    #isVisible(maxDepth: number) {
         return !this.hidden
-            && (maxDepth < 0
-                || this.depth <= maxDepth);
+            && this.depth <= maxDepth;
     }
 
     canDrawArrow(maxDepth: number): boolean {
-        return this.isVisible(maxDepth)
+        return this.#isVisible(maxDepth)
             && !this.element.classList.contains("not-cycled");
+    }
+
+    #weights = new Map<ForceDirectedNode<T>, number>();
+    updateWeights(getWeightMod: (connected: boolean, a: T, b: T) => number, nodes: Iterable<this>) {
+        this.#weights.clear();
+        for (const node of nodes) {
+            if (node !== this) {
+                const connected = this.isConnectedTo(node);
+                this.#weights.set(node, getWeightMod(connected, this.value, node.value));
+            }
+        }
     }
 
     attractRepel(
         n2: ForceDirectedNode<T>,
         attract: number, attractFunc: (connected: boolean, len: number) => number,
-        repel: number, repelFunc: (connected: boolean, len: number) => number,
-        getWeightMod: (connected: boolean, dist: number, a: T, b: T) => number) {
+        repel: number, repelFunc: (connected: boolean, len: number) => number) {
 
         // Displacement between this node and the other node
         delta.copy(n2.position)
@@ -201,7 +209,7 @@ export class ForceDirectedNode<T> extends GraphNode<T> {
 
         if (distance > 0) {
             const connected = n2.isConnectedTo(this);
-            const weight = getWeightMod(connected, distance, this.value, n2.value);
+            const weight = this.#weights.get(n2);
             const invWeight = 1 - weight;
             const f = weight * attract * attractFunc(connected, distance)
                 - invWeight * repel * repelFunc(connected, distance);

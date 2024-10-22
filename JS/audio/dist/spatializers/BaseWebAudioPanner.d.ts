@@ -1,6 +1,6 @@
-import { BaseSpatializer } from "./BaseSpatializer";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { Pose } from "../Pose";
+import { BaseSpatializer } from "./BaseSpatializer";
 /**
  * Base class for spatializers that uses WebAudio's PannerNode
  **/

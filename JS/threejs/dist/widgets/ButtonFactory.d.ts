@@ -1,5 +1,6 @@
-import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
-import { AssetImage } from "@juniper-lib/fetcher/dist/Asset";
+import { PriorityMap } from "@juniper-lib/collections";
+import { CssColorValue } from "@juniper-lib/dom";
+import { AssetImage } from "@juniper-lib/fetcher";
 import { MeshBasicMaterial, PlaneGeometry } from "three";
 import { MeshButton } from "./MeshButton";
 export interface ButtonSpec {

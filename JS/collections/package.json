@@ -1,28 +1,19 @@
 {
   "name": "@juniper-lib/collections",
-  "private": false,
   "version": "1.2.1",
+  "private": true,
+  "description": "Graph and tree data structures",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
     "dist/*"
   ],
-  "description": "A kitchen sink of features useful in TypeScript projects",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
-    "gl-matrix": "4.0.0-beta.1",
-    "@juniper-lib/tslib": "file:../tslib"
+    "gl-matrix": "4.0.0-beta.2",
+    "@juniper-lib/util": "file:../util"
   },
-  "devDependencies": {
-    "@juniper-types/extra-types": "file:../../@juniper-types/extra-types"
-  },
-  "repository": {
-    "type": "git",
-    "url": "github.com/capnmidnight/Juniper"
-  },
-  "author": "Sean T. McBeth \u003Csean.mcbeth@gmail.com\u003E",
-  "license": "MIT"
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

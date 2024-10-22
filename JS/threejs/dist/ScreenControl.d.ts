@@ -1,5 +1,4 @@
-/// <reference types="webxr" />
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { ScreenMode } from "./ScreenMode";
 import type { ScreenUI } from "./ScreenUI";

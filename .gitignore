@@ -1,14 +1,15 @@
-[Bb]in/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ibrary/
-[Ll]ogs/
 node_modules/
-
 .vs/
+bin/
+obj/
 
-*.blend1
-*.tsbuildinfo
+**/*.bundle.js
+**/*.bundle.js.map
 *.user
+
+tsconfig.tsbuildinfo
+*.db
+*.db-shm
+*.db-wal
+wwwroot/
+.foxcache

@@ -1,5 +1,5 @@
-import type { CanvasTypes } from "@juniper-lib/dom/dist/canvas";
-import { Context3D } from "@juniper-lib/three-dee/dist/Context3D";
+import { CanvasTypes } from "@juniper-lib/dom";
+import { Context3D } from "@juniper-lib/three-dee";
 export declare class Context3DWebGL extends Context3D {
     #private;
     get gl(): WebGL2RenderingContext;

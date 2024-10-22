@@ -1,19 +1,15 @@
-import { elementIsDisplayed, elementRemoveFromParent, elementSetDisplay } from "@juniper-lib/dom/dist/tags";
-import { HtmlRender, elementClearChildren, isElementChild, isErsatzElement } from "@juniper-lib/dom/dist/tags";
-import { objRemoveFromParent } from "../objects";
-import { isErsatzObject, isObjects, objectClearChildren, objectSetEnabled, objGraph } from "../objects";
+import { elementClearChildren, elementRemoveFromParent, elementSetDisplay, elementSetEnabled, HtmlProp, HtmlRender, isDisplayed, isErsatzNode, isNodes } from "@juniper-lib/dom";
+import { isErsatzObject, isObjects, objectClearChildren, objectSetEnabled, objectSetVisible, objGraph, objRemoveFromParent } from "../objects";
 export function isWidget(obj) {
-    return isErsatzElement(obj)
+    return isErsatzNode(obj)
         && isErsatzObject(obj);
 }
-export function widgetSetEnabled(obj, enabled) {
-    if (obj.element instanceof HTMLButtonElement) {
-        obj.element.disabled = !enabled;
-    }
-    objectSetEnabled(obj, enabled);
+export function widgetSetEnabled(widget, enabled) {
+    elementSetEnabled(widget, enabled);
+    objectSetEnabled(widget, enabled);
 }
 export function widgetApply(obj, ...children) {
-    HtmlRender(obj, ...children.filter(isElementChild));
+    HtmlRender(obj, ...children.filter(isNodes));
     objGraph(obj, ...children.filter(isObjects));
 }
 export function widgetRemoveFromParent(obj) {
@@ -21,36 +17,32 @@ export function widgetRemoveFromParent(obj) {
     objRemoveFromParent(obj);
 }
 export function widgetClearChildren(obj) {
-    elementClearChildren(obj.element);
-    objectClearChildren(obj.object);
+    elementClearChildren(obj);
+    objectClearChildren(obj);
+}
+export function ObjectAttr(object) {
+    return new HtmlProp("object", object);
 }
 export class Widget {
-    constructor(element, object, displayType) {
-        this.element = element;
-        this.object = object;
-        this.displayType = displayType;
+    #displayType;
+    constructor(content, content3d, displayType) {
+        this.#content = content;
+        this.#content3d = content3d;
+        this.#displayType = displayType;
     }
+    #content;
+    get content() { return this.#content; }
+    #content3d;
+    get content3d() { return this.#content3d; }
     get name() {
-        return this.object.name;
-    }
-    addEventListener(type, listener, options) {
-        this.element.addEventListener(type, listener, options);
-    }
-    dispatchEvent(event) {
-        return this.element.dispatchEvent(event);
-    }
-    removeEventListener(type, callback, options) {
-        this.element.removeEventListener(type, callback, options);
-    }
-    click() {
-        this.element.click();
+        return this.content3d.name;
     }
     get visible() {
-        return elementIsDisplayed(this);
+        return isDisplayed(this);
     }
     set visible(visible) {
-        elementSetDisplay(this, visible, this.displayType);
-        this.object.visible = visible;
+        elementSetDisplay(this, visible, this.#displayType);
+        objectSetVisible(this, visible);
     }
 }
 //# sourceMappingURL=widgets.js.map

@@ -1,40 +1,43 @@
-import { getInput } from "@juniper-lib/dom/dist/tags";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { progressTasksWeighted } from "@juniper-lib/progress/dist/progressTasks";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { IProgress } from "@juniper-lib/progress";
+import { progressTasksWeighted } from "@juniper-lib/progress";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/util";
 import { BaseAsset, isAsset } from "./Asset";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetcher } from "./IFetcher";
 import { IFetchingService } from "./IFetchingService";
 import { RequestBuilder } from "./RequestBuilder";
-
-
-declare const IS_WORKER: boolean;
+import { Input, Query } from "@juniper-lib/dom";
 
 export class Fetcher implements IFetcher {
-    constructor(private readonly service: IFetchingService, private readonly useBLOBs = false) {
+    readonly #service: IFetchingService;
+    readonly #useBLOBs: boolean;
+
+    constructor(service: IFetchingService, useBLOBs = false) {
+        this.#service = service;
+        this.#useBLOBs = useBLOBs;
+
         if (!IS_WORKER) {
-            const antiforgeryToken = getInput("input[name=__RequestVerificationToken]");
+            const antiforgeryToken = Input(Query("[name=__RequestVerificationToken]"));
             if (antiforgeryToken) {
-                this.service.setRequestVerificationToken(antiforgeryToken.value);
+                this.#service.setRequestVerificationToken(antiforgeryToken.value);
             }
         }
     }
 
     clearCache(): Promise<void> {
-        return this.service.clearCache();
+        return this.#service.clearCache();
     }
 
     evict(path: string | URL, base?: string | URL) {
-        return this.service.evict(new URL(path, base || location.href).href);
+        return this.#service.evict(new URL(path, base || location.href).href);
     }
 
     request<T extends HTTPMethods>(method: T, path: string | URL, base?: string | URL) {
         return new RequestBuilder(
-            this.service,
+            this.#service,
             method,
             new URL(path, base || location.href),
-            this.useBLOBs);
+            this.#useBLOBs);
     }
 
     head(path: string | URL, base?: string | URL) {

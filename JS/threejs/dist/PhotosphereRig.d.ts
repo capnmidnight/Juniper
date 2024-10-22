@@ -1,6 +1,6 @@
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
+import { IFetcher } from "@juniper-lib/fetcher";
+import { IProgress } from "@juniper-lib/progress";
 export declare const FACE_SIZE: number;
 export type getImagePathCallback = (fovDegrees: number, headingDegrees: number, pitchDegrees: number) => string;
 export declare enum PhotosphereCaptureResolution {

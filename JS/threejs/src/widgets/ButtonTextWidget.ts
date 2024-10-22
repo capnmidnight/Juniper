@@ -1,11 +1,9 @@
-import { Title_attr } from "@juniper-lib/dom/dist/attrs";
-import { ButtonPrimary } from "@juniper-lib/dom/dist/tags";
-import { TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
+import { Button, TitleAttr } from "@juniper-lib/dom";
+import { TextImageOptions } from "@juniper-lib/graphics2d";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { obj, objectSetVisible, objGraph } from "../objects";
 import { TextMeshButton } from "./TextMeshButton";
 import { Widget } from "./widgets";
-
 
 export class ButtonTextWidget extends Widget<HTMLButtonElement> {
 
@@ -13,8 +11,8 @@ export class ButtonTextWidget extends Widget<HTMLButtonElement> {
 
     constructor(protected readonly env: BaseEnvironment, name: string, text: string, textButtonStyle: Partial<TextImageOptions>) {
         super(
-            ButtonPrimary(
-                Title_attr(name),
+            Button(
+                TitleAttr(name),
                 text
             ),
             obj(`${name}-button`),
@@ -24,7 +22,7 @@ export class ButtonTextWidget extends Widget<HTMLButtonElement> {
         this.mesh = new TextMeshButton(this.env, `${name}-button`, text, textButtonStyle);
         objGraph(this, this.mesh);
         this.mesh.addEventListener("click", () => {
-            this.element.click();
+            this.content.click();
         });
     }
 

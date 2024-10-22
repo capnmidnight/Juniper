@@ -121,8 +121,9 @@ import {
     bustInSilhouette,
 } from ".";
 
-export const faces = /*@__PURE__*/ G(
-    "Faces", "Round emoji faces", {
+export const faces = /*@__PURE__*/ (function () {
+    return G(
+        "Faces", "Round emoji faces", {
         ogre,
         goblin,
         ghost,
@@ -242,3 +243,4 @@ export const faces = /*@__PURE__*/ G(
         speakingHead,
         bustInSilhouette,
     });
+})();

@@ -3,17 +3,17 @@
   "include": [
     "./src/**/*.ts"
   ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
   "references": [
+    { "path": "../audio" },
     { "path": "../collections" },
     { "path": "../dom" },
     { "path": "../emoji" },
-    { "path": "../events" },
+    { "path": "../fetcher" },
     { "path": "../progress" },
-    { "path": "../tslib" }
-  ],
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strictNullChecks": false
-  }
+    { "path": "../util" }
+  ]
 }

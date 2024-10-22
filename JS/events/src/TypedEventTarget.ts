@@ -1,6 +1,6 @@
 import { CustomEventTarget, EventMap, IEventTarget } from "./EventTarget";
 
-export class TypedEvent<EventTypeT extends string> extends Event {
+export class TypedEvent<EventTypeT extends string, TargetT extends EventTarget = EventTarget> extends Event {
     override get type(): EventTypeT {
         return super.type as EventTypeT;
     }
@@ -8,11 +8,15 @@ export class TypedEvent<EventTypeT extends string> extends Event {
     constructor(type: EventTypeT, eventInitDict?: EventInit) {
         super(type, eventInitDict);
     }
+
+    override get target() {
+        return super.target as TargetT;
+    }
 }
 
-export type TypedEventMap<EventTypeT extends string> =
+export type TypedEventMap<EventTypeT> =
     EventMap
-    | Record<EventTypeT, TypedEvent<EventTypeT>>;
+    | Record<string & EventTypeT, TypedEvent<string & EventTypeT>>;
 
 type TypedEventHandler<EventT> =
     (evt: EventT) => void;

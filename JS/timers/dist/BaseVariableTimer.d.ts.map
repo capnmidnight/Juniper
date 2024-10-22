@@ -1,0 +1,1 @@
+{"version":3,"file":"BaseVariableTimer.d.ts","sourceRoot":"","sources":["../src/BaseVariableTimer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,oBAAoB,CAAC;AAEtD,8BAAsB,iBAAiB,CAAC,MAAM,CAAE,SAAQ,gBAAgB,CAAC,MAAM,CAAC;;IAG5E,IAAI,SAAS,IACI,MAAM,CADoB;IAC3C,IAAI,SAAS,CAAC,CAAC,EAAE,MAAM,EAA0B;gBAErC,eAAe,EAAE,MAAM;IAKnC,SAAS,KAAK,eAAe,WAE5B;CACJ"}

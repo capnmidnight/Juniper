@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Juniper.OpenAI</AssemblyName>
+    <RootNamespace>Juniper.OpenAI</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Betalgo.OpenAI" Version="8.7.2" />
+  </ItemGroup>
+</Project>

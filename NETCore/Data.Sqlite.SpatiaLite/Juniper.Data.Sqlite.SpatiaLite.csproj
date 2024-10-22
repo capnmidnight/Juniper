@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Data.Sqlite.SpatiaLite</AssemblyName>
+    <RootNamespace>Juniper.Data</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Data.Sqlite.SpatiaLite</PackageId>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data.Sqlite\Juniper.Data.Sqlite.csproj" />
+    <ProjectReference Include="..\Data\Juniper.Data.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.NetTopologySuite" Version="8.0.10" />
+    <PackageReference Include="NetTopologySuite" Version="2.5.0" />
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="4.0.0" />
+    <PackageReference Include="NetTopologySuite.IO.SpatiaLite" Version="2.0.0" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.10" />
+  </ItemGroup>
+
+</Project>

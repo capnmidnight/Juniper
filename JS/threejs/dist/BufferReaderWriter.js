@@ -1,4 +1,4 @@
-import { BufferReaderWriter as BaseBufferReaderWriter } from "@juniper-lib/tslib/dist/BufferReaderWriter";
+import { BufferReaderWriter as BaseBufferReaderWriter } from "@juniper-lib/util";
 export class BufferReaderWriter extends BaseBufferReaderWriter {
     readVector48(vector) {
         vector.set(this.readFloat32(), this.readFloat32(), this.readFloat32());

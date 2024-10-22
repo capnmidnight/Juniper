@@ -1,13 +1,21 @@
-import { ElementChild, ErsatzElement } from "@juniper-lib/dom/dist/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import "./style.css";
-export declare class InputRangeWithNumber extends TypedEventTarget<{
+import { ElementChild, TypedHTMLElement } from "@juniper-lib/dom";
+import { TypedEvent } from "@juniper-lib/events";
+export declare class InputRangeWithNumberElement extends TypedHTMLElement<{
     "input": TypedEvent<"input">;
-}> implements ErsatzElement {
-    readonly element: HTMLElement;
+}> {
+    #private;
+    static observedAttributes: string[];
     private rangeInput;
     private numberInput;
-    constructor(...rest: ElementChild[]);
+    constructor();
+    connectedCallback(): void;
+    attributeChangedCallback(name: string, oldValue: string, newValue: string): void;
+    get min(): string;
+    set min(v: string);
+    get max(): string;
+    set max(v: string);
+    get step(): string;
+    set step(v: string);
     get value(): string;
     set value(v: string);
     get valueAsNumber(): number;
@@ -16,5 +24,7 @@ export declare class InputRangeWithNumber extends TypedEventTarget<{
     set disabled(v: boolean);
     get enabled(): boolean;
     set enabled(v: boolean);
+    static install(): import("@juniper-lib/dom").ElementFactory<InputRangeWithNumberElement>;
 }
+export declare function InputRangeWithNumber(...rest: ElementChild[]): InputRangeWithNumberElement;
 //# sourceMappingURL=index.d.ts.map

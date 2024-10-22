@@ -1,5 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { IResponse } from "./IResponse";
+import { IResponse, isDefined } from "@juniper-lib/util";
 
 export async function translateResponse<T>(response: IResponse<T>): Promise<IResponse>;
 export async function translateResponse<T, U>(response: IResponse<T>, translate: (v: T) => U | Promise<U>): Promise<IResponse<U>>;
@@ -13,7 +12,9 @@ export async function translateResponse<T, U>(response: IResponse<T>, translate?
         contentLength,
         fileName,
         headers,
-        date
+        date,
+        errorMessage,
+        errorObject
     } = response;
 
     return {
@@ -27,6 +28,8 @@ export async function translateResponse<T, U>(response: IResponse<T>, translate?
         contentLength,
         fileName,
         headers,
-        date
+        date,
+        errorMessage,
+        errorObject
     };
 }

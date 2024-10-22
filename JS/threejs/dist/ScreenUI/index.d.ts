@@ -1,4 +1,4 @@
-import "./style.css";
+import { CssColorValue } from "@juniper-lib/dom";
 export declare class ScreenUI {
     readonly elements: Array<HTMLElement>;
     readonly topLeft: HTMLElement;

@@ -1,5 +1,4 @@
-/// <reference types="webxr" />
-import { CanvasTypes } from "@juniper-lib/dom/dist/canvas";
+import { CanvasTypes } from "@juniper-lib/dom";
 import { ClearBits, FrameAndRenderBuffers, FramebufferTypes } from "../../GLEnum";
 import { FrameBufferTextureMultiview, FrameBufferTextureMultiviewMultisampled } from "./FrameBufferTexture";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";

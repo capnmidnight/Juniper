@@ -1,4 +1,4 @@
-import { isModifierless } from "@juniper-lib/dom/dist/evts";
+import { isModifierless } from "@juniper-lib/dom";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { PointerID } from "../Pointers";
 import { BaseScreenPointerSinglePoint } from "./BaseScreenPointerSinglePoint";

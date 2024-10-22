@@ -1,5 +1,5 @@
-import { Task } from "@juniper-lib/events/dist/Task";
-import { clamp } from "@juniper-lib/tslib/dist/math";
+import { Task } from "@juniper-lib/events";
+import { clamp } from "@juniper-lib/util";
 import { BackSide } from "three";
 import { cube } from "./Cube";
 import { solidTransparent } from "./materials";
@@ -13,10 +13,10 @@ export class Fader {
             color: 0x000000,
             side: BackSide
         });
-        this.object = cube(name, 1, 1, 1, this.material);
-        this.object.renderOrder = Number.MAX_SAFE_INTEGER;
+        this.content3d = cube(name, 1, 1, 1, this.material);
+        this.content3d.renderOrder = Number.MAX_SAFE_INTEGER;
         this.speed = 1 / t;
-        this.object.layers.enableAll();
+        this.content3d.layers.enableAll();
     }
     async start(direction) {
         this.direction = direction;

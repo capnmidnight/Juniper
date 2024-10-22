@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<AssemblyName>Juniper.NamedActions</AssemblyName>
+		<RootNamespace>Juniper.NamedActions</RootNamespace>
+		<PackageId>SeanMcBeth.Juniper.NamedActions</PackageId>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>General purpose code</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Progress\Juniper.Progress.csproj" />
+	</ItemGroup>
+</Project>

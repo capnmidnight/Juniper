@@ -1,13 +1,7 @@
-import { arrayInsertAt, arrayScanReverse } from "@juniper-lib/collections/dist/arrays";
-import { ClassList, CustomData, Draggable, HtmlAttr, ID, QueryAll } from "@juniper-lib/dom/dist/attrs";
-import { fr, gridColumn, gridRow, gridTemplateColumns, gridTemplateRows } from "@juniper-lib/dom/dist/css";
-import { onClick, onDragEnd, onDragOver, onDragStart } from "@juniper-lib/dom/dist/evts";
-import { ButtonSmall, Div, ElementChild, H3, IElementAppliable, HtmlRender, elementGetCustomData, elementInsertBefore, elementIsDisplayed, elementSetText, elementSwap, elementToggleDisplay } from "@juniper-lib/dom/dist/tags";
+import { arrayInsert, arrayScanReverse, isDate, isDefined, isNullOrUndefined, isNumber, isString } from "@juniper-lib/util";
+import { Button, ClassList, CssGridTemplateTrackSize, Div, Draggable, ElementChild, H3, HtmlAttr, HtmlRender, ID, OnClick, OnDragEnd, OnDragOver, OnDragStart, QueryAll, SingletonStyleBlob, backgroundColor, cursor, display, elementToggleDisplay, fr, gridArea, gridColumn, gridRow, gridTemplateColumns, gridTemplateRows, isDisplayed, margin, minHeight, minWidth, opacity, perc, px, rgb, rule, width } from "@juniper-lib/dom";
 import { blackMediumDownPointingTriangleCentered as closeIcon, blackMediumRightPointingTriangleCentered as openIcon } from "@juniper-lib/emoji";
-import { isBoolean, isDate, isDefined, isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { Vec2 } from "gl-matrix/dist/esm";
-
-import "./styles.css";
+import { Vec2 } from "gl-matrix";
 
 type DockType = "cell" | "group" | "sep" | "panel";
 type Direction = "row" | "column";
@@ -24,7 +18,7 @@ function Dock(type: DockType, ...rest: ElementChild[]) {
 
 function isProportion(r: ElementChild): boolean {
     return r instanceof HtmlAttr
-        && r.key === SIZE_KEY;
+        && r.name === SIZE_KEY;
 }
 
 type DockPanelAttrTypes =
@@ -63,6 +57,69 @@ export function DockPanel(name: string, rearrangeable: DockPanelAttr<"rearrangea
 export function DockPanel(name: string, resizable: DockPanelAttr<"resizable">, ...rest: ElementChild[]): HTMLElement;
 export function DockPanel(name: string, ...rest: ElementChild[]): HTMLElement;
 export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[]): HTMLElement {
+
+    SingletonStyleBlob("Juniper::Widgets::DockPanel", () => rule(".dock",
+        margin(0),
+
+        rule(".panel",
+            display("grid"),
+            gridTemplateRows("auto"),
+            gridTemplateColumns("auto"),
+
+            rule(".rearrangeable .dock.cell [draggable=true]",
+                cursor("move")
+            )
+        ),
+
+        rule(".group",
+            display("grid")
+        ),
+
+        rule(".cell",
+            display("grid"),
+            gridTemplateRows("auto", fr(1)),
+            gridTemplateColumns(fr(1), "auto"),
+
+            rule(".dragging",
+                opacity(0.5)
+            ),
+
+            rule(">.header",
+                margin("auto", px(7)),
+                gridArea(1, 1),
+                width(perc(100))
+            ),
+
+            rule(">.closer",
+                gridArea(1, -2)
+            ),
+
+            rule(">.content",
+                gridArea(2, 1, 3, 3),
+                display("grid"),
+                gridTemplateRows("auto"),
+                gridTemplateColumns("auto")
+            )
+        ),
+
+        rule(".sep",
+            minWidth(px(4)),
+            minHeight(px(4)),
+
+            rule(".targeting,.dragging",
+                backgroundColor(rgb(187, 187, 187))
+            ),
+
+            rule(".column:not(.edge)",
+                cursor("ns-resize")
+            ),
+
+            rule(".row:not(.edge)",
+                cursor("ew-resize")
+            )
+        )
+    ));
+
     const resizable = arrayScanReverse(rest, isResizableAttr);
     const rearrangeable = arrayScanReverse(rest, isRearrangeableAttr);
     const isResizable = resizable && resizable.value;
@@ -88,7 +145,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
         "panel",
         ID(name),
         ClassList(...classes),
-        onDragStart((evt) => {
+        OnDragStart((evt) => {
             const obj = resolveDockObject(evt.target as HTMLElement);
             if (isRearrangeable && isCell(obj)
                 || isResizable && isSep(obj)) {
@@ -96,7 +153,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
             }
         }),
 
-        onDragOver((evt) => {
+        OnDragOver((evt) => {
             if (isDefined(dragged)) {
                 const obj = resolveDockObject(evt.target as HTMLElement);
                 if (isResizable && dragType === "sep") {
@@ -112,7 +169,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
             }
         }),
 
-        onDragEnd((evt) => {
+        OnDragEnd((evt) => {
             const obj = resolveDockObject(evt.target as HTMLElement);
 
             if (obj === dragged
@@ -169,6 +226,14 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
         target.classList.add("targeting");
     }
 
+    function elementSwap<T extends Element>(elem: Element, withPlaceholder: (placeholder: Element) => T): T {
+        const placeholder = Div();
+        const e = withPlaceholder(placeholder);
+        elem.replaceWith(e);
+        placeholder.replaceWith(elem);
+        return e;
+    }
+
     function moveGroup(group: HTMLElement, sep: HTMLElement) {
         let newParent = sep.parentElement;
         const insert = getDirection(newParent) === getDirection(sep);
@@ -179,7 +244,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
         }
         const next = newParent.children[index];
         if (next !== dragged.nextElementSibling) {
-            elementInsertBefore(newParent, group, next);
+            newParent.insertBefore(group, next);
             regrid(false);
         }
     }
@@ -237,24 +302,24 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
             child = null;
         }
 
-        return child;
+        return child as HTMLElement;
     }
 
-    function getProportion(v: Element): number {
+    function getProportion(v: HTMLElement): number {
         if (!isSep(v)) {
             const str = localStorage.getItem(name + "." + v.id + ":" + SIZE_KEY)
-                || elementGetCustomData(v as HTMLElement, SIZE_KEY);
+                || v.dataset[SIZE_KEY];
             return parseFloat(str) || 1;
         }
 
         return null;
     }
 
-    function setProportion(v: Element, p: number) {
+    function setProportion(v: HTMLElement, p: number) {
         if (!isSep(v)) {
             const str = p.toString();
             localStorage.setItem(name + "." + v.id + ":" + SIZE_KEY, str);
-            CustomData(SIZE_KEY, str).applyToElement(v as HTMLElement);
+            v.dataset[SIZE_KEY] = str;
         }
     }
 
@@ -321,8 +386,8 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
             .map<CssGridTemplateTrackSize>((e, i) => {
                 const child = e as HTMLElement;
                 const start = 2 * i + offset + 1;
-                gridCell(start, start + 1).applyToElement(child);
-                centerAlt.applyToElement(child);
+                gridCell(start, start + 1).apply(child);
+                centerAlt.apply(child);
 
                 if (isClosed(child)) {
                     return "auto";
@@ -333,7 +398,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
             });
 
         for (let i = inAxis.length + offset - 1; i >= 1 - offset; --i) {
-            arrayInsertAt(inAxis, "min-content", i);
+            arrayInsert(inAxis, "min-content", i);
         }
 
         const template = gridTemplate(...inAxis);
@@ -380,7 +445,7 @@ export function DockPanel(name: string, ...rest: (DockPanelAttr | ElementChild)[
     }
 
     let groupCounter = 0;
-    panel.querySelectorAll(".dock.group")
+    panel.querySelectorAll<HTMLElement>(".dock.group")
         .forEach(child => {
             child.id = "G" + (++groupCounter);
             setProportion(child, getProportion(child));
@@ -416,9 +481,9 @@ export function DockGroupRow(...rest: ElementChild[]) {
         ...rest);
 }
 
-function getInsertionIndex(v: Element) {
+function getInsertionIndex(v: HTMLElement) {
     if (isSep(v)) {
-        const str = elementGetCustomData(v as HTMLElement, INDEX_KEY);
+        const str = v.dataset[INDEX_KEY];
         if (isNullOrUndefined(str)) {
             return null;
         }
@@ -430,9 +495,9 @@ function getInsertionIndex(v: Element) {
     return null;
 }
 
-function setInsertionIndex(v: Element, index: number) {
+function setInsertionIndex(v: HTMLElement, index: number) {
     if (isSep(v)) {
-        CustomData(INDEX_KEY, index.toFixed(0)).applyToElement(v as HTMLElement);
+        v.dataset[INDEX_KEY] = index.toFixed(0);
     }
 }
 
@@ -452,11 +517,10 @@ function DockSep(type: Direction, index: number, isEdge: boolean, ...rest: Eleme
     return part;
 }
 
-export function DockCell(header: Exclude<ElementChild, IElementAppliable>, ...rest: ElementChild[]) {
+export function DockCell(header: string | Date | number | ParentNode, ...rest: ElementChild[]) {
     if (isString(header)
         || isDate(header)
-        || isNumber(header)
-        || isBoolean(header)) {
+        || isNumber(header)) {
         header = H3(header);
     }
 
@@ -468,13 +532,13 @@ export function DockCell(header: Exclude<ElementChild, IElementAppliable>, ...re
         ...rest
     );
 
-    const closer = ButtonSmall(
+    const closer = Button(
         ClassList("closer"),
         closeIcon.emojiStyle,
-        onClick(() => {
+        OnClick(() => {
             elementToggleDisplay(content, "grid");
-            const isOpen = elementIsDisplayed(content);
-            elementSetText(closer, isOpen ? closeIcon.emojiStyle : openIcon.emojiStyle);
+            const isOpen = isDisplayed(content);
+            closer.replaceChildren(isOpen ? closeIcon.emojiStyle : openIcon.emojiStyle);
             cell.classList.toggle("closed", !isOpen);
             cell.dispatchEvent(new Event("regrid"));
         })

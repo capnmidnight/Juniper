@@ -1,37 +1,26 @@
 {
   "name": "@juniper-lib/dom",
-  "private": false,
-  "version": "1.0.2",
+  "version": "1.0.0",
+  "description": "A minimal DOM manipulation framework",
+  "private": true,
   "type": "module",
-  "files": [
-    "dist/*"
-  ],
-  "description": "Lots of functions for manipulating DOM",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
   "dependencies": {
-    "@juniper-lib/collections": "file:../collections",
+    "@juniper-lib/util": "file:../util",
     "@juniper-lib/events": "file:../events",
-    "@juniper-lib/mediatypes": "file:../mediatypes",
     "@juniper-lib/progress": "file:../progress",
-    "@juniper-lib/tslib": "file:../tslib"
+    "@juniper-lib/mediatypes": "file:../mediatypes"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
-    "@types/offscreencanvas": "2019.7.3",
-    "@types/wicg-file-system-access": "2020.9.6"
+    "@types/wicg-file-system-access": "2023.10.5"
   },
-  "repository": {
-    "type": "git",
-    "url": "github.com/capnmidnight/Juniper"
-  },
-  "author": "Sean T. McBeth \u003Csean.mcbeth@gmail.com\u003E",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/capnmidnight/Juniper/issues"
-  },
-  "homepage": "https://github.com/capnmidnight/Juniper#readme"
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

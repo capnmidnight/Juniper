@@ -1,5 +1,4 @@
-import { Pose } from "@juniper-lib/audio/dist/Pose";
-import { AudioStreamSource } from "@juniper-lib/audio/dist/sources/AudioStreamSource";
+import { AudioStreamSource, Pose } from "@juniper-lib/audio";
 import { RemoteUser, RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "./RemoteUser";
 
 export type ConferenceEventTypes = "error"

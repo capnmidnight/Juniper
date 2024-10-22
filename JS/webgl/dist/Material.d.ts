@@ -1,5 +1,4 @@
-/// <reference types="webxr" />
-import type { Mat4, Mat4Like } from "gl-matrix/dist/esm";
+import type { Mat4, Mat4Like } from "gl-matrix";
 import { BaseProgram } from "./BaseProgram";
 import type { Geometry } from "./Geometry";
 import type { BaseTexture } from "./managed/resource/Texture";

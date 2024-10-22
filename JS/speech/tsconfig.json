@@ -3,16 +3,15 @@
   "include": [
     "./src/**/*.ts"
   ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
   "references": [
     { "path": "../audio" },
     { "path": "../dom" },
     { "path": "../events" },
     { "path": "../fetcher" },
-    { "path": "../tslib" }
-  ],
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strictNullChecks": false
-  }
+    { "path": "../util" }
+  ]
 }

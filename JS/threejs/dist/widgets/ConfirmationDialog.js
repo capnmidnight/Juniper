@@ -1,11 +1,11 @@
-import { em, fontSize, maxWidth, padding, perc, pt, rgb, textAlign, width } from "@juniper-lib/dom/dist/css";
-import { HtmlRender, elementIsDisplayed, elementSetDisplay, elementSetText } from "@juniper-lib/dom/dist/tags";
-import { Animator } from "@juniper-lib/graphics2d/dist/animation/Animator";
-import { jump } from "@juniper-lib/graphics2d/dist/animation/tween";
-import { DialogBox } from "@juniper-lib/widgets/dist/DialogBox";
+import { display, H1, HtmlProp, P, registerFactory, rgb, rule, SingletonStyleBlob } from "@juniper-lib/dom";
+import { Animator, jump } from "@juniper-lib/graphics2d";
+import { BaseDialogElement, CancelButtonText, SaveButtonText } from "@juniper-lib/widgets";
+import { Cancelable } from "@juniper-lib/widgets/src/Cancelable";
 import { obj, objectSetVisible, objGraph } from "../objects";
 import { TextMesh } from "./TextMesh";
 import { TextMeshButton } from "./TextMeshButton";
+import { singleton } from "@juniper-lib/util";
 const baseTextStyle = {
     bgStrokeColor: "black",
     bgStrokeSize: 0.04,
@@ -46,26 +46,30 @@ const JUMP_FACTOR = 0.9;
 function newStyle(baseStyle, fontFamily) {
     return Object.assign({}, baseStyle, { fontFamily });
 }
-export class ConfirmationDialog extends DialogBox {
-    constructor(env, fontFamily) {
-        super("Confirm action");
-        this.env = env;
-        this.object = obj("ConfirmationDialog");
+export function EnvironmentAttr(env) {
+    return new HtmlProp("env", env);
+}
+export class ConfirmationDialogElement extends BaseDialogElement {
+    get content() { return this; }
+    #env;
+    get env() { return this.#env; }
+    set env(v) { this.#env = v; }
+    constructor(fontFamily) {
+        super(H1(), P(), Cancelable(true), CancelButtonText("No"), SaveButtonText("Yes"));
+        this.content3d = obj("ConfirmationDialog");
         this.root = obj("Root");
         this.animator = new Animator();
         this.a = 0;
         this.b = 0;
-        this.confirmButton.innerText = "Yes";
-        this.cancelButton.innerText = "No";
+        this.#env = null;
+        SingletonStyleBlob("Juniper::ThreeJS::ConfirmationDialog", () => rule("confirmation-dialog", display("contents")));
         this.mesh = new TextMesh(this.env, "confirmationDialogLabel", "none", newStyle(textLabelStyle, fontFamily));
         this.confirmButton3D = new TextMeshButton(this.env, "confirmationDialogConfirmButton", "Yes", newStyle(confirmButton3DStyle, fontFamily));
-        this.confirmButton3D.addEventListener("click", () => this.confirmButton.click());
-        this.confirmButton3D.object.position.set(1, -0.5, 0.5);
+        this.confirmButton3D.addEventListener("click", () => this.confirm());
+        this.confirmButton3D.content3d.position.set(1, -0.5, 0.5);
         this.cancelButton3D = new TextMeshButton(this.env, "confirmationDialogCancelButton", "No", newStyle(cancelButton3DStyle, fontFamily));
-        this.cancelButton3D.addEventListener("click", () => this.cancelButton.click());
-        this.cancelButton3D.object.position.set(2, -0.5, 0.5);
-        HtmlRender(this.container, maxWidth(`calc(${perc(100)} - ${em(2)})`), width("max-content"));
-        HtmlRender(this.contentArea, fontSize(pt(18)), textAlign("center"), padding(em(1)));
+        this.cancelButton3D.addEventListener("click", () => this.cancel());
+        this.cancelButton3D.content3d.position.set(2, -0.5, 0.5);
         objGraph(this, objGraph(this.root, this.mesh, this.confirmButton3D, this.cancelButton3D));
         objectSetVisible(this.root, false);
         this.root.scale.setScalar(0);
@@ -73,15 +77,33 @@ export class ConfirmationDialog extends DialogBox {
             const scale = jump(this.a + this.b * t, JUMP_FACTOR);
             this.root.scale.set(scale, scale, 0.01);
         };
+        this.dialog.addEventListener("showing", async (evt) => {
+            if (this.use3D) {
+                this.root.visible = true;
+                await this.showHide(0, 1);
+            }
+            evt.resolve();
+        });
+        this.dialog.addEventListener("shown", () => {
+            if (this.use3D) {
+                this.dialog.style.display = "none";
+            }
+        });
+        this.dialog.addEventListener("closing", async () => {
+            if (this.use3D) {
+                await this.showHide(1, -1);
+                this.root.visible = false;
+            }
+        });
     }
     get name() {
-        return this.object.name;
+        return this.content3d.name;
     }
     get visible() {
-        return elementIsDisplayed(this);
+        return this.open;
     }
     set visible(visible) {
-        elementSetDisplay(this, visible, "inline-block");
+        this.open = visible;
         this.mesh.visible = visible;
     }
     update(dt) {
@@ -96,30 +118,13 @@ export class ConfirmationDialog extends DialogBox {
     get use3D() {
         return this.env.renderer.xr.isPresenting || this.env.testSpaceLayout;
     }
-    async onShowing() {
-        await super.onShowing();
-        if (this.use3D) {
-            this.root.visible = true;
-            await this.showHide(0, 1);
-        }
-    }
-    onShown() {
-        if (this.use3D) {
-            this.element.style.display = "none";
-        }
-    }
-    async onClosing() {
-        if (this.use3D) {
-            await this.showHide(1, -1);
-            this.root.visible = false;
-        }
-        await super.onClosing();
-    }
     prompt(title, message) {
         this.title = title;
-        elementSetText(this.contentArea, message);
+        this.body.replaceChildren(message);
         this.mesh.image.value = message;
-        return this.showDialog();
+        return this.show();
     }
+    static install() { return singleton("Juniper::ThreeJS::ConfirmationDialog", () => registerFactory("confirmation-dialog", ConfirmationDialogElement)); }
 }
+export function ConfirmationDialog(...rest) { return ConfirmationDialogElement.install()(...rest); }
 //# sourceMappingURL=ConfirmationDialog.js.map

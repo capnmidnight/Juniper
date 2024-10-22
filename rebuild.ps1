@@ -1,30 +1,11 @@
-npm run --prefix src\Juniper.TypeScript\esbuild init
-npm run --prefix src\Juniper.TypeScript\esbuild build
-npm run --prefix src\Juniper.TypeScript\emoji init
-npm run --prefix src\Juniper.TypeScript\emoji build
-npm run --prefix src\Juniper.TypeScript\tslib init
-npm run --prefix src\Juniper.TypeScript\tslib build
-npm run --prefix src\Juniper.TypeScript\mediatypes init
-npm run --prefix src\Juniper.TypeScript\mediatypes build
-npm run --prefix src\Juniper.TypeScript\dom init
-npm run --prefix src\Juniper.TypeScript\dom build
-npm run --prefix src\Juniper.TypeScript\fetcher-base init
-npm run --prefix src\Juniper.TypeScript\fetcher-base build
-npm run --prefix src\Juniper.TypeScript\fetcher init
-npm run --prefix src\Juniper.TypeScript\fetcher build
-npm run --prefix src\Juniper.TypeScript\fetcher-worker init
-npm run --prefix src\Juniper.TypeScript\fetcher-worker build
-npm run --prefix src\Juniper.TypeScript\google-maps init
-npm run --prefix src\Juniper.TypeScript\google-maps build
-npm run --prefix src\Juniper.TypeScript\graphics2d init
-npm run --prefix src\Juniper.TypeScript\graphics2d build
-npm run --prefix src\Juniper.TypeScript\testing init
-npm run --prefix src\Juniper.TypeScript\testing build
-npm run --prefix src\Juniper.TypeScript\units init
-npm run --prefix src\Juniper.TypeScript\units build
-npm run --prefix src\Juniper.TypeScript\audio init
-npm run --prefix src\Juniper.TypeScript\audio build
-npm run --prefix src\Juniper.TypeScript\webrtc init
-npm run --prefix src\Juniper.TypeScript\webrtc build
-npm run --prefix src\Juniper.TypeScript\threejs init
-npm run --prefix src\Juniper.TypeScript\threejs build
+try {
+    pushd $PSScriptRoot
+
+    ./clean.ps1
+
+    npm i --no-fund --prefer-offline
+    npm run build
+}
+finally {
+    popd
+}

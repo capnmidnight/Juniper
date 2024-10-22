@@ -2,14 +2,20 @@
   "extends": "../../tsconfig_base.json",
   "include": [
     "./src/**/*.ts"
+
   ],
   "compilerOptions": {
+    "noEmit": false,
+    "emitDeclarationOnly": false,
     "outDir": "./dist",
     "rootDir": "./src",
-    "typeRoots": [
-      "node_modules/@types"
+    "lib": [
+      "ES2021"
     ],
-
-    "lib": [ "ES2021", "DOM" ]
+    "typeRoots": [
+        "../../node_modules/@types",
+        "node_modules/@types",
+        "../types"
+    ]
   }
 }

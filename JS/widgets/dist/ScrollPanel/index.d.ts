@@ -1,7 +1,3 @@
-import { ElementChild, ErsatzElement } from "@juniper-lib/dom/dist/tags";
-import "./styles.css";
-export declare class ScrollPanel implements ErsatzElement {
-    readonly element: HTMLElement;
-    constructor(...rest: ElementChild[]);
-}
+import { ElementChild } from "@juniper-lib/dom";
+export declare function ScrollPanel(...rest: ElementChild[]): HTMLDivElement;
 //# sourceMappingURL=index.d.ts.map

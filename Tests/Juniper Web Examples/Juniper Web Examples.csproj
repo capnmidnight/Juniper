@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+	  <TargetFramework>net8.0</TargetFramework>
+	  <RuntimeIdentifiers>win-x86;win-x64;linux-x64;osx-x64;osx-arm64</RuntimeIdentifiers>
+	  <RootNamespace>Juniper.Examples</RootNamespace>
+	  <UserSecretsId>6dce2b4c-ea2e-47c8-9a46-1c9f0ab49ba0</UserSecretsId>
+	  <AssemblyName>Juniper.Examples - Web</AssemblyName>
+	  <ImplicitUsings>true</ImplicitUsings>
+	  <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.1" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\NETCore\Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\..\NETCore\Server\Juniper.Server.csproj" />
+    <ProjectReference Include="..\..\NETCore\TSBuild\Juniper.TSBuild.csproj" />
+    <ProjectReference Include="..\..\NETCore\Units\Juniper.Units.csproj" />
+    <ProjectReference Include="..\Juniper Build Config Example\Juniper Build Config Example.csproj" />
+  </ItemGroup>
+
+</Project>

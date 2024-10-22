@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
   "name": "@juniper-lib/video",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -19,10 +19,10 @@
     "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/mediatypes": "file:../mediatypes",
     "@juniper-lib/progress": "file:../progress",
-    "@juniper-lib/tslib": "file:../tslib",
-    "gl-matrix": "4.0.0-beta.1"
+    "@juniper-lib/util": "file:../util",
+    "gl-matrix": "4.0.0-beta.2"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types"
+    "@juniper-lib/dom-types": "file:../types/dom-types"
   }
 }

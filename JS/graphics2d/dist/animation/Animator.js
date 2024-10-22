@@ -1,5 +1,5 @@
-import { arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { Task } from "@juniper-lib/events/dist/Task";
+import { arrayScan } from "@juniper-lib/util";
+import { Task } from "@juniper-lib/events";
 function isDead(task) {
     return !task.started || task.finished;
 }

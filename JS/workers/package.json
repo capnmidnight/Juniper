@@ -1,19 +1,20 @@
 {
-  "version": "1.0.0",
   "name": "@juniper-lib/workers",
+  "version": "1.0.0",
   "private": true,
+  "description": "Message-passing API wrappers for Web Workers",
   "type": "module",
+  "module": "dist/index.js",
+  "main": "dist/index.js",
   "files": [
     "dist/*"
   ],
-  "module": "dist/index.js",
-  "main": "dist/index.js",
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
     "@juniper-lib/events": "file:../events",
     "@juniper-lib/progress": "file:../progress",
-    "@juniper-lib/tslib": "file:../tslib"
-  }
+    "@juniper-lib/util": "file:../util"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

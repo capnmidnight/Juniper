@@ -1,9 +1,8 @@
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { arrayClear, arrayRemove } from "./arrays";
+import { arrayClear, arrayRemove, isDefined, isNullOrUndefined } from "@juniper-lib/util";
 export class PriorityList {
+    #items = new Map();
+    #defaultItems = new Array();
     constructor(init) {
-        this.items = new Map();
-        this.defaultItems = new Array();
         if (isDefined(init)) {
             for (const [key, value] of init) {
                 this.add(key, value);
@@ -13,12 +12,12 @@ export class PriorityList {
     add(key, ...values) {
         for (const value of values) {
             if (isNullOrUndefined(key)) {
-                this.defaultItems.push(value);
+                this.#defaultItems.push(value);
             }
             else {
-                let list = this.items.get(key);
+                let list = this.#items.get(key);
                 if (isNullOrUndefined(list)) {
-                    this.items.set(key, list = []);
+                    this.#items.set(key, list = []);
                 }
                 list.push(value);
             }
@@ -26,19 +25,19 @@ export class PriorityList {
         return this;
     }
     entries() {
-        return this.items.entries();
+        return this.#items.entries();
     }
     [Symbol.iterator]() {
         return this.entries();
     }
     keys() {
-        return this.items.keys();
+        return this.#items.keys();
     }
     *values() {
-        for (const item of this.defaultItems) {
+        for (const item of this.#defaultItems) {
             yield item;
         }
-        for (const list of this.items.values()) {
+        for (const list of this.#items.values()) {
             for (const item of list) {
                 yield item;
             }
@@ -46,21 +45,21 @@ export class PriorityList {
     }
     has(key) {
         if (isDefined(key)) {
-            return this.items.has(key);
+            return this.#items.has(key);
         }
         else {
-            return this.defaultItems.length > 0;
+            return this.#defaultItems.length > 0;
         }
     }
     get(key) {
         if (isNullOrUndefined(key)) {
-            return this.defaultItems;
+            return this.#defaultItems;
         }
-        return this.items.get(key) || [];
+        return this.#items.get(key) || [];
     }
     count(key) {
         if (isNullOrUndefined(key)) {
-            return this.defaultItems.length;
+            return this.#defaultItems.length;
         }
         const list = this.get(key);
         if (isDefined(list)) {
@@ -69,37 +68,37 @@ export class PriorityList {
         return 0;
     }
     get size() {
-        let size = this.defaultItems.length;
-        for (const list of this.items.values()) {
+        let size = this.#defaultItems.length;
+        for (const list of this.#items.values()) {
             size += list.length;
         }
         return size;
     }
     delete(key) {
         if (isNullOrUndefined(key)) {
-            return arrayClear(this.defaultItems).length > 0;
+            return arrayClear(this.#defaultItems).length > 0;
         }
         else {
-            return this.items.delete(key);
+            return this.#items.delete(key);
         }
     }
     remove(key, value) {
         if (isNullOrUndefined(key)) {
-            arrayRemove(this.defaultItems, value);
+            arrayRemove(this.#defaultItems, value);
         }
         else {
-            const list = this.items.get(key);
+            const list = this.#items.get(key);
             if (isDefined(list)) {
                 arrayRemove(list, value);
                 if (list.length === 0) {
-                    this.items.delete(key);
+                    this.#items.delete(key);
                 }
             }
         }
     }
     clear() {
-        this.items.clear();
-        arrayClear(this.defaultItems);
+        this.#items.clear();
+        arrayClear(this.#defaultItems);
     }
 }
 //# sourceMappingURL=PriorityList.js.map

@@ -1,4 +1,4 @@
-import type { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
 import { ManagedWebGLObject } from "../object/ManagedWebGLObject";
 export declare abstract class ManagedWebGLResource<PointerT> extends ManagedWebGLObject<PointerT> implements IDisposable {
     private disposed;

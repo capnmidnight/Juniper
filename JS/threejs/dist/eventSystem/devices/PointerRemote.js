@@ -31,8 +31,8 @@ export class PointerRemote extends BasePointer {
         this._hand = null;
         this.killTimeout = null;
         this.remoteType = getPointerType(this.remoteID);
-        this.object = obj(`remote:${this.avatar.userName}:${this.name}`, this.laser = new Laser(this.avatar.isInstructor ? green : yellow, this.avatar.isInstructor ? 1 : 0.5, 0.002), this.handCube = new Cube(ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, litGrey));
-        this.cursor.object.name = `${this.object.name}:cursor`;
+        this.content3d = obj(`remote:${this.avatar.userName}:${this.name}`, this.laser = new Laser(this.avatar.isInstructor ? green : yellow, this.avatar.isInstructor ? 1 : 0.5, 0.002), this.handCube = new Cube(ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, litGrey));
+        this.cursor.content3d.name = `${this.content3d.name}:cursor`;
         this.cursor.visible = true;
         // Fakey "inverse kinematics" arm model. Doesn't actually
         // do any IK, just make an elbow that sits behind the hand
@@ -130,7 +130,7 @@ export class PointerRemote extends BasePointer {
         this.P.copy(this.origin).add(this.visualOffset);
         if (this.cursor.visible) {
             // point the pointer at the cursor
-            this.cursor.object
+            this.cursor.content3d
                 .getWorldPosition(this.D)
                 .sub(this.P);
             this.laser.length = this.D.length() - 0.1;
@@ -143,10 +143,10 @@ export class PointerRemote extends BasePointer {
         // Orient the graphics
         setMatrixFromUpFwdPos(this.up, this.D, this.P, this.MW);
         this.M
-            .copy(this.object.parent.matrixWorld)
+            .copy(this.content3d.parent.matrixWorld)
             .invert()
             .multiply(this.MW)
-            .decompose(this.object.position, this.object.quaternion, this.object.scale);
+            .decompose(this.content3d.position, this.content3d.quaternion, this.content3d.scale);
     }
     updatePointerOrientation() {
         // do nothing

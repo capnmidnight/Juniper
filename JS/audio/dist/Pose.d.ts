@@ -1,4 +1,4 @@
-import { Quat, Vec3 } from "gl-matrix/dist/esm";
+import { Quat, Vec3 } from "gl-matrix";
 /**
  * A position and orientation, at a given time.
  **/

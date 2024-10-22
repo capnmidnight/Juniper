@@ -1,26 +1,20 @@
 {
-  "version": "1.0.0",
   "name": "@juniper-lib/appshell",
+  "version": "1.0.0",
   "private": true,
+  "description": "An adapter API for the Desktop AppShell",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
     "dist/*"
   ],
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "scripts": {
-    "check": "tsc --noEmit",
-    "ts-build": "tsc -b",
-    "copy-assets": "node ../../node_modules/copy-assets/index.mjs src dist .css",
-    "build": "npm run ts-build && npm run copy-assets",
-    "juniper-build": "npm run build"
-  },
   "dependencies": {
     "@juniper-lib/events": "file:../events",
     "@juniper-lib/fetcher": "file:../fetcher",
-    "@juniper-lib/tslib": "file:../tslib"
+    "@juniper-lib/util": "file:../util"
   },
-  "devDependencies": {
-    "copy-assets": "file:../copy-assets"
-  }
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

@@ -1,4 +1,3 @@
-/// <reference types="webxr" />
 import { Color, Matrix4, Object3D, XRHandSpace } from "three";
 export type XRHandModelPrimitiveProfileType = "spheres" | "boxes" | "bones";
 export type XRHandModelProfileType = XRHandModelPrimitiveProfileType | "mesh";

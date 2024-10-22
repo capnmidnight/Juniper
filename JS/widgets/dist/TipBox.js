@@ -1,47 +1,17 @@
-import { ID, Name, Open, Query, Slot_attr } from "@juniper-lib/dom/dist/attrs";
-import { onToggle } from "@juniper-lib/dom/dist/evts";
-import { Details, HtmlRender, LI, Slot, Summary, Template, UL } from "@juniper-lib/dom/dist/tags";
-import { EventTargetMixin } from "@juniper-lib/events/dist/EventTarget";
-export function TipBox(tipBoxID, ...tips) {
-    return HtmlRender(document.createElement("tip-box"), ID(tipBoxID), UL(Slot_attr("tips-slot"), ...tips.map(tip => LI(tip))));
-}
-const template = Template(Details(Summary("Tips:"), Slot(Name("tips-slot"))));
-export class TipBoxElement extends HTMLElement {
-    constructor() {
-        super();
-        this.eventTarget = new EventTargetMixin(super.addEventListener.bind(this), super.removeEventListener.bind(this), super.dispatchEvent.bind(this));
-    }
+import { singleton } from "@juniper-lib/util";
+import { Details, ID, LI, Name, OnToggle, Open, Query, registerFactory, SlotAttr, SlotTag, SummaryTag, Template, TypedHTMLElement, UL } from "@juniper-lib/dom";
+const template = Template(Details(SummaryTag("Tips:"), SlotTag(Name("tips-slot"))));
+export class TipBoxElement extends TypedHTMLElement {
     connectedCallback() {
         const storageKey = `Juniper:Widgets:TipBox:${this.id}`;
         const shadowRoot = this.attachShadow({ mode: "closed" });
         const instance = template.content.cloneNode(true);
         shadowRoot.appendChild(instance);
-        const details = Details(Query(shadowRoot, "details"), Open(localStorage.getItem(storageKey) !== "closed"), onToggle(() => localStorage.setItem(storageKey, details.open ? "open" : "closed")));
+        const details = Details(Query(shadowRoot, "details"), Open(localStorage.getItem(storageKey) !== "closed"), OnToggle(() => localStorage.setItem(storageKey, details.open ? "open" : "closed")));
     }
-    addEventListener(type, callback, options) {
-        this.eventTarget.addEventListener(type, callback, options);
-    }
-    removeEventListener(type, callback) {
-        this.eventTarget.removeEventListener(type, callback);
-    }
-    dispatchEvent(evt) {
-        return this.eventTarget.dispatchEvent(evt);
-    }
-    addBubbler(bubbler) {
-        this.eventTarget.addBubbler(bubbler);
-    }
-    removeBubbler(bubbler) {
-        this.eventTarget.removeBubbler(bubbler);
-    }
-    addScopedEventListener(scope, type, callback, options) {
-        this.eventTarget.addScopedEventListener(scope, type, callback, options);
-    }
-    removeScope(scope) {
-        this.eventTarget.removeScope(scope);
-    }
-    clearEventListeners(type) {
-        this.eventTarget.clearEventListeners(type);
-    }
+    static install() { return singleton("Juniper::Widgets::TipBoxElement", () => registerFactory("tip-box", TipBoxElement)); }
 }
-customElements.define("tip-box", TipBoxElement);
+export function TipBox(tipBoxID, ...tips) {
+    return TipBoxElement.install()(ID(tipBoxID), UL(SlotAttr("tips-slot"), ...tips.map(tip => LI(tip))));
+}
 //# sourceMappingURL=TipBox.js.map

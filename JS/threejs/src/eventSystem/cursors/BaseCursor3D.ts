@@ -8,7 +8,8 @@ import { BaseCursor } from "./BaseCursor";
 export abstract class BaseCursor3D
     extends BaseCursor
     implements ErsatzObject {
-    private _object: Object3D = null;
+
+    #content3d: Object3D = null;
 
     private readonly T = new Vector3();
     private readonly V = new Vector3();
@@ -24,12 +25,12 @@ export abstract class BaseCursor3D
         this._side = v;
     }
 
-    get object() {
-        return this._object;
+    get content3d() {
+        return this.#content3d;
     }
 
-    set object(v) {
-        this._object = v;
+    set content3d(v) {
+        this.#content3d = v;
     }
 
     constructor(protected readonly env: BaseEnvironment) {
@@ -37,7 +38,7 @@ export abstract class BaseCursor3D
     }
 
     get position() {
-        return this.object.position;
+        return this.content3d.position;
     }
 
     update(
@@ -137,21 +138,21 @@ export abstract class BaseCursor3D
             this.up,
             this.f,
             p,
-            this.object.matrixWorld);
+            this.content3d.matrixWorld);
 
-        this.object.matrix
-            .copy(this.object.parent.matrixWorld)
+        this.content3d.matrix
+            .copy(this.content3d.parent.matrixWorld)
             .invert()
-            .multiply(this.object.matrixWorld);
+            .multiply(this.content3d.matrixWorld);
 
-        this.object.matrix.decompose(
-            this.object.position,
-            this.object.quaternion,
-            this.object.scale);
-        this.object.scale.x *= this.side;
-        this.object.matrix.compose(
-            this.object.position,
-            this.object.quaternion,
-            this.object.scale);
+        this.content3d.matrix.decompose(
+            this.content3d.position,
+            this.content3d.quaternion,
+            this.content3d.scale);
+        this.content3d.scale.x *= this.side;
+        this.content3d.matrix.compose(
+            this.content3d.position,
+            this.content3d.quaternion,
+            this.content3d.scale);
     }
 }

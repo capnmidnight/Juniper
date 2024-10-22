@@ -1,7 +1,7 @@
-import { BaseSpatializer } from "./BaseSpatializer";
+import { assertNever } from "@juniper-lib/util";
+import { Vec3 } from "gl-matrix";
 import { JuniperPannerNode } from "../context/JuniperPannerNode";
-import { assertNever } from "@juniper-lib/tslib/dist/typeChecks";
-import { Vec3 } from "gl-matrix/dist/esm";
+import { BaseSpatializer } from "./BaseSpatializer";
 const fwd = new Vec3();
 /**
  * Base class for spatializers that uses WebAudio's PannerNode

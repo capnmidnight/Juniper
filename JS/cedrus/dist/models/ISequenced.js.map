@@ -1,0 +1,1 @@
+{"version":3,"file":"ISequenced.js","sourceRoot":"","sources":["../../src/models/ISequenced.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,QAAQ,EAAE,MAAM,mBAAmB,CAAC;AAMvD,MAAM,UAAU,YAAY,CAAC,GAAY;IACrC,OAAO,QAAQ,CAAC,GAAG,CAAC;WACb,IAAI,IAAI,GAAG;WACX,QAAQ,CAAC,GAAG,CAAC,EAAE,CAAC,CAAC;AAC5B,CAAC"}

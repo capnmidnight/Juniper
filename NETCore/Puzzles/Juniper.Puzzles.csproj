@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<AssemblyName>Juniper.Puzzles</AssemblyName>
+		<RootNamespace>Juniper.Puzzles</RootNamespace>
+		<PackageId>SeanMcBeth.Juniper.Puzzles</PackageId>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>General purpose code</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Root\Juniper.Root.csproj" />
+		<ProjectReference Include="..\Terminal\Juniper.Terminal.csproj" />
+	</ItemGroup>
+</Project>

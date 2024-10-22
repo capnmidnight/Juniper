@@ -1,8 +1,6 @@
-import { TypedEventMap, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { BaseProgress } from "@juniper-lib/progress/dist/BaseProgress";
-import { isArray, isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { makeErrorMessage } from "../../tslib/src/makeErrorMessage";
-import { WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEventMessage, WorkerServerMessages, WorkerServerProgressMessage, WorkerServerReturnMessage } from "./WorkerMessages";
+import { isArray, isDefined, isFunction, isObject, isString, WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEventMessage, WorkerServerMessages, WorkerServerProgressMessage, WorkerServerReturnMessage } from "@juniper-lib/util";
+import { TypedEventMap, TypedEventTarget } from "@juniper-lib/events";
+import { BaseProgress } from "@juniper-lib/progress";
 
 type workerServerMethod = (taskID: number, ...params: any[]) => Promise<void>;
 
@@ -13,8 +11,14 @@ type Executor<T> = (...params: any[]) => Promise<T>;
 type VoidExecutor = (...params: any[]) => void;
 
 class WorkerServerProgress extends BaseProgress {
-    constructor(private readonly server: WorkerServer<any>, private readonly taskID: number) {
+
+    readonly #server: WorkerServer<any>;
+    readonly #taskID: number;
+
+    constructor(server: WorkerServer<any>, taskID: number) {
         super();
+        this.#server = server;
+        this.#taskID = taskID;
     }
 
 
@@ -29,41 +33,43 @@ class WorkerServerProgress extends BaseProgress {
     override report(soFar: number, total: number, msg?: string, est?: number): void {
         const message: WorkerServerProgressMessage = {
             type: "progress",
-            taskID: this.taskID,
+            taskID: this.#taskID,
             soFar,
             total,
             msg,
             est
         };
-        this.server.postMessage(message);
+        this.#server.postMessage(message);
     }
 }
 
 export class WorkerServer<EventMapT extends TypedEventMap<string>> {
-    private methods = new Map<string, workerServerMethod>();
+    readonly #methods = new Map<string, workerServerMethod>();
+    readonly #self: DedicatedWorkerGlobalScope;
 
     /**
      * Creates a new worker thread method call listener.
      * @param self - the worker scope in which to listen.
      */
-    constructor(private self: DedicatedWorkerGlobalScope) {
-        this.self.addEventListener("message", (evt: MessageEvent<WorkerClientMethodCallMessage>): void => {
+    constructor(self: DedicatedWorkerGlobalScope) {
+        this.#self = self;
+        this.#self.addEventListener("message", (evt: MessageEvent<WorkerClientMethodCallMessage>): void => {
             const data = evt.data;
-            this.callMethod(data);
+            this.#callMethod(data);
         });
     }
 
     postMessage(message: WorkerServerMessages<EventMapT>, transferables?: (Transferable | OffscreenCanvas)[]): void {
         if (isDefined(transferables)) {
-            this.self.postMessage(message, transferables);
+            this.#self.postMessage(message, transferables);
         }
         else {
-            this.self.postMessage(message);
+            this.#self.postMessage(message);
         }
     }
 
-    private callMethod(data: WorkerClientMethodCallMessage) {
-        const method = this.methods.get(data.methodName);
+    #callMethod(data: WorkerClientMethodCallMessage) {
+        const method = this.#methods.get(data.methodName);
         if (method) {
             try {
                 if (isArray(data.params)) {
@@ -77,11 +83,12 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
                 }
             }
             catch (exp) {
-                this.onError(data.taskID, `method invocation error: ${data.methodName}($1)`, exp);
+                const msg = isObject(exp) && "message" in exp && exp.message || exp;
+                this.#onError(data.taskID, `method invocation error: ${data.methodName}(${msg})`);
             }
         }
         else {
-            this.onError(data.taskID, `method not found: ${data.methodName}`);
+            this.#onError(data.taskID, `method not found: ${data.methodName}`);
         }
     }
 
@@ -90,16 +97,12 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
      * @param taskID - the invocation ID of the method that errored.
      * @param errorMessage - what happened?
      */
-    private onError(taskID: number, error: unknown): void;
-    private onError(taskID: number, errorMessage: string): void;
-    private onError(taskID: number, errorMessage: string, error: unknown): void;
-    private onError(taskID: number, errorMessageOrError: string | unknown, maybeError?: unknown): void {
+    #onError(taskID: number, errorMessage: string): void {
         const message: WorkerServerErrorMessage = {
             type: "error",
             taskID,
-            errorMessage: makeErrorMessage(errorMessageOrError, maybeError)
+            errorMessage
         };
-
         this.postMessage(message);
     }
 
@@ -109,7 +112,7 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
      * @param returnValue - the (optional) value to return.
      * @param transferReturnValue - a mapping function to extract any Transferable objects from the return value.
      */
-    private onReturn<T>(taskID: number, returnValue: T, transferReturnValue: createTransferableCallback<T>): void {
+    #onReturn<T>(taskID: number, returnValue: T, transferReturnValue: createTransferableCallback<T>): void {
         let message: WorkerServerReturnMessage = null;
         if (returnValue === undefined) {
             message = {
@@ -134,23 +137,27 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
         }
     }
 
-    private addMethodInternal<T>(methodName: string, asyncFunc: Function, transferReturnValue?: createTransferableCallback<T>) {
-        if (this.methods.has(methodName)) {
+    #addMethodInternal<T>(methodName: string, asyncFunc: Function, transferReturnValue?: createTransferableCallback<T>) {
+        if (this.#methods.has(methodName)) {
             throw new Error(`${methodName} method has already been mapped.`);
         }
 
-        this.methods.set(methodName, async (taskID: number, ...params: any[]) => {
+        this.#methods.set(methodName, async (taskID: number, ...params: any[]) => {
             const prog = new WorkerServerProgress(this, taskID);
 
             try {
                 // Even functions returning void and functions returning bare, unPromised values, can be awaited.
                 // This creates a convenient fallback where we don't have to consider the exact return type of the function.
                 const returnValue = await asyncFunc(...params, prog);
-                this.onReturn(taskID, returnValue, transferReturnValue);
+                this.#onReturn(taskID, returnValue, transferReturnValue);
             }
             catch (exp) {
                 console.error(exp);
-                this.onError(taskID, exp);
+                const err = isObject(exp) && "message" in exp && exp.message || exp;
+                const msg = isString(err) && err
+                    || isObject(err) && "toString" in err && isFunction(err.toString) && err.toString()
+                    || "Unknown";
+                this.#onError(taskID, msg);
             }
         });
     }
@@ -162,7 +169,7 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
      * @param transferReturnValue - an (optional) function that reports on which values in the `returnValue` should be transfered instead of copied.
      */
     addFunction<T>(methodName: string, asyncFunc: Executor<T>, transferReturnValue?: createTransferableCallback<T>) {
-        this.addMethodInternal<T>(methodName, asyncFunc, transferReturnValue);
+        this.#addMethodInternal<T>(methodName, asyncFunc, transferReturnValue);
     }
 
     /**
@@ -171,7 +178,7 @@ export class WorkerServer<EventMapT extends TypedEventMap<string>> {
      * @param asyncFunc - the function to execute when the method is invoked.
      */
     addVoidFunction(methodName: string, asyncFunc: VoidExecutor) {
-        this.addMethodInternal(methodName, asyncFunc);
+        this.#addMethodInternal(methodName, asyncFunc);
     }
 
     /**

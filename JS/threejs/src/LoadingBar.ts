@@ -1,5 +1,5 @@
-import { BaseProgress } from "@juniper-lib/progress/dist/BaseProgress";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { BaseProgress } from "@juniper-lib/progress";
+import { IProgress } from "@juniper-lib/progress";
 import { Cube } from "./Cube";
 import { deepSetLayer, PURGATORY } from "./layers";
 import { litGrey, litWhite } from "./materials";
@@ -19,7 +19,7 @@ export class LoadingBar
     private readonly valueBar: Cube;
     private value = 0;
     private targetValue = 0;
-    readonly object = obj("LoadingBar");
+    readonly content3d = obj("LoadingBar");
 
     constructor() {
         super();
@@ -67,7 +67,7 @@ export class LoadingBar
     }
 
     update(dt: number) {
-        if (this.object.parent.visible) {
+        if (this.content3d.parent.visible) {
             this.value = Math.min(this.targetValue, this.value + velocity * dt);
             this.valueBar.scale.set(this.value, 1, 1);
             this.valueBar.position.x = this.value / 2 - 0.5;

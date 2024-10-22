@@ -1,5 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { Comparable, arrayInsertAt, arrayRemove, compareBy, insertSorted } from "./arrays";
+import { arrayInsert, arrayRemove, compareCallback, insertSorted, isDefined } from "@juniper-lib/util";
 
 function breadthFirstPeek<ValueT>(arr: ValueT[]) {
     return arr[0];
@@ -20,19 +19,19 @@ export abstract class BaseGraphNode<ValueT> {
 
     protected readonly _forward = new Array<this>();
     protected readonly _reverse = new Array<this>();
+    protected readonly _connected = new Set<this>();
 
     constructor(public readonly value: ValueT) {
     }
 
-    connectSorted<KeyT extends Comparable>(child: this, keySelector: (value: ValueT) => KeyT): void {
-        if (isDefined(keySelector)) {
-            const comparer = compareBy<this>((n) => keySelector(n.value));
-            insertSorted(this._forward, child, comparer);
-            insertSorted(child._reverse, this, comparer);
-        }
-        else {
-            this.connectTo(child);
-        }
+    connectSorted(child: this, comparer: compareCallback<ValueT>): void {
+        const comparerValues = (a: this, b: this) => comparer(a.value, b.value);
+        Object.assign(comparerValues, { descending: comparer.descending });
+
+        insertSorted(this._forward, child, comparerValues);
+        insertSorted(child._reverse, this, comparerValues);
+        this._connected.add(child);
+        child._connected.add(this);
     }
 
     connectTo(child: this) {
@@ -40,18 +39,21 @@ export abstract class BaseGraphNode<ValueT> {
     }
 
     connectAt(child: this, index: number) {
-        arrayInsertAt(this._forward, child, index);
+        arrayInsert(this._forward, child, index);
         child._reverse.push(this);
+        this._connected.add(child);
+        child._connected.add(this);
     }
 
     disconnectFrom(child: this) {
         arrayRemove(this._forward, child);
         arrayRemove(child._reverse, this);
+        this._connected.delete(child);
+        child._connected.delete(this);
     }
 
     isConnectedTo(node: this): boolean {
-        return this._forward.indexOf(node) >= 0
-            || this._reverse.indexOf(node) >= 0;
+        return this._connected.has(node);
     }
 
     flatten(): this[] {

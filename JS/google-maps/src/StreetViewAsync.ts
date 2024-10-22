@@ -1,5 +1,5 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { once } from "@juniper-lib/events/dist/once";
+import { once } from "@juniper-lib/util";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 
 type StreetViewAsyncEvents = {
     positionchanged: TypedEvent<"positionchanged">;

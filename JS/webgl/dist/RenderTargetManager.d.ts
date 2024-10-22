@@ -1,5 +1,4 @@
-/// <reference types="webxr" />
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
 import { BaseRenderTarget } from "./managed/resource/FrameBuffer";
 export declare class RenderTargetManager implements IDisposable {
     private gl;

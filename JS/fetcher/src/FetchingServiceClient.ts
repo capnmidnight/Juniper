@@ -1,9 +1,9 @@
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { WorkerClient, WorkerServerEventMessage } from "@juniper-lib/workers";
+import { IResponse, WorkerServerEventMessage } from "@juniper-lib/util";
+import { WorkerClient } from "@juniper-lib/dom";
+import { TypedEventMap } from "@juniper-lib/events";
+import { IProgress } from "@juniper-lib/progress";
 import { IFetchingService } from "./IFetchingService";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
 
 function isDOMParsersSupportedType(type: string): type is DOMParserSupportedType {
     return type === "application/xhtml+xml"
@@ -16,7 +16,6 @@ function isDOMParsersSupportedType(type: string): type is DOMParserSupportedType
 function bufferToXml(response: IResponse<ArrayBuffer>): IResponse<HTMLElement> {
     const {
         status,
-
         requestPath,
         responsePath,
         content: buffer,
@@ -24,7 +23,9 @@ function bufferToXml(response: IResponse<ArrayBuffer>): IResponse<HTMLElement> {
         contentLength,
         fileName,
         headers,
-        date
+        date,
+        errorMessage,
+        errorObject
     } = response;
 
     if (!isDOMParsersSupportedType(contentType)) {
@@ -45,7 +46,9 @@ function bufferToXml(response: IResponse<ArrayBuffer>): IResponse<HTMLElement> {
         contentLength,
         fileName,
         date,
-        headers
+        headers,
+        errorMessage,
+        errorObject
     };
 }
 
@@ -59,7 +62,9 @@ function bufferToBlob(response: IResponse<ArrayBuffer>): IResponse<Blob> {
         contentLength,
         fileName,
         headers,
-        date
+        date,
+        errorMessage,
+        errorObject
     } = response;
 
     const blob = new Blob([buffer], {
@@ -75,7 +80,9 @@ function bufferToBlob(response: IResponse<ArrayBuffer>): IResponse<Blob> {
         contentLength,
         fileName,
         date,
-        headers
+        headers,
+        errorMessage,
+        errorObject
     };
 }
 
@@ -127,60 +134,60 @@ export class FetchingServiceClient
         
     }
 
-    private makeRequest<T>(methodName: string, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+    #makeRequest<T>(methodName: string, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         return this.callMethod(methodName, [cloneRequest(request)], progress);
     }
 
-    private makeRequestWithBody<T>(methodName: string, request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
+    #makeRequestWithBody<T>(methodName: string, request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
         return this.callMethod(methodName, [cloneRequestWithBody(request)], progress);
     }
 
     sendNothingGetNothing(request: IRequest): Promise<IResponse> {
-        return this.makeRequest("sendNothingGetNothing", request, null);
+        return this.#makeRequest("sendNothingGetNothing", request, null);
     }
 
     sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.makeRequest("sendNothingGetBuffer", request, progress);
+        return this.#makeRequest("sendNothingGetBuffer", request, progress);
     }
 
     sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.makeRequest("sendNothingGetText", request, progress);
+        return this.#makeRequest("sendNothingGetText", request, progress);
     }
 
     sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<IResponse<T>> {
-        return this.makeRequest("sendNothingGetObject", request, progress);
+        return this.#makeRequest("sendNothingGetObject", request, progress);
     }
 
     sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.makeRequest("sendNothingGetFile", request, progress);
+        return this.#makeRequest("sendNothingGetFile", request, progress);
     }
 
     sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.makeRequest("sendNothingGetImageBitmap", request, progress);
+        return this.#makeRequest("sendNothingGetImageBitmap", request, progress);
     }
 
     sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse> {
-        return this.makeRequestWithBody("sendObjectGetNothing", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetNothing", request, progress);
     }
 
     sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.makeRequestWithBody("sendObjectGetBuffer", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetBuffer", request, progress);
     }
 
     sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.makeRequestWithBody("sendObjectGetText", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetText", request, progress);
     }
 
     sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
-        return this.makeRequestWithBody("sendObjectGetObject", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetObject", request, progress);
     }
 
     sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.makeRequestWithBody("sendObjectGetFile", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetFile", request, progress);
     }
 
     sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.makeRequestWithBody("sendObjectGetImageBitmap", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetImageBitmap", request, progress);
     }
 
     drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse> {

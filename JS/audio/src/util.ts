@@ -1,4 +1,4 @@
-import { isFunction } from "@juniper-lib/tslib/dist/typeChecks";
+import { isFunction } from "@juniper-lib/util";
 
 export const hasAudioContext = /*@__PURE__*/ "AudioContext" in globalThis;
 export const hasAudioListener = /*@__PURE__*/ hasAudioContext && "AudioListener" in globalThis;

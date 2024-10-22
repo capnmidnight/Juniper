@@ -1,0 +1,32 @@
+﻿tab-panel:not(:disabled) > .tab-panel-controls > .btn-primary:not(.selected),
+tab-panel:disabled > .tab-panel-controls > .btn-primary.selected,
+data-browser:not(:disabled) > .tab-panel-controls > .btn-primary:not(.selected),
+data-browser:disabled > .tab-panel-controls > .btn-primary.selected {
+    background-color: var(--project-fg2);
+    color: var(--project-bg2);
+}
+
+tab-panel:not(:disabled) > .tab-panel-controls > .btn-primary.selected,
+tab-panel:disabled > .tab-panel-controls > .btn-primary:not(.selected),
+data-browser:not(:disabled) > .tab-panel-controls > .btn-primary.selected,
+data-browser:disabled > .tab-panel-controls > .btn-primary:not(.selected) {
+    background-color: var(--project-bg2);
+    color: var(--project-fg2);
+}
+
+tab-panel[orientation=horizontal] > .tab-panel-controls > .btn-primary,
+data-browser[orientation=horizontal] > .tab-panel-controls > .btn-primary {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border: none;
+    border-right: solid 1px black;
+    padding: 0.5rem;
+}
+
+tab-panel:not([orientation=horizontal]) > .tab-panel-controls > .btn-primary,
+data-browser:not([orientation=horizontal]) > .tab-panel-controls > .btn-primary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border: none;
+    border-bottom: solid 1px black;
+}

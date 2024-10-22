@@ -1,4 +1,4 @@
-import { TextImage } from "@juniper-lib/graphics2d/dist/TextImage";
+import { TextImage } from "@juniper-lib/graphics2d";
 import { CanvasImageMesh } from "./CanvasImageMesh";
 export class TextMesh extends CanvasImageMesh {
     constructor(env, name, webXRLayerType, textOptions, materialOptions) {

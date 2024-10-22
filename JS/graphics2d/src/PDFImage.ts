@@ -1,16 +1,12 @@
-import { setContextSize } from "@juniper-lib/dom/dist/canvas";
-import { CancelToken } from "@juniper-lib/events/dist/CancelToken";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { URLBuilder } from "@juniper-lib/tslib/dist/URLBuilder";
-import { clamp } from "@juniper-lib/tslib/dist/math";
-import { singleton } from "@juniper-lib/tslib/dist/singleton";
 import * as pdfJS from "pdfjs-dist";
 import { version as pdfjsVersion } from "pdfjs-dist/package.json";
 import { GetViewportParameters } from "pdfjs-dist/types/src/display/api";
 import { CanvasImage } from "./CanvasImage";
+import { singleton, URLBuilder, clamp } from "@juniper-lib/util";
+import { setContextSize } from "@juniper-lib/dom";
+import { Task, CancelToken } from "@juniper-lib/events";
+import { IFetcher, unwrapResponse } from "@juniper-lib/fetcher";
+import { IProgress } from "@juniper-lib/progress";
 
 const pdfReady = singleton("Juniper:PdfReady", () => new Task(false));
 
@@ -100,7 +96,7 @@ export class PDFImage extends CanvasImage {
 
             setContextSize(this.g, viewport.width, viewport.height);
             const renderTask = page.render({
-                canvasContext: this.g,
+                canvasContext: this.g as CanvasRenderingContext2D,
                 viewport,
                 intent: "print"
             });

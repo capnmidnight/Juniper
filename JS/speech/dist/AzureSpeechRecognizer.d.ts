@@ -1,6 +1,5 @@
-import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
-import { LocalUserMicrophone } from "@juniper-lib/audio/dist/LocalUserMicrophone";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
+import { ActivityDetector, LocalUserMicrophone } from "@juniper-lib/audio";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 export declare class AzureSpeechRecognizer extends BaseSpeechRecognizer implements IDisposable {
     static readonly isAvailable = true;

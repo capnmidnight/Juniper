@@ -1,11 +1,7 @@
-import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
-import { AutoPlay, SrcObject } from "@juniper-lib/dom/dist/attrs";
-import { getMonospaceFonts } from "@juniper-lib/dom/dist/css";
-import { Video } from "@juniper-lib/dom/dist/tags";
+import { FWD, HalfPi, dispose, isNullOrUndefined } from "@juniper-lib/util";
+import { ActivityDetector } from "@juniper-lib/audio";
+import { AutoPlay, SrcObject, Video, getMonospaceFonts } from "@juniper-lib/dom";
 import { star } from "@juniper-lib/emoji";
-import { FWD, HalfPi } from "@juniper-lib/tslib/dist/math";
-import { isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BufferReaderWriter } from "./BufferReaderWriter";
 import { BodyFollower } from "./animation/BodyFollower";
@@ -32,7 +28,7 @@ const nameTagFont = {
     maxHeight: 0.20
 };
 export class AvatarRemote {
-    get object() { return this.avatar; }
+    get content3d() { return this.avatar; }
     get bodyQuaternion() { return this.headFollower.quaternion; }
     constructor(env, user, source, avatar, defaultAvatarHeight, font) {
         this.env = env;
@@ -293,10 +289,10 @@ export class AvatarRemote {
     removePointer(id) {
         const pointer = this.pointers.get(id);
         if (pointer) {
-            pointer.object.removeFromParent();
+            pointer.content3d.removeFromParent();
             this.pointers.delete(id);
             if (pointer.cursor) {
-                pointer.cursor.object.removeFromParent();
+                pointer.cursor.content3d.removeFromParent();
             }
         }
     }

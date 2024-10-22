@@ -1,24 +1,18 @@
 {
   "name": "@juniper-lib/mediatypes",
-  "private": false,
   "version": "1.0.0",
+  "private": true,
+  "description": "A library of known media types, so that you don't get the spelling wrong.",
   "type": "module",
-  "description": "A library of media types",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "files": [
     "dist/*"
   ],
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
-    "@juniper-lib/tslib": "file:../tslib"
+    "@juniper-lib/util": "file:../util"
   },
-  "repository": {
-    "type": "git",
-    "url": "github.com/capnmidnight/Juniper"
-  },
-  "author": "Sean T. McBeth \u003Csean.mcbeth@gmail.com\u003E",
-  "license": "MIT"
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

@@ -1,0 +1,83 @@
+@page "{entityId:int?}"
+@model Juniper.Cedrus.Example.Pages.Entities.IndexModel
+@using Juniper.Collections;
+
+@{
+
+    ViewData["Title"] = "Cedrus - Entity Database";
+
+    void MakeMenu(ICollection<EntityType> entityTypes)
+    {
+        foreach (var entityType in entityTypes
+                .OrderBy(et => et.Children.Count == 0)
+                .ThenBy(et => et.Name))
+        {
+            MakeFolder(entityType);
+        }
+    }
+
+    void MakeFolder(EntityType entityType)
+    {
+        <nav-tree-item type="entityType" value="@entityType.Id" label="@entityType.Name" open>
+            <label>
+                @entityType.Name
+            </label>
+            @if (Model.IsContributor == true)
+            {
+                <button type="button" slot="controls" class="borderless" title="Add new @entityType.Name entity..."><i>+</i></button>
+            }
+            @{
+
+                MakeMenu(entityType.Children);
+
+                foreach (var entity in entityType.Entities)
+                {
+                    <nav-tree-item type="entity" value="@entity.Id" selectable>
+                        <label>
+                            @entity.Name
+                        </label>
+                    </nav-tree-item>
+                }
+            }
+        </nav-tree-item>
+    }
+}
+
+@section Scripts {
+    <bundle-css name="Pages/Entities" versioned></bundle-css>
+    <bundle-js name="Pages/Entities" versioned></bundle-js>
+}
+
+@section Submenu {
+    <nav-tree>
+        @if (Model.EntityTypes is not null)
+        {
+            MakeMenu(Model.EntityTypes);
+        }
+    </nav-tree>
+}
+
+<summary-view>
+    <img id="entityImage" src="~/No_Picture.png" title="No image available..." />
+
+    <property-list id="infoPropertyList" data-template-name="Info">
+    </property-list>
+</summary-view>
+
+<tab-panel id="objectPropertiesTabs">
+
+    <div id="dimensionsAndCapabilities" data-tab-name="Dimensions/Capabilities"></div>
+    <div id="weapons" data-tab-name="Weapons"></div>
+    <div id="communications" data-tab-name="Communications"></div>
+    <div id="sensors" data-tab-name="Sensors"></div>
+    <div id="payloads" data-tab-name="Payloads/Countermeasures"></div>
+    <div id="carriedPlatforms" data-tab-name="Carried Platforms"></div>
+
+    <div id="models" data-tab-name="Model Files">
+        <property-list id="modelsPropertyList" data-template-name="Model Files" style="min-width:min(100%, 1100px)">
+        </property-list>
+    </div>
+
+    <div data-tab-name="Other"></div>
+    <div data-tab-name="References"></div>
+</tab-panel>

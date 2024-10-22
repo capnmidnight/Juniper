@@ -81,9 +81,6 @@ export declare const Video_Vendor_SealedSwf: import("./util").MediaType;
 export declare const Video_Vendor_UvvuMp4: import("./util").MediaType;
 export declare const Video_Vendor_Vivo: import("./util").MediaType;
 export declare const Video_Vendor_YoutubeYt: import("./util").MediaType;
-/**
- * This is actually an XML file format that describes adaptive media playback
- **/
 export declare const Video_Vendor_Mpeg_Dash_Mpd: import("./util").MediaType;
 export declare const Video_VP8: import("./util").MediaType;
 export declare const Video_Webm: import("./util").MediaType;

@@ -3,20 +3,20 @@
   "private": false,
   "version": "1.0.0",
   "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "files": [
-    "dist/*"
+    "src/*"
   ],
   "description": "Promisified stuff for working with Google Maps",
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
-    "@googlemaps/js-api-loader": "1.16.2",
+    "@googlemaps/js-api-loader": "1.16.8",
     "@juniper-lib/events": "file:../events",
-    "@juniper-lib/tslib": "file:../tslib"
+    "@juniper-lib/units": "file:../units",
+    "@juniper-lib/util": "file:../util"
   },
   "devDependencies": {
-    "@types/google.maps": "3.54.0"
+    "@types/google.maps": "3.58.1"
   },
   "repository": {
     "type": "git",

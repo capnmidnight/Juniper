@@ -8,13 +8,7 @@ export type TaskResultState = "none" | "resolved" | "errored";
  * boilerplate of nested function blocks.
  **/
 export declare class Task<ResultsT = void> implements Promise<ResultsT> {
-    private readonly autoStart;
-    private readonly onThens;
-    private readonly onCatches;
-    private _result;
-    private _error;
-    private _executionState;
-    private _resultState;
+    #private;
     /**
      * Signal success for the Task
      *
@@ -34,7 +28,6 @@ export declare class Task<ResultsT = void> implements Promise<ResultsT> {
      * for reusable tasks that run on timers.
      */
     constructor(autoStart?: boolean);
-    private clear;
     /**
      * If the task was not auto-started, signal that the task is now ready to recieve
      * resolutions or rejections.
@@ -89,11 +82,6 @@ export declare class Task<ResultsT = void> implements Promise<ResultsT> {
     get errored(): boolean;
     get [Symbol.toStringTag](): string;
     /**
-     * Calling Task.then(), Task.catch(), or Task.finally() creates a new Promise.
-     * This method creates that promise and links it with the task.
-     **/
-    private project;
-    /**
      * Attach a handler to the task that fires when the task is resolved.
      *
      * @param onfulfilled
@@ -119,6 +107,5 @@ export declare class Task<ResultsT = void> implements Promise<ResultsT> {
      **/
     reset(): void;
     restart(): void;
-    private _reset;
 }
 //# sourceMappingURL=Task.d.ts.map

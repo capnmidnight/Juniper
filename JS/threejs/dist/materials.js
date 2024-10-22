@@ -1,6 +1,5 @@
-import { dispose } from "@juniper-lib/dom/dist/canvas";
-import { singleton } from "@juniper-lib/tslib/dist/singleton";
-import { isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isNullOrUndefined, singleton } from "@juniper-lib/util";
+import { dispose } from "@juniper-lib/dom";
 import { Color, LineBasicMaterial, MeshBasicMaterial, MeshPhongMaterial, SpriteMaterial } from "three";
 import { LineMaterial } from "./examples/lines/LineMaterial";
 import { isMaterial, isMesh } from "./typeChecks";

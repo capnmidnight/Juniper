@@ -1,5 +1,5 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { Mat4, Quat } from "gl-matrix/dist/esm";
+import { isDefined } from "@juniper-lib/util";
+import { Mat4, Quat } from "gl-matrix";
 const origin = { x: 0, y: 0, z: 0, w: 1 };
 const direction = { x: 0, y: 0, z: 0, w: 0 };
 const dir = new Quat();

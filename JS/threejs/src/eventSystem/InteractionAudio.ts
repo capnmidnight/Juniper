@@ -1,5 +1,5 @@
-import type { AudioManager } from "@juniper-lib/audio/dist/AudioManager";
-import type { AssetFile } from "@juniper-lib/fetcher/dist/Asset";
+import type { AudioManager } from "@juniper-lib/audio";
+import type { AssetFile } from "@juniper-lib/fetcher";
 import type { Pointer3DEvent } from "./devices/Pointer3DEvent";
 import type { EventSystem } from "./EventSystem";
 

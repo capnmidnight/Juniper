@@ -1,17 +1,10 @@
-import type { FontDescription } from "@juniper-lib/dom/dist/fonts";
-import { loadFont } from "@juniper-lib/dom/dist/fonts";
-import { AssetImage } from "@juniper-lib/fetcher/dist/Asset";
-import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { Animator } from "@juniper-lib/graphics2d/dist/animation/Animator";
-import { bump } from "@juniper-lib/graphics2d/dist/animation/tween";
-import { TextDirection, TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
+import { arrayReplace, clamp, isFunction, isGoodNumber, isString } from "@juniper-lib/util";
+import type { FontDescription } from "@juniper-lib/dom";
+import { loadFont } from "@juniper-lib/dom";
+import { AssetImage, unwrapResponse } from "@juniper-lib/fetcher";
+import { Animator, bump, TextDirection, TextImageOptions } from "@juniper-lib/graphics2d";
 import { Image_Jpeg, Image_Png } from "@juniper-lib/mediatypes";
-import { arrayReplace } from "@juniper-lib/collections/dist/arrays";
-import { clamp } from "@juniper-lib/tslib/dist/math";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { progressOfArray } from "@juniper-lib/progress/dist/progressOfArray";
-import { progressTasksWeighted } from "@juniper-lib/progress/dist/progressTasks";
-import { isFunction, isGoodNumber, isString } from "@juniper-lib/tslib/dist/typeChecks";
+import { IProgress, progressOfArray, progressTasksWeighted } from "@juniper-lib/progress";
 import { Object3D, Vector3 } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objGraph } from "../objects";
@@ -262,7 +255,7 @@ export class Menu extends Object3D {
                 return this.createMenuItem(item, onClick, prog);
             }
         });
-        arrayReplace(this.buttons, ...buttons);
+        arrayReplace(this.buttons, buttons);
 
         const space = 0.05;
         const radius = 3;
@@ -312,10 +305,10 @@ export class Menu extends Object3D {
     private setButtonPosition(button: MenuItem, a: number, radius: number) {
         const x = radius * Math.sin(a);
         const z = -radius * Math.cos(a);
-        button.object.position.set(x, 0, z);
-        button.object.lookAt(zero);
+        button.content3d.position.set(x, 0, z);
+        button.content3d.lookAt(zero);
         button.startX = x;
-        button.object.position.x = x - 10;
+        button.content3d.position.x = x - 10;
     }
 
     private async createMenuItem(item: MenuItemDescription, onClick?: menuItemCallback<MenuItemDescription> | Function, prog?: IProgress): Promise<MenuItem> {
@@ -443,7 +436,7 @@ export class Menu extends Object3D {
 
         await this.animator.start(0.125 * i, 0.5, (t: number) => {
             const st = clamp(d ? t : (1 - t), 0, 1);
-            child.object.position.x = child.startX - 10 * bump(st, 0.15);
+            child.content3d.position.x = child.startX - 10 * bump(st, 0.15);
         });
 
         child.disabled = wasDisabled;

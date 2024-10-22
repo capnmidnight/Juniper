@@ -1,0 +1,1 @@
+{"version":3,"file":"BaseManagedTimer.d.ts","sourceRoot":"","sources":["../src/BaseManagedTimer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,aAAa,CAAC;AAGxC,8BAAsB,gBAAgB,CAAC,MAAM,CAAE,SAAQ,SAAS,CAAC,CAAC,CAAC,EAAE,MAAM,KAAK,IAAI,CAAC;IAEjF,SAAS,CAAC,KAAK,EAAE,MAAM,CAAQ;IAC/B,IAAI,SAAS,YAAiC;;IAkBrC,IAAI;CAIhB"}

@@ -1,1 +1,1 @@
-{"version":3,"file":"IUpdatable.d.ts","sourceRoot":"","sources":["../src/IUpdatable.ts"],"names":[],"mappings":";AAAA,MAAM,WAAW,UAAU;IACvB,MAAM,CAAC,EAAE,EAAE,MAAM,EAAE,KAAK,CAAC,EAAE,OAAO,GAAG,IAAI,CAAC;CAC7C"}
+{"version":3,"file":"IUpdatable.d.ts","sourceRoot":"","sources":["../src/IUpdatable.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,UAAU;IACvB,MAAM,CAAC,EAAE,EAAE,MAAM,EAAE,KAAK,CAAC,EAAE,OAAO,GAAG,IAAI,CAAC;CAC7C"}

@@ -1,6 +1,4 @@
-import { AutoPlay, Controls, Loop, Muted, SrcObject } from "@juniper-lib/dom/dist/attrs";
-import { display } from "@juniper-lib/dom/dist/css";
-import { Audio } from "@juniper-lib/dom/dist/tags";
+import { Audio, AutoPlay, Controls, display, Loop, Muted, SrcObject } from "@juniper-lib/dom";
 import { hasStreamSources } from "../util";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioNode } from "./JuniperAudioNode";

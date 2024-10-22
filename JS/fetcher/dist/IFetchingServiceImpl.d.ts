@@ -1,6 +1,6 @@
-import type { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { IResponse } from "@juniper-lib/util";
+import type { IProgress } from "@juniper-lib/progress";
 import type { IRequest, IRequestWithBody } from "./IRequest";
-import type { IResponse } from "./IResponse";
 export interface XMLHttpRequestResponseTypeMap {
     "": void;
     "json": unknown;

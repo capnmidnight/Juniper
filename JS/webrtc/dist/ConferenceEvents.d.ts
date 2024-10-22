@@ -1,5 +1,4 @@
-import { Pose } from "@juniper-lib/audio/dist/Pose";
-import { AudioStreamSource } from "@juniper-lib/audio/dist/sources/AudioStreamSource";
+import { AudioStreamSource, Pose } from "@juniper-lib/audio";
 import { RemoteUser, RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "./RemoteUser";
 export type ConferenceEventTypes = "error" | "info" | "serverConnected" | "serverDisconnected" | "serverFailed" | "roomJoined" | "roomLeft" | "userJoined" | "userLeft" | "userNameChanged" | "audioMuteStatusChanged" | "videoMuteStatusChanged" | "audioAdded" | "audioRemoved" | "videoAdded" | "videoRemoved" | "userState" | "chat";
 export declare class ConferenceEvent<T extends ConferenceEventTypes> extends Event {

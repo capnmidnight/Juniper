@@ -1,0 +1,120 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <Deterministic>true</Deterministic>
+        <NeutralLanguage>en</NeutralLanguage>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <WarningLevel>4</WarningLevel>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <ErrorReport>prompt</ErrorReport>
+        <SkipDefaultEditorConfigAsAdditionalFile>true</SkipDefaultEditorConfigAsAdditionalFile>
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <Prefer32Bit>false</Prefer32Bit>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Juniper.Cedrus.Example</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>AnyCPU</Platforms>
+        <ApplicationIcon>..\..\JuniperIcon.ico</ApplicationIcon>
+        <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+        <AssemblyName>Juniper.Cedrus.Example</AssemblyName>
+    </PropertyGroup>
+    <Choose>
+        <When Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+            <PropertyGroup>
+                <TargetFramework>net8.0-windows</TargetFramework>
+                <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <TargetFramework>net8.0</TargetFramework>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+        <Optimize>false</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DebugSymbols>false</DebugSymbols>
+        <DebugType>none</DebugType>
+        <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Remove="package.json" />
+        <Content Remove="tsconfig.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="package.json" />
+        <None Include="tsconfig.json" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)'=='Debug'">
+        <Content Update="appsettings.Production.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Configuration)'=='Release'">
+        <Content Update="appsettings.Development.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Sqlite\" />
+        <Folder Include="wwwroot\" />
+    </ItemGroup>
+    <ItemGroup Condition="Exists('Sqlite\CedrusExample.db')">
+        <None Remove="Sqlite\CedrusExample.db" />
+    </ItemGroup>
+    <ItemGroup Condition="Exists('Sqlite\CedrusExample.db')">
+        <Content Include="Sqlite\CedrusExample.db">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <_WebToolingArtifacts Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
+    </ItemGroup>
+    <Choose>
+        <When Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+            <ItemGroup>
+                <ProjectReference Include="..\..\NETCore\AppShell.WPF\Juniper.AppShell.WPF.csproj" />
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <ProjectReference Include="..\..\NETCore\AppShell.Avalonia\Juniper.AppShell.Avalonia.csproj" />
+                <!--<ProjectReference Include="..\..\NETCore\AppShell.GTK\Juniper.AppShell.GTK.csproj" />-->
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
+        <ProjectReference Include="..\Example.Migrations.Postgres\Example.Migrations.Postgres.csproj" />
+        <ProjectReference Include="..\Example.Migrations.Sqlite\Example.Migrations.Sqlite.csproj" />
+        <ProjectReference Include="..\..\NETCore\Cedrus.Server\Juniper.Cedrus.Server.csproj" />
+        <ProjectReference Include="..\..\NETCore\Emoji\Juniper.Emoji.csproj" />
+        <ProjectReference Include="..\..\NETCore\Logic\Juniper.Logic.csproj" />
+        <ProjectReference Include="..\..\NETCore\TSBuild\Juniper.TSBuild.csproj" />
+        <ProjectReference Include="..\..\NETCore\Units\Juniper.Units.csproj" />
+    </ItemGroup>
+</Project>

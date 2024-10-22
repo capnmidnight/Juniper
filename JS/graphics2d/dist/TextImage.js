@@ -1,7 +1,5 @@
-import { createUtilityCanvas, setContextSize } from "@juniper-lib/dom/dist/canvas";
-import { makeFont } from "@juniper-lib/dom/dist/fonts";
-import { clamp, HalfPi } from "@juniper-lib/tslib/dist/math";
-import { isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/dist/typeChecks";
+import { clamp, HalfPi, isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/util";
+import { createUtilityCanvas, makeFont, setContextSize } from "@juniper-lib/dom";
 import { CanvasImage } from "./CanvasImage";
 export class TextImage extends CanvasImage {
     constructor(options) {

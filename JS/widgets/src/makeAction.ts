@@ -1,9 +1,9 @@
-import { getButton, getElement } from "@juniper-lib/dom/dist/tags";
+import { Button, ID } from "@juniper-lib/dom";
 import { MessageBox } from "./MessageBox";
 
 export function makeAction(buttonID: string, msgBoxID: string, action: string): void {
-    const button = getButton(buttonID);
-    const msgBoxElement = getElement(msgBoxID);
+    const button = Button(ID(buttonID));
+    const msgBoxElement = document.getElementById(msgBoxID);
     if (button && msgBoxElement) {
         const msgBox = new MessageBox(msgBoxElement);
         if (msgBox) {

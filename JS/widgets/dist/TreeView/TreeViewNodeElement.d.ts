@@ -1,34 +1,40 @@
-import { TreeNode } from "@juniper-lib/collections/dist/TreeNode";
-import { ITypedEventTarget, TypedEvent, TypedEventListenerOrEventListenerObject } from "@juniper-lib/events/dist/TypedEventTarget";
-export declare class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {
-    readonly node: TreeNode<T>;
-    constructor(node: TreeNode<T>);
+import { TreeNode } from "@juniper-lib/collections";
+import { ElementChild } from "@juniper-lib/dom";
+import { ITypedEventTarget, TypedEvent, TypedEventListenerOrEventListenerObject } from "@juniper-lib/events";
+declare abstract class BaseTreeViewNodeEvent<EventT extends string, ValueT> extends TypedEvent<EventT, TreeViewNodeElement<ValueT>> {
+    constructor(type: EventT);
 }
-export declare class TreeViewNodeSelectedEvent<T> extends TypedEvent<"select"> {
-    readonly node: TreeNode<T>;
-    constructor(node: TreeNode<T>);
+export declare class TreeViewNodeClickedEvent<ValueT> extends BaseTreeViewNodeEvent<"click", ValueT> {
+    constructor();
 }
-export declare abstract class TreeViewNodeEvent<EventT extends string, ValueT> extends TypedEvent<EventT> {
-    readonly parent: TreeViewNodeElement<ValueT>;
+export declare class TreeViewNodeSelectedEvent<ValueT> extends BaseTreeViewNodeEvent<"select", ValueT> {
+    constructor();
+}
+export declare class TreeViewNodeCreateEvent<ValueT> extends BaseTreeViewNodeEvent<"create", ValueT> {
+    readonly node: TreeNode<ValueT>;
+    constructor(node: TreeNode<ValueT>);
+}
+export declare abstract class BaseTreeViewNodeActionEvent<EventT extends string, ValueT> extends BaseTreeViewNodeEvent<EventT, ValueT> {
     private readonly _finished;
     get finished(): Promise<void>;
-    constructor(type: EventT, parent: TreeViewNodeElement<ValueT>);
+    constructor(type: EventT);
     complete(): void;
 }
-export declare class TreeViewNodeAddEvent<T> extends TreeViewNodeEvent<"add", T> {
-    constructor(parent: TreeViewNodeElement<T>);
+export declare class TreeViewNodeAddEvent<T> extends BaseTreeViewNodeActionEvent<"add", T> {
+    constructor();
 }
-export declare class TreeViewNodeContextMenuEvent<T> extends TreeViewNodeEvent<"contextmenu", T> {
-    constructor(parent: TreeViewNodeElement<T>);
+export declare class TreeViewNodeContextMenuEvent<T> extends BaseTreeViewNodeActionEvent<"contextmenu", T> {
+    constructor();
 }
 export type TreeViewNodeEvents<T> = {
     click: TreeViewNodeClickedEvent<T>;
     select: TreeViewNodeSelectedEvent<T>;
+    create: TreeViewNodeCreateEvent<T>;
     add: TreeViewNodeAddEvent<T>;
     contextmenu: TreeViewNodeContextMenuEvent<T>;
 };
 export declare class TreeViewNodeElement<T> extends HTMLElement implements ITypedEventTarget<TreeViewNodeEvents<T>> {
-    static create<T>(node: TreeNode<T>, defaultLabel: string, getLabel: (value: T) => string, getDescription: (value: T) => string, canChangeOrder: (value: T) => boolean, getChildDescription: (node: T) => string, canHaveChildren: (node: TreeNode<T>) => boolean, createElement: (node: TreeNode<T>) => TreeViewNodeElement<T>): TreeViewNodeElement<T>;
+    static create<T>(node: TreeNode<T>, defaultLabel: string, getLabel: (value: T) => string, getDescription: (value: T) => string, canChangeOrder: (value: T) => boolean, getChildDescription: (node: T) => string, canHaveChildren: (node: TreeNode<T>) => boolean): TreeViewNodeElement<T>;
     private readonly eventTarget;
     private readonly root;
     readonly childTreeNodes: HTMLElement;
@@ -49,7 +55,6 @@ export declare class TreeViewNodeElement<T> extends HTMLElement implements IType
     private _canChangeOrder;
     private _getChildDescription;
     private _canHaveChildren;
-    private createElement;
     constructor();
     connectedCallback(): void;
     addEventListener<EventTypeT extends keyof TreeViewNodeEvents<T>>(type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<TreeViewNodeEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void;
@@ -60,7 +65,7 @@ export declare class TreeViewNodeElement<T> extends HTMLElement implements IType
     addScopedEventListener<EventTypeT extends keyof TreeViewNodeEvents<T>>(scope: object, type: EventTypeT, callback: TypedEventListenerOrEventListenerObject<TreeViewNodeEvents<T>, EventTypeT>, options?: boolean | AddEventListenerOptions): void;
     removeScope(scope: object): void;
     clearEventListeners<EventTypeT extends keyof TreeViewNodeEvents<T>>(type?: EventTypeT): void;
-    _launchMenu(parentEvt: Event, evt: TreeViewNodeEvent<string, T>): Promise<void>;
+    _launchMenu(parentEvt: Event, evt: BaseTreeViewNodeActionEvent<string, T>): Promise<void>;
     private onRefresh;
     get specialSelectMode(): boolean;
     set specialSelectMode(v: boolean);
@@ -84,5 +89,8 @@ export declare class TreeViewNodeElement<T> extends HTMLElement implements IType
     add(value: T): void;
     _select(bubbles: boolean): void;
     scrollIntoView(arg?: boolean | ScrollIntoViewOptions): void;
+    static install(): import("@juniper-lib/dom").ElementFactory<TreeViewNodeElement<unknown>>;
 }
+export declare function TreeViewNode<T>(...rest: ElementChild[]): TreeViewNodeElement<T>;
+export {};
 //# sourceMappingURL=TreeViewNodeElement.d.ts.map

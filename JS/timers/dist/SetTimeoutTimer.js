@@ -1,8 +1,5 @@
-import { BaseTimer } from "./BaseTimer";
-export class SetTimeoutTimer extends BaseTimer {
-    constructor(targetFrameRate) {
-        super(targetFrameRate);
-    }
+import { BaseVariableTimer } from "./BaseVariableTimer";
+export class SetTimeoutTimer extends BaseVariableTimer {
     start() {
         const updater = () => {
             this.timer = setTimeout(updater, this.targetFrameTime);

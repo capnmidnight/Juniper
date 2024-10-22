@@ -1,10 +1,8 @@
-import { arrayClear, arrayReplace, arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { isFirefox, isMobileVR } from "@juniper-lib/tslib/dist/flags";
-import { isArray, isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayClear, arrayReplace, arrayScan, dispose, isArray, isDefined, isNullOrUndefined } from "@juniper-lib/util";
+import { isFirefox, isMobileVR } from "@juniper-lib/dom";
 import { Blitter } from "./Blitter";
 import { ClearBits, FrameAndRenderBuffers, FramebufferType } from "./GLEnum";
 import { FrameBufferCanvas, FrameBufferWebXR, FrameBufferWebXRMultisampled, FrameBufferWebXRMultiview, FrameBufferWebXRMultiviewMultisampled } from "./managed/resource/FrameBuffer";
-import { dispose } from "@juniper-lib/dom/dist/canvas";
 export class RenderTargetManager {
     constructor(gl) {
         this.gl = gl;
@@ -74,7 +72,7 @@ export class RenderTargetManager {
             this.session = session;
             this.webGLLayer = webGLLayer;
             this.projLayer = projLayer;
-            arrayReplace(this.views, ...views);
+            arrayReplace(this.views, views);
             this.destroyTargets();
             this.setLayer(webGLLayer, ...views);
         }

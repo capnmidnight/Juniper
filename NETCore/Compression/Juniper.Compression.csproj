@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<AssemblyName>Juniper.Compression</AssemblyName>
+		<RootNamespace>Juniper.Compression</RootNamespace>
+		<PackageId>SeanMcBeth.Juniper.Compression</PackageId>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>General purpose code</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Caching\Juniper.Caching.csproj" />
+		<ProjectReference Include="..\Collections\Juniper.Collections.csproj" />
+		<ProjectReference Include="..\IO\Juniper.IO.csproj" />
+		<ProjectReference Include="..\MediaType\Juniper.MediaType.csproj" />
+		<ProjectReference Include="..\Progress\Juniper.Progress.csproj" />
+		<ProjectReference Include="..\Root\Juniper.Root.csproj" />
+		<ProjectReference Include="..\Units\Juniper.Units.csproj" />
+	</ItemGroup>
+</Project>

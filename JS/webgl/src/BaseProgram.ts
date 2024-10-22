@@ -1,5 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { IDisposable, dispose } from "@juniper-lib/tslib/dist/using";
+import { IDisposable, dispose, isDefined } from "@juniper-lib/util";
 import { ShaderFragment, ShaderVertex } from "./managed/resource/Shader";
 import { ShaderProgram } from "./managed/resource/ShaderProgram";
 

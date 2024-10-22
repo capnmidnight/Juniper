@@ -1,4 +1,4 @@
-import { compareBy } from "@juniper-lib/collections/dist/arrays";
+import { compareBy } from "@juniper-lib/util";
 
 export interface MediaRecord {
     url: string;
@@ -18,4 +18,4 @@ export interface FullAudioRecord {
 }
 
 
-export const audioRecordSorter = compareBy<AudioRecord>("descending", f => f.resolution);
+export const audioRecordSorter = compareBy<AudioRecord>(false, f => f.resolution);

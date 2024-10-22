@@ -1,4 +1,4 @@
-import { BufferReaderWriter as BaseBufferReaderWriter } from "@juniper-lib/tslib/dist/BufferReaderWriter";
+import { BufferReaderWriter as BaseBufferReaderWriter } from "@juniper-lib/util";
 import { Matrix4, Vector3 } from "three";
 export declare class BufferReaderWriter extends BaseBufferReaderWriter {
     readVector48(vector: Vector3): void;

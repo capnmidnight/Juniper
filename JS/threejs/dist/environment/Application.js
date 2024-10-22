@@ -1,5 +1,5 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
+import { isDefined } from "@juniper-lib/util";
 class ApplicationEvent extends TypedEvent {
     constructor(type, app) {
         super(type);

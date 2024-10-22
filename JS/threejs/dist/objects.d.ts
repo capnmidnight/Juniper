@@ -1,9 +1,9 @@
 import { BufferGeometry, Material, Mesh, Object3D, Vector3 } from "three";
-export interface ErsatzObject {
-    object: Object3D;
+export interface ErsatzObject<T extends Object3D = Object3D> {
+    content3d: T;
 }
-export declare function isErsatzObject(obj: any): obj is ErsatzObject;
-export type Objects = Object3D | ErsatzObject;
+export declare function isErsatzObject<T extends Object3D>(obj: unknown): obj is ErsatzObject<T>;
+export type Objects<T extends Object3D = Object3D> = T | ErsatzObject<T>;
 export declare function isObjects(obj: any): obj is Objects;
 export declare function objectResolve(obj: Objects): Object3D;
 export declare function objectSetVisible(obj: Objects, visible: boolean): boolean;

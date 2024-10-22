@@ -1,0 +1,38 @@
+.pagination {
+    justify-content: center;
+}
+
+    .pagination,
+    .pagination .page-link {
+        color: var(--project-fg0);
+    }
+
+ul.pagination {
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.pagination .page-link:hover {
+    cursor: pointer;
+}
+
+.pagination .page-link {
+    background: none;
+    border-radius: 50px;
+    border: none;
+    padding: 5px;
+}
+
+    .pagination .page-link.active {
+        background-color: var(--project-bg1);
+        border-radius: 50px;
+        color: var(--project-fg1) !important;
+    }
+
+.pagination .page-item:last-child .page-link {
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
+}

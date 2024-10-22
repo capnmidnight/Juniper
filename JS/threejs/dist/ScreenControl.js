@@ -1,13 +1,9 @@
-import { hasFullscreenAPI } from "@juniper-lib/dom/dist/fullscreen";
-import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/dist/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { hasVR, hasWebVR, hasWebXR, isMobileVR } from "@juniper-lib/tslib/dist/flags";
-import { rad2deg } from "@juniper-lib/tslib/dist/math";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined, makeErrorMessage, rad2deg } from "@juniper-lib/util";
+import { elementSetDisplay, hasFullscreenAPI, hasVR, hasWebVR, hasWebXR, isDisplayed, isMobileVR } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import WebXRPolyfill from "webxr-polyfill/src/WebXRPolyfill";
 import { ScreenMode } from "./ScreenMode";
 import { AnaglyphEffect } from "./examples/effects/AnaglyphEffect";
-import { makeErrorMessage } from "@juniper-lib/tslib/src/makeErrorMessage";
 if (!navigator.xr) {
     console.info("Polyfilling WebXR API");
     new WebXRPolyfill();
@@ -80,7 +76,7 @@ export class ScreenControl extends TypedEventTarget {
         }
         for (const button of this.buttons.values()) {
             this.wasVisible.set(button, button.visible);
-            button.addEventListener("click", this.toggleMode.bind(this, button.mode));
+            button.content.addEventListener("click", this.toggleMode.bind(this, button.mode));
         }
         anaglyphButton.available = this.enableAnaglyph;
         fullscreenButton.available = !isMobileVR() && hasFullscreenAPI();
@@ -89,7 +85,7 @@ export class ScreenControl extends TypedEventTarget {
         this.refresh();
     }
     get visible() {
-        return elementIsDisplayed(this.renderer.domElement);
+        return isDisplayed(this.renderer.domElement);
     }
     set visible(v) {
         elementSetDisplay(this.renderer.domElement, v);

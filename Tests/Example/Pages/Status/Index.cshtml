@@ -1,0 +1,10 @@
+﻿@page "{statusCode:int}"
+@model Juniper.Cedrus.Example.Pages.Status.IndexModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1>Whoa now!</h1>
+<p>
+    <img src="https://http.cat/@Model.TrappedStatusCode" title="@Model.TrappedPath">
+</p>

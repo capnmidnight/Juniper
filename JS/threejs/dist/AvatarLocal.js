@@ -1,10 +1,6 @@
-import { isModifierless } from "@juniper-lib/dom/dist/evts";
-import { onUserGesture } from "@juniper-lib/dom/dist/onUserGesture";
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { isMobile, isMobileVR, isSafari } from "@juniper-lib/tslib/dist/flags";
-import { clamp, deg2rad, HalfPi, Pi, radiansClamp, truncate } from "@juniper-lib/tslib/dist/math";
-import { assertNever, isFunction, isGoodNumber } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayClear, assertNever, clamp, deg2rad, HalfPi, isFunction, isGoodNumber, Pi, radiansClamp, truncate } from "@juniper-lib/util";
+import { isMobile, isMobileVR, isModifierless, isSafari, onUserGesture } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { Euler, Matrix4, Quaternion, Vector2, Vector3 } from "three";
 import { getLookHeadingRadians, getLookPitchRadians } from "./animation/lookAngles";
 import { VirtualButton } from "./eventSystem/devices/VirtualButton";
@@ -50,7 +46,7 @@ export class AvatarLocal extends TypedEventTarget {
     get height() {
         return this.head.position.y;
     }
-    get object() {
+    get content3d() {
         return this.head;
     }
     get worldHeadingRadians() {
@@ -291,10 +287,10 @@ export class AvatarLocal extends TypedEventTarget {
             || pointer.isPressed(VirtualButton.Primary);
     }
     get name() {
-        return this.object.name;
+        return this.content3d.name;
     }
     set name(v) {
-        this.object.name = v;
+        this.content3d.name = v;
     }
     get headingRadians() {
         return this._headingRadians;

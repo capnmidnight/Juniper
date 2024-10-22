@@ -1,0 +1,1 @@
+{"version":3,"file":"TypedItemSelectedEvent.d.ts","sourceRoot":"","sources":["../src/TypedItemSelectedEvent.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,UAAU,EAAE,MAAM,qBAAqB,CAAC;AAEjD,qBAAa,sBAAsB,CAAC,KAAK,EAAE,OAAO,SAAS,WAAW,GAAG,WAAW,CAAE,SAAQ,UAAU,CAAC,cAAc,EAAE,OAAO,CAAC;;IAE7H,IAAI,IAAI,UAAyB;IAGjC,IAAI,KAAK,YAA0B;gBAEvB,WAAW,EAAE,KAAK,GAAG,KAAK,EAAE;CAe3C"}

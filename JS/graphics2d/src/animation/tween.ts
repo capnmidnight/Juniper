@@ -1,4 +1,4 @@
-import { Pi } from "@juniper-lib/tslib/dist/math";
+import { Pi } from "@juniper-lib/util";
 
 export type TweenFunc = (t: number, k: number, d: boolean) => number;
 

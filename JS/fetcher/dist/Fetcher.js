@@ -1,27 +1,29 @@
-import { getInput } from "@juniper-lib/dom/dist/tags";
-import { progressTasksWeighted } from "@juniper-lib/progress/dist/progressTasks";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { progressTasksWeighted } from "@juniper-lib/progress";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/util";
 import { isAsset } from "./Asset";
 import { RequestBuilder } from "./RequestBuilder";
+import { Input, Query } from "@juniper-lib/dom";
 export class Fetcher {
+    #service;
+    #useBLOBs;
     constructor(service, useBLOBs = false) {
-        this.service = service;
-        this.useBLOBs = useBLOBs;
+        this.#service = service;
+        this.#useBLOBs = useBLOBs;
         if (!IS_WORKER) {
-            const antiforgeryToken = getInput("input[name=__RequestVerificationToken]");
+            const antiforgeryToken = Input(Query("[name=__RequestVerificationToken]"));
             if (antiforgeryToken) {
-                this.service.setRequestVerificationToken(antiforgeryToken.value);
+                this.#service.setRequestVerificationToken(antiforgeryToken.value);
             }
         }
     }
     clearCache() {
-        return this.service.clearCache();
+        return this.#service.clearCache();
     }
     evict(path, base) {
-        return this.service.evict(new URL(path, base || location.href).href);
+        return this.#service.evict(new URL(path, base || location.href).href);
     }
     request(method, path, base) {
-        return new RequestBuilder(this.service, method, new URL(path, base || location.href), this.useBLOBs);
+        return new RequestBuilder(this.#service, method, new URL(path, base || location.href), this.#useBLOBs);
     }
     head(path, base) {
         return this.request("HEAD", path, base);

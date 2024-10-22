@@ -1,4 +1,4 @@
-import { TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
+import { TextImageOptions } from "@juniper-lib/graphics2d";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { TextMeshButton } from "./TextMeshButton";
 import { Widget } from "./widgets";

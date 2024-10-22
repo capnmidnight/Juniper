@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Juniper.Imaging</AssemblyName>
+    <RootNamespace>Juniper.Imaging</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IO\Juniper.IO.csproj" />
+    <ProjectReference Include="..\MediaType\Juniper.MediaType.csproj" />
+    <ProjectReference Include="..\Progress\Juniper.Progress.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Imaging.Png\Juniper.Imaging.Png.csproj" />
+    <ProjectReference Include="..\Imaging.Jpeg\Juniper.Imaging.Jpeg.csproj" />
+    <ProjectReference Include="..\Units\Juniper.Units.csproj" />
+  </ItemGroup>
+
+</Project>

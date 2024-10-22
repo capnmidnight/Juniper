@@ -1,4 +1,4 @@
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { dispose } from "@juniper-lib/util";
 import { BufferArray, BufferElementArray } from "./managed/resource/Buffer";
 export class Geometry {
     constructor(gl, desc) {

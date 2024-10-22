@@ -1,13 +1,9 @@
-import { ClassList } from "@juniper-lib/dom/dist/attrs";
-import { fr, gridTemplateColumns } from "@juniper-lib/dom/dist/css";
-import { Div, isElements } from "@juniper-lib/dom/dist/tags";
-import "./style.css";
-export class GroupPanel {
-    constructor(...rest) {
-        const elems = rest.filter(isElements);
-        const colExpr = elems.map((_, i) => i === 0 ? fr(1) : "auto");
-        this.element = Div(ClassList("group-panel"), gridTemplateColumns(...colExpr), ...rest);
-        Object.seal(this);
-    }
+import { ClassList, display, Div, fr, gridTemplateColumns, rule, SingletonStyleBlob } from "@juniper-lib/dom";
+export function GroupPanel(...rest) {
+    SingletonStyleBlob("Juniper::Widgets::GroupPanel", () => rule(".group-panel", display("grid")));
+    const elems = rest.filter(e => e instanceof Element);
+    const colExpr = elems.map((_, i) => i === 0 ? fr(1) : "auto");
+    const element = Div(ClassList("group-panel"), gridTemplateColumns(...colExpr), ...rest);
+    return element;
 }
 //# sourceMappingURL=index.js.map

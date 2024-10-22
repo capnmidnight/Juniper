@@ -1,9 +1,9 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { ITypedEventTarget, TypedEvent } from "@juniper-lib/events";
 import { StreamChangedEvent } from "./StreamChangedEvent";
 export declare class DeviceSettingsChangedEvent extends TypedEvent<"devicesettingschanged"> {
     constructor();
 }
-export interface IDeviceSource extends TypedEventTarget<{
+export interface IDeviceSource extends ITypedEventTarget<{
     "streamchanged": StreamChangedEvent;
 }> {
     get mediaType(): "audio" | "video";
@@ -23,5 +23,5 @@ export declare class DeviceManager {
     getDevices(filterDuplicates?: boolean): Promise<MediaDeviceInfo[]>;
     get outStreams(): MediaStream[];
 }
-export declare const deviceComparer: import("@juniper-lib/collections/dist/arrays").CompareFunction<MediaDeviceInfo>;
+export declare const deviceComparer: import("@juniper-lib/util").compareCallback<MediaDeviceInfo>;
 //# sourceMappingURL=DeviceManager.d.ts.map

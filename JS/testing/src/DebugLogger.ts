@@ -1,4 +1,4 @@
-import { Query } from "@juniper-lib/dom/dist/attrs";
+import { Query } from "@juniper-lib/dom";
 import { IDebugLogger } from "./models";
 import { WindowLogger } from "./WindowLogger";
 import { WorkerLogger } from "./WorkerLogger";

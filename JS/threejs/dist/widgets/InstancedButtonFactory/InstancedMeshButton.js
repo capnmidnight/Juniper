@@ -32,10 +32,10 @@ export class InstancedMeshButton extends RayTarget {
         this.parent.deleteButton(this);
     }
     get size() {
-        return this.object.scale.x;
+        return this.content3d.scale.x;
     }
     set size(v) {
-        this.object.scale.setScalar(v);
+        this.content3d.scale.setScalar(v);
     }
 }
 //# sourceMappingURL=InstancedMeshButton.js.map

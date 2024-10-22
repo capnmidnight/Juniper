@@ -1,0 +1,128 @@
+﻿@using Juniper;
+@using Juniper.Cedrus.Models
+@using Juniper.Collections;
+@using Microsoft.AspNetCore.Identity
+
+@inject IConfiguration config
+@inject IWebHostEnvironment env
+@inject UserManager<CedrusUser> usrs
+@inject CedrusContextSecure database
+
+@{
+    var hideMenu = Context.Session.GetString("hideMenu");
+    var headerTitle = ViewData["Title"] as string;
+    var user = await usrs.GetTypedUserAsync(User, async (userName, email, primarySID) =>
+    {
+        var user = await database.SetUserAsync(userName, email, primarySID);
+        await database.SaveChangesAsync();
+        return user;
+    });
+    var roles = user
+        ?.UserRoles
+        ?.Where(ur => ur.Role.Name is not null)
+        ?.Select(ur => ur.Role.Name!)
+        ?.ToArray()
+        ?.Join(",")
+        ?? "";
+    var isUser = user?.IsUser ?? false;
+    var isAdmin = user?.IsAdmin ?? false;
+    var isContributor = user?.HasRole("Contributor") == true;
+    var section = Context.Request.Path.Value!
+        .Split('/')
+        .Skip(1)
+        .First();
+    void MenuLink(string label, string path, Emoji icon)
+    {
+        var selected = path == section;
+        <li class="@(selected ? "selected" : null)" title="@label">
+            <a href="/@path">
+                <i>@(icon + Emoji.textStyle)</i>
+                <label>@label</label>
+            </a>
+            @if (selected && IsSectionDefined("Submenu"))
+            {
+                <section id="submenu">
+                    @RenderSection("Submenu", required: false)
+                </section>
+            }
+        </li>
+    }
+    void MenuSpacer()
+    {
+        <li><hr /></li>
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @if (headerTitle is not null)
+    {
+        <title>@headerTitle</title>
+    }
+    <link rel="stylesheet" href="~/webfonts/Noto/noto.css" />
+    @*
+    DON'T ADD THIS BACK IN! It kills page performance.
+    <script src="~/css/fontawesome.min.js"></script>
+    *@
+    <bundle-css name="Pages/Shared" versioned></bundle-css>
+    <bundle-js name="Pages/Shared" versioned></bundle-js>
+    @await RenderSectionAsync("Scripts", required: false)
+</head>
+<body>
+    <form>
+        @Html.AntiForgeryToken()
+        @if (user is not null)
+        {
+            <input type="hidden" id="currentUserId" value="@user.Id" />
+            <input type="hidden" id="currentUserRoles" value="@roles" />
+        }
+    </form>
+    <main role="main">
+        <nav class="@hideMenu">
+            <ul>
+                <li>
+                    <button type="button" id="mainNavVisibilityControlButton" title="Expand/collapse main menu...">
+                        <i>@Emoji.identical</i>
+                    </button>
+                </li>
+                @{
+                    <partial name="_LoginPartial" />
+                    MenuSpacer();
+                    MenuLink("Home", "", Emoji.house);
+                    if (isUser)
+                    {
+                        MenuLink("Entities", "entities", Emoji.airplane);
+                    }
+                    if (isContributor) 
+                    {
+                        MenuLink("Templates", "templates", Emoji.blueBook);
+                    }
+                    if (isAdmin)
+                    {
+                        MenuLink("Raw Data", "data", Emoji.laptop);
+                        MenuSpacer();
+                    }
+
+                    MenuLink("Tests", "tests", Emoji.bomb);
+                    MenuLink("About", "about", Emoji.atomSymbol);
+                }
+            </ul>
+        </nav>
+        <section id="content">
+            <button type="button" class="scrollIndicator top">@Juniper.Emoji.presentationFormForVerticalLeftAngleBracket</button>
+            <article>
+                @RenderBody()
+            </article>
+            <button type="button" class="scrollIndicator bottom">@Juniper.Emoji.presentationFormForVerticalRightAngleBracket</button>
+        </section>
+        @if (IsSectionDefined("RightColumn"))
+        {
+            <section id="utilColumn">
+                @await RenderSectionAsync("RightColumn", required: false)
+            </section>
+        }
+    </main>
+</body>
+</html>

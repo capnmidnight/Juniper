@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Data.Sqlite</AssemblyName>
+    <RootNamespace>Juniper.Data</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Data.Sqlite</PackageId>
+    <OutputType>Library</OutputType>
+    <Description>Utility code for working with the Sqlite database connector for Entity Framework.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Juniper.Data.csproj" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
+  </ItemGroup>
+
+</Project>

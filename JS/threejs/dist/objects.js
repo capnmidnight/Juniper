@@ -1,10 +1,11 @@
-import { isDisableable } from "@juniper-lib/dom/dist/tags";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined, isObject } from "@juniper-lib/util";
+import { isDisableable } from "@juniper-lib/dom";
 import { Mesh, Object3D } from "three";
 import { isObject3D } from "./typeChecks";
 export function isErsatzObject(obj) {
-    return isDefined(obj)
-        && isObject3D(obj.object);
+    return isObject(obj)
+        && "content3d" in obj
+        && isObject3D(obj.content3d);
 }
 export function isObjects(obj) {
     return isErsatzObject(obj)
@@ -12,7 +13,7 @@ export function isObjects(obj) {
 }
 export function objectResolve(obj) {
     if (isErsatzObject(obj)) {
-        return obj.object;
+        return obj.content3d;
     }
     return obj;
 }

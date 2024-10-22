@@ -1,33 +1,21 @@
-import { RELEASE_EVT } from "@juniper-lib/audio/dist/AudioManager";
-import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
-import { JuniperMediaElementAudioSourceNode } from "@juniper-lib/audio/dist/context/JuniperMediaElementAudioSourceNode";
-import { AudioRecord, audioRecordSorter } from "@juniper-lib/audio/dist/data";
-import { BaseAudioSource } from "@juniper-lib/audio/dist/sources/BaseAudioSource";
-import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "@juniper-lib/audio/dist/sources/IPlayable";
-import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper-lib/audio/dist/sources/IPlayer";
-import { PlaybackState } from "@juniper-lib/audio/dist/sources/PlaybackState";
-import { BaseSpatializer } from "@juniper-lib/audio/dist/spatializers/BaseSpatializer";
-import { PriorityList } from "@juniper-lib/collections/dist/PriorityList";
-import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/dist/attrs";
-import { Audio, ElementChild, Video, mediaElementCanPlayThrough } from "@juniper-lib/dom/dist/tags";
-import { once } from "@juniper-lib/events/dist/once";
+import { asyncCallback, IDisposable, isDefined, isNullOrUndefined, isString, once } from "@juniper-lib/util";
+import { AudioRecord, audioRecordSorter, BaseAudioSource, BaseSpatializer, IPlayer, JuniperAudioContext, JuniperMediaElementAudioSourceNode, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, MediaPlayerEvents, MediaPlayerLoadingEvent, PlaybackState, RELEASE_EVT } from "@juniper-lib/audio";
+import { PriorityList } from "@juniper-lib/collections";
+import { Audio, AutoPlay, Controls, ElementChild, Loop, mediaElementCanPlayThrough, Video } from "@juniper-lib/dom";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { progressTasks } from "@juniper-lib/progress/dist/progressTasks";
-import { AsyncCallback } from "@juniper-lib/tslib/dist/identity";
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IProgress, progressTasks } from "@juniper-lib/progress";
 import { FullVideoRecord, isVideoRecord } from "./data";
-export abstract class BaseVideoPlayer
-    extends BaseAudioSource<MediaPlayerEvents>
-    implements IPlayer, IDisposable {
 
-    private readonly loadingEvt: MediaPlayerLoadingEvent;
-    private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayer>;
-    private readonly playEvt: MediaElementSourcePlayedEvent<IPlayer>;
-    private readonly pauseEvt: MediaElementSourcePausedEvent<IPlayer>;
-    private readonly stopEvt: MediaElementSourceStoppedEvent<IPlayer>;
-    private readonly progEvt: MediaElementSourceProgressEvent<IPlayer>;
+export abstract class BaseVideoPlayer
+    extends BaseAudioSource<MediaPlayerEvents<FullVideoRecord>>
+    implements IPlayer<FullVideoRecord>, IDisposable {
+
+    private readonly loadingEvt: MediaPlayerLoadingEvent<FullVideoRecord, typeof this>;
+    private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayer<FullVideoRecord>>;
+    private readonly playEvt: MediaElementSourcePlayedEvent<IPlayer<FullVideoRecord>>;
+    private readonly pauseEvt: MediaElementSourcePausedEvent<IPlayer<FullVideoRecord>>;
+    private readonly stopEvt: MediaElementSourceStoppedEvent<IPlayer<FullVideoRecord>>;
+    private readonly progEvt: MediaElementSourceProgressEvent<IPlayer<FullVideoRecord>>;
 
     private readonly onPlay: () => void;
     private readonly onSeeked: () => void;
@@ -61,7 +49,7 @@ export abstract class BaseVideoPlayer
         this.audio.title = v;
     }
 
-    private readonly onError = new Map<HTMLMediaElement, AsyncCallback>();
+    private readonly onError = new Map<HTMLMediaElement, asyncCallback>();
     private readonly sourcesByURL = new Map<string, AudioRecord>();
     private readonly sources = new PriorityList<HTMLMediaElement, AudioRecord>();
     private readonly potatoes = new PriorityList<HTMLMediaElement, string>();
@@ -76,14 +64,14 @@ export abstract class BaseVideoPlayer
 
         const videoNode = new JuniperMediaElementAudioSourceNode(
             context, {
-                mediaElement: video
-            });
+            mediaElement: video
+        });
         videoNode.name = `${type}-video`;
 
         const audioNode = new JuniperMediaElementAudioSourceNode(
             context, {
-                mediaElement: audio
-            });
+            mediaElement: audio
+        });
         audioNode.name = `${type}-audio`;
 
         super(type, context, spatializer, [], [videoNode, audioNode]);
@@ -94,7 +82,7 @@ export abstract class BaseVideoPlayer
         this.video = video;
         this.audio = audio;
 
-        this.loadingEvt = new MediaPlayerLoadingEvent(this);
+        this.loadingEvt = new MediaPlayerLoadingEvent<FullVideoRecord, typeof this>(this);
         this.loadEvt = new MediaElementSourceLoadedEvent(this);
         this.playEvt = new MediaElementSourcePlayedEvent(this);
         this.pauseEvt = new MediaElementSourcePausedEvent(this);

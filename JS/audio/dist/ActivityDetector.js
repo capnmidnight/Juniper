@@ -1,12 +1,6 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { SetIntervalTimer } from "@juniper-lib/timers";
+import { ActivityEvent } from "./ActivityEvent";
 import { JuniperAnalyserNode } from "./context/JuniperAnalyserNode";
-import { SetIntervalTimer } from "@juniper-lib/timers/dist/SetIntervalTimer";
-export class ActivityEvent extends TypedEvent {
-    constructor() {
-        super("activity");
-        this.level = 0;
-    }
-}
 export class ActivityDetector extends JuniperAnalyserNode {
     constructor(context) {
         super(context, {

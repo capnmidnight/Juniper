@@ -1,13 +1,12 @@
-import { isHTMLCanvas } from "@juniper-lib/dom/dist/canvas";
-import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/dist/tags";
+import { elementSetDisplay, isDisplayed, isHTMLCanvas } from "@juniper-lib/dom";
 import { objectSetVisible } from "../objects";
 import { Image2D } from "./Image2D";
 const redrawnEvt = { type: "redrawn" };
 export class CanvasImageMesh extends Image2D {
-    get object() {
+    get content3d() {
         return this;
     }
-    get element() {
+    get content() {
         if (isHTMLCanvas(this.image.canvas)) {
             return this.image.canvas;
         }
@@ -53,10 +52,10 @@ export class CanvasImageMesh extends Image2D {
         return this;
     }
     get isVisible() {
-        return elementIsDisplayed(this);
+        return isDisplayed(this.content);
     }
     set isVisible(v) {
-        elementSetDisplay(this, v, "inline-block");
+        elementSetDisplay(this.content, v, "inline-block");
         objectSetVisible(this, v);
         objectSetVisible(this.mesh, v);
         this.image.visible = v;

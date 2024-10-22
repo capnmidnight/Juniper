@@ -1,11 +1,11 @@
 import { ConeGeometry, Mesh } from "three";
-export const geom = /*@__PURE__*/ new ConeGeometry(1, 1, 10, 5);
-geom.name = "ConeGeom";
-geom.computeBoundingBox();
-geom.computeBoundingSphere();
+export const coneGeom = /*@__PURE__*/ new ConeGeometry(1, 1, 10, 5);
+coneGeom.name = "ConeGeom";
+coneGeom.computeBoundingBox();
+coneGeom.computeBoundingSphere();
 export class Cone extends Mesh {
     constructor(sx, sy, sz, material) {
-        super(geom, material);
+        super(coneGeom, material);
         this.scale.set(sx, sy, sz);
     }
 }

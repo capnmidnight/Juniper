@@ -1,12 +1,6 @@
-import { arrayClear, arrayReplace } from "@juniper-lib/collections/dist/arrays";
-import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/dist/attrs";
-import { Audio, mediaElementCanPlayThrough } from "@juniper-lib/dom/dist/tags";
-import { once } from "@juniper-lib/events/dist/once";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { URLBuilder } from "@juniper-lib/tslib/dist/URLBuilder";
-import { AsyncCallback } from "@juniper-lib/tslib/dist/identity";
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable, URLBuilder, arrayClear, arrayReplace, asyncCallback, isDefined, isNullOrUndefined, isString, once } from "@juniper-lib/util";
+import { Audio, AutoPlay, Controls, Loop, mediaElementCanPlayThrough } from "@juniper-lib/dom";
+import { IProgress } from "@juniper-lib/progress";
 import { RELEASE_EVT } from "../AudioManager";
 import { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
@@ -18,26 +12,26 @@ import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "./IPlayer";
 import { PlaybackState } from "./PlaybackState";
 
 export class AudioPlayer
-    extends BaseAudioSource<MediaPlayerEvents>
-    implements IPlayer, IDisposable {
+    extends BaseAudioSource<MediaPlayerEvents<FullAudioRecord>>
+    implements IPlayer<FullAudioRecord>, IDisposable {
 
     private readonly cacheBustSources = new Map<FullAudioRecord | string, number>();
 
     private readonly audioElement: HTMLAudioElement;
 
-    private readonly loadingEvt: MediaPlayerLoadingEvent;
-    private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayer>;
-    private readonly playEvt: MediaElementSourcePlayedEvent<IPlayer>;
-    private readonly pauseEvt: MediaElementSourcePausedEvent<IPlayer>;
-    private readonly stopEvt: MediaElementSourceStoppedEvent<IPlayer>;
-    private readonly progEvt: MediaElementSourceProgressEvent<IPlayer>;
+    private readonly loadingEvt: MediaPlayerLoadingEvent<FullAudioRecord, AudioPlayer>;
+    private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayer<FullAudioRecord>>;
+    private readonly playEvt: MediaElementSourcePlayedEvent<IPlayer<FullAudioRecord>>;
+    private readonly pauseEvt: MediaElementSourcePausedEvent<IPlayer<FullAudioRecord>>;
+    private readonly stopEvt: MediaElementSourceStoppedEvent<IPlayer<FullAudioRecord>>;
+    private readonly progEvt: MediaElementSourceProgressEvent<IPlayer<FullAudioRecord>>;
 
-    private readonly onError: AsyncCallback;
+    private readonly onError: asyncCallback;
     private readonly onPlay: () => void;
     private readonly onCanPlay: () => void;
     private readonly onWaiting: () => void;
     private readonly onPause: (evt: Event) => void;
-    private readonly onTimeUpdate: AsyncCallback;
+    private readonly onTimeUpdate: asyncCallback;
 
     private _data: FullAudioRecord | string = null;
     get data(): FullAudioRecord | string {
@@ -174,7 +168,7 @@ export class AudioPlayer
         else {
             this.setTitle(data.title);
             data.audios.sort(audioRecordSorter);
-            arrayReplace(this.sources, ...data.audios);
+            arrayReplace(this.sources, data.audios);
         }
 
         for (const audio of this.sources) {

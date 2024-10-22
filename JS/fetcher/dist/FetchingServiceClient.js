@@ -1,4 +1,4 @@
-import { WorkerClient } from "@juniper-lib/workers";
+import { WorkerClient } from "@juniper-lib/dom";
 function isDOMParsersSupportedType(type) {
     return type === "application/xhtml+xml"
         || type === "application/xml"
@@ -7,7 +7,7 @@ function isDOMParsersSupportedType(type) {
         || type === "text/xml";
 }
 function bufferToXml(response) {
-    const { status, requestPath, responsePath, content: buffer, contentType, contentLength, fileName, headers, date } = response;
+    const { status, requestPath, responsePath, content: buffer, contentType, contentLength, fileName, headers, date, errorMessage, errorObject } = response;
     if (!isDOMParsersSupportedType(contentType)) {
         throw new Error(`Content-Type ${contentType} is not one supported by the DOM parser.`);
     }
@@ -24,11 +24,13 @@ function bufferToXml(response) {
         contentLength,
         fileName,
         date,
-        headers
+        headers,
+        errorMessage,
+        errorObject
     };
 }
 function bufferToBlob(response) {
-    const { status, requestPath, responsePath, content: buffer, contentType, contentLength, fileName, headers, date } = response;
+    const { status, requestPath, responsePath, content: buffer, contentType, contentLength, fileName, headers, date, errorMessage, errorObject } = response;
     const blob = new Blob([buffer], {
         type: contentType
     });
@@ -41,7 +43,9 @@ function bufferToBlob(response) {
         contentLength,
         fileName,
         date,
-        headers
+        headers,
+        errorMessage,
+        errorObject
     };
 }
 function cloneRequest(request) {
@@ -81,47 +85,47 @@ export class FetchingServiceClient extends WorkerClient {
     }
     propogateEvent(_data) {
     }
-    makeRequest(methodName, request, progress) {
+    #makeRequest(methodName, request, progress) {
         return this.callMethod(methodName, [cloneRequest(request)], progress);
     }
-    makeRequestWithBody(methodName, request, progress) {
+    #makeRequestWithBody(methodName, request, progress) {
         return this.callMethod(methodName, [cloneRequestWithBody(request)], progress);
     }
     sendNothingGetNothing(request) {
-        return this.makeRequest("sendNothingGetNothing", request, null);
+        return this.#makeRequest("sendNothingGetNothing", request, null);
     }
     sendNothingGetBuffer(request, progress) {
-        return this.makeRequest("sendNothingGetBuffer", request, progress);
+        return this.#makeRequest("sendNothingGetBuffer", request, progress);
     }
     sendNothingGetText(request, progress) {
-        return this.makeRequest("sendNothingGetText", request, progress);
+        return this.#makeRequest("sendNothingGetText", request, progress);
     }
     sendNothingGetObject(request, progress) {
-        return this.makeRequest("sendNothingGetObject", request, progress);
+        return this.#makeRequest("sendNothingGetObject", request, progress);
     }
     sendNothingGetFile(request, progress) {
-        return this.makeRequest("sendNothingGetFile", request, progress);
+        return this.#makeRequest("sendNothingGetFile", request, progress);
     }
     sendNothingGetImageBitmap(request, progress) {
-        return this.makeRequest("sendNothingGetImageBitmap", request, progress);
+        return this.#makeRequest("sendNothingGetImageBitmap", request, progress);
     }
     sendObjectGetNothing(request, progress) {
-        return this.makeRequestWithBody("sendObjectGetNothing", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetNothing", request, progress);
     }
     sendObjectGetBuffer(request, progress) {
-        return this.makeRequestWithBody("sendObjectGetBuffer", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetBuffer", request, progress);
     }
     sendObjectGetText(request, progress) {
-        return this.makeRequestWithBody("sendObjectGetText", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetText", request, progress);
     }
     sendObjectGetObject(request, progress) {
-        return this.makeRequestWithBody("sendObjectGetObject", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetObject", request, progress);
     }
     sendObjectGetFile(request, progress) {
-        return this.makeRequestWithBody("sendObjectGetFile", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetFile", request, progress);
     }
     sendObjectGetImageBitmap(request, progress) {
-        return this.makeRequestWithBody("sendObjectGetImageBitmap", request, progress);
+        return this.#makeRequestWithBody("sendObjectGetImageBitmap", request, progress);
     }
     drawImageToCanvas(request, canvas, progress) {
         return this.callMethod("drawImageToCanvas", [cloneRequest(request), canvas], [canvas], progress);

@@ -1,8 +1,8 @@
-import { CancelToken } from "@juniper-lib/events/dist/CancelToken";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
 import { GetViewportParameters } from "pdfjs-dist/types/src/display/api";
 import { CanvasImage } from "./CanvasImage";
+import { CancelToken } from "@juniper-lib/events";
+import { IFetcher } from "@juniper-lib/fetcher";
+import { IProgress } from "@juniper-lib/progress";
 export declare class PDFImage extends CanvasImage {
     private readonly viewportParams;
     static prepare(workerPath: string, fetcher: IFetcher, debug: boolean, tokenOrProg: CancelToken, prog?: IProgress): Promise<void>;

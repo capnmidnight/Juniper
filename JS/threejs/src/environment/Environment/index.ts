@@ -1,31 +1,15 @@
-import { AudioManager } from "@juniper-lib/audio/dist/AudioManager";
-import { DeviceManager } from "@juniper-lib/audio/dist/DeviceManager";
-import { LocalUserMicrophone } from "@juniper-lib/audio/dist/LocalUserMicrophone";
-import { AudioPlayer } from "@juniper-lib/audio/dist/sources/AudioPlayer";
-import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
-import { ID } from "@juniper-lib/dom/dist/attrs";
-import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/dist/canvas";
-import { display, em, flexDirection, gap, perc, pointerEvents, transform, width } from "@juniper-lib/dom/dist/css";
-import { isModifierless } from "@juniper-lib/dom/dist/evts";
-import { Div, HtmlRender } from "@juniper-lib/dom/dist/tags";
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { all } from "@juniper-lib/events/dist/all";
-import { AssetFile, BaseAsset, isAsset } from "@juniper-lib/fetcher/dist/Asset";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { ArtificialHorizon } from "@juniper-lib/graphics2d/dist/ArtificialHorizon";
-import { AudioGraphDialog } from "@juniper-lib/graphics2d/dist/AudioGraphDialog";
-import { BatteryImage } from "@juniper-lib/graphics2d/dist/BatteryImage";
-import { ClockImage } from "@juniper-lib/graphics2d/dist/ClockImage";
-import { StatsImage } from "@juniper-lib/graphics2d/dist/StatsImage";
+import { isDefined, isFunction, isNullOrUndefined, rad2deg } from "@juniper-lib/util";
+import { AudioManager, AudioPlayer, DeviceManager, LocalUserMicrophone } from "@juniper-lib/audio";
+import { PriorityMap } from "@juniper-lib/collections";
+import { CanvasTypes, CssColorValue, display, Div, em, flexDirection, gap, hasVR, HtmlRender, ID, isDesktop, isHTMLCanvas, isMobile, isMobileVR, perc, pointerEvents, rule, SingletonStyleBlob, transform, width } from "@juniper-lib/dom";
+import { TypedEvent } from "@juniper-lib/events";
+import { AssetFile, BaseAsset, IFetcher, isAsset } from "@juniper-lib/fetcher";
+import { ArtificialHorizon, BatteryImage, ClockImage, StatsImage } from "@juniper-lib/graphics2d";
 import { Audio_Mpeg } from "@juniper-lib/mediatypes";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { ISpeechRecognizer } from "@juniper-lib/speech/dist/ISpeechRecognizer";
-import { SpeechRecognizerFactory } from "@juniper-lib/speech/dist/createSpeechRecognizer";
-import { hasVR, isDesktop, isMobile, isMobileVR } from "@juniper-lib/tslib/dist/flags";
-import { rad2deg } from "@juniper-lib/tslib/dist/math";
-import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { LocalUserWebcam } from "@juniper-lib/video";
-import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc/dist/constants";
+import { IProgress } from "@juniper-lib/progress";
+import { ISpeechRecognizer, SpeechRecognizerFactory } from "@juniper-lib/speech";
+import { LocalUserWebcam, LocalUserWebcamElement } from "@juniper-lib/video";
+import { DEFAULT_LOCAL_USER_ID } from "@juniper-lib/webrtc";
 import { ScreenMode } from "../../ScreenMode";
 import { ScreenUI } from "../../ScreenUI";
 import { SpaceUI } from "../../SpaceUI";
@@ -36,7 +20,7 @@ import { obj, objGraph } from "../../objects";
 import { ButtonFactory } from "../../widgets/ButtonFactory";
 import { ButtonImageWidget } from "../../widgets/ButtonImageWidget";
 import { CanvasImageMesh } from "../../widgets/CanvasImageMesh";
-import { ConfirmationDialog } from "../../widgets/ConfirmationDialog";
+import { ConfirmationDialog, ConfirmationDialogElement, EnvironmentAttr } from "../../widgets/ConfirmationDialog";
 import { ScreenModeToggleButton } from "../../widgets/ScreenModeToggleButton";
 import { TextMesh } from "../../widgets/TextMesh";
 import { ToggleButton } from "../../widgets/ToggleButton";
@@ -45,8 +29,6 @@ import { ApplicationLoader } from "./../ApplicationLoader";
 import { BaseEnvironment } from "./../BaseEnvironment";
 import { DeviceDialog } from "./../DeviceDialog";
 import { XRTimerTickEvent } from "./../XRTimer";
-
-import "./style.css";
 
 export class EnvironmentRoomJoinedEvent extends TypedEvent<"roomjoined"> {
     constructor(public readonly roomName: string) {
@@ -98,13 +80,13 @@ export class Environment
     readonly audio: AudioManager;
     readonly interactionAudio: InteractionAudio;
     readonly microphones: LocalUserMicrophone;
-    readonly webcams: LocalUserWebcam;
+    readonly webcams: LocalUserWebcamElement;
     readonly devices: DeviceManager;
     readonly speech: ISpeechRecognizer;
 
     readonly xrUI: SpaceUI;
     readonly screenUISpace: ScreenUI;
-    readonly confirmationDialog: ConfirmationDialog;
+    readonly confirmationDialog: ConfirmationDialogElement;
     readonly compassImage: ArtificialHorizon;
     readonly clockImage: CanvasImageMesh<ClockImage>;
     readonly statsImage: CanvasImageMesh<StatsImage>;
@@ -127,7 +109,6 @@ export class Environment
     readonly uiButtons: ButtonFactory;
     readonly audioPlayer: AudioPlayer;
     readonly videoPlayer: VideoPlayer3D;
-    readonly graph: AudioGraphDialog;
 
     private readonly envAudioToggleEvt = new TypedEvent("environmentaudiotoggled");
 
@@ -181,6 +162,12 @@ export class Environment
             options.defaultAvatarHeight,
             options.defaultFOV);
 
+        SingletonStyleBlob("Juniper::ThreeJS::Environment", () => rule("#juniperSubMenu",
+            display("none"),
+            flexDirection("column-reverse"),
+            gap(em(.25))
+        ));
+
         this.screenUISpace = new ScreenUI(options.buttonFillColor);
         this.compassImage = new ArtificialHorizon();
 
@@ -214,27 +201,21 @@ export class Environment
 
         this.audio = new AudioManager(options.fetcher, DEFAULT_LOCAL_USER_ID);
 
-        this.graph = new AudioGraphDialog(this.audio.context);
-        if (isHTMLCanvas(options.canvas)) {
-            options.canvas.addEventListener("keypress", (evt) => {
-                if (isModifierless(evt) && evt.key === "`") {
-                    this.graph.showDialog();
-                }
-            });
-        }
-
         this.audioPlayer = new AudioPlayer(this.audio.context, this.audio.createSpatializer(false, false));
 
         this.videoPlayer = new VideoPlayer3D(this, this.audio.context, this.audio.createSpatializer(false, false));
-        this.videoPlayer.object.visible = false;
+        this.videoPlayer.content3d.visible = false;
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSys);
 
         this.microphones = new LocalUserMicrophone(this.audio.context);
-        this.webcams = new LocalUserWebcam();
+        this.webcams = LocalUserWebcam();
         this.devices = new DeviceManager(this.microphones, this.webcams);
 
-        this.confirmationDialog = new ConfirmationDialog(this, options.dialogFontFamily);
+        this.confirmationDialog = ConfirmationDialog(
+            EnvironmentAttr(this), 
+            options.dialogFontFamily
+        );
         this.devicesDialog = new DeviceDialog(this.fetcher, this.devices, this.audio, this.microphones, this.webcams, this.DEBUG);
 
         this.uiButtons = new ButtonFactory(options.uiImagePaths, 20, options.buttonFillColor, options.labelFillColor, this.DEBUG);
@@ -272,8 +253,11 @@ export class Environment
 
         if (isDefined(this.screenControl)) {
             this.screenControl.addEventListener("sessionstarted", (evt) => {
-                if (evt.mode === ScreenMode.Fullscreen && this.confirmationDialog.element.parentElement !== this.screenControl.fullscreenElement) {
-                    HtmlRender(this.screenControl.fullscreenElement, this.devicesDialog, this.confirmationDialog);
+                if (evt.mode === ScreenMode.Fullscreen && this.confirmationDialog.parentElement !== this.screenControl.fullscreenElement) {
+                    this.screenControl.fullscreenElement.append(
+                        this.devicesDialog,
+                        this.confirmationDialog
+                    );
                 }
             });
         }
@@ -290,12 +274,12 @@ export class Environment
             this.muteCamButton.active = this.webcams.enabled;
         });
 
-        this.muteMicButton.addEventListener("click", () => {
+        this.muteMicButton.content.addEventListener("click", () => {
             this.microphones.muted = this.microphones.enabled && !this.microphones.muted;
             this.muteMicButton.active = !this.microphones.muted;
         });
 
-        this.muteCamButton.addEventListener("click", () => {
+        this.muteCamButton.content.addEventListener("click", () => {
             this.webcams.enabled = !this.webcams.enabled;
             this.muteCamButton.active = this.webcams.enabled;
         });
@@ -313,22 +297,13 @@ export class Environment
         return this.statsImage.image.canvas;
     }
 
-    private _testSpaceLayout = false;
-    get testSpaceLayout() {
-        return this._testSpaceLayout;
-    }
-
-    set testSpaceLayout(v) {
-        if (v !== this.testSpaceLayout) {
-            this._testSpaceLayout = v;
-        }
-    }
-
     private createMenu() {
 
         if (isDefined(this.batteryImage)) {
             this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, width: 0.2, height: 0.1 });
-            HtmlRender(this.screenUISpace.topRight, this.batteryImage);
+            this.screenUISpace.topRight.append(
+                this.batteryImage.content
+            );
         }
 
         this.xrUI.addItem(this.clockImage, { x: -1, y: 1, height: 0.1 });
@@ -358,14 +333,21 @@ export class Environment
                 .filter(isHTMLCanvas)
                 .map(v => v as HTMLCanvasElement));
 
-        HtmlRender(this.screenUISpace.bottomCenter, this.infoLabel);
-        HtmlRender(this.screenUISpace.bottomRight, this.vrButton, this.arButton, this.fullscreenButton, this.anaglyphButton);
-        HtmlRender(this.screenUISpace.bottomLeft,
-            Div(this.menuButton,
+        this.screenUISpace.bottomCenter.append(
+            this.infoLabel.content
+        );
+        this.screenUISpace.bottomRight.append(
+            this.vrButton.content,
+            this.arButton.content,
+            this.fullscreenButton.content,
+            this.anaglyphButton.content
+        );
+        this.screenUISpace.bottomLeft.append(
+            Div(this.menuButton.content,
                 display("flex"),
                 flexDirection("column-reverse"),
                 gap(em(.25)),
-                this.subMenu
+                this.subMenu.content
             )
         );
 
@@ -377,24 +359,24 @@ export class Environment
             this.quitButton
         );
 
-        this.settingsButton.addEventListener("click", async () => {
+        this.settingsButton.content.addEventListener("click", async () => {
             const mode = this.screenControl.currentMode;
             const wasPresenting = this.renderer.xr.isPresenting;
             if (wasPresenting) {
                 await this.screenControl.stop();
             }
-            await this.devicesDialog.showDialog();
+            await this.devicesDialog.showModal();
             if (wasPresenting) {
                 await this.screenControl.start(mode);
             }
         });
 
-        this.muteEnvAudioButton.addEventListener("click", () => {
+        this.muteEnvAudioButton.content.addEventListener("click", () => {
             this.muteEnvAudioButton.active = !this.muteEnvAudioButton.active;
             this.dispatchEvent(this.envAudioToggleEvt);
         });
 
-        this.quitButton.addEventListener("click", () =>
+        this.quitButton.content.addEventListener("click", () =>
             this.withConfirmation(
                 "Confirm quit",
                 "Are you sure you want to quit?",
@@ -406,7 +388,7 @@ export class Environment
                     await this.onQuitting();
                 }));
 
-        this.menuButton.addEventListener("click", () =>
+        this.menuButton.content.addEventListener("click", () =>
             this.subMenu.visible = !this.subMenu.visible);
 
         [
@@ -416,7 +398,7 @@ export class Environment
             this.muteEnvAudioButton,
             this.quitButton
         ].forEach(btn =>
-            btn.addEventListener("click", () =>
+            btn.content.addEventListener("click", () =>
                 this.subMenu.visible = false));
 
         this.subMenu.visible = false;
@@ -429,7 +411,8 @@ export class Environment
 
     private layoutMenu() {
         let curCount = 0;
-        for (const child of this.subMenu.object.children) {
+
+        for (const child of this.subMenu.content3d.children) {
             if (child.visible) {
                 child.position.set(0, ++curCount * 0.25, 0);
             }
@@ -533,13 +516,13 @@ export class Environment
 
         await super.load(prog, ...assets);
 
-        await all(
+        await Promise.all([
             this.audio.createBasicClip("footsteps", footsteps, 0.5),
             this.interactionAudio.create("enter", enter, 0.25),
             this.interactionAudio.create("exit", exit, 0.25),
             this.interactionAudio.create("error", error, 0.25),
             this.interactionAudio.create("click", click, 1)
-        );
+        ]);
 
         this.screenUISpace.show();
     }

@@ -1,17 +1,12 @@
-import { Rel, Type } from "@juniper-lib/dom/dist/attrs";
-import { CanvasTypes, createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom/dist/canvas";
-import { Img, Link, Script } from "@juniper-lib/dom/dist/tags";
-import { once } from "@juniper-lib/events/dist/once";
-import { waitFor } from "@juniper-lib/events/dist/waitFor";
+import { IResponse, assertNever, dispose, isDefined, isFunction, isString } from "@juniper-lib/util";
+import { CanvasTypes, Img, Link, Rel, Script, Type, createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom";
+import { once, waitFor } from "@juniper-lib/events";
 import { Application_Javascript, Application_Json, Application_Wasm, MediaType, Text_Css, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { assertNever, isDefined, isFunction, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { IProgress } from "@juniper-lib/progress";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetcherBasic, IFetcherBodiedResult, IFetcherBodilessResult, IFetcherResult, IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec, IFetcherSendProgressTimeoutCredentialsCacheGetBody } from "./IFetcher";
 import { IFetchingService } from "./IFetchingService";
 import { IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
 import { translateResponse } from "./translateResponse";
 declare const IS_WORKER: boolean;
 
@@ -38,17 +33,25 @@ export class RequestBuilder implements
     IFetcherResult,
     IFetcherBodilessResult {
 
-    private readonly request: IRequestWithBody;
-    private prog: IProgress = null;
+    readonly #fetcher: IFetchingService;
+    readonly #method: HTTPMethods;
+    readonly #path: URL;
+    readonly #useBLOBs: boolean;
+    readonly #request: IRequestWithBody;
+    #prog: IProgress = null;
 
     constructor(
-        private readonly fetcher: IFetchingService,
-        private readonly method: HTTPMethods,
-        private readonly path: URL,
-        private readonly useBLOBs = false) {
-        this.request = {
+        fetcher: IFetchingService,
+        method: HTTPMethods,
+        path: URL,
+        useBLOBs = false) {
+        this.#fetcher = fetcher;
+        this.#method = method;
+        this.#path = path;
+        this.#useBLOBs = useBLOBs;
+        this.#request = {
             method,
-            path: this.path.href,
+            path: this.#path.href,
             body: null,
             headers: null,
             timeout: null,
@@ -59,22 +62,22 @@ export class RequestBuilder implements
     }
 
     retries(count: number) {
-        this.request.retryCount = count;
+        this.#request.retryCount = count;
         return this;
     }
 
     query(name: string, value: string) {
-        this.path.searchParams.set(name, value);
-        this.request.path = this.path.href;
+        this.#path.searchParams.set(name, value);
+        this.#request.path = this.#path.href;
         return this;
     }
 
     header(name: string, value: string) {
-        if (this.request.headers === null) {
-            this.request.headers = new Map<string, string>();
+        if (this.#request.headers === null) {
+            this.#request.headers = new Map<string, string>();
         }
 
-        this.request.headers.set(name.toLowerCase(), value);
+        this.#request.headers.set(name.toLowerCase(), value);
         return this;
     }
 
@@ -86,12 +89,12 @@ export class RequestBuilder implements
     }
 
     timeout(value: number) {
-        this.request.timeout = value;
+        this.#request.timeout = value;
         return this;
     }
 
     progress(prog: IProgress) {
-        this.prog = prog;
+        this.#prog = prog;
         return this;
     }
 
@@ -151,23 +154,23 @@ export class RequestBuilder implements
                 contentType = undefined;
             }
 
-            this.request.body = body;
-            this.content(contentType);
+            this.#request.body = body;
+            this.#content(contentType);
         }
         return this;
     }
 
     withCredentials() {
-        this.request.withCredentials = true;
+        this.#request.withCredentials = true;
         return this;
     }
 
     useCache(enabled = true) {
-        this.request.useCache = enabled;
+        this.#request.useCache = enabled;
         return this;
     }
 
-    private media(key: string, mediaType: string | MediaType): void {
+    #media(key: string, mediaType: string | MediaType): void {
         if (isDefined(mediaType)) {
             if (!isString(mediaType)) {
                 mediaType = mediaType.value;
@@ -176,78 +179,78 @@ export class RequestBuilder implements
         }
     }
 
-    private content(contentType: string | MediaType): void {
-        this.media("content-type", contentType);
+    #content(contentType: string | MediaType): void {
+        this.#media("content-type", contentType);
     }
 
     accept(acceptType: string | MediaType): this {
-        this.media("accept", acceptType);
+        this.#media("accept", acceptType);
         return this;
     }
 
     blob(acceptType?: string | MediaType): Promise<IResponse<Blob>> {
         this.accept(acceptType);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetBlob(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetBlob(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetBlob(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetBlob(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
     buffer(acceptType?: string | MediaType): Promise<IResponse<ArrayBuffer>> {
         this.accept(acceptType);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetBuffer(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetBuffer(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetBuffer(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetBuffer(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
     async file(acceptType?: string | MediaType): Promise<IResponse<string>> {
         this.accept(acceptType);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return await this.fetcher.sendObjectGetFile(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return await this.#fetcher.sendObjectGetFile(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            if (this.useBLOBs) {
-                return await this.fetcher.sendNothingGetFile(this.request, this.prog);
+        else if (this.#method === "GET") {
+            if (this.#useBLOBs) {
+                return await this.#fetcher.sendNothingGetFile(this.#request, this.#prog);
             }
             else {
-                const response = await this.fetcher.sendNothingGetNothing(this.request);
-                return translateResponse(response, () => this.request.path);
+                const response = await this.#fetcher.sendNothingGetNothing(this.#request);
+                return translateResponse(response, () => this.#request.path);
             }
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
@@ -262,111 +265,111 @@ export class RequestBuilder implements
 
     text(acceptType?: string | MediaType): Promise<IResponse<string>> {
         this.accept(acceptType || Text_Plain);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetText(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetText(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetText(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetText(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
     object<T>(acceptType?: string | MediaType): Promise<IResponse<T>> {
         this.accept(acceptType || Application_Json);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetObject<T>(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetObject<T>(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetObject<T>(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetObject<T>(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
     xml(acceptType?: string | MediaType): Promise<IResponse<HTMLElement>> {
         this.accept(acceptType || Text_Xml);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetXml(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetXml(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetXml(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetXml(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
     imageBitmap(acceptType?: string | MediaType): Promise<IResponse<ImageBitmap>> {
         this.accept(acceptType);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetImageBitmap(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetImageBitmap(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetImageBitmap(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetImageBitmap(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
     exec() {
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetNothing(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetNothing(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
+        else if (this.#method === "GET") {
             throw new Error("GET requests should expect a response type");
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            return this.fetcher.sendNothingGetNothing(this.request);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            return this.#fetcher.sendNothingGetNothing(this.#request);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
-    private async audioBlob(acceptType: string | MediaType): Promise<IResponse<Blob>> {
+    async #audioBlob(acceptType: string | MediaType): Promise<IResponse<Blob>> {
         if (isDefined(acceptType)) {
             if (!isString(acceptType)) {
                 acceptType = acceptType.value;
             }
 
             if (!canPlay(acceptType)) {
-                throw new Error(`Probably can't play file of type "${acceptType}" at path: ${this.request.path}`);
+                throw new Error(`Probably can't play file of type "${acceptType}" at path: ${this.#request.path}`);
             }
         }
 
@@ -375,17 +378,17 @@ export class RequestBuilder implements
             return response;
         }
 
-        throw new Error(`Cannot play file of type "${response.contentType}" at path: ${this.request.path}`);
+        throw new Error(`Cannot play file of type "${response.contentType}" at path: ${this.#request.path}`);
     }
 
     async audioBuffer(context: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>> {
         return translateResponse(
-            await this.audioBlob(acceptType),
+            await this.#audioBlob(acceptType),
             async (blob) => await context.decodeAudioData(await blob.arrayBuffer()));
     }
 
 
-    private async htmlElement<ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement | HTMLLinkElement, EventsT extends HTMLElementEventMap>(element: ElementT, resolveEvt: keyof EventsT & string, acceptType: string | MediaType): Promise<IResponse<ElementT>> {
+    async #htmlElement<ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement | HTMLLinkElement, EventsT extends HTMLElementEventMap>(element: ElementT, resolveEvt: keyof EventsT & string, acceptType: string | MediaType): Promise<IResponse<ElementT>> {
         const response = await this.file(acceptType);
         const task = once(element, resolveEvt, "error");
         if (element instanceof HTMLLinkElement) {
@@ -400,7 +403,7 @@ export class RequestBuilder implements
     }
 
     image(acceptType?: string | MediaType): Promise<IResponse<HTMLImageElement>> {
-        return this.htmlElement(
+        return this.#htmlElement(
             Img(),
             "load",
             acceptType
@@ -413,10 +416,10 @@ export class RequestBuilder implements
         }
 
         const canvas = createCanvas(1, 1);
-        if (this.method === "GET") {
+        if (this.#method === "GET") {
             if (hasOffscreenCanvas) {
                 this.accept(acceptType);
-                const response = await this.fetcher.drawImageToCanvas(this.request, canvas.transferControlToOffscreen(), this.prog);
+                const response = await this.#fetcher.drawImageToCanvas(this.#request, canvas.transferControlToOffscreen(), this.#prog);
                 return await translateResponse<void, HTMLCanvasElement>(response, () => canvas);
             }
             else {
@@ -433,16 +436,16 @@ export class RequestBuilder implements
                 });
             }
         }
-        else if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE"
-            || this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE"
+            || this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
@@ -460,7 +463,7 @@ export class RequestBuilder implements
             throw new Error("This system does not support OffscreenCanvas");
         }
 
-        if (this.method === "GET") {
+        if (this.#method === "GET") {
             const response: IResponse<HTMLImageElement | ImageBitmap> = await (IS_WORKER
                 ? this.imageBitmap(acceptType)
                 : this.image(acceptType));
@@ -472,16 +475,16 @@ export class RequestBuilder implements
                 return canvas;
             });
         }
-        else if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE"
-            || this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE"
+            || this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
 
@@ -491,17 +494,17 @@ export class RequestBuilder implements
             Rel("stylesheet")
         );
         document.head.append(tag);
-        const response = await this.htmlElement(
+        const response = await this.#htmlElement(
             tag,
             "load",
             Text_Css);
         return translateResponse(response);
     }
 
-    private async getScript(): Promise<IResponse> {
+    async #getScript(): Promise<IResponse> {
         const tag = Script(Type(Application_Javascript));
         document.head.append(tag);
-        const response = await this.htmlElement(
+        const response = await this.#htmlElement(
             tag,
             "load",
             Application_Javascript);
@@ -511,31 +514,31 @@ export class RequestBuilder implements
     async script(test: () => boolean): Promise<IResponse> {
         let response: IResponse = null;
 
-        const scriptPath = this.request.path;
+        const scriptPath = this.#request.path;
 
         if (!test) {
-            response = await this.getScript();
+            response = await this.#getScript();
         }
         else if (!test()) {
             const scriptLoadTask = waitFor(test);
-            response = await this.getScript();
+            response = await this.#getScript();
             await scriptLoadTask;
         }
 
-        if (this.prog) {
-            this.prog.end(scriptPath);
+        if (this.#prog) {
+            this.#prog.end(scriptPath);
         }
 
         return response;
     }
 
     async module<T>(): Promise<IResponse<T>> {
-        const scriptPath = this.request.path;
+        const scriptPath = this.#request.path;
         const response = await this.file(Application_Javascript);
         const value = await import(response.content);
 
-        if (this.prog) {
-            this.prog.end(scriptPath);
+        if (this.#prog) {
+            this.#prog.end(scriptPath);
         }
 
         return translateResponse(response, () => value);
@@ -553,13 +556,13 @@ export class RequestBuilder implements
     }
 
     async worker(type: WorkerType = "module"): Promise<IResponse<Worker>> {
-        const scriptPath = this.request.path;
+        const scriptPath = this.#request.path;
         const response = await this.file(Application_Javascript);
-        this.prog = null;
-        this.request.timeout = null;
+        this.#prog = null;
+        this.#request.timeout = null;
         const worker = new Worker(response.content, { type });
-        if (this.prog) {
-            this.prog.end(scriptPath);
+        if (this.#prog) {
+            this.#prog.end(scriptPath);
         }
         return translateResponse(response, () => worker);
     }

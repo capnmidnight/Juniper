@@ -1,9 +1,6 @@
-import { arrayCompare, arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, dispose, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/dist/canvas";
-import { getHeight, getWidth } from "@juniper-lib/tslib/dist/images";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { inches2Meters, meters2Inches } from "@juniper-lib/tslib/dist/units/length";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable, arrayCompare, arrayScan, isDefined, isNullOrUndefined } from "@juniper-lib/util";
+import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, dispose, getHeight, getWidth, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom";
+import { inches2Meters, meters2Inches } from "@juniper-lib/units";
 import { BufferGeometry, Matrix4, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Texture, Vector3, VideoTexture } from "three";
 import { plane } from "../Plane";
 import { StereoLayoutName } from "../VideoPlayer3D";

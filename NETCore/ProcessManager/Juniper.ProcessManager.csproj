@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Juniper.ProcessManager</AssemblyName>
+    <RootNamespace>Juniper.Processes</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.ProcessManager</PackageId>
+    <OutputType>Exe</OutputType>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>An process execution intermediary, so that child processes of the intermediary can be killed when the intermediary's parent dies.</Description>
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Processes\Juniper.Processes.csproj" />
+  </ItemGroup>
+
+</Project>

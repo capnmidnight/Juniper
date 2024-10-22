@@ -27,7 +27,7 @@ export class Emoji {
             return this.value.indexOf(e) >= 0;
         }
     }
-    changeStyle(expected, wanted) {
+    #changeStyle(expected, wanted) {
         let value = this.value;
         if (value.endsWith(expected)) {
             value = value.substring(0, value.length - expected.length);
@@ -36,10 +36,10 @@ export class Emoji {
         return value;
     }
     get textStyle() {
-        return this.changeStyle("\uFE0F", "\uFE0E");
+        return this.#changeStyle("\uFE0F", "\uFE0E");
     }
     get emojiStyle() {
-        return this.changeStyle("\uFE0E", "\uFE0F");
+        return this.#changeStyle("\uFE0E", "\uFE0F");
     }
 }
 //# sourceMappingURL=Emoji.js.map

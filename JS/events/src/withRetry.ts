@@ -30,9 +30,6 @@ export function withRetry<T>(retryCount: number, action: () => Promise<T>): () =
             }
         }
 
-        // If we got this far, it's because an error occured
-        // in one of the retry attempts, so lastError should
-        // not be null by now.
         throw lastError;
     };
 }

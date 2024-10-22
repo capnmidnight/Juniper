@@ -1,4 +1,4 @@
-import { singleton } from "@juniper-lib/tslib/dist/singleton";
+import { singleton } from "@juniper-lib/util";
 import * as _allApplication from "./application";
 import * as _allAudio from "./audio";
 import * as _allChemical from "./chemical";
@@ -12,7 +12,7 @@ import { MediaType } from "./util";
 import * as _allVideo from "./video";
 import * as _allXConference from "./xConference";
 import * as _allXShader from "./xShader";
-export const MediaTypeDB = /*@__PURE__*/ singleton("Juniper:TSLib:MediaTypeDB", () => {
+export const MediaTypeDB = /*@__PURE__*/ (() => singleton("Juniper:MediaTypeDB", () => {
     const byExtension = new Map();
     function guessByFileName(fileName) {
         if (!fileName) {
@@ -50,7 +50,7 @@ export const MediaTypeDB = /*@__PURE__*/ singleton("Juniper:TSLib:MediaTypeDB", 
     function register(type) {
         let isNew = false;
         const value = type.__getValueUnsafe();
-        type = singleton("Juniper.MediaTypes:" + value, () => {
+        type = singleton("Juniper:MediaTypes:" + value, () => {
             isNew = true;
             return type;
         });
@@ -87,5 +87,5 @@ export const MediaTypeDB = /*@__PURE__*/ singleton("Juniper:TSLib:MediaTypeDB", 
     regAll(_allXConference);
     regAll(_allXShader);
     return db;
-});
+}))();
 //# sourceMappingURL=db.js.map

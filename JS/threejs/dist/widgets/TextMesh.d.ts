@@ -1,4 +1,4 @@
-import { TextImage, TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
+import { TextImage, TextImageOptions } from "@juniper-lib/graphics2d";
 import { MeshBasicMaterialParameters } from "three";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { CanvasImageMesh } from "./CanvasImageMesh";

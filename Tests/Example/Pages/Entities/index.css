@@ -1,0 +1,57 @@
+﻿details *:not(summary) {
+    margin-left: 1em;
+}
+
+
+#entityImage {
+    width: 20em;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    flex-grow: 1;
+}
+
+    article > summary-view {
+        grid-area: info;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2em;
+        width: 100%;
+    }
+
+property-editor img {
+    max-width: 20em;
+}
+
+
+tab-panel > *:not(.tab-panel-controls) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2em;
+    padding: 1em;
+}
+
+tab-panel > * > fieldset {
+    border: solid 1px #ccc;
+    padding: 1em;
+    flex-shrink: 0;
+}
+
+    tab-panel > * > fieldset > legend {
+        margin-top: -1.5em;
+        background-color: white;
+        padding: .25em;
+    }
+
+.sub-entity {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    align-items: flex-start;
+    gap: 3em;
+}

@@ -1,7 +1,6 @@
 import { Task } from "./Task";
 export declare class SleepTask extends Task {
-    private readonly milliseconds;
-    private _timer;
+    #private;
     constructor(milliseconds: number);
     start(): void;
     reset(): void;

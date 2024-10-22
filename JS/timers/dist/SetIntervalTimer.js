@@ -1,8 +1,5 @@
-import { BaseTimer } from "./BaseTimer";
-export class SetIntervalTimer extends BaseTimer {
-    constructor(targetFrameRate) {
-        super(targetFrameRate);
-    }
+import { BaseVariableTimer } from "./BaseVariableTimer";
+export class SetIntervalTimer extends BaseVariableTimer {
     start() {
         this.timer = setInterval(() => this.onTick(performance.now()), this.targetFrameTime);
     }

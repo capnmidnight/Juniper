@@ -1,6 +1,5 @@
-import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { and } from "@juniper-lib/tslib/dist/identity";
+import { and, arrayClear } from "@juniper-lib/util";
+import { PriorityMap } from "@juniper-lib/collections";
 import { BaseVideoPlayer } from "@juniper-lib/video";
 import { createEACGeometry, createQuadGeometry } from "./CustomGeometry";
 import { cleanup } from "./cleanup";
@@ -40,14 +39,14 @@ export class VideoPlayer3D extends BaseVideoPlayer {
             }
             this.vidMeshes.push(vidMesh);
         }
-        this.object = obj("videoPlayer", ...this.vidMeshes);
+        this.content3d = obj("videoPlayer", ...this.vidMeshes);
     }
     get meshes() {
         return this.vidMeshes.map(v => v.mesh);
     }
     onDisposing() {
         super.onDisposing();
-        cleanup(this.object);
+        cleanup(this.content3d);
         arrayClear(this.vidMeshes);
     }
     isSupported(encoding, layout) {

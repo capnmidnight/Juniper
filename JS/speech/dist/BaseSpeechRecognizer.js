@@ -1,6 +1,5 @@
-import { debounce } from "@juniper-lib/events/dist/debounce";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { SpeechRecognizer } from "microsoft-cognitiveservices-speech-sdk";
+import { debounce } from "@juniper-lib/util";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 export class BaseSpeechRecognizer extends TypedEventTarget {
     constructor() {
         super();
@@ -35,5 +34,4 @@ export class BaseSpeechRecognizer extends TypedEventTarget {
     onRefresh() {
     }
 }
-SpeechRecognizer.enableTelemetry(false);
 //# sourceMappingURL=BaseSpeechRecognizer.js.map

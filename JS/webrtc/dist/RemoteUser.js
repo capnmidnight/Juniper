@@ -1,8 +1,5 @@
-import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { isArrayBuffer } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { arrayClear, arrayRemove, arrayScan, dispose, isArrayBuffer } from "@juniper-lib/util";
+import { Task, TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { UserChatEvent, UserLeftEvent, UserStateEvent } from "./ConferenceEvents";
 class Locker {
     constructor() {

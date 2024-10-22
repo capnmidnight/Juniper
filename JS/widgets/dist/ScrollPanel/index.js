@@ -1,19 +1,18 @@
-import { HtmlAttr, ClassList } from "@juniper-lib/dom/dist/attrs";
-import { CssElementStyleProp } from "@juniper-lib/dom/dist/css";
-import { Div } from "@juniper-lib/dom/dist/tags";
-import "./styles.css";
-function isRule(obj) {
-    return obj instanceof CssElementStyleProp
-        || obj instanceof HtmlAttr;
-}
+import { isDate, isNumber, isString } from "@juniper-lib/util";
+import { ClassList, Div, em, height, overflow, padding, rule, SingletonStyleBlob } from "@juniper-lib/dom";
 function isElem(obj) {
-    return !isRule(obj);
+    return obj instanceof Node
+        || isString(obj)
+        || isDate(obj)
+        || isNumber(obj);
 }
-export class ScrollPanel {
-    constructor(...rest) {
-        const rules = rest.filter(isRule);
-        const elems = rest.filter(isElem);
-        this.element = Div(ClassList("scroll-panel"), ...rules, Div(ClassList("scroll-panel-inner"), ...elems));
-    }
+function isRule(obj) {
+    return !isElem(obj);
+}
+export function ScrollPanel(...rest) {
+    SingletonStyleBlob("Juniper::Widgets::ScrollPanel", () => rule(".scroll-panel", overflow("auto", "auto"), padding(em(.5)), rule(".scroll-panel-inner", height(0))));
+    const rules = rest.filter(isRule);
+    const elems = rest.filter(isElem);
+    return Div(ClassList("scroll-panel"), ...rules, Div(ClassList("scroll-panel-inner"), ...elems));
 }
 //# sourceMappingURL=index.js.map

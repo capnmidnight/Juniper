@@ -20,8 +20,8 @@ export class CursorXRMouse extends BaseCursor3D {
         Object.seal(this);
     }
 
-    override get object() {
-        return this.xr.object;
+    override get content3d() {
+        return this.xr.content3d;
     }
 
     override get side() {

@@ -1,0 +1,32 @@
+{
+  "name": "@juniper-lib/cedrus",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An API wrapper for the Juniper.Cedrus timeseries database",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "@juniper-lib/util": "file:../util",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/emoji": "file:../emoji",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/fetcher": "file:../fetcher",
+    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/widgets": "file:../widgets",
+    "d3-org-chart": "3.1.1",
+    "d3-hierarchy": "3.1.2"
+  },
+  "devDependencies": {
+    "@types/d3-org-chart": "3.1.2",
+    "@types/d3-hierarchy": "3.1.7"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
+}

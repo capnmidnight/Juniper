@@ -1,64 +1,77 @@
-import { ClassList } from "@juniper-lib/dom/dist/attrs";
-import { Div, ElementChild, elementSetDisplay, elementSetText, ErsatzElement, H2, Span } from "@juniper-lib/dom/dist/tags";
-import { debounce } from "@juniper-lib/events/dist/debounce";
 
-import "./style.css";
+import { singleton } from "@juniper-lib/util";
+import { ElementChild, H2, SingletonStyleBlob, SpanTag, backgroundColor, border, borderRadius, display, elementSetDisplay, flexDirection, float, margin, padding, px, registerFactory, rule } from "@juniper-lib/dom";
 
-export class NamedPanel
-implements ErsatzElement {
+export class NamedPanelElement extends HTMLElement {
 
-    readonly element: HTMLElement;
+    static observedAttributes = [
+        "title",
+        "open"
+    ];
 
     private readonly header: HTMLHeadingElement;
     private readonly titleText: HTMLSpanElement;
-    private readonly body: HTMLDivElement;
 
-    private _open = true;
-    refresh: () => void;
+    constructor() {
+        super();
 
-    constructor(private _title: string, ...rest: ElementChild[]) {
+        SingletonStyleBlob("Juniper::Widgets::NamedPanelElement", () => 
+            rule("named-panel",
+                display("flex"),
+                flexDirection("column"),
+                border("2px outset silver"),
+                borderRadius("5px"),
+            
+                rule(">H2",
+                    margin(0),
+                    padding(px(3), px(6)),
+                    backgroundColor("silver"),
 
-        this.element = Div(
-            ClassList("named-panel"),
-            this.header = H2(
-                this.titleText = Span(_title),
-            ),
-            this.body = Div(
-                ClassList("body"),
-                ...rest
+                    rule(">button",
+                        float("right")
+                    )
+                )
             )
         );
 
-        this.refresh = debounce(() => this.onRefresh());
+        this.header = H2(
+            this.titleText = SpanTag()
+        );
 
         Object.seal(this);
     }
 
-    get title() {
-        return this._title;
-    }
-
-    set title(v) {
-        if (v !== this.title) {
-            this._title = v;
-            this.refresh();
+    #ready = false;
+    connectedCallback() {
+        if (!this.#ready) {
+            this.#ready = true;
+            this.insertBefore(this.header, this.children[0]);
         }
     }
 
-    get open() {
-        return this._open;
-    }
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+        if (oldValue === newValue) return;
 
-    set open(v) {
-        if (v !== this.open) {
-            this._open = v;
-            this.refresh();
+        switch (name) {
+            case "title":
+                this.titleText.replaceChildren(this.title);
+                break;
+            case "open":
+                this.header.classList.toggle("closed", !this.open);
+                for(const child of this.children){
+                    elementSetDisplay(child as HTMLElement, child === this.header || this.open);
+                }
+                break;
         }
     }
 
-    private onRefresh() {
-        elementSetText(this.titleText, this._title);
-        this.header.classList.toggle("closed", !this.open);
-        elementSetDisplay(this.body, this.open);
-    }
+    get open() { return this.hasAttribute("open"); }
+
+    set open(v) { this.toggleAttribute("open", v); }
+
+    static install() { return singleton("Juniper::Widgets::NamedPanelElement", () => registerFactory("named-panel", NamedPanelElement)); }
+}
+
+export function NamedPanel(...rest: ElementChild[]) {
+    return NamedPanelElement.install()(...rest);
 }

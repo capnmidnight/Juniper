@@ -1,6 +1,5 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined, makeLookup } from "@juniper-lib/util";
 import { BaseGraphNode } from "./BaseGraphNode";
-import { makeLookup } from "./makeLookup";
 export function buildTree(items, getParent, _getOrder) {
     const getOrder = (v) => isDefined(v)
         && isDefined(_getOrder)
@@ -51,9 +50,9 @@ export class TreeNode extends BaseGraphNode {
         child.removeFromParent();
         super.connectAt(child, index);
     }
-    connectSorted(child, sortKey) {
+    connectSorted(child, comparer) {
         child.removeFromParent();
-        super.connectSorted(child, sortKey);
+        super.connectSorted(child, comparer);
     }
     get parent() {
         if (this._reverse.length === 0) {

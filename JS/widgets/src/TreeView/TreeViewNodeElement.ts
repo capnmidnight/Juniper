@@ -1,13 +1,9 @@
-import { TreeNode } from "@juniper-lib/collections/dist/TreeNode";
-import { ClassList } from "@juniper-lib/dom/dist/attrs";
-import { onClick, onContextMenu, onDblClick } from "@juniper-lib/dom/dist/evts";
-import { ButtonSmall, Div, Span, StyleBlob, elementSetDisplay, elementSetText, elementSetTitle } from "@juniper-lib/dom/dist/tags";
+import { debounce, isBoolean, isDefined, isNullOrUndefined, singleton } from "@juniper-lib/util";
+import { TreeNode } from "@juniper-lib/collections";
+import { Button, ClassList, Div, ElementChild, elementSetDisplay, OnClick, OnContextMenu, OnDblClick, SpanTag, StyleBlob } from "@juniper-lib/dom";
 import { blackDiamondCentered, blackMediumDownPointingTriangleCentered, blackMediumRightPointingTriangleCentered, plus } from "@juniper-lib/emoji";
-import { EventTargetMixin } from "@juniper-lib/events/dist/EventTarget";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { ITypedEventTarget, TypedEvent, TypedEventListenerOrEventListenerObject } from "@juniper-lib/events/dist/TypedEventTarget";
-import { debounce } from "@juniper-lib/events/dist/debounce";
-import { isBoolean, isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { EventTargetMixin, ITypedEventTarget, Task, TypedEvent, TypedEventListenerOrEventListenerObject } from "@juniper-lib/events";
+import { registerFactory } from '../../../dom/src/registerFactory';
 
 const styleSheet = StyleBlob(`
 .tree-view-node-children {
@@ -69,25 +65,38 @@ const styleSheet = StyleBlob(`
     background-color: transparent;
 }`);
 
-export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {
-    constructor(public readonly node: TreeNode<T>) {
+abstract class BaseTreeViewNodeEvent<EventT extends string, ValueT> extends TypedEvent<EventT, TreeViewNodeElement<ValueT>> {
+    constructor(type: EventT){
+        super(type, { bubbles: true });
+    }
+}
+
+
+export class TreeViewNodeClickedEvent<ValueT> extends BaseTreeViewNodeEvent<"click", ValueT> {
+    constructor() {
         super("click");
     }
 }
 
-export class TreeViewNodeSelectedEvent<T> extends TypedEvent<"select"> {
-    constructor(public readonly node: TreeNode<T>) {
+export class TreeViewNodeSelectedEvent<ValueT> extends BaseTreeViewNodeEvent<"select", ValueT> {
+    constructor() {
         super("select");
     }
 }
 
-export abstract class TreeViewNodeEvent<EventT extends string, ValueT> extends TypedEvent<EventT>{
+export class TreeViewNodeCreateEvent<ValueT> extends BaseTreeViewNodeEvent<"create", ValueT> {
+    constructor(public readonly node: TreeNode<ValueT>) {
+        super("create");
+    }
+}
+
+export abstract class BaseTreeViewNodeActionEvent<EventT extends string, ValueT> extends BaseTreeViewNodeEvent<EventT, ValueT> {
     private readonly _finished = new Task();
     public get finished(): Promise<void> {
         return this._finished;
     }
 
-    constructor(type: EventT, public readonly parent: TreeViewNodeElement<ValueT>) {
+    constructor(type: EventT) {
         super(type);
     }
 
@@ -96,21 +105,22 @@ export abstract class TreeViewNodeEvent<EventT extends string, ValueT> extends T
     }
 }
 
-export class TreeViewNodeAddEvent<T> extends TreeViewNodeEvent<"add", T> {
-    constructor(parent: TreeViewNodeElement<T>) {
-        super("add", parent);
+export class TreeViewNodeAddEvent<T> extends BaseTreeViewNodeActionEvent<"add", T> {
+    constructor() {
+        super("add");
     }
 }
 
-export class TreeViewNodeContextMenuEvent<T> extends TreeViewNodeEvent<"contextmenu", T> {
-    constructor(parent: TreeViewNodeElement<T>) {
-        super("contextmenu", parent);
+export class TreeViewNodeContextMenuEvent<T> extends BaseTreeViewNodeActionEvent<"contextmenu", T> {
+    constructor() {
+        super("contextmenu");
     }
 }
 
 export type TreeViewNodeEvents<T> = {
     click: TreeViewNodeClickedEvent<T>;
     select: TreeViewNodeSelectedEvent<T>;
+    create: TreeViewNodeCreateEvent<T>;
     add: TreeViewNodeAddEvent<T>;
     contextmenu: TreeViewNodeContextMenuEvent<T>;
 }
@@ -127,10 +137,9 @@ export class TreeViewNodeElement<T>
         getDescription: (value: T) => string,
         canChangeOrder: (value: T) => boolean,
         getChildDescription: (node: T) => string,
-        canHaveChildren: (node: TreeNode<T>) => boolean,
-        createElement: (node: TreeNode<T>) => TreeViewNodeElement<T>) {
+        canHaveChildren: (node: TreeNode<T>) => boolean) {
 
-        const element = document.createElement("tree-view-node") as TreeViewNodeElement<T>;
+        const element = TreeViewNode<T>();
 
         element.node = node;
         element.defaultLabel = defaultLabel;
@@ -139,7 +148,6 @@ export class TreeViewNodeElement<T>
         element._canChangeOrder = canChangeOrder;
         element._getChildDescription = getChildDescription;
         element._canHaveChildren = canHaveChildren;
-        element.createElement = createElement;
 
         return element;
     }
@@ -170,7 +178,6 @@ export class TreeViewNodeElement<T>
     private _canChangeOrder: (value: T) => boolean;
     private _getChildDescription: (node: T) => string;
     private _canHaveChildren: (node: TreeNode<T>) => boolean;
-    private createElement: (node: TreeNode<T>) => TreeViewNodeElement<T>;
 
     constructor() {
 
@@ -184,7 +191,7 @@ export class TreeViewNodeElement<T>
 
         this.refresh = debounce(() => this.onRefresh());
 
-        const onEnabledClick = (act: (evt: Event) => void) => onClick((evt: Event) => {
+        const OnEnabledClick = (act: (evt: Event) => void) => OnClick((evt: Event) => {
             if (!this.disabled) {
                 evt.preventDefault();
                 evt.stopPropagation();
@@ -200,13 +207,13 @@ export class TreeViewNodeElement<T>
             this.infoView = Div(
                 ClassList("tree-view-node-label"),
 
-                onEnabledClick(() => {
+                OnEnabledClick(() => {
                     if (!this.selected) {
                         this._select(true);
                     }
                 }),
 
-                onDblClick((evt) => {
+                OnDblClick((evt) => {
                     if (!this.disabled && this.canHaveChildren) {
                         evt.preventDefault();
                         evt.stopPropagation();
@@ -214,9 +221,9 @@ export class TreeViewNodeElement<T>
                     }
                 }),
 
-                this.collapser = ButtonSmall(
+                this.collapser = Button(
                     ClassList("tree-view-node-collapser"),
-                    onClick((evt) => {
+                    OnClick((evt) => {
                         if (this.canHaveChildren) {
                             evt.preventDefault();
                             evt.stopPropagation();
@@ -228,10 +235,10 @@ export class TreeViewNodeElement<T>
                     })
                 ),
 
-                this.labeler = Span(
-                    onContextMenu(async (evt) => {
+                this.labeler = SpanTag(
+                    OnContextMenu(async (evt) => {
                         if (!this.disabled) {
-                            await this._launchMenu(evt, new TreeViewNodeContextMenuEvent(this));
+                            await this._launchMenu(evt, new TreeViewNodeContextMenuEvent());
                         }
                     })
                 )
@@ -241,11 +248,11 @@ export class TreeViewNodeElement<T>
                 ClassList("tree-view-node-children"),
                 this.childTreeNodes = Div(),
 
-                this.adder = ButtonSmall(
+                this.adder = Button(
                     ClassList("tree-view-node-adder"),
-                    onEnabledClick(async (evt: Event) => {
+                    OnEnabledClick(async (evt: Event) => {
                         if (this.canHaveChildren) {
-                            await this._launchMenu(evt, new TreeViewNodeAddEvent(this));
+                            await this._launchMenu(evt, new TreeViewNodeAddEvent());
                         }
                     }),
                     plus.emojiStyle
@@ -260,7 +267,7 @@ export class TreeViewNodeElement<T>
         const shadowRoot = this.attachShadow({ mode: "closed" });
         shadowRoot.append(styleSheet.cloneNode(), this.root);
         this.infoView.draggable = this.canChangeOrder;
-        elementSetText(this.labeler, this.label);
+        this.labeler.replaceChildren(this.label);
         this.adder.title = this.adderTitle;
         this.setAttribute("open", "");
         this.open = this.node.isRoot;
@@ -299,7 +306,7 @@ export class TreeViewNodeElement<T>
         this.eventTarget.clearEventListeners(type as string);
     }
 
-    async _launchMenu(parentEvt: Event, evt: TreeViewNodeEvent<string, T>): Promise<void> {
+    async _launchMenu(parentEvt: Event, evt: BaseTreeViewNodeActionEvent<string, T>): Promise<void> {
         parentEvt.preventDefault();
         parentEvt.stopPropagation();
         this.adder.disabled = true;
@@ -329,20 +336,21 @@ export class TreeViewNodeElement<T>
             && this.node.hasChildren
             && this.node.isChild;
 
-        elementSetTitle(this.collapser, this.collapserTitle);
-        elementSetText(this.collapser,
+        this.collapser.title = this.collapserTitle;
+        this.collapser.replaceChildren(
             canOpenClose
                 ? this.open
                     ? blackMediumDownPointingTriangleCentered.emojiStyle
                     : blackMediumRightPointingTriangleCentered.emojiStyle
-                : blackDiamondCentered.emojiStyle);
+                : blackDiamondCentered.emojiStyle
+        );
         this.collapser.style.opacity = canOpenClose
             ? "1"
             : "0";
 
-        elementSetText(this.labeler, this.label);
+        this.labeler.replaceChildren(this.label);
 
-        elementSetTitle(this.adder, this.adderTitle);
+        this.adder.title = this.adderTitle;
         elementSetDisplay(this.adder, this.canHaveChildren, "inline-block");
         elementSetDisplay(this.upper, this.node.isChild && this.canChangeOrder && isNullOrUndefined(this.previousSibling));
         elementSetDisplay(this.lower, this.node.isChild && this.canChangeOrder);
@@ -501,15 +509,15 @@ export class TreeViewNodeElement<T>
         this.open = true;
         const node = new TreeNode(value);
         this.node.connectTo(node);
-        this.createElement(node);
+        this.dispatchEvent(new TreeViewNodeCreateEvent(node));
         this.refresh();
     }
 
     _select(bubbles: boolean): void {
-        this.dispatchEvent(new TreeViewNodeClickedEvent(this.node));
+        this.dispatchEvent(new TreeViewNodeClickedEvent());
 
         if (!this.selected) {
-            const selectEvt = new TreeViewNodeSelectedEvent(this.node);
+            const selectEvt = new TreeViewNodeSelectedEvent();
             if (!bubbles) {
                 selectEvt.stopPropagation();
             }
@@ -542,6 +550,10 @@ export class TreeViewNodeElement<T>
             inline: "nearest"
         });
     }
+
+    static install() { return singleton("Juniper::Widgets::TreeViewNodeElement", () => registerFactory("tree-view-node", TreeViewNodeElement)); }
 }
 
-customElements.define("tree-view-node", TreeViewNodeElement);
+export function TreeViewNode<T>(...rest: ElementChild[]) {
+    return TreeViewNodeElement.install()(...rest) as TreeViewNodeElement<T>;
+}

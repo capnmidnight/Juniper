@@ -1,22 +1,17 @@
-import { arrayRemove, compareBy, insertSorted } from "@juniper-lib/collections/dist/arrays";
-import { all } from "@juniper-lib/events/dist/all";
-import { AssetFile, BaseFetchedAsset } from "@juniper-lib/fetcher/dist/Asset";
-import type { TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
+import { arrayRemove, compareBy, dispose, identity, insertSorted, isDefined, Tau } from "@juniper-lib/util";
+import { AssetFile, BaseFetchedAsset } from "@juniper-lib/fetcher";
+import type { TextImageOptions } from "@juniper-lib/graphics2d";
 import { Audio_Mpeg, Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { identity } from "@juniper-lib/tslib/dist/identity";
-import { Tau } from "@juniper-lib/tslib/dist/math";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { IProgress } from "@juniper-lib/progress";
 import {
+    RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent,
     RoomJoinedEvent,
     RoomLeftEvent,
+    TeleconferenceManager,
     UserJoinedEvent,
     UserLeftEvent,
     UserNameChangedEvent
-} from "@juniper-lib/webrtc/dist/ConferenceEvents";
-import { RemoteUserTrackAddedEvent, RemoteUserTrackRemovedEvent } from "@juniper-lib/webrtc/dist/RemoteUser";
-import { TeleconferenceManager } from "@juniper-lib/webrtc/dist/TeleconferenceManager";
+} from "@juniper-lib/webrtc";
 import { Object3D, Vector3 } from "three";
 import { AssetGltfModel } from "./AssetGltfModel";
 import { AvatarRemote } from "./AvatarRemote";
@@ -186,7 +181,7 @@ export abstract class BaseTele extends Application {
         this.conference.addScopedEventListener(this, "userLeft", (evt: UserLeftEvent) => {
             const user = this.avatars.get(evt.user.userID);
             if (user) {
-                user.object.removeFromParent();
+                user.content3d.removeFromParent();
                 this.avatars.delete(evt.user.userID);
                 arrayRemove(this.sortedUserIDs, evt.user.userID);
                 cleanup(user);
@@ -208,10 +203,10 @@ export abstract class BaseTele extends Application {
 
     async load(prog?: IProgress) {
         await this.env.fetcher.assets(prog, ...this.assets);
-        await all(
+        await Promise.all([
             this.env.audio.createBasicClip("join", this.doorOpenSound, 0.25),
             this.env.audio.createBasicClip("leave", this.doorCloseSound, 0.25)
-        );
+        ]);
         this.avatarModel = this.avatarModelAsset.result.scene.children[0];
         convertMaterials(this.avatarModel, materialStandardToPhong);
     }
