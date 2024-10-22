@@ -1,436 +1,534 @@
-import { arrayRemove } from "@juniper-lib/collections/dist/arrays";
-import { once } from "@juniper-lib/events/dist/once";
-import { Text_Css } from "@juniper-lib/mediatypes";
-import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { ClassList, Href, HtmlFor, Rel, Type, isAttr } from "./attrs";
-import { margin } from "./css";
-export function isErsatzElement(obj) {
-    if (!isObject(obj)) {
-        return false;
-    }
-    const elem = obj;
-    return elem.element instanceof Element;
+import { arrayInsert, isArray, isDefined, isObject, isString, singleton, toString } from "@juniper-lib/util";
+import { HtmlTag } from "./HtmlTag";
+import { ClassList, DateTime, HRef, InnerHTML, Rel, TitleAttr, Type } from "./attrs";
+import { PropSet } from "./css";
+/**********************************
+ * TAGS
+ *********************************/
+/**
+ * Creates an Anchor element.
+ */
+export function A(...rest) { return HtmlTag("a", ...rest); }
+/**
+ * Creates a Abbr element.
+ */
+export function Abbr(...rest) { return HtmlTag("abbr", ...rest); }
+/**
+ * Creates a Address element.
+ */
+export function Address(...rest) { return HtmlTag("address", ...rest); }
+/**
+ * Creates a Area element.
+ */
+export function Area(...rest) { return HtmlTag("area", ...rest); }
+/**
+ * Creates a Article element.
+ */
+export function Article(...rest) { return HtmlTag("article", ...rest); }
+/**
+ * Creates a Aside element.
+ */
+export function Aside(...rest) { return HtmlTag("aside", ...rest); }
+/**
+ * Creates a Audio element.
+ */
+export function Audio(...rest) { return HtmlTag("audio", ...rest); }
+/**
+ * Creates a B element.
+ */
+export function B(...rest) { return HtmlTag("b", ...rest); }
+/**
+ * Creates a Base element.
+ */
+export function Base(...rest) { return HtmlTag("base", ...rest); }
+/**
+ * Creates a BDI element.
+ * @param  {...ElementChild} rest Children of the BDI element, or attribute assigners.
+ * @returns {HTMLElement}
+ */
+export function BDI(...rest) { return HtmlTag("bdi", ...rest); }
+/**
+ * Creates a BDO element.
+ */
+export function BDO(...rest) { return HtmlTag("bdo", ...rest); }
+/**
+ * Creates a BlockQuote element.
+ */
+export function BlockQuote(...rest) { return HtmlTag("blockquote", ...rest); }
+/**
+ * Creates a Body element.
+ */
+export function Body(...rest) { return HtmlTag("body", ...rest); }
+/**
+ * Creates a BR element.
+ */
+export function BR() { return HtmlTag("br"); }
+/**
+ * Creates a raw Button element.
+ */
+export function ButtonRaw(...rest) { return HtmlTag("button", ...rest); }
+/**
+ * Creates a Button element with the type already set to "button".
+ */
+export function Button(...rest) { return ButtonRaw(Type("button"), ...rest); }
+/**
+ * Creates a Button element with the type already set to "submit" element.
+ */
+export function ButtonSubmit(...rest) { return ButtonRaw(Type("submit"), ...rest); }
+/**
+ * Creates a Button element with the type already set to "reset".
+ */
+export function ButtonReset(...rest) { return ButtonRaw(Type("reset"), ...rest); }
+/**
+ * Creates a Canvas element.
+ */
+export function Canvas(...rest) { return HtmlTag("canvas", ...rest); }
+/**
+ * Creates a Caption element.
+ */
+export function Caption(...rest) { return HtmlTag("caption", ...rest); }
+/**
+ * Creates a Cite element.
+ */
+export function Cite(...rest) { return HtmlTag("cite", ...rest); }
+/**
+ * Creates a Code element.
+ */
+export function Code(...rest) { return HtmlTag("code", ...rest); }
+/**
+ * Creates a Col element.
+ */
+export function Col(...rest) { return HtmlTag("col", ...rest); }
+/**
+ * Creates a ColGroup element.
+ */
+export function ColGroup(...rest) { return HtmlTag("colgroup", ...rest); }
+/**
+ * Creates a Data element.
+ */
+export function Data(...rest) { return HtmlTag("data", ...rest); }
+/**
+ * Creates a DataList element.
+ */
+export function DataList(...rest) { return HtmlTag("datalist", ...rest); }
+/**
+ * Creates a DD element.
+ */
+export function DD(...rest) { return HtmlTag("dd", ...rest); }
+/**
+ * Creates a Del element.
+ */
+export function Del(...rest) { return HtmlTag("del", ...rest); }
+/**
+ * Creates a Details element.
+ */
+export function Details(...rest) { return HtmlTag("details", ...rest); }
+/**
+ * Creates a DFN element.
+ */
+export function DFN(...rest) { return HtmlTag("dfn", ...rest); }
+/**
+ * Creates a Dialog element.
+ */
+export function Dialog(...rest) { return HtmlTag("dialog", ...rest); }
+/**
+ * Creates a Div element.
+ */
+export function Div(...rest) { return HtmlTag("div", ...rest); }
+/**
+ * Creates a DL element.
+ */
+export function DL(...rest) { return HtmlTag("dl", ...rest); }
+/**
+ * Creates a DT element.
+ */
+export function DT(...rest) { return HtmlTag("dt", ...rest); }
+/**
+ * Creates a Em element.
+ */
+export function Em(...rest) { return HtmlTag("em", ...rest); }
+/**
+ * Creates a Embed element.
+ */
+export function Embed(...rest) { return HtmlTag("embed", ...rest); }
+/**
+ * Creates a FieldSet element.
+ */
+export function FieldSet(...rest) { return HtmlTag("fieldset", ...rest); }
+/**
+ * Creates a FigCaption element.
+ */
+export function FigCaption(...rest) { return HtmlTag("figcaption", ...rest); }
+/**
+ * Creates a Figure element.
+ */
+export function Figure(...rest) { return HtmlTag("figure", ...rest); }
+/**
+ * Creates a Footer element.
+ */
+export function Footer(...rest) { return HtmlTag("footer", ...rest); }
+/**
+ * Creates a Form element.
+ */
+export function FormTag(...rest) { return HtmlTag("form", ...rest); }
+/**
+ * Creates a H1 element.
+ */
+export function H1(...rest) { return HtmlTag("h1", ...rest); }
+/**
+ * Creates a H2 element.
+ */
+export function H2(...rest) { return HtmlTag("h2", ...rest); }
+/**
+ * Creates a H3 element.
+ */
+export function H3(...rest) { return HtmlTag("h3", ...rest); }
+/**
+ * Creates a H4 element.
+ */
+export function H4(...rest) { return HtmlTag("h4", ...rest); }
+/**
+ * Creates a H5 element.
+ */
+export function H5(...rest) { return HtmlTag("h5", ...rest); }
+/**
+ * Creates a H6 element.
+ */
+export function H6(...rest) { return HtmlTag("h6", ...rest); }
+/**
+ * Creates a HR element.
+ */
+export function HR(...rest) { return HtmlTag("hr", ...rest); }
+/**
+ * Creates a Head element.
+ */
+export function Head(...rest) { return HtmlTag("head", ...rest); }
+/**
+ * Creates a Header element.
+ */
+export function Header(...rest) { return HtmlTag("header", ...rest); }
+/**
+ * Creates a HGroup element.
+ */
+export function HGroup(...rest) { return HtmlTag("hgroup", ...rest); }
+/**
+ * Creates a HTML element.
+ */
+export function HTML(...rest) { return HtmlTag("html", ...rest); }
+/**
+ * Creates a I element.
+ */
+export function I(...rest) { return HtmlTag("i", ...rest); }
+/**
+ * Creates a IFrame element.
+ */
+export function IFrame(...rest) { return HtmlTag("iframe", ...rest); }
+/**
+ * Creates a Img element.
+ */
+export function Img(...rest) { return HtmlTag("img", ...rest); }
+/**
+ * Creates a Input element.
+ */
+export function Input(...rest) { return HtmlTag("input", ...rest); }
+/**
+ * Creates a Ins element.
+ */
+export function Ins(...rest) { return HtmlTag("ins", ...rest); }
+/**
+ * Creates a KBD element.
+ */
+export function KBD(...rest) { return HtmlTag("kbd", ...rest); }
+/**
+ * Creates a Label element.
+ */
+export function Label(...rest) { return HtmlTag("label", ...rest); }
+/**
+ * Creates a Legend element.
+ */
+export function Legend(...rest) { return HtmlTag("legend", ...rest); }
+/**
+ * Creates a LI element.
+ */
+export function LI(...rest) { return HtmlTag("li", ...rest); }
+/**
+ * Creates a Link element.
+ */
+export function Link(...rest) { return HtmlTag("link", ...rest); }
+/**
+ * Creates a Link element for stylesheets.
+ */
+export function LinkStyleSheet(src, ...rest) {
+    return Link(Rel("stylesheet"), HRef(src), ...rest);
 }
-export function resolveElement(elem) {
-    if (isErsatzElement(elem)) {
-        return elem.element;
-    }
-    else if (isString(elem)) {
-        return getElement(elem);
-    }
-    return elem;
-}
-export function isIElementAppliable(obj) {
-    return isObject(obj)
-        && "applyToElement" in obj
-        && isFunction(obj.applyToElement);
-}
-export function isElementChild(obj) {
-    return obj instanceof Element
-        || isErsatzElement(obj)
-        || isIElementAppliable(obj)
-        || isString(obj)
-        || isNumber(obj)
-        || isBoolean(obj)
-        || isDate(obj);
-}
-export function isElements(child) {
-    return isErsatzElement(child)
-        || child instanceof Element;
-}
-export function isFocusable(elem) {
-    return "focus" in elem && isFunction(elem.focus);
-}
-export function elementSetDisplay(elem, visible, visibleDisplayType = "") {
-    elem = resolveElement(elem);
-    if (visible) {
-        elem.style.removeProperty("display");
-        const style = getComputedStyle(elem);
-        if (style.display === "none") {
-            elem.style.display = visibleDisplayType || "block";
-        }
-    }
-    else {
-        elem.style.display = "none";
-    }
-}
-export function elementIsDisplayed(elem) {
-    elem = resolveElement(elem);
-    return elem.style.display !== "none";
-}
-export function elementToggleDisplay(elem, visibleDisplayType = "block") {
-    elementSetDisplay(elem, !elementIsDisplayed(elem), visibleDisplayType);
-}
-export function elementInsertBefore(parent, newElem, refElem) {
-    parent = resolveElement(parent);
-    newElem = resolveElement(newElem);
-    refElem = resolveElement(refElem);
-    if (parent && newElem) {
-        parent.insertBefore(newElem, refElem);
-    }
-}
-export function elementGetIndexInParent(elem) {
-    elem = resolveElement(elem);
-    if (elem.parentElement) {
-        for (let i = 0; i < elem.parentElement.childElementCount; ++i) {
-            if (elem.parentElement.children[i] === elem) {
-                return i;
-            }
-        }
-    }
-    return null;
-}
-export function Clear() {
-    return {
-        applyToElement(elem) { elem.innerHTML = ""; }
-    };
-}
-export function elementGetCustomData(elem, name) {
-    elem = resolveElement(elem);
-    return elem.dataset[name.toLowerCase()];
-}
-export function HtmlRender(element, ...children) {
-    const elem = element instanceof Element
-        ? element
-        : element instanceof ShadowRoot
-            ? element
-            : isString(element)
-                ? document.querySelector(element)
-                : element.element;
-    const target = elem instanceof HTMLTemplateElement
-        ? elem.content
-        : elem;
-    for (const child of children) {
-        if (isDefined(child)) {
-            if (child instanceof Node) {
-                target.appendChild(child);
-            }
-            else if (isErsatzElement(child)) {
-                target.appendChild(resolveElement(child));
-            }
-            else if (isIElementAppliable(child)) {
-                if (!(elem instanceof ShadowRoot)) {
-                    child.applyToElement(elem);
+/**
+ * Creates a Main element.
+ */
+export function Main(...rest) { return HtmlTag("main", ...rest); }
+/**
+ * Creates a Map element. "Map" is a container type in JavaScript, so this function has a postfix of "_tag" to help distinguish it.
+ */
+export function MapTag(...rest) { return HtmlTag("map", ...rest); }
+/**
+ * Creates a Mark element.
+ */
+export function Mark(...rest) { return HtmlTag("mark", ...rest); }
+/**
+ * Creates a Menu element.
+ */
+export function Menu(...rest) { return HtmlTag("menu", ...rest); }
+/**
+ * Creates a Meta element.
+ */
+export function Meta(...rest) { return HtmlTag("meta", ...rest); }
+/**
+ * Creates a Meter element.
+ */
+export function Meter(...rest) { return HtmlTag("meter", ...rest); }
+/**
+ * Creates a Nav element.
+ */
+export function Nav(...rest) { return HtmlTag("nav", ...rest); }
+/**
+ * Creates a NoScript element.
+ */
+export function NoScript(...rest) { return HtmlTag("noscript", ...rest); }
+/**
+ * Creates an Object element. "Object" is a type in JavaScript already, so  this function has a postfix of "_tag" to help distinguish it.
+ */
+export function ObjectTag(...rest) { return HtmlTag("object", ...rest); }
+/**
+ * Creates a OL element.
+ */
+export function OL(...rest) { return HtmlTag("ol", ...rest); }
+/**
+ * Creates a OptGroup element.
+ */
+export function OptGroup(...rest) { return HtmlTag("optgroup", ...rest); }
+/**
+ * Creates a Option element.
+ */
+export function Option(...rest) { return HtmlTag("option", ...rest); }
+/**
+ * Creates a Output element.
+ */
+export function Output(...rest) { return HtmlTag("output", ...rest); }
+/**
+ * Creates a P element.
+ */
+export function P(...rest) { return HtmlTag("p", ...rest); }
+/**
+ * Creates a Picture element.
+
+ */
+export function Picture(...rest) { return HtmlTag("picture", ...rest); }
+/**
+ * Creates a Pre element.
+ */
+export function Pre(...rest) { return HtmlTag("pre", ...rest); }
+/**
+ * Creates a Progress element.
+ */
+export function Progress(...rest) { return HtmlTag("progress", ...rest); }
+/**
+ * Creates a Q element.
+ */
+export function Q(...rest) { return HtmlTag("q", ...rest); }
+/**
+ * Creates a RP element.
+ */
+export function RP(...rest) { return HtmlTag("rp", ...rest); }
+/**
+ * Creates a RT element.
+ */
+export function RT(...rest) { return HtmlTag("rt", ...rest); }
+/**
+ * Creates a Ruby element.
+ */
+export function Ruby(...rest) { return HtmlTag("ruby", ...rest); }
+/**
+ * Creates a S element.
+ */
+export function S(...rest) { return HtmlTag("s", ...rest); }
+/**
+ * Creates a Samp element.
+ */
+export function Samp(...rest) { return HtmlTag("samp", ...rest); }
+/**
+ * Creates a Script element.
+ */
+export function Script(...rest) { return HtmlTag("script", ...rest); }
+/**
+ * Creates a Section element.
+ */
+export function Section(...rest) { return HtmlTag("section", ...rest); }
+/**
+ * Creates a Select element.
+ */
+export function Select(...rest) { return HtmlTag("select", ...rest); }
+/**
+ * Creates a Slot element.
+ */
+export function SlotTag(...rest) { return HtmlTag("slot", ...rest); }
+/**
+ * Creates a Small element.
+ */
+export function Small(...rest) { return HtmlTag("small", ...rest); }
+/**
+ * Creates a Source element.
+ */
+export function Source(...rest) { return HtmlTag("source", ...rest); }
+/**
+ * Creates a Span element.
+ */
+export function SpanTag(...rest) { return HtmlTag("span", ...rest); }
+/**
+ * Creates a Strong element.
+ */
+export function Strong(...rest) { return HtmlTag("strong", ...rest); }
+/**
+ * Creates a Sub element.
+ */
+export function Sub(...rest) { return HtmlTag("sub", ...rest); }
+export function StyleBlob(...content) {
+    for (let i = 0; i < content.length; ++i) {
+        const prop = content[i];
+        if (prop instanceof PropSet) {
+            const subProps = prop._subProps;
+            const insertionPoint = content.length;
+            for (let j = subProps.length - 1; j >= 0; --j) {
+                const subProp = subProps[j];
+                if (subProp instanceof PropSet) {
+                    arrayInsert(content, subProp, insertionPoint);
+                    subProps.splice(j, 1);
                 }
             }
-            else {
-                target.appendChild(document.createTextNode(child.toLocaleString()));
-            }
         }
     }
-    return elem;
+    const rules = content
+        .filter(p => isString(p) || isObject(p) && (!p._subProps || p._subProps.length > 0))
+        .map(toString);
+    const blob = new Blob(rules, { type: "text/css" });
+    return LinkStyleSheet(URL.createObjectURL(blob));
 }
-export function elementRemoveFromParent(elem) {
-    elem = resolveElement(elem);
-    if (isDefined(elem)) {
-        elem.remove();
-    }
-}
-export function elementReplace(elem, ...elems) {
-    elem = resolveElement(elem);
-    elem.replaceWith(...elems.map(resolveElement));
-    return elem;
-}
-export function elementSwap(elem, withPlaceholder) {
-    const placeholder = Div();
-    const e = withPlaceholder(placeholder);
-    elementReplace(placeholder, elementReplace(elem, e));
-    return e;
-}
-export function getElement(selector) {
-    return document.querySelector(selector);
-}
-export function getElements(selector) {
-    return Array.from(document.querySelectorAll(selector));
-}
-export function getButton(selector) {
-    return getElement(selector);
-}
-export function getButtons(selector) {
-    return getElements(selector);
-}
-export function getInput(selector) {
-    return getElement(selector);
-}
-export function getDataList(selector) {
-    return getElement(selector);
-}
-export function getInputs(selector) {
-    return getElements(selector);
-}
-export function getSelect(selector) {
-    return getElement(selector);
-}
-export function getCanvas(selector) {
-    return getElement(selector);
+export function SingletonStyleBlob(name, makeContent) {
+    return singleton(name + "::StyleSheet", () => {
+        let content = makeContent();
+        if (!isArray(content)) {
+            content = [content];
+        }
+        const styleLink = StyleBlob(...content);
+        document.head.append(styleLink);
+        return styleLink;
+    });
 }
 /**
- * Creates an HTML element for a given tag name.
- *
- * Boolean attributes that you want to default to true can be passed
- * as just the attribute creating function,
- *   e.g. `Audio(autoPlay)` vs `Audio(autoPlay(true))`
- * @param name - the name of the tag
- * @param rest - optional attributes, child elements, and text
+ * Creates a CSS Style element.
+ */
+export function StyleTag(...rest) {
+    return HtmlTag("style", InnerHTML(rest
+        .map(toString)
+        .join("\n")));
+}
+/**
+ * Creates a Summary element.
+ */
+export function SummaryTag(...rest) { return HtmlTag("summary", ...rest); }
+/**
+ * Creates a Sup element.
+ */
+export function Sup(...rest) { return HtmlTag("sup", ...rest); }
+/**
+ * Creates a Table element.
+ */
+export function Table(...rest) { return HtmlTag("table", ...rest); }
+/**
+ * Creates a TBody element.
+ */
+export function TBody(...rest) { return HtmlTag("tbody", ...rest); }
+/**
+ * Creates a TD element.
+ */
+export function TD(...rest) { return HtmlTag("td", ...rest); }
+/**
+ * Creates a Template element.
+ */
+export function Template(...rest) { return HtmlTag("template", ...rest); }
+/**
+ * Streamlines creating instances of templates
+ * @param name
+ * @param factory
  * @returns
  */
-export function HtmlTag(name, ...rest) {
-    let elem = null;
-    const finders = rest.filter(isAttr).filter(v => v.key === "id" || v.key === "query");
-    for (const finder of finders) {
-        if (finder.key === "query") {
-            elem = finder.value;
-            arrayRemove(rest, finder);
+export function TemplateInstance(name, factory) {
+    const template = singleton(name + "::Template", () => {
+        let children = factory();
+        if (!isArray(children)) {
+            children = [children];
         }
-        else if (finder.key === "id") {
-            elem = document.getElementById(finder.value);
-            if (elem) {
-                arrayRemove(rest, finder);
-            }
-        }
-    }
-    if (elem && elem.tagName !== name.toUpperCase()) {
-        console.warn(`Expected a "${name.toUpperCase()}" element but found a "${elem.tagName}".`);
-    }
-    if (!elem) {
-        elem = document.createElement(name);
-    }
-    HtmlRender(elem, ...rest);
-    return elem;
-}
-export function isDisableable(obj) {
-    return isObject(obj)
-        && "disabled" in obj
-        && isBoolean(obj.disabled);
+        ;
+        return Template(...children);
+    });
+    return template.content.cloneNode(true);
 }
 /**
- * Empty an element of all children. This is faster than setting `innerHTML = ""`.
+ * Creates a TextArea element.
  */
-export function elementClearChildren(elem) {
-    elem = resolveElement(elem);
-    while (elem.lastChild) {
-        elem.lastChild.remove();
-    }
-}
-export function elementSetText(elem, text) {
-    elem = resolveElement(elem);
-    elementClearChildren(elem);
-    elem.append(TextNode(text));
-}
-export function elementGetText(elem) {
-    elem = resolveElement(elem);
-    return elem.innerText;
-}
-export function elementSetTitle(elem, text) {
-    elem = resolveElement(elem);
-    elem.title = text;
-}
-export function elementSetClass(elem, enabled, className) {
-    elem = resolveElement(elem);
-    const canEnable = isDefined(className);
-    const hasEnabled = canEnable && elem.classList.contains(className);
-    if (canEnable && hasEnabled !== enabled) {
-        elem.classList.toggle(className);
-    }
-}
-export function buttonSetEnabled(button, styleOrEnabled, enabledOrlabel, labelOrTitle, title) {
-    button = resolveElement(button);
-    let style = null;
-    let enabled = null;
-    let label = null;
-    if (isBoolean(styleOrEnabled)) {
-        enabled = styleOrEnabled;
-        label = enabledOrlabel;
-        title = labelOrTitle;
-    }
-    else {
-        style = styleOrEnabled;
-        enabled = enabledOrlabel;
-        label = labelOrTitle;
-    }
-    button.disabled = !enabled;
-    if (label) {
-        elementSetText(button, label);
-    }
-    if (title) {
-        elementSetTitle(button, title);
-    }
-    if (style) {
-        button.classList.toggle("btn-" + style, enabled);
-        button.classList.toggle("btn-outline-" + style, !enabled);
-    }
-}
-async function mediaElementCan(type, elem, prog) {
-    if (isDefined(prog)) {
-        prog.start();
-    }
-    const expectedState = type === "canplay"
-        ? elem.HAVE_CURRENT_DATA
-        : elem.HAVE_ENOUGH_DATA;
-    if (elem.readyState >= expectedState) {
-        return true;
-    }
-    try {
-        await once(elem, type, "error");
-        return true;
-    }
-    catch (err) {
-        console.warn(elem.error, err);
-        return false;
-    }
-    finally {
-        if (isDefined(prog)) {
-            prog.end();
-        }
-    }
-}
-export function mediaElementCanPlay(elem, prog) {
-    return mediaElementCan("canplay", elem, prog);
-}
-export function mediaElementCanPlayThrough(elem, prog) {
-    return mediaElementCan("canplaythrough", elem, prog);
-}
-export function A(...rest) { return HtmlTag("a", ...rest); }
-export function Abbr(...rest) { return HtmlTag("abbr", ...rest); }
-export function Address(...rest) { return HtmlTag("address", ...rest); }
-export function Area(...rest) { return HtmlTag("area", ...rest); }
-export function Article(...rest) { return HtmlTag("article", ...rest); }
-export function Aside(...rest) { return HtmlTag("aside", ...rest); }
-export function Audio(...rest) { return HtmlTag("audio", ...rest); }
-export function B(...rest) { return HtmlTag("b", ...rest); }
-export function Base(...rest) { return HtmlTag("base", ...rest); }
-export function BDI(...rest) { return HtmlTag("bdi", ...rest); }
-export function BDO(...rest) { return HtmlTag("bdo", ...rest); }
-export function BlockQuote(...rest) { return HtmlTag("blockquote", ...rest); }
-export function Body(...rest) { return HtmlTag("body", ...rest); }
-export function BR() { return HtmlTag("br"); }
-export function ButtonRaw(...rest) { return HtmlTag("button", ...rest); }
-export function Button(...rest) { return ButtonRaw(...rest, Type("button")); }
-export function ButtonSmall(...rest) { return Button(...rest, ClassList("btn", "btn-sm")); }
-export function ButtonPrimary(...rest) { return Button(...rest, ClassList("btn", "btn-primary")); }
-export function ButtonPrimaryOutline(...rest) { return Button(...rest, ClassList("btn", "btn-outline-primary")); }
-export function ButtonPrimarySmall(...rest) { return Button(...rest, ClassList("btn", "btn-sm", "btn-primary")); }
-export function ButtonPrimaryOutlineSmall(...rest) { return Button(...rest, ClassList("btn", "btn-sm", "btn-outline-primary")); }
-export function ButtonSecondary(...rest) { return Button(...rest, ClassList("btn", "btn-secondary")); }
-export function ButtonSecondaryOutline(...rest) { return Button(...rest, ClassList("btn", "btn-outline-secondary")); }
-export function ButtonSecondarySmall(...rest) { return Button(...rest, ClassList("btn", "btn-sm", "btn-secondary")); }
-export function ButtonSecondaryOutlineSmall(...rest) { return Button(...rest, ClassList("btn", "btn-sm", "btn-outline-secondary")); }
-export function ButtonDanger(...rest) { return Button(...rest, ClassList("btn", "btn-danger")); }
-export function ButtonDangerOutline(...rest) { return Button(...rest, ClassList("btn", "btn-outline-danger")); }
-export function ButtonDangerSmall(...rest) { return Button(...rest, ClassList("btn", "btn-sm", "btn-danger")); }
-export function ButtonDangerOutlineSmalle(...rest) { return Button(...rest, ClassList("btn", "btn-sm", "btn-outline-danger")); }
-export function ButtonSubmit(...rest) { return ButtonRaw(...rest, Type("submit")); }
-export function ButtonReset(...rest) { return ButtonRaw(...rest, Type("reset")); }
-export function Canvas(...rest) { return HtmlTag("canvas", ...rest); }
-export function Caption(...rest) { return HtmlTag("caption", ...rest); }
-export function Cite(...rest) { return HtmlTag("cite", ...rest); }
-export function Code(...rest) { return HtmlTag("code", ...rest); }
-export function Col(...rest) { return HtmlTag("col", ...rest); }
-export function ColGroup(...rest) { return HtmlTag("colgroup", ...rest); }
-export function DataTag(...rest) { return HtmlTag("data", ...rest); }
-export function DataList(...rest) { return HtmlTag("datalist", ...rest); }
-export function DD(...rest) { return HtmlTag("dd", ...rest); }
-export function Del(...rest) { return HtmlTag("del", ...rest); }
-export function Details(...rest) { return HtmlTag("details", ...rest); }
-export function DFN(...rest) { return HtmlTag("dfn", ...rest); }
-export function Dialog(...rest) { return HtmlTag("dialog", ...rest); }
-export function Div(...rest) { return HtmlTag("div", ...rest); }
-export function DL(...rest) { return HtmlTag("dl", ...rest); }
-export function DT(...rest) { return HtmlTag("dt", ...rest); }
-export function Em(...rest) { return HtmlTag("em", ...rest); }
-export function Embed(...rest) { return HtmlTag("embed", ...rest); }
-export function FieldSet(...rest) { return HtmlTag("fieldset", ...rest); }
-export function FigCaption(...rest) { return HtmlTag("figcaption", ...rest); }
-export function Figure(...rest) { return HtmlTag("figure", ...rest); }
-export function Footer(...rest) { return HtmlTag("footer", ...rest); }
-export function Form(...rest) { return HtmlTag("form", ...rest); }
-export function H1(...rest) { return HtmlTag("h1", ...rest); }
-export function H2(...rest) { return HtmlTag("h2", ...rest); }
-export function H3(...rest) { return HtmlTag("h3", ...rest); }
-export function H4(...rest) { return HtmlTag("h4", ...rest); }
-export function H5(...rest) { return HtmlTag("h5", ...rest); }
-export function H6(...rest) { return HtmlTag("h6", ...rest); }
-export function HR(...rest) { return HtmlTag("hr", ...rest); }
-export function Head(...rest) { return HtmlTag("head", ...rest); }
-export function Header(...rest) { return HtmlTag("header", ...rest); }
-export function HGroup(...rest) { return HtmlTag("hgroup", ...rest); }
-export function HTML(...rest) { return HtmlTag("html", ...rest); }
-export function I(...rest) { return HtmlTag("i", ...rest); }
-export function FAIcon(iconName, ...rest) { return I(ClassList(`fa fa-${iconName}`), ...rest); }
-export function IFrame(...rest) { return HtmlTag("iframe", ...rest); }
-export function Img(...rest) { return HtmlTag("img", ...rest); }
-export function Input(...rest) { return HtmlTag("input", ...rest); }
-export function Ins(...rest) { return HtmlTag("ins", ...rest); }
-export function KBD(...rest) { return HtmlTag("kbd", ...rest); }
-export function Label(...rest) { return HtmlTag("label", ...rest); }
-export function PreLabeled(id, label, input) {
-    resolveElement(input).id = id;
-    return [
-        Label(HtmlFor(id), label),
-        input
-    ];
-}
-export function PostLabeled(id, label, input) {
-    resolveElement(input).id = id;
-    return [
-        input,
-        Label(HtmlFor(id), label)
-    ];
-}
-export function Legend(...rest) { return HtmlTag("legend", ...rest); }
-export function LI(...rest) { return HtmlTag("li", ...rest); }
-export function Link(...rest) { return HtmlTag("link", ...rest); }
-export function Main(...rest) { return HtmlTag("main", ...rest); }
-export function Map_tag(...rest) { return HtmlTag("map", ...rest); }
-export function Mark(...rest) { return HtmlTag("mark", ...rest); }
-export function Menu(...rest) { return HtmlTag("menu", ...rest); }
-export function Meta(...rest) { return HtmlTag("meta", ...rest); }
-export function Meter(...rest) { return HtmlTag("meter", ...rest); }
-export function Nav(...rest) { return HtmlTag("nav", ...rest); }
-export function NoScript(...rest) { return HtmlTag("noscript", ...rest); }
-export function Object_tag(...rest) { return HtmlTag("object", ...rest); }
-export function OL(...rest) { return HtmlTag("ol", ...rest); }
-export function OptGroup(...rest) { return HtmlTag("optgroup", ...rest); }
-export function Option(...rest) { return HtmlTag("option", ...rest); }
-export function Output(...rest) { return HtmlTag("output", ...rest); }
-export function P(...rest) { return HtmlTag("p", ...rest); }
-export function Picture(...rest) { return HtmlTag("picture", ...rest); }
-export function Pre(...rest) { return HtmlTag("pre", ...rest); }
-export function Progress(...rest) { return HtmlTag("progress", ...rest); }
-export function Q(...rest) { return HtmlTag("q", ...rest); }
-export function RP(...rest) { return HtmlTag("rp", ...rest); }
-export function RT(...rest) { return HtmlTag("rt", ...rest); }
-export function Ruby(...rest) { return HtmlTag("ruby", ...rest); }
-export function S(...rest) { return HtmlTag("s", ...rest); }
-export function Samp(...rest) { return HtmlTag("samp", ...rest); }
-export function Script(...rest) { return HtmlTag("script", ...rest); }
-export function Section(...rest) { return HtmlTag("section", ...rest); }
-export function Select(...rest) { return HtmlTag("select", ...rest); }
-export function Slot(...rest) { return HtmlTag("slot", ...rest); }
-export function Small(...rest) { return HtmlTag("small", ...rest); }
-export function Source(...rest) { return HtmlTag("source", ...rest); }
-export function Span(...rest) { return HtmlTag("span", ...rest); }
-export function Strong(...rest) { return HtmlTag("strong", ...rest); }
-export function Sub(...rest) { return HtmlTag("sub", ...rest); }
-export function Summary(...rest) { return HtmlTag("summary", ...rest); }
-export function Sup(...rest) { return HtmlTag("sup", ...rest); }
-export function Table(...rest) { return HtmlTag("table", ...rest); }
-export function TBody(...rest) { return HtmlTag("tbody", ...rest); }
-export function TD(...rest) { return HtmlTag("td", ...rest); }
-export function Template(...rest) { return HtmlTag("template", ...rest); }
 export function TextArea(...rest) { return HtmlTag("textarea", ...rest); }
+/**
+ * Creates a TFoot element.
+ */
 export function TFoot(...rest) { return HtmlTag("tfoot", ...rest); }
+/**
+ * Creates a TH element.
+ */
 export function TH(...rest) { return HtmlTag("th", ...rest); }
+/**
+ * Creates a THead element.
+ */
 export function THead(...rest) { return HtmlTag("thead", ...rest); }
-export function Time(...rest) { return HtmlTag("time", ...rest); }
-export function Title(...rest) { return HtmlTag("title", ...rest); }
+/**
+ * Creates a Time element.
+ */
+export function Time(date, formattedDate, ...rest) {
+    return HtmlTag("time", ...rest, DateTime(date), date && TitleAttr(date.toLocaleString()) || null, formattedDate);
+}
+/**
+ * Creates a Title element.
+ */
+export function TitleTag(...rest) { return HtmlTag("title", ...rest); }
+/**
+ * Creates a TR element.
+ */
 export function TR(...rest) { return HtmlTag("tr", ...rest); }
+/**
+ * Creates a Track element.
+ */
 export function Track(...rest) { return HtmlTag("track", ...rest); }
+/**
+ * Creates a U element.
+ */
 export function U(...rest) { return HtmlTag("u", ...rest); }
+/**
+ * Creates a UL element.
+ */
 export function UL(...rest) { return HtmlTag("ul", ...rest); }
+/**
+ * Creates a Var element.
+ */
 export function Var(...rest) { return HtmlTag("var", ...rest); }
+/**
+ * Creates a Video element.
+ */
 export function Video(...rest) { return HtmlTag("video", ...rest); }
+/**
+ * Creates a WBR element.
+ */
 export function WBR() { return HtmlTag("wbr"); }
+/**
+ * Creates a FontAwesome icon
+ */
+export function FAIcon(iconName, ...rest) { return I(ClassList("fa", "fa-solid", `fa-${iconName}`), ...rest); }
 /**
  * creates an HTML Input tag that is a button.
  */
@@ -520,29 +618,11 @@ export function InputURL(...rest) { return Input(Type("url"), ...rest); }
  */
 export function InputWeek(...rest) { return Input(Type("week"), ...rest); }
 /**
- * Creates a text node out of the give input.
+ * Creates a text node out of the given input.
  */
 export function TextNode(txt) {
-    return document.createTextNode(txt);
-}
-/**
- * Creates a Div element with margin: auto.
- */
-export function Run(...rest) {
-    return Div(margin("auto"), ...rest);
-}
-export function Style(...props) {
-    const elem = document.createElement("style");
-    document.head.append(elem);
-    for (const prop of props) {
-        prop.applyToSheet(elem.sheet);
-    }
-    return elem;
-}
-export function StyleBlob(...props) {
-    const blob = new Blob(props.map(p => p.toString()), {
-        type: Text_Css.value
-    });
-    return Link(Rel("stylesheet"), Href(blob));
+    return isDefined(txt)
+        && document.createTextNode(txt.toString())
+        || null;
 }
 //# sourceMappingURL=tags.js.map

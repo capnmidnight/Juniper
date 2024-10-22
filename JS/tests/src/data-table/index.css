@@ -1,0 +1,36 @@
+html, body {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background-color: hsl(0deg, 0%, 50%);
+    font-family: system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans', 'Droid Sans', sans-serif;
+}
+
+body > h1 {
+    grid-area: 1/1/2/-1;
+}
+
+tab-panel [data-tab-name] {
+    padding: 2em;
+}
+
+data-table {
+    background-color: hsl(0deg, 0%, 95%);
+    box-shadow: #00000069 1rem 1rem 2rem;
+}
+
+data-table .header-container {
+    background-color: hsl(180deg, 75%, 25%);
+}
+
+data-table .header-container th, data-table .header-container th a {
+    color: white;
+}

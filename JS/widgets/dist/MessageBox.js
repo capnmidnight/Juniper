@@ -1,5 +1,5 @@
-import { elementSetDisplay } from "@juniper-lib/dom/dist/tags";
-import { Task } from "@juniper-lib/events/dist/Task";
+import { elementSetDisplay } from "@juniper-lib/dom";
+import { Task } from "@juniper-lib/events";
 export class MessageBox {
     constructor(msgBox) {
         this.msgBox = msgBox;

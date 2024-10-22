@@ -1,5 +1,5 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { UserChatEvent, UserLeftEvent, UserStateEvent } from "./ConferenceEvents";
 declare class RemoteUserEvent<T extends string> extends TypedEvent<T> {
     readonly user: RemoteUser;
@@ -18,12 +18,12 @@ export declare class RemoteUserIceCandidateEvent extends RemoteUserEvent<"iceCan
     constructor(user: RemoteUser, candidate: RTCIceCandidate);
 }
 export declare class RemoteUserOfferEvent extends RemoteUserEvent<"offer"> {
-    readonly offer: RTCSessionDescription;
-    constructor(user: RemoteUser, offer: RTCSessionDescription);
+    readonly offer: RTCSessionDescriptionInit;
+    constructor(user: RemoteUser, offer: RTCSessionDescriptionInit);
 }
 export declare class RemoteUserAnswerEvent extends RemoteUserEvent<"answer"> {
-    readonly answer: RTCSessionDescription;
-    constructor(user: RemoteUser, answer: RTCSessionDescription);
+    readonly answer: RTCSessionDescriptionInit;
+    constructor(user: RemoteUser, answer: RTCSessionDescriptionInit);
 }
 export declare class RemoteUserStreamNeededEvent extends RemoteUserEvent<"streamNeeded"> {
     constructor(user: RemoteUser);

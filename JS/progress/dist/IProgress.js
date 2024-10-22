@@ -1,4 +1,4 @@
-import { isDefined, isFunction } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined, isFunction } from "@juniper-lib/util";
 export function isProgressCallback(obj) {
     return isDefined(obj)
         && isFunction(obj.report)

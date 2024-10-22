@@ -1,10 +1,8 @@
-import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
-import { BaseSpatializer } from "@juniper-lib/audio/dist/spatializers/BaseSpatializer";
-import { ErsatzElement } from "@juniper-lib/dom/dist/tags";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { BaseSpatializer, JuniperAudioContext } from "@juniper-lib/audio";
+import { IProgress } from "@juniper-lib/progress";
 import { BaseVideoPlayer } from "./BaseVideoPlayer";
 import { FullVideoRecord } from "./data";
-export declare class VideoPlayer extends BaseVideoPlayer implements ErsatzElement {
+export declare class VideoPlayer extends BaseVideoPlayer {
     readonly element: HTMLElement;
     readonly thumbnail: HTMLImageElement;
     constructor(context: JuniperAudioContext, spatializer: BaseSpatializer);

@@ -1,8 +1,8 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { IDataLogger } from "@juniper-lib/tslib/dist/IDataLogger";
-import type { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import type { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
+import { IDataLogger } from "@juniper-lib/util";
+import type { IProgress } from "@juniper-lib/progress";
+import { isDefined } from "@juniper-lib/util";
+import type { IDisposable } from "@juniper-lib/util";
 import type { Environment } from "./Environment";
 
 class ApplicationEvent<T extends string> extends TypedEvent<T> {

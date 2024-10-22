@@ -1214,7 +1214,7 @@ const PATH_PROPERTIES = {
     weights: 'morphTargetInfluences'
 };
 const INTERPOLATION = {
-    CUBICSPLINE: undefined,
+    CUBICSPLINE: undefined, // We use a custom interpolant (GLTFCubicSplineInterpolation) for CUBICSPLINE tracks. Each
     // keyframe track will be initialized with a default interpolation type, then modified.
     LINEAR: InterpolateLinear,
     STEP: InterpolateDiscrete

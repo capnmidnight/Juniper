@@ -1,4 +1,4 @@
-import { IReadyable } from "@juniper-lib/events/dist/IReadyable";
+import { IReadyable } from "@juniper-lib/events";
 import { BaseNodeCluster } from "../BaseNodeCluster";
 import { IPoseable } from "../IPoseable";
 import { Pose } from "../Pose";

@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent } from "@juniper-lib/events";
 import { Intersection, Vector3 } from "three";
 import type { RayTarget } from "../RayTarget";
 import type { IPointer } from "./IPointer";

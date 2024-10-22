@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 export declare class LRUCacheItemEvicted<KeyT, ValueT> extends TypedEvent<"itemevicted"> {
     readonly key: KeyT;
     readonly value: ValueT;
@@ -17,8 +17,8 @@ export declare class LRUCache<KeyT, ValueT> extends TypedEventTarget<{
     get(key: KeyT): ValueT;
     delete(key: KeyT): boolean;
     clear(): void;
-    keys(): IterableIterator<KeyT>;
-    values(): IterableIterator<ValueT>;
-    entries(): IterableIterator<[KeyT, ValueT]>;
+    keys(): MapIterator<KeyT>;
+    values(): MapIterator<ValueT>;
+    entries(): MapIterator<[KeyT, ValueT]>;
 }
 //# sourceMappingURL=LRUCache.d.ts.map

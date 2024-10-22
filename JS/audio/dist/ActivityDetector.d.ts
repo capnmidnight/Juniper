@@ -1,11 +1,7 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { SetIntervalTimer } from "@juniper-lib/timers";
+import { ActivityEvent } from "./ActivityEvent";
 import { JuniperAnalyserNode } from "./context/JuniperAnalyserNode";
-import { SetIntervalTimer } from "@juniper-lib/timers/dist/SetIntervalTimer";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
-export declare class ActivityEvent extends TypedEvent<"activity"> {
-    level: number;
-    constructor();
-}
 export declare class ActivityDetector extends JuniperAnalyserNode<{
     activity: ActivityEvent;
 }> {

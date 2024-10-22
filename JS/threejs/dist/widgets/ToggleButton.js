@@ -1,10 +1,9 @@
-import { ButtonPrimary, HtmlRender, elementSetDisplay, Img } from "@juniper-lib/dom/dist/tags";
-import { all } from "@juniper-lib/events/dist/all";
+import { Button, elementSetDisplay, elementSetEnabled, Img } from "@juniper-lib/dom";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
 import { Widget } from "./widgets";
 export class ToggleButton extends Widget {
     constructor(buttons, setName, activeName, inactiveName) {
-        super(ButtonPrimary(), obj(`${setName}-button`), "inline-block");
+        super(Button(), obj(`${setName}-button`), "inline-block");
         this.buttons = buttons;
         this.setName = setName;
         this.activeName = activeName;
@@ -14,14 +13,17 @@ export class ToggleButton extends Widget {
         this._isAvailable = true;
         this._isEnabled = true;
         this._isActive = false;
-        HtmlRender(this, this.btnImage = Img());
+        this.content.append(this.btnImage = Img());
         this.load();
     }
     async load() {
-        const [enter, exit] = await all(this.buttons.getMeshButton(this.setName, this.activeName, 0.2), this.buttons.getMeshButton(this.setName, this.inactiveName, 0.2));
-        objGraph(this.object, this.enterButton = enter, this.exitButton = exit);
-        this.enterButton.addEventListener("click", () => this.element.click());
-        this.exitButton.addEventListener("click", () => this.element.click());
+        const [enter, exit] = await Promise.all([
+            this.buttons.getMeshButton(this.setName, this.activeName, 0.2),
+            this.buttons.getMeshButton(this.setName, this.inactiveName, 0.2)
+        ]);
+        objGraph(this, this.enterButton = enter, this.exitButton = exit);
+        this.enterButton.addEventListener("click", () => this.content.click());
+        this.exitButton.addEventListener("click", () => this.content.click());
         this.refreshState();
     }
     get mesh() {
@@ -62,15 +64,15 @@ export class ToggleButton extends Widget {
             ? this.inactiveName
             : this.activeName;
         const text = `${type} ${this.setName}`;
-        this.element.title
+        this.content.title
             = this.btnImage.title
                 = text;
         this.btnImage.src = this.buttons.getImageSrc(this.setName, type);
-        this.element.disabled = !this.available || !this.visible || !this.enabled;
-        elementSetDisplay(this, this.available && this.visible, "inline-block");
+        elementSetEnabled(this, this.available && this.visible && this.enabled);
+        elementSetDisplay(this.content, this.available && this.visible, "inline-block");
         if (this.enterButton && this.exitButton) {
             objectSetEnabled(this, this.available && this.visible && this.enabled);
-            const visible = objectSetVisible(this.object, this.available && this.visible);
+            const visible = objectSetVisible(this, this.available && this.visible);
             objectSetVisible(this.enterButton, visible && !this.active);
             objectSetVisible(this.exitButton, visible && this.active);
         }

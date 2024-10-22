@@ -1,0 +1,36 @@
+﻿@using System.Security.Principal
+@using Juniper
+@using Juniper.Cedrus.Models
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<CedrusUser> users
+@inject CedrusContextSecure database
+
+@if (User.Identity?.IsAuthenticated ?? false)
+{
+    var user = await users.GetTypedUserAsync(User, async (userName, email, primarySID) =>
+    {
+        var user = await database.SetUserAsync(userName, email, primarySID);
+        await database.SaveChangesAsync();
+        return user;
+    });
+    var name = user?.UserName ?? User.Identity.Name!;
+    name = name.Substring(name.IndexOf('\\') + 1);
+    <li>
+    <span>
+        <i>@Emoji.person</i>
+        <label>Hello, @name</label>
+    </span>
+</li>
+}
+else
+{
+    <li class="nav-item">
+    <a asp-area="Identity" asp-controller="Account" asp-action="Login">
+        <i>@Emoji.bust</i>
+        <label>
+            Sign in
+        </label>
+    </a>
+</li>
+}

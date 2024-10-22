@@ -1,5 +1,4 @@
-import { isNumber } from "@juniper-lib/tslib/dist/typeChecks";
-import { URLBuilder } from "@juniper-lib/tslib/dist/URLBuilder";
+import { isNumber, URLBuilder } from "@juniper-lib/util";
 import { getUserNumber } from "./userNumber";
 const windows = [];
 if (!IS_WORKER) {
@@ -21,7 +20,7 @@ export function openWindow(url, xOrWidth, yOrHeight, width, height) {
     else if (isNumber(xOrWidth) && isNumber(yOrHeight)) {
         opts = `width=${xOrWidth},height=${yOrHeight}`;
     }
-    const w = window.open(url, "_blank", opts);
+    const w = globalThis.open(url, "_blank", opts);
     if (w) {
         windows.push(w);
     }
@@ -36,6 +35,6 @@ export function openSideTest() {
     const loc = new URLBuilder(location.href)
         .query("testUserNumber", (getUserNumber() + windows.length + 1).toString())
         .toString();
-    openWindow(loc, window.screenLeft + window.outerWidth, 0, window.innerWidth, window.innerHeight);
+    openWindow(loc, globalThis.screenLeft + globalThis.outerWidth, 0, globalThis.innerWidth, globalThis.innerHeight);
 }
 //# sourceMappingURL=windowing.js.map

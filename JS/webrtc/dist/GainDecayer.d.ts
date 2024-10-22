@@ -1,6 +1,4 @@
-import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
-import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
-import { JuniperGainNode } from "@juniper-lib/audio/dist/context/JuniperGainNode";
+import { ActivityDetector, JuniperAudioContext, JuniperGainNode } from "@juniper-lib/audio";
 export declare class GainDecayer extends ActivityDetector {
     private readonly control;
     min: number;

@@ -1,12 +1,7 @@
-import { AudioManager } from "@juniper-lib/audio/dist/AudioManager";
-import { LocalUserMicrophone } from "@juniper-lib/audio/dist/LocalUserMicrophone";
-import { StreamChangedEvent } from "@juniper-lib/audio/dist/StreamChangedEvent";
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { WindowQuitEventer } from "@juniper-lib/events/dist/WindowQuitEventer";
-import { singleton } from "@juniper-lib/tslib/dist/singleton";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { IDisposable, dispose } from "@juniper-lib/tslib/dist/using";
-import { LocalUserWebcam } from "@juniper-lib/video";
+import { dispose, IDisposable, isDefined, makeErrorMessage, singleton } from "@juniper-lib/util";
+import { AudioManager, LocalUserMicrophone, StreamChangedEvent } from "@juniper-lib/audio";
+import { TypedEventTarget, WindowQuitEventer } from "@juniper-lib/events";
+import { LocalUserWebcamElement } from '@juniper-lib/video';
 import "webrtc-adapter";
 import {
     ConferenceErrorEvent,
@@ -42,7 +37,6 @@ import {
     RemoteUserTrackRemovedEvent
 } from "./RemoteUser";
 import { DEFAULT_LOCAL_USER_ID } from "./constants";
-import { makeErrorMessage } from "../../tslib/src/makeErrorMessage";
 
 const sockets = singleton("Juniper:Sockets", () => new Array<WebSocket>());
 function fakeSocket(...args: any[]): WebSocket {
@@ -118,7 +112,7 @@ export class TeleconferenceManager
     constructor(
         private readonly audio: AudioManager,
         private readonly microphones: LocalUserMicrophone,
-        private readonly webcams: LocalUserWebcam,
+        private readonly webcams: LocalUserWebcamElement,
         private readonly hub: IHub) {
         super();
 
@@ -479,11 +473,11 @@ export class TeleconferenceManager
         await this.toUser("sendIce", toUserID, JSON.stringify(candidate));
     }
 
-    private async sendOffer(toUserID: string, offer: RTCSessionDescription): Promise<void> {
+    private async sendOffer(toUserID: string, offer: RTCSessionDescriptionInit): Promise<void> {
         await this.toUser("sendOffer", toUserID, JSON.stringify(offer));
     }
 
-    private async sendAnswer(toUserID: string, answer: RTCSessionDescription): Promise<void> {
+    private async sendAnswer(toUserID: string, answer: RTCSessionDescriptionInit): Promise<void> {
         await this.toUser("sendAnswer", toUserID, JSON.stringify(answer));
     }
 

@@ -1,21 +1,21 @@
 {
-  "version": "1.0.0",
   "name": "@juniper-lib/testing",
+  "version": "1.0.0",
   "private": true,
+  "description": "A minimal TDD framework",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
-    "dist/*"
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
   ],
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
-    "@juniper-lib/dom": "file:../dom",
-    "@juniper-lib/events": "file:../events",
-    "@juniper-lib/tslib": "file:../tslib",
-    "gl-matrix": "4.0.0-beta.1"
+    "@juniper-lib/util": "file:../util",
+    "@juniper-lib/collections": "file:../collections"
   },
-  "devDependencies": {
-    "@types/offscreencanvas": "2019.7.3"
-  }
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

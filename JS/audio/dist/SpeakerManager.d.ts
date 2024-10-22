@@ -1,5 +1,4 @@
-import { IReadyable } from "@juniper-lib/events/dist/IReadyable";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { IReadyable, TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 /**
  * Indicates whether or not the current browser can change the destination device for audio output.
  **/

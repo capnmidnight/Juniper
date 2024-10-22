@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Data</AssemblyName>
+    <RootNamespace>Juniper.Data</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Data</PackageId>
+    <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>Utility code for working with Entity Framework.</Description>
+    <IsPackable>True</IsPackable>
+  </PropertyGroup>
+  
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MediaType\Juniper.MediaType.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+  </ItemGroup>
+
+</Project>

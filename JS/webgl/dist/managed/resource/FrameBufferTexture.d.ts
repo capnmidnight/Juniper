@@ -1,4 +1,3 @@
-/// <reference types="webxr" />
 import { FrameAndRenderBuffers } from "../../GLEnum";
 import { IRenderTargetAttachment } from "./FrameBuffer";
 import { BaseTexture } from "./Texture";

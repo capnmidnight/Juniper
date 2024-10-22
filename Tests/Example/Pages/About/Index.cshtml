@@ -1,0 +1,10 @@
+﻿@page
+@using Microsoft.AspNetCore.Authorization
+@attribute [AllowAnonymous]
+@inject IConfiguration config
+@{
+    var version = config.GetValue<string>("Version");
+    ViewData["Title"] = "About";
+}
+
+<span>Cedrus v@(version), &copy; 2024 - <a href="https://www.seanmcbeth.com" target="_blank">Sean T. McBeth</a>.</span>

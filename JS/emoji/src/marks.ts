@@ -23,8 +23,9 @@ import {
 } from ".";
 
 
-export const marks = /*@__PURE__*/ G(
-    "Marks", "Marks", {
+export const marks = /*@__PURE__*/ (function () {
+    return G(
+        "Marks", "Marks", {
         doubleExclamationMark,
         exclamationQuestionMark,
         information,
@@ -46,3 +47,4 @@ export const marks = /*@__PURE__*/ G(
         copyright,
         registered,
     });
+})();

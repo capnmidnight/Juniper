@@ -12,5 +12,5 @@ export interface FullAudioRecord {
     title: string;
     audios: AudioRecord[];
 }
-export declare const audioRecordSorter: import("@juniper-lib/collections/dist/arrays").CompareFunction<AudioRecord>;
+export declare const audioRecordSorter: import("@juniper-lib/util").compareCallback<AudioRecord>;
 //# sourceMappingURL=data.d.ts.map

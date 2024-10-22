@@ -1,5 +1,5 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
+import { IProgress } from "@juniper-lib/progress";
 import type { Application } from "./Application";
 import type { Environment } from "./Environment";
 declare class ApplicationLoaderEvent<T extends string> extends TypedEvent<T> {

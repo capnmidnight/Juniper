@@ -1,5 +1,36 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">  
+  <PropertyGroup>    
     <OutputType>Library</OutputType>
-  </PropertyGroup>
-</Project>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>x64;AnyCPU</Platforms>
+    <Description>A container project for Juniper's TypeScript code.</Description>
+    <PackageLicenseFile>..\..\..\LICENSE.md</PackageLicenseFile>
+    <IsPublishable>False</IsPublishable>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>  
+  <ItemGroup>
+    <Compile Remove="esbuild\node_modules\**" />
+    <Compile Remove="tests\node_modules\**" />
+    <EmbeddedResource Remove="esbuild\node_modules\**" />
+    <EmbeddedResource Remove="tests\node_modules\**" />
+    <None Remove="esbuild\node_modules\**" />
+    <None Remove="tests\node_modules\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="..\package.json" Link="package.json" />
+    <Content Include="..\tsconfig.json" Link="tsconfig.json" />
+    <Content Include="..\tsconfig_base.json" Link="tsconfig_base.json" />
+  </ItemGroup>  
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="..\fix.ps1" Link="fix.ps1" />
+    <None Include="..\LICENSE.md" Link="LICENSE.md" />
+    <None Include="..\README.md" Link="README.md" />
+    <None Include="..\rebuild.ps1" Link="rebuild.ps1" />
+  </ItemGroup>
+ </Project>

@@ -1,32 +1,16 @@
-import { TypedEventMap, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { WorkerServerMessages } from "./WorkerMessages";
+import { WorkerServerMessages } from "@juniper-lib/util";
+import { TypedEventMap, TypedEventTarget } from "@juniper-lib/events";
 type createTransferableCallback<T> = (returnValue: T) => (Transferable | OffscreenCanvas)[];
 type Executor<T> = (...params: any[]) => Promise<T>;
 type VoidExecutor = (...params: any[]) => void;
 export declare class WorkerServer<EventMapT extends TypedEventMap<string>> {
-    private self;
-    private methods;
+    #private;
     /**
      * Creates a new worker thread method call listener.
      * @param self - the worker scope in which to listen.
      */
     constructor(self: DedicatedWorkerGlobalScope);
     postMessage(message: WorkerServerMessages<EventMapT>, transferables?: (Transferable | OffscreenCanvas)[]): void;
-    private callMethod;
-    /**
-     * Report an error back to the calling thread.
-     * @param taskID - the invocation ID of the method that errored.
-     * @param errorMessage - what happened?
-     */
-    private onError;
-    /**
-     * Return back to the client.
-     * @param taskID - the invocation ID of the method that is returning.
-     * @param returnValue - the (optional) value to return.
-     * @param transferReturnValue - a mapping function to extract any Transferable objects from the return value.
-     */
-    private onReturn;
-    private addMethodInternal;
     /**
      * Registers a function call for cross-thread invocation.
      * @param methodName - the name of the function to use during invocations.

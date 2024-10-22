@@ -1,4 +1,4 @@
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
 import type { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
 export interface IAudioEndPoint extends IDisposable {
     name: string;

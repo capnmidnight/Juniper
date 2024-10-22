@@ -1,15 +1,14 @@
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import type { FullWorkerClientOptions } from "@juniper-lib/workers";
-import { WorkerPool } from "@juniper-lib/workers";
+import { IResponse } from "@juniper-lib/util";
+import type { FullWorkerClientOptions } from "@juniper-lib/dom";
+import { WorkerPool } from "@juniper-lib/dom";
+import { TypedEventMap } from "@juniper-lib/events";
+import { IProgress } from "@juniper-lib/progress";
 import { FetchingServiceClient } from "./FetchingServiceClient";
 import { IFetchingService } from "./IFetchingService";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
 export declare class FetchingServicePool extends WorkerPool<TypedEventMap<string>, FetchingServiceClient> implements IFetchingService {
-    private readonly fetcher;
+    #private;
     constructor(options: FullWorkerClientOptions, fetcher: IFetchingService);
-    private getFetcher;
     setRequestVerificationToken(value: string): void;
     clearCache(): Promise<void>;
     evict(path: string): Promise<void>;

@@ -1,18 +1,15 @@
-import { ElementChild, ErsatzElement } from "@juniper-lib/dom/dist/tags";
-import "./style.css";
-export declare class NamedPanel implements ErsatzElement {
-    private _title;
-    readonly element: HTMLElement;
+import { ElementChild } from "@juniper-lib/dom";
+export declare class NamedPanelElement extends HTMLElement {
+    #private;
+    static observedAttributes: string[];
     private readonly header;
     private readonly titleText;
-    private readonly body;
-    private _open;
-    refresh: () => void;
-    constructor(_title: string, ...rest: ElementChild[]);
-    get title(): string;
-    set title(v: string);
+    constructor();
+    connectedCallback(): void;
+    attributeChangedCallback(name: string, oldValue: string, newValue: string): void;
     get open(): boolean;
     set open(v: boolean);
-    private onRefresh;
+    static install(): import("@juniper-lib/dom").ElementFactory<NamedPanelElement>;
 }
+export declare function NamedPanel(...rest: ElementChild[]): NamedPanelElement;
 //# sourceMappingURL=index.d.ts.map

@@ -1,4 +1,4 @@
-import { assertNever } from "@juniper-lib/tslib/dist/typeChecks";
+import { assertNever } from "@juniper-lib/util";
 import { BaseProgram } from "./BaseProgram";
 export class BaseMaterial extends BaseProgram {
     constructor(gl, vertSrc, fragSrc) {

@@ -1,0 +1,54 @@
+{
+  "name": "@juniper-lib/cedrus-example",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Malarkey",
+  "type": "module",
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "watch": "node esbuild.config.mjs --watch",
+    "juniper-build": "npm run build",
+    "juniper-watch": "npm run watch"
+  },
+  "dependencies": {
+    "@juniper-lib/util": "file:../../../JS/util",
+    "@juniper-lib/appshell": "file:../../../JS/appshell",
+    "@juniper-lib/cedrus": "file:../../../JS/cedrus",
+    "@juniper-lib/collections": "file:../../../JS/collections",
+    "@juniper-lib/dom": "file:../../../JS/dom",
+    "@juniper-lib/emoji": "file:../../../JS/emoji",
+    "@juniper-lib/events": "file:../../../JS/events",
+    "@juniper-lib/fetcher": "file:../../../JS/fetcher",
+    "@juniper-lib/geo": "file:../../../JS/geo",
+    "@juniper-lib/indexdb": "file:../../../JS/indexdb",
+    "@juniper-lib/mediatypes": "file:../../../JS/mediatypes",
+    "@juniper-lib/timers": "file:../../../JS/timers",
+    "@juniper-lib/webgpu": "file:../../../JS/webgpu",
+    "@juniper-lib/widgets": "file:../../../JS/widgets",
+    "gl-matrix": "4.0.0-beta.2",
+    "plotly.js-dist-min": "2.33.0"
+  },
+  "devDependencies": {
+    "@juniper-lib/esbuild": "file:../../../JS/esbuild",
+    "@juniper-lib/testing": "file:../../../JS/testing",
+    "@juniper-lib/dom-types": "file:../../../JS/types/dom-types",
+    "@juniper-lib/extra-types": "file:../../../JS/types/extra-types",
+    "@juniper-lib/indexdb-types": "file:../../../JS/types/indexdb",
+    "@types/plotly.js-dist-min": "2.3.4",
+    "@webgpu/types": "0.1.44",
+    "typescript": "5.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/capnmidnight/Juniper.git"
+  },
+  "keywords": [],
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ],
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/capnmidnight/Juniper/issues"
+  },
+  "homepage": "https://github.com/capnmidnight/Juniper/blob/main/README.md"
+}

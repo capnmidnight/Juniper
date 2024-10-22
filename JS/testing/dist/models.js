@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
 export const KEY = /*@__PURE__*/ "XXX_QUAKE_LOGGER_XXX";
 export function isWorkerLoggerMessageData(data) {
     return isDefined(data)

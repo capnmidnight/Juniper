@@ -1,29 +1,20 @@
 {
   "name": "@juniper-lib/progress",
-  "private": false,
   "version": "1.2.1",
+  "private": true,
+  "description": "A task progress reporting system",
   "type": "module",
-  "description": "A kitchen sink of features usefull in TypeScript projects",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "files": [
     "dist/*"
   ],
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",
     "@juniper-lib/events": "file:../events",
-    "gl-matrix": "4.0.0-beta.1"
+    "gl-matrix": "4.0.0-beta.2"
   },
-  "devDependencies": {
-    "@juniper-types/extra-types": "file:../../@juniper-types/extra-types"
-  },
-  "repository": {
-    "type": "git",
-    "url": "github.com/capnmidnight/Juniper"
-  },
-  "author": "Sean T. McBeth \u003Csean.mcbeth@gmail.com\u003E",
-  "license": "MIT"
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

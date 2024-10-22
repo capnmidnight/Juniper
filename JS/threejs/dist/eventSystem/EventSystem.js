@@ -1,5 +1,5 @@
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { arrayClear } from "@juniper-lib/util";
+import { TypedEventTarget } from "@juniper-lib/events";
 import { Raycaster } from "three";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";

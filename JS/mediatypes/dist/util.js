@@ -1,33 +1,43 @@
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
-export const typePattern = /([^\/]+)\/(.+)/;
-const subTypePattern = /(?:([^\.]+)\.)?([^\+;]+)(?:\+([^;]+))?((?:; *([^=]+)=([^;]+))*)/;
+import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/util";
+export const typePattern = /*@__PURE__*/ (function () { return /([^\/]+)\/(.+)/; })();
+const subTypePattern = /*@__PURE__*/ (function () { return /(?:([^\.]+)\.)?([^\+;]+)(?:\+([^;]+))?((?:; *([^=]+)=([^;]+))*)/; })();
 export function mediaTypesToAcceptValue(types) {
     return types
-        .flatMap(type => type.extensions.map(ext => "." + ext))
+        .flatMap(type => type.extensions)
         .sort()
         .join(", ");
 }
 export class MediaType {
-    constructor(_type, _fullSubType, extensions) {
-        this._type = _type;
-        this._fullSubType = _fullSubType;
-        this._primaryExtension = null;
-        this.depMessage = null;
+    #type;
+    #fullSubType;
+    #tree;
+    #subType;
+    #suffix;
+    #parameters;
+    #value;
+    #fullValue;
+    #extensions;
+    #primaryExtension = null;
+    #depMessage = null;
+    constructor(type, fullSubType, extensions) {
+        this.#type = type;
+        this.#fullSubType = fullSubType;
         const parameters = new Map();
-        this._parameters = parameters;
-        const subTypeParts = this._fullSubType.match(subTypePattern);
-        this._tree = subTypeParts[1];
-        this._subType = subTypeParts[2];
-        this._suffix = subTypeParts[3];
+        this.#parameters = parameters;
+        const subTypeParts = this.#fullSubType.match(subTypePattern);
+        this.#tree = subTypeParts[1];
+        this.#subType = subTypeParts[2];
+        this.#suffix = subTypeParts[3];
         const paramStr = subTypeParts[4];
-        this._value = this._fullValue = this._type + "/";
-        if (isDefined(this._tree)) {
-            this._value = this._fullValue += this._tree + ".";
+        let subType = "";
+        if (isDefined(this.#tree)) {
+            subType += this.#tree + ".";
         }
-        this._value = this._fullValue += this._subType;
-        if (isDefined(this._suffix)) {
-            this._value = this._fullValue += "+" + this._suffix;
+        subType += this.#subType;
+        if (isDefined(this.#suffix)) {
+            subType += "+" + this.#suffix;
         }
+        this.#fullValue = this.#value = `${this.#type}/${subType}`;
         if (isDefined(paramStr)) {
             const pairs = paramStr.split(";")
                 .map((p) => p.trim())
@@ -37,14 +47,15 @@ export class MediaType {
                 const value = values.join("=");
                 parameters.set(key, value);
                 const slug = `; ${key}=${value}`;
-                this._fullValue += slug;
+                this.#fullValue += slug;
                 if (key !== "q") {
-                    this._value += slug;
+                    this.#value += slug;
                 }
             }
         }
-        this._extensions = extensions || [];
-        this._primaryExtension = this._extensions[0] || null;
+        this.#extensions = (extensions || [])
+            .map(ext => ext.startsWith(".") ? ext : `.${ext}`);
+        this.#primaryExtension = this.#extensions[0] || null;
     }
     static parse(value) {
         if (!value) {
@@ -59,12 +70,12 @@ export class MediaType {
         return new MediaType(type, subType);
     }
     deprecate(message) {
-        this.depMessage = message;
+        this.#depMessage = message;
         return this;
     }
-    check() {
-        if (isDefined(this.depMessage)) {
-            console.warn(`${this._value} is deprecated ${this.depMessage}`);
+    #check() {
+        if (isDefined(this.#depMessage)) {
+            console.warn(`${this.#value} is deprecated ${this.#depMessage}`);
         }
     }
     matches(value) {
@@ -86,55 +97,55 @@ export class MediaType {
         }
         else {
             typeName = value.typeName;
-            subTypeName = value._fullSubType;
+            subTypeName = value.#fullSubType;
         }
         return this.typeName === typeName
-            && (this._fullSubType === "*" || this._fullSubType === subTypeName);
+            && (this.#fullSubType === "*" || this.#fullSubType === subTypeName);
     }
     withParameter(key, value) {
-        const newSubType = `${this._fullSubType}; ${key}=${value}`;
+        const newSubType = `${this.#fullSubType}; ${key}=${value}`;
         return new MediaType(this.typeName, newSubType, this.extensions);
     }
     get typeName() {
-        this.check();
-        return this._type;
+        this.#check();
+        return this.#type;
     }
     get tree() {
-        this.check();
-        return this._tree;
+        this.#check();
+        return this.#tree;
     }
     get suffix() {
-        return this._suffix;
+        return this.#suffix;
     }
     get subTypeName() {
-        this.check();
-        return this._subType;
+        this.#check();
+        return this.#subType;
     }
     get value() {
-        this.check();
-        return this._value;
+        this.#check();
+        return this.#value;
     }
     __getValueUnsafe() {
-        return this._value;
+        return this.#value;
     }
     get fullValue() {
-        this.check();
-        return this._fullValue;
+        this.#check();
+        return this.#fullValue;
     }
     get parameters() {
-        this.check();
-        return this._parameters;
+        this.#check();
+        return this.#parameters;
     }
     get extensions() {
-        this.check();
-        return this._extensions;
+        this.#check();
+        return this.#extensions;
     }
     __getExtensionsUnsafe() {
-        return this._extensions;
+        return this.#extensions;
     }
     get primaryExtension() {
-        this.check();
-        return this._primaryExtension;
+        this.#check();
+        return this.#primaryExtension;
     }
     toString() {
         if (this.parameters.get("q") === "1") {
@@ -146,7 +157,7 @@ export class MediaType {
     }
     toFileSystemAPIAccepts() {
         return {
-            [this.value]: this.extensions.map(v => "." + v)
+            [this.value]: Array.from(this.extensions)
         };
     }
     addExtension(fileName) {
@@ -155,7 +166,7 @@ export class MediaType {
         }
         if (this.primaryExtension) {
             fileName = MediaType.removeExtension(fileName);
-            fileName = `${fileName}.${this.primaryExtension}`;
+            fileName += this.primaryExtension;
         }
         return fileName;
     }

@@ -1,6 +1,5 @@
-import { isHTMLCanvas } from "@juniper-lib/dom/dist/canvas";
-import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/dist/tags";
-import type { CanvasImage } from "@juniper-lib/graphics2d/dist/CanvasImage";
+import { elementSetDisplay, isDisplayed, isHTMLCanvas } from "@juniper-lib/dom";
+import type { CanvasImage } from "@juniper-lib/graphics2d";
 import { MeshBasicMaterialParameters } from "three";
 import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { objectSetVisible } from "../objects";
@@ -15,11 +14,11 @@ export class CanvasImageMesh<T extends CanvasImage>
 
     private _image: T = null;
 
-    get object() {
+    get content3d() {
         return this;
     }
 
-    get element() {
+    get content() {
         if (isHTMLCanvas(this.image.canvas)) {
             return this.image.canvas;
         }
@@ -75,11 +74,11 @@ export class CanvasImageMesh<T extends CanvasImage>
     }
 
     get isVisible() {
-        return elementIsDisplayed(this);
+        return isDisplayed(this.content);
     }
 
     set isVisible(v) {
-        elementSetDisplay(this, v, "inline-block");
+        elementSetDisplay(this.content, v, "inline-block");
         objectSetVisible(this, v);
         objectSetVisible(this.mesh, v);
         this.image.visible = v;

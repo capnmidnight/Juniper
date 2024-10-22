@@ -1,4 +1,4 @@
-import { AudioRecord, FullAudioRecord, MediaRecord } from "@juniper-lib/audio/dist/data";
+import { MediaRecord, AudioRecord, FullAudioRecord } from "@juniper-lib/audio";
 export interface ImageRecord extends MediaRecord {
     width: number;
     height: number;

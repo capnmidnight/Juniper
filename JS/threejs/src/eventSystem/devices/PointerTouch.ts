@@ -1,5 +1,4 @@
-import { arrayClear, arrayRemoveByKey } from "@juniper-lib/collections/dist/arrays";
-import { isFunction } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayClear, arrayFilter, isFunction } from "@juniper-lib/util";
 import type { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { PointerID } from "../Pointers";
 import { BaseScreenPointer } from "./BaseScreenPointer";
@@ -35,7 +34,7 @@ export class PointerTouch
     private readonly lastYs = new Map<number, number>();
 
     protected override onReadEvent(evt: PointerEvent): void {
-        arrayRemoveByKey(this.points, evt.pointerId, getPointerID);
+        arrayFilter(this.points, p => getPointerID(p) === evt.pointerId);
         const isMove = evt.type === "pointerdown" || evt.type === "pointermove";
         if (isMove) {
             this.points.push(evt);

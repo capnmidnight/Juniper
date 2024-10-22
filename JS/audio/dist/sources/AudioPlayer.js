@@ -1,9 +1,5 @@
-import { arrayClear, arrayReplace } from "@juniper-lib/collections/dist/arrays";
-import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/dist/attrs";
-import { Audio, mediaElementCanPlayThrough } from "@juniper-lib/dom/dist/tags";
-import { once } from "@juniper-lib/events/dist/once";
-import { URLBuilder } from "@juniper-lib/tslib/dist/URLBuilder";
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
+import { URLBuilder, arrayClear, arrayReplace, isDefined, isNullOrUndefined, isString, once } from "@juniper-lib/util";
+import { Audio, AutoPlay, Controls, Loop, mediaElementCanPlayThrough } from "@juniper-lib/dom";
 import { RELEASE_EVT } from "../AudioManager";
 import { JuniperMediaElementAudioSourceNode } from "../context/JuniperMediaElementAudioSourceNode";
 import { audioRecordSorter } from "../data";
@@ -114,7 +110,7 @@ export class AudioPlayer extends BaseAudioSource {
         else {
             this.setTitle(data.title);
             data.audios.sort(audioRecordSorter);
-            arrayReplace(this.sources, ...data.audios);
+            arrayReplace(this.sources, data.audios);
         }
         for (const audio of this.sources) {
             this.sourcesByURL.set(audio.url, audio);

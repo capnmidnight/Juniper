@@ -1,0 +1,21 @@
+﻿article {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#properties, #relationships {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: stretch;
+}
+
+data-table {
+    height: 20em;
+}
+
+tab-panel > div[data-tab-name] {
+    border: solid 1px black;
+    padding: 1em;
+}

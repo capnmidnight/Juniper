@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=0, initial-scale=1.0">
+    <title>Visual Tests</title>
+    <script type="module" src="index.bundle.js"></script>
+
+    <style>
+        html {
+            font-size: 10pt;
+            font-family: 'DejaVu Sans', system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans', 'Droid Sans', sans-serif;
+            color: var(--usdre-dark-blue);
+        }
+
+        /* https://www.cto.mil/usdre-branding-guide/ */
+        :root {
+            --usdre-blue-hue: 215deg;
+            --usdre-blue-sat: 63.5%;
+            --usdre-blue: hsl(var(--usdre-blue-hue), var(--usdre-blue-sat), 40.8%);
+            --usdre-dark-blue-hue: 229deg;
+            --usdre-dark-blue-sat: 64.2%;
+            --usdre-dark-blue: hsl(var(--usdre-dark-blue-hue), var(--usdre-dark-blue-sat), 18.6%);
+            --usdre-red-hue: 358deg;
+            --usdre-red-sat: 77.2%;
+            --usdre-red: hsl(var(--usdre-red-hue), var(--usdre-red-sat), 50.2%);
+            --ranking-high: rgb(136, 255, 113);
+            --ranking-medium: rgb(255, 232, 104);
+            --ranking-low: rgb(255, 180, 180);
+            --ranking-unknown: rgb(211, 208, 208);
+        }
+
+        .unknown {
+            background-color: var(--ranking-unknown);
+        }
+
+        .low {
+            background-color: var(--ranking-low);
+        }
+
+        .medium {
+            background-color: var(--ranking-medium);
+        }
+
+        .high {
+            background-color: var(--ranking-high);
+        }
+
+        #rankings .hidden,
+        #ranking-detail .hidden {
+            display: none;
+        }
+
+        #rankings thead th,
+        #rankings tbody td {
+            padding: 1rem;
+        }
+
+        #rankings thead th {
+            background-color: var(--usdre-dark-blue);
+            color: white;
+            text-align: left;
+            writing-mode: vertical-rl;
+            text-orientation: sideways;
+        }
+
+        #rankings thead th:first-child {
+            background-color: unset;
+        }
+
+        #rankings tbody td {
+            border: solid 2px var(--usdre-dark-blue);
+            vertical-align: top;
+        }
+
+        #rankings tbody>tr>td:nth-child(1) {
+            background-color: hsl(var(--usdre-blue-hue), var(--usdre-blue-sat), 90%);
+            text-align: center;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        #rankings tbody>tr.techArea>td {
+            background-color: transparent;
+            border: none;
+            text-align: left;
+            padding: 0;
+        }
+
+        #rankings tbody>tr.techArea>td>div {
+            margin: 1rem 0 0 -1rem;
+        }
+
+        #rankings tbody>tr.techArea:first-child>td>div {
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Visual Tests</h1>
+    <table id="rankings">
+        <thead>
+            <tr>
+                <th><img title="test image" src="../../../../etc/Assets/Textures/compass.png" width="200"></th>
+                <th class="region1">United States</th>
+                <th class="region2">Allies</th>
+                <th class="region3">China</th>
+                <th class="region4 hidden">Russia</th>
+                <th class="region5">United States Context</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="techArea techArea8">
+                <td>
+                    <div>Space Based Commmunications</div>
+                </td>
+            </tr>
+            <tr class="subTech9">
+                <td>LEO/MEO Constellations</td>
+                <td data-popover="ranking1" data-ranking="1" class="ranking-cell region1 high"></td>
+                <td data-popover="ranking2" data-ranking="1" class="ranking-cell region2 high"></td>
+                <td data-popover="ranking3" data-ranking="2" class="ranking-cell region3 medium"></td>
+                <td data-popover="ranking4" data-ranking="3" class="ranking-cell region4 low hidden"></td>
+                <td data-popover="ranking5" data-ranking="0" class="ranking-cell region5 unknown"></td>
+            </tr>
+            <tr class="subTech10">
+                <td>Small, low-cost hybrid user equipment</td>
+                <td data-popover="ranking6" data-ranking="1" class="ranking-cell region1 high"></td>
+                <td data-popover="ranking7" data-ranking="1" class="ranking-cell region2 high"></td>
+                <td data-popover="ranking8" data-ranking="2" class="ranking-cell region3 medium"></td>
+                <td data-popover="ranking9" data-ranking="3" class="ranking-cell region4 low hidden"></td>
+                <td data-popover="ranking10" data-ranking="0" class="ranking-cell region5 unknown"></td>
+            </tr>
+            <tr class="subTech11">
+                <td>Inter-connecting satellites/constellation</td>
+                <td data-popover="ranking11" data-ranking="1" class="ranking-cell region1 high"></td>
+                <td data-popover="ranking12" data-ranking="1" class="ranking-cell region2 high"></td>
+                <td data-popover="ranking13" data-ranking="2" class="ranking-cell region3 medium"></td>
+                <td data-popover="ranking14" data-ranking="3" class="ranking-cell region4 low hidden"></td>
+                <td data-popover="ranking15" data-ranking="0" class="ranking-cell region5 unknown"></td>
+            </tr>
+            <tr class="techArea techArea12">
+                <td>
+                    <div>Model Adapation</div>
+                </td>
+            </tr>
+            <tr class="subTech13">
+                <td>Unsupervised/Low-Labeled Learning</td>
+                <td data-popover="ranking16" data-ranking="1" class="ranking-cell region1 high"></td>
+                <td data-popover="ranking17" data-ranking="1" class="ranking-cell region2 high"></td>
+                <td data-popover="ranking18" data-ranking="2" class="ranking-cell region3 medium"></td>
+                <td data-popover="ranking19" data-ranking="3" class="ranking-cell region4 low hidden"></td>
+                <td data-popover="ranking20" data-ranking="0" class="ranking-cell region5 unknown"></td>
+            </tr>
+            <tr class="subTech14">
+                <td>Continual Model Adaptation &amp; Learning</td>
+                <td data-popover="ranking21" data-ranking="2" class="ranking-cell region1 medium"></td>
+                <td data-popover="ranking22" data-ranking="1" class="ranking-cell region2 high"></td>
+                <td data-popover="ranking23" data-ranking="1" class="ranking-cell region3 high"></td>
+                <td data-popover="ranking24" data-ranking="3" class="ranking-cell region4 low hidden"></td>
+                <td data-popover="ranking25" data-ranking="0" class="ranking-cell region5 unknown"></td>
+            </tr>
+            <tr class="subTech15">
+                <td>Model Robustness</td>
+                <td data-popover="ranking26" data-ranking="1" class="ranking-cell region1 high"></td>
+                <td data-popover="ranking27" data-ranking="2" class="ranking-cell region2 medium"></td>
+                <td data-popover="ranking28" data-ranking="2" class="ranking-cell region3 medium"></td>
+                <td data-popover="ranking29" data-ranking="3" class="ranking-cell region4 low hidden"></td>
+                <td data-popover="ranking30" data-ranking="0" class="ranking-cell region5 unknown"></td>
+            </tr>
+            <tr class="subTech16 hidden">
+                <td>Privacy, Fairness and Bias</td>
+                <td data-popover="ranking31" data-ranking="2" class="ranking-cell region1 medium"></td>
+                <td data-popover="ranking32" data-ranking="2" class="ranking-cell region2 medium"></td>
+                <td data-popover="ranking33" data-ranking="1" class="ranking-cell region3 high"></td>
+                <td data-popover="ranking34" data-ranking="3" class="ranking-cell region4 low hidden"></td>
+                <td data-popover="ranking35" data-ranking="0" class="ranking-cell region5 unknown"></td>
+            </tr>
+            <tr class="subTech17">
+                <td>Deployment / Commercialization</td>
+                <td data-popover="ranking36" data-ranking="1" class="ranking-cell region1 high"></td>
+                <td data-popover="ranking37" data-ranking="1" class="ranking-cell region2 high"></td>
+                <td data-popover="ranking38" data-ranking="2" class="ranking-cell region3 medium"></td>
+                <td data-popover="ranking39" data-ranking="2" class="ranking-cell region4 medium hidden"></td>
+                <td data-popover="ranking40" data-ranking="0" class="ranking-cell region5 unknown"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

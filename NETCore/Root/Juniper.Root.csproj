@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Juniper</AssemblyName>
+    <RootNamespace>Juniper</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper</PackageId>
+    <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>General purpose code</Description>
+  </PropertyGroup>
+</Project>

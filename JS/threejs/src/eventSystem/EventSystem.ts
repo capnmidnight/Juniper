@@ -1,5 +1,5 @@
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { arrayClear } from "@juniper-lib/util";
+import { TypedEventTarget } from "@juniper-lib/events";
 import { Intersection, Mesh, Object3D, Raycaster, Vector3 } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";

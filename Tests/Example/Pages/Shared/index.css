@@ -1,0 +1,19 @@
+:root {
+    --project-bg0: white;
+    --project-fg0: var(--project-bg1);
+
+    --project-bg1-hue: 215deg;
+    --project-bg1-sat: 64.2%;
+    --project-bg1: hsl(var(--project-bg1-hue), var(--project-bg1-sat), 18.6%);
+    --project-fg1: white;
+
+    --project-bg2-hue: 200deg;
+    --project-bg2-sat: 63.5%;
+    --project-bg2: hsl(var(--project-bg2-hue), var(--project-bg2-sat), 40.8%);
+    --project-fg2: white;
+
+    --project-bg3-hue: 0deg;
+    --project-bg3-sat: 77.2%;
+    --project-bg3: hsl(var(--project-bg3-hue), var(--project-bg3-sat), 50.2%);
+    --project-fg3: white;
+}

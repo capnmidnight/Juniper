@@ -1,13 +1,12 @@
-import { arrayClear, arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { debounce } from "@juniper-lib/events/dist/debounce";
-import { MediaType } from "@juniper-lib/mediatypes";
 import * as allAudioTypes from "@juniper-lib/mediatypes/dist/audio";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
 import { ActivityDetector } from "./ActivityDetector";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
 import { JuniperMediaStreamAudioDestinationNode } from "./context/JuniperMediaStreamAudioDestinationNode";
+import { debounce, isNullOrUndefined, arrayScan, isDefined, arrayClear } from "@juniper-lib/util";
+import { TypedEvent } from "@juniper-lib/events";
+import { MediaType } from "@juniper-lib/mediatypes";
+import { ActivityEvent } from "./ActivityEvent";
 
 const RECORDING_DELAY = .25;
 const ACTIVITY_SENSITIVITY = 0.6;
@@ -19,17 +18,10 @@ export class BlobAvailableEvent extends TypedEvent<"blobavailable"> {
     }
 }
 
-export class ActivityEvent extends TypedEvent<"activity"> {
-    public level = 0;
-    constructor() {
-        super("activity");
-    }
-}
-
 export type AudioRecordingNodeEvents = {
     blobavailable: BlobAvailableEvent;
     dataavailable: BlobEvent;
-    error: MediaRecorderErrorEvent;
+    error: ErrorEvent;
     pause: Event;
     resume: Event;
     start: Event;
@@ -38,6 +30,7 @@ export type AudioRecordingNodeEvents = {
 };
 
 interface AudioRecordingNodeOptions extends MediaRecorderOptions, AudioNodeOptions {
+    audioBitrateMode?: BitrateMode;
 }
 
 export class AudioRecordingNode

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AssemblyName>Juniper.IO</AssemblyName>
+		<RootNamespace>Juniper.IO</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.IO</PackageId>
+		<OutputType>Library</OutputType>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>Stream-based IO utilities, such as streamlined de/serialization and read/write progress tracking.</Description>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\MediaType\Juniper.MediaType.csproj" />
+	  <ProjectReference Include="..\Progress\Juniper.Progress.csproj" />
+	  <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+	</ItemGroup>
+</Project>

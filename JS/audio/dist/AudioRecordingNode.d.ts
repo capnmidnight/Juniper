@@ -1,22 +1,18 @@
-/// <reference types="dom-mediacapture-record" />
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { MediaType } from "@juniper-lib/mediatypes";
 import { ActivityDetector } from "./ActivityDetector";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
+import { TypedEvent } from "@juniper-lib/events";
+import { MediaType } from "@juniper-lib/mediatypes";
+import { ActivityEvent } from "./ActivityEvent";
 export declare class BlobAvailableEvent extends TypedEvent<"blobavailable"> {
     readonly id: number;
     readonly blob: Blob;
     constructor(id: number, blob: Blob);
 }
-export declare class ActivityEvent extends TypedEvent<"activity"> {
-    level: number;
-    constructor();
-}
 export type AudioRecordingNodeEvents = {
     blobavailable: BlobAvailableEvent;
     dataavailable: BlobEvent;
-    error: MediaRecorderErrorEvent;
+    error: ErrorEvent;
     pause: Event;
     resume: Event;
     start: Event;
@@ -24,6 +20,7 @@ export type AudioRecordingNodeEvents = {
     activity: ActivityEvent;
 };
 interface AudioRecordingNodeOptions extends MediaRecorderOptions, AudioNodeOptions {
+    audioBitrateMode?: BitrateMode;
 }
 export declare class AudioRecordingNode extends BaseNodeCluster<AudioRecordingNodeEvents> implements MediaRecorderOptions {
     static getSupportedMediaTypes(): MediaType[];

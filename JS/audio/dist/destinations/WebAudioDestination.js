@@ -1,9 +1,5 @@
-import { AutoPlay, Controls, ID, SrcObject } from "@juniper-lib/dom/dist/attrs";
-import { display } from "@juniper-lib/dom/dist/css";
-import { onPlay } from "@juniper-lib/dom/dist/evts";
-import { onUserGesture } from "@juniper-lib/dom/dist/onUserGesture";
-import { Audio } from "@juniper-lib/dom/dist/tags";
-import { Task } from "@juniper-lib/events/dist/Task";
+import { Audio, AutoPlay, Controls, display, ID, onUserGesture, SrcObject, OnPlay } from "@juniper-lib/dom";
+import { Task } from "@juniper-lib/events";
 import { BaseNodeCluster } from "../BaseNodeCluster";
 import { Pose } from "../Pose";
 import { JuniperGainNode } from "../context/JuniperGainNode";
@@ -28,7 +24,7 @@ export class WebAudioDestination extends BaseNodeCluster {
         nonSpatializedInput.name = "non-spatialized-input";
         const destination = new JuniperMediaStreamAudioDestinationNode(context);
         const ready = new Task();
-        const element = Audio(ID("Audio-Device-Manager"), display("none"), AutoPlay(true), Controls(true), SrcObject(destination.stream), onPlay(() => ready.resolve()));
+        const element = Audio(ID("Audio-Device-Manager"), display("none"), AutoPlay(true), Controls(true), SrcObject(destination.stream), OnPlay(() => ready.resolve()));
         onUserGesture(() => element.play());
         super("web-audio-destination", context, [nonSpatializedInput, spatializedInput, remoteUserInput], [], [destination]);
         this.pose = new Pose();

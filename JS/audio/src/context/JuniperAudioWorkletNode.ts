@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent } from "@juniper-lib/events";
 import type { JuniperAudioContext } from "./JuniperAudioContext";
 import { JuniperAudioNode } from "./JuniperAudioNode";
 
@@ -17,6 +17,6 @@ export class JuniperAudioWorkletNode
     get parameters(): AudioParamMap { return this._node.parameters; }
     get port(): MessagePort { return this._node.port; }
 
-    get onprocessorerror(): (this: AudioWorkletNode, ev: Event) => any { return this._node.onprocessorerror; }
-    set onprocessorerror(v: (this: AudioWorkletNode, ev: Event) => any) { this._node.onprocessorerror = v; }
+    get onprocessorerror(){ return this._node.onprocessorerror; }
+    set onprocessorerror(v) { this._node.onprocessorerror = v; }
 }

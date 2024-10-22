@@ -1,25 +1,26 @@
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import type { FullWorkerClientOptions } from "@juniper-lib/workers";
-import { WorkerPool } from "@juniper-lib/workers";
+import { IResponse } from "@juniper-lib/util";
+import type { FullWorkerClientOptions } from "@juniper-lib/dom";
+import { WorkerPool } from "@juniper-lib/dom";
+import { TypedEventMap } from "@juniper-lib/events";
+import { IProgress } from "@juniper-lib/progress";
 import { FetchingServiceClient } from "./FetchingServiceClient";
 import { IFetchingService } from "./IFetchingService";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
 
 export class FetchingServicePool
     extends WorkerPool<TypedEventMap<string>, FetchingServiceClient>
     implements IFetchingService {
 
-    constructor(
-        options: FullWorkerClientOptions,
-        private readonly fetcher: IFetchingService) {
+    readonly #fetcher: IFetchingService;
+
+    constructor(options: FullWorkerClientOptions, fetcher: IFetchingService) {
         super(options, FetchingServiceClient);
+        this.#fetcher = fetcher;
     }
 
-    private getFetcher(obj: any): IFetchingService {
+    #getFetcher(obj: any): IFetchingService {
         if (obj instanceof FormData) {
-            return this.fetcher;
+            return this.#fetcher;
         }
         else {
             return this.nextWorker();
@@ -27,7 +28,7 @@ export class FetchingServicePool
     }
 
     setRequestVerificationToken(value: string): void {
-        this.fetcher.setRequestVerificationToken(value);
+        this.#fetcher.setRequestVerificationToken(value);
         for (const worker of this.workers) {
             worker.setRequestVerificationToken(value);
         }
@@ -78,34 +79,34 @@ export class FetchingServicePool
     }
 
     sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
-        return this.getFetcher(request.body).sendObjectGetBlob(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetBlob(request, progress);
     }
 
     sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.getFetcher(request.body).sendObjectGetBuffer(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetBuffer(request, progress);
     }
 
     sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.getFetcher(request.body).sendObjectGetFile(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetFile(request, progress);
     }
 
     sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.getFetcher(request.body).sendObjectGetText(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetText(request, progress);
     }
 
     sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse> {
-        return this.getFetcher(request.body).sendObjectGetNothing(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetNothing(request, progress);
     }
 
     sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
-        return this.getFetcher(request.body).sendObjectGetObject(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetObject(request, progress);
     }
 
     sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        return this.getFetcher(request.body).sendObjectGetXml(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetXml(request, progress);
     }
 
     sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.getFetcher(request.body).sendObjectGetImageBitmap(request, progress);
+        return this.#getFetcher(request.body).sendObjectGetImageBitmap(request, progress);
     }
 }

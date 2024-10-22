@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent } from "@juniper-lib/events";
 import type { JuniperAudioContext } from "../context/JuniperAudioContext";
 import { IAudioNode } from "../IAudioNode";
 import type { BaseSpatializer } from "../spatializers/BaseSpatializer";

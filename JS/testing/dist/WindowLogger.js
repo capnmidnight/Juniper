@@ -1,6 +1,5 @@
-import { backgroundColor, color, columnGap, display, em, getMonospaceFamily, gridAutoFlow, gridColumn, gridTemplateColumns, height, left, opacity, overflow, overflowY, padding, perc, pointerEvents, position, rule, top, width, zIndex } from "@juniper-lib/dom/dist/css";
-import { isModifierless } from "@juniper-lib/dom/dist/evts";
-import { Div, HtmlRender, HtmlTag, StyleBlob, elementSetDisplay, elementToggleDisplay } from "@juniper-lib/dom/dist/tags";
+import { singleton } from "@juniper-lib/util";
+import { backgroundColor, color, columnGap, display, Div, elementSetDisplay, elementToggleDisplay, em, getMonospaceFamily, gridAutoFlow, gridColumn, gridTemplateColumns, height, HtmlRender, isModifierless, left, opacity, overflow, overflowY, padding, perc, pointerEvents, position, registerFactory, rule, StyleBlob, top, width, zIndex } from "@juniper-lib/dom";
 import { isWorkerLoggerMessageData } from "./models";
 function track(a, b) {
     return [
@@ -10,13 +9,15 @@ function track(a, b) {
 }
 const style = StyleBlob(rule(":host", position("fixed"), top(0), left(0), width(perc(100)), height(perc(100)), zIndex(9001), padding(em(1)), opacity(0.5), backgroundColor("black"), color("white"), overflow("hidden"), pointerEvents("none")), rule(":host > div", display("grid"), overflowY("auto"), columnGap("0.5em"), gridAutoFlow("row")));
 export function WindowLogger(...rest) {
-    const logger = HtmlTag("window-logger", ...rest);
+    const logger = WindowLoggerElement.install()(...rest);
     if (!logger.isConnected) {
         document.body.append(logger);
     }
     return logger;
 }
 export class WindowLoggerElement extends HTMLElement {
+    static install() { return singleton("Juniper::Testing::WindowLoggerElement", () => registerFactory("window-logger", WindowLoggerElement)); }
+    ;
     constructor() {
         super();
         this.workerFunctions = new Map();
@@ -69,7 +70,7 @@ export class WindowLoggerElement extends HTMLElement {
             maxWidth = Math.max(maxWidth, values.length);
         }
         gridTemplateColumns("auto", `repeat(${maxWidth}, 1fr)`)
-            .applyToElement(this.grid);
+            .apply(this.grid);
         for (const [id, values] of this.logs) {
             const newRow = [
                 Div(id),

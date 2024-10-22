@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Juniper.Processes</AssemblyName>
+    <RootNamespace>Juniper.Processes</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Processes</PackageId>
+    <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>Utility code for managing subprocesses, and wrappers around some common CLI commands.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IO\Juniper.IO.csproj" />
+    <ProjectReference Include="..\MediaType\Juniper.MediaType.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+  </ItemGroup>
+
+</Project>

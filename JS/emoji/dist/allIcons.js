@@ -39,12 +39,14 @@ import { vehicles } from "./vehicles";
 import { weather } from "./weather";
 import { writing } from "./writing";
 import { zodiac } from "./zodiac";
-export const allIcons = /*@__PURE__*/ new EmojiGroup("All Icons", "All Icons", faces, love, cartoon, hands, bodyParts, 
-//people,
-//gestures,
-//inMotion,
-//resting,
-//roles,
-//fantasy,
-animals, plants, food, flags, vehicles, clocks, arrows, shapes, buttons, zodiac, chess, dice, math, games, sportsEquipment, clothing, town, music, weather, astro, finance, writing, science, tech, mail, celebration, tools, office, signs, religion, household, activities, travel, medieval, numbers);
+export const allIcons = /*@__PURE__*/ (function () {
+    return new EmojiGroup("All Icons", "All Icons", faces, love, cartoon, hands, bodyParts, 
+    //people,
+    //gestures,
+    //inMotion,
+    //resting,
+    //roles,
+    //fantasy,
+    animals, plants, food, flags, vehicles, clocks, arrows, shapes, buttons, zodiac, chess, dice, math, games, sportsEquipment, clothing, town, music, weather, astro, finance, writing, science, tech, mail, celebration, tools, office, signs, religion, household, activities, travel, medieval, numbers);
+})();
 //# sourceMappingURL=allIcons.js.map

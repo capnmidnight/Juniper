@@ -1,30 +1,5 @@
-import { ID } from "@juniper-lib/dom/dist/attrs";
-import {
-    backgroundColor,
-    color,
-    columnGap,
-    display,
-    em,
-    fr,
-    getMonospaceFamily,
-    gridColumn,
-    gridTemplateColumns,
-    height,
-    overflow,
-    perc,
-    whiteSpace,
-    width
-} from "@juniper-lib/dom/dist/css";
-import { onClick } from "@juniper-lib/dom/dist/evts";
-import {
-    Button,
-    Div,
-    ElementChild,
-    ErsatzElement,
-    Span,
-    elementReplace
-} from "@juniper-lib/dom/dist/tags";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
+import { Button, CssColorValue, Div, ElementChild, ID, OnClick, SpanTag, backgroundColor, color, columnGap, display, em, fr, getMonospaceFamily, gridColumn, gridTemplateColumns, height, overflow, perc, whiteSpace, width } from "@juniper-lib/dom";
 import { TestCaseConstructor } from "./TestCase";
 import { TestOutput } from "./TestOutput";
 import { TestOutputResultsEvent } from "./TestOutputResultsEvent";
@@ -44,7 +19,7 @@ function bar(c: CssColorValue, w: number) {
 
 function refresher(thunk: (evt: Event) => void, ...rest: ElementChild[]) {
     return Button(
-        onClick(thunk),
+        OnClick(thunk),
         gridColumn(1),
         "\u{1F504}\u{FE0F}",
         ...rest);
@@ -67,7 +42,7 @@ function makeStatus(id: TestStates) {
     }
 }
 
-export class TestOutputHTML extends TestOutput implements ErsatzElement {
+export class TestOutputHTML extends TestOutput {
 
     readonly element: HTMLElement;
 
@@ -96,9 +71,9 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
                         height(em(2)),
                         whiteSpace("nowrap"),
                         overflow("hidden"),
-                        Span(...basicStyle, ...bar("green", s)),
-                        Span(...basicStyle, ...bar("red", f)),
-                        Span(...basicStyle, ...bar("grey", t))),
+                        SpanTag(...basicStyle, ...bar("green", s)),
+                        SpanTag(...basicStyle, ...bar("red", f)),
+                        SpanTag(...basicStyle, ...bar("grey", t))),
                     Div(gridColumn(1), "Rerun"),
                     Div(gridColumn(2, 4), "Name"),
                     Div(gridColumn(4, -1), "Status"));
@@ -121,7 +96,7 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
             }
 
             if (isDefined(lastTable)) {
-                elementReplace(lastTable, table);
+                lastTable.replaceWith(table);
             }
             else {
                 this.element.append(table);

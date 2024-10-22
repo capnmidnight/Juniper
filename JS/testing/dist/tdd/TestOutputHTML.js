@@ -1,8 +1,5 @@
-import { ID } from "@juniper-lib/dom/dist/attrs";
-import { backgroundColor, color, columnGap, display, em, fr, getMonospaceFamily, gridColumn, gridTemplateColumns, height, overflow, perc, whiteSpace, width } from "@juniper-lib/dom/dist/css";
-import { onClick } from "@juniper-lib/dom/dist/evts";
-import { Button, Div, Span, elementReplace } from "@juniper-lib/dom/dist/tags";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
+import { Button, Div, ID, OnClick, SpanTag, backgroundColor, color, columnGap, display, em, fr, getMonospaceFamily, gridColumn, gridTemplateColumns, height, overflow, perc, whiteSpace, width } from "@juniper-lib/dom";
 import { TestOutput } from "./TestOutput";
 import { TestStates } from "./TestStates";
 /**
@@ -16,7 +13,7 @@ function bar(c, w) {
     ];
 }
 function refresher(thunk, ...rest) {
-    return Button(onClick(thunk), gridColumn(1), "\u{1F504}\u{FE0F}", ...rest);
+    return Button(OnClick(thunk), gridColumn(1), "\u{1F504}\u{FE0F}", ...rest);
 }
 function makeStatus(id) {
     const complete = id & TestStates.completed;
@@ -43,7 +40,7 @@ export class TestOutputHTML extends TestOutput {
                 display("inline-block"),
                 overflow("hidden"),
                 height(em(1))
-            ], table = Div(display("grid"), gridTemplateColumns("auto", "auto", "auto", "auto", fr(1)), getMonospaceFamily(), width(perc(100)), columnGap(em(1)), refresher(() => this.run()), Div(gridColumn(2, -1), height(em(2)), whiteSpace("nowrap"), overflow("hidden"), Span(...basicStyle, ...bar("green", s)), Span(...basicStyle, ...bar("red", f)), Span(...basicStyle, ...bar("grey", t))), Div(gridColumn(1), "Rerun"), Div(gridColumn(2, 4), "Name"), Div(gridColumn(4, -1), "Status"));
+            ], table = Div(display("grid"), gridTemplateColumns("auto", "auto", "auto", "auto", fr(1)), getMonospaceFamily(), width(perc(100)), columnGap(em(1)), refresher(() => this.run()), Div(gridColumn(2, -1), height(em(2)), whiteSpace("nowrap"), overflow("hidden"), SpanTag(...basicStyle, ...bar("green", s)), SpanTag(...basicStyle, ...bar("red", f)), SpanTag(...basicStyle, ...bar("grey", t))), Div(gridColumn(1), "Rerun"), Div(gridColumn(2, 4), "Name"), Div(gridColumn(4, -1), "Status"));
             let lastTestCaseName = null;
             for (const [testCaseName, testName, test] of evt.results.entries()) {
                 if (testCaseName !== lastTestCaseName) {
@@ -53,7 +50,7 @@ export class TestOutputHTML extends TestOutput {
                 table.append(refresher(() => this.run(testCaseName, testName)), Div(gridColumn(3), testName), Div(gridColumn(4), makeStatus(test.state)), Div(gridColumn(5), test.messages.join(", ")));
             }
             if (isDefined(lastTable)) {
-                elementReplace(lastTable, table);
+                lastTable.replaceWith(table);
             }
             else {
                 this.element.append(table);

@@ -1,4 +1,4 @@
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { dispose } from "@juniper-lib/util";
 import { Attrib } from "../object/Attrib";
 import { Uniform } from "../object/Uniform";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";

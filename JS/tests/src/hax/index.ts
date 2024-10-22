@@ -1,11 +1,7 @@
-import { Fetcher } from "@juniper-lib/fetcher/dist/Fetcher";
-import { FetchingService } from "@juniper-lib/fetcher/dist/FetchingService";
-import { FetchingServiceImplXHR } from "@juniper-lib/fetcher/dist/FetchingServiceImplXHR";
-import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { haxClass } from "@juniper-lib/hax/dist/haxClass";
-import { haxMethod } from "@juniper-lib/hax/dist/haxMethod";
-import { TestCase } from "@juniper-lib/testing/dist/tdd/TestCase";
-import { using, usingAsync } from "@juniper-lib/tslib/dist/using";
+import { using, usingAsync } from "@juniper-lib/util";
+import { Fetcher, FetchingService, FetchingServiceImpl, unwrapResponse } from "@juniper-lib/fetcher";
+import { haxClass, haxMethod } from "@juniper-lib/hax";
+import { TestCase } from "@juniper-lib/testing";
 
 export class haxTests extends TestCase {
     test_Method() {
@@ -22,7 +18,7 @@ export class haxTests extends TestCase {
     }
 
     async test_Class() {
-        const fetcher = new Fetcher(new FetchingService(new FetchingServiceImplXHR()));
+        const fetcher = new Fetcher(new FetchingService(new FetchingServiceImpl()));
         const oldURL = window.URL;
         const values = new Array<any>();
         const blob = new Blob(["asdf"], { type: "text/plain" });

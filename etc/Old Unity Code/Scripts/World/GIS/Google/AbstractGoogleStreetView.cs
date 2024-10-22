@@ -61,7 +61,7 @@ namespace Juniper.World.GIS.Google
         private string navPointerPano;
 
         private MetadataTypeT metadata;
-        private GoogleMapsClient<MetadataTypeT> gmaps;
+        private GoogleMapsClient gmaps;
         private GPSLocation gps;
         private PhotosphereManager photospheres;
         private Clickable navPlane;
@@ -183,7 +183,7 @@ namespace Juniper.World.GIS.Google
             var metadataDecoder = new JsonFactory<MetadataTypeT>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
-            gmaps = new GoogleMapsClient<MetadataTypeT>(gmapsApiKey, gmapsSigningKey, metadataDecoder, geocodingDecoder, cache);
+            gmaps = new GoogleMapsClient(gmapsApiKey, gmapsSigningKey, metadataDecoder, geocodingDecoder, cache);
 
             photospheres.CubemapNeeded += Photosphere_CubemapNeeded;
 

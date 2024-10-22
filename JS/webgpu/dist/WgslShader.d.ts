@@ -1,25 +1,15 @@
-/// <reference types="dist" />
-import { BaseFetchedAsset } from "@juniper-lib/fetcher/dist/Asset";
-import { IFetcherBodiedResult } from "@juniper-lib/fetcher/dist/IFetcher";
-import { IResponse } from "@juniper-lib/fetcher/dist/IResponse";
+import { IResponse } from "@juniper-lib/util";
+import { BaseFetchedAsset, IFetcherBodiedResult } from "@juniper-lib/fetcher";
 type EntryPointType = "compute" | "vertex" | "fragment";
-interface IShaderEntryPoints {
-    has(key: EntryPointType): boolean;
-    get(key: EntryPointType): string;
-}
-interface IShaderConstants {
-    has(key: string): boolean;
-    get(key: string): number;
-    set(key: string, value: number): void;
-}
 declare class WgslShader {
     #private;
-    get code(): string;
-    readonly constants: IShaderConstants;
-    readonly entryPoints: IShaderEntryPoints;
+    readonly constants: Map<string, number>;
+    readonly entryPoints: Map<EntryPointType, string>;
     readonly workGroupSize: number;
+    get code(): string;
     constructor(label: string, code: string);
-    compile(device: GPUDevice): Promise<GPUShaderModule>;
+    changeConstant(key: string, value: number): void;
+    compile(device: GPUDevice, checkMessages?: boolean): Promise<GPUShaderModule>;
 }
 export declare class AssetWgslShader extends BaseFetchedAsset<WgslShader> {
     #private;

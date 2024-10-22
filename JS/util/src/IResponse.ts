@@ -1,0 +1,15 @@
+export interface IResponse<T = void> {
+    status: number;
+    requestPath: string;
+    responsePath: string;
+    headers: ReadonlyMap<string, string>;
+    date: Date;
+    fileName: string;
+    contentType: string;
+    contentLength: number;
+    content: T;
+    errorMessage: string;
+    errorObject: unknown;
+}
+
+export type ResponseCallback<T> = () => Promise<IResponse<T>>;

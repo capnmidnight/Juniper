@@ -3,17 +3,16 @@
   "include": [
     "src/**/*.ts"
   ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
   "references": [
     { "path": "../collections" },
     { "path": "../dom" },
     { "path": "../events" },
     { "path": "../graphics2d" },
     { "path": "../progress" },
-    { "path": "../tslib" }
-  ],
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strictNullChecks": false
-  }
+    { "path": "../util" }
+  ]
 }

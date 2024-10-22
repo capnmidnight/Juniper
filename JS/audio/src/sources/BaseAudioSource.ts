@@ -1,7 +1,5 @@
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { arrayClear, dispose, isDefined } from "@juniper-lib/util";
+import { TypedEventMap } from "@juniper-lib/events";
 import { BaseNodeCluster } from "../BaseNodeCluster";
 import { IAudioNode } from "../IAudioNode";
 import { Pose } from "../Pose";

@@ -1,10 +1,10 @@
-import type { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { singleton } from "@juniper-lib/tslib/dist/singleton";
-import { isString } from "@juniper-lib/tslib/dist/typeChecks";
+import type { IProgress } from "@juniper-lib/progress";
+import { singleton } from "@juniper-lib/util";
+import { isString } from "@juniper-lib/util";
 import { px } from "./css";
 
-const DEFAULT_TEST_TEXT = "The quick brown fox jumps over the lazy dog";
-const loadedFonts = singleton<string[]>("juniper::loadedFonts", () => []);
+const DEFAULT_TEST_TEXT = /*@__PURE__*/ (function () { return "The quick brown fox jumps over the lazy dog";}) ();
+const loadedFonts = /*@__PURE__*/ (function () { return singleton<string[]>("juniper::loadedFonts", () => []); })(); 
 
 export interface FontDescription {
     fontSize: number;

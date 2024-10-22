@@ -1,5 +1,4 @@
-import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
-import { BaseSpatializer } from "@juniper-lib/audio/dist/spatializers/BaseSpatializer";
+import { BaseSpatializer, JuniperAudioContext } from "@juniper-lib/audio";
 import { BaseVideoPlayer } from "@juniper-lib/video";
 import { BufferGeometry, MeshBasicMaterial, Object3D } from "three";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
@@ -11,7 +10,7 @@ export declare const StereoLayoutNames: StereoLayoutName[];
 export declare class VideoPlayer3D extends BaseVideoPlayer implements ErsatzObject {
     private readonly material;
     private readonly vidMeshes;
-    readonly object: Object3D;
+    readonly content3d: Object3D;
     constructor(env: BaseEnvironment, context: JuniperAudioContext, spatializer: BaseSpatializer);
     get meshes(): import("three").Mesh<BufferGeometry, MeshBasicMaterial>[];
     protected onDisposing(): void;

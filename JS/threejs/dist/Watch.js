@@ -1,6 +1,5 @@
+import { HalfPi, isDefined, isNullOrUndefined, Pi } from "@juniper-lib/util";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { HalfPi, Pi } from "@juniper-lib/tslib/dist/math";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
 import { AssetGltfModel } from "./AssetGltfModel";
 import { cleanup } from "./cleanup";
 import { convertMaterials, materialStandardToPhong } from "./materials";
@@ -8,7 +7,7 @@ import { objGraph } from "./objects";
 import { objectScan } from "./objectScan";
 import { isMesh } from "./typeChecks";
 export class Watch {
-    get object() {
+    get content3d() {
         return this._model;
     }
     constructor(env, modelPath) {
@@ -55,16 +54,16 @@ export class Watch {
                     const parent = bestHand.grip.visible
                         ? bestHand.grip
                         : bestHand.hand.joints.wrist;
-                    if (parent !== env.clockImage.object.parent) {
+                    if (parent !== env.clockImage.content3d.parent) {
                         objGraph(parent, objGraph(this, env.clockImage, env.batteryImage));
                         const rotate = bestHand.handedness === "left" ? 1 : 0;
                         if (parent === bestHand.grip) {
-                            this.object.rotation.set(0, rotate * Pi, -HalfPi, "XYZ");
-                            this.object.position.set(0, 0, 0.07);
+                            this.content3d.rotation.set(0, rotate * Pi, -HalfPi, "XYZ");
+                            this.content3d.position.set(0, 0, 0.07);
                         }
                         else {
-                            this.object.rotation.set(0, rotate * Pi, 0, "XYZ");
-                            this.object.position.set(0, 0, 0);
+                            this.content3d.rotation.set(0, rotate * Pi, 0, "XYZ");
+                            this.content3d.position.set(0, 0, 0);
                         }
                         env.clockImage.scale.setScalar(0.0175);
                         env.clockImage.position.set(0, 0.029, 0);
@@ -92,9 +91,9 @@ export class Watch {
     }
     dispose() {
         if (!this.disposed) {
-            if (isDefined(this.object)) {
-                this.object.removeFromParent();
-                cleanup(this.object);
+            if (isDefined(this.content3d)) {
+                this.content3d.removeFromParent();
+                cleanup(this.content3d);
                 this._model = null;
             }
             this.disposed = true;

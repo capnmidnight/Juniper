@@ -1,12 +1,14 @@
 class EventScope {
+    #target;
+    #eventName;
     constructor(target, eventName, handler) {
-        this.target = target;
-        this.eventName = eventName;
         this.handler = handler;
-        this.target.addEventListener(this.eventName, this.handler);
+        this.#target = target;
+        this.#eventName = eventName;
+        this.#target.addEventListener(this.#eventName, this.handler);
     }
     dispose() {
-        this.target.removeEventListener(this.eventName, this.handler);
+        this.#target.removeEventListener(this.#eventName, this.handler);
     }
 }
 export function eventScope(target, eventName, eventHandler) {

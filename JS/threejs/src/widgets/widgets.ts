@@ -1,27 +1,32 @@
-import { ElementChild, elementIsDisplayed, elementRemoveFromParent, elementSetDisplay, ErsatzElement } from "@juniper-lib/dom/dist/tags";
 import {
-    HtmlRender,
+    CssDisplayValue, CssGlobalValue, ElementChild,
     elementClearChildren,
-    isElementChild,
-    isErsatzElement
-} from "@juniper-lib/dom/dist/tags";
+    elementRemoveFromParent,
+    elementSetDisplay,
+    elementSetEnabled,
+    ErsatzNode,
+    HtmlProp, HtmlRender,
+    InlineStylableElement,
+    isDisplayed,
+    isErsatzNode,
+    isNodes
+} from "@juniper-lib/dom";
 import { Object3D } from "three";
-import { ErsatzObject, Objects, objRemoveFromParent } from "../objects";
 import {
-    isErsatzObject,
+    ErsatzObject, isErsatzObject,
     isObjects,
-    objectClearChildren,
-    objectSetEnabled,
-    objGraph
+    objectClearChildren, Objects, objectSetEnabled,
+    objectSetVisible,
+    objGraph, objRemoveFromParent
 } from "../objects";
 
-export interface IWidget<T extends HTMLElement = HTMLElement> extends ErsatzElement<T>, ErsatzObject {
+export interface IWidget<DOMT extends Node = Node, THREET extends Object3D = Object3D> extends ErsatzNode<DOMT>, ErsatzObject<THREET> {
     name: string;
     visible: boolean;
 }
 
-export function isWidget(obj: any): obj is IWidget {
-    return isErsatzElement(obj)
+export function isWidget<DOMT extends Node = Node, THREET extends Object3D = Object3D>(obj: any): obj is IWidget<DOMT, THREET> {
+    return isErsatzNode(obj)
         && isErsatzObject(obj);
 }
 
@@ -29,62 +34,57 @@ export type WidgetChild = IWidget
     | ElementChild
     | Objects;
 
-export function widgetSetEnabled(obj: IWidget, enabled: boolean) {
-    if (obj.element instanceof HTMLButtonElement) {
-        obj.element.disabled = !enabled;
-    }
-
-    objectSetEnabled(obj, enabled);
+export function widgetSetEnabled(widget: IWidget, enabled: boolean) {
+    elementSetEnabled(widget, enabled);
+    objectSetEnabled(widget, enabled);
 }
 
-export function widgetApply(obj: IWidget, ...children: WidgetChild[]): void {
-    HtmlRender(obj, ...children.filter(isElementChild));
+export function widgetApply<DOMT extends ParentNode>(obj: IWidget<DOMT>, ...children: WidgetChild[]): void {
+    HtmlRender(obj, ...children.filter(isNodes));
     objGraph(obj, ...children.filter(isObjects));
 }
 
-export function widgetRemoveFromParent(obj: IWidget): void {
+export function widgetRemoveFromParent<DOMT extends ChildNode>(obj: IWidget<DOMT>): void {
     elementRemoveFromParent(obj);
     objRemoveFromParent(obj);
 }
 
-export function widgetClearChildren(obj: IWidget) {
-    elementClearChildren(obj.element);
-    objectClearChildren(obj.object);
+export function widgetClearChildren<DOMT extends Element>(obj: IWidget<DOMT>) {
+    elementClearChildren(obj)
+    objectClearChildren(obj);
+}
+
+export function ObjectAttr(object: Object3D) {
+    return new HtmlProp("object", object);
 }
 
 
-export class Widget<T extends HTMLElement = HTMLElement> implements IWidget<T>, EventTarget {
-    constructor(readonly element: T,
-        readonly object: Object3D,
-        private readonly displayType: CssGlobalValue | CssDisplayValue) {
+export class Widget<DOMT extends InlineStylableElement = InlineStylableElement, THREET extends Object3D = Object3D> implements IWidget<DOMT, THREET> {
+
+    readonly #displayType: CssGlobalValue | CssDisplayValue;
+
+    constructor(content: DOMT, content3d: THREET, displayType: CssGlobalValue | CssDisplayValue) {
+        this.#content = content;
+        this.#content3d = content3d;
+        this.#displayType = displayType;
     }
+
+    readonly #content: DOMT;
+    get content() { return this.#content; }
+
+    readonly #content3d: THREET;
+    get content3d() { return this.#content3d; }
 
     get name() {
-        return this.object.name;
-    }
-
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
-        this.element.addEventListener(type, listener, options);
-    }
-
-    dispatchEvent(event: Event): boolean {
-        return this.element.dispatchEvent(event);
-    }
-
-    removeEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void {
-        this.element.removeEventListener(type, callback, options);
-    }
-
-    click() {
-        this.element.click();
+        return this.content3d.name;
     }
 
     get visible() {
-        return elementIsDisplayed(this);
+        return isDisplayed(this);
     }
 
     set visible(visible) {
-        elementSetDisplay(this, visible, this.displayType);
-        this.object.visible = visible;
+        elementSetDisplay(this, visible, this.#displayType);
+        objectSetVisible(this, visible);
     }
 }

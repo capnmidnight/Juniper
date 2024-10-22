@@ -1,9 +1,10 @@
 import { CustomEventTarget, EventMap, IEventTarget } from "./EventTarget";
-export declare class TypedEvent<EventTypeT extends string> extends Event {
+export declare class TypedEvent<EventTypeT extends string, TargetT extends EventTarget = EventTarget> extends Event {
     get type(): EventTypeT;
     constructor(type: EventTypeT, eventInitDict?: EventInit);
+    get target(): TargetT;
 }
-export type TypedEventMap<EventTypeT extends string> = EventMap | Record<EventTypeT, TypedEvent<EventTypeT>>;
+export type TypedEventMap<EventTypeT> = EventMap | Record<string & EventTypeT, TypedEvent<string & EventTypeT>>;
 type TypedEventHandler<EventT> = (evt: EventT) => void;
 export type TypedEventListener<EventMapT, EventTypeT extends keyof EventMapT> = TypedEventHandler<EventMapT[EventTypeT]>;
 export interface TypedEventListenerObject<EventMapT, EventTypeT extends keyof EventMapT> {

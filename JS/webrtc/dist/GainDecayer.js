@@ -1,5 +1,5 @@
-import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
-import { unproject } from "@juniper-lib/tslib/dist/math";
+import { unproject } from "@juniper-lib/util";
+import { ActivityDetector } from "@juniper-lib/audio";
 export class GainDecayer extends ActivityDetector {
     constructor(context, control, min, max, threshold, attack, decay, sustain, hold, release) {
         super(context);

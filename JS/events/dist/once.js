@@ -1,5 +1,5 @@
-import { alwaysFalse, alwaysTrue } from "@juniper-lib/tslib/dist/identity";
-import { isNullOrUndefined, isNumber, isString } from "@juniper-lib/tslib/dist/typeChecks";
+import { alwaysFalse, alwaysTrue } from "@juniper-lib/util";
+import { isNullOrUndefined, isNumber, isString } from "@juniper-lib/util";
 import { CustomEventTarget } from "./EventTarget";
 import { Task } from "./Task";
 function targetValidateEvent(target, type) {

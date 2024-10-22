@@ -1,8 +1,5 @@
-import { arrayClear, arrayRemove, arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { isArrayBuffer } from "@juniper-lib/tslib/dist/typeChecks";
-import { IDisposable, dispose } from "@juniper-lib/tslib/dist/using";
+import { IDisposable, arrayClear, arrayRemove, arrayScan, dispose, isArrayBuffer } from "@juniper-lib/util";
+import { Task, TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { UserChatEvent, UserLeftEvent, UserStateEvent } from "./ConferenceEvents";
 
 class Locker<T> {
@@ -70,13 +67,13 @@ export class RemoteUserIceCandidateEvent extends RemoteUserEvent<"iceCandidate">
 }
 
 export class RemoteUserOfferEvent extends RemoteUserEvent<"offer"> {
-    constructor(user: RemoteUser, public readonly offer: RTCSessionDescription) {
+    constructor(user: RemoteUser, public readonly offer: RTCSessionDescriptionInit) {
         super("offer", user);
     }
 }
 
 export class RemoteUserAnswerEvent extends RemoteUserEvent<"answer"> {
-    constructor(user: RemoteUser, public readonly answer: RTCSessionDescription) {
+    constructor(user: RemoteUser, public readonly answer: RTCSessionDescriptionInit) {
         super("answer", user);
     }
 }

@@ -1,6 +1,6 @@
-import { createUICanvas } from "@juniper-lib/dom/dist/canvas";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
+import { createUICanvas } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 export class CanvasImage extends TypedEventTarget {
     constructor(width, height, options) {
         super();

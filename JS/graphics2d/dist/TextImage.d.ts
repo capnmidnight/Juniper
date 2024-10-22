@@ -1,4 +1,5 @@
-import { PaddingRect } from "@juniper-lib/tslib/dist/math";
+import { PaddingRect } from "@juniper-lib/util";
+import { CssColorValue } from "@juniper-lib/dom";
 import { CanvasImage, CanvasImageOptions } from "./CanvasImage";
 export type TextDirection = "horizontal" | "vertical";
 export interface TextImageOptions extends CanvasImageOptions {

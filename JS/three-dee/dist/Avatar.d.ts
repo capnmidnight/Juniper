@@ -1,4 +1,4 @@
-import { Vec3 } from "gl-matrix/dist/esm";
+import { Vec3 } from "gl-matrix";
 export declare class Avatar {
     private motion;
     private direction;

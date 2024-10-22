@@ -1,9 +1,7 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { stringToName } from "@juniper-lib/tslib/dist/strings/stringToName";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { dispose, isDefined, stringToName } from "@juniper-lib/util";
+import { TypedEvent } from "@juniper-lib/events";
 import { JuniperMediaStreamAudioSourceNode } from "../context/JuniperMediaStreamAudioSourceNode";
 import { BaseAudioSource } from "./BaseAudioSource";
-import { dispose } from "@juniper-lib/tslib/dist/using";
 export class AudioSourceAddedEvent extends TypedEvent {
     constructor(source) {
         super("sourceadded");

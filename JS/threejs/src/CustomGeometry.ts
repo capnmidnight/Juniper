@@ -1,4 +1,4 @@
-import { HalfPi } from "@juniper-lib/tslib/dist/math";
+import { HalfPi } from "@juniper-lib/util";
 import { BufferAttribute, BufferGeometry, Vector3 } from "three";
 
 type UV = [number, number];

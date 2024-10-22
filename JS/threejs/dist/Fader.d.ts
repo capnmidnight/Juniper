@@ -4,7 +4,7 @@ export declare class Fader implements ErsatzObject {
     opacity: number;
     direction: number;
     speed: number;
-    readonly object: Mesh;
+    readonly content3d: Mesh;
     private readonly material;
     private readonly task;
     constructor(name: string, t?: number);

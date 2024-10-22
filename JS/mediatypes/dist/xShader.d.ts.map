@@ -1,1 +1,1 @@
-{"version":3,"file":"xShader.d.ts","sourceRoot":"","sources":["../src/xShader.ts"],"names":[],"mappings":"AAIA,eAAO,MAAM,eAAe,4BAAkD,CAAC;AAC/E,eAAO,MAAM,iBAAiB,4BAAoD,CAAC;AACnF,eAAO,MAAM,aAAa,4BAA0C,CAAC"}
+{"version":3,"file":"xShader.d.ts","sourceRoot":"","sources":["../src/xShader.ts"],"names":[],"mappings":"AAIA,eAAO,MAAM,eAAe,4BAA6E,CAAC;AAC1G,eAAO,MAAM,iBAAiB,4BAA+E,CAAC;AAC9G,eAAO,MAAM,aAAa,4BAAqE,CAAC"}

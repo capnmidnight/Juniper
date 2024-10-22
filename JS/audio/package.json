@@ -1,8 +1,10 @@
 {
-  "version": "1.0.0",
   "name": "@juniper-lib/audio",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
     "dist/*"
   ],
@@ -16,11 +18,11 @@
     "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/progress": "file:../progress",
     "@juniper-lib/timers": "file:../timers",
-    "@juniper-lib/tslib": "file:../tslib",
-    "gl-matrix": "4.0.0-beta.1"
+    "@juniper-lib/util": "file:../util",
+    "gl-matrix": "4.0.0-beta.2"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
-    "@types/dom-mediacapture-record": "1.0.16"
+    "@juniper-lib/dom-types": "file:../types/dom-types",
+    "@types/dom-mediacapture-record": "1.0.20"
   }
 }

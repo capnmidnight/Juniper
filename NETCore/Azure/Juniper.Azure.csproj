@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Juniper.Azure</AssemblyName>
+    <RootNamespace>Juniper.Speech.Azure</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Caching\Juniper.Caching.csproj" />
+    <ProjectReference Include="..\HTTP\Juniper.HTTP.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Sound\Juniper.Sound.csproj" />
+    <ProjectReference Include="..\Units\Juniper.Units.csproj" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.41.1" />
+  </ItemGroup>
+</Project>

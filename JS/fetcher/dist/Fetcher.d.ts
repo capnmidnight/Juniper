@@ -1,12 +1,11 @@
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { IProgress } from "@juniper-lib/progress";
 import { BaseAsset } from "./Asset";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetcher } from "./IFetcher";
 import { IFetchingService } from "./IFetchingService";
 import { RequestBuilder } from "./RequestBuilder";
 export declare class Fetcher implements IFetcher {
-    private readonly service;
-    private readonly useBLOBs;
+    #private;
     constructor(service: IFetchingService, useBLOBs?: boolean);
     clearCache(): Promise<void>;
     evict(path: string | URL, base?: string | URL): Promise<void>;

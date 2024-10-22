@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.OpenWeatherMap</AssemblyName>
+    <RootNamespace>Juniper.World.Climate.OpenWeatherMap</RootNamespace>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Authors>Sean T. McBeth</Authors>
+    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HTTP\Juniper.HTTP.csproj" />
+    <ProjectReference Include="..\Imaging\Juniper.Imaging.csproj" />
+    <ProjectReference Include="..\IO\Juniper.IO.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+  </ItemGroup>
+
+</Project>

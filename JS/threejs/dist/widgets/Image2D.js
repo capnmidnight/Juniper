@@ -1,8 +1,6 @@
-import { arrayCompare, arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, dispose, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom/dist/canvas";
-import { getHeight, getWidth } from "@juniper-lib/tslib/dist/images";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { inches2Meters, meters2Inches } from "@juniper-lib/tslib/dist/units/length";
+import { arrayCompare, arrayScan, isDefined, isNullOrUndefined } from "@juniper-lib/util";
+import { createUtilityCanvasFromImageBitmap, createUtilityCanvasFromImageData, dispose, getHeight, getWidth, isImageBitmap, isImageData, isOffscreenCanvas } from "@juniper-lib/dom";
+import { inches2Meters, meters2Inches } from "@juniper-lib/units";
 import { Matrix4, Object3D, Texture, Vector3, VideoTexture } from "three";
 import { plane } from "../Plane";
 import { cleanup } from "../cleanup";

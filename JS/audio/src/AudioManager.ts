@@ -1,20 +1,8 @@
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { Controls, Loop, Src } from "@juniper-lib/dom/dist/attrs";
-import { onReleased } from "@juniper-lib/dom/dist/evts";
-import { onUserGesture } from "@juniper-lib/dom/dist/onUserGesture";
-import { Audio, ElementChild, HtmlRender } from "@juniper-lib/dom/dist/tags";
-import { IReadyable } from "@juniper-lib/events/dist/IReadyable";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { all } from "@juniper-lib/events/dist/all";
-import { AssetFile } from "@juniper-lib/fetcher/dist/Asset";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { isIOS, isMobileVR } from "@juniper-lib/tslib/dist/flags";
-import { stringToName } from "@juniper-lib/tslib/dist/strings/stringToName";
-import { isDefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { IDisposable, dispose } from "@juniper-lib/tslib/dist/using";
+import { arrayClear, dispose, IDisposable, isDefined, isFunction, isObject, isString, stringToName } from "@juniper-lib/util";
+import { Audio, Controls, ElementChild, HtmlRender, isIOS, isMobileVR, Loop, OnReleased, onUserGesture, Src } from "@juniper-lib/dom";
+import { IReadyable, Task, TypedEvent } from "@juniper-lib/events";
+import { AssetFile, IFetcher, unwrapResponse } from "@juniper-lib/fetcher";
+import { IProgress } from "@juniper-lib/progress";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { IPoseable } from "./IPoseable";
 import { SpeakerManager } from "./SpeakerManager";
@@ -84,9 +72,15 @@ export class AudioManager
      **/
     constructor(public readonly fetcher: IFetcher, defaultLocalUserID: string) {
         const context = new JuniperAudioContext();
-
-        if ("THREE" in globalThis) {
-            globalThis.THREE.AudioContext.setContext(context);
+        const x = globalThis;
+        if ("THREE" in x
+            && isObject(x.THREE)
+            && "AudioContext" in x.THREE
+            && isObject(x.THREE.AudioContext)
+            && "setContext" in x.THREE.AudioContext
+            && isFunction(x.THREE.AudioContext.setContext)
+        ) {
+            x.THREE.AudioContext.setContext(context);
         }
 
         const destination = new WebAudioDestination(context);
@@ -101,11 +95,11 @@ export class AudioManager
         this.noSpatializer = noSpatializer;
         this.speakers = speakers;
 
-        all(
+        Promise.all([
             this.context.ready,
             this.destination.ready,
             this.speakers.ready
-        ).then(() => this._ready.resolve());
+        ]).then(() => this._ready.resolve());
 
         this.setLocalUserID(defaultLocalUserID);
 
@@ -139,7 +133,7 @@ export class AudioManager
             const audio = Audio(
                 Src(HAX_SRC),
                 Controls(false),
-                onReleased(() => {
+                OnReleased(() => {
                     audio.pause();
                     audio.src = HAX_SRC;
                 })

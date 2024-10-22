@@ -1,4 +1,4 @@
-import { deg2rad, minly, Pi, Tau } from "@juniper-lib/tslib/dist/math";
+import { deg2rad, minly, Pi, Tau } from "@juniper-lib/util";
 import { Object3D, Quaternion, Vector3 } from "three";
 import { getLookHeadingRadians } from "./lookAngles";
 const targetPos = new Vector3();

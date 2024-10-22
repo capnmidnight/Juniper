@@ -1,0 +1,81 @@
+{
+  "include": [
+    "**/*.ts",
+    "package.json"
+  ],
+  "exclude": [
+    "bin",
+    "obj",
+    "node_modules"
+  ],
+  "references": [
+    { "path": "../../../JS/appshell" },
+    { "path": "../../../JS/cedrus" },
+    { "path": "../../../JS/collections" },
+    { "path": "../../../JS/dom" },
+    { "path": "../../../JS/emoji" },
+    { "path": "../../../JS/fetcher" },
+    { "path": "../../../JS/geo" },
+    { "path": "../../../JS/indexdb" },
+    { "path": "../../../JS/mediatypes" },
+    { "path": "../../../JS/testing" },
+    { "path": "../../../JS/webgpu" },
+    { "path": "../../../JS/widgets" },
+    { "path": "../../../JS/util" }
+  ],
+  "compileOnSave": true,
+  "compilerOptions": {
+    "composite": true,
+    "lib": [
+      "ESNext",
+      "DOM",
+      "WebWorker",
+      "DOM.Iterable"
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@webgpu/types",
+      "node_modules/@juniper-lib/dom-types",
+      "node_modules/@juniper-lib/extra-types",
+      "node_modules/@juniper-lib/indexdb-types"
+    ],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "declaration": true,
+    "disableSizeLimit": true,
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "incremental": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUmdGlobalAccess": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noEmit": true,
+    "noEmitHelpers": false,
+    "noEmitOnError": false,
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": false,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false
+  }
+}

@@ -1,6 +1,6 @@
 export declare const Application_A2L: import("./util").MediaType;
 export declare const Application_Activemessage: import("./util").MediaType;
-export declare const Application_ScenarioJson: import("./util").MediaType;
+export declare const Application_ActivityJson: import("./util").MediaType;
 export declare const Application_Alto_CostmapfilterJson: import("./util").MediaType;
 export declare const Application_Alto_CostmapJson: import("./util").MediaType;
 export declare const Application_Alto_DirectoryJson: import("./util").MediaType;
@@ -1326,6 +1326,7 @@ export declare const Application_Vendor_TriOnesource: import("./util").MediaType
 export declare const Application_Vendor_TriscapeMxs: import("./util").MediaType;
 export declare const Application_Vendor_Trueapp: import("./util").MediaType;
 export declare const Application_Vendor_Truedoc: import("./util").MediaType;
+export declare const Application_Vendor_TypeScript: import("./util").MediaType;
 export declare const Application_Vendor_UbisoftWebplayer: import("./util").MediaType;
 export declare const Application_Vendor_Ufdl: import("./util").MediaType;
 export declare const Application_Vendor_UiqTheme: import("./util").MediaType;

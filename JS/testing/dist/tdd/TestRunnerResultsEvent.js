@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent } from "@juniper-lib/events";
 /**
  * An Event that encapsulates a test result.
  **/

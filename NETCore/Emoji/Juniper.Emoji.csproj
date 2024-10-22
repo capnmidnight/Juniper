@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Emoji</AssemblyName>
+    <RootNamespace>Juniper</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Emoji</PackageId>
+    <OutputType>Library</OutputType>
+    <Description>A collection of Unicode pictograms.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Emoji.Values.cs">
+      <DependentUpon>Emoji.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

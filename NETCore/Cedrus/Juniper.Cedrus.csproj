@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Cedrus</AssemblyName>
+    <RootNamespace>Juniper.Cedrus</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Cedrus</PackageId>
+    <OutputType>Library</OutputType>
+    <Description>An time series, key-value store database with relational mapping.</Description>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Juniper.Data.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Units\Juniper.Units.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Server\Juniper.Server.csproj" />
+  </ItemGroup>
+
+</Project>

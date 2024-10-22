@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
 export function isMesh(obj) {
     return isDefined(obj)
         && obj.isMesh;

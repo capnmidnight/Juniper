@@ -1,4 +1,4 @@
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEventTarget } from "@juniper-lib/events";
 import { TestCaseConstructor } from "./TestCase";
 import { TestOutputResultsEvent } from "./TestOutputResultsEvent";
 type TestOutputEvents = {

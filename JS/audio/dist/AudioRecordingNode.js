@@ -1,11 +1,9 @@
-import { arrayClear, arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { debounce } from "@juniper-lib/events/dist/debounce";
 import * as allAudioTypes from "@juniper-lib/mediatypes/dist/audio";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
 import { ActivityDetector } from "./ActivityDetector";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { JuniperMediaStreamAudioDestinationNode } from "./context/JuniperMediaStreamAudioDestinationNode";
+import { debounce, isNullOrUndefined, arrayScan, isDefined, arrayClear } from "@juniper-lib/util";
+import { TypedEvent } from "@juniper-lib/events";
 const RECORDING_DELAY = .25;
 const ACTIVITY_SENSITIVITY = 0.6;
 const PAUSE_LENGTH = 1;
@@ -14,12 +12,6 @@ export class BlobAvailableEvent extends TypedEvent {
         super("blobavailable");
         this.id = id;
         this.blob = blob;
-    }
-}
-export class ActivityEvent extends TypedEvent {
-    constructor() {
-        super("activity");
-        this.level = 0;
     }
 }
 export class AudioRecordingNode extends BaseNodeCluster {

@@ -1,7 +1,6 @@
-import { arrayRemove } from "@juniper-lib/collections/dist/arrays";
+import { arrayRemove, dispose } from "@juniper-lib/util";
 import { BaseNode } from "./BaseNode";
 import { isIAudioNode } from "./IAudioNode";
-import { dispose } from "@juniper-lib/tslib/dist/using";
 export class BaseNodeCluster extends BaseNode {
     get exemplar() { return this.allNodes[0]; }
     constructor(type, context, inputs, endpoints, extras) {

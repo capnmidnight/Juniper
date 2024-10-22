@@ -1,7 +1,7 @@
-import { onUserGesture } from "@juniper-lib/dom/dist/onUserGesture";
-import { GraphNode } from "@juniper-lib/collections/dist/GraphNode";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { assertNever, isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/tslib/dist/typeChecks";
+import { assertNever, isDefined, isNullOrUndefined, isNumber } from "@juniper-lib/util";
+import { GraphNode } from "@juniper-lib/collections";
+import { onUserGesture } from "@juniper-lib/dom";
+import { Task } from "@juniper-lib/events";
 import { isEndpoint } from "../IAudioNode";
 import { JuniperAnalyserNode } from "./JuniperAnalyserNode";
 import { JuniperAudioBufferSourceNode } from "./JuniperAudioBufferSourceNode";

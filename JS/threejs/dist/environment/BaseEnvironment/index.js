@@ -1,12 +1,10 @@
-import { compareBy, insertSorted, removeSorted } from "@juniper-lib/collections/dist/arrays";
-import { isHTMLCanvas } from "@juniper-lib/dom/dist/canvas";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { isAsset } from "@juniper-lib/fetcher/dist/Asset";
+import { compareBy, insertSorted, isDefined, isFunction, isNullOrUndefined, removeSorted } from "@juniper-lib/util";
+import { border, height, isDesktop, isFirefox, isHTMLCanvas, isOculusBrowser, left, margin, oculusBrowserVersion, padding, position, rule, SingletonStyleBlob, top, touchAction, width } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
+import { isAsset } from "@juniper-lib/fetcher";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { isDesktop, isFirefox, isOculusBrowser, oculusBrowserVersion } from "@juniper-lib/tslib/dist/flags";
-import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { feet2Meters } from "@juniper-lib/tslib/dist/units/length";
-import { AmbientLight, Color, ColorManagement, DirectionalLight, GridHelper, LinearEncoding, PerspectiveCamera, Scene, Vector4, WebGLRenderer, sRGBEncoding } from "three";
+import { feet2Meters } from "@juniper-lib/units";
+import { AmbientLight, Color, ColorManagement, DirectionalLight, GridHelper, LinearEncoding, PerspectiveCamera, Scene, sRGBEncoding, Vector4, WebGLRenderer } from "three";
 import { AssetGltfModel } from "../../AssetGltfModel";
 import { AvatarLocal } from "../../AvatarLocal";
 import { Fader } from "../../Fader";
@@ -25,14 +23,22 @@ import { convertMaterials, materialStandardToBasic } from "../../materials";
 import { obj, objGraph } from "../../objects";
 import { resolveCamera } from "../../resolveCamera";
 import { XRTimer } from "../XRTimer";
-import "./style.css";
 const gridWidth = 15;
 const gridSize = feet2Meters(gridWidth);
 export class BaseEnvironment extends TypedEventTarget {
+    get testSpaceLayout() {
+        return this._testSpaceLayout;
+    }
+    set testSpaceLayout(v) {
+        if (v !== this.testSpaceLayout) {
+            this._testSpaceLayout = v;
+        }
+    }
     constructor(canvas, styleSheetPath, fetcher, enableFullResolution, enableAnaglyph, DEBUG = null, defaultAvatarHeight = null, defaultFOV = null) {
         super();
         this.styleSheetPath = styleSheetPath;
         this.fetcher = fetcher;
+        this._testSpaceLayout = false;
         this.layers = new Array();
         this.layerSortOrder = new Map();
         this.spectator = new PerspectiveCamera();
@@ -54,7 +60,11 @@ export class BaseEnvironment extends TypedEventTarget {
         this._xrMediaBinding = null;
         this._hasXRMediaLayers = null;
         this._hasXRCompositionLayers = null;
-        this.layerSorter = compareBy("descending", l => this.layerSortOrder.get(l));
+        this.layerSorter = compareBy(false, l => this.layerSortOrder.get(l));
+        SingletonStyleBlob("Juniper::ThreeJS::BaseEnvironment", () => [
+            rule("#appContainer, #frontBuffer", position("absolute"), left(0), top(0), width("100%"), height("100%"), margin(0), padding(0), border(0)),
+            rule("#frontBuffer", touchAction("none"))
+        ]);
         this.DEBUG = DEBUG || false;
         this.defaultAvatarHeight = defaultAvatarHeight || 1.75;
         defaultFOV = defaultFOV || 60;
@@ -103,8 +113,8 @@ export class BaseEnvironment extends TypedEventTarget {
         showGround();
         this.ambient.name = "Fill";
         this.ambient.layers.enableAll();
-        this.loadingBar.object.name = "MainLoadingBar";
-        this.loadingBar.object.position.set(0, -0.25, -2);
+        this.loadingBar.content3d.name = "MainLoadingBar";
+        this.loadingBar.content3d.position.set(0, -0.25, -2);
         this.scene.layers.enableAll();
         this.avatar.addFollower(this.worldUISpace);
         objGraph(this.scene, this.sun, this.ambient, objGraph(this.stage, this.ground, this.camera, this.avatar, ...this.eventSys.hands), this.foreground, objGraph(this.worldUISpace, this.loadingBar));

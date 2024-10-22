@@ -23,7 +23,7 @@ export class PointerRemote
     extends BasePointer
     implements ErsatzObject {
 
-    readonly object: Object3D;
+    readonly content3d: Object3D;
 
     private readonly laser: Laser = null;
     private readonly D = new Vector3();
@@ -50,14 +50,14 @@ export class PointerRemote
 
         this.remoteType = getPointerType(this.remoteID);
 
-        this.object = obj(`remote:${this.avatar.userName}:${this.name}`,
+        this.content3d = obj(`remote:${this.avatar.userName}:${this.name}`,
             this.laser = new Laser(
                 this.avatar.isInstructor ? green : yellow,
                 this.avatar.isInstructor ? 1 : 0.5,
                 0.002),
             this.handCube = new Cube(ARM_WIDTH, ARM_WIDTH, ARM_LENGTH, litGrey));
 
-        this.cursor.object.name = `${this.object.name}:cursor`;
+        this.cursor.content3d.name = `${this.content3d.name}:cursor`;
         this.cursor.visible = true;
 
         // Fakey "inverse kinematics" arm model. Doesn't actually
@@ -179,7 +179,7 @@ export class PointerRemote
 
         if (this.cursor.visible) {
             // point the pointer at the cursor
-            this.cursor.object
+            this.cursor.content3d
                 .getWorldPosition(this.D)
                 .sub(this.P);
             this.laser.length = this.D.length() - 0.1;
@@ -197,13 +197,13 @@ export class PointerRemote
             this.P,
             this.MW);
         this.M
-            .copy(this.object.parent.matrixWorld)
+            .copy(this.content3d.parent.matrixWorld)
             .invert()
             .multiply(this.MW)
             .decompose(
-                this.object.position,
-                this.object.quaternion,
-                this.object.scale);
+                this.content3d.position,
+                this.content3d.quaternion,
+                this.content3d.scale);
     }
 
     updatePointerOrientation() {

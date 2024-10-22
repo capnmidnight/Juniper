@@ -1,0 +1,1 @@
+{"version":3,"file":"SearchBar.d.ts","sourceRoot":"","sources":["../src/SearchBar.ts"],"names":[],"mappings":"AASA,qBAAa,SAAU,SAAQ,WAAW;;gBAO1B,SAAS,EAAE,gBAAgB,EAAE,SAAS,EAAE,iBAAiB;IAkBrE,IAAI,UAAU,IAAI,MAAM,CAEvB;IAGD,QAAQ,CAAC,GAAG,KAAK,EAAE,MAAM,EAAE;IAe3B,WAAW,CAAC,GAAG,KAAK,EAAE,MAAM,EAAE;CAgBjC"}

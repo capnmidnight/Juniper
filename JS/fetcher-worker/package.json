@@ -1,0 +1,23 @@
+{
+  "name": "@juniper-lib/fetcher-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A wrapper around XMLHttpRequest that enables caching, progress tracking, and response translation",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "@juniper-lib/util": "file:../util",
+    "@juniper-lib/events": "file:../events",
+    "@juniper-lib/fetcher": "file:../fetcher",
+    "@juniper-lib/workers": "file:../workers"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
+}

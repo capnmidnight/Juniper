@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Juniper.AppShell.GTK</AssemblyName>
+    <RootNamespace>Juniper.AppShell</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.AppShell.GTK</PackageId>
+    <OutputType>Library</OutputType>
+    <Description>A GNU ToolKit implementation of AppShell.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppShell\Juniper.AppShell.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GtkSharp" Version="3.24.24.95" />
+    <PackageReference Include="WebkitGtkSharp" Version="3.24.24.95" />
+  </ItemGroup>
+
+</Project>

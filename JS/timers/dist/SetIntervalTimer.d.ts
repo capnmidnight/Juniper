@@ -1,6 +1,5 @@
-import { BaseTimer } from "./BaseTimer";
-export declare class SetIntervalTimer extends BaseTimer<number> {
-    constructor(targetFrameRate: number);
+import { BaseVariableTimer } from "./BaseVariableTimer";
+export declare class SetIntervalTimer extends BaseVariableTimer<number> {
     start(): void;
     stop(): void;
     get targetFPS(): number;

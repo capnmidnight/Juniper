@@ -1,4 +1,4 @@
-import { ElementChild } from "@juniper-lib/dom/dist/tags";
+import { ElementChild } from "@juniper-lib/dom";
 import { IDebugLogger } from "./models";
 export declare function WindowLogger(...rest: ElementChild[]): WindowLoggerElement;
 export declare class WindowLoggerElement extends HTMLElement implements IDebugLogger {
@@ -8,6 +8,7 @@ export declare class WindowLoggerElement extends HTMLElement implements IDebugLo
     private readonly onKeyPress;
     private readonly grid;
     private workerCount;
+    static install(): import("@juniper-lib/dom").ElementFactory<WindowLoggerElement>;
     constructor();
     connectedCallback(): void;
     disconnectedCallback(): void;

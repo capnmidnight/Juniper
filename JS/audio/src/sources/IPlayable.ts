@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { PlaybackState } from "./PlaybackState";
 
 export interface IBasePlayable<T extends MediaElementSourceEvents> extends TypedEventTarget<T> {

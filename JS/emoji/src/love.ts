@@ -23,8 +23,9 @@ import {
     redHeart,
 } from ".";
 
-export const love = /*@__PURE__*/ G(
-    "Love", "Hearts and kisses", {
+export const love = /*@__PURE__*/ (function () {
+    return G(
+        "Love", "Hearts and kisses", {
         kissMark,
         loveLetter,
         beatingHeart,
@@ -47,3 +48,4 @@ export const love = /*@__PURE__*/ G(
         heartExclamation,
         redHeart,
     });
+})();

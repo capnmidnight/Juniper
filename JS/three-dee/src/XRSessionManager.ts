@@ -1,8 +1,5 @@
-import { arrayRemove } from "@juniper-lib/collections/dist/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { deg2rad } from "@juniper-lib/tslib/dist/math";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayRemove, deg2rad, isDefined, isNullOrUndefined } from "@juniper-lib/util";
+import { Task, TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import type { Camera } from "./Camera";
 
 type TickCallback = (t: number, dt: number, frame: XRFrame) => void;

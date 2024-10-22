@@ -1,4 +1,5 @@
-import { isArray } from "@juniper-lib/tslib/dist/typeChecks";
+import { isArray } from "@juniper-lib/util";
+import { CssCursorValue } from "@juniper-lib/dom";
 import { Color, MeshBasicMaterial } from "three";
 import { Cube } from "../../Cube";
 import { BaseEnvironment } from "../../environment/BaseEnvironment";
@@ -17,7 +18,7 @@ export class CursorColor extends BaseCursor3D {
             name: "CursorMat",
             color: 0xffff00
         });
-        this.object = new Cube(0.01, 0.01, 0.01, this.material);
+        this.content3d = new Cube(0.01, 0.01, 0.01, this.material);
     }
 
     override get style() {
@@ -26,8 +27,8 @@ export class CursorColor extends BaseCursor3D {
 
     override set style(v) {
         this._currentStyle = v;
-        if (isMesh(this.object)
-            && !isArray(this.object.material)) {
+        if (isMesh(this.content3d)
+            && !isArray(this.content3d.material)) {
             switch (this._currentStyle) {
                 case "pointer":
                     this.material.color = new Color(0x00ff00);

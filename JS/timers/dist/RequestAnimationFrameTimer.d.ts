@@ -1,6 +1,5 @@
-import { BaseTimer } from "./BaseTimer";
-export declare class RequestAnimationFrameTimer extends BaseTimer<number> {
-    constructor();
+import { BaseManagedTimer } from "./BaseManagedTimer";
+export declare class RequestAnimationFrameTimer extends BaseManagedTimer<number> {
     start(): void;
     stop(): void;
 }

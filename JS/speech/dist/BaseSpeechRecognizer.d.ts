@@ -1,14 +1,14 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { ISpeechRecognizer, SpeechRecognizerEvents } from "./ISpeechRecognizer";
 export declare abstract class BaseSpeechRecognizer extends TypedEventTarget<SpeechRecognizerEvents> implements ISpeechRecognizer {
-    protected readonly endEvt: TypedEvent<"end">;
-    protected readonly audioEndEvt: TypedEvent<"audioend">;
-    protected readonly audioStartEvt: TypedEvent<"audiostart">;
-    protected readonly soundEndEvt: TypedEvent<"soundend">;
-    protected readonly soundStartEvt: TypedEvent<"soundstart">;
-    protected readonly speechEndEvt: TypedEvent<"speechdend">;
-    protected readonly speechStartEvt: TypedEvent<"speechstart">;
-    protected readonly startEvt: TypedEvent<"start">;
+    protected readonly endEvt: TypedEvent<"end", EventTarget>;
+    protected readonly audioEndEvt: TypedEvent<"audioend", EventTarget>;
+    protected readonly audioStartEvt: TypedEvent<"audiostart", EventTarget>;
+    protected readonly soundEndEvt: TypedEvent<"soundend", EventTarget>;
+    protected readonly soundStartEvt: TypedEvent<"soundstart", EventTarget>;
+    protected readonly speechEndEvt: TypedEvent<"speechdend", EventTarget>;
+    protected readonly speechStartEvt: TypedEvent<"speechstart", EventTarget>;
+    protected readonly startEvt: TypedEvent<"start", EventTarget>;
     private refresh;
     constructor();
     private _speakerCulture;

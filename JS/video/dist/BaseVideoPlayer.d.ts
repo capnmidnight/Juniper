@@ -1,12 +1,8 @@
-import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
-import { BaseAudioSource } from "@juniper-lib/audio/dist/sources/BaseAudioSource";
-import { IPlayer, MediaPlayerEvents } from "@juniper-lib/audio/dist/sources/IPlayer";
-import { PlaybackState } from "@juniper-lib/audio/dist/sources/PlaybackState";
-import { BaseSpatializer } from "@juniper-lib/audio/dist/spatializers/BaseSpatializer";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
+import { BaseAudioSource, BaseSpatializer, IPlayer, JuniperAudioContext, MediaPlayerEvents, PlaybackState } from "@juniper-lib/audio";
+import { IProgress } from "@juniper-lib/progress";
 import { FullVideoRecord } from "./data";
-export declare abstract class BaseVideoPlayer extends BaseAudioSource<MediaPlayerEvents> implements IPlayer, IDisposable {
+export declare abstract class BaseVideoPlayer extends BaseAudioSource<MediaPlayerEvents<FullVideoRecord>> implements IPlayer<FullVideoRecord>, IDisposable {
     private readonly loadingEvt;
     private readonly loadEvt;
     private readonly playEvt;

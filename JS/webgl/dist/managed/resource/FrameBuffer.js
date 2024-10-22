@@ -1,7 +1,4 @@
-import { dispose } from "@juniper-lib/dom/dist/canvas";
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { singleton } from "@juniper-lib/tslib/dist/singleton";
-import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayClear, dispose, isDefined, isFunction, isNullOrUndefined, singleton } from "@juniper-lib/util";
 import { FrameAndRenderBuffers, FramebufferType } from "../../GLEnum";
 import { FrameBufferTexture, FrameBufferTextureMultiview, FrameBufferTextureMultiviewMultisampled } from "./FrameBufferTexture";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";

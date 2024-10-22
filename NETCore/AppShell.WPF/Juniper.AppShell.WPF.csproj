@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <AssemblyName>Juniper.AppShell.WPF</AssemblyName>
+    <RootNamespace>Juniper.AppShell</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.AppShell.WPF</PackageId>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Description>A Windows Presentation Foundation implementation of AppShell.</Description>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2849.39" />
+    <ProjectReference Include="..\AppShell\Juniper.AppShell.csproj" />
+  </ItemGroup>
+</Project>

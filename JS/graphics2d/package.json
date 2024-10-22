@@ -3,12 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
     "dist/*"
   ],
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
     "@juniper-lib/audio": "file:../audio",
     "@juniper-lib/collections": "file:../collections",
@@ -17,12 +16,12 @@
     "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/progress": "file:../progress",
     "@juniper-lib/timers": "file:../timers",
-    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/util": "file:../util",
     "@types/offscreencanvas": "2019.7.3",
-    "gl-matrix": "4.0.0-beta.1",
-    "pdfjs-dist": "2.16.105"
+    "gl-matrix": "4.0.0-beta.2",
+    "pdfjs-dist": "^4.7.76"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types"
+    "@juniper-lib/dom-types": "file:../types/dom-types"
   }
 }

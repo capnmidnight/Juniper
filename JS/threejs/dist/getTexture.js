@@ -1,4 +1,4 @@
-import { createCanvasFromOffscreenCanvas, isOffscreenCanvas } from "@juniper-lib/dom/dist/canvas";
+import { createCanvasFromOffscreenCanvas, isOffscreenCanvas } from "@juniper-lib/dom";
 import { CanvasTexture, CubeTexture } from "three";
 export function canvases2CubeTexture(canvs) {
     const texture = new CubeTexture(canvs);

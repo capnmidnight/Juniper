@@ -1,5 +1,5 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { Object3D, Quaternion, Vector2, Vector3 } from "three";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { BufferReaderWriter } from "./BufferReaderWriter";
@@ -83,7 +83,7 @@ export declare class AvatarLocal extends TypedEventTarget<AvatarLocalEvents> imp
     set disableHorizontal(v: boolean);
     set invertHorizontal(v: boolean);
     get height(): number;
-    get object(): Object3D<import("three").Event>;
+    get content3d(): Object3D<import("three").Event>;
     get worldHeadingRadians(): number;
     get worldPitchRadians(): number;
     private get fov();

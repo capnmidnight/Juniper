@@ -1,5 +1,5 @@
-import { Task } from "@juniper-lib/events/dist/Task";
-import { clamp } from "@juniper-lib/tslib/dist/math";
+import { Task } from "@juniper-lib/events";
+import { clamp } from "@juniper-lib/util";
 import { BackSide, Mesh, MeshBasicMaterial } from "three";
 import { cube } from "./Cube";
 import { solidTransparent } from "./materials";
@@ -11,7 +11,7 @@ export class Fader implements ErsatzObject {
 
     speed: number;
 
-    readonly object: Mesh;
+    readonly content3d: Mesh;
     private readonly material: MeshBasicMaterial;
     private readonly task = new Task(false);
 
@@ -21,10 +21,10 @@ export class Fader implements ErsatzObject {
             color: 0x000000,
             side: BackSide
         });
-        this.object = cube(name, 1, 1, 1, this.material);
-        this.object.renderOrder = Number.MAX_SAFE_INTEGER;
+        this.content3d = cube(name, 1, 1, 1, this.material);
+        this.content3d.renderOrder = Number.MAX_SAFE_INTEGER;
         this.speed = 1 / t;
-        this.object.layers.enableAll();
+        this.content3d.layers.enableAll();
     }
 
     private async start(direction: number) {

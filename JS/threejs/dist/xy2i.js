@@ -1,4 +1,4 @@
-import { xy2i } from "@juniper-lib/tslib/dist/math";
+import { xy2i } from "@juniper-lib/util";
 export function vecor22i(vec, width, components = 1) {
     return xy2i(vec.y, vec.y, width, components);
 }

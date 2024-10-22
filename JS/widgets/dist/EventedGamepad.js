@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 export class GamepadButtonEvent extends TypedEvent {
     constructor(type, button) {
         super(type);

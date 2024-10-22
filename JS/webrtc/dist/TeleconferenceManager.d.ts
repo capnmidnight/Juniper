@@ -1,8 +1,7 @@
-import { AudioManager } from "@juniper-lib/audio/dist/AudioManager";
-import { LocalUserMicrophone } from "@juniper-lib/audio/dist/LocalUserMicrophone";
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
-import { LocalUserWebcam } from "@juniper-lib/video";
+import { IDisposable } from "@juniper-lib/util";
+import { AudioManager, LocalUserMicrophone } from "@juniper-lib/audio";
+import { TypedEventTarget } from "@juniper-lib/events";
+import { LocalUserWebcamElement } from '@juniper-lib/video';
 import "webrtc-adapter";
 import { ConferenceEvents } from "./ConferenceEvents";
 import { ConnectionState } from "./ConnectionState";
@@ -43,7 +42,7 @@ export declare class TeleconferenceManager extends TypedEventTarget<ConferenceEv
     private readonly remoteGainDecay;
     private readonly windowQuitter;
     private heartbeatTimer;
-    constructor(audio: AudioManager, microphones: LocalUserMicrophone, webcams: LocalUserWebcam, hub: IHub);
+    constructor(audio: AudioManager, microphones: LocalUserMicrophone, webcams: LocalUserWebcamElement, hub: IHub);
     get connectionState(): ConnectionState;
     get echoControl(): GainDecayer;
     get isConnected(): boolean;

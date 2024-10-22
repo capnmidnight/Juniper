@@ -1,4 +1,4 @@
-import type { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import type { IProgress } from "@juniper-lib/progress";
 export interface FontDescription {
     fontSize: number;
     fontFamily: string;

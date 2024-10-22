@@ -1,5 +1,5 @@
-import { TestCase } from "@juniper-lib/testing/dist/tdd/TestCase";
-import { dispose, IClosable, IDestroyable, IDisposable, using, usingArray, usingArrayAsync, usingAsync } from "@juniper-lib/tslib/dist/using";
+import { IClosable, IDestroyable, IDisposable, dispose, using, usingArray, usingArrayAsync, usingAsync } from "@juniper-lib/util";
+import { TestCase } from "@juniper-lib/testing";
 
 type MockDisposable = IDisposable & { disposed: boolean };
 

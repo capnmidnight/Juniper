@@ -1,10 +1,13 @@
-import { DialogBox } from "@juniper-lib/widgets/dist/DialogBox";
-import type { Environment } from "../environment/Environment";
+import { ElementChild, HtmlProp } from "@juniper-lib/dom";
+import { BaseDialogElement } from "@juniper-lib/widgets";
+import { BaseEnvironment } from "../environment";
 import { TextMesh } from "./TextMesh";
 import type { IWidget } from "./widgets";
-export declare class ConfirmationDialog extends DialogBox implements IWidget {
-    private readonly env;
-    readonly object: import("three").Object3D<import("three").Event>;
+export declare function EnvironmentAttr(env: BaseEnvironment): HtmlProp<"env", BaseEnvironment<unknown>, Node & Record<"env", BaseEnvironment<unknown>>>;
+export declare class ConfirmationDialogElement extends BaseDialogElement<void, boolean> implements IWidget {
+    #private;
+    get content(): this;
+    readonly content3d: import("three").Object3D<import("three").Event>;
     private readonly root;
     readonly mesh: TextMesh;
     private readonly confirmButton3D;
@@ -13,16 +16,17 @@ export declare class ConfirmationDialog extends DialogBox implements IWidget {
     private a;
     private b;
     private readonly onTick;
-    constructor(env: Environment, fontFamily: string);
+    get env(): BaseEnvironment<unknown>;
+    set env(v: BaseEnvironment<unknown>);
+    constructor(fontFamily: string);
     get name(): string;
     get visible(): boolean;
     set visible(visible: boolean);
     update(dt: number): void;
     private showHide;
     private get use3D();
-    protected onShowing(): Promise<void>;
-    onShown(): void;
-    protected onClosing(): Promise<void>;
     prompt(title: string, message: string): Promise<boolean>;
+    static install(): import("@juniper-lib/dom").ElementFactory<ConfirmationDialogElement>;
 }
+export declare function ConfirmationDialog(...rest: ElementChild<ConfirmationDialogElement>[]): ConfirmationDialogElement;
 //# sourceMappingURL=ConfirmationDialog.d.ts.map

@@ -1,4 +1,4 @@
-import { stringRandom } from "@juniper-lib/tslib/dist/strings/stringRandom";
+import { stringRandom } from "@juniper-lib/util";
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { RayTarget } from "../eventSystem/RayTarget";
 import { mesh, obj, objGraph } from "../objects";

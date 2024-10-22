@@ -1,1 +1,1 @@
-{"version":3,"file":"CancelToken.d.ts","sourceRoot":"","sources":["../src/CancelToken.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,mCAAmC,CAAC;AAE9D,qBAAa,qBAAsB,SAAQ,SAAS;;CAInD;AAED,qBAAa,WAAW;IACpB,OAAO,CAAC,UAAU,CAAS;IAE3B,IAAW,SAAS,YAEnB;IAED,KAAK;IAML,MAAM;CAGT"}
+{"version":3,"file":"CancelToken.d.ts","sourceRoot":"","sources":["../src/CancelToken.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,mBAAmB,CAAC;AAE9C,qBAAa,qBAAsB,SAAQ,SAAS;;CAInD;AAED,qBAAa,WAAW;;IAEpB,IAAI,SAAS,YAA8B;IAE3C,KAAK;IAML,MAAM;CAGT"}

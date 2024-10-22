@@ -1,4 +1,4 @@
-import { AudioRecordingNode } from "@juniper-lib/audio/dist/AudioRecordingNode";
+import { AudioRecordingNode } from "@juniper-lib/audio";
 import { JuniperSpeechRecognizer } from "./JuniperSpeechRecognizer";
 import { WebSpeechRecognizer } from "./WebSpeechRecognizer";
 export function createSpeechRecognizer(fetcher, activity, microphones, postPath, forceFallback = false) {

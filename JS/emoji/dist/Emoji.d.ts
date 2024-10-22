@@ -2,6 +2,7 @@
  * Unicode-standardized pictograms.
  **/
 export declare class Emoji {
+    #private;
     readonly value: string;
     readonly desc: string;
     readonly props: any;
@@ -17,7 +18,6 @@ export declare class Emoji {
      * this emoji.
      */
     contains(e: Emoji | string): boolean;
-    private changeStyle;
     get textStyle(): string;
     get emojiStyle(): string;
 }

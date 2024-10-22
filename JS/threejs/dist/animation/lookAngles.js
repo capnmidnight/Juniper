@@ -1,4 +1,4 @@
-import { radiansClamp } from "@juniper-lib/tslib/dist/math";
+import { radiansClamp } from "@juniper-lib/util";
 import { Vector3 } from "three";
 const D = new Vector3();
 export function getLookHeadingRadians(dir) {

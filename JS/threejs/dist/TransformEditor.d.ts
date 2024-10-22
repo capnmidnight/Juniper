@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { ColorRepresentation, Object3D, Vector3 } from "three";
 import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { RayTarget } from "./eventSystem/RayTarget";
@@ -21,7 +21,7 @@ type TransformEditorEvents = {
 };
 export declare class TransformEditor extends TypedEventTarget<TransformEditorEvents> implements ErsatzObject {
     private readonly env;
-    readonly object: Object3D;
+    readonly content3d: Object3D;
     readonly modeButtons: HTMLButtonElement[];
     private readonly buttons;
     private readonly translators;

@@ -1,30 +1,30 @@
 {
-  "version": "1.0.0",
   "name": "@juniper-lib/tests",
+  "version": "1.0.0",
   "private": true,
+  "description": "Tests of modules",
   "type": "module",
-  "files": [
-    "dist/*"
-  ],
   "main": "dist/index.js",
   "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md"
+  ],
   "scripts": {
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "build": "node esbuild.config.mjs",
+    "watch": "node esbuild.config.mjs --watch"
   },
   "dependencies": {
+    "@juniper-lib/util": "file:../util",
     "@juniper-lib/dom": "file:../dom",
-    "@juniper-lib/events": "file:../events",
-    "@juniper-lib/fetcher": "file:../fetcher",
-    "@juniper-lib/gis": "file:../gis",
     "@juniper-lib/hax": "file:../hax",
-    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/testing": "file:../testing",
-    "@juniper-lib/tslib": "file:../tslib",
-    "gl-matrix": "4.0.0-beta.1"
+    "@juniper-lib/widgets": "file:../widgets",
+    "@juniper-lib/units": "file:../units"
   },
-  "devDependencies": {
-    "@juniper-types/dom-types": "file:../../@juniper-types/dom-types",
-    "@juniper-types/indexdb": "file:../../@juniper-types/indexdb",
-    "@types/offscreencanvas": "2019.7.3"
-  }
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

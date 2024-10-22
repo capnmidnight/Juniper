@@ -1,0 +1,48 @@
+import { TypedEventMap } from "@juniper-lib/events";
+import { TypedHTMLElement } from "./TypedHTMLElement";
+export declare class TypedHTMLSelectElement<EventMapT extends TypedEventMap<string> = TypedEventMap<string>> extends TypedHTMLElement<EventMapT> implements HTMLSelectElement {
+    #private;
+    static observedAttributes: string[];
+    attributeChangedCallback(name: string, _oldValue: string, newValue: string): void;
+    protected readonly element: HTMLSelectElement;
+    constructor();
+    [name: number]: HTMLOptionElement | HTMLOptGroupElement;
+    get autocomplete(): AutoFill;
+    set autocomplete(v: AutoFill);
+    get disabled(): boolean;
+    set disabled(v: boolean);
+    get form(): HTMLFormElement;
+    get labels(): NodeListOf<HTMLLabelElement>;
+    get length(): number;
+    set length(v: number);
+    get multiple(): boolean;
+    set multiple(v: boolean);
+    get name(): string;
+    set name(v: string);
+    get options(): HTMLOptionsCollection;
+    get required(): boolean;
+    set required(v: boolean);
+    get selectedIndex(): number;
+    set selectedIndex(v: number);
+    get selectedOptions(): HTMLCollectionOf<HTMLOptionElement>;
+    get size(): number;
+    set size(v: number);
+    get type(): "select-one" | "select-multiple";
+    get validationMessage(): string;
+    get validity(): ValidityState;
+    get value(): string;
+    set value(v: string);
+    get willValidate(): boolean;
+    add(element: HTMLOptionElement | HTMLOptGroupElement, before?: HTMLElement | number | null): void;
+    checkValidity(): boolean;
+    item(index: number): HTMLOptionElement | null;
+    namedItem(name: string): HTMLOptionElement | null;
+    remove(): void;
+    remove(index: number): void;
+    reportValidity(): boolean;
+    setCustomValidity(error: string): void;
+    showPicker(): void;
+    [Symbol.iterator](): ArrayIterator<HTMLOptionElement>;
+    connectedCallback(): void;
+}
+//# sourceMappingURL=TypedHTMLSelectElement.d.ts.map

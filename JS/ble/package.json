@@ -1,24 +1,23 @@
 {
   "name": "@juniper-lib/ble",
-  "private": false,
   "version": "1.0.0",
+  "private": true,
+  "description": "Useful records of Bluetooth Low Energy objects",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
     "dist/*"
   ],
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "description": "Useful records of Bluetooth Low Energy objects",
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
-    "@juniper-lib/tslib": "file:../tslib"
+    "@juniper-lib/util": "file:../util"
   },
   "repository": {
     "type": "git",
     "url": "github.com/capnmidnight/Juniper"
   },
-  "author": "Sean T. McBeth \u003Csean.mcbeth@gmail.com\u003E",
-  "license": "MIT"
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md"
 }

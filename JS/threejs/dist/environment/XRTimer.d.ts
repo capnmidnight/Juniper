@@ -1,5 +1,4 @@
-/// <reference types="webxr" />
-import { BaseTimerTickEvent, ITimer } from "@juniper-lib/timers/dist/ITimer";
+import { BaseTimerTickEvent, ITimer } from "@juniper-lib/timers";
 import { WebGLRenderer } from "three";
 export declare class XRTimerTickEvent extends BaseTimerTickEvent {
     frame?: XRFrame;

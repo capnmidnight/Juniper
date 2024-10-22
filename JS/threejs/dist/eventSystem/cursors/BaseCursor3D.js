@@ -2,22 +2,23 @@ import { Quaternion, Vector3 } from "three";
 import { setMatrixFromUpFwdPos } from "../../setMatrixFromUpFwdPos";
 import { BaseCursor } from "./BaseCursor";
 export class BaseCursor3D extends BaseCursor {
+    #content3d;
     get side() {
         return this._side;
     }
     set side(v) {
         this._side = v;
     }
-    get object() {
-        return this._object;
+    get content3d() {
+        return this.#content3d;
     }
-    set object(v) {
-        this._object = v;
+    set content3d(v) {
+        this.#content3d = v;
     }
     constructor(env) {
         super();
         this.env = env;
-        this._object = null;
+        this.#content3d = null;
         this.T = new Vector3();
         this.V = new Vector3();
         this.Q = new Quaternion();
@@ -27,7 +28,7 @@ export class BaseCursor3D extends BaseCursor {
         this.right = new Vector3();
     }
     get position() {
-        return this.object.position;
+        return this.content3d.position;
     }
     update(avatarHeadPos, comfortOffset, hit, target, defaultDistance, isLocal, canDragView, canTeleport, origin, direction, isPrimaryPressed) {
         if (hit && hit.face) {
@@ -95,14 +96,14 @@ export class BaseCursor3D extends BaseCursor {
             .applyQuaternion(this.env.avatar.worldQuat);
         this.right.crossVectors(this.up, this.f);
         this.up.crossVectors(this.f, this.right);
-        setMatrixFromUpFwdPos(this.up, this.f, p, this.object.matrixWorld);
-        this.object.matrix
-            .copy(this.object.parent.matrixWorld)
+        setMatrixFromUpFwdPos(this.up, this.f, p, this.content3d.matrixWorld);
+        this.content3d.matrix
+            .copy(this.content3d.parent.matrixWorld)
             .invert()
-            .multiply(this.object.matrixWorld);
-        this.object.matrix.decompose(this.object.position, this.object.quaternion, this.object.scale);
-        this.object.scale.x *= this.side;
-        this.object.matrix.compose(this.object.position, this.object.quaternion, this.object.scale);
+            .multiply(this.content3d.matrixWorld);
+        this.content3d.matrix.decompose(this.content3d.position, this.content3d.quaternion, this.content3d.scale);
+        this.content3d.scale.x *= this.side;
+        this.content3d.matrix.compose(this.content3d.position, this.content3d.quaternion, this.content3d.scale);
     }
 }
 //# sourceMappingURL=BaseCursor3D.js.map

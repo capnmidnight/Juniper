@@ -1,4 +1,4 @@
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
 import { Color, Intersection } from "three";
 import { InstancedButtonFactory } from ".";
 import { RayTarget } from "../../eventSystem/RayTarget";

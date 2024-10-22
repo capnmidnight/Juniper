@@ -84,7 +84,7 @@ export enum InfoParamType {
     STENCIL_PASS_DEPTH_FAIL = 0x0B95, //Passed to getParameter to get the current stencil fail function should the depth buffer test fail.Should return KEEP, REPLACE, INCR, DECR, INVERT, INCR_WRAP, or DECR_WRAP.
     STENCIL_PASS_DEPTH_PASS = 0x0B96, //Passed to getParameter to get the current stencil fail function should the depth buffer test pass.Should return KEEP, REPLACE, INCR, DECR, INVERT, INCR_WRAP, or DECR_WRAP.
     STENCIL_REF = 0x0B97, //Passed to getParameter to get the reference value used for stencil tests.
-    STENCIL_VALUE_MASK = 0x0B93, //STENCIL_WRITEMASK	0x0B98;
+    STENCIL_VALUE_MASK = 0x0B93, //STENCIL_WRITEMASK  0x0B98;
     STENCIL_BACK_FUNC = 0x8800,
     STENCIL_BACK_FAIL = 0x8801,
     STENCIL_BACK_PASS_DEPTH_FAIL = 0x8802,

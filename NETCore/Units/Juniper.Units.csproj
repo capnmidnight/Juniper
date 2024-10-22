@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AssemblyName>Juniper.Units</AssemblyName>
+		<RootNamespace>Juniper.Units</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Units</PackageId>
+		<OutputType>Library</OutputType>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>Converting and pretty-printing values according to standard units of measure.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Mathematics\Juniper.Mathematics.csproj" />
+	</ItemGroup>
+</Project>

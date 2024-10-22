@@ -1,9 +1,8 @@
-import { arrayRemove } from "@juniper-lib/collections/dist/arrays";
-import { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
+import { arrayRemove, dispose } from "@juniper-lib/util";
+import { TypedEventMap } from "@juniper-lib/events";
 import { BaseNode } from "./BaseNode";
+import { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
 import { IAudioNode, IAudioParam, isIAudioNode } from "./IAudioNode";
-import { dispose } from "@juniper-lib/tslib/dist/using";
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
 
 export abstract class BaseNodeCluster<EventsT extends TypedEventMap<string> = TypedEventMap<string>>
     extends BaseNode<EventsT>

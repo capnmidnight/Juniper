@@ -3,18 +3,28 @@
   "include": [
     "./src/**/*.ts"
   ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "typeRoots": [
+      "../../node_modules/@types",
+      "node_modules/@types",
+      "../types"
+    ],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ]
+  },
   "references": [
     { "path": "../collections" },
     { "path": "../dom" },
     { "path": "../events" },
+    { "path": "../indexdb" },
     { "path": "../mediatypes" },
     { "path": "../progress" },
-    { "path": "../tslib" },
+    { "path": "../util" },
     { "path": "../workers" }
-  ],
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strictNullChecks": false
-  }
+  ]
 }

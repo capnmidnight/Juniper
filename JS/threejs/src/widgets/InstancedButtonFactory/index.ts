@@ -1,11 +1,9 @@
-import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
-import { arrayCompare, arrayRemove, arrayReplace } from "@juniper-lib/collections/dist/arrays";
-import { CanvasTypes, Context2D, createUICanvas } from "@juniper-lib/dom/dist/canvas";
-import { AssetImage } from "@juniper-lib/fetcher/dist/Asset";
+import { Exception, arrayCompare, arrayRemove, arrayReplace, nextPowerOf2 } from "@juniper-lib/util";
+import { PriorityMap } from "@juniper-lib/collections";
+import { CanvasTypes, Context2D, CssColorValue, createUICanvas } from "@juniper-lib/dom";
+import { AssetImage } from "@juniper-lib/fetcher";
 import { Image_Png } from "@juniper-lib/mediatypes";
-import { Exception } from "@juniper-lib/tslib/dist/Exception";
-import { nextPowerOf2 } from "@juniper-lib/tslib/dist/math";
-import { CanvasTexture, Color, DoubleSide, DynamicDrawUsage, InstancedMesh, MeshBasicMaterial, Object3D, PlaneGeometry, ShaderMaterial, Uniform } from "three";
+import { CanvasTexture, Color, DoubleSide, DynamicDrawUsage, InstancedMesh, Object3D, PlaneGeometry, ShaderMaterial, Uniform } from "three";
 import { plane } from "../../Plane";
 import { ErsatzObject, obj, objGraph, objectIsFullyVisible } from "../../objects";
 import { InstancedMeshButton } from "./InstancedMeshButton";
@@ -15,14 +13,8 @@ import vertShader from "./vertex.glsl";
 const vertexShader = vertShader.replace("#define THREEZ", "");
 const fragmentShader = fragShader.replace("#define THREEZ", "");
 
-export interface ButtonSpec {
-    geometry: PlaneGeometry;
-    enabledMaterial: MeshBasicMaterial;
-    disabledMaterial: MeshBasicMaterial;
-}
-
 export class InstancedButtonFactory implements ErsatzObject {
-    readonly object: Object3D;
+    readonly content3d: Object3D;
     private readonly uvDescrips = new PriorityMap<string, string, Color>();
     private readonly ready: Promise<void>;
 
@@ -46,7 +38,7 @@ export class InstancedButtonFactory implements ErsatzObject {
         public readonly labelFillColor: CssColorValue,
         debug: boolean) {
 
-        this.object = obj("InstancedButtonFactory");
+        this.content3d = obj("InstancedButtonFactory");
 
         this.assetSets = new PriorityMap(Array.from(this.imagePaths.entries())
             .map(([setName, iconName, path]) =>
@@ -136,7 +128,7 @@ export class InstancedButtonFactory implements ErsatzObject {
 
                 const rebuild = (instances: InstancedMesh, buttons: Array<InstancedMeshButton>, filter: (btn: InstancedMeshButton) => boolean) =>
                     () => {
-                        arrayReplace(buttons, ...this.buttons.filter(b => objectIsFullyVisible(b) && filter(b)));
+                        arrayReplace(buttons, this.buttons.filter(b => objectIsFullyVisible(b) && filter(b)));
                         let colorsChanged = false;
                         let matricesChanged = false;
                         for (let i = 0; i < buttons.length; ++i) {
@@ -148,15 +140,15 @@ export class InstancedButtonFactory implements ErsatzObject {
                                 || btn.icon !== colors.get(instances, i);
                             colors.add(instances, i, btn.icon);
 
-                            instances.setMatrixAt(i, btn.object.matrixWorld);
+                            instances.setMatrixAt(i, btn.content3d.matrixWorld);
                             matricesChanged = matricesChanged
                                 || !matrices.has(instances, i)
-                                || arrayCompare(matrices.get(instances, i), btn.object.matrixWorld.elements) !== -1;
+                                || arrayCompare(matrices.get(instances, i), btn.content3d.matrixWorld.elements) !== -1;
                             if (!matrices.has(instances, i)) {
-                                matrices.add(instances, i, btn.object.matrix.toArray());
+                                matrices.add(instances, i, btn.content3d.matrix.toArray());
                             }
                             else {
-                                btn.object.matrix.toArray(matrices.get(instances, i), 0);
+                                btn.content3d.matrix.toArray(matrices.get(instances, i), 0);
                             }
                         }
 

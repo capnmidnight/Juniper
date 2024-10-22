@@ -1,8 +1,7 @@
-import { keycapDigits } from "@juniper-lib/emoji/dist/numbers";
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { all } from "@juniper-lib/events/dist/all";
-import { BaseProgress } from "@juniper-lib/progress/dist/BaseProgress";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
+import { keycapDigits } from "@juniper-lib/emoji";
+import { TypedEvent } from "@juniper-lib/events";
+import { BaseProgress } from "@juniper-lib/progress";
 import { Cube } from "../Cube";
 import { cleanup } from "../cleanup";
 import { solidWhite } from "../materials";
@@ -11,7 +10,7 @@ import { TextMesh } from "./TextMesh";
 const playEvt = new TypedEvent("play");
 const stopEvt = new TypedEvent("stop");
 const size = 0.1;
-const translations = new Map(keycapDigits.alts.map((m, i) => [m.value, i.toString()]));
+const translations = new Map(keycapDigits.map((m, i) => [m.value, i.toString()]));
 export class PlaybackButton extends BaseProgress {
     constructor(env, buttonFactory, data, name, label, volume, player) {
         super();
@@ -25,7 +24,7 @@ export class PlaybackButton extends BaseProgress {
         this.clickPlay = null;
         this.disposed = false;
         label = translations.get(label) || label || "";
-        this.object = obj(`playback-${name}`);
+        this.content3d = obj(`playback-${name}`);
         this.textLabel = new TextMesh(env, `playback-${name}-label`, "none", {
             minHeight: size,
             minWidth: 4 * size,
@@ -53,7 +52,7 @@ export class PlaybackButton extends BaseProgress {
             if (this.data === this.player.data) {
                 this.player.clear();
             }
-            cleanup(this.object);
+            cleanup(this.content3d);
             this.disposed = true;
         }
     }
@@ -61,12 +60,17 @@ export class PlaybackButton extends BaseProgress {
         this.textLabel.position.y = -(size + this.textLabel.objectHeight) / 2;
     }
     async load(buttonFactory, player) {
-        const [play, pause, stop, replay] = await all(buttonFactory.getMeshButton("media", "play", size), buttonFactory.getMeshButton("media", "pause", size), buttonFactory.getMeshButton("media", "stop", size), buttonFactory.getMeshButton("media", "replay", size));
+        const [play, pause, stop, replay] = await Promise.all([
+            buttonFactory.getMeshButton("media", "play", size),
+            buttonFactory.getMeshButton("media", "pause", size),
+            buttonFactory.getMeshButton("media", "stop", size),
+            buttonFactory.getMeshButton("media", "replay", size)
+        ]);
         objGraph(this, this.playButton = play, this.pauseButton = pause, this.stopButton = stop, this.replayButton = replay, this.progressBar, this.textLabel);
-        this.playButton.object.position.x = -1.5 * size;
-        this.pauseButton.object.position.x = -0.5 * size;
-        this.stopButton.object.position.x = 0.5 * size;
-        this.replayButton.object.position.x = 1.5 * size;
+        this.playButton.content3d.position.x = -1.5 * size;
+        this.pauseButton.content3d.position.x = -0.5 * size;
+        this.stopButton.content3d.position.x = 0.5 * size;
+        this.replayButton.content3d.position.x = 1.5 * size;
         this.progressBar.position.y = -size / 2;
         this.progressBar.position.z = 0.01;
         this.repositionLabel();

@@ -1,4 +1,3 @@
-/// <reference types="webxr" />
 import { Color, Matrix4, Object3D, XRHandSpace } from "three";
 import { IXRHandModel } from "./XRHandModelFactory";
 export declare class XRHandMeshModel extends Object3D implements IXRHandModel {

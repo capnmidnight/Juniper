@@ -1,5 +1,5 @@
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { IFetcher } from "@juniper-lib/fetcher";
+import { IProgress } from "@juniper-lib/progress";
 import { FullVideoRecord } from "./data";
 import { YTMetadata } from "./yt-dlp";
 export declare function isYouTube(url: URL): boolean;

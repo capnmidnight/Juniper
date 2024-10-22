@@ -1,11 +1,7 @@
-import { Rel, Type } from "@juniper-lib/dom/dist/attrs";
-import { createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom/dist/canvas";
-import { Img, Link, Script } from "@juniper-lib/dom/dist/tags";
-import { once } from "@juniper-lib/events/dist/once";
-import { waitFor } from "@juniper-lib/events/dist/waitFor";
+import { assertNever, dispose, isDefined, isFunction, isString } from "@juniper-lib/util";
+import { Img, Link, Rel, Script, Type, createCanvas, createOffscreenCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom";
+import { once, waitFor } from "@juniper-lib/events";
 import { Application_Javascript, Application_Json, Application_Wasm, Text_Css, Text_Plain, Text_Xml } from "@juniper-lib/mediatypes";
-import { assertNever, isDefined, isFunction, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
 import { translateResponse } from "./translateResponse";
 // This HTML Audio Element is just used to get access to the
 // canPlayType method. It is not used for any other functionality.
@@ -20,15 +16,20 @@ function canPlay(type) {
     return testAudio.canPlayType(type) !== "";
 }
 export class RequestBuilder {
+    #fetcher;
+    #method;
+    #path;
+    #useBLOBs;
+    #request;
+    #prog = null;
     constructor(fetcher, method, path, useBLOBs = false) {
-        this.fetcher = fetcher;
-        this.method = method;
-        this.path = path;
-        this.useBLOBs = useBLOBs;
-        this.prog = null;
-        this.request = {
+        this.#fetcher = fetcher;
+        this.#method = method;
+        this.#path = path;
+        this.#useBLOBs = useBLOBs;
+        this.#request = {
             method,
-            path: this.path.href,
+            path: this.#path.href,
             body: null,
             headers: null,
             timeout: null,
@@ -38,19 +39,19 @@ export class RequestBuilder {
         };
     }
     retries(count) {
-        this.request.retryCount = count;
+        this.#request.retryCount = count;
         return this;
     }
     query(name, value) {
-        this.path.searchParams.set(name, value);
-        this.request.path = this.path.href;
+        this.#path.searchParams.set(name, value);
+        this.#request.path = this.#path.href;
         return this;
     }
     header(name, value) {
-        if (this.request.headers === null) {
-            this.request.headers = new Map();
+        if (this.#request.headers === null) {
+            this.#request.headers = new Map();
         }
-        this.request.headers.set(name.toLowerCase(), value);
+        this.#request.headers.set(name.toLowerCase(), value);
         return this;
     }
     headers(headers) {
@@ -60,11 +61,11 @@ export class RequestBuilder {
         return this;
     }
     timeout(value) {
-        this.request.timeout = value;
+        this.#request.timeout = value;
         return this;
     }
     progress(prog) {
-        this.prog = prog;
+        this.#prog = prog;
         return this;
     }
     body(body, contentType) {
@@ -120,20 +121,20 @@ export class RequestBuilder {
                 body = form;
                 contentType = undefined;
             }
-            this.request.body = body;
-            this.content(contentType);
+            this.#request.body = body;
+            this.#content(contentType);
         }
         return this;
     }
     withCredentials() {
-        this.request.withCredentials = true;
+        this.#request.withCredentials = true;
         return this;
     }
     useCache(enabled = true) {
-        this.request.useCache = enabled;
+        this.#request.useCache = enabled;
         return this;
     }
-    media(key, mediaType) {
+    #media(key, mediaType) {
         if (isDefined(mediaType)) {
             if (!isString(mediaType)) {
                 mediaType = mediaType.value;
@@ -141,74 +142,74 @@ export class RequestBuilder {
             this.header(key, mediaType);
         }
     }
-    content(contentType) {
-        this.media("content-type", contentType);
+    #content(contentType) {
+        this.#media("content-type", contentType);
     }
     accept(acceptType) {
-        this.media("accept", acceptType);
+        this.#media("accept", acceptType);
         return this;
     }
     blob(acceptType) {
         this.accept(acceptType);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetBlob(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetBlob(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetBlob(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetBlob(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
     buffer(acceptType) {
         this.accept(acceptType);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetBuffer(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetBuffer(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetBuffer(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetBuffer(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
     async file(acceptType) {
         this.accept(acceptType);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return await this.fetcher.sendObjectGetFile(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return await this.#fetcher.sendObjectGetFile(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            if (this.useBLOBs) {
-                return await this.fetcher.sendNothingGetFile(this.request, this.prog);
+        else if (this.#method === "GET") {
+            if (this.#useBLOBs) {
+                return await this.#fetcher.sendNothingGetFile(this.#request, this.#prog);
             }
             else {
-                const response = await this.fetcher.sendNothingGetNothing(this.request);
-                return translateResponse(response, () => this.request.path);
+                const response = await this.#fetcher.sendNothingGetNothing(this.#request);
+                return translateResponse(response, () => this.#request.path);
             }
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
     async dataUri(acceptType) {
@@ -221,117 +222,117 @@ export class RequestBuilder {
     }
     text(acceptType) {
         this.accept(acceptType || Text_Plain);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetText(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetText(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetText(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetText(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
     object(acceptType) {
         this.accept(acceptType || Application_Json);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetObject(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetObject(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetObject(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetObject(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
     xml(acceptType) {
         this.accept(acceptType || Text_Xml);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetXml(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetXml(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetXml(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetXml(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
     imageBitmap(acceptType) {
         this.accept(acceptType);
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetImageBitmap(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetImageBitmap(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
-            return this.fetcher.sendNothingGetImageBitmap(this.request, this.prog);
+        else if (this.#method === "GET") {
+            return this.#fetcher.sendNothingGetImageBitmap(this.#request, this.#prog);
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
     exec() {
-        if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE") {
-            return this.fetcher.sendObjectGetNothing(this.request, this.prog);
+        if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE") {
+            return this.#fetcher.sendObjectGetNothing(this.#request, this.#prog);
         }
-        else if (this.method === "GET") {
+        else if (this.#method === "GET") {
             throw new Error("GET requests should expect a response type");
         }
-        else if (this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            return this.fetcher.sendNothingGetNothing(this.request);
+        else if (this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            return this.#fetcher.sendNothingGetNothing(this.#request);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
-    async audioBlob(acceptType) {
+    async #audioBlob(acceptType) {
         if (isDefined(acceptType)) {
             if (!isString(acceptType)) {
                 acceptType = acceptType.value;
             }
             if (!canPlay(acceptType)) {
-                throw new Error(`Probably can't play file of type "${acceptType}" at path: ${this.request.path}`);
+                throw new Error(`Probably can't play file of type "${acceptType}" at path: ${this.#request.path}`);
             }
         }
         const response = await this.blob(acceptType);
         if (canPlay(response.contentType)) {
             return response;
         }
-        throw new Error(`Cannot play file of type "${response.contentType}" at path: ${this.request.path}`);
+        throw new Error(`Cannot play file of type "${response.contentType}" at path: ${this.#request.path}`);
     }
     async audioBuffer(context, acceptType) {
-        return translateResponse(await this.audioBlob(acceptType), async (blob) => await context.decodeAudioData(await blob.arrayBuffer()));
+        return translateResponse(await this.#audioBlob(acceptType), async (blob) => await context.decodeAudioData(await blob.arrayBuffer()));
     }
-    async htmlElement(element, resolveEvt, acceptType) {
+    async #htmlElement(element, resolveEvt, acceptType) {
         const response = await this.file(acceptType);
         const task = once(element, resolveEvt, "error");
         if (element instanceof HTMLLinkElement) {
@@ -344,17 +345,17 @@ export class RequestBuilder {
         return await translateResponse(response, () => element);
     }
     image(acceptType) {
-        return this.htmlElement(Img(), "load", acceptType);
+        return this.#htmlElement(Img(), "load", acceptType);
     }
     async htmlCanvas(acceptType) {
         if (IS_WORKER) {
             throw new Error("HTMLCanvasElement not supported in Workers.");
         }
         const canvas = createCanvas(1, 1);
-        if (this.method === "GET") {
+        if (this.#method === "GET") {
             if (hasOffscreenCanvas) {
                 this.accept(acceptType);
-                const response = await this.fetcher.drawImageToCanvas(this.request, canvas.transferControlToOffscreen(), this.prog);
+                const response = await this.#fetcher.drawImageToCanvas(this.#request, canvas.transferControlToOffscreen(), this.#prog);
                 return await translateResponse(response, () => canvas);
             }
             else {
@@ -370,16 +371,16 @@ export class RequestBuilder {
                 });
             }
         }
-        else if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE"
-            || this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE"
+            || this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
     canvas(acceptType) {
@@ -394,7 +395,7 @@ export class RequestBuilder {
         if (!hasOffscreenCanvas) {
             throw new Error("This system does not support OffscreenCanvas");
         }
-        if (this.method === "GET") {
+        if (this.#method === "GET") {
             const response = await (IS_WORKER
                 ? this.imageBitmap(acceptType)
                 : this.image(acceptType));
@@ -405,52 +406,52 @@ export class RequestBuilder {
                 return canvas;
             });
         }
-        else if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE"
-            || this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
+        else if (this.#method === "POST"
+            || this.#method === "PUT"
+            || this.#method === "PATCH"
+            || this.#method === "DELETE"
+            || this.#method === "HEAD"
+            || this.#method === "OPTIONS") {
+            throw new Error(`${this.#method} responses do not contain bodies`);
         }
         else {
-            assertNever(this.method);
+            assertNever(this.#method);
         }
     }
     async style() {
         const tag = Link(Type(Text_Css), Rel("stylesheet"));
         document.head.append(tag);
-        const response = await this.htmlElement(tag, "load", Text_Css);
+        const response = await this.#htmlElement(tag, "load", Text_Css);
         return translateResponse(response);
     }
-    async getScript() {
+    async #getScript() {
         const tag = Script(Type(Application_Javascript));
         document.head.append(tag);
-        const response = await this.htmlElement(tag, "load", Application_Javascript);
+        const response = await this.#htmlElement(tag, "load", Application_Javascript);
         return translateResponse(response);
     }
     async script(test) {
         let response = null;
-        const scriptPath = this.request.path;
+        const scriptPath = this.#request.path;
         if (!test) {
-            response = await this.getScript();
+            response = await this.#getScript();
         }
         else if (!test()) {
             const scriptLoadTask = waitFor(test);
-            response = await this.getScript();
+            response = await this.#getScript();
             await scriptLoadTask;
         }
-        if (this.prog) {
-            this.prog.end(scriptPath);
+        if (this.#prog) {
+            this.#prog.end(scriptPath);
         }
         return response;
     }
     async module() {
-        const scriptPath = this.request.path;
+        const scriptPath = this.#request.path;
         const response = await this.file(Application_Javascript);
         const value = await import(response.content);
-        if (this.prog) {
-            this.prog.end(scriptPath);
+        if (this.#prog) {
+            this.#prog.end(scriptPath);
         }
         return translateResponse(response, () => value);
     }
@@ -464,13 +465,13 @@ export class RequestBuilder {
         return translateResponse(response, () => instance.exports);
     }
     async worker(type = "module") {
-        const scriptPath = this.request.path;
+        const scriptPath = this.#request.path;
         const response = await this.file(Application_Javascript);
-        this.prog = null;
-        this.request.timeout = null;
+        this.#prog = null;
+        this.#request.timeout = null;
         const worker = new Worker(response.content, { type });
-        if (this.prog) {
-            this.prog.end(scriptPath);
+        if (this.#prog) {
+            this.#prog.end(scriptPath);
         }
         return translateResponse(response, () => worker);
     }

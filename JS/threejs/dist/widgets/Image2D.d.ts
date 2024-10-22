@@ -1,4 +1,4 @@
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
 import { BufferGeometry, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D } from "three";
 import { StereoLayoutName } from "../VideoPlayer3D";
 import { BaseEnvironment } from "../environment/BaseEnvironment";

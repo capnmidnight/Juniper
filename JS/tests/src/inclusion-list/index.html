@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=0, initial-scale=1.0">
+    <title>Inclusion Lists</title>
+
+    <link rel="stylesheet" href="../../../../etc/Assets/CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../etc/Assets/CSS/fontawesome.min.css">
+    <script src="../../../../etc/Assets/CSS/fontawesome.min.js"></script>
+
+    <link rel="stylesheet" href="index.css">
+    <script type="module" src="index.bundle.js"></script>
+</head>
+
+<body>
+    <h1>&lt;inclusion-list&gt; Visual Tests</h1>
+    <tab-panel>
+        <div data-tab-name="Static">
+            <input type="text" id="filter" placeholder="Filter">
+            <inclusion-list id="staticList">
+                <option>Hello</option>
+                <option>World</option>
+                <option>Good</option>
+                <option>Bad</option>
+                <option>Greetings</option>
+                <option>Salutations</option>
+            </inclusion-list>
+        </div>
+
+        <div data-tab-name="Dynamic">
+            <div>
+                <button type="button" id="disabler" class="btn btn-secondary">Toggle disabled</button>
+            </div>
+            <inclusion-list id="dynamicList"></inclusion-list>
+        </div>
+    </tab-panel>
+</body>
+
+</html>

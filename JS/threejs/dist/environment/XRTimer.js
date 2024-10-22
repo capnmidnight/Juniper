@@ -1,6 +1,6 @@
-import { arrayRemove } from "@juniper-lib/collections/dist/arrays";
-import { BaseTimerTickEvent } from "@juniper-lib/timers/dist/ITimer";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayRemove } from "@juniper-lib/util";
+import { BaseTimerTickEvent } from "@juniper-lib/timers";
+import { isDefined } from "@juniper-lib/util";
 export class XRTimerTickEvent extends BaseTimerTickEvent {
     constructor() {
         super();

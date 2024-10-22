@@ -1,5 +1,5 @@
 export declare class Promisifier<T = void> implements Promise<T> {
-    private readonly promise;
+    #private;
     callback: (...args: any[]) => void;
     constructor(resolveRejectTest: (...args: any[]) => boolean, selectValue: (...args: any[]) => T, selectRejectionReason: (...args: any[]) => any);
     get [Symbol.toStringTag](): string;

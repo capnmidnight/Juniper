@@ -1,5 +1,5 @@
-import { arrayScan, compareBy } from "@juniper-lib/collections/dist/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { arrayScan, compareBy } from "@juniper-lib/util";
+import { ITypedEventTarget, TypedEvent } from "@juniper-lib/events";
 import { StreamChangedEvent } from "./StreamChangedEvent";
 import { filterDeviceDuplicates } from "./filterDeviceDuplicates";
 
@@ -9,7 +9,7 @@ export class DeviceSettingsChangedEvent extends TypedEvent<"devicesettingschange
     }
 }
 
-export interface IDeviceSource extends TypedEventTarget<{
+export interface IDeviceSource extends ITypedEventTarget<{
     "streamchanged": StreamChangedEvent;
 }> {
     get mediaType(): "audio" | "video";

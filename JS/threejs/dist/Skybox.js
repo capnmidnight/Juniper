@@ -1,8 +1,6 @@
-import { dispose } from "@juniper-lib/dom/dist/canvas";
-import { createUtilityCanvas } from "@juniper-lib/dom/dist/canvas";
-import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/dist/CubeMapFaceIndex";
-import { Pi } from "@juniper-lib/tslib/dist/math";
-import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib/dist/typeChecks";
+import { isArray, isDefined, isGoodNumber, isNumber, Pi } from "@juniper-lib/util";
+import { createUtilityCanvas, dispose } from "@juniper-lib/dom";
+import { CubeMapFaceIndex } from "@juniper-lib/graphics2d";
 import { Color, CubeCamera, CubeTexture, Quaternion, Scene, Vector3, WebGLCubeRenderTarget } from "three";
 import { cleanup } from "./cleanup";
 import { isEuler, isQuaternion } from "./typeChecks";

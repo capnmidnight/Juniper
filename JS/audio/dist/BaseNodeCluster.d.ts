@@ -1,7 +1,7 @@
-import { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
+import { TypedEventMap } from "@juniper-lib/events";
 import { BaseNode } from "./BaseNode";
+import { InputResolution, JuniperAudioContext, OutputResolution } from "./context/JuniperAudioContext";
 import { IAudioNode, IAudioParam } from "./IAudioNode";
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
 export declare abstract class BaseNodeCluster<EventsT extends TypedEventMap<string> = TypedEventMap<string>> extends BaseNode<EventsT> implements IAudioNode {
     private readonly inputs;
     private readonly outputs;

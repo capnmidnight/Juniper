@@ -1,4 +1,4 @@
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEventTarget } from "@juniper-lib/events";
 import { isEndpoint, isIAudioNode } from "./IAudioNode";
 export class BaseNode extends TypedEventTarget {
     get name() { return this._name; }

@@ -1,16 +1,12 @@
 {
-  "name": "@juniper-types/dom-types",
-  "private": false,
+  "name": "@juniper-lib/dom-types",
+  "private": true,
   "version": "1.1.0",
   "description": "Extra DOM-related types that aren't likely to end up in DefinitelyTyped",
   "scripts": {
     "check": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "github.com/capnmidnight/Juniper"
-  },
-  "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
-  "license": "MIT",
-  "types": "./index.d.ts"
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

@@ -1,9 +1,8 @@
-import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
-import { createUICanvas } from "@juniper-lib/dom/dist/canvas";
-import { AssetImage } from "@juniper-lib/fetcher/dist/Asset";
+import { Exception, nextPowerOf2 } from "@juniper-lib/util";
+import { PriorityMap } from "@juniper-lib/collections";
+import { createUICanvas } from "@juniper-lib/dom";
+import { AssetImage } from "@juniper-lib/fetcher";
 import { Image_Png } from "@juniper-lib/mediatypes";
-import { Exception } from "@juniper-lib/tslib/dist/Exception";
-import { nextPowerOf2 } from "@juniper-lib/tslib/dist/math";
 import { CanvasTexture, MeshBasicMaterial, PlaneGeometry } from "three";
 import { MeshButton } from "./MeshButton";
 export class ButtonFactory {

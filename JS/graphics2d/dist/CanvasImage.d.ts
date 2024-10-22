@@ -1,5 +1,5 @@
-import type { CanvasTypes, Context2D } from "@juniper-lib/dom/dist/canvas";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { CanvasTypes, Context2D } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 type CanvasImageEvents = {
     redrawn: TypedEvent<"redrawn">;
 };
@@ -12,7 +12,7 @@ export declare abstract class CanvasImage extends TypedEventTarget<CanvasImageEv
     private _g;
     private _visible;
     private wasVisible;
-    protected redrawnEvt: TypedEvent<"redrawn">;
+    protected redrawnEvt: TypedEvent<"redrawn", EventTarget>;
     constructor(width: number, height: number, options?: Partial<CanvasImageOptions>);
     protected fillRect(color: string, x: number, y: number, width: number, height: number, margin: number): void;
     protected drawText(text: string, x: number, y: number, align: CanvasTextAlign): void;

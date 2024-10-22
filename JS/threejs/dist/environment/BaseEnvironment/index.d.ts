@@ -1,10 +1,8 @@
-/// <reference types="webxr" />
-import { CanvasTypes } from "@juniper-lib/dom/dist/canvas";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { BaseAsset } from "@juniper-lib/fetcher/dist/Asset";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { TimerTickEvent } from "@juniper-lib/timers/dist/ITimer";
+import { CanvasTypes } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
+import { BaseAsset, IFetcher } from "@juniper-lib/fetcher";
+import { IProgress } from "@juniper-lib/progress";
+import { TimerTickEvent } from "@juniper-lib/timers";
 import { AmbientLight, DirectionalLight, GridHelper, PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { AvatarLocal } from "../../AvatarLocal";
 import { Fader } from "../../Fader";
@@ -17,7 +15,6 @@ import { Cursor3D } from "../../eventSystem/cursors/Cursor3D";
 import { GLTF } from "../../examples/loaders/GLTFLoader";
 import { XRHandModelFactory } from "../../examples/webxr/XRHandModelFactory";
 import { XRTimer, XRTimerTickEvent } from "../XRTimer";
-import "./style.css";
 type BaseEnvironmentEvents = {
     sceneclearing: TypedEvent<"sceneclearing">;
     scenecleared: TypedEvent<"scenecleared">;
@@ -28,6 +25,9 @@ type BaseEnvironmentEvents = {
 export declare class BaseEnvironment<Events = unknown> extends TypedEventTarget<Events & BaseEnvironmentEvents> {
     private readonly styleSheetPath;
     readonly fetcher: IFetcher;
+    private _testSpaceLayout;
+    get testSpaceLayout(): boolean;
+    set testSpaceLayout(v: boolean);
     private baseLayer;
     private readonly layers;
     private readonly layerSortOrder;

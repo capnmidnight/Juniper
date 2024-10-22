@@ -1,8 +1,6 @@
-import { Task } from "@juniper-lib/events/dist/Task";
-import { once } from "@juniper-lib/events/dist/once";
+import { debounce, dispose as disposeOld, isDefined, isNullOrUndefined } from "@juniper-lib/util";
+import { Task, once } from "@juniper-lib/events";
 import { MediaType } from "@juniper-lib/mediatypes";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose as disposeOld } from "@juniper-lib/tslib/dist/using";
 import { Height, Src, Width } from "./attrs";
 import { Canvas, Img } from "./tags";
 
@@ -11,32 +9,15 @@ export type CanvasImageTypes = HTMLImageElement | HTMLCanvasElement | OffscreenC
 export type Context2D = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 export type GraphicsContext = RenderingContext | OffscreenCanvasRenderingContext2D;
 
-declare const IS_WORKER: boolean;
-export const hasHTMLCanvas = /*@__PURE__*/ !IS_WORKER && "HTMLCanvasElement" in globalThis;
-export const hasHTMLImage = /*@__PURE__*/ !IS_WORKER && "HTMLImageElement" in globalThis;
-export const disableAdvancedSettings = /*@__PURE__*/ false;
-export const hasOffscreenCanvas = /*@__PURE__*/ !disableAdvancedSettings && "OffscreenCanvas" in globalThis;
-export const hasImageBitmap = /*@__PURE__*/ !disableAdvancedSettings && "createImageBitmap" in globalThis;
-
-export function isHTMLCanvas(obj: any): obj is HTMLCanvasElement {
-    return !IS_WORKER && hasHTMLCanvas && obj instanceof HTMLCanvasElement;
-}
-
-export function isHTMLImage(img: any): img is HTMLImageElement {
-    return !IS_WORKER && hasHTMLImage && img instanceof HTMLImageElement;
-}
-
-export function isOffscreenCanvas(obj: any): obj is OffscreenCanvas {
-    return hasOffscreenCanvas && obj instanceof OffscreenCanvas;
-}
-
-export function isImageBitmap(img: any): img is ImageBitmap {
-    return hasImageBitmap && img instanceof ImageBitmap;
-}
-
-export function isImageData(img: any): img is ImageData {
-    return img instanceof ImageData;
-}
+export function hasHTMLCanvas() { return !IS_WORKER && "HTMLCanvasElement" in globalThis; }
+export function hasHTMLImage() { return !IS_WORKER && "HTMLImageElement" in globalThis; }
+export function hasOffscreenCanvas() { return "OffscreenCanvas" in globalThis; }
+export function hasImageBitmap() { return "createImageBitmap" in globalThis; }
+export function isHTMLCanvas(obj: any): obj is HTMLCanvasElement { return !IS_WORKER && hasHTMLCanvas() && obj instanceof HTMLCanvasElement; }
+export function isHTMLImage(img: any): img is HTMLImageElement { return !IS_WORKER && hasHTMLImage() && img instanceof HTMLImageElement; }
+export function isOffscreenCanvas(obj: any): obj is OffscreenCanvas { return hasOffscreenCanvas() && obj instanceof OffscreenCanvas; }
+export function isImageBitmap(img: any): img is ImageBitmap { return hasImageBitmap() && img instanceof ImageBitmap; }
+export function isImageData(img: any): img is ImageData { return img instanceof ImageData; }
 
 /**
  * Returns true if the given object is either an HTMLCanvasElement or an OffscreenCanvas.
@@ -79,17 +60,25 @@ function testOffscreen2D() {
     }
 }
 
-export const hasOffscreenCanvasRenderingContext2D = /*@__PURE__*/ hasOffscreenCanvas && testOffscreen2D();
+export function hasOffscreenCanvasRenderingContext2D() { return hasOffscreenCanvas() && testOffscreen2D(); }
 
-export const createUtilityCanvas = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvas
-    || !IS_WORKER && hasHTMLCanvas && createCanvas
-    || null;
+export const createUtilityCanvas = /*@__PURE__*/ (function () {
+    return hasOffscreenCanvasRenderingContext2D() && createOffscreenCanvas
+        || !IS_WORKER && hasHTMLCanvas() && createCanvas
+        || null;
+})();
 
-export const createUICanvas = /*@__PURE__*/ !IS_WORKER && hasHTMLCanvas
-    ? createCanvas
-    : createUtilityCanvas;
+export const createUICanvas = /*@__PURE__*/ (function () {
+    return !IS_WORKER && hasHTMLCanvas()
+        ? createCanvas
+        : createUtilityCanvas;
+})();
 
-function testOffscreen3D() {
+export function hasOffscreenCanvasRenderingContext3D() {
+    if (!hasOffscreenCanvas()) {
+        return false;
+    }
+
     try {
         const canv = new OffscreenCanvas(1, 1);
         const g = canv.getContext("webgl2");
@@ -99,8 +88,6 @@ function testOffscreen3D() {
         return false;
     }
 }
-
-export const hasOffscreenCanvasRenderingContext3D = /*@__PURE__*/ hasOffscreenCanvas && testOffscreen3D();
 
 export function createOffscreenCanvas(width: number, height: number): OffscreenCanvas {
     return new OffscreenCanvas(width, height);
@@ -130,9 +117,11 @@ export function createCanvasFromImageBitmap(img: ImageBitmap): HTMLCanvasElement
     return canv;
 }
 
-export const createUtilityCanvasFromImageBitmap = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImageBitmap
-    || !IS_WORKER && hasHTMLCanvas && createCanvasFromImageBitmap
-    || null;
+export const createUtilityCanvasFromImageBitmap = /*@__PURE__*/ (function () {
+    return hasOffscreenCanvasRenderingContext2D() && createOffscreenCanvasFromImageBitmap
+        || !IS_WORKER && hasHTMLCanvas() && createCanvasFromImageBitmap
+        || null;
+})();
 
 export function createOffscreenCanvasFromImageData(img: ImageData): OffscreenCanvas {
     const canv = createOffscreenCanvas(img.width, img.height);
@@ -150,9 +139,11 @@ export function createCanvasFromImageData(img: ImageData): HTMLCanvasElement {
     return canv;
 }
 
-export const createUtilityCanvasFromImageData = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImageData
-    || !IS_WORKER && hasHTMLCanvas && createCanvasFromImageData
-    || null;
+export const createUtilityCanvasFromImageData = /*@__PURE__*/ (function () {
+    return hasOffscreenCanvasRenderingContext2D() && createOffscreenCanvasFromImageData
+        || !IS_WORKER && hasHTMLCanvas() && createCanvasFromImageData
+        || null;
+})();
 
 export function createCanvasFromOffscreenCanvas(canv: OffscreenCanvas): HTMLCanvasElement {
     if (IS_WORKER) {
@@ -188,9 +179,11 @@ export function createCanvasFromImage(img: HTMLImageElement): HTMLCanvasElement 
     return canv;
 }
 
-export const createUtilityCanvasFromImage = /*@__PURE__*/ hasOffscreenCanvasRenderingContext2D && createOffscreenCanvasFromImage
-    || !IS_WORKER && hasHTMLCanvas && createCanvasFromImage
-    || null;
+export const createUtilityCanvasFromImage = /*@__PURE__*/ (function () {
+    return hasOffscreenCanvasRenderingContext2D() && createOffscreenCanvasFromImage
+        || !IS_WORKER && hasHTMLCanvas() && createCanvasFromImage
+        || null;
+})();
 
 export async function createImageFromFile(file: string): Promise<HTMLImageElement> {
     if (IS_WORKER) {
@@ -336,4 +329,23 @@ export function dispose(val: any) {
     else {
         disposeOld(val);
     }
+}
+
+export function addCanvasResizer(canvas: HTMLCanvasElement) {
+    const resize = debounce(() => {
+        canvas.width = canvas.clientWidth * devicePixelRatio;
+        canvas.height = canvas.clientHeight * devicePixelRatio;
+    });
+
+    const resizer = new ResizeObserver((evts) => {
+        for (const evt of evts) {
+            if (evt.target == canvas) {
+                resize();
+                canvas.dispatchEvent(new Event("resize"));
+            }
+        }
+    });
+
+    resize();
+    resizer.observe(canvas);
 }

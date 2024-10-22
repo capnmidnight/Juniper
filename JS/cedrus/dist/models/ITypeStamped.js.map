@@ -1,0 +1,1 @@
+{"version":3,"file":"ITypeStamped.js","sourceRoot":"","sources":["../../src/models/ITypeStamped.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,QAAQ,EAAE,MAAM,mBAAmB,CAAC;AAMvD,MAAM,UAAU,aAAa,CAAmB,GAAM,EAAE,GAAY;IAChE,OAAO,QAAQ,CAAC,GAAG,CAAC;WACb,WAAW,IAAI,GAAG;WAClB,QAAQ,CAAC,GAAG,CAAC,SAAS,CAAC;WACvB,GAAG,CAAC,SAAS,KAAK,GAAG,CAAC;AACjC,CAAC"}

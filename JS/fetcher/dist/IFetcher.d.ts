@@ -1,8 +1,8 @@
+import { IResponse } from "@juniper-lib/util";
 import type { MediaType } from "@juniper-lib/mediatypes";
-import type { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import type { IProgress } from "@juniper-lib/progress";
 import type { BaseAsset } from "./Asset";
 import type { HTTPMethods } from "./HTTPMethods";
-import type { IResponse } from "./IResponse";
 export interface IFetcherBasic {
     query(name: string, value: string): this;
     header(name: string, value: string): this;

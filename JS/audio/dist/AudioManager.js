@@ -1,16 +1,7 @@
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { Controls, Loop, Src } from "@juniper-lib/dom/dist/attrs";
-import { onReleased } from "@juniper-lib/dom/dist/evts";
-import { onUserGesture } from "@juniper-lib/dom/dist/onUserGesture";
-import { Audio, HtmlRender } from "@juniper-lib/dom/dist/tags";
-import { Task } from "@juniper-lib/events/dist/Task";
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { all } from "@juniper-lib/events/dist/all";
-import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { isIOS, isMobileVR } from "@juniper-lib/tslib/dist/flags";
-import { stringToName } from "@juniper-lib/tslib/dist/strings/stringToName";
-import { isDefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { arrayClear, dispose, isDefined, isFunction, isObject, isString, stringToName } from "@juniper-lib/util";
+import { Audio, Controls, HtmlRender, isIOS, isMobileVR, Loop, OnReleased, onUserGesture, Src } from "@juniper-lib/dom";
+import { Task, TypedEvent } from "@juniper-lib/events";
+import { unwrapResponse } from "@juniper-lib/fetcher";
 import { BaseNodeCluster } from "./BaseNodeCluster";
 import { SpeakerManager } from "./SpeakerManager";
 import { JuniperAudioContext } from "./context/JuniperAudioContext";
@@ -42,8 +33,14 @@ export class AudioManager extends BaseNodeCluster {
      **/
     constructor(fetcher, defaultLocalUserID) {
         const context = new JuniperAudioContext();
-        if ("THREE" in globalThis) {
-            globalThis.THREE.AudioContext.setContext(context);
+        const x = globalThis;
+        if ("THREE" in x
+            && isObject(x.THREE)
+            && "AudioContext" in x.THREE
+            && isObject(x.THREE.AudioContext)
+            && "setContext" in x.THREE.AudioContext
+            && isFunction(x.THREE.AudioContext.setContext)) {
+            x.THREE.AudioContext.setContext(context);
         }
         const destination = new WebAudioDestination(context);
         const noSpatializer = new NoSpatializer(destination.nonSpatializedInput);
@@ -66,7 +63,11 @@ export class AudioManager extends BaseNodeCluster {
         this.destination = destination;
         this.noSpatializer = noSpatializer;
         this.speakers = speakers;
-        all(this.context.ready, this.destination.ready, this.speakers.ready).then(() => this._ready.resolve());
+        Promise.all([
+            this.context.ready,
+            this.destination.ready,
+            this.speakers.ready
+        ]).then(() => this._ready.resolve());
         this.setLocalUserID(defaultLocalUserID);
         const useHeadphones = localStorage.getItem(USE_HEADPHONES_KEY);
         if (isDefined(useHeadphones)) {
@@ -90,7 +91,7 @@ export class AudioManager extends BaseNodeCluster {
     enpool() {
         for (let i = 0; i < POOL_SIZE; ++i) {
             const task = new Task();
-            const audio = Audio(Src(HAX_SRC), Controls(false), onReleased(() => {
+            const audio = Audio(Src(HAX_SRC), Controls(false), OnReleased(() => {
                 audio.pause();
                 audio.src = HAX_SRC;
             }));

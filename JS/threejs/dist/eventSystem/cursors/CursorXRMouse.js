@@ -11,8 +11,8 @@ export class CursorXRMouse extends BaseCursor3D {
         this.visible = false;
         Object.seal(this);
     }
-    get object() {
-        return this.xr.object;
+    get content3d() {
+        return this.xr.content3d;
     }
     get side() {
         return this.xr.side;

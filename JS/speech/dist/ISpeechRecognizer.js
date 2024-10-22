@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent } from "@juniper-lib/events";
 export class SpeechRecognizerErrorEvent extends TypedEvent {
     constructor(id, error, message) {
         super("error");

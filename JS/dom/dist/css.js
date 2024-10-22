@@ -1,139 +1,43 @@
-import { isArray, isDefined, isNumber, isString } from "@juniper-lib/tslib/dist/typeChecks";
-function asInt(v) {
-    return isNumber(v) ? v.toFixed(0) : v;
-}
-export function perc(value) {
-    return `${value}%`;
-}
-export function deg(value) {
-    return `${value}deg`;
-}
-export function rad(value) {
-    return `${value}rad`;
-}
-export function grad(value) {
-    return `${value}grad`;
-}
-export function turn(value) {
-    return `${value}turn`;
-}
-export function cap(value) {
-    return `${value}cap`;
-}
-export function ch(value) {
-    return `${value}ch`;
-}
-export function em(value) {
-    return `${value}em`;
-}
-export function ex(value) {
-    return `${value}ex`;
-}
-export function ic(value) {
-    return `${value}ic`;
-}
-export function lh(value) {
-    return `${value}lh`;
-}
-export function rem(value) {
-    return `${value}rem`;
-}
-export function rlh(value) {
-    return `${value}rlh`;
-}
-export function vh(value) {
-    return `${value}vh`;
-}
-export function vw(value) {
-    return `${value}vw`;
-}
-export function vi(value) {
-    return `${value}vi`;
-}
-export function vb(value) {
-    return `${value}vb`;
-}
-export function vmin(value) {
-    return `${value}vmin`;
-}
-export function vmax(value) {
-    return `${value}vmax`;
-}
-export function px(value) {
-    return `${value}px`;
-}
-export function cm(value) {
-    return `${value}cm`;
-}
-export function mm(value) {
-    return `${value}mm`;
-}
-export function Q(value) {
-    return `${value}Q`;
-}
-export function inch(value) {
-    return `${value}in`;
-}
-export function pc(value) {
-    return `${value}pc`;
-}
-export function pt(value) {
-    return `${value}pt`;
-}
-export function fr(value) {
-    return `${value}fr`;
-}
-export function hash(r, g, b, a) {
-    if (isDefined(a)) {
-        return `#${r}${g}${b}${a}`;
-    }
-    else {
-        return `#${r}${g}${b}`;
-    }
-}
-export function rgb(...v) {
-    return `rgb(${v.join(", ")})`;
-}
-export function rgba(...v) {
-    return `rgba(${v.join(", ")})`;
-}
-export function hsl(...v) {
-    return `hsl(${v.join(", ")})`;
-}
-export function hsla(...v) {
-    return `hsla(${v.join(", ")})`;
-}
-export function hwb(hue, whiteness, blackness, alpha) {
-    if (isDefined(alpha)) {
-        return `hwb(${hue} ${whiteness} ${blackness} / ${alpha})`;
-    }
-    else {
-        return `hwb(${hue} ${whiteness} ${blackness})`;
-    }
-}
-export function lch(lightness, chroma, hue, alpha) {
-    if (isDefined(alpha)) {
-        return `lch(${lightness} ${chroma} ${hue} / ${alpha})`;
-    }
-    else {
-        return `lch(${lightness} ${chroma} ${hue})`;
-    }
-}
-export function lab(lightness, a, b, alpha) {
-    if (isDefined(alpha)) {
-        return `lab(${lightness} ${a} ${b} / ${alpha})`;
-    }
-    else {
-        return `lab(${lightness} ${a} ${b})`;
-    }
-}
+import { isArray, isDefined, isNumber, isString, toString } from "@juniper-lib/util";
+import { AbstractAppliable } from "./AbstractAppliable";
+/**********************************
+ * CASCADING STYLE SHEETS
+ *********************************/
+export function cssVar(name) { return `$var(--${name})`; }
+export function perc(value) { return `${value}%`; }
+export function deg(value) { return `${value}deg`; }
+export function rad(value) { return `${value}rad`; }
+export function grad(value) { return `${value}grad`; }
+export function turn(value) { return `${value}turn`; }
+export function cap(value) { return `${value}cap`; }
+export function ch(value) { return `${value}ch`; }
+export function em(value) { return `${value}em`; }
+export function ex(value) { return `${value}ex`; }
+export function ic(value) { return `${value}ic`; }
+export function lh(value) { return `${value}lh`; }
+export function rem(value) { return `${value}rem`; }
+export function rlh(value) { return `${value}rlh`; }
+export function vh(value) { return `${value}vh`; }
+export function vw(value) { return `${value}vw`; }
+export function vi(value) { return `${value}vi`; }
+export function vb(value) { return `${value}vb`; }
+export function vmin(value) { return `${value}vmin`; }
+export function vmax(value) { return `${value}vmax`; }
+export function px(value) { return `${value}px`; }
+export function cm(value) { return `${value}cm`; }
+export function mm(value) { return `${value}mm`; }
+export function q(value) { return `${value}Q`; }
+export function inch(value) { return `${value}in`; }
+export function pc(value) { return `${value}pc`; }
+export function pt(value) { return `${value}pt`; }
+export function fr(value) { return `${value}fr`; }
 export function matrix(a, b, c, d, tx, ty) {
     return `matrix(${a}, ${b}, ${c}, ${d}, ${tx}, ${ty})`;
 }
 export function matrix3d(a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3, a4, b4, c4, d4) {
     return `matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`;
 }
-export function perspectiv(v) {
+export function perspectiveValue(v) {
     return `perspective(${v})`;
 }
 export function rotate(a) {
@@ -151,7 +55,7 @@ export function rotateY(a) {
 export function rotateZ(a) {
     return `rotateZ(${a})`;
 }
-export function translate(x, y) {
+export function translateFunc(x, y) {
     return `translate(${x}, ${y})`;
 }
 export function translate3d(x, y, z) {
@@ -199,6 +103,49 @@ export function fitContent(len) {
 export function minMax(min, max) {
     return `minmax(${min}, ${max})`;
 }
+export function hash(r, g, b, a) {
+    return "#" + [r, g, b, a].filter(isDefined).join("");
+}
+function cssList(name, ...args) {
+    return `${name}(${args.filter(isDefined).join(", ")})`;
+}
+export function rgb(red, green, blue, alpha) {
+    return cssList("rgb", red, green, blue, alpha);
+}
+export function rgba(red, green, blue, alpha) {
+    return cssList("rgba", red, green, blue, alpha);
+}
+export function hsl(hue, saturation, lightness, alpha) {
+    return cssList("hsl", hue, saturation, lightness, alpha);
+}
+export function hsla(hue, saturation, lightness, alpha) {
+    return cssList("hsla", hue, saturation, lightness, alpha);
+}
+export function hwb(hue, whiteness, blackness, alpha) {
+    if (isDefined(alpha)) {
+        return `hwb(${hue} ${whiteness} ${blackness} / ${alpha})`;
+    }
+    else {
+        return `hwb(${hue} ${whiteness} ${blackness})`;
+    }
+}
+export function lch(lightness, chroma, hue, alpha) {
+    if (isDefined(alpha)) {
+        return `lch(${lightness} ${chroma} ${hue} / ${alpha})`;
+    }
+    else {
+        return `lch(${lightness} ${chroma} ${hue})`;
+    }
+}
+export function lab(lightness, a, b, alpha) {
+    if (isDefined(alpha)) {
+        return `lab(${lightness} ${a} ${b} / ${alpha})`;
+    }
+    else {
+        return `lab(${lightness} ${a} ${b})`;
+        ;
+    }
+}
 /**
  * A selection of fonts for preferred monospace rendering.
  **/
@@ -215,7 +162,7 @@ export function getMonospaceFamily() {
  * A selection of fonts that should match whatever the user's operating system normally uses.
  **/
 export function getSystemFonts() {
-    return "system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans' 'Droid Sans', sans-serif";
+    return "system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans', 'Droid Sans', sans-serif";
 }
 /**
  * A selection of fonts that should match whatever the user's operating system normally uses.
@@ -233,53 +180,76 @@ export function getSerifFamily() {
     return fontFamily(getSerifFonts());
 }
 export class Prop {
-    constructor(_value) {
-        this._value = _value;
+    #value;
+    constructor(value) {
+        this.#value = value;
     }
-    get value() {
-        return this._value;
-    }
-    toString() {
-        return this.value;
-    }
+    get value() { return this.#value; }
+    toString() { return this.value; }
 }
 export class PropSet {
-    constructor(pre, props, post) {
-        this.pre = pre;
-        this.props = props;
-        this.post = post;
+    #selector;
+    #pre;
+    #props;
+    #post;
+    constructor(selector, pre, props, post) {
+        this.#selector = selector;
+        this.#pre = pre;
+        this.#props = props;
+        this.#post = post;
     }
     get value() {
-        return this.pre
-            + this.props.map(p => p.toString()).join("\n")
-            + this.post;
+        return this.selector
+            + this.#pre
+            + this.#props.map(toString).join("\n    ")
+            + this.#post;
     }
-    toString() {
-        return this.value;
-    }
-    applyToSheet(sheet) {
-        sheet.insertRule(this.toString(), sheet.cssRules.length);
-    }
+    get selector() { return this.#selector; }
+    get _subProps() { return this.#props; }
+    toString() { return this.value; }
 }
 class KeyValueProp extends Prop {
-    constructor(_name, sep, value) {
+    #name;
+    #sep;
+    constructor(name, sep, value) {
         super(value);
-        this._name = _name;
-        this.sep = sep;
+        this.#name = name;
+        this.#sep = sep;
     }
-    get name() {
-        return this._name;
-    }
+    get name() { return this.#name; }
     toString() {
         return this.name
-            + this.sep
+            + this.#sep
             + this.value
             + ";";
     }
 }
 class SelectorPropSet extends PropSet {
+    #parent = null;
     constructor(selector, props) {
-        super(selector + " {\n", props, "\n}\n");
+        super(selector, " {\n    ", props, "\n}\n");
+        for (const prop of props) {
+            if (prop instanceof SelectorPropSet) {
+                prop.nestUnder(this);
+            }
+        }
+    }
+    get selector() {
+        const superSelector = this.#parent?.selector ?? "";
+        if (superSelector.length === 0) {
+            return super.selector;
+        }
+        const superSelectorParts = superSelector.split(",");
+        const selectorParts = super.selector.split(",");
+        const nestedSelector = selectorParts
+            .map(b => superSelectorParts
+            .map(a => a + b)
+            .join(","))
+            .join(",");
+        return nestedSelector;
+    }
+    nestUnder(parent) {
+        this.#parent = parent;
     }
 }
 class CssDeclareProp extends KeyValueProp {
@@ -287,37 +257,40 @@ class CssDeclareProp extends KeyValueProp {
         super(key, ": ", value);
     }
 }
-export class CssElementStyleProp extends CssDeclareProp {
+export class CssElementStyleProp extends AbstractAppliable {
+    #name;
+    get name() { return this.#name; }
+    #key;
+    get key() { return this.#key; }
+    #value;
+    get value() { return this.#value + this.#priority; }
+    #priority = "";
+    important(v) {
+        this.#priority = v ? " !important" : "";
+        return this;
+    }
     constructor(key, value) {
-        super(key.replace(/[A-Z]/g, (m) => `-${m.toLocaleLowerCase()}`), value.toString());
-        this.key = key;
-        this.priority = "";
+        super();
+        this.#name = key.replace(/[A-Z]/g, (m) => `-${m.toLocaleLowerCase()}`);
+        this.#key = key;
+        this.#value = value.toString();
     }
     /**
      * Set the attribute value on an HTMLElement
      * @param elem - the element on which to set the attribute.
      */
-    applyToElement(elem) {
-        elem.style[this.key] = this.value + this.priority;
+    apply(elem) {
+        if (elem instanceof HTMLElement) {
+            elem.style[this.key] = this.value + this.#priority;
+        }
     }
-    important() {
-        this.priority = " !important";
-        return this;
-    }
-    get value() {
-        return super.value + this.priority;
-    }
-}
-export function isCssElementStyleProp(obj) {
-    return obj instanceof CssElementStyleProp;
-}
-class CssElementStylePropSet extends SelectorPropSet {
-    constructor(selector, props) {
-        super(selector, props);
-    }
+    toString() { return `${this.name}:${this.value};`; }
 }
 export function rule(selector, ...props) {
-    return new CssElementStylePropSet(selector, props);
+    return new SelectorPropSet(selector, props);
+}
+function asInt(v) {
+    return isNumber(v) ? v.toFixed(0) : v;
 }
 export function alignItems(v) { return new CssElementStyleProp("alignItems", v); }
 export function alignContent(v) { return new CssElementStyleProp("alignContent", v); }
@@ -334,6 +307,7 @@ export function animationPlayState(...v) { return new CssElementStyleProp("anima
 export function animationTimingFunction(...v) { return new CssElementStyleProp("animationTimingFunction", v.join(" ")); }
 export function animation(...v) { return new CssElementStyleProp("animation", v.join(" ")); }
 export function appearance(v) { return new CssElementStyleProp("appearance", v); }
+export function aspectRatio(v) { return new CssElementStyleProp("aspect-ratio", v.toString()); }
 export function backdropFilter(...v) { return new CssElementStyleProp("backdropFilter", v.join(" ")); }
 export function backfaceVisibility(v) { return new CssElementStyleProp("backfaceVisibility", v); }
 export function backgroundAttachment(v) { return new CssElementStyleProp("backgroundAttachment", v); }
@@ -441,8 +415,10 @@ export function columnSpan(v) { return new CssElementStyleProp("columnSpan", v);
 export function columnWidth(v) { return new CssElementStyleProp("columnWidth", v); }
 export function columns(v) { return new CssElementStyleProp("columns", v); }
 export function contain(v) { return new CssElementStyleProp("contain", v); }
+export function content(v) { return new CssElementStyleProp("content", v); }
 export function counterIncrement(v) { return new CssElementStyleProp("counterIncrement", v); }
 export function counterReset(v) { return new CssElementStyleProp("counterReset", v); }
+export function cssVarDecl(name, value) { return new CssElementStyleProp("--" + name, value); }
 export function cursor(v) { return new CssElementStyleProp("cursor", v); }
 export function direction(v) { return new CssElementStyleProp("direction", v); }
 export function display(v) { return new CssElementStyleProp("display", v); }
@@ -520,6 +496,13 @@ export function hyphens(v) { return new CssElementStyleProp("hyphens", v); }
 export function imageOrientation(v) { return new CssElementStyleProp("imageOrientation", v); }
 export function imageRendering(v) { return new CssElementStyleProp("imageRendering", v); }
 export function inlineSize(v) { return new CssElementStyleProp("inlineSize", v); }
+export function inset(...v) { return new CssElementStyleProp("inset", v.join(" ")); }
+export function insetBlock(v) { return new CssElementStyleProp("insetBlock", v); }
+export function insetBlockEnd(v) { return new CssElementStyleProp("insetBlockEnd", v); }
+export function insetBlockStart(v) { return new CssElementStyleProp("insetBlockStart", v); }
+export function insetInline(v) { return new CssElementStyleProp("insetInline", v); }
+export function insetInlineEnd(v) { return new CssElementStyleProp("insetInlineEnd", v); }
+export function insetInlineStart(v) { return new CssElementStyleProp("insetInlineStart", v); }
 export function isolation(v) { return new CssElementStyleProp("isolation", v); }
 export function justifyContent(v) { return new CssElementStyleProp("justifyContent", v); }
 export function justifyItems(v) { return new CssElementStyleProp("justifyItems", v); }
@@ -665,6 +648,7 @@ export function textRendering(v) { return new CssElementStyleProp("textRendering
 export function textShadow(v) { return new CssElementStyleProp("textShadow", v); }
 export function textTransform(v) { return new CssElementStyleProp("textTransform", v); }
 export function textUnderlinePosition(v) { return new CssElementStyleProp("textUnderlinePosition", v); }
+export function textWrap(v) { return new CssElementStyleProp("textWrap", v); }
 export function top(v) { return new CssElementStyleProp("top", v); }
 export function touchAction(v) { return new CssElementStyleProp("touchAction", v); }
 export function transform(...v) { return new CssElementStyleProp("transform", v.join(" ")); }
@@ -676,6 +660,7 @@ export function transitionDelay(v) { return new CssElementStyleProp("transitionD
 export function transitionDuration(v) { return new CssElementStyleProp("transitionDuration", v); }
 export function transitionProperty(v) { return new CssElementStyleProp("transitionProperty", v); }
 export function transitionTimingFunction(v) { return new CssElementStyleProp("transitionTimingFunction", v); }
+export function translate(...v) { return new CssElementStyleProp("translate", v.join(" ")); }
 export function unicodeBidi(v) { return new CssElementStyleProp("unicodeBidi", v); }
 export function userSelect(v) { return new CssElementStyleProp("userSelect", v); }
 export function verticalAlign(v) { return new CssElementStyleProp("verticalAlign", v); }
@@ -691,7 +676,7 @@ export function writingMode(v) { return new CssElementStyleProp("writingMode", v
 export function zIndex(v) { return new CssElementStyleProp("zIndex", asInt(v)); }
 class CssRegularAtRuleSet extends PropSet {
     constructor(selector, value) {
-        super("@" + selector + " ", [new Prop(value)], ";");
+        super("@" + selector, " ", [new Prop(value)], ";");
     }
 }
 export function cssCharset(value) {
@@ -760,6 +745,8 @@ export function layer(...namesOrRules) {
 export function media(query, ...props) {
     return new SelectorPropSet("@media " + query, props);
 }
-//TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@page
-//TODO https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
+export const externalLinkIconSVG_DataURI = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KCTx0aXRsZT4KCQlleHRlcm5hbCBsaW5rCgk8L3RpdGxlPgoJPHBhdGggZmlsbD0iIzM2YyIgZD0iTTYgMWg1djVMOC44NiAzLjg1IDQuNyA4IDQgNy4zbDQuMTUtNC4xNnpNMiAzaDJ2MUgydjZoNlY4aDF2MmExIDEgMCAwIDEtMSAxSDJhMSAxIDAgMCAxLTEtMVY0YTEgMSAwIDAgMSAxLTEiLz4KPC9zdmc+";
+export function externalLinkRule(...props) {
+    return rule("a[href][target='_blank']::after", display("inline-block"), content(`' '`), marginLeft("0.33em"), width("1em"), height("1em"), backgroundImage(`url(${externalLinkIconSVG_DataURI})`), backgroundRepeat("no-repeat"), ...props);
+}
 //# sourceMappingURL=css.js.map

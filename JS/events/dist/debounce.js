@@ -1,4 +1,4 @@
-import { isNumber } from "@juniper-lib/tslib/dist/typeChecks";
+import { isNumber } from "@juniper-lib/util";
 export function debounce(timeOrAction, action) {
     let time = 0;
     if (isNumber(timeOrAction)) {

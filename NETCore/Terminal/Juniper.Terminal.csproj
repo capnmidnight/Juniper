@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Juniper.Terminal</AssemblyName>
+    <RootNamespace>Juniper.Terminal</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Terminal</PackageId>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>General purpose code</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Emoji\Juniper.Emoji.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,6 @@
-import { setContextSize } from "@juniper-lib/dom/dist/canvas";
-import { Context3D } from "@juniper-lib/three-dee/dist/Context3D";
-import { isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isNullOrUndefined } from "@juniper-lib/util";
+import { setContextSize } from "@juniper-lib/dom";
+import { Context3D } from "@juniper-lib/three-dee";
 // Let's start with the context.
 export class Context3DWebGL extends Context3D {
     #gl = null;

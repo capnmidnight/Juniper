@@ -1,5 +1,4 @@
-import { arrayClear, arrayRemoveByKey } from "@juniper-lib/collections/dist/arrays";
-import { isFunction } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayClear, arrayFilter, isFunction } from "@juniper-lib/util";
 import { PointerID } from "../Pointers";
 import { BaseScreenPointer } from "./BaseScreenPointer";
 function getPointerID(evt) {
@@ -24,7 +23,7 @@ export class PointerTouch extends BaseScreenPointer {
         arrayClear(this.points);
     }
     onReadEvent(evt) {
-        arrayRemoveByKey(this.points, evt.pointerId, getPointerID);
+        arrayFilter(this.points, p => getPointerID(p) === evt.pointerId);
         const isMove = evt.type === "pointerdown" || evt.type === "pointermove";
         if (isMove) {
             this.points.push(evt);

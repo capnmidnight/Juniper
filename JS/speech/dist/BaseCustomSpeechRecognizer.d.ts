@@ -1,5 +1,5 @@
-import { AudioRecordingNode } from "@juniper-lib/audio/dist/AudioRecordingNode";
-import { IResponse } from "@juniper-lib/fetcher/dist/IResponse";
+import { IResponse } from "@juniper-lib/util";
+import { AudioRecordingNode } from "@juniper-lib/audio";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 export interface RecognitionResult {
     culture: Culture;

@@ -1,38 +1,6 @@
-import {
-    backgroundColor,
-    color,
-    columnGap,
-    display,
-    em,
-    getMonospaceFamily,
-    gridAutoFlow,
-    gridColumn,
-    gridTemplateColumns,
-    height,
-    left,
-    opacity,
-    overflow,
-    overflowY,
-    padding,
-    perc,
-    pointerEvents,
-    position,
-    rule,
-    top,
-    width,
-    zIndex
-} from "@juniper-lib/dom/dist/css";
-import { isModifierless } from "@juniper-lib/dom/dist/evts";
-import {
-    Div,
-    ElementChild,
-    HtmlRender,
-    HtmlTag,
-    StyleBlob,
-    elementSetDisplay,
-    elementToggleDisplay
-} from "@juniper-lib/dom/dist/tags";
-import { IDebugLogger, MessageType, isWorkerLoggerMessageData } from "./models";
+import { singleton } from "@juniper-lib/util";
+import { backgroundColor, color, columnGap, display, Div, ElementChild, elementSetDisplay, elementToggleDisplay, em, getMonospaceFamily, gridAutoFlow, gridColumn, gridTemplateColumns, height, HtmlRender, isModifierless, left, opacity, overflow, overflowY, padding, perc, pointerEvents, position, registerFactory, rule, StyleBlob, top, width, zIndex } from "@juniper-lib/dom";
+import { IDebugLogger, isWorkerLoggerMessageData, MessageType } from "./models";
 
 function track(a: number, b: number) {
     return [
@@ -66,7 +34,7 @@ const style = StyleBlob(
 );
 
 export function WindowLogger(...rest: ElementChild[]) {
-    const logger = HtmlTag<{ "window-logger": WindowLoggerElement }>("window-logger", ...rest);
+    const logger = WindowLoggerElement.install()(...rest);
     if (!logger.isConnected) {
         document.body.append(logger);
     }
@@ -82,6 +50,8 @@ export class WindowLoggerElement extends HTMLElement implements IDebugLogger {
     private readonly grid: HTMLElement;
 
     private workerCount = 0;
+
+    static install() { return singleton("Juniper::Testing::WindowLoggerElement", () => registerFactory("window-logger", WindowLoggerElement))};
 
     constructor() {
         super();
@@ -145,7 +115,7 @@ export class WindowLoggerElement extends HTMLElement implements IDebugLogger {
         }
 
         gridTemplateColumns("auto", `repeat(${maxWidth}, 1fr)`)
-            .applyToElement(this.grid);
+            .apply(this.grid);
 
         for (const [id, values] of this.logs) {
             const newRow = [

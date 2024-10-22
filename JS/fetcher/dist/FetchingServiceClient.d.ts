@@ -1,16 +1,15 @@
-import { TypedEventMap } from "@juniper-lib/events/dist/TypedEventTarget";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { WorkerClient, WorkerServerEventMessage } from "@juniper-lib/workers";
+import { IResponse, WorkerServerEventMessage } from "@juniper-lib/util";
+import { WorkerClient } from "@juniper-lib/dom";
+import { TypedEventMap } from "@juniper-lib/events";
+import { IProgress } from "@juniper-lib/progress";
 import { IFetchingService } from "./IFetchingService";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
 export declare class FetchingServiceClient extends WorkerClient implements IFetchingService {
+    #private;
     setRequestVerificationToken(value: string): void;
     clearCache(): Promise<void>;
     evict(path: string): Promise<void>;
     protected propogateEvent(_data: WorkerServerEventMessage<TypedEventMap<string>>): void;
-    private makeRequest;
-    private makeRequestWithBody;
     sendNothingGetNothing(request: IRequest): Promise<IResponse>;
     sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>>;
     sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>>;

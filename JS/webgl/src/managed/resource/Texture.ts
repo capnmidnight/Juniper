@@ -1,6 +1,5 @@
-import { dispose } from "@juniper-lib/dom/dist/canvas";
-import { getHeight, getWidth } from "@juniper-lib/tslib/dist/images";
-import { isPowerOf2 } from "@juniper-lib/tslib/dist/math";
+import { dispose, isPowerOf2 } from "@juniper-lib/util";
+import { getHeight, getWidth } from "@juniper-lib/dom";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
 
 export class BaseTexture extends ManagedWebGLResource<WebGLTexture> {

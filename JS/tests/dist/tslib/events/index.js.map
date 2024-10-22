@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/tslib/events/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,YAAY,EAAE,MAAM,QAAQ,CAAC;AACjD,OAAO,EAAE,SAAS,EAAE,MAAM,QAAQ,CAAC;AACnC,OAAO,EAAE,qBAAqB,EAAE,MAAM,oBAAoB,CAAC;AAE3D,MAAM,CAAC,MAAM,KAAK,GAAG,aAAa,CAAA;IAC9B,SAAS;IACT,YAAY;IACZ,SAAS;IACT,qBAAqB;CACxB,CAAC"}

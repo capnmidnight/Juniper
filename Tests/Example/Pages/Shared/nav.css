@@ -1,0 +1,168 @@
+main > nav {
+    position: relative;
+    transition: width .2s;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-direction: column;
+    color-scheme: dark;
+    overflow-x: hidden;
+    background-color: var(--project-bg1);
+    color: var(--project-fg1);
+    font-size: 125%;
+}
+
+    main > nav.hidden {
+        width: 5rem;
+    }
+
+        main > nav.hidden li label,
+        main > nav.hidden #submenu {
+            display: none;
+        }
+
+        main > nav.hidden li.selected:has(#submenu) {
+            flex-grow: 0;
+        }
+
+    main > nav > ul {
+        opacity: 1;
+        transition: opacity .2s;
+        padding: 0;
+        margin: 0;
+        height: 100%;
+    }
+
+    main > nav ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main > nav li {
+        padding: 0.5rem 1rem;
+        margin-top: 2px;
+    }
+
+    main > nav a, main > nav span {
+        display: block;
+    }
+
+    main > nav li > a,
+    main > nav li > details > summary,
+    main > nav li > a > label {
+        cursor: pointer;
+    }
+
+        main > nav li > a:hover,
+        main > nav li > details > summary:hover {
+            margin-left: 2px;
+            font-weight: bold;
+        }
+
+    main > nav button:disabled {
+        opacity: 0.75;
+    }
+
+    main > nav hr {
+        display: none;
+    }
+
+    main > nav .logo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+    }
+
+        main > nav .logo img {
+            height: 30px;
+        }
+
+    main > nav,
+    main > nav > ul {
+        width: 20rem;
+    }
+
+        main > nav > ul > li {
+            border-left: solid 5px transparent;
+        }
+
+        main > nav li.selected {
+            border-left-color: var(--project-fg1);
+            font-weight: bold;
+        }
+
+            main > nav li.selected:has(#submenu) {
+                flex: 1 1 auto;
+                overflow: hidden;
+                padding-right: 0;
+            }
+
+            main > nav li.selected > #submenu {
+                height: 100%;
+                overflow: hidden auto;
+                padding: 0 0 2.5em 2.5em;
+                font-size: medium;
+                font-weight: normal;
+            }
+
+                main > nav li.selected > #submenu > ul,
+                main > nav li.selected > #submenu > ul > li {
+                    padding: 0;
+                    margin: .25rem 0;
+                }
+
+        main > nav > ul > li:not(.selected):has(a):hover,
+        main > nav > ul > li:not(.selected):has(button):hover {
+            background-color: var(--project-bg2);
+        }
+
+        main > nav button {
+            font-size: 2em;
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+        }
+
+        main > nav a,
+        main > nav span {
+            color: var(--project-fg1);
+            transition: color .2s, box-shadow .2s, margin-left .2s;
+        }
+
+        main > nav a {
+            text-decoration: none;
+        }
+
+            main > nav a:hover {
+                color: var(--project-fg1);
+            }
+
+            main > nav a > i,
+            main > nav span > i {
+                font-style: normal;
+                margin-right: 1rem;
+            }
+
+            main > nav a.selector:hover,
+            main > nav a.selector.selected {
+                color: var(--project-fg1);
+                font-weight: 700;
+                text-decoration-line: underline;
+            }
+
+           .entity-summary {
+                color: gold;
+            }
+
+            .entity-summary:hover {
+                font-weight: 700;
+            }
+
+            .entity-search {
+               color: black;
+               display: flex;
+               flex-direction: row;
+               background-color: white;
+            }

@@ -1,17 +1,15 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { ComparisonResult, compareCallback, isDefined, makeLookup } from "@juniper-lib/util";
 import { BaseGraphNode } from "./BaseGraphNode";
-import { Comparable } from "./arrays";
-import { makeLookup } from "./makeLookup";
 
 export function buildTree<V>(
     items: readonly V[],
     getParent: (v: V) => V,
-    _getOrder?: (v: V) => number): TreeNode<V> {
+    _getOrder?: (v: V) => ComparisonResult): TreeNode<V> {
     const getOrder = (v: V) => isDefined(v)
         && isDefined(_getOrder)
         && _getOrder(v);
 
-    const rootNode = new TreeNode(null);
+    const rootNode = new TreeNode<V>(null);
     const nodes = new Map<V, TreeNode<V>>();
 
     for (const item of items) {
@@ -36,7 +34,7 @@ export function buildTreeByID<V, K>(
     items: readonly V[],
     getItemID: (v: V) => K,
     getParentID: (v: V) => K,
-    getOrder?: (v: V) => number): TreeNode<V> {
+    getOrder?: (v: V) => ComparisonResult): TreeNode<V> {
     const map = makeLookup(items, getItemID);
     return buildTree(items, v => map.get(getParentID(v)), getOrder);
 }
@@ -74,9 +72,9 @@ export class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
         super.connectAt(child, index);
     }
 
-    override connectSorted<KeyT extends Comparable>(child: this, sortKey: (value: ValueT) => KeyT): void {
+    override connectSorted(child: this, comparer: compareCallback<ValueT>): void {
         child.removeFromParent();
-        super.connectSorted(child, sortKey);
+        super.connectSorted(child, comparer);
     }
 
     get parent(): this {

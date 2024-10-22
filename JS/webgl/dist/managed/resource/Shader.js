@@ -1,4 +1,4 @@
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { dispose } from "@juniper-lib/util";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
 function resolveShaderType(gl, type) {
     if (type === "vertex") {

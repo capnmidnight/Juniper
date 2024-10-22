@@ -1,9 +1,9 @@
-import { AudioRecordingNode, BlobAvailableEvent } from "@juniper-lib/audio/dist/AudioRecordingNode";
-import { identity } from "@juniper-lib/tslib/dist/identity";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { dispose, identity } from "@juniper-lib/util";
+import { AudioRecordingNode, BlobAvailableEvent } from "@juniper-lib/audio";
 import { AudioConfig, AutoDetectSourceLanguageConfig, ProfanityOption, ResultReason, SpeechConfig, SpeechRecognizer } from "microsoft-cognitiveservices-speech-sdk";
 import { BaseSpeechRecognizer } from "./BaseSpeechRecognizer";
 import { SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent } from "./ISpeechRecognizer";
+SpeechRecognizer.enableTelemetry(false);
 export class AzureSpeechRecognizer extends BaseSpeechRecognizer {
     static { this.isAvailable = true; }
     log(...args) {

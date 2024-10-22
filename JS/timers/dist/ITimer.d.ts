@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent } from "@juniper-lib/events";
 export declare abstract class BaseTimerTickEvent extends TypedEvent<"update"> {
     t: number;
     dt: number;
@@ -10,12 +10,13 @@ export declare abstract class BaseTimerTickEvent extends TypedEvent<"update"> {
 export declare class TimerTickEvent extends BaseTimerTickEvent {
     constructor();
 }
+export type TickHandler = (evt: TimerTickEvent) => void;
 export interface ITimer {
     isRunning: boolean;
     start(): void;
     stop(): void;
     restart(): void;
-    addTickHandler(onTick: (evt: TimerTickEvent) => void): void;
-    removeTickHandler(onTick: (evt: TimerTickEvent) => void): void;
+    addTickHandler(onTick: TickHandler): void;
+    removeTickHandler(onTick: TickHandler): void;
 }
 //# sourceMappingURL=ITimer.d.ts.map

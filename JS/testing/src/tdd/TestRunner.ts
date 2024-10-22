@@ -1,12 +1,11 @@
-import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isFunction, isNullOrUndefined, makeErrorMessage } from "@juniper-lib/util";
+import { TypedEventTarget } from "@juniper-lib/events";
 import type { TestCase, TestCaseConstructor } from "./TestCase";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";
 import { TestResults, TestRunnerResultsEvent } from "./TestRunnerResultsEvent";
 import { TestScore } from "./TestScore";
-import { makeErrorMessage } from "../../../tslib/src/makeErrorMessage";
+import { PriorityMap } from '@juniper-lib/collections';
 
 function testNames(TestClass: TestCase): (keyof TestCase)[] {
     const names = Object.getOwnPropertyNames(TestClass);

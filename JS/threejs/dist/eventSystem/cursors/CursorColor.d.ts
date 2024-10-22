@@ -1,3 +1,4 @@
+import { CssCursorValue } from "@juniper-lib/dom";
 import { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { BaseCursor3D } from "./BaseCursor3D";
 export declare class CursorColor extends BaseCursor3D {

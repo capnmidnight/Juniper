@@ -1,5 +1,5 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
-import { lerp } from "@juniper-lib/tslib/dist/math";
+import { TypedEvent } from "@juniper-lib/events";
+import { lerp } from "@juniper-lib/util";
 
 export abstract class BaseTimerTickEvent extends TypedEvent<"update"> {
     t = 0;
@@ -28,11 +28,13 @@ export class TimerTickEvent extends BaseTimerTickEvent {
     }
 }
 
+export type TickHandler = (evt: TimerTickEvent) => void;
+
 export interface ITimer {
     isRunning: boolean;
     start(): void;
     stop(): void;
     restart(): void;
-    addTickHandler(onTick: (evt: TimerTickEvent) => void): void;
-    removeTickHandler(onTick: (evt: TimerTickEvent) => void): void;
+    addTickHandler(onTick: TickHandler): void;
+    removeTickHandler(onTick: TickHandler): void;
 }

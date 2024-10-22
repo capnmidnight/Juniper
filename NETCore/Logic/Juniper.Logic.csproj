@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AssemblyName>Juniper.Logic</AssemblyName>
+		<RootNamespace>Juniper.Logic</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Logic</PackageId>
+		<OutputType>Library</OutputType>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>Basic support for composing logical testing expressions from subexpressions.</Description>
+	</PropertyGroup>
+</Project>

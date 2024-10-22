@@ -1,0 +1,29 @@
+{
+  "extends": "../../tsconfig_base.json",
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "typeRoots": [
+      "../../node_modules/@types",
+      "node_modules/@types",
+      "../types"
+    ],
+    "lib": [
+      "ESNext",
+      "WebWorker"
+    ]
+  },
+  "references": [
+    { "path": "../collections" },
+    { "path": "../dom" },
+    { "path": "../events" },
+    { "path": "../indexdb" },
+    { "path": "../mediatypes" },
+    { "path": "../progress" },
+    { "path": "../util" },
+    { "path": "../workers" }
+  ]
+}

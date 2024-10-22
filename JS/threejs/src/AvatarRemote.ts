@@ -1,15 +1,10 @@
-import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
-import { AudioStreamSource } from "@juniper-lib/audio/dist/sources/AudioStreamSource";
-import { AutoPlay, SrcObject } from "@juniper-lib/dom/dist/attrs";
-import { getMonospaceFonts } from "@juniper-lib/dom/dist/css";
-import { Video } from "@juniper-lib/dom/dist/tags";
+import { FWD, HalfPi, IDisposable, dispose, isNullOrUndefined } from "@juniper-lib/util";
+import { ActivityDetector, AudioStreamSource } from "@juniper-lib/audio";
+import { AutoPlay, SrcObject, Video, getMonospaceFonts } from "@juniper-lib/dom";
 import { star } from "@juniper-lib/emoji";
-import { TextImageOptions } from "@juniper-lib/graphics2d/dist/TextImage";
-import { FWD, HalfPi } from "@juniper-lib/tslib/dist/math";
-import { isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { IDisposable, dispose } from "@juniper-lib/tslib/dist/using";
-import { UserChatEvent } from "@juniper-lib/webrtc/dist/ConferenceEvents";
-import type { RemoteUser } from "@juniper-lib/webrtc/dist/RemoteUser";
+import { TextImageOptions } from "@juniper-lib/graphics2d";
+import type { RemoteUser } from "@juniper-lib/webrtc";
+import { UserChatEvent } from "@juniper-lib/webrtc";
 import { FrontSide, Matrix4, Object3D, Quaternion, Vector3 } from "three";
 import { BufferReaderWriter } from "./BufferReaderWriter";
 import { BodyFollower } from "./animation/BodyFollower";
@@ -39,7 +34,7 @@ const nameTagFont: Partial<TextImageOptions> = {
 };
 
 export class AvatarRemote implements ErsatzObject, IDisposable {
-    get object() { return this.avatar; }
+    get content3d() { return this.avatar; }
     private _isInstructor = false;
     private readonly pointers = new Map<PointerID, PointerRemote>();
 
@@ -396,10 +391,10 @@ export class AvatarRemote implements ErsatzObject, IDisposable {
     private removePointer(id: PointerID): void {
         const pointer = this.pointers.get(id);
         if (pointer) {
-            pointer.object.removeFromParent();
+            pointer.content3d.removeFromParent();
             this.pointers.delete(id);
             if (pointer.cursor) {
-                pointer.cursor.object.removeFromParent();
+                pointer.cursor.content3d.removeFromParent();
             }
         }
     }

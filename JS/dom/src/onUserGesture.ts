@@ -19,7 +19,7 @@ export function onUserGesture(callback: () => any, perpetual = false): void {
         if (evt.isTrusted) {
             if (!perpetual) {
                 for (const gesture of USER_GESTURE_EVENTS) {
-                    window.removeEventListener(gesture, check);
+                    globalThis.removeEventListener(gesture, check);
                 }
             }
 
@@ -28,6 +28,6 @@ export function onUserGesture(callback: () => any, perpetual = false): void {
     };
 
     for (const gesture of USER_GESTURE_EVENTS) {
-        window.addEventListener(gesture, check);
+        globalThis.addEventListener(gesture, check);
     }
 }

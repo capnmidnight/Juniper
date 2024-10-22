@@ -1,11 +1,8 @@
-import { ActivityDetector } from "@juniper-lib/audio/dist/ActivityDetector";
-import { AudioManager } from "@juniper-lib/audio/dist/AudioManager";
-import { DeviceManager } from "@juniper-lib/audio/dist/DeviceManager";
-import { LocalUserMicrophone } from "@juniper-lib/audio/dist/LocalUserMicrophone";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { LocalUserWebcam } from "@juniper-lib/video";
-import { DialogBox } from "@juniper-lib/widgets/dist/DialogBox";
-export declare class DeviceDialog extends DialogBox {
+import { ActivityDetector, AudioManager, DeviceManager, LocalUserMicrophone } from "@juniper-lib/audio";
+import { IFetcher } from "@juniper-lib/fetcher";
+import { LocalUserWebcamElement } from "@juniper-lib/video";
+import { BaseDialogElement } from '../../../widgets/src/BaseDialogElement';
+export declare class DeviceDialog extends BaseDialogElement<void> {
     private readonly devices;
     private readonly audio;
     private readonly microphones;
@@ -24,11 +21,10 @@ export declare class DeviceDialog extends DialogBox {
     private readonly useHeadphones;
     private readonly headphoneWarning;
     readonly activity: ActivityDetector;
-    constructor(fetcher: IFetcher, devices: DeviceManager, audio: AudioManager, microphones: LocalUserMicrophone, webcams: LocalUserWebcam, DEBUG?: boolean);
+    constructor(fetcher: IFetcher, devices: DeviceManager, audio: AudioManager, microphones: LocalUserMicrophone, webcams: LocalUserWebcamElement, DEBUG?: boolean);
     get showWebcams(): boolean;
     set showWebcams(v: boolean);
     get showMicrophones(): boolean;
     set showMicrophones(v: boolean);
-    protected onShowing(): Promise<void>;
 }
 //# sourceMappingURL=DeviceDialog.d.ts.map

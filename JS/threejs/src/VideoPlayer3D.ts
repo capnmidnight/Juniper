@@ -1,8 +1,6 @@
-import { JuniperAudioContext } from "@juniper-lib/audio/dist/context/JuniperAudioContext";
-import { BaseSpatializer } from "@juniper-lib/audio/dist/spatializers/BaseSpatializer";
-import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
-import { arrayClear } from "@juniper-lib/collections/dist/arrays";
-import { and } from "@juniper-lib/tslib/dist/identity";
+import { and, arrayClear } from "@juniper-lib/util";
+import { BaseSpatializer, JuniperAudioContext } from "@juniper-lib/audio";
+import { PriorityMap } from "@juniper-lib/collections";
 import { BaseVideoPlayer } from "@juniper-lib/video";
 import { BufferGeometry, MeshBasicMaterial, Object3D } from "three";
 import { PosUV, QuadPosUV, createEACGeometry, createQuadGeometry } from "./CustomGeometry";
@@ -51,7 +49,7 @@ export class VideoPlayer3D
     private readonly material: MeshBasicMaterial;
     private readonly vidMeshes: Image2D[];
 
-    readonly object: Object3D;
+    readonly content3d: Object3D;
 
     constructor(env: BaseEnvironment, context: JuniperAudioContext, spatializer: BaseSpatializer) {
         super("video-player-3d", context, spatializer);
@@ -73,7 +71,7 @@ export class VideoPlayer3D
             this.vidMeshes.push(vidMesh);
         }
 
-        this.object = obj("videoPlayer",
+        this.content3d = obj("videoPlayer",
             ...this.vidMeshes
         );
     }
@@ -84,7 +82,7 @@ export class VideoPlayer3D
 
     protected override onDisposing(): void {
         super.onDisposing();
-        cleanup(this.object);
+        cleanup(this.content3d);
         arrayClear(this.vidMeshes);
     }
 

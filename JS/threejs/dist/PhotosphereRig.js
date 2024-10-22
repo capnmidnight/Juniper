@@ -1,9 +1,8 @@
-import { canvasToBlob, createUtilityCanvas } from "@juniper-lib/dom/dist/canvas";
-import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
+import { deg2rad, dispose, HalfPi, Pi } from "@juniper-lib/util";
+import { canvasToBlob, createUtilityCanvas } from "@juniper-lib/dom";
+import { unwrapResponse } from "@juniper-lib/fetcher";
 import { Image_Jpeg } from "@juniper-lib/mediatypes";
-import { deg2rad, HalfPi, Pi } from "@juniper-lib/tslib/dist/math";
-import { progressOfArray } from "@juniper-lib/progress/dist/progressOfArray";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { progressOfArray } from "@juniper-lib/progress";
 import { AmbientLight, DoubleSide, Euler, Group, MeshBasicMaterial, PerspectiveCamera, PlaneGeometry, Scene, Texture, WebGLRenderer } from "three";
 import { cleanup } from "./cleanup";
 import { mesh, objGraph } from "./objects";

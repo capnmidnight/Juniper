@@ -1,10 +1,8 @@
-import { BaseFetchedAsset, isAsset } from "@juniper-lib/fetcher/dist/Asset";
-import type { IFetcherBodiedResult } from "@juniper-lib/fetcher/dist/IFetcher";
-import type { IResponse } from "@juniper-lib/fetcher/dist/IResponse";
-import { translateResponse } from "@juniper-lib/fetcher/dist/translateResponse";
+import { IResponse, isDefined, isFunction } from "@juniper-lib/util";
+import type { IFetcherBodiedResult } from "@juniper-lib/fetcher";
+import { BaseFetchedAsset, isAsset, translateResponse } from "@juniper-lib/fetcher";
 import type { MediaType } from "@juniper-lib/mediatypes";
 import { Model_Gltf_Binary, Model_Gltf_Json } from "@juniper-lib/mediatypes";
-import { isDefined, isFunction } from "@juniper-lib/tslib/dist/typeChecks";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { GLTF } from "./examples/loaders/GLTFLoader";
 

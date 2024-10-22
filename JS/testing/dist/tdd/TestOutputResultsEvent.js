@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent } from "@juniper-lib/events";
 export class TestOutputResultsEvent extends TypedEvent {
     constructor(results, stats) {
         super("testoutputresults");

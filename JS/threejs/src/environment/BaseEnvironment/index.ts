@@ -1,15 +1,12 @@
-import { compareBy, insertSorted, removeSorted } from "@juniper-lib/collections/dist/arrays";
-import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/dist/canvas";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { BaseAsset, isAsset } from "@juniper-lib/fetcher/dist/Asset";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
+import { compareBy, insertSorted, isDefined, isFunction, isNullOrUndefined, removeSorted } from "@juniper-lib/util";
+import { border, CanvasTypes, height, isDesktop, isFirefox, isHTMLCanvas, isOculusBrowser, left, margin, oculusBrowserVersion, padding, position, rule, SingletonStyleBlob, top, touchAction, width } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
+import { BaseAsset, IFetcher, isAsset } from "@juniper-lib/fetcher";
 import { Model_Gltf_Binary } from "@juniper-lib/mediatypes";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { TimerTickEvent } from "@juniper-lib/timers/dist/ITimer";
-import { isDesktop, isFirefox, isOculusBrowser, oculusBrowserVersion } from "@juniper-lib/tslib/dist/flags";
-import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { feet2Meters } from "@juniper-lib/tslib/dist/units/length";
-import { AmbientLight, Color, ColorManagement, DirectionalLight, GridHelper, Group, LinearEncoding, PerspectiveCamera, Scene, Vector4, WebGLRenderTarget, WebGLRenderer, WebXRArrayCamera, sRGBEncoding } from "three";
+import { IProgress } from "@juniper-lib/progress";
+import { TimerTickEvent } from "@juniper-lib/timers";
+import { feet2Meters } from "@juniper-lib/units";
+import { AmbientLight, Color, ColorManagement, DirectionalLight, GridHelper, Group, LinearEncoding, PerspectiveCamera, Scene, sRGBEncoding, Vector4, WebGLRenderer, WebGLRenderTarget, WebXRArrayCamera } from "three";
 import { AssetGltfModel } from "../../AssetGltfModel";
 import { AvatarLocal } from "../../AvatarLocal";
 import { Fader } from "../../Fader";
@@ -29,8 +26,6 @@ import { obj, objGraph } from "../../objects";
 import { resolveCamera } from "../../resolveCamera";
 import { XRTimer, XRTimerTickEvent } from "../XRTimer";
 
-import "./style.css";
-
 const gridWidth = 15;
 const gridSize = feet2Meters(gridWidth);
 
@@ -44,6 +39,17 @@ type BaseEnvironmentEvents = {
 
 export class BaseEnvironment<Events = unknown>
     extends TypedEventTarget<Events & BaseEnvironmentEvents> {
+
+    private _testSpaceLayout = false;
+    get testSpaceLayout() {
+        return this._testSpaceLayout;
+    }
+
+    set testSpaceLayout(v) {
+        if (v !== this.testSpaceLayout) {
+            this._testSpaceLayout = v;
+        }
+    }
 
     private baseLayer: XRWebGLLayer | XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();
@@ -89,6 +95,23 @@ export class BaseEnvironment<Events = unknown>
         defaultAvatarHeight: number = null,
         defaultFOV: number = null) {
         super();
+
+        SingletonStyleBlob("Juniper::ThreeJS::BaseEnvironment", () => [
+            rule("#appContainer, #frontBuffer",
+                position("absolute"),
+                left(0),
+                top(0),
+                width("100%"),
+                height("100%"),
+                margin(0),
+                padding(0),
+                border(0)
+            ),
+
+            rule("#frontBuffer",
+                touchAction("none")
+            )
+        ]);
 
         this.DEBUG = DEBUG || false;
         this.defaultAvatarHeight = defaultAvatarHeight || 1.75;
@@ -160,8 +183,8 @@ export class BaseEnvironment<Events = unknown>
         this.ambient.name = "Fill";
         this.ambient.layers.enableAll();
 
-        this.loadingBar.object.name = "MainLoadingBar";
-        this.loadingBar.object.position.set(0, -0.25, -2);
+        this.loadingBar.content3d.name = "MainLoadingBar";
+        this.loadingBar.content3d.position.set(0, -0.25, -2);
 
         this.scene.layers.enableAll();
 
@@ -366,7 +389,7 @@ export class BaseEnvironment<Events = unknown>
         return this._hasXRCompositionLayers;
     }
 
-    private layerSorter = compareBy<XRLayer>("descending", l => this.layerSortOrder.get(l));
+    private layerSorter = compareBy<XRLayer>(false, l => this.layerSortOrder.get(l));
 
     addWebXRLayer(layer: XRLayer, sortOrder: number) {
         this.layerSortOrder.set(layer, sortOrder);

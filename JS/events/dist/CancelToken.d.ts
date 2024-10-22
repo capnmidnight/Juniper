@@ -1,9 +1,9 @@
-import { Exception } from "@juniper-lib/tslib/dist/Exception";
+import { Exception } from "@juniper-lib/util";
 export declare class CancelSignalException extends Exception {
     constructor();
 }
 export declare class CancelToken {
-    private _cancelled;
+    #private;
     get cancelled(): boolean;
     check(): void;
     cancel(): void;

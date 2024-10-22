@@ -1,0 +1,22 @@
+{
+  "name": "@juniper-lib/units",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Converting values between different units of measure",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "@juniper-lib/util": "file:../util",
+    "@juniper-lib/dom": "file:../dom",
+    "gl-matrix": "4.0.0-beta.2"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
+}

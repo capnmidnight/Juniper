@@ -1,6 +1,6 @@
-import type { FontDescription } from "@juniper-lib/dom/dist/fonts";
-import { TextDirection } from "@juniper-lib/graphics2d/dist/TextImage";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import type { FontDescription } from "@juniper-lib/dom";
+import { TextDirection } from "@juniper-lib/graphics2d";
+import { IProgress } from "@juniper-lib/progress";
 import { Object3D } from "three";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { Image2D } from "../widgets/Image2D";

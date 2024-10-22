@@ -1,6 +1,4 @@
-/// <reference types="webxr" />
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { Task } from "@juniper-lib/events/dist/Task";
+import { Task, TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import type { Camera } from "./Camera";
 type TickCallback = (t: number, dt: number, frame: XRFrame) => void;
 export declare class XRSessionStartedEvent extends TypedEvent<"sessionstarted"> {

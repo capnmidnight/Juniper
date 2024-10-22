@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AssemblyName>Juniper.Progress</AssemblyName>
+		<RootNamespace>Juniper.Progress</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Progress</PackageId>
+		<OutputType>Library</OutputType>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>Long-running process progress tracking.</Description>
+	</PropertyGroup>
+</Project>

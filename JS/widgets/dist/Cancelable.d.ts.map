@@ -1,0 +1,1 @@
+{"version":3,"file":"Cancelable.d.ts","sourceRoot":"","sources":["../src/Cancelable.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,kBAAkB,CAAC;AAE5C,MAAM,WAAW,WAAW;IACxB,UAAU,EAAE,OAAO,CAAC;CACvB;AAED,wBAAgB,UAAU,CAAC,UAAU,EAAE,OAAO,yEAE7C"}

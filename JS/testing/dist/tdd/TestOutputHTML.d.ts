@@ -1,7 +1,6 @@
-import { ErsatzElement } from "@juniper-lib/dom/dist/tags";
 import { TestCaseConstructor } from "./TestCase";
 import { TestOutput } from "./TestOutput";
-export declare class TestOutputHTML extends TestOutput implements ErsatzElement {
+export declare class TestOutputHTML extends TestOutput {
     readonly element: HTMLElement;
     constructor(...CaseClasses: TestCaseConstructor[]);
 }

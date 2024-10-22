@@ -1,9 +1,10 @@
-import { TestCase } from "@juniper-lib/testing/dist/tdd/TestCase";
-import { formatBytes, toBytes } from "@juniper-lib/tslib/dist/units/fileSize";
+import { formatBytes } from "@juniper-lib/util";
+import { TestCase } from "@juniper-lib/testing";
+import { toBytes } from '@juniper-lib/units';
 
 export class FileSizeTests extends TestCase {
     test_FormatBytes1() {
-        const value = formatBytes(500, 2);
+        const value = formatBytes(500);
         this.areExact(value, "500 B");
     }
 

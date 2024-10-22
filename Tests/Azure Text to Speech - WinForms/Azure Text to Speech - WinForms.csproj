@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Testing.Azure.TTS.WinForms</AssemblyName>
+    <RootNamespace>Juniper</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <StartupObject>Juniper.Program</StartupObject>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Authors>Sean T. McBeth</Authors>
+    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\NETCore\Caching\Juniper.Caching.csproj" />
+    <ProjectReference Include="..\..\NETCore\Sound\Juniper.Sound.csproj" />
+    <ProjectReference Include="..\..\NETCore\Azure\Juniper.Azure.csproj" />
+  </ItemGroup>
+
+</Project>

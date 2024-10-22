@@ -1,5 +1,5 @@
-import { rgb } from "@juniper-lib/dom/dist/css";
-import { deg2rad, Pi, Tau } from "@juniper-lib/tslib/dist/math";
+import { deg2rad, Pi, Tau } from "@juniper-lib/util";
+import { rgb } from "@juniper-lib/dom";
 import { CanvasImage } from "./CanvasImage";
 
 export class ArtificialHorizon extends CanvasImage {

@@ -1,7 +1,7 @@
-import { isChrome, isDesktop, isOculusBrowser } from "@juniper-lib/tslib/dist/flags";
-import { Pi } from "@juniper-lib/tslib/dist/math";
-import { isDefined, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets/dist/EventedGamepad";
+import { isChrome, isDesktop, isOculusBrowser } from "@juniper-lib/dom";
+import { Pi } from "@juniper-lib/util";
+import { isDefined, isNullOrUndefined } from "@juniper-lib/util";
+import { EventedGamepad, GamepadButtonEvent } from "@juniper-lib/widgets";
 import { Event, Matrix4, Object3D, Quaternion, Vector3, XRGripSpace, XRHandSpace, XRTargetRaySpace } from "three";
 import { HANDEDNESSES } from "../../BaseTele";
 import { BufferReaderWriter } from "../../BufferReaderWriter";
@@ -52,7 +52,7 @@ export class PointerHand
     extends BasePointer
     implements ErsatzObject {
     private readonly laser = new Laser(white, 0.75, 0.002);
-    readonly object: Object3D;
+    readonly content3d: Object3D;
 
     private _isHand = false;
     private inputSource: XRInputSource = null;
@@ -76,7 +76,7 @@ export class PointerHand
 
         this.mayTeleport = true;
 
-        this.object = obj("PointerHand" + index);
+        this.content3d = obj("PointerHand" + index);
         this.quaternion.identity();
 
         objGraph(this,

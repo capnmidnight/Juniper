@@ -1,17 +1,12 @@
-import { CanvasTypes } from "@juniper-lib/dom/dist/canvas";
+import { IResponse } from "@juniper-lib/util";
+import { CanvasTypes } from "@juniper-lib/dom";
 import { MediaType } from "@juniper-lib/mediatypes";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { IProgress } from "@juniper-lib/progress";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetcherBasic, IFetcherBodiedResult, IFetcherBodilessResult, IFetcherResult, IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec, IFetcherSendProgressTimeoutCredentialsCacheGetBody } from "./IFetcher";
 import { IFetchingService } from "./IFetchingService";
-import { IResponse } from "./IResponse";
 export declare class RequestBuilder implements IFetcherSendProgressTimeoutCredentialsCacheGetBody, IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec, IFetcherBasic, IFetcherBodiedResult, IFetcherResult, IFetcherBodilessResult {
-    private readonly fetcher;
-    private readonly method;
-    private readonly path;
-    private readonly useBLOBs;
-    private readonly request;
-    private prog;
+    #private;
     constructor(fetcher: IFetchingService, method: HTTPMethods, path: URL, useBLOBs?: boolean);
     retries(count: number): this;
     query(name: string, value: string): this;
@@ -22,8 +17,6 @@ export declare class RequestBuilder implements IFetcherSendProgressTimeoutCreden
     body(body: any, contentType?: string | MediaType): this;
     withCredentials(): this;
     useCache(enabled?: boolean): this;
-    private media;
-    private content;
     accept(acceptType: string | MediaType): this;
     blob(acceptType?: string | MediaType): Promise<IResponse<Blob>>;
     buffer(acceptType?: string | MediaType): Promise<IResponse<ArrayBuffer>>;
@@ -34,15 +27,12 @@ export declare class RequestBuilder implements IFetcherSendProgressTimeoutCreden
     xml(acceptType?: string | MediaType): Promise<IResponse<HTMLElement>>;
     imageBitmap(acceptType?: string | MediaType): Promise<IResponse<ImageBitmap>>;
     exec(): Promise<IResponse<void>>;
-    private audioBlob;
     audioBuffer(context: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>>;
-    private htmlElement;
     image(acceptType?: string | MediaType): Promise<IResponse<HTMLImageElement>>;
     htmlCanvas(acceptType?: string | MediaType): Promise<IResponse<HTMLCanvasElement>>;
     canvas(acceptType?: string | MediaType): Promise<IResponse<CanvasTypes>>;
     offscreenCanvas(acceptType?: string | MediaType): Promise<IResponse<OffscreenCanvas>>;
     style(): Promise<IResponse>;
-    private getScript;
     script(test: () => boolean): Promise<IResponse>;
     module<T>(): Promise<IResponse<T>>;
     wasm<T>(imports: Record<string, Record<string, WebAssembly.ImportValue>>): Promise<IResponse<T>>;

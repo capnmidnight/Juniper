@@ -1,17 +1,20 @@
 {
-  "version": "1.0.0",
   "name": "@juniper-lib/timers",
+  "version": "1.0.0",
   "private": true,
+  "description": "Unified API for dealing with different timer functions like setTimeout or requestAnimationFrame.",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
     "dist/*"
   ],
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
     "@juniper-lib/collections": "file:../collections",
     "@juniper-lib/events": "file:../events",
-    "@juniper-lib/tslib": "file:../tslib"
-  }
+    "@juniper-lib/util": "file:../util"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

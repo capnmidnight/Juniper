@@ -1,0 +1,23 @@
+﻿@page
+@{
+    Layout = "_TestPageLayout";
+    ViewData["Title"] = "Tests - Org Chart";
+}
+
+@section Scripts {
+    <bundle-css name="Pages/Tests/OrgChart" versioned></bundle-css>
+    <bundle-js name="Pages/Tests/OrgChart" versioned></bundle-js>
+}
+
+<div class="optionsbar">
+    <button id="expandAll">Expand Nodes</button>
+    <button id="collapseAll">Collapse Nodes</button>
+    <button id="fitNodes">Recenter</button>
+
+    <label for="chartDirection">Chart direction</label>
+    <select id="chartDirection" is="typed-select"></select>
+
+    <input type="search" id="searchbar" placeholder="Search..." />
+</div>
+
+<div id="orgChart"></div>

@@ -1,36 +1,45 @@
-import { ClassList } from "@juniper-lib/dom/dist/attrs";
-import { onInput } from "@juniper-lib/dom/dist/evts";
-import { Div, ElementChild, ErsatzElement, InputNumber, InputRange } from "@juniper-lib/dom/dist/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { singleton } from "@juniper-lib/util";
+import { columnGap, display, ElementChild, fr, gridTemplateColumns, InputNumber, InputRange, OnInput, px, registerFactory, rule, SingletonStyleBlob, TypedHTMLElement } from "@juniper-lib/dom";
+import { TypedEvent } from "@juniper-lib/events";
 
-import "./style.css";
-
-export class InputRangeWithNumber
-    extends TypedEventTarget<{
+export class InputRangeWithNumberElement
+    extends TypedHTMLElement<{
         "input": TypedEvent<"input">;
-    }>
-    implements ErsatzElement {
-    public readonly element: HTMLElement;
+    }> {
+
+    static observedAttributes = [
+        "min",
+        "max",
+        "step",
+        "value",
+        "disabled"
+    ]
+
     private rangeInput: HTMLInputElement;
     private numberInput: HTMLInputElement;
 
-    constructor(...rest: ElementChild[]) {
+    constructor() {
         super();
 
-        this.element = Div(
-            ClassList("input-range-with-number"),
-            this.rangeInput = InputRange(
-                onInput(() => {
-                    this.numberInput.valueAsNumber = this.rangeInput.valueAsNumber;
-                    this.dispatchEvent(new TypedEvent("input"));
-                }),
-                ...rest),
-            this.numberInput = InputNumber(
-                onInput(() => {
-                    this.rangeInput.valueAsNumber = this.numberInput.valueAsNumber;
-                    this.rangeInput.dispatchEvent(new Event("input"));
-                })
-            ));
+        SingletonStyleBlob("Juniper::Widgets::InputRangeWithNumberElement", () =>
+            rule(".input-range-with-number",
+                display("grid"),
+                columnGap(px(5)),
+                gridTemplateColumns(fr(1), 0)
+            )
+        );
+
+        this.rangeInput = InputRange(
+            OnInput(() => {
+                this.numberInput.valueAsNumber = this.rangeInput.valueAsNumber;
+            })
+        );
+
+        this.numberInput = InputNumber(
+            OnInput(() => {
+                this.rangeInput.valueAsNumber = this.numberInput.valueAsNumber;
+            })
+        );
 
         this.numberInput.min = this.rangeInput.min;
         this.numberInput.max = this.rangeInput.max;
@@ -40,39 +49,64 @@ export class InputRangeWithNumber
         this.numberInput.placeholder = this.rangeInput.placeholder;
     }
 
-    get value(): string {
-        return this.rangeInput.value;
+    #ready = false;
+    connectedCallback() {
+        if (!this.#ready) {
+            this.#ready = true;
+            this.append(this.rangeInput, this.numberInput);
+        }
     }
 
-    set value(v: string) {
-        this.rangeInput.value
-            = this.numberInput.value
-            = v;
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+        if (oldValue === newValue) return;
+
+        switch (name) {
+            case "min":
+                this.numberInput.min = this.rangeInput.min = this.min;
+                break;
+
+            case "max":
+                this.numberInput.max = this.rangeInput.max = this.max;
+                break;
+
+            case "value":
+                this.numberInput.valueAsNumber = this.rangeInput.valueAsNumber = this.valueAsNumber;
+                break;
+
+            case "step":
+                this.numberInput.step = this.rangeInput.step = this.step;
+                break;
+
+            case "disabled":
+                this.numberInput.disabled = this.rangeInput.disabled = this.disabled;
+                break;
+        }
     }
 
-    get valueAsNumber(): number {
-        return this.rangeInput.valueAsNumber;
-    }
+    get min() { return this.getAttribute("min"); }
+    set min(v) { this.setAttribute("min", v); }
 
-    set valueAsNumber(v: number) {
-        this.rangeInput.valueAsNumber = this.numberInput.valueAsNumber = v;
-    }
+    get max() { return this.getAttribute("max"); }
+    set max(v) { this.setAttribute("max", v); }
 
-    get disabled(): boolean {
-        return this.rangeInput.disabled;
-    }
+    get step() { return this.getAttribute("step"); }
+    set step(v) { this.setAttribute("step", v); }
 
-    set disabled(v: boolean) {
-        this.rangeInput.disabled
-            = this.numberInput.disabled
-            = v;
-    }
+    get value() { return this.getAttribute("value"); }
+    set value(v) { this.setAttribute("value", v); }
 
-    get enabled() {
-        return !this.disabled;
-    }
+    get valueAsNumber(): number { return parseFloat(this.value); }
+    set valueAsNumber(v: number) { this.value = v.toString(); }
 
-    set enabled(v) {
-        this.disabled = !v;
-    }
+    get disabled(): boolean { return this.hasAttribute("disabled"); }
+    set disabled(v: boolean) { this.toggleAttribute("disabled", v); }
+
+    get enabled() { return !this.disabled; }
+    set enabled(v) { this.disabled = !v; }
+
+    static install() { return singleton("Juniper::Widgets::InputRangeWithNumberElement", () => registerFactory("input-range", InputRangeWithNumberElement)); }
+}
+
+export function InputRangeWithNumber(...rest: ElementChild[]) {
+    return InputRangeWithNumberElement.install()(...rest);
 }

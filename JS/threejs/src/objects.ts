@@ -1,18 +1,19 @@
-import { isDisableable } from "@juniper-lib/dom/dist/tags";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined, isObject } from "@juniper-lib/util";
+import { isDisableable } from "@juniper-lib/dom";
 import { BufferGeometry, Material, Mesh, Object3D, Vector3 } from "three";
 import { isObject3D } from "./typeChecks";
 
-export interface ErsatzObject {
-    object: Object3D;
+export interface ErsatzObject<T extends Object3D = Object3D> {
+    content3d: T;
 }
 
-export function isErsatzObject(obj: any): obj is ErsatzObject {
-    return isDefined(obj)
-        && isObject3D(obj.object);
+export function isErsatzObject<T extends Object3D>(obj: unknown): obj is ErsatzObject<T> {
+    return isObject(obj)
+        && "content3d" in obj
+        && isObject3D(obj.content3d);
 }
 
-export type Objects = Object3D | ErsatzObject;
+export type Objects<T extends Object3D = Object3D> = T | ErsatzObject<T>;
 
 export function isObjects(obj: any): obj is Objects {
     return isErsatzObject(obj)
@@ -21,7 +22,7 @@ export function isObjects(obj: any): obj is Objects {
 
 export function objectResolve(obj: Objects): Object3D {
     if (isErsatzObject(obj)) {
-        return obj.object;
+        return obj.content3d;
     }
 
     return obj;

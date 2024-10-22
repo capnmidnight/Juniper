@@ -1,4 +1,4 @@
-import { Mat4, Vec3 } from "gl-matrix/dist/esm";
+import { Mat4, Vec3 } from "gl-matrix";
 import { ResizeEvent } from "./Context3D";
 interface CameraInit {
     near: number;

@@ -1,4 +1,4 @@
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
 import { ShaderProgram } from "./managed/resource/ShaderProgram";
 export declare abstract class BaseProgram implements IDisposable {
     protected gl: WebGL2RenderingContext;

@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent } from "@juniper-lib/events";
 export declare class StreamChangedEvent extends TypedEvent<"streamchanged"> {
     readonly oldStream: MediaStream;
     readonly newStream: MediaStream;

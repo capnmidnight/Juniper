@@ -30,7 +30,7 @@ export class Emoji {
         }
     }
 
-    private changeStyle(expected: string, wanted: string): string {
+    #changeStyle(expected: string, wanted: string): string {
         let value = this.value;
         if (value.endsWith(expected)) {
             value = value.substring(0, value.length - expected.length);
@@ -40,10 +40,10 @@ export class Emoji {
     }
 
     get textStyle(): string {
-        return this.changeStyle("\uFE0F", "\uFE0E");
+        return this.#changeStyle("\uFE0F", "\uFE0E");
     }
 
     get emojiStyle(): string {
-        return this.changeStyle("\uFE0E", "\uFE0F");
+        return this.#changeStyle("\uFE0E", "\uFE0F");
     }
 }

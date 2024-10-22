@@ -1,0 +1,20 @@
+{
+  "name": "@juniper-lib/zip",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A wrapper around the fflate package to make it a little easier to use",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "fflate": "0.8.2"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
+}

@@ -1,8 +1,5 @@
-import { BaseTimer } from "./BaseTimer";
-export class RequestAnimationFrameTimer extends BaseTimer {
-    constructor() {
-        super();
-    }
+import { BaseManagedTimer } from "./BaseManagedTimer";
+export class RequestAnimationFrameTimer extends BaseManagedTimer {
     start() {
         if (!this.isRunning) {
             const updater = (t) => {

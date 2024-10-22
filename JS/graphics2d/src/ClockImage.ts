@@ -1,5 +1,5 @@
-import { getMonospaceFonts, rgb } from "@juniper-lib/dom/dist/css";
-import { isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isNullOrUndefined } from "@juniper-lib/util";
+import { getMonospaceFonts, rgb } from "@juniper-lib/dom";
 import { TextImage } from "./TextImage";
 
 export class ClockImage extends TextImage {

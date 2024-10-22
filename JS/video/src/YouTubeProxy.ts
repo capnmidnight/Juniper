@@ -1,10 +1,8 @@
-import { AudioRecord } from "@juniper-lib/audio/dist/data";
-import { IFetcher } from "@juniper-lib/fetcher/dist/IFetcher";
-import { unwrapResponse } from "@juniper-lib/fetcher/dist/unwrapResponse";
-import { arrayScan } from "@juniper-lib/collections/dist/arrays";
-import { PriorityList } from "@juniper-lib/collections/dist/PriorityList";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
+import { isNullOrUndefined, isDefined, isString, arrayScan } from "@juniper-lib/util";
+import { AudioRecord } from "@juniper-lib/audio";
+import { PriorityList } from "@juniper-lib/collections";
+import { IFetcher, unwrapResponse } from "@juniper-lib/fetcher";
+import { IProgress } from "@juniper-lib/progress";
 import { FullVideoRecord, ImageRecord, VideoRecord } from "./data";
 import { YTMetadata, YTMetadataFormat, YTMetadataThumbnail } from "./yt-dlp";
 

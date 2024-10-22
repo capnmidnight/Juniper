@@ -1,5 +1,5 @@
-import { canvasToBlob } from "@juniper-lib/dom/dist/canvas";
-import { blobToObjectURL } from "@juniper-lib/tslib/dist/blobToObjectURL";
+import { canvasToBlob } from "@juniper-lib/dom";
+import { blobToObjectURL } from "@juniper-lib/util";
 import { openWindow } from "./windowing";
 export async function canvasView(canvas) {
     if (IS_WORKER) {

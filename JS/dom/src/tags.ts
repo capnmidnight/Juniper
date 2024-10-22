@@ -1,689 +1,788 @@
-import { arrayRemove } from "@juniper-lib/collections/dist/arrays";
-import { once } from "@juniper-lib/events/dist/once";
-import { Text_Css } from "@juniper-lib/mediatypes";
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
-import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "@juniper-lib/tslib/dist/typeChecks";
-import { ClassList, Href, HtmlFor, Rel, Type, isAttr } from "./attrs";
-import { PropSet, margin } from "./css";
+import { arrayInsert, isArray, isDefined, isObject, isString, singleton, toString } from "@juniper-lib/util";
+import { ElementChild, HtmlTag } from "./HtmlTag";
+import { ClassList, DateTime, HRef, InnerHTML, Rel, TitleAttr, Type } from "./attrs";
+import { PropSet } from "./css";
 
-export interface ErsatzElement<T extends Element = Element> {
-    element: T;
+/**********************************
+ * TAGS
+ *********************************/
+
+/**
+ * Creates an Anchor element.
+ */
+export function A(...rest: ElementChild<HTMLAnchorElement>[]) { return HtmlTag("a", ...rest); }
+
+/**
+ * Creates a Abbr element.
+ */
+export function Abbr(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("abbr", ...rest); }
+
+/**
+ * Creates a Address element.
+ */
+export function Address(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("address", ...rest); }
+
+/**
+ * Creates a Area element.
+ */
+export function Area(...rest: ElementChild<HTMLAreaElement>[]) { return HtmlTag("area", ...rest); }
+
+/**
+ * Creates a Article element.
+ */
+export function Article(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("article", ...rest); }
+
+/**
+ * Creates a Aside element.
+ */
+export function Aside(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("aside", ...rest); }
+
+/**
+ * Creates a Audio element.
+ */
+export function Audio(...rest: ElementChild<HTMLAudioElement>[]) { return HtmlTag("audio", ...rest); }
+
+/**
+ * Creates a B element.
+ */
+export function B(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("b", ...rest); }
+
+/**
+ * Creates a Base element.
+ */
+export function Base(...rest: ElementChild<HTMLBaseElement>[]) { return HtmlTag("base", ...rest); }
+
+/**
+ * Creates a BDI element.
+ * @param  {...ElementChild} rest Children of the BDI element, or attribute assigners.
+ * @returns {HTMLElement}
+ */
+export function BDI(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("bdi", ...rest); }
+
+/**
+ * Creates a BDO element.
+ */
+export function BDO(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("bdo", ...rest); }
+
+/**
+ * Creates a BlockQuote element.
+ */
+export function BlockQuote(...rest: ElementChild<HTMLQuoteElement>[]) { return HtmlTag("blockquote", ...rest); }
+
+/**
+ * Creates a Body element.
+ */
+export function Body(...rest: ElementChild<HTMLBodyElement>[]) { return HtmlTag("body", ...rest); }
+
+/**
+ * Creates a BR element.
+ */
+export function BR(): HTMLBRElement { return HtmlTag("br"); }
+
+/**
+ * Creates a raw Button element.
+ */
+export function ButtonRaw(...rest: ElementChild<HTMLButtonElement>[]) { return HtmlTag("button", ...rest); }
+
+/**
+ * Creates a Button element with the type already set to "button".
+ */
+export function Button(...rest: ElementChild<HTMLButtonElement>[]) { return ButtonRaw(Type("button"), ...rest); }
+
+/**
+ * Creates a Button element with the type already set to "submit" element.
+ */
+export function ButtonSubmit(...rest: ElementChild<HTMLButtonElement>[]) { return ButtonRaw(Type("submit"), ...rest); }
+
+/**
+ * Creates a Button element with the type already set to "reset".
+ */
+export function ButtonReset(...rest: ElementChild<HTMLButtonElement>[]) { return ButtonRaw(Type("reset"), ...rest); }
+
+/**
+ * Creates a Canvas element.
+ */
+export function Canvas(...rest: ElementChild<HTMLCanvasElement>[]) { return HtmlTag("canvas", ...rest); }
+
+/**
+ * Creates a Caption element.
+ */
+export function Caption(...rest: ElementChild<HTMLTableCaptionElement>[]) { return HtmlTag("caption", ...rest); }
+
+/**
+ * Creates a Cite element.
+ */
+export function Cite(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("cite", ...rest); }
+
+/**
+ * Creates a Code element.
+ */
+export function Code(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("code", ...rest); }
+
+/**
+ * Creates a Col element.
+ */
+export function Col(...rest: ElementChild<HTMLTableColElement>[]) { return HtmlTag("col", ...rest); }
+
+/**
+ * Creates a ColGroup element.
+ */
+export function ColGroup(...rest: ElementChild<HTMLTableColElement>[]) { return HtmlTag("colgroup", ...rest); }
+
+/**
+ * Creates a Data element.
+ */
+export function Data(...rest: ElementChild<HTMLDataElement>[]) { return HtmlTag("data", ...rest); }
+
+/**
+ * Creates a DataList element.
+ */
+export function DataList(...rest: ElementChild<HTMLDataListElement>[]) { return HtmlTag("datalist", ...rest); }
+
+/**
+ * Creates a DD element.
+ */
+export function DD(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("dd", ...rest); }
+
+/**
+ * Creates a Del element.
+ */
+export function Del(...rest: ElementChild<HTMLModElement>[]) { return HtmlTag("del", ...rest); }
+
+/**
+ * Creates a Details element.
+ */
+export function Details(...rest: ElementChild<HTMLDetailsElement>[]) { return HtmlTag("details", ...rest); }
+
+/**
+ * Creates a DFN element.
+ */
+export function DFN(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("dfn", ...rest); }
+
+/**
+ * Creates a Dialog element.
+ */
+export function Dialog(...rest: ElementChild<HTMLDialogElement>[]) { return HtmlTag("dialog", ...rest); }
+
+/**
+ * Creates a Div element.
+ */
+export function Div(...rest: ElementChild<HTMLDivElement>[]) { return HtmlTag("div", ...rest); }
+
+/**
+ * Creates a DL element.
+ */
+export function DL(...rest: ElementChild<HTMLDListElement>[]) { return HtmlTag("dl", ...rest); }
+
+/**
+ * Creates a DT element.
+ */
+export function DT(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("dt", ...rest); }
+
+/**
+ * Creates a Em element.
+ */
+export function Em(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("em", ...rest); }
+
+/**
+ * Creates a Embed element.
+ */
+export function Embed(...rest: ElementChild<HTMLEmbedElement>[]) { return HtmlTag("embed", ...rest); }
+
+/**
+ * Creates a FieldSet element.
+ */
+export function FieldSet(...rest: ElementChild<HTMLFieldSetElement>[]) { return HtmlTag("fieldset", ...rest); }
+
+/**
+ * Creates a FigCaption element.
+ */
+export function FigCaption(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("figcaption", ...rest); }
+
+/**
+ * Creates a Figure element.
+ */
+export function Figure(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("figure", ...rest); }
+
+/**
+ * Creates a Footer element.
+ */
+export function Footer(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("footer", ...rest); }
+
+/**
+ * Creates a Form element.
+ */
+export function FormTag(...rest: ElementChild<HTMLFormElement>[]) { return HtmlTag("form", ...rest); }
+
+/**
+ * Creates a H1 element.
+ */
+export function H1(...rest: ElementChild<HTMLHeadingElement>[]) { return HtmlTag("h1", ...rest); }
+
+/**
+ * Creates a H2 element.
+ */
+export function H2(...rest: ElementChild<HTMLHeadingElement>[]) { return HtmlTag("h2", ...rest); }
+
+/**
+ * Creates a H3 element.
+ */
+export function H3(...rest: ElementChild<HTMLHeadingElement>[]) { return HtmlTag("h3", ...rest); }
+
+/**
+ * Creates a H4 element.
+ */
+export function H4(...rest: ElementChild<HTMLHeadingElement>[]) { return HtmlTag("h4", ...rest); }
+
+/**
+ * Creates a H5 element.
+ */
+export function H5(...rest: ElementChild<HTMLHeadingElement>[]) { return HtmlTag("h5", ...rest); }
+
+/**
+ * Creates a H6 element.
+ */
+export function H6(...rest: ElementChild<HTMLHeadingElement>[]) { return HtmlTag("h6", ...rest); }
+
+/**
+ * Creates a HR element.
+ */
+export function HR(...rest: ElementChild<HTMLHRElement>[]) { return HtmlTag("hr", ...rest); }
+
+/**
+ * Creates a Head element.
+ */
+export function Head(...rest: ElementChild<HTMLHeadElement>[]) { return HtmlTag("head", ...rest); }
+
+/**
+ * Creates a Header element.
+ */
+export function Header(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("header", ...rest); }
+
+/**
+ * Creates a HGroup element.
+ */
+export function HGroup(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("hgroup", ...rest); }
+
+/**
+ * Creates a HTML element.
+ */
+export function HTML(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("html", ...rest); }
+
+/**
+ * Creates a I element.
+ */
+export function I(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("i", ...rest); }
+
+/**
+ * Creates a IFrame element.
+ */
+export function IFrame(...rest: ElementChild<HTMLIFrameElement>[]) { return HtmlTag("iframe", ...rest); }
+
+/**
+ * Creates a Img element.
+ */
+export function Img(...rest: ElementChild<HTMLImageElement>[]) { return HtmlTag("img", ...rest); }
+
+/**
+ * Creates a Input element.
+ */
+export function Input(...rest: ElementChild<HTMLInputElement>[]) { return HtmlTag("input", ...rest); }
+
+/**
+ * Creates a Ins element.
+ */
+export function Ins(...rest: ElementChild<HTMLModElement>[]) { return HtmlTag("ins", ...rest); }
+
+/**
+ * Creates a KBD element.
+ */
+export function KBD(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("kbd", ...rest); }
+
+/**
+ * Creates a Label element.
+ */
+export function Label(...rest: ElementChild<HTMLLabelElement>[]) { return HtmlTag("label", ...rest); }
+
+/**
+ * Creates a Legend element.
+ */
+export function Legend(...rest: ElementChild<HTMLLegendElement>[]) { return HtmlTag("legend", ...rest); }
+
+/**
+ * Creates a LI element.
+ */
+export function LI(...rest: ElementChild<HTMLLIElement>[]) { return HtmlTag("li", ...rest); }
+
+/**
+ * Creates a Link element.
+ */
+export function Link(...rest: ElementChild<HTMLLinkElement>[]) { return HtmlTag("link", ...rest); }
+
+/**
+ * Creates a Link element for stylesheets.
+ */
+export function LinkStyleSheet(src: string | URL, ...rest: ElementChild<HTMLLinkElement>[]) {
+    return Link(
+        Rel("stylesheet"),
+        HRef(src),
+        ...rest
+    );
 }
 
-export function isErsatzElement<T extends Element = Element>(obj: any): obj is ErsatzElement<T> {
-    if (!isObject(obj)) {
-        return false;
-    }
+/**
+ * Creates a Main element.
+ */
+export function Main(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("main", ...rest); }
 
-    const elem = obj as ErsatzElement;
-    return elem.element instanceof Element;
-}
+/**
+ * Creates a Map element. "Map" is a container type in JavaScript, so this function has a postfix of "_tag" to help distinguish it.
+ */
+export function MapTag(...rest: ElementChild<HTMLMapElement>[]) { return HtmlTag("map", ...rest); }
 
-export type Elements<T extends Element = Element> = T | ErsatzElement<T>;
+/**
+ * Creates a Mark element.
+ */
+export function Mark(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("mark", ...rest); }
 
-export function resolveElement<T extends Element = HTMLElement>(elem: Elements<T> | string): T {
-    if (isErsatzElement(elem)) {
-        return elem.element;
-    }
-    else if (isString(elem)) {
-        return getElement(elem);
-    }
+/**
+ * Creates a Menu element.
+ */
+export function Menu(...rest: ElementChild<HTMLMenuElement>[]) { return HtmlTag("menu", ...rest); }
 
-    return elem;
-}
+/**
+ * Creates a Meta element.
+ */
+export function Meta(...rest: ElementChild<HTMLMetaElement>[]) { return HtmlTag("meta", ...rest); }
 
-export interface IElementAppliable<T extends Element = Element> {
-    applyToElement(x: Elements<T>): void;
-}
+/**
+ * Creates a Meter element.
+ */
+export function Meter(...rest: ElementChild<HTMLMeterElement>[]) { return HtmlTag("meter", ...rest); }
 
-export function isIElementAppliable<T extends Element = Element>(obj: any): obj is IElementAppliable<T> {
-    return isObject(obj)
-        && "applyToElement" in obj
-        && isFunction((obj as any).applyToElement);
-}
+/**
+ * Creates a Nav element.
+ */
+export function Nav(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("nav", ...rest); }
 
-export type ElementChild<T extends Element = Element> = Elements<T>
-    | IElementAppliable
-    | string
-    | number
-    | boolean
-    | Date;
+/**
+ * Creates a NoScript element.
+ */
+export function NoScript(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("noscript", ...rest); }
 
-export function isElementChild(obj: any): obj is ElementChild {
-    return obj instanceof Element
-        || isErsatzElement(obj)
-        || isIElementAppliable(obj)
-        || isString(obj)
-        || isNumber(obj)
-        || isBoolean(obj)
-        || isDate(obj);
-}
+/**
+ * Creates an Object element. "Object" is a type in JavaScript already, so  this function has a postfix of "_tag" to help distinguish it.
+ */
+export function ObjectTag(...rest: ElementChild<HTMLObjectElement>[]) { return HtmlTag("object", ...rest); }
 
-export function isElements(child: ElementChild): child is Elements {
-    return isErsatzElement(child)
-        || child instanceof Element;
-}
+/**
+ * Creates a OL element.
+ */
+export function OL(...rest: ElementChild<HTMLOListElement>[]) { return HtmlTag("ol", ...rest); }
 
-export interface IFocusable {
-    focus(): void;
-}
+/**
+ * Creates a OptGroup element.
+ */
+export function OptGroup(...rest: ElementChild<HTMLOptGroupElement>[]) { return HtmlTag("optgroup", ...rest); }
 
-export function isFocusable(elem: any): elem is IFocusable {
-    return "focus" in elem && isFunction((elem as IFocusable).focus);
-}
+/**
+ * Creates a Option element.
+ */
+export function Option(...rest: ElementChild<HTMLOptionElement>[]) { return HtmlTag("option", ...rest); }
 
-export function elementSetDisplay<T extends HTMLElement = HTMLElement>(elem: Elements<T>, visible: boolean, visibleDisplayType: CssGlobalValue | CssDisplayValue = ""): void {
-    elem = resolveElement(elem);
-    if (visible) {
-        elem.style.removeProperty("display");
-        const style = getComputedStyle(elem);
-        if (style.display === "none") {
-            elem.style.display = visibleDisplayType || "block";
-        }
-    }
-    else {
-        elem.style.display = "none";
-    }
-}
+/**
+ * Creates a Output element.
+ */
+export function Output(...rest: ElementChild<HTMLOutputElement>[]) { return HtmlTag("output", ...rest); }
 
-export function elementIsDisplayed<T extends HTMLElement = HTMLElement>(elem: Elements<T>): boolean {
-    elem = resolveElement(elem);
-    return elem.style.display !== "none";
-}
+/**
+ * Creates a P element.
+ */
+export function P(...rest: ElementChild<HTMLParagraphElement>[]) { return HtmlTag("p", ...rest); }
 
-export function elementToggleDisplay<T extends HTMLElement = HTMLElement>(elem: Elements<T>, visibleDisplayType: CssGlobalValue | CssDisplayValue = "block"): void {
-    elementSetDisplay(elem, !elementIsDisplayed(elem), visibleDisplayType);
-}
+/**
+ * Creates a Picture element.
 
-export function elementInsertBefore(parent: Elements, newElem: Elements, refElem: Elements): void {
-    parent = resolveElement(parent);
-    newElem = resolveElement(newElem);
-    refElem = resolveElement(refElem);
-    if (parent && newElem) {
-        parent.insertBefore(newElem, refElem);
-    }
-}
+ */
+export function Picture(...rest: ElementChild<HTMLParagraphElement>[]) { return HtmlTag("picture", ...rest); }
 
-export function elementGetIndexInParent(elem: Elements): number {
-    elem = resolveElement(elem);
+/**
+ * Creates a Pre element.
+ */
+export function Pre(...rest: ElementChild<HTMLPreElement>[]) { return HtmlTag("pre", ...rest); }
 
-    if (elem.parentElement) {
-        for (let i = 0; i < elem.parentElement.childElementCount; ++i) {
-            if (elem.parentElement.children[i] === elem) {
-                return i;
-            }
-        }
-    }
+/**
+ * Creates a Progress element.
+ */
+export function Progress(...rest: ElementChild<HTMLProgressElement>[]) { return HtmlTag("progress", ...rest); }
 
-    return null;
-}
+/**
+ * Creates a Q element.
+ */
+export function Q(...rest: ElementChild<HTMLQuoteElement>[]) { return HtmlTag("q", ...rest); }
 
-export function Clear() {
-    return {
-        applyToElement(elem: HTMLElement) { elem.innerHTML = ""; }
-    }
-}
+/**
+ * Creates a RP element.
+ */
+export function RP(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("rp", ...rest); }
 
+/**
+ * Creates a RT element.
+ */
+export function RT(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("rt", ...rest); }
 
-export function elementGetCustomData(elem: Elements<HTMLElement>, name: Lowercase<string>): string {
-    elem = resolveElement(elem);
-    return elem.dataset[name.toLowerCase()];
-}
+/**
+ * Creates a Ruby element.
+ */
+export function Ruby(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("ruby", ...rest); }
 
-type ReturnElementType<T> = T extends Element
-    ? T
-    : T extends ShadowRoot
-    ? T
-    : T extends Elements<infer ElementT>
-    ? ElementT
-    : never;
+/**
+ * Creates a S element.
+ */
+export function S(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("s", ...rest); }
 
-export function HtmlRender<T extends Elements | ShadowRoot>(element: T | string, ...children: ElementChild[]): ReturnElementType<T> {
-    const elem = element instanceof Element
-        ? element
-        : element instanceof ShadowRoot
-            ? element
-            : isString(element)
-                ? document.querySelector(element)
-                : element.element;
+/**
+ * Creates a Samp element.
+ */
+export function Samp(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("samp", ...rest); }
 
-    const target = elem instanceof HTMLTemplateElement
-        ? elem.content
-        : elem;
+/**
+ * Creates a Script element.
+ */
+export function Script(...rest: ElementChild<HTMLScriptElement>[]) { return HtmlTag("script", ...rest); }
 
-    for (const child of children) {
-        if (isDefined(child)) {
-            if (child instanceof Node) {
-                target.appendChild(child);
-            }
-            else if (isErsatzElement(child)) {
-                target.appendChild(resolveElement(child));
-            }
-            else if (isIElementAppliable(child)) {
-                if (!(elem instanceof ShadowRoot)) {
-                    child.applyToElement(elem);
+/**
+ * Creates a Section element.
+ */
+export function Section(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("section", ...rest); }
+
+/**
+ * Creates a Select element.
+ */
+export function Select(...rest: ElementChild<HTMLSelectElement>[]) { return HtmlTag("select", ...rest); }
+
+/**
+ * Creates a Slot element.
+ */
+export function SlotTag(...rest: ElementChild<HTMLSlotElement>[]) { return HtmlTag("slot", ...rest); }
+
+/**
+ * Creates a Small element.
+ */
+export function Small(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("small", ...rest); }
+
+/**
+ * Creates a Source element.
+ */
+export function Source(...rest: ElementChild<HTMLSourceElement>[]) { return HtmlTag("source", ...rest); }
+
+/**
+ * Creates a Span element.
+ */
+export function SpanTag(...rest: ElementChild<HTMLSpanElement>[]) { return HtmlTag("span", ...rest); }
+
+/**
+ * Creates a Strong element.
+ */
+export function Strong(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("strong", ...rest); }
+
+/**
+ * Creates a Sub element.
+ */
+export function Sub(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("sub", ...rest); }
+
+/**
+ * Creates a Link element that references a CSS StyleSheet in a Blob URL.
+ */
+export function StyleBlob(content: string): HTMLLinkElement;
+export function StyleBlob(...content: PropSet[]): HTMLLinkElement;
+export function StyleBlob(...content: (PropSet|string)[]): HTMLLinkElement {
+    for (let i = 0; i < content.length; ++i) {
+        const prop = content[i];
+        if (prop instanceof PropSet) {
+            const subProps = prop._subProps;
+            const insertionPoint = content.length;
+            for (let j = subProps.length - 1; j >= 0; --j) {
+                const subProp = subProps[j];
+                if (subProp instanceof PropSet) {
+                    arrayInsert(content, subProp, insertionPoint);
+                    subProps.splice(j, 1);
                 }
             }
-            else {
-                target.appendChild(document.createTextNode(child.toLocaleString()));
-            }
         }
     }
 
-    return elem as ReturnElementType<T>;
+    const rules = content
+        .filter(p => isString(p) || isObject(p) && (!p._subProps || p._subProps.length > 0))
+        .map(toString);
+    const blob = new Blob(rules, { type: "text/css" });
+    return LinkStyleSheet(URL.createObjectURL(blob));
 }
 
-export function elementRemoveFromParent(elem: Elements | string): void {
-    elem = resolveElement(elem);
-    if (isDefined(elem)) {
-        elem.remove();
-    }
-}
-
-export function elementReplace(elem: Elements, ...elems: Elements[]): Elements {
-    elem = resolveElement(elem);
-    elem.replaceWith(...elems.map(resolveElement));
-    return elem;
-}
-
-export function elementSwap<T extends Elements>(elem: Elements, withPlaceholder: (placeholder: Elements) => T): T {
-    const placeholder = Div();
-    const e = withPlaceholder(placeholder);
-    elementReplace(placeholder, elementReplace(elem, e));
-    return e;
-}
-
-export function getElement<T extends Element = HTMLElement>(selector: string): T {
-    return document.querySelector<T>(selector);
-}
-
-export function getElements<T extends Element = HTMLElement>(selector: string): T[] {
-    return Array.from(document.querySelectorAll<T>(selector));
-}
-
-export function getButton(selector: string) {
-    return getElement<HTMLButtonElement>(selector);
-}
-
-export function getButtons(selector: string) {
-    return getElements<HTMLButtonElement>(selector);
-}
-
-export function getInput(selector: string) {
-    return getElement<HTMLInputElement>(selector);
-}
-
-export function getDataList(selector: string) {
-    return getElement<HTMLDataListElement>(selector);
-}
-
-export function getInputs(selector: string) {
-    return getElements<HTMLInputElement>(selector);
-}
-
-export function getSelect(selector: string) {
-    return getElement<HTMLSelectElement>(selector);
-}
-
-export function getCanvas(selector: string) {
-    return getElement<HTMLCanvasElement>(selector);
+export function SingletonStyleBlob(name: string, makeContent: () => (PropSet | PropSet[])) {
+    return singleton(name + "::StyleSheet", () => {
+        let content = makeContent();
+        if (!isArray(content)) {
+            content = [content];
+        }
+        const styleLink = StyleBlob(...content);
+        document.head.append(styleLink);
+        return styleLink;
+    });
 }
 
 /**
- * Creates an HTML element for a given tag name.
- * 
- * Boolean attributes that you want to default to true can be passed
- * as just the attribute creating function, 
- *   e.g. `Audio(autoPlay)` vs `Audio(autoPlay(true))`
- * @param name - the name of the tag
- * @param rest - optional attributes, child elements, and text
+ * Creates a CSS Style element.
+ */
+export function StyleTag(...rest: PropSet[]): HTMLStyleElement {
+    return HtmlTag<HTMLStyleElement>("style",
+        InnerHTML(rest
+            .map(toString)
+            .join("\n")
+        )
+    );
+}
+
+/**
+ * Creates a Summary element.
+ */
+export function SummaryTag(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("summary", ...rest); }
+
+/**
+ * Creates a Sup element.
+ */
+export function Sup(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("sup", ...rest); }
+
+/**
+ * Creates a Table element.
+ */
+export function Table(...rest: ElementChild<HTMLTableElement>[]) { return HtmlTag("table", ...rest); }
+
+/**
+ * Creates a TBody element.
+ */
+export function TBody(...rest: ElementChild<HTMLTableSectionElement>[]) { return HtmlTag("tbody", ...rest); }
+
+/**
+ * Creates a TD element.
+ */
+export function TD(...rest: ElementChild<HTMLTableCellElement>[]) { return HtmlTag("td", ...rest); }
+
+/**
+ * Creates a Template element.
+ */
+export function Template(...rest: ElementChild<HTMLTemplateElement>[]) { return HtmlTag("template", ...rest); }
+
+/**
+ * Streamlines creating instances of templates
+ * @param name
+ * @param factory
  * @returns
  */
-export function HtmlTag<MapT extends Record<keyof MapT, HTMLElement> = HTMLElementTagNameMap, K extends keyof MapT & string = keyof MapT & string>(name: K, ...rest: ElementChild[]): MapT[K] {
-    let elem: MapT[K] & HTMLElement = null;
-
-    const finders = rest.filter(isAttr).filter(v => v.key === "id" || v.key === "query");
-    for (const finder of finders) {
-        if (finder.key === "query") {
-            elem = finder.value as any;
-            arrayRemove(rest, finder);
-        }
-        else if (finder.key === "id") {
-            elem = document.getElementById(finder.value as any) as any;
-            if (elem) {
-                arrayRemove(rest, finder);
-            }
-        }
-    }
-
-    if (elem && elem.tagName !== name.toUpperCase()) {
-        console.warn(`Expected a "${name.toUpperCase()}" element but found a "${elem.tagName}".`);
-    }
-
-    if (!elem) {
-        elem = document.createElement(name) as MapT[K];
-    }
-
-    HtmlRender(elem, ...rest);
-
-    return elem;
-}
-
-export interface IDisableable {
-    disabled: boolean;
-}
-
-export function isDisableable(obj: any): obj is IDisableable {
-    return isObject(obj)
-        && "disabled" in obj
-        && isBoolean(obj.disabled);
+export function TemplateInstance(name: string, factory: () => (ElementChild | ElementChild[])): DocumentFragment {
+    const template = singleton(name + "::Template", () => {
+        let children = factory();
+        if (!isArray(children)) {
+            children = [children];
+        };
+        return Template(...children);
+    });
+    return template.content.cloneNode(true) as DocumentFragment;
 }
 
 /**
- * Empty an element of all children. This is faster than setting `innerHTML = ""`.
+ * Creates a TextArea element.
  */
-export function elementClearChildren(elem: Elements) {
-    elem = resolveElement(elem);
-    while (elem.lastChild) {
-        elem.lastChild.remove();
-    }
+export function TextArea(...rest: ElementChild<HTMLTextAreaElement>[]) { return HtmlTag("textarea", ...rest); }
+
+/**
+ * Creates a TFoot element.
+ */
+export function TFoot(...rest: ElementChild<HTMLTableSectionElement>[]) { return HtmlTag("tfoot", ...rest); }
+
+/**
+ * Creates a TH element.
+ */
+export function TH(...rest: ElementChild<HTMLTableCellElement>[]) { return HtmlTag("th", ...rest); }
+
+/**
+ * Creates a THead element.
+ */
+export function THead(...rest: ElementChild<HTMLTableSectionElement>[]) { return HtmlTag("thead", ...rest); }
+
+/**
+ * Creates a Time element.
+ */
+export function Time(date: Date, formattedDate: string, ...rest: ElementChild<HTMLTimeElement>[]) {
+    return HtmlTag<HTMLTimeElement>(
+        "time",
+        ...rest,
+        DateTime(date),
+        date && TitleAttr(date.toLocaleString()) || null,
+        formattedDate
+    );
 }
 
-export function elementSetText(elem: Elements<HTMLElement>, text: string): void {
-    elem = resolveElement(elem);
-    elementClearChildren(elem);
-    elem.append(TextNode(text));
-}
+/**
+ * Creates a Title element.
+ */
+export function TitleTag(...rest: ElementChild<HTMLTitleElement>[]) { return HtmlTag("title", ...rest); }
 
-export function elementGetText(elem: Elements<HTMLElement>): string {
-    elem = resolveElement(elem);
-    return elem.innerText;
-}
+/**
+ * Creates a TR element.
+ */
+export function TR(...rest: ElementChild<HTMLTableRowElement>[]) { return HtmlTag("tr", ...rest); }
 
-export function elementSetTitle(elem: Elements<HTMLElement>, text: string): void {
-    elem = resolveElement(elem);
-    elem.title = text;
-}
+/**
+ * Creates a Track element.
+ */
+export function Track(...rest: ElementChild<HTMLTrackElement>[]) { return HtmlTag("track", ...rest); }
 
-export function elementSetClass(elem: Elements, enabled: boolean, className: string) {
-    elem = resolveElement(elem);
-    const canEnable = isDefined(className);
-    const hasEnabled = canEnable && elem.classList.contains(className);
+/**
+ * Creates a U element.
+ */
+export function U(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("u", ...rest); }
 
-    if (canEnable && hasEnabled !== enabled) {
-        elem.classList.toggle(className);
-    }
-}
+/**
+ * Creates a UL element.
+ */
+export function UL(...rest: ElementChild<HTMLUListElement>[]) { return HtmlTag("ul", ...rest); }
 
-export type ButtonStyleType =
-    | "primary"
-    | "secondary"
-    | "success"
-    | "info"
-    | "warning"
-    | "danger"
-    | "light"
-    | "dark";
+/**
+ * Creates a Var element.
+ */
+export function Var(...rest: ElementChild<HTMLElement>[]) { return HtmlTag("var", ...rest); }
 
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean): void;
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, label: string): void;
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, enabled: boolean, label: string, title: string): void;
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, style: ButtonStyleType, enabled: boolean): void;
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, style: ButtonStyleType, enabled: boolean, label: string): void;
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, style: ButtonStyleType, enabled: boolean, label: string, title: string): void;
-export function buttonSetEnabled(button: Elements<HTMLButtonElement>, styleOrEnabled: boolean | ButtonStyleType, enabledOrlabel?: string | boolean, labelOrTitle?: string, title?: string): void {
-    button = resolveElement(button);
-    let style: ButtonStyleType = null;
-    let enabled: boolean = null;
-    let label: string = null;
-    if (isBoolean(styleOrEnabled)) {
-        enabled = styleOrEnabled;
-        label = enabledOrlabel as string;
-        title = labelOrTitle;
-    }
-    else {
-        style = styleOrEnabled;
-        enabled = enabledOrlabel as boolean;
-        label = labelOrTitle;
-    }
+/**
+ * Creates a Video element.
+ */
+export function Video(...rest: ElementChild<HTMLVideoElement>[]) { return HtmlTag("video", ...rest); }
 
-    button.disabled = !enabled;
+/**
+ * Creates a WBR element.
+ */
+export function WBR(): HTMLElement { return HtmlTag("wbr"); }
 
-    if (label) {
-        elementSetText(button, label);
-    }
-
-    if (title) {
-        elementSetTitle(button, title);
-    }
-
-    if (style) {
-        button.classList.toggle("btn-" + style, enabled);
-        button.classList.toggle("btn-outline-" + style, !enabled);
-    }
-}
-
-
-async function mediaElementCan(type: "canplay" | "canplaythrough", elem: HTMLMediaElement, prog?: IProgress): Promise<boolean> {
-    if (isDefined(prog)) {
-        prog.start();
-    }
-
-    const expectedState = type === "canplay"
-        ? elem.HAVE_CURRENT_DATA
-        : elem.HAVE_ENOUGH_DATA;
-
-    if (elem.readyState >= expectedState) {
-        return true;
-    }
-
-    try {
-        await once(elem, type, "error");
-        return true;
-    }
-    catch (err) {
-        console.warn(elem.error, err);
-        return false;
-    }
-    finally {
-        if (isDefined(prog)) {
-            prog.end();
-        }
-    }
-}
-
-export function mediaElementCanPlay(elem: HTMLMediaElement, prog?: IProgress): Promise<boolean> {
-    return mediaElementCan("canplay", elem, prog);
-}
-
-export function mediaElementCanPlayThrough(elem: HTMLMediaElement, prog?: IProgress): Promise<boolean> {
-    return mediaElementCan("canplaythrough", elem, prog);
-}
-
-export function A(...rest: ElementChild[]): HTMLAnchorElement { return HtmlTag("a", ...rest); }
-export function Abbr(...rest: ElementChild[]): HTMLElement { return HtmlTag("abbr", ...rest); }
-export function Address(...rest: ElementChild[]): HTMLElement { return HtmlTag("address", ...rest); }
-export function Area(...rest: ElementChild[]): HTMLAreaElement { return HtmlTag("area", ...rest); }
-export function Article(...rest: ElementChild[]): HTMLElement { return HtmlTag("article", ...rest); }
-export function Aside(...rest: ElementChild[]): HTMLElement { return HtmlTag("aside", ...rest); }
-export function Audio(...rest: ElementChild[]): HTMLAudioElement { return HtmlTag("audio", ...rest); }
-export function B(...rest: ElementChild[]): HTMLElement { return HtmlTag("b", ...rest); }
-export function Base(...rest: ElementChild[]): HTMLBaseElement { return HtmlTag("base", ...rest); }
-export function BDI(...rest: ElementChild[]): HTMLElement { return HtmlTag("bdi", ...rest); }
-export function BDO(...rest: ElementChild[]): HTMLElement { return HtmlTag("bdo", ...rest); }
-export function BlockQuote(...rest: ElementChild[]): HTMLQuoteElement { return HtmlTag("blockquote", ...rest); }
-export function Body(...rest: ElementChild[]): HTMLBodyElement { return HtmlTag("body", ...rest); }
-export function BR(): HTMLBRElement { return HtmlTag("br"); }
-export function ButtonRaw(...rest: ElementChild[]): HTMLButtonElement { return HtmlTag("button", ...rest); }
-export function Button(...rest: ElementChild[]): HTMLButtonElement { return ButtonRaw(...rest, Type("button")); }
-export function ButtonSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-sm")); }
-export function ButtonPrimary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-primary")); }
-export function ButtonPrimaryOutline(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-outline-primary")); }
-export function ButtonPrimarySmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-sm", "btn-primary")); }
-export function ButtonPrimaryOutlineSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-sm", "btn-outline-primary")); }
-export function ButtonSecondary(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-secondary")); }
-export function ButtonSecondaryOutline(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-outline-secondary")); }
-export function ButtonSecondarySmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-sm", "btn-secondary")); }
-export function ButtonSecondaryOutlineSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-sm", "btn-outline-secondary")); }
-export function ButtonDanger(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-danger")); }
-export function ButtonDangerOutline(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-outline-danger")); }
-export function ButtonDangerSmall(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-sm", "btn-danger")); }
-export function ButtonDangerOutlineSmalle(...rest: ElementChild[]): HTMLButtonElement { return Button(...rest, ClassList("btn", "btn-sm", "btn-outline-danger")); }
-export function ButtonSubmit(...rest: ElementChild[]): HTMLButtonElement { return ButtonRaw(...rest, Type("submit")); }
-export function ButtonReset(...rest: ElementChild[]): HTMLButtonElement { return ButtonRaw(...rest, Type("reset")); }
-export function Canvas(...rest: ElementChild[]): HTMLCanvasElement { return HtmlTag("canvas", ...rest); }
-export function Caption(...rest: ElementChild[]): HTMLTableCaptionElement { return HtmlTag("caption", ...rest); }
-export function Cite(...rest: ElementChild[]): HTMLElement { return HtmlTag("cite", ...rest); }
-export function Code(...rest: ElementChild[]): HTMLElement { return HtmlTag("code", ...rest); }
-export function Col(...rest: ElementChild[]): HTMLTableColElement { return HtmlTag("col", ...rest); }
-export function ColGroup(...rest: ElementChild[]): HTMLTableColElement { return HtmlTag("colgroup", ...rest); }
-export function DataTag(...rest: ElementChild[]): HTMLDataElement { return HtmlTag("data", ...rest); }
-export function DataList(...rest: ElementChild[]): HTMLDataListElement { return HtmlTag("datalist", ...rest); }
-export function DD(...rest: ElementChild[]): HTMLElement { return HtmlTag("dd", ...rest); }
-export function Del(...rest: ElementChild[]): HTMLModElement { return HtmlTag("del", ...rest); }
-export function Details(...rest: ElementChild[]): HTMLDetailsElement { return HtmlTag("details", ...rest); }
-export function DFN(...rest: ElementChild[]): HTMLElement { return HtmlTag("dfn", ...rest); }
-export function Dialog(...rest: ElementChild[]): HTMLDialogElement { return HtmlTag("dialog", ...rest); }
-export function Div(...rest: ElementChild[]): HTMLDivElement { return HtmlTag("div", ...rest); }
-export function DL(...rest: ElementChild[]): HTMLDListElement { return HtmlTag("dl", ...rest); }
-export function DT(...rest: ElementChild[]): HTMLElement { return HtmlTag("dt", ...rest); }
-export function Em(...rest: ElementChild[]): HTMLElement { return HtmlTag("em", ...rest); }
-export function Embed(...rest: ElementChild[]): HTMLEmbedElement { return HtmlTag("embed", ...rest); }
-export function FieldSet(...rest: ElementChild[]): HTMLFieldSetElement { return HtmlTag("fieldset", ...rest); }
-export function FigCaption(...rest: ElementChild[]): HTMLElement { return HtmlTag("figcaption", ...rest); }
-export function Figure(...rest: ElementChild[]): HTMLElement { return HtmlTag("figure", ...rest); }
-export function Footer(...rest: ElementChild[]): HTMLElement { return HtmlTag("footer", ...rest); }
-export function Form(...rest: ElementChild[]): HTMLFormElement { return HtmlTag("form", ...rest); }
-export function H1(...rest: ElementChild[]): HTMLHeadingElement { return HtmlTag("h1", ...rest); }
-export function H2(...rest: ElementChild[]): HTMLHeadingElement { return HtmlTag("h2", ...rest); }
-export function H3(...rest: ElementChild[]): HTMLHeadingElement { return HtmlTag("h3", ...rest); }
-export function H4(...rest: ElementChild[]): HTMLHeadingElement { return HtmlTag("h4", ...rest); }
-export function H5(...rest: ElementChild[]): HTMLHeadingElement { return HtmlTag("h5", ...rest); }
-export function H6(...rest: ElementChild[]): HTMLHeadingElement { return HtmlTag("h6", ...rest); }
-export function HR(...rest: ElementChild[]): HTMLHRElement { return HtmlTag("hr", ...rest); }
-export function Head(...rest: ElementChild[]): HTMLHeadElement { return HtmlTag("head", ...rest); }
-export function Header(...rest: ElementChild[]): HTMLElement { return HtmlTag("header", ...rest); }
-export function HGroup(...rest: ElementChild[]): HTMLElement { return HtmlTag("hgroup", ...rest); }
-export function HTML(...rest: ElementChild[]): HTMLElement { return HtmlTag("html", ...rest); }
-export function I(...rest: ElementChild[]): HTMLElement { return HtmlTag("i", ...rest); }
-export function FAIcon(iconName: string, ...rest: ElementChild[]): HTMLElement { return I(ClassList(`fa fa-${iconName}`), ...rest); }
-export function IFrame(...rest: ElementChild[]): HTMLIFrameElement { return HtmlTag("iframe", ...rest); }
-export function Img(...rest: ElementChild[]): HTMLImageElement { return HtmlTag("img", ...rest); }
-export function Input(...rest: ElementChild[]): HTMLInputElement { return HtmlTag("input", ...rest); }
-export function Ins(...rest: ElementChild[]): HTMLModElement { return HtmlTag("ins", ...rest); }
-export function KBD(...rest: ElementChild[]): HTMLElement { return HtmlTag("kbd", ...rest); }
-export function Label(...rest: ElementChild[]): HTMLLabelElement { return HtmlTag("label", ...rest); }
-export function PreLabeled<T extends Elements>(id: string, label: ElementChild, input: T): [HTMLLabelElement, T] {
-    resolveElement(input).id = id;
-    return [
-        Label(HtmlFor(id), label),
-        input
-    ];
-}
-export function PostLabeled<T extends Elements>(id: string, label: ElementChild, input: T): [T, HTMLLabelElement] {
-    resolveElement(input).id = id;
-    return [
-        input,
-        Label(HtmlFor(id), label)
-    ];
-}
-export function Legend(...rest: ElementChild[]) { return HtmlTag("legend", ...rest); }
-export function LI(...rest: ElementChild[]) { return HtmlTag("li", ...rest); }
-export function Link(...rest: ElementChild[]) { return HtmlTag("link", ...rest); }
-export function Main(...rest: ElementChild[]) { return HtmlTag("main", ...rest); }
-export function Map_tag(...rest: ElementChild[]) { return HtmlTag("map", ...rest); }
-export function Mark(...rest: ElementChild[]) { return HtmlTag("mark", ...rest); }
-export function Menu(...rest: ElementChild[]) { return HtmlTag("menu", ...rest); }
-export function Meta(...rest: ElementChild[]) { return HtmlTag("meta", ...rest); }
-export function Meter(...rest: ElementChild[]) { return HtmlTag("meter", ...rest); }
-export function Nav(...rest: ElementChild[]) { return HtmlTag("nav", ...rest); }
-export function NoScript(...rest: ElementChild[]) { return HtmlTag("noscript", ...rest); }
-export function Object_tag(...rest: ElementChild[]) { return HtmlTag("object", ...rest); }
-export function OL(...rest: ElementChild[]) { return HtmlTag("ol", ...rest); }
-export function OptGroup(...rest: ElementChild[]) { return HtmlTag("optgroup", ...rest); }
-export function Option(...rest: ElementChild[]) { return HtmlTag("option", ...rest); }
-export function Output(...rest: ElementChild[]) { return HtmlTag("output", ...rest); }
-export function P(...rest: ElementChild[]) { return HtmlTag("p", ...rest); }
-export function Picture(...rest: ElementChild[]) { return HtmlTag("picture", ...rest); }
-export function Pre(...rest: ElementChild[]) { return HtmlTag("pre", ...rest); }
-export function Progress(...rest: ElementChild[]) { return HtmlTag("progress", ...rest); }
-export function Q(...rest: ElementChild[]) { return HtmlTag("q", ...rest); }
-export function RP(...rest: ElementChild[]) { return HtmlTag("rp", ...rest); }
-export function RT(...rest: ElementChild[]) { return HtmlTag("rt", ...rest); }
-export function Ruby(...rest: ElementChild[]) { return HtmlTag("ruby", ...rest); }
-export function S(...rest: ElementChild[]) { return HtmlTag("s", ...rest); }
-export function Samp(...rest: ElementChild[]) { return HtmlTag("samp", ...rest); }
-export function Script(...rest: ElementChild[]) { return HtmlTag("script", ...rest); }
-export function Section(...rest: ElementChild[]) { return HtmlTag("section", ...rest); }
-export function Select(...rest: ElementChild[]) { return HtmlTag("select", ...rest); }
-export function Slot(...rest: ElementChild[]) { return HtmlTag("slot", ...rest); }
-export function Small(...rest: ElementChild[]) { return HtmlTag("small", ...rest); }
-export function Source(...rest: ElementChild[]) { return HtmlTag("source", ...rest); }
-export function Span(...rest: ElementChild[]) { return HtmlTag("span", ...rest); }
-export function Strong(...rest: ElementChild[]) { return HtmlTag("strong", ...rest); }
-export function Sub(...rest: ElementChild[]) { return HtmlTag("sub", ...rest); }
-export function Summary(...rest: ElementChild[]) { return HtmlTag("summary", ...rest); }
-export function Sup(...rest: ElementChild[]) { return HtmlTag("sup", ...rest); }
-export function Table(...rest: ElementChild[]) { return HtmlTag("table", ...rest); }
-export function TBody(...rest: ElementChild[]) { return HtmlTag("tbody", ...rest); }
-export function TD(...rest: ElementChild[]) { return HtmlTag("td", ...rest); }
-export function Template(...rest: ElementChild[]) { return HtmlTag("template", ...rest); }
-export function TextArea(...rest: ElementChild[]) { return HtmlTag("textarea", ...rest); }
-export function TFoot(...rest: ElementChild[]) { return HtmlTag("tfoot", ...rest); }
-export function TH(...rest: ElementChild[]) { return HtmlTag("th", ...rest); }
-export function THead(...rest: ElementChild[]) { return HtmlTag("thead", ...rest); }
-export function Time(...rest: ElementChild[]) { return HtmlTag("time", ...rest); }
-export function Title(...rest: ElementChild[]) { return HtmlTag("title", ...rest); }
-export function TR(...rest: ElementChild[]) { return HtmlTag("tr", ...rest); }
-export function Track(...rest: ElementChild[]) { return HtmlTag("track", ...rest); }
-export function U(...rest: ElementChild[]) { return HtmlTag("u", ...rest); }
-export function UL(...rest: ElementChild[]) { return HtmlTag("ul", ...rest); }
-export function Var(...rest: ElementChild[]) { return HtmlTag("var", ...rest); }
-export function Video(...rest: ElementChild[]) { return HtmlTag("video", ...rest); }
-export function WBR() { return HtmlTag("wbr"); }
+/**
+ * Creates a FontAwesome icon
+ */
+export function FAIcon(iconName: string, ...rest: ElementChild<HTMLElement>[]) { return I(ClassList("fa", "fa-solid", `fa-${iconName}`), ...rest); }
 
 /**
  * creates an HTML Input tag that is a button.
  */
-export function InputButton(...rest: ElementChild[]) { return Input(Type("button"), ...rest); }
+export function InputButton(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("button"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a checkbox.
  */
-export function InputCheckbox(...rest: ElementChild[]) { return Input(Type("checkbox"), ...rest); }
+export function InputCheckbox(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("checkbox"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a color picker.
  */
-export function InputColor(...rest: ElementChild[]) { return Input(Type("color"), ...rest); }
+export function InputColor(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("color"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a date picker.
  */
-export function InputDate(...rest: ElementChild[]) { return Input(Type("date"), ...rest); }
+export function InputDate(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("date"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a local date-time picker.
  */
-export function InputDateTime(...rest: ElementChild[]) { return Input(Type("datetime-local"), ...rest); }
+export function InputDateTime(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("datetime-local"), ...rest); }
 
 /**
  * creates an HTML Input tag that is an email entry field.
  */
-export function InputEmail(...rest: ElementChild[]) { return Input(Type("email"), ...rest); }
+export function InputEmail(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("email"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a file picker.
  */
-export function InputFile(...rest: ElementChild[]) { return Input(Type("file"), ...rest); }
+export function InputFile(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("file"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a hidden field.
  */
-export function InputHidden(...rest: ElementChild[]) { return Input(Type("hidden"), ...rest); }
+export function InputHidden(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("hidden"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a graphical submit button.
  */
-export function InputImage(...rest: ElementChild[]) { return Input(Type("image"), ...rest); }
+export function InputImage(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("image"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a month picker.
  */
-export function InputMonth(...rest: ElementChild[]) { return Input(Type("month"), ...rest); }
+export function InputMonth(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("month"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a month picker.
  */
-export function InputNumber(...rest: ElementChild[]) { return Input(Type("number"), ...rest); }
+export function InputNumber(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("number"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a password entry field.
  */
-export function InputPassword(...rest: ElementChild[]) { return Input(Type("password"), ...rest); }
+export function InputPassword(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("password"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a radio button.
  */
-export function InputRadio(...rest: ElementChild[]) { return Input(Type("radio"), ...rest); }
+export function InputRadio(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("radio"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a range selector.
  */
-export function InputRange(...rest: ElementChild[]) { return Input(Type("range"), ...rest); }
+export function InputRange(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("range"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a form reset button.
  */
-export function InputReset(...rest: ElementChild[]) { return Input(Type("reset"), ...rest); }
+export function InputReset(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("reset"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a search entry field.
  */
-export function InputSearch(...rest: ElementChild[]) { return Input(Type("search"), ...rest); }
+export function InputSearch(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("search"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a submit button.
  */
-export function InputSubmit(...rest: ElementChild[]) { return Input(Type("submit"), ...rest); }
+export function InputSubmit(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("submit"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a telephone number entry field.
  */
-export function InputTelephone(...rest: ElementChild[]) { return Input(Type("tel"), ...rest); }
+export function InputTelephone(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("tel"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a text entry field.
  */
-export function InputText(...rest: ElementChild[]) { return Input(Type("text"), ...rest); }
+export function InputText(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("text"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a time picker.
  */
-export function InputTime(...rest: ElementChild[]) { return Input(Type("time"), ...rest); }
+export function InputTime(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("time"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a URL entry field.
  */
-export function InputURL(...rest: ElementChild[]) { return Input(Type("url"), ...rest); }
+export function InputURL(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("url"), ...rest); }
 
 /**
  * creates an HTML Input tag that is a week picker.
  */
-export function InputWeek(...rest: ElementChild[]) { return Input(Type("week"), ...rest); }
+export function InputWeek(...rest: ElementChild<HTMLInputElement>[]) { return Input(Type("week"), ...rest); }
 
 /**
- * Creates a text node out of the give input.
+ * Creates a text node out of the given input.
  */
-export function TextNode(txt: any) {
-    return document.createTextNode(txt);
-}
-
-/**
- * Creates a Div element with margin: auto.
- */
-export function Run(...rest: ElementChild[]) {
-    return Div(
-        margin("auto"),
-        ...rest);
-}
-
-export function Style(...props: PropSet[]) {
-    const elem = document.createElement("style");
-    document.head.append(elem);
-    for (const prop of props) {
-        prop.applyToSheet(elem.sheet);
-    }
-
-    return elem;
-}
-
-export function StyleBlob(...props: (string | PropSet)[]) {
-    const blob = new Blob(props.map(p => p.toString()), {
-        type: Text_Css.value
-    });
-    return Link(
-        Rel("stylesheet"),
-        Href(blob)
-    );
+export function TextNode(txt: { toString: () => string; }) {
+    return isDefined(txt)
+        && document.createTextNode(txt.toString())
+        || null;
 }

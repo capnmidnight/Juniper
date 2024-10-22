@@ -1,0 +1,27 @@
+{
+  "name": "@juniper-lib/geo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A basic map widget",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
+  ],
+  "dependencies": {
+    "@juniper-lib/util": "file:../util",
+    "@juniper-lib/dom": "file:../dom",
+    "d3": "7.9.0",
+    "d3-geo": "3.1.1"
+  },
+  "devDependencies": {
+    "@types/d3": "7.4.3",
+    "@types/d3-geo": "3.1.0"
+  },
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
+}

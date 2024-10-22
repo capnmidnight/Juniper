@@ -1,10 +1,11 @@
-import { arrayScan } from "@juniper-lib/collections/dist/arrays";
+import { arrayScan } from "@juniper-lib/util";
 import { Object3D } from "three";
 import { BaseEnvironment } from "../../environment/BaseEnvironment";
 import { deepEnableLayer, PURGATORY } from "../../layers";
 import { obj, objectIsVisible, objectSetVisible, objGraph } from "../../objects";
 import { BaseCursor3D } from "./BaseCursor3D";
 import { CursorSystem } from "./CursorSystem";
+import { CssCursorValue } from "@juniper-lib/dom";
 
 export class Cursor3D extends BaseCursor3D {
 
@@ -12,9 +13,9 @@ export class Cursor3D extends BaseCursor3D {
 
     constructor(env: BaseEnvironment, cursorSystem?: CursorSystem) {
         super(env);
-        this.object = obj("Cursor3D");
+        this.content3d = obj("Cursor3D");
         this.cursorSystem = cursorSystem;
-        this.object.matrixAutoUpdate = false;
+        this.content3d.matrixAutoUpdate = false;
     }
 
     add(name: string, obj: Object3D) {
@@ -24,7 +25,7 @@ export class Cursor3D extends BaseCursor3D {
     }
 
     override get style() {
-        for (const child of this.object.children) {
+        for (const child of this.content3d.children) {
             if (child.visible) {
                 return child.name as CssCursorValue;
             }
@@ -34,12 +35,12 @@ export class Cursor3D extends BaseCursor3D {
     }
 
     override set style(v) {
-        for (const child of this.object.children) {
+        for (const child of this.content3d.children) {
             child.visible = child.name === v;
         }
 
-        if (this.style == null && this.object.children.length > 0) {
-            const defaultCursor = arrayScan(this.object.children,
+        if (this.style == null && this.content3d.children.length > 0) {
+            const defaultCursor = arrayScan(this.content3d.children,
                 (child) => child.name === "default",
                 (child) => child != null);
             if (defaultCursor != null) {
@@ -62,7 +63,7 @@ export class Cursor3D extends BaseCursor3D {
 
     clone() {
         const obj = new Cursor3D(this.env);
-        for (const child of this.object.children) {
+        for (const child of this.content3d.children) {
             obj.add(child.name, child.clone());
         }
         return obj;

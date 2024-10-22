@@ -1,23 +1,19 @@
-import { Exception } from "@juniper-lib/tslib/dist/Exception";
+import { Exception } from "@juniper-lib/util";
 export class CancelSignalException extends Exception {
     constructor() {
         super("Cancellation!");
     }
 }
 export class CancelToken {
-    constructor() {
-        this._cancelled = false;
-    }
-    get cancelled() {
-        return this._cancelled;
-    }
+    #cancelled = false;
+    get cancelled() { return this.#cancelled; }
     check() {
         if (this.cancelled) {
             throw new CancelSignalException();
         }
     }
     cancel() {
-        this._cancelled = true;
+        this.#cancelled = true;
     }
 }
 //# sourceMappingURL=CancelToken.js.map

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Juniper.GoogleMaps</AssemblyName>
+    <RootNamespace>Juniper.World.GIS.Google</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\HTTP\Juniper.HTTP.csproj" />
+    <ProjectReference Include="..\MediaType\Juniper.MediaType.csproj" />
+    <ProjectReference Include="..\Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Units\Juniper.Units.csproj" />
+  </ItemGroup>
+
+</Project>

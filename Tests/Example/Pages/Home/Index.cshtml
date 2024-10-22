@@ -1,0 +1,70 @@
+﻿@page "/"
+@model Juniper.Cedrus.Example.Pages.Home.IndexModel
+
+@{
+}
+
+@section Scripts {
+    <bundle-js name="Pages/Home" versioned></bundle-js>
+}
+
+<main-content>
+    @if (Model.IdentityUser is null)
+    {
+        <h1>Could not create user account!</h1>
+        @if (User.Identity?.Name is null)
+        {
+            <p>
+                Could not determine a user name for the current user.
+            </p>
+        }
+        else
+        {
+            <p>
+                The current user (@User.Identity.Name) does not meet the criteria for creating a new user account.
+            </p>
+        }
+    }
+    else if (!Model.IdentityUser.IsUser)
+    {
+        <h1>New user account "@(Model.IdentityUser.UserName)" created!</h1>
+        <p>
+            Please contact the system administrator to grant the user @Model.IdentityUser.UserName access to the system.
+        </p>
+
+        <h2>Admin Users</h2>
+        <ul>
+            @foreach (var admin in Model.AdminUsers)
+            {
+                <li><a href="@Model.FormatGrantEmail(admin)">@admin.UserName (@admin.Email)</a></li>
+            }
+        </ul>
+    }
+    else
+    {
+        <h1>Welcome, @(Model.IdentityUser.UserName)!</h1>
+        @if (!Model.IdentityUser.IsAdmin)
+        {
+            <p>
+                In the future, this page will be a dashboard providing information at a glance.
+            </p>
+        }
+        else
+        {
+            <h2>New Users</h2>
+            @if (Model.NewUsers.Length == 0)
+            {
+                <p>None</p>
+            }
+            else
+            {
+                <ul id="userList">
+                    @foreach (var user in Model.NewUsers)
+                    {
+                        <li><button type="button" data-user-id="@user.Id">Grant access</button> @user.UserName</li>
+                    }
+                </ul>
+            }
+        }
+    }
+</main-content>

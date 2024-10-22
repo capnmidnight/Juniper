@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
 function getTestNumber() {
     if ("location" in globalThis) {
         const loc = new URL(globalThis.location.href);

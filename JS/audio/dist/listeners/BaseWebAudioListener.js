@@ -1,4 +1,4 @@
-import { Vec3 } from "gl-matrix/dist/esm";
+import { Vec3 } from "gl-matrix";
 import { BaseListener } from "./BaseListener";
 const f = new Vec3();
 const u = new Vec3();

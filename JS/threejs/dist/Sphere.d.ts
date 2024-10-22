@@ -1,7 +1,7 @@
 import { Mesh, SphereGeometry } from "three";
 import type { SolidMaterial } from "./materials";
-export declare const geom: SphereGeometry;
-export declare const invSphere: SphereGeometry;
+export declare const sphereGeom: SphereGeometry;
+export declare const invSphereGeom: SphereGeometry;
 export declare class Sphere extends Mesh<SphereGeometry, SolidMaterial> {
     constructor(size: number, material: SolidMaterial);
 }

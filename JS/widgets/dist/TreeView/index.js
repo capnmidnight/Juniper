@@ -1,15 +1,11 @@
-import { buildTree } from "@juniper-lib/collections/dist/TreeNode";
-import { arrayClear, arrayRemove } from "@juniper-lib/collections/dist/arrays";
-import { AutoComplete, ClassList, PlaceHolder, TabIndex } from "@juniper-lib/dom/dist/attrs";
-import { isModifierless, onClick, onContextMenu, onDragEnd, onDragOver, onDragStart, onDrop, onInput, onKeyDown } from "@juniper-lib/dom/dist/evts";
-import { ButtonPrimarySmall, ButtonSecondarySmall, Div, HtmlRender, InputText, elementClearChildren, elementGetIndexInParent, elementInsertBefore, elementReplace, elementSetDisplay } from "@juniper-lib/dom/dist/tags";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { alwaysFalse } from "@juniper-lib/tslib/dist/identity";
-import { isDefined, isFunction, isNullOrUndefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { TreeViewNodeContextMenuEvent, TreeViewNodeElement, TreeViewNodeSelectedEvent } from "./TreeViewNodeElement";
+import { alwaysFalse, arrayClear, arrayRemove, isDefined, isFunction, isNullOrUndefined, singleton, stringRandom } from "@juniper-lib/util";
+import { buildTree } from "@juniper-lib/collections";
+import { AutoComplete, Button, ClassList, Div, For, HtmlRender, ID, InputText, Label, OnClick, OnContextMenu, OnDragEnd, OnDragOver, OnDragStart, OnDrop, OnInput, OnKeyDown, PlaceHolder, SingletonStyleBlob, TabIndex, TypedHTMLElement, backgroundColor, border, display, elementGetIndexInParent, elementSetDisplay, fr, getSystemFamily, gridAutoFlow, gridTemplateRows, height, isModifierless, overflow, overflowWrap, padding, registerFactory, rgb, rule, whiteSpace } from "@juniper-lib/dom";
+import { TypedEvent } from "@juniper-lib/events";
+import { DataAttr, LabelField, OnItemSelected, SortKeyField, ValueField } from "../FieldDef";
 import { PropertyList } from "../PropertyList";
-import { LabelField, SelectList, SortKeyField, ValueField } from "../SelectList";
-import "./styles.css";
+import { TypedSelect } from "../TypedSelectElement";
+import { TreeViewNodeContextMenuEvent, TreeViewNodeElement, TreeViewNodeSelectedEvent } from './TreeViewNodeElement';
 class TreeViewNodeEvent extends TypedEvent {
     constructor(type, node) {
         super(type);
@@ -33,7 +29,7 @@ export class TreeViewNodeReparentedEvent extends TreeViewNodeEvent {
         this.newParent = newParent;
     }
 }
-export class TreeView extends TypedEventTarget {
+export class TreeViewElement extends TypedHTMLElement {
     constructor(options, ...styleProps) {
         super();
         this.filterTypeInput = null;
@@ -47,7 +43,7 @@ export class TreeView extends TypedEventTarget {
         this.typeFilter = null;
         this.nameFilter = null;
         this.readonly = false;
-        this.createElement = this.createElement.bind(this);
+        SingletonStyleBlob("Juniper::Widgets::TreeView", () => rule(".tree-view", display("grid"), gridTemplateRows("auto", "auto", fr(1)), rule(" .btn-sm", padding(0)), rule(" .tree-view-inner", border("inset 2px"), backgroundColor(rgb(224, 224, 224)), whiteSpace("nowrap"), overflowWrap("normal"), overflow("auto", "scroll"), getSystemFamily()), rule(" .tree-view-controls", display("grid"), gridAutoFlow("column")), rule(" .tree-view-children", height(0))));
         this.options = Object.assign({
             defaultLabel: null,
             getOrder: null,
@@ -63,22 +59,30 @@ export class TreeView extends TypedEventTarget {
             this.options.canParent = this.options.canHaveChildren;
         }
         this._canChangeOrder = isFunction(this.options.getOrder);
-        this.element = Div(ClassList("tree-view"), ...styleProps, this.filters = PropertyList.create(ClassList("tree-view-controls"), ...this.options.additionalProperties), Div(ClassList("tree-view-controls"), this.collapseButton = ButtonPrimarySmall(onClick(() => this.collapseAll()), "Collapse all"), this.expandButton = ButtonPrimarySmall(onClick(() => this.expandAll()), "Expand all")), Div(ClassList("tree-view-inner"), TabIndex(0), onContextMenu(async (evt) => {
+        this.addEventListener("select", (evt) => {
+            for (const elem of this.elements) {
+                elem._selected = elem.node === evt.target.node;
+            }
+        });
+        this.addEventListener("create", (evt) => {
+            this.createElement(evt.node);
+        });
+        this.element = Div(ClassList("tree-view"), ...styleProps, this.filters = PropertyList(ClassList("tree-view-controls"), ...this.options.additionalProperties), Div(ClassList("tree-view-controls"), this.collapseButton = Button(OnClick(() => this.collapseAll()), "Collapse all"), this.expandButton = Button(OnClick(() => this.expandAll()), "Expand all")), Div(ClassList("tree-view-inner"), TabIndex(0), OnContextMenu(async (evt) => {
             if (!this.disabled) {
                 const rootElement = this.nodes2Elements.get(this.rootNode);
-                await rootElement._launchMenu(evt, new TreeViewNodeContextMenuEvent(rootElement));
+                await rootElement._launchMenu(evt, new TreeViewNodeContextMenuEvent());
             }
-        }), onClick((evt) => {
+        }), OnClick((evt) => {
             if (!this.disabled && !evt.defaultPrevented) {
                 for (const element of this.elements) {
                     if (element.selected) {
                         this.selectedNode = null;
-                        this.dispatchEvent(new TreeViewNodeSelectedEvent(null));
+                        this.dispatchEvent(new TreeViewNodeSelectedEvent());
                         return;
                     }
                 }
             }
-        }), onKeyDown((evt) => {
+        }), OnKeyDown((evt) => {
             if (isModifierless(evt)) {
                 const sel = this.selectedElement;
                 if (sel) {
@@ -141,7 +145,7 @@ export class TreeView extends TypedEventTarget {
                         }
                     }
                 }
-                else if (this.children.children.length > 0) {
+                else if (this.treeViewNodes.children.length > 0) {
                     const rootElem = this.nodes2Elements.get(this.rootNode);
                     let htmlElem = null;
                     if (evt.key === "ArrowUp") {
@@ -156,26 +160,25 @@ export class TreeView extends TypedEventTarget {
                     }
                 }
             }
-        }), this.children = Div(ClassList("tree-view-children"))));
+        }), this.treeViewNodes = Div(ClassList("tree-view-children"))));
+        const id = stringRandom(12);
+        if (this.options.showNameFilter) {
+            this.filters.append(Label(For(id + "Name"), "Name"), this.filterNameInput = InputText(ID(id + "Name"), ClassList("form-control"), PlaceHolder("Filter by name"), AutoComplete("off"), OnInput(() => {
+                this.nameFilter = this.filterNameInput.value.toLocaleLowerCase();
+                if (this.nameFilter.length === 0) {
+                    this.nameFilter = null;
+                }
+                this.refreshFilter();
+            })));
+        }
+        if (isDefined(this.options.typeFilters)) {
+            this.filters.append(Label(For(id + "Type"), "Type"), this.filterTypeInput = TypedSelect(ID(id + "Type"), ValueField(v => v), LabelField(this.options.typeFilters.getTypeLabel), SortKeyField(this.options.typeFilters.getTypeLabel), PlaceHolder("Filter by type"), DataAttr(this.options.typeFilters.getTypes()), OnItemSelected(evt => {
+                this.typeFilter = evt.item;
+                this.refreshFilter();
+            })));
+        }
         if (this.options.showNameFilter || isDefined(this.options.typeFilters)) {
-            if (this.options.showNameFilter) {
-                this.filters.append(["Name", this.filterNameInput = InputText(ClassList("form-control"), PlaceHolder("Filter by name"), AutoComplete("off"), onInput(() => {
-                        this.nameFilter = this.filterNameInput.value.toLocaleLowerCase();
-                        if (this.nameFilter.length === 0) {
-                            this.nameFilter = null;
-                        }
-                        this.refreshFilter();
-                    }))]);
-            }
-            if (isDefined(this.options.typeFilters)) {
-                this.filters.append(["Type", this.filterTypeInput = SelectList(ValueField(v => v), LabelField(this.options.typeFilters.getTypeLabel), SortKeyField(this.options.typeFilters.getTypeLabel), PlaceHolder("Filter by type"))]);
-                this.filterTypeInput.data = this.options.typeFilters.getTypes();
-                this.filterTypeInput.addEventListener("itemselected", (evt) => {
-                    this.typeFilter = evt.item;
-                    this.refreshFilter();
-                });
-            }
-            this.filters.append(ButtonSecondarySmall("Clear filter", onClick(() => this.clearFilter())));
+            this.filters.append(Button("Clear filter", OnClick(() => this.clearFilter())));
         }
         if (this.canChangeOrder) {
             let draggedElement = null;
@@ -194,11 +197,11 @@ export class TreeView extends TypedEventTarget {
                 }
                 delta = 0;
             };
-            HtmlRender(this.children, onDragStart((evt) => {
+            HtmlRender(this.treeViewNodes, OnDragStart((evt) => {
                 clearTarget();
                 draggedElement = this.findElement(evt.target);
                 draggedElement.style.opacity = "0.5";
-            }), onDragOver((evt) => {
+            }), OnDragOver((evt) => {
                 const target = evt.target;
                 const targetChanged = target !== lastTarget;
                 const elem = this.findElement(target);
@@ -223,13 +226,13 @@ export class TreeView extends TypedEventTarget {
                     }
                     evt.preventDefault();
                 }
-            }), onDrop((evt) => {
+            }), OnDrop((evt) => {
                 if (this.canReparent(dropElement, draggedElement, lastTarget)) {
                     evt.preventDefault();
                     this.reparentNode(draggedElement.node, dropElement.node, delta);
                 }
                 clearTarget();
-            }), onDragEnd(() => {
+            }), OnDragEnd(() => {
                 if (draggedElement) {
                     draggedElement.style.opacity = "1";
                 }
@@ -237,7 +240,7 @@ export class TreeView extends TypedEventTarget {
             }));
         }
         if (this.options.replaceElement) {
-            elementReplace(this.options.replaceElement, this);
+            this.options.replaceElement.replaceWith(this.element);
         }
     }
     clearFilter() {
@@ -350,7 +353,7 @@ export class TreeView extends TypedEventTarget {
                 element.removeScope(this);
                 element.removeBubbler(this);
             }
-            elementClearChildren(this.children);
+            this.treeViewNodes.innerHTML = "";
             arrayClear(this.elements);
             this.nodes2Elements.clear();
             this.htmlElements2Nodes.clear();
@@ -361,7 +364,7 @@ export class TreeView extends TypedEventTarget {
                     this.createElement(node);
                 }
                 const rootElement = this.nodes2Elements.get(this.rootNode);
-                HtmlRender(this.children, rootElement);
+                HtmlRender(this.treeViewNodes, rootElement);
             }
             this.locked = false;
             for (const elem of this.elements) {
@@ -427,7 +430,7 @@ export class TreeView extends TypedEventTarget {
             if (isDefined(e)) {
                 e._selected = false;
             }
-            this.dispatchEvent(new TreeViewNodeSelectedEvent(null));
+            this.dispatchEvent(new TreeViewNodeSelectedEvent());
         }
     }
     findElement(target) {
@@ -438,7 +441,7 @@ export class TreeView extends TypedEventTarget {
                 return node;
             }
             here = here.parentElement;
-            if (here === this.children) {
+            if (here === this.treeViewNodes) {
                 return null;
             }
         }
@@ -461,13 +464,7 @@ export class TreeView extends TypedEventTarget {
         }
     }
     createElement(node) {
-        const element = TreeViewNodeElement.create(node, this.options.defaultLabel, this.options.getLabel, this.options.getDescription, this.options.canReorder, this.options.getChildDescription, this.options.canHaveChildren, this.createElement);
-        element.addScopedEventListener(this, "select", (evt) => {
-            for (const elem of this.elements) {
-                elem._selected = elem.node === evt.node;
-            }
-        });
-        element.addBubbler(this);
+        const element = TreeViewNodeElement.create(node, this.options.defaultLabel, this.options.getLabel, this.options.getDescription, this.options.canReorder, this.options.getChildDescription, this.options.canHaveChildren);
         this.elements.push(element);
         this.nodes2Elements.set(node, element);
         this.htmlElements2Nodes.set(element, node);
@@ -477,7 +474,7 @@ export class TreeView extends TypedEventTarget {
             const parentElement = this.nodes2Elements.get(parentNode);
             if (parentElement) {
                 if (!this.canChangeOrder) {
-                    HtmlRender(parentElement.childTreeNodes, element);
+                    parentElement.childTreeNodes.append(element);
                 }
                 else {
                     const index = this.options.getOrder(node.value);
@@ -495,7 +492,7 @@ export class TreeView extends TypedEventTarget {
                     const nextElement = this.nodes2Elements.has(nextNode)
                         && this.nodes2Elements.get(nextNode)
                         || null;
-                    elementInsertBefore(parentElement.childTreeNodes, element, nextElement);
+                    parentElement.childTreeNodes.insertBefore(element, nextElement);
                     this.reorderChildren(parentElement);
                 }
             }
@@ -542,7 +539,7 @@ export class TreeView extends TypedEventTarget {
                 }
             }
         }
-        elementInsertBefore(nextParentElement.childTreeNodes, curElement, nextSiblingElement);
+        nextParentElement.childTreeNodes.insertBefore(curElement, nextSiblingElement);
         if (nextParentElement !== curParentElement) {
             newParentNode.connectTo(node);
             this.reorderChildren(curParentElement);
@@ -560,7 +557,7 @@ export class TreeView extends TypedEventTarget {
     removeNode(node) {
         const element = this.nodes2Elements.get(node);
         if (element.selected) {
-            this.dispatchEvent(new TreeViewNodeSelectedEvent(null));
+            this.dispatchEvent(new TreeViewNodeSelectedEvent());
         }
         const parentElement = this.nodes2Elements.get(node.parent);
         element.removeScope(this);
@@ -591,5 +588,9 @@ export class TreeView extends TypedEventTarget {
             }
         }
     }
+    static install() { return singleton("Juniper::Widgets::TreeViewElement", () => registerFactory("tree-view", TreeViewElement)); }
+}
+export function TreeView(...rest) {
+    return TreeViewElement.install()(...rest);
 }
 //# sourceMappingURL=index.js.map

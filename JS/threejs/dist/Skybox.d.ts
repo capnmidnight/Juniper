@@ -1,5 +1,5 @@
-import { CanvasImageTypes, CanvasTypes } from "@juniper-lib/dom/dist/canvas";
-import { CubeMapFaceIndex } from "@juniper-lib/graphics2d/dist/CubeMapFaceIndex";
+import { CanvasImageTypes, CanvasTypes } from "@juniper-lib/dom";
+import { CubeMapFaceIndex } from "@juniper-lib/graphics2d";
 import { CubeTexture, Euler, Quaternion } from "three";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 type SkyboxRotation = Quaternion | Euler | number[] | number;

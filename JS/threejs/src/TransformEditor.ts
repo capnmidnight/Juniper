@@ -1,9 +1,6 @@
-import { onClick } from "@juniper-lib/dom/dist/evts";
-import { ButtonSecondary, elementSetClass, elementSetDisplay } from "@juniper-lib/dom/dist/tags";
-import { arrayReplace } from "@juniper-lib/collections/dist/arrays";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { deg2rad, HalfPi } from "@juniper-lib/tslib/dist/math";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { arrayReplace, deg2rad, HalfPi, isDefined } from "@juniper-lib/util";
+import { Button, elementSetDisplay, OnClick } from "@juniper-lib/dom";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { ColorRepresentation, Euler, ExtrudeGeometry, Material, Mesh, Object3D, Quaternion, Shape, Vector2, Vector3 } from "three";
 import { cone } from "./Cone";
 import { cube } from "./Cube";
@@ -57,7 +54,7 @@ export class TransformEditor
     extends TypedEventTarget<TransformEditorEvents>
     implements ErsatzObject {
 
-    readonly object: Object3D;
+    readonly content3d: Object3D;
 
     public readonly modeButtons: HTMLButtonElement[];
     private readonly buttons = new Map<TransformMode, HTMLButtonElement>();
@@ -85,7 +82,7 @@ export class TransformEditor
     constructor(private readonly env: BaseEnvironment) {
         super();
 
-        this.object = obj("Translator",
+        this.content3d = obj("Translator",
             ...this.translators = [
                 this.setTranslator("x", "x", red),
                 this.setTranslator("y", "y", green),
@@ -99,9 +96,9 @@ export class TransformEditor
 
         this.modeButtons = orderedTransformModes
             .map(mode => {
-                const btn = ButtonSecondary(
+                const btn = Button(
                     mode,
-                    onClick(() =>
+                    OnClick(() =>
                         this.mode = btn.classList.contains("btn-secondary")
                             ? mode
                             : TransformMode.None)
@@ -126,7 +123,7 @@ export class TransformEditor
         }
 
         if (isDefined(v) && isDefined(modes)) {
-            arrayReplace(this.modes, ...modes);
+            arrayReplace(this.modes, modes);
             for (const [mode, btn] of this.buttons) {
                 elementSetDisplay(btn, this.modes.indexOf(mode) !== -1);
             }
@@ -156,12 +153,12 @@ export class TransformEditor
                 translator.mode = v;
             }
 
-            this.translators[2].object.visible = this.mode !== TransformMode.None
+            this.translators[2].content3d.visible = this.mode !== TransformMode.None
                 && this.mode !== TransformMode.Resize;
 
             for (const [mode, btn] of this.buttons) {
-                elementSetClass(btn, mode === this.mode, "btn-primary");
-                elementSetClass(btn, mode !== this.mode, "btn-secondary");
+                btn.classList.toggle("btn-primary", mode === this.mode);
+                btn.classList.toggle("btn-secondary", mode !== this.mode);
             }
 
             this.refresh();
@@ -170,8 +167,8 @@ export class TransformEditor
 
 
     private readonly prioritizeTransformerSort: IntersectionSortFunction = (a, b) => {
-        const rayTargetA = getRayTarget(a) as Translator;
-        const rayTargetB = getRayTarget(b) as Translator;
+        const rayTargetA = getRayTarget(a.object) as Translator;
+        const rayTargetB = getRayTarget(b.object) as Translator;
         const isTranslatorA = isDefined(rayTargetA) && this.translators.indexOf(rayTargetA) >= 0;
         const isTranslatorB = isDefined(rayTargetB) && this.translators.indexOf(rayTargetB) >= 0;
         if (isTranslatorA === isTranslatorB) {
@@ -212,8 +209,8 @@ export class TransformEditor
                 this.endWorld.copy(evt.point);
 
                 if (this.startWorld.manhattanDistanceTo(this.endWorld) > 0) {
-                    this.object.worldToLocal(this.startLocal.copy(this.startWorld));
-                    this.object.worldToLocal(this.endLocal.copy(this.endWorld));
+                    this.content3d.worldToLocal(this.startLocal.copy(this.startWorld));
+                    this.content3d.worldToLocal(this.endLocal.copy(this.endWorld));
 
                     if (this.mode === TransformMode.Resize) {
                         const startDist = this.startLocal.length();
@@ -232,7 +229,7 @@ export class TransformEditor
                             const radians = Math.sign(sign) * Math.acos(mag);
                             this.rotationAxisWorld
                                 .copy(translator.rotationAxisLocal)
-                                .applyQuaternion(this.object.quaternion);
+                                .applyQuaternion(this.content3d.quaternion);
                             this.deltaQuaternion
                                 .setFromAxisAngle(this.rotationAxisWorld, radians);
                             this.target.quaternion.premultiply(this.deltaQuaternion);
@@ -241,11 +238,11 @@ export class TransformEditor
                     else {
                         this.motionAxisWorld
                             .copy(translator.motionAxisLocal)
-                            .applyQuaternion(this.object.quaternion);
+                            .applyQuaternion(this.content3d.quaternion);
 
                         this.lookDirectionWorld
                             .copy(this.env.avatar.worldPos)
-                            .sub(this.object.position)
+                            .sub(this.content3d.position)
                             .normalize();
 
                         this.deltaPosition
@@ -311,33 +308,33 @@ export class TransformEditor
     }
 
     get size(): number {
-        return this.object.scale.x;
+        return this.content3d.scale.x;
     }
 
     set size(v: number) {
-        this.object.scale.setScalar(v);
+        this.content3d.scale.setScalar(v);
     }
 
     refresh() {
         if (this.target) {
-            this.target.getWorldPosition(this.object.position);
-            const dist = this.object.position.distanceTo(this.env.avatar.worldPos);
+            this.target.getWorldPosition(this.content3d.position);
+            const dist = this.content3d.position.distanceTo(this.env.avatar.worldPos);
             this.size = 0.5 * dist;
 
             if (this.mode === TransformMode.MoveObjectSpace
                 || this.mode === TransformMode.RotateObjectSpace) {
-                this.target.getWorldQuaternion(this.object.quaternion);
+                this.target.getWorldQuaternion(this.content3d.quaternion);
             }
             else if (this.mode === TransformMode.RotateGlobalSpace
                 || this.mode === TransformMode.MoveGlobalSpace) {
-                this.object.quaternion.identity();
+                this.content3d.quaternion.identity();
             }
             else {
-                this.object.lookAt(this.env.avatar.worldPos);
+                this.content3d.lookAt(this.env.avatar.worldPos);
             }
 
             for (const translator of this.translators) {
-                translator.refresh(this.object.position, this.env.avatar.worldPos);
+                translator.refresh(this.content3d.position, this.env.avatar.worldPos);
             }
         }
     }
@@ -430,7 +427,7 @@ export class Translator extends RayTarget<void> {
             ...arcPads
         ));
 
-        for (const obj of this.object.children) {
+        for (const obj of this.content3d.children) {
             if (isMesh(obj)) {
                 obj.renderOrder = Number.MAX_SAFE_INTEGER;
             }
@@ -544,7 +541,7 @@ export class Translator extends RayTarget<void> {
             for (const mesh of this.meshes) {
                 if (mesh.visible !== isDefined(mesh.parent)) {
                     if (mesh.visible) {
-                        this.object.add(mesh);
+                        this.content3d.add(mesh);
                     }
                     else {
                         mesh.removeFromParent();

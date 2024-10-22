@@ -1,20 +1,15 @@
-import { PriorityMap } from "@juniper-lib/collections/dist/PriorityMap";
-import { CanvasTypes } from "@juniper-lib/dom/dist/canvas";
-import { AssetImage } from "@juniper-lib/fetcher/dist/Asset";
-import { InstancedMesh, MeshBasicMaterial, Object3D, PlaneGeometry, ShaderMaterial } from "three";
+import { PriorityMap } from "@juniper-lib/collections";
+import { CanvasTypes, CssColorValue } from "@juniper-lib/dom";
+import { AssetImage } from "@juniper-lib/fetcher";
+import { InstancedMesh, Object3D, PlaneGeometry, ShaderMaterial } from "three";
 import { ErsatzObject } from "../../objects";
 import { InstancedMeshButton } from "./InstancedMeshButton";
-export interface ButtonSpec {
-    geometry: PlaneGeometry;
-    enabledMaterial: MeshBasicMaterial;
-    disabledMaterial: MeshBasicMaterial;
-}
 export declare class InstancedButtonFactory implements ErsatzObject {
     private readonly imagePaths;
     private readonly padding;
     readonly buttonFillColor: CssColorValue;
     readonly labelFillColor: CssColorValue;
-    readonly object: Object3D;
+    readonly content3d: Object3D;
     private readonly uvDescrips;
     private readonly ready;
     private canvas;

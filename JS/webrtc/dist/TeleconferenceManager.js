@@ -1,15 +1,11 @@
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { WindowQuitEventer } from "@juniper-lib/events/dist/WindowQuitEventer";
-import { singleton } from "@juniper-lib/tslib/dist/singleton";
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { dispose } from "@juniper-lib/tslib/dist/using";
+import { dispose, isDefined, makeErrorMessage, singleton } from "@juniper-lib/util";
+import { TypedEventTarget, WindowQuitEventer } from "@juniper-lib/events";
 import "webrtc-adapter";
 import { ConferenceErrorEvent, ConferenceServerConnectedEvent, ConferenceServerDisconnectedEvent, RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent } from "./ConferenceEvents";
 import { ConnectionState, settleConnected, whenDisconnected } from "./ConnectionState";
 import { GainDecayer } from "./GainDecayer";
 import { RemoteUser } from "./RemoteUser";
 import { DEFAULT_LOCAL_USER_ID } from "./constants";
-import { makeErrorMessage } from "../../tslib/src/makeErrorMessage";
 const sockets = singleton("Juniper:Sockets", () => new Array());
 function fakeSocket(...args) {
     const socket = new WebSocket(...args);

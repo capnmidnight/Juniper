@@ -1,5 +1,5 @@
-import { arrayRemove } from "@juniper-lib/collections/dist/arrays";
-import { TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
+import { arrayRemove } from "@juniper-lib/util";
+import { TypedEventTarget } from "@juniper-lib/events";
 import { Mesh, Object3D } from "three";
 import { ErsatzObject, objectIsFullyVisible, objectResolve, Objects } from "../objects";
 import { Pointer3DEvents } from "./devices/Pointer3DEvent";
@@ -17,9 +17,9 @@ export class RayTarget<EventsT = void>
     private _draggable = false;
     private _navigable = false;
 
-    constructor(public readonly object: Object3D) {
+    constructor(public readonly content3d: Object3D) {
         super();
-        this.object.userData[RAY_TARGET_KEY] = this;
+        this.content3d.userData[RAY_TARGET_KEY] = this;
     }
 
     addMesh(mesh: Mesh): this {

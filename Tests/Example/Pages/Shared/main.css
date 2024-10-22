@@ -1,0 +1,147 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 10pt;
+    font-family: 'DejaVu Sans', system-ui, -apple-system, '.SFNSText-Regular', 'San Francisco', 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans', 'Droid Sans', sans-serif;
+    background-color: var(--project-bg0);
+    color: var(--project-fg0);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    color: inherit;
+}
+
+body>form {
+    display: none;
+}
+
+body>main {
+    flex-grow: 1;
+}
+
+a {
+    color: var(--project-fg0);
+}
+
+button {
+    border: none;
+    font-weight: bold;
+}
+
+button:not(.borderless) {
+    background-color: var(--project-bg1);
+    color: var(--project-fg1);
+}
+
+button.borderless {
+    background-color: transparent;
+    color: var(--project-fg2);
+}
+
+
+button:not(:disabled) {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.btn:disabled {
+    pointer-events: initial;
+}
+
+i {
+    font-family: 'Noto Color Emoji', 'Segoe UI Emoji';
+    font-style: normal;
+}
+
+main {
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+#content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+#content>h1 {
+    text-align: center;
+}
+
+#content>article {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: auto;
+    scroll-behavior: smooth;
+    padding: 0 3rem;
+}
+
+.scrollIndicator {
+    color: black;
+    background-color: transparent;
+    border: none;
+    font-size: 32pt;
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    padding: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+    z-index: 9001;
+}
+
+.scrollIndicator.top {
+    top: 0;
+    margin-bottom: -36pt;
+    background-image: linear-gradient(to bottom, var(--project-bg0), 75%, transparent);
+}
+
+.scrollIndicator.bottom {
+    bottom: 0;
+    margin-top: -36pt;
+    background-image: linear-gradient(to top, var(--project-bg0), 75%, transparent);
+}
+
+.scrollIndicator.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#utilColumn {
+    padding: 0 2rem;
+    max-width: 15rem;
+}
+
+select {
+    height: 26px;
+}
+
+data-table tr.selected {
+    background-color: rgba(0 0 0/10%);
+}

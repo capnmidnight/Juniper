@@ -1,4 +1,4 @@
-import { isBadNumber, isGoodNumber } from "@juniper-lib/tslib/dist/typeChecks";
+import { isBadNumber, isGoodNumber } from "@juniper-lib/util";
 import { BaseWebAudioPanner } from "./BaseWebAudioPanner";
 /**
  * A positioner that uses WebAudio's playback dependent time progression.

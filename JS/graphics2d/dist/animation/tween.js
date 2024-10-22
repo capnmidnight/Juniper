@@ -1,4 +1,4 @@
-import { Pi } from "@juniper-lib/tslib/dist/math";
+import { Pi } from "@juniper-lib/util";
 /**
  * Implementations for each of the values in <see cref="TweenType"/>.
  * All functions receive a value t, representing the proportion of the way through the animation process we are

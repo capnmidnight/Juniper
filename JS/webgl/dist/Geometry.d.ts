@@ -1,4 +1,4 @@
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
 import type { GeometryDescription, VertexComponent } from "./geometry/GeometryDescription";
 import { Attrib } from "./managed/object/Attrib";
 export declare class Geometry implements IDisposable {

@@ -1,5 +1,5 @@
+import { isBoolean, isDefined, isFunction } from "@juniper-lib/util";
 import { Application_Javascript, Application_Json, Text_Css } from "@juniper-lib/mediatypes";
-import { isBoolean, isDefined, isFunction } from "@juniper-lib/tslib/dist/typeChecks";
 import { unwrapResponse } from "./unwrapResponse";
 export function isAsset(obj) {
     return isDefined(obj)
@@ -10,39 +10,38 @@ export function isAsset(obj) {
         && isFunction(obj.getSize);
 }
 export class BaseAsset {
+    #promise;
+    #result = null;
     get result() {
         if (isDefined(this.error)) {
             throw this.error;
         }
-        return this._result;
+        return this.#result;
     }
-    get error() {
-        return this._error;
-    }
+    #error = null;
+    get error() { return this.#error; }
+    #started = false;
     get started() {
-        return this._started;
+        return this.#started;
     }
+    #finished = false;
     get finished() {
-        return this._finished;
+        return this.#finished;
     }
+    #resolve = null;
+    #reject = null;
     constructor(path, type) {
         this.path = path;
         this.type = type;
-        this._result = null;
-        this._error = null;
-        this._started = false;
-        this._finished = false;
-        this.resolve = null;
-        this.reject = null;
-        this.promise = new Promise((resolve, reject) => {
-            this.resolve = (value) => {
-                this._result = value;
-                this._finished = true;
+        this.#promise = new Promise((resolve, reject) => {
+            this.#resolve = (value) => {
+                this.#result = value;
+                this.#finished = true;
                 resolve(value);
             };
-            this.reject = (reason) => {
-                this._error = reason;
-                this._finished = true;
+            this.#reject = (reason) => {
+                this.#error = reason;
+                this.#finished = true;
                 reject(reason);
             };
         });
@@ -63,48 +62,51 @@ export class BaseAsset {
     async fetch(fetcher, prog) {
         try {
             const result = await this.getResult(fetcher, prog);
-            this.resolve(result);
+            this.#resolve(result);
         }
         catch (err) {
-            this.reject(err);
+            this.#reject(err);
         }
     }
     get [Symbol.toStringTag]() {
-        return this.promise.toString();
+        return this.#promise.toString();
     }
     then(onfulfilled, onrejected) {
-        return this.promise.then(onfulfilled, onrejected);
+        return this.#promise.then(onfulfilled, onrejected);
     }
     catch(onrejected) {
-        return this.promise.catch(onrejected);
+        return this.#promise.catch(onrejected);
     }
     finally(onfinally) {
-        return this.promise.finally(onfinally);
+        return this.#promise.finally(onfinally);
     }
 }
 export class AssetWorker extends BaseAsset {
+    #workerType;
     constructor(path, workerType = "module") {
         super(path, Application_Javascript);
-        this.workerType = workerType;
+        this.#workerType = workerType;
     }
     getResult(fetcher, prog) {
         return fetcher
             .get(this.path)
             .progress(prog)
-            .worker(this.workerType)
+            .worker(this.#workerType)
             .then(unwrapResponse);
     }
 }
 export class AssetCustom extends BaseAsset {
+    #getter;
     constructor(path, type, getter) {
         super(path, type);
-        this.getter = getter;
+        this.#getter = getter;
     }
     getResult(fetcher, prog) {
-        return this.getter(fetcher, this.path, this.type, prog);
+        return this.#getter(fetcher, this.path, this.type, prog);
     }
 }
 export class BaseFetchedAsset extends BaseAsset {
+    #useCache;
     constructor(path, typeOrUseCache, useCache) {
         let type;
         if (isBoolean(typeOrUseCache)) {
@@ -114,32 +116,28 @@ export class BaseFetchedAsset extends BaseAsset {
             type = typeOrUseCache;
         }
         super(path, type);
-        this.useCache = !!useCache;
+        this.#useCache = !!useCache;
     }
     getResult(fetcher, prog) {
-        return this.getRequest(fetcher, prog)
+        return this.#getRequest(fetcher, prog)
             .then(unwrapResponse);
     }
-    getRequest(fetcher, prog) {
+    #getRequest(fetcher, prog) {
         const request = fetcher
             .get(this.path)
-            .useCache(this.useCache)
+            .useCache(this.#useCache)
             .progress(prog);
         return this.getResponse(request);
     }
 }
 export class AssetAudioBuffer extends BaseFetchedAsset {
+    #context;
     constructor(context, path, typeOrUseCache, useCache) {
-        if (isBoolean(typeOrUseCache)) {
-            super(path, typeOrUseCache);
-        }
-        else {
-            super(path, typeOrUseCache, useCache);
-        }
-        this.context = context;
+        super(path, typeOrUseCache, useCache);
+        this.#context = context;
     }
     getResponse(request) {
-        return request.audioBuffer(this.context, this.type);
+        return request.audioBuffer(this.#context, this.type);
     }
 }
 export class AssetFile extends BaseFetchedAsset {
@@ -174,6 +172,7 @@ export class AssetStyleSheet extends BaseFetchedAsset {
     }
 }
 export class AssetScript extends BaseFetchedAsset {
+    #test = null;
     constructor(path, testOrUseCache, useCache) {
         let test = undefined;
         if (isBoolean(testOrUseCache)) {
@@ -184,11 +183,10 @@ export class AssetScript extends BaseFetchedAsset {
             test = testOrUseCache;
         }
         super(path, Application_Javascript, useCache);
-        this.test = null;
-        this.test = test;
+        this.#test = test;
     }
     getResponse(request) {
-        return request.script(this.test);
+        return request.script(this.#test);
     }
 }
 //# sourceMappingURL=Asset.js.map

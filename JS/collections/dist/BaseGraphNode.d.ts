@@ -1,10 +1,11 @@
-import { Comparable } from "./arrays";
+import { compareCallback } from "@juniper-lib/util";
 export declare abstract class BaseGraphNode<ValueT> {
     readonly value: ValueT;
     protected readonly _forward: this[];
     protected readonly _reverse: this[];
+    protected readonly _connected: Set<this>;
     constructor(value: ValueT);
-    connectSorted<KeyT extends Comparable>(child: this, keySelector: (value: ValueT) => KeyT): void;
+    connectSorted(child: this, comparer: compareCallback<ValueT>): void;
     connectTo(child: this): void;
     connectAt(child: this, index: number): void;
     disconnectFrom(child: this): void;

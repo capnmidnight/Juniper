@@ -1,5 +1,5 @@
-import { deg2rad } from "@juniper-lib/tslib/dist/math";
-import { Quat, Vec3 } from "gl-matrix/dist/esm";
+import { deg2rad } from "@juniper-lib/util";
+import { Quat, Vec3 } from "gl-matrix";
 
 export class Avatar {
     private motion = new Vec3();

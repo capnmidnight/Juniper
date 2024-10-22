@@ -1,11 +1,12 @@
-import { BaseProgress } from "@juniper-lib/progress/dist/BaseProgress";
-import { isArray, isDefined } from "@juniper-lib/tslib/dist/typeChecks";
-import { makeErrorMessage } from "../../tslib/src/makeErrorMessage";
+import { isArray, isDefined, isFunction, isObject, isString } from "@juniper-lib/util";
+import { BaseProgress } from "@juniper-lib/progress";
 class WorkerServerProgress extends BaseProgress {
+    #server;
+    #taskID;
     constructor(server, taskID) {
         super();
-        this.server = server;
-        this.taskID = taskID;
+        this.#server = server;
+        this.#taskID = taskID;
     }
     /**
      * Report progress through long-running invocations. If your invocable
@@ -18,38 +19,39 @@ class WorkerServerProgress extends BaseProgress {
     report(soFar, total, msg, est) {
         const message = {
             type: "progress",
-            taskID: this.taskID,
+            taskID: this.#taskID,
             soFar,
             total,
             msg,
             est
         };
-        this.server.postMessage(message);
+        this.#server.postMessage(message);
     }
 }
 export class WorkerServer {
+    #methods = new Map();
+    #self;
     /**
      * Creates a new worker thread method call listener.
      * @param self - the worker scope in which to listen.
      */
     constructor(self) {
-        this.self = self;
-        this.methods = new Map();
-        this.self.addEventListener("message", (evt) => {
+        this.#self = self;
+        this.#self.addEventListener("message", (evt) => {
             const data = evt.data;
-            this.callMethod(data);
+            this.#callMethod(data);
         });
     }
     postMessage(message, transferables) {
         if (isDefined(transferables)) {
-            this.self.postMessage(message, transferables);
+            this.#self.postMessage(message, transferables);
         }
         else {
-            this.self.postMessage(message);
+            this.#self.postMessage(message);
         }
     }
-    callMethod(data) {
-        const method = this.methods.get(data.methodName);
+    #callMethod(data) {
+        const method = this.#methods.get(data.methodName);
         if (method) {
             try {
                 if (isArray(data.params)) {
@@ -63,18 +65,24 @@ export class WorkerServer {
                 }
             }
             catch (exp) {
-                this.onError(data.taskID, `method invocation error: ${data.methodName}($1)`, exp);
+                const msg = isObject(exp) && "message" in exp && exp.message || exp;
+                this.#onError(data.taskID, `method invocation error: ${data.methodName}(${msg})`);
             }
         }
         else {
-            this.onError(data.taskID, `method not found: ${data.methodName}`);
+            this.#onError(data.taskID, `method not found: ${data.methodName}`);
         }
     }
-    onError(taskID, errorMessageOrError, maybeError) {
+    /**
+     * Report an error back to the calling thread.
+     * @param taskID - the invocation ID of the method that errored.
+     * @param errorMessage - what happened?
+     */
+    #onError(taskID, errorMessage) {
         const message = {
             type: "error",
             taskID,
-            errorMessage: makeErrorMessage(errorMessageOrError, maybeError)
+            errorMessage
         };
         this.postMessage(message);
     }
@@ -84,7 +92,7 @@ export class WorkerServer {
      * @param returnValue - the (optional) value to return.
      * @param transferReturnValue - a mapping function to extract any Transferable objects from the return value.
      */
-    onReturn(taskID, returnValue, transferReturnValue) {
+    #onReturn(taskID, returnValue, transferReturnValue) {
         let message = null;
         if (returnValue === undefined) {
             message = {
@@ -107,21 +115,25 @@ export class WorkerServer {
             this.postMessage(message);
         }
     }
-    addMethodInternal(methodName, asyncFunc, transferReturnValue) {
-        if (this.methods.has(methodName)) {
+    #addMethodInternal(methodName, asyncFunc, transferReturnValue) {
+        if (this.#methods.has(methodName)) {
             throw new Error(`${methodName} method has already been mapped.`);
         }
-        this.methods.set(methodName, async (taskID, ...params) => {
+        this.#methods.set(methodName, async (taskID, ...params) => {
             const prog = new WorkerServerProgress(this, taskID);
             try {
                 // Even functions returning void and functions returning bare, unPromised values, can be awaited.
                 // This creates a convenient fallback where we don't have to consider the exact return type of the function.
                 const returnValue = await asyncFunc(...params, prog);
-                this.onReturn(taskID, returnValue, transferReturnValue);
+                this.#onReturn(taskID, returnValue, transferReturnValue);
             }
             catch (exp) {
                 console.error(exp);
-                this.onError(taskID, exp);
+                const err = isObject(exp) && "message" in exp && exp.message || exp;
+                const msg = isString(err) && err
+                    || isObject(err) && "toString" in err && isFunction(err.toString) && err.toString()
+                    || "Unknown";
+                this.#onError(taskID, msg);
             }
         });
     }
@@ -132,7 +144,7 @@ export class WorkerServer {
      * @param transferReturnValue - an (optional) function that reports on which values in the `returnValue` should be transfered instead of copied.
      */
     addFunction(methodName, asyncFunc, transferReturnValue) {
-        this.addMethodInternal(methodName, asyncFunc, transferReturnValue);
+        this.#addMethodInternal(methodName, asyncFunc, transferReturnValue);
     }
     /**
      * Registers a function call for cross-thread invocation.
@@ -140,7 +152,7 @@ export class WorkerServer {
      * @param asyncFunc - the function to execute when the method is invoked.
      */
     addVoidFunction(methodName, asyncFunc) {
-        this.addMethodInternal(methodName, asyncFunc);
+        this.#addMethodInternal(methodName, asyncFunc);
     }
     /**
      * Registers a class method call for cross-thread invocation.

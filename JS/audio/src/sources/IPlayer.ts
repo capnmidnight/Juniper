@@ -1,27 +1,27 @@
-import { IProgress } from "@juniper-lib/progress/dist/IProgress";
+import { IProgress } from "@juniper-lib/progress";
 import { FullAudioRecord } from "../data";
 import { IBasePlayable, MediaElementSourceEvent, MediaElementSourceEvents } from "./IPlayable";
 
 
-export interface IPlayer extends IBasePlayable<MediaPlayerEvents<IPlayer>> {
-    data: FullAudioRecord | string;
+export interface IPlayer<RecordT extends FullAudioRecord> extends IBasePlayable<MediaPlayerEvents<RecordT, IPlayer<RecordT>>> {
+    data: RecordT | string;
     clear(): void;
-    load(data: FullAudioRecord | string, prog?: IProgress): Promise<this>;
+    load(data: string | RecordT, prog?: IProgress): Promise<this>;
     volume: number;
 }
 
-class MediaPlayerEvent<T extends string> extends MediaElementSourceEvent<T, IPlayer> {
-    constructor(type: T, source: IPlayer) {
+class MediaPlayerEvent<T extends string, RecordT extends FullAudioRecord> extends MediaElementSourceEvent<T, IPlayer<RecordT>> {
+    constructor(type: T, source: IPlayer<RecordT>) {
         super(type, source);
     }
 }
 
-export class MediaPlayerLoadingEvent extends MediaPlayerEvent<"loading"> {
-    constructor(source: IPlayer) {
+export class MediaPlayerLoadingEvent<RecordT extends FullAudioRecord, PlayerT extends IPlayer<RecordT>> extends MediaPlayerEvent<"loading", RecordT> {
+    constructor(source: PlayerT) {
         super("loading", source);
     }
 }
 
-export type MediaPlayerEvents<T extends IPlayer = IPlayer> = MediaElementSourceEvents<T> & {
-    loading: MediaPlayerLoadingEvent;
+export type MediaPlayerEvents<RecordT extends FullAudioRecord, PlayerT extends IPlayer<RecordT> = IPlayer<RecordT>> = MediaElementSourceEvents<PlayerT> & {
+    loading: MediaPlayerLoadingEvent<RecordT, PlayerT>;
 }

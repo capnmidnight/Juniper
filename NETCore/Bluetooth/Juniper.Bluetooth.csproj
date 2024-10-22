@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Juniper.Bluetooth</AssemblyName>
+    <RootNamespace>Juniper</RootNamespace>
+    <PackageId>SeanMcBeth.Juniper.Bluetooth</PackageId>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>General purpose code</Description>
+  </PropertyGroup>
+</Project>

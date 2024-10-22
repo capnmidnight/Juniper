@@ -1,4 +1,4 @@
-import { isNumber } from "@juniper-lib/tslib/dist/typeChecks";
+import { isNumber } from "@juniper-lib/util";
 
 export function debounce<T extends (...args: any[]) => any>(action: T): (...args: Parameters<T>) => void
 export function debounce<T extends (...args: any[]) => any>(time: number, action: T): (...args: Parameters<T>) => void;
@@ -22,4 +22,3 @@ export function debounce<T extends (...args: any[]) => any>(timeOrAction: number
         }
     };
 }
-

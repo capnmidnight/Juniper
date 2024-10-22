@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper-lib/events/dist/TypedEventTarget";
+import { TypedEvent } from "@juniper-lib/events";
 import { JuniperAudioNode } from "./JuniperAudioNode";
 export class JuniperAudioWorkletNode extends JuniperAudioNode {
     constructor(context, name, options) {

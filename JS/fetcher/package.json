@@ -1,25 +1,26 @@
 {
-  "version": "1.0.0",
   "name": "@juniper-lib/fetcher",
+  "version": "1.0.0",
   "private": true,
+  "description": "A wrapper around XMLHttpRequest that enables caching, progress tracking, and response translation",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
-    "dist/*"
+    "dist/*",
+    "../../LICENSE.md",
+    "README.md"
   ],
-  "scripts": {
-    "check": "tsc --noEmit"
-  },
   "dependencies": {
+    "@juniper-lib/util": "file:../util",
     "@juniper-lib/collections": "file:../collections",
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/events": "file:../events",
+    "@juniper-lib/indexdb": "file:../indexdb",
     "@juniper-lib/mediatypes": "file:../mediatypes",
-    "@juniper-lib/progress": "file:../progress",
-    "@juniper-lib/tslib": "file:../tslib",
-    "@juniper-lib/workers": "file:../workers"
+    "@juniper-lib/progress": "file:../progress"
   },
-  "devDependencies": {
-    "@juniper-types/indexdb": "file:../../@juniper-types/indexdb",
-    "@types/offscreencanvas": "2019.7.3"
-  }
+  "authors": [
+    "Sean T. McBeth <sean.mcbeth@gmail.com>"
+  ]
 }

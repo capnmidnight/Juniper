@@ -1,13 +1,18 @@
-import { IDisposable } from "@juniper-lib/tslib/dist/using";
+import { IDisposable } from "@juniper-lib/util";
 import { TypedEvent, TypedEventTarget, TypedEventMap } from "./TypedEventTarget";
 
 class EventScope implements IDisposable {
-    constructor(private readonly target: EventTarget, private readonly eventName: string, private readonly handler: any) {
-        this.target.addEventListener(this.eventName, this.handler);
+    readonly #target: EventTarget;
+    readonly #eventName: string;
+
+    constructor(target: EventTarget, eventName: string, public readonly handler: any) {
+        this.#target = target;
+        this.#eventName = eventName;
+        this.#target.addEventListener(this.#eventName, this.handler);
     }
 
     dispose(): void {
-        this.target.removeEventListener(this.eventName, this.handler);
+        this.#target.removeEventListener(this.#eventName, this.handler);
     }
 }
 

@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
 import { ColorRepresentation, Object3D } from "three";
 import { Cube } from "./Cube";
 import { lit, solidBlue, solidGreen, solidRed } from "./materials";

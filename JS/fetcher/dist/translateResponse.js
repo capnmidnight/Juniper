@@ -1,6 +1,6 @@
-import { isDefined } from "@juniper-lib/tslib/dist/typeChecks";
+import { isDefined } from "@juniper-lib/util";
 export async function translateResponse(response, translate) {
-    const { status, requestPath, responsePath, content, contentType, contentLength, fileName, headers, date } = response;
+    const { status, requestPath, responsePath, content, contentType, contentLength, fileName, headers, date, errorMessage, errorObject } = response;
     return {
         status,
         requestPath,
@@ -12,7 +12,9 @@ export async function translateResponse(response, translate) {
         contentLength,
         fileName,
         headers,
-        date
+        date,
+        errorMessage,
+        errorObject
     };
 }
 //# sourceMappingURL=translateResponse.js.map

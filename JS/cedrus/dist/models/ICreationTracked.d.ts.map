@@ -1,0 +1,1 @@
+{"version":3,"file":"ICreationTracked.d.ts","sourceRoot":"","sources":["../../src/models/ICreationTracked.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,SAAS,EAAe,MAAM,aAAa,CAAC;AAErD,MAAM,WAAW,gBAAgB;IAC7B,SAAS,EAAE,IAAI,CAAC;IAChB,IAAI,EAAE,SAAS,CAAC;CACnB;AAED,wBAAgB,kBAAkB,CAAC,GAAG,EAAE,OAAO,GAAG,GAAG,IAAI,gBAAgB,CAMxE"}

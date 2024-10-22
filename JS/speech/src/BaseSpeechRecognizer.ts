@@ -1,6 +1,5 @@
-import { debounce } from "@juniper-lib/events/dist/debounce";
-import { TypedEvent, TypedEventTarget } from "@juniper-lib/events/dist/TypedEventTarget";
-import { SpeechRecognizer } from "microsoft-cognitiveservices-speech-sdk";
+import { debounce } from "@juniper-lib/util";
+import { TypedEvent, TypedEventTarget } from "@juniper-lib/events";
 import { ISpeechRecognizer, SpeechRecognizerEvents } from "./ISpeechRecognizer";
 
 export abstract class BaseSpeechRecognizer
@@ -57,6 +56,4 @@ export abstract class BaseSpeechRecognizer
     abstract start(): void;
     abstract stop(): void;
 }
-
-SpeechRecognizer.enableTelemetry(false);
 

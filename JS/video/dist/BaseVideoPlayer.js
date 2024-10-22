@@ -1,16 +1,9 @@
-import { RELEASE_EVT } from "@juniper-lib/audio/dist/AudioManager";
-import { JuniperMediaElementAudioSourceNode } from "@juniper-lib/audio/dist/context/JuniperMediaElementAudioSourceNode";
-import { audioRecordSorter } from "@juniper-lib/audio/dist/data";
-import { BaseAudioSource } from "@juniper-lib/audio/dist/sources/BaseAudioSource";
-import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "@juniper-lib/audio/dist/sources/IPlayable";
-import { MediaPlayerLoadingEvent } from "@juniper-lib/audio/dist/sources/IPlayer";
-import { PriorityList } from "@juniper-lib/collections/dist/PriorityList";
-import { AutoPlay, Controls, Loop } from "@juniper-lib/dom/dist/attrs";
-import { Audio, Video, mediaElementCanPlayThrough } from "@juniper-lib/dom/dist/tags";
-import { once } from "@juniper-lib/events/dist/once";
+import { isDefined, isNullOrUndefined, isString, once } from "@juniper-lib/util";
+import { audioRecordSorter, BaseAudioSource, JuniperMediaElementAudioSourceNode, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, MediaPlayerLoadingEvent, RELEASE_EVT } from "@juniper-lib/audio";
+import { PriorityList } from "@juniper-lib/collections";
+import { Audio, AutoPlay, Controls, Loop, mediaElementCanPlayThrough, Video } from "@juniper-lib/dom";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper-lib/mediatypes";
-import { progressTasks } from "@juniper-lib/progress/dist/progressTasks";
-import { isDefined, isNullOrUndefined, isString } from "@juniper-lib/tslib/dist/typeChecks";
+import { progressTasks } from "@juniper-lib/progress";
 import { isVideoRecord } from "./data";
 export class BaseVideoPlayer extends BaseAudioSource {
     get data() {

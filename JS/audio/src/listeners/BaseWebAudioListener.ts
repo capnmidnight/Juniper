@@ -1,4 +1,4 @@
-import { Vec3 } from "gl-matrix/dist/esm";
+import { Vec3 } from "gl-matrix";
 import { Pose } from "../Pose";
 import { BaseListener } from "./BaseListener";
 
