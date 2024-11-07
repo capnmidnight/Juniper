@@ -37,7 +37,7 @@
     "@juniper/worker-client": "file:../../src/Juniper.TypeScript/@juniper-lib/worker-client",
     "@juniper/worker-server": "file:../../src/Juniper.TypeScript/@juniper-lib/worker-server",
     "gl-matrix": "3.4.3",
-    "pdfjs-dist": "2.16.105",
+    "pdfjs-dist": "4.2.67",
     "three": "0.150.1"
   }
 }
