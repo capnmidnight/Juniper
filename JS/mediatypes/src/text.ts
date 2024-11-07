@@ -118,6 +118,7 @@ export const Text_X_Script_Python = /*@__PURE__*/ (function() { return text("x.s
 export const Text_X_Setext = /*@__PURE__*/ (function() { return text("x-setext", "etx"); })();
 export const Text_X_Sfv = /*@__PURE__*/ (function() { return text("x-sfv", "sfv"); })();
 export const Text_X_Suse_Ymp = /*@__PURE__*/ (function() { return text("x-suse-ymp", "ymp"); })();
+export const Text_X_TypeScript = /*@__PURE__*/ (function() { return text("x-typescript", "ts"); })();
 export const Text_X_Uuencode = /*@__PURE__*/ (function() { return text("x-uuencode", "uu"); })();
 export const Text_X_Vcalendar = /*@__PURE__*/ (function() { return text("x-vcalendar", "vcs"); })();
 export const Text_X_Vcard = /*@__PURE__*/ (function() { return text("x-vcard", "vcf"); })();

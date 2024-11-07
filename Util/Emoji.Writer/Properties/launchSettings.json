@@ -1,0 +1,8 @@
+{
+    "profiles": {
+        "Juniper.Emoji.Writer": {
+            "commandName": "Project",
+            "hotReloadEnabled": true
+        }
+    }
+}

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>Juniper</RootNamespace>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\NETCore\Emoji\Juniper.Emoji.csproj" />
+        <ProjectReference Include="..\..\NETCore\MediaType\Juniper.MediaType.csproj" />
+        <ProjectReference Include="..\..\NETCore\Processes\Juniper.Processes.csproj" />
+        <ProjectReference Include="..\..\NETCore\Root\Juniper.Root.csproj" />
+    </ItemGroup>
+</Project>

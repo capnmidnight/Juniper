@@ -130,6 +130,7 @@ public partial class MediaType
     public static readonly Text Text_X_Setext = new("x-setext", "etx");
     public static readonly Text Text_X_Sfv = new("x-sfv", "sfv");
     public static readonly Text Text_X_Suse_Ymp = new("x-suse-ymp", "ymp");
+    public static readonly Text Text_X_TypeScript = new("x-typescript", "ts");
     public static readonly Text Text_X_Uuencode = new("x-uuencode", "uu");
     public static readonly Text Text_X_Vcalendar = new("x-vcalendar", "vcs");
     public static readonly Text Text_X_Vcard = new("x-vcard", "vcf");
