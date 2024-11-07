@@ -17,7 +17,7 @@ public struct Pose : IEquatable<Pose>
         Orientation = rotation;
     }
 
-    public override bool Equals(object? obj)
+    public override readonly bool Equals(object? obj)
     {
         return obj is Pose pose && Equals(pose);
     }

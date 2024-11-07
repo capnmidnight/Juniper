@@ -75,7 +75,7 @@ public struct QuaternionSerializable : ISerializable, IEquatable<QuaternionSeria
         return $"{{{X.ToString(CultureInfo.CurrentCulture)}, {Y.ToString(CultureInfo.CurrentCulture)}, {Z.ToString(CultureInfo.CurrentCulture)}, {W.ToString(CultureInfo.CurrentCulture)}}}";
     }
 
-    public override bool Equals(object? obj)
+    public override readonly bool Equals(object? obj)
     {
         return obj is QuaternionSerializable serializable && Equals(serializable);
     }

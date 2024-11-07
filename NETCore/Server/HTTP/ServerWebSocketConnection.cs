@@ -12,19 +12,17 @@ public class ServerWebSocketConnection : WebSocketConnection<WebSocket>
     public string? Token => Socket?.SubProtocol;
 
     public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
-        : base(rxBufferSize, dataBufferSize)
+        : base(socket, rxBufferSize, dataBufferSize)
     {
         context = httpContext;
-        Socket = socket;
         UserName = userName;
     }
 
     public ServerWebSocketConnection(WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
-        : base(rxBufferSize, dataBufferSize)
+        : base(socket, rxBufferSize, dataBufferSize)
     {
         context = null;
         disposedValue = true;
-        Socket = socket;
         UserName = userName;
     }
 
