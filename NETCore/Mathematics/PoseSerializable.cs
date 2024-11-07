@@ -41,7 +41,7 @@ public struct PoseSerializable : ISerializable, IEquatable<PoseSerializable>
         info.AddQuaternion(nameof(Orientation), Orientation);
     }
 
-    public override bool Equals(object? obj)
+    public override readonly bool Equals(object? obj)
     {
         return obj is PoseSerializable other
             && Equals(other);

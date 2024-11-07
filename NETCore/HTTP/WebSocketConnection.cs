@@ -21,13 +21,13 @@ public abstract class WebSocketConnection<WebSocketT> :
     /// </summary>
     public const int DEFAULT_DATA_BUFFER_SIZE = 10000000;
 
-    private WebSocketT? socket;
-    protected WebSocketT? Socket
+    private WebSocketT socket;
+    protected WebSocketT Socket
     {
         get => socket;
         set
         {
-            socket?.Dispose();
+            socket.Dispose();
             socket = value;
         }
     }
@@ -50,8 +50,9 @@ public abstract class WebSocketConnection<WebSocketT> :
     private readonly ArraySegment<byte> rxSegment;
     private readonly int dataBufferSize;
 
-    protected WebSocketConnection(int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
+    protected WebSocketConnection(WebSocketT socket, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
     {
+        this.socket = socket;
         this.dataBufferSize = dataBufferSize;
 
         rxBuffer = new byte[rxBufferSize];
