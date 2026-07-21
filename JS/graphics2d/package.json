@@ -19,7 +19,7 @@
     "@juniper-lib/util": "file:../util",
     "@types/offscreencanvas": "2019.7.3",
     "gl-matrix": "4.0.0-beta.2",
-    "pdfjs-dist": "^4.7.76"
+    "pdfjs-dist": "^4.10.38"
   },
   "devDependencies": {
     "@juniper-lib/dom-types": "file:../types/dom-types"
