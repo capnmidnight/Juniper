@@ -12,7 +12,7 @@
     "README.md"
   ],
   "dependencies": {
-    "fflate": "0.8.2"
+    "fflate": "0.8.3"
   },
   "authors": [
     "Sean T. McBeth <sean.mcbeth@gmail.com>"
